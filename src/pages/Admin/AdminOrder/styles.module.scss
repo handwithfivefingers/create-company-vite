@@ -1,0 +1,11 @@
+.searchForm {
+  display: grid;
+  grid-template-columns: repeat(3, auto);
+  gap: 12px;
+  align-items: center;
+  :global {
+    .ant-row.ant-form-item {
+      margin: 0;
+    }
+  }
+}

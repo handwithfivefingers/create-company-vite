@@ -1,0 +1,5 @@
+export const ROUTE_DETECT = {
+  REQUEST: "REQUEST",
+  SUCCESS: "SUCCESS",
+  FAILURE: "FAILURE",
+};

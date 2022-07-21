@@ -1,0 +1,132 @@
+// @import 'antd/dist/antd.css';
+@import "antd/dist/antd.variable.min.css";
+@import "./gridsystem.scss";
+@import "./define";
+@import "./custom";
+@import "./utility";
+// @import url('https://fonts.googleapis.com/css2?family=Baloo+Bhaina+2:wght@400;500;600;700&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+}
+body {
+  box-sizing: border-box;
+  font-size: 16px;
+  font-family: "Be Vietnam Pro", "Outfit", "Noto Sans", sans-serif;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Alata", sans-serif;
+}
+.section-1 {
+  overflow: hidden;
+  display: grid;
+  position: relative;
+  align-items: center;
+  background: #eee;
+  margin-top: -60px;
+}
+section {
+  background: #fff;
+}
+
+.card-boxShadow {
+  // margin: 12px 0;
+  box-shadow: 0 15px 35px -20px rgba(0, 0, 0, 0.5);
+  // border-radius: 8px;
+}
+.ant-menu {
+  background: transparent;
+}
+// Print CSS
+@media all {
+  .page-break {
+    display: none;
+  }
+}
+
+@media print {
+  html,
+  body {
+    height: initial !important;
+    overflow: initial !important;
+    -webkit-print-color-adjust: exact;
+  }
+}
+
+@media print {
+  .page-break {
+    margin-top: 1rem;
+    display: block;
+    page-break-before: always;
+  }
+  article {
+    break-inside: avoid;
+  }
+  .hide_on_print {
+    display: none;
+    &:before,
+    &:after {
+      display: none;
+    }
+    span {
+      display: none;
+    }
+  }
+}
+
+@page {
+  size: auto;
+  margin: 20mm;
+}
+
+.pageContainer {
+  div {
+    backdrop-filter: sepia(1);
+  }
+}
+
+//antd
+
+.ant-layout-sider {
+  height: calc(100vh - 24px);
+}
+.ant-layout-sider-trigger {
+  bottom: 12px;
+}
+
+
+.fadeIn {
+  animation: 0.5s fadeIn forwards;
+}
+
+.fadeOut {
+  animation: 0.5s fadeOut forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translate(-20px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate(0px, 0px);
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+    transform: translate(0px, 0px);
+  }
+  to {
+    transform: translate(-20px, 0);
+    opacity: 0;
+  }
+}

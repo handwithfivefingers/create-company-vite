@@ -1,0 +1,15 @@
+.container {
+  $primary: var(--dark);
+  background: $primary;
+  // padding: 20px 0 0 0;
+  .actionsBtn {
+    button {
+      margin: 5px;
+    }
+  }
+  :global {
+    .ant-row {
+      margin: 0 !important; 
+    }
+  }
+}

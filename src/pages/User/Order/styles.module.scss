@@ -1,0 +1,18 @@
+.btnGroup {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  button {
+    width: 40px;
+    height: 40px;
+    box-shadow: 0 12px 24px -16px #333;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    opacity: 0.75;
+    transition: all 0.15s;
+    &:hover {
+      opacity: 1;
+    }
+  }
+}

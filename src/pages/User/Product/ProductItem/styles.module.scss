@@ -1,0 +1,14 @@
+@import 'src/assets/css/custom';
+
+.mainContent {
+  height: calc(100vh - 72px - 24px - 38px);
+  padding: 0 0 10px 0;
+  display: grid;
+  grid-template-rows: 140px 1fr;
+  row-gap:12px;
+  .formContent {
+    @include scroll(6px, 6px, transparent);
+    overflow: overlay;
+    // height: calc(100vh - 72px - 24px - 38px -);
+  }
+}

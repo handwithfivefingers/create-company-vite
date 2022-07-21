@@ -1,0 +1,42 @@
+.table {
+  overflow: scroll;
+  table {
+    border-collapse: collapse;
+    margin: 0 auto;
+    width: 100vw;
+    thead {
+      tr {
+        th {
+          padding: 8px 12px;
+        }
+      }
+    }
+    tbody {
+      tr {
+        &:nth-child(odd) {
+          // Số lẻ
+          background: #009a72;
+        }
+        &:nth-child(even) {
+          // Số chẵn
+          background: #00877d;
+        }
+        td {
+          &:first-child {
+            color: rgb(131, 5, 5);
+            background: rgb(131, 218, 182);
+            position: sticky;
+            left: 0;
+          }
+          color: #eee;
+          padding: 4px 12px;
+          //   border: 1px solid #333;
+          border-width: 1px 0 0 1px; // Top Right Bottom Left;  // Top Left-Right Bottom //  Top-Bottom Left-Right
+          border-style: solid;
+          border-color: #333;
+          
+        }
+      }
+    }
+  }
+}

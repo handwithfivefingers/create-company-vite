@@ -1,0 +1,48 @@
+.descItem {
+  display: flex;
+  flex-direction: column;
+  .descItemTitle {
+  }
+  .descItemLabel {
+    background-color: #eee;
+    padding: 8px;
+  }
+  .descItemContent {
+    padding: 8px;
+    margin: 0;
+    span {
+        padding: 0 5px 0 0;
+    }
+  }
+}
+
+.descSection {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  .descSectionTitle {
+    font-size: 18px;
+    font-weight: bold;
+    padding: 8px 0;
+  }
+  .descSectionContent {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+  }
+}
+
+.descListItem {
+  display: flex;
+  flex-direction: column;
+  .descListItemLabel {
+    background-color: #eee;
+    padding: 8px;
+  }
+  .descItem {
+    .descItemLabel {
+      background-color: unset;
+      padding: 8px;
+    }
+  }
+}

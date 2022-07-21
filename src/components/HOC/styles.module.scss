@@ -1,0 +1,64 @@
+@import '../../assets/css/custom';
+.adminLayout {
+  gap: 12px;
+  padding: 12px;
+  min-height: 100vh;
+  overflow: hidden;
+
+  :global {
+    .ant-card-head {
+      position: sticky;
+      top: 0;
+      z-index: 1;
+      background: #fff;
+      .ant-card-extra {
+        padding: 0;
+      }
+    }
+  }
+}
+
+.adminSiteLayout {
+  display: grid;
+  grid-template-rows: calc(100vh - 74px) 50px;
+  .adminMainContent {
+    @include scroll(6px, 6px, transparent);
+    overflow-x: hidden;
+  }
+}
+
+.mainLayout {
+  gap: 12px;
+  padding: 12px;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+.siteLayout {
+  width: calc(100vw - 236px);
+  height: calc(100vh - 24px);
+  .mainContent {
+    position: relative;
+    display: grid;
+    row-gap: 12px;
+    overflow: hidden;
+    grid-template-rows: 62px 1fr;
+    @include scroll(6px, 6px, transparent);
+  }
+}
+
+.collapsed {
+  width: calc(100vw - 86px);
+}
+
+.footer {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  align-items: center;
+  .footerRight {
+    display: flex;
+    font-size: 24px !important;
+  }
+}

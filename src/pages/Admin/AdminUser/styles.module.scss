@@ -1,0 +1,19 @@
+.inline {
+  overflow: hidden;
+  white-space: normal;
+  //   letter-spacing: 0.5px;
+  // display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  color: #000;
+  text-shadow: none;
+  text-transform: capitalize;
+}
+
+.pagination {
+  position: sticky;
+  bottom: 0;
+  background: #fff;
+  padding: 8px 0;
+  border-top: 1px solid #eee;
+}

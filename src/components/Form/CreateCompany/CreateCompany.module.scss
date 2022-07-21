@@ -1,0 +1,28 @@
+.hide {
+  display: none;
+  opacity: 0;
+  visibility: hidden;
+  transition: 0.1s;
+  height: 0;
+  margin: 0 !important;
+}
+.visible {
+  opacity: 1;
+  visibility: visible;
+  display: flex;
+  height: auto;
+  animation-delay: 0.2s;
+}
+
+.groupInput {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  width: 100%;
+}
+
+.titleSubForm {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}

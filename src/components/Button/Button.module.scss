@@ -1,0 +1,62 @@
+$primary: var(--dark);
+$second: var(--light);
+$main: #fff;
+.btn {
+  // $primary: #2a6ef2;
+  outline: none;
+  border: none;
+  background: $primary;
+  padding: 8px 30px;
+  border-radius: 8px;
+  font-size: 16px;
+  transition: all 0.2s;
+  cursor: pointer;
+  box-shadow: var(--main-box-shadow);
+  &:hover {
+    background: $second;
+
+  }
+}
+
+.upper {
+  text-transform: uppercase;
+  font-weight: 300;
+  letter-spacing: 1.5px;
+  font-size: 20px;
+  background-color: $second;
+  opacity:1;
+}
+.btn.link {
+  display: flex;
+  span {
+    display: flex;
+    a {
+      padding: 8px 20px;
+      color: $main !important;
+    }
+  }
+}
+.fill {
+  background: #fff;
+  color: var(--dark);
+  font-weight: 600;
+  &:hover {
+    color: #fff;
+  }
+}
+.outline {
+  border: 4px solid #fff;
+  width: 175px;
+  font-weight: 600;
+  position: relative;
+  &:hover {
+    border-color: $second;
+  }
+  span {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    line-height: 18px;
+  }
+}
