@@ -18,7 +18,6 @@ var cookieParser = require('cookie-parser');
 
 const { task } = require('./server/controller/service/cronjob');
 
-const { requireSignin } = require('./server/middleware');
 
 env.config();
 

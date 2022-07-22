@@ -28,9 +28,10 @@ router.post('/pull', (req, res) => {
 		exec(pullCode);
 		console.log('command ---> ' + buildPackage);
 		exec(buildPackage);
+		console.log('Done');
+
 		console.log('command ---> ' + restartPm2);
 		exec(restartPm2);
-		console.log('Done');
 	} catch (err) {
 		console.log('git error', err);
 		res.end();
