@@ -418,7 +418,7 @@ const getDissolutionFiles = (type, key) => {
       name: 'Ủy quyền',
       path: '/files/dissolution/dissolution_uyquyen.docx',
     },
-    // TwoPerson
+    // TwoPerson - 2 Thành viên
     dissolution_bienban_twoPerson: {
       name: 'Biên bản họp của HĐTV',
       path: '',
@@ -427,7 +427,7 @@ const getDissolutionFiles = (type, key) => {
       name: 'Quyết định họp của HĐTV',
       path: '',
     },
-    // Cooperation
+    // Cooperation - Cổ phần
     dissolution_bienban_cp: {
       name: 'Biên bản họp của HĐQT',
       path: '',
@@ -470,6 +470,7 @@ const getDissolutionFiles = (type, key) => {
       return null;
   }
 };
+
 exports.getListFiles = (pathName) =>
   ({
     create_company: {

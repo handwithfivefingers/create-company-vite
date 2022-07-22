@@ -16,12 +16,49 @@ sau khi edit xong, chạy tuần tự các lệnh sau
     - git add .
     - git commit -m "nội dung fix"
     - git push
+
+link: http://103.57.221.122:3004/
 * Push xong nhớ báo anh.
 ## Project structure
 
 
 public
 server
+    constant
+        File.js     chứa path các file
+            các function get<XXX>Files = () => {
+                type === '1'    1 thành viên
+                type === '2'    2 thành viên
+                type === '3'    Cổ phần
+
+                mỗi type đều sẽ có return [xxx,xxx,xxx,xxx]
+
+                đầu tiên e phải khai báo path files, tên files, và key file theo dạng:
+                keyFiles: {
+                    name: tên files,
+                    path: path files
+                }
+
+                tương ứng mỗi case em return về đúng files giúp anh
+
+                ví dụ: 
+
+                const allFiles = {
+                    xxx1: {
+                        name: xxx,
+                        path: xxx
+                    },
+                    xxx2: {
+                        ...
+                    }
+                }
+
+
+                return [ allFiles.xxx1 , allFiles.xxx2 ]
+            }
+            trong đó <XXX> là tên loại hình
+
+            
 src
     components
         Form
