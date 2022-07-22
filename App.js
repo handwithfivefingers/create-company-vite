@@ -12,19 +12,14 @@ const cors = require('cors');
 
 const AppRouter = require('./server/route');
 
-const secret = 'Hdme195';
-
-const repo = '/usr/share/nginx/html/create-company-vite';
-
-const crypto = require('crypto');
-
-const exec = require('child_process').exec;
+const GitRouter = require('./server/route/git');
 
 var cookieParser = require('cookie-parser');
 
 const { task } = require('./server/controller/service/cronjob');
 
 const { requireSignin } = require('./server/middleware');
+
 env.config();
 
 const { NODE_ENV, PORT, DEV_PORT } = process.env;
@@ -45,21 +40,20 @@ mongoose.connect(process.env.DATABASE_URL, mongoseOptions).then(() => {
 // middleware
 
 app.use(express.json());
+
 app.use(cookieParser());
 
 //config cors
-app.use(
-	cors({
-		credentials: true,
-		origin: [
-			'http://localhost:3000',
-			'http://localhost:3001',
-			'http://localhost:3002',
-			'http://localhost:3003',
-			'https://app.thanhlapcongtyonline.vn',
-		],
-	})
-);
+const corsOptions = {
+	credentials: true,
+	origin: [
+		'http://localhost:3000',
+		'http://localhost:3001',
+		'http://localhost:3002',
+		'http://localhost:3003',
+		'https://app.thanhlapcongtyonline.vn',
+	],
+};
 
 global.__basedir = __dirname;
 
@@ -69,7 +63,9 @@ app.use('/public', express.static(path.join(__dirname, 'uploads')));
 
 app.use(express.static(path.join(__dirname, 'dist')));
 
-app.use('/api', AppRouter);
+app.use('/git', GitRouter);
+
+app.use('/api', cors(corsOptions), AppRouter);
 
 app.use('/robots.txt', (req, res) => {
 	let robotFile = path.join(__dirname, 'uploads', 'robots.txt');
@@ -95,23 +91,9 @@ if (process.env.NODE_ENV !== 'development') {
 	task.start();
 }
 
-app.post('/gitpull', function (req, res) {
-	req.on('data', function (chunk) {
-		let sig = 'sha1=' + crypto.createHmac('sha1', secret).update(chunk.toString()).digest('hex');
-
-		// console.log('running command: ' + command);
-		if (req.headers['x-hub-signature'] == sig) {
-			let command = 'cd ' + repo + ' && git checkout -- . && git pull';
-			console.log('running command: ' + command);
-			exec(command);
-		}
-	});
-	res.end();
-});
-
 app.listen(RUNTIME_PORT, () => {
 	// console.log(`Server is running in port ${RUNTIME_PORT}`);
-	console.log(`Server is running`);
+	console.log(`Server is running ${RUNTIME_PORT}`);
 
 	// let error = fs.readFileSync(path.join(__dirname, 'uploads', 'logs', 'error.log'), 'utf8');
 	// let out = fs.readFileSync(path.join(__dirname, 'uploads', 'logs', 'out.log'), 'utf8');
