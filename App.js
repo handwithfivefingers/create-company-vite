@@ -91,10 +91,7 @@ if (process.env.NODE_ENV !== 'development') {
 }
 
 app.listen(RUNTIME_PORT, () => {
-	// console.log(`Server is running in port ${RUNTIME_PORT}`);
+
 	console.log(`Server is running ${RUNTIME_PORT}`);
 
-	// let error = fs.readFileSync(path.join(__dirname, 'uploads', 'logs', 'error.log'), 'utf8');
-	// let out = fs.readFileSync(path.join(__dirname, 'uploads', 'logs', 'out.log'), 'utf8');
-	// console.log(error, out);
 });
