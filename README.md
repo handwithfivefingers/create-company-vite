@@ -2,8 +2,8 @@
 
 ## Start Project
 
-`npm run dev-f` Frontend
-`npm run dev-s` Server
+`npm run dev-f` Start Frontend
+`npm run dev-s` Start Server
 
 ## Build
 
