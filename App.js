@@ -74,7 +74,7 @@ app.use('/robots.txt', (req, res) => {
 
 if (NODE_ENV !== 'development') {
 	app.get('/*', (req, res) => {
-		res.sendFile(path.join(__dirname, 'build', 'index.html'));
+		res.sendFile(path.join(__dirname, 'dist', 'index.html'));
 	});
 }
 
