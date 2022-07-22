@@ -3,8 +3,7 @@ module.exports = {
 		{
 			name: 'TEST_CI_0.1',
 			script: './App.js',
-			watch: ['build', 'server', 'App.js'],
-			ignore_watch: ['node_modules', 'uploads', 'src'],
+			watch: false,
 			exec_mode: 'cluster',
 			autorestart: true,
 			max_memory_restart: '1G',
