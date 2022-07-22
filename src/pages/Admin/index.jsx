@@ -14,7 +14,7 @@ const Admin = (props) => {
         </div>
       }
     >
-      Just test auto deploy
+      Just test auto deployaaaaaa
       <Outlet />
     </Suspense>
   );
