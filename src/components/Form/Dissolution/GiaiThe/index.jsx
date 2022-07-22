@@ -4,7 +4,7 @@ import React, { forwardRef, useEffect, useState } from 'react';
 import CCInput from '@/components/CCInput';
 import styles from '../styles.module.scss';
 import { useNavigate } from 'react-router-dom';
-import { DISSOLUTION_FORM } from '@/contants/FormConstant';
+import { DISSOLUTION_FORM } from '@/constant/FormConstant';
 import CCListForm from '@/components/CCListForm';
 const BASE_FORM = ['dissolution', 'approve'];
 const GiaiThe = forwardRef((props, ref) => {

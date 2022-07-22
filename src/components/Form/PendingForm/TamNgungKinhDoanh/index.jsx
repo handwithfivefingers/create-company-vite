@@ -1,8 +1,8 @@
 import React, { forwardRef, useEffect, useState } from 'react';
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import { Button, Col, Form, Row, Space, InputNumber } from 'antd';
-import { SELECT } from '@/contants/Common';
-import { PENDING_FORM } from '@/contants/FormConstant';
+import { SELECT } from '@/constant/Common';
+import { PENDING_FORM } from '@/constant/FormConstant';
 import CCInput from '@/components/CCInput';
 import clsx from 'clsx';
 import styles from '../styles.module.scss';

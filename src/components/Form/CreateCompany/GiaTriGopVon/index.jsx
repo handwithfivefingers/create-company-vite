@@ -2,7 +2,7 @@ import { Col, Form, InputNumber, Row } from 'antd';
 import clsx from 'clsx';
 import React, { forwardRef } from 'react';
 import CCInput from '@/components/CCInput';
-import { FormFieldText } from '@/contants/Common';
+import { FormFieldText } from '@/constant/Common';
 import styles from './styles.module.scss';
 
 const GiaTriGopVon = forwardRef((props, ref) => {

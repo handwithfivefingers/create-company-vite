@@ -1,6 +1,6 @@
 import React from 'react';
 import moment from 'moment';
-import { LABEL } from '@/contants/FormConstant';
+import { LABEL } from '@/constant/FormConstant';
 import CCDescription from '@/components/CCDescription';
 import { checkVariable } from '@/helper/Common';
 

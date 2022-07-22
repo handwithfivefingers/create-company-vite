@@ -2,7 +2,7 @@ import { Button, Form } from "antd";
 import clsx from "clsx";
 import React, { forwardRef, useEffect } from "react";
 import CCInput from "@/components/CCInput";
-import { SELECT } from "@/contants/Common";
+import { SELECT } from "@/constant/Common";
 import styles from "./styles.module.scss";
 
 const BASE_FORM = ["change_info", "legal_representative"];

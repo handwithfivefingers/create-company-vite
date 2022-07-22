@@ -5,7 +5,7 @@ import { memo, useEffect, useState } from 'react';
 import { RiLogoutCircleLine } from 'react-icons/ri';
 import { useDispatch } from 'react-redux';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { AdminRouter } from '@/contants/Route';
+import { AdminRouter } from '@/constant/Route';
 import { AuthAction } from '@/store/actions';
 import styles from './styles.module.scss';
 const { Sider } = Layout;

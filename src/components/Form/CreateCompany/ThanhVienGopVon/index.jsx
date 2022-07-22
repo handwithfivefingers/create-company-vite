@@ -1,11 +1,11 @@
 import React, { forwardRef, useState, useEffect } from "react";
 import { Form, Row, Col, InputNumber } from "antd";
 import CCInput from "@/components/CCInput";
-import { FormFieldText } from "@/contants/Common";
+import { FormFieldText } from "@/constant/Common";
 import { number_format } from "@/helper/Common";
 import clsx from "clsx";
 import styles from "./styles.module.scss";
-import { SELECT } from "@/contants/Common";
+import { SELECT } from "@/constant/Common";
 
 const ThanhVienGopVon = forwardRef((props, ref) => {
   const [present, setPresent] = useState("");

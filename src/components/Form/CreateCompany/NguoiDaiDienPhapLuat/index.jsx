@@ -4,7 +4,7 @@ import clsx from "clsx";
 import { differenceBy } from "lodash";
 import React, { forwardRef } from "react";
 import CCInput from "@/components/CCInput";
-import { SELECT } from "@/contants/Common";
+import { SELECT } from "@/constant/Common";
 import { makeid } from "@/helper/Common";
 import styles from "../CreateCompany.module.scss";
 const NguoiDaiDienPhapLuat = forwardRef((props, ref) => {

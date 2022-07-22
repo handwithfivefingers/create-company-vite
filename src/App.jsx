@@ -7,7 +7,7 @@ import { useContext, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { BrowserRouter, useLocation, useRoutes } from 'react-router-dom';
 import './assets/css/styles.scss';
-import { LAYOUT_ROUTER, UserRouter } from './contants/Route';
+import { LAYOUT_ROUTER, UserRouter } from './constant/Route';
 import { useAuth, useDetectLocation } from './helper/Hook';
 import { CommonAction } from './store/actions';
 

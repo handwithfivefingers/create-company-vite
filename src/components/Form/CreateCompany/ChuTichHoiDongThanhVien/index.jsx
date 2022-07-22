@@ -2,7 +2,7 @@ import { Button, Col, Form, Row } from "antd";
 import clsx from "clsx";
 import React, { forwardRef } from "react";
 import CCInput from "@/components/CCInput";
-import { SELECT } from "@/contants/Common";
+import { SELECT } from "@/constant/Common";
 import styles from "../CreateCompany.module.scss";
 
 const ChuTichHoiDongThanhVien = forwardRef((props, ref) => {

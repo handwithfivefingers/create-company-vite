@@ -1,6 +1,6 @@
 import { Skeleton, Col } from 'antd';
 import ProductCard from '../components/Products';
-import { BaseFieldText } from './../contants/Common';
+import { BaseFieldText } from './../constant/Common';
 import moment from 'moment';
 
 const number_format = (number) => {

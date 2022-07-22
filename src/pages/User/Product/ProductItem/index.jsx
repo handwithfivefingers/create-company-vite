@@ -6,7 +6,7 @@ import ChangeInforForm from '@/components/Form/ChangeInforForm';
 import CreateCompany from '@/components/Form/CreateCompany';
 import PreviewData from '@/components/Form/PreviewData';
 import axios from '@/config/axios';
-import { stepType1 } from '@/contants/Step';
+import { stepType1 } from '@/constant/Step';
 import { useParams, useLocation } from 'react-router-dom';
 import TamHoanForm from '@/components/Form/PendingForm';
 import styles from './styles.module.scss';

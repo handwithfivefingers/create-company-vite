@@ -4,7 +4,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { AuthAction, CommonAction } from '@/store/actions';
-import { UserRouter } from '../../../contants/Route';
+import { UserRouter } from '../../../constant/Route';
 import styles from './styles.module.scss';
 
 const { Sider } = Layout;

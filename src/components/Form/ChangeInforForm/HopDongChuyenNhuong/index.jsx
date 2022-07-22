@@ -2,7 +2,7 @@ import { Button, Col, Form, InputNumber, Row, Space } from "antd";
 import clsx from "clsx";
 import React, { forwardRef, useState } from "react";
 import CCInput from "@/components/CCInput";
-import { SELECT } from "@/contants/Common";
+import { SELECT } from "@/constant/Common";
 import styles from "../DaiDienPhapLuat/styles.module.scss";
 const BASE_FORM = ["change_info", "transfer_contract"];
 const HopDongChuyenNhuong = forwardRef((props, ref) => {
