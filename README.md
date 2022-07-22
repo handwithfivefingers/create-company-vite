@@ -16,7 +16,7 @@ sau khi edit xong, chạy tuần tự các lệnh sau
     - git add .
     - git commit -m "nội dung fix"
     - git push
-
+* Push xong nhớ báo anh.
 # TEST
 
 ### PM2
