@@ -12,7 +12,14 @@ const cors = require('cors');
 
 const AppRouter = require('./server/route');
 
-const fs = require('fs');
+const secret = 'Hdme195';
+
+const repo = '/usr/share/nginx/html/create-company-vite';
+
+const crypto = require('crypto');
+
+const exec = require('child_process').exec;
+
 var cookieParser = require('cookie-parser');
 
 const { task } = require('./server/controller/service/cronjob');
@@ -47,7 +54,8 @@ app.use(
 		origin: [
 			'http://localhost:3000',
 			'http://localhost:3001',
-			'http://127.0.0.1:3000',
+			'http://localhost:3002',
+			'http://localhost:3003',
 			'https://app.thanhlapcongtyonline.vn',
 		],
 	})
@@ -86,6 +94,20 @@ app.use((err, req, res, next) => {
 if (process.env.NODE_ENV !== 'development') {
 	task.start();
 }
+
+app.post('/gitpull', function (req, res) {
+	req.on('data', function (chunk) {
+		let sig = 'sha1=' + crypto.createHmac('sha1', secret).update(chunk.toString()).digest('hex');
+
+		// console.log('running command: ' + command);
+		if (req.headers['x-hub-signature'] == sig) {
+			let command = 'cd ' + repo + ' && git checkout -- . && git pull';
+			console.log('running command: ' + command);
+			exec(command);
+		}
+	});
+	res.end();
+});
 
 app.listen(RUNTIME_PORT, () => {
 	// console.log(`Server is running in port ${RUNTIME_PORT}`);
