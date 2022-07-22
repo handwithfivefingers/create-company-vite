@@ -13,7 +13,7 @@ router.post('/pull', (req, res) => {
 
 	try {
 		// let command = 'cd ' + repo + '\ && git checkout -- . \ && git pull';
-
+		res.end();
 		let cd = 'cd ' + repo;
 		// let cd = 'node -v';
 		let checkout = 'git checkout -- .';
@@ -33,7 +33,6 @@ router.post('/pull', (req, res) => {
 		console.log('Done');
 	} catch (err) {
 		console.log('git error', err);
-	} finally {
 		res.end();
 	}
 });
