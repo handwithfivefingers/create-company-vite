@@ -58,7 +58,7 @@ global.__basedir = __dirname;
 
 // Routes middleware
 
-app.use('/public', express.static(path.join(__dirname, 'uploads')));
+app.use('/public',  cors(corsOptions), express.static(path.join(__dirname, 'uploads')));
 
 app.use(express.static(path.join(__dirname, 'dist')));
 
@@ -72,7 +72,7 @@ app.use('/robots.txt', (req, res) => {
 });
 
 if (NODE_ENV !== 'development') {
-	app.get('/*', (req, res) => {
+	app.get('/*',  cors(corsOptions), (req, res) => {
 		res.sendFile(path.join(__dirname, 'dist', 'index.html'));
 	});
 }

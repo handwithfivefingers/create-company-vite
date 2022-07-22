@@ -5,13 +5,17 @@
 `npm run dev-f` Start Frontend
 `npm run dev-s` Start Server
 
-## Build
+## Edit
 
-`npm run build`
+bật terminal chạy các lệnh trước khi edit file:
+    - git pull
 
-## Deploy
+## PUSH AUTODEPLOY
 
-`pm2 start echosystem.config.js`
+sau khi edit xong, chạy tuần tự các lệnh sau
+    - git add .
+    - git commit -m "nội dung fix"
+    - git push
 
 # TEST
 
