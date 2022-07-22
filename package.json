@@ -3,6 +3,7 @@
 	"private": true,
 	"version": "0.0.0",
 	"scripts": {
+		"start": "node App.js",
 		"dev-f": "vite --host",
 		"dev-s": "nodemon --trace-deprecation App.js",
 		"build": "vite build",
