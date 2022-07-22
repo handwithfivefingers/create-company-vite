@@ -14,7 +14,7 @@ const Admin = (props) => {
         </div>
       }
     >
-      Just test auto deployaaaaaa
+      dasdkg asdg kasg d testing 3
       <Outlet />
     </Suspense>
   );
