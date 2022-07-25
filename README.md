@@ -1,27 +1,42 @@
 ### Using VITEJS
 
+# URL [Site](http://103.57.221.122:3004/)
+
 ## Start Project
 
-`npm run dev-f` Start Frontend
-`npm run dev-s` Start Server
+Start Frontend
+
+```
+npm run dev-f
+```
+
+Start Server
+
+```
+npm run dev-s
+```
 
 ## Edit
 
 bật terminal chạy các lệnh trước khi edit file:
-    - git pull
+
+```
+git pull
+```
 
 ## PUSH AUTODEPLOY
 
-sau khi edit xong, chạy tuần tự các lệnh sau
-    - git add .
-    - git commit -m "nội dung fix"
-    - git push
+sau khi edit xong, chạy tuần tự các lệnh sau :
 
-link: http://103.57.221.122:3004/
-* Push xong nhớ báo anh.
+```
+git add .
+git commit -m "nội dung fix"
+git push
+```
+
 ## Project structure
 
-
+```
 public
 server
     constant
@@ -41,7 +56,7 @@ server
 
                 tương ứng mỗi case em return về đúng files giúp anh
 
-                ví dụ: 
+                ví dụ:
 
                 const allFiles = {
                     xxx1: {
@@ -58,7 +73,7 @@ server
             }
             trong đó <XXX> là tên loại hình
 
-            
+
 src
     components
         Form
@@ -69,7 +84,7 @@ src
                 index.jsx
                 ...
             PendingForm:    Form về tạm hoãn
-                index.jsx   File chính 
+                index.jsx   File chính
                 ...
             Dissolution:    Form về giải thể
                 index.jsx   File chính
@@ -80,8 +95,8 @@ src
             PreviewForm
         Admin
         User
-        HOC         File này chia ra làm 2. 
-                        đoạn role === 'admin' => layout của admin. 
+        HOC         File này chia ra làm 2.
+                        đoạn role === 'admin' => layout của admin.
                         return ở dưới là của user
     constant
         FormConstant.jsx    file chứa thông tin các label của preview form
@@ -92,13 +107,16 @@ uploads
         dissolution
         pending
             các file docx mặc định là của 1tv và chung
-            2tv 
+            2tv
                 file docx dành cho 2 tv
             cp
                 file docx dành riêng cho cp
 
+```
 
 ### PM2
+
+```
 
 # Start all applications
 
@@ -119,3 +137,5 @@ pm2 reload ecosystem.config.js
 # Delete all
 
 pm2 delete ecosystem.config.js
+
+```
