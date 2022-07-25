@@ -122,13 +122,16 @@ const ChangeInforForm = forwardRef((props, ref) => {
           [styles.active]: props.current === 1,
         })}
       >
-        <CCInput label="Tên doanh nghiệp" name={['change_info', 'base_inform', 'company_name']} />
+        <CCInput label="Tên doanh nghiệp" name={['change_info', 'base_inform', 'company_name']} placeholder="CÔNG TY TNHH DỊCH VỤ TƯ VẤN WARREN B" />
 
-        <CCInput label="Mã số doanh nghiệp/ mã số thuế" name={['change_info', 'base_inform', 'mst']} />
+        <CCInput label="Mã số doanh nghiệp hoặc Mã số thuế" name={['change_info', 'base_inform', 'mst']} placeholder="0316184427"/>
+        
+        <CCInput label="Người đại diện pháp luật (nhập đầy đủ họ và tên)" name={['change_info', 'base_inform', 'org_person']} placeholder="NGUYỄN VĂN A"/>
 
-        <CCInput label="Ngày cấp" name={['change_info', 'base_inform', 'time_provide']} type="date" />
 
-        <CCInput label="Nơi cấp" name={['change_info', 'base_inform', 'place_provide']} />
+        {/* <CCInput label="Ngày cấp" name={['change_info', 'base_inform', 'time_provide']} type="date" /> */}
+
+        {/* <CCInput label="Nơi cấp" name={['change_info', 'base_inform', 'place_provide']} /> */}
       </div>
       {/* Ngày cấp …/…/…… Nơi cấp: ……… kế bên field Mã số doanh nghiệp/ mã số thuế */}
     </Form>
