@@ -11,7 +11,7 @@ const gitAction = async (req, res) => {
 	try {
 		// let command = 'cd ' + repo + '\ && git checkout -- . \ && git pull';
 
-		let isValid = await validateGit(req, res);
+		let isValid = await validateGit(req);
 
 		res.end();
 
@@ -51,7 +51,7 @@ const gitAction = async (req, res) => {
 	}
 };
 
-const validateGit = async (req, res) => {
+const validateGit = async (req) => {
 	let result = false;
 	const payload = JSON.stringify(req.body);
 	console.log('payload', payload);
