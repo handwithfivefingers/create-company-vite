@@ -11,11 +11,11 @@ const gitAction = async (req, res) => {
 	try {
 		// let command = 'cd ' + repo + '\ && git checkout -- . \ && git pull';
 
-		let isValid = await validateGit(req);
+		// let isValid = await validateGit(req);
 
 		res.end();
 
-		if (!isValid) return;
+		// if (!isValid) return;
 
 		let cd = 'cd ' + repo;
 		// let cd = 'node -v';
@@ -92,7 +92,7 @@ const validateGit = async (req) => {
 	const payload = JSON.stringify(req.body);
 
 	const ourSignature = `sha1=${crypto.createHmac('sha1', secret).update(payload).digest('hex')}`;
-    
+
 	console.log(theirSignature, ourSignature);
 
 	if (crypto.timingSafeEqual(Buffer.from(theirSignature), Buffer.from(ourSignature))) {
