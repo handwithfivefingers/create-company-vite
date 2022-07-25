@@ -53,23 +53,55 @@ const gitAction = async (req, res) => {
 
 const validateGit = async (req) => {
 	let result = false;
+	// const payload = JSON.stringify(req.body);
+	// console.log('payload', payload);
+	// if (!payload) {
+	// 	result = false;
+	// }
+
+	// const sig = new Buffer.from(req.get(sigHeaderName) || '', 'utf8');
+
+	// const hmac = crypto.createHmac(sigHashAlg, secret)
+
+	// const digest = new Buffer.from(sigHashAlg + '=' + hmac.update(payload).digest('hex'), 'utf8');
+
+	// if (sig.length !== digest.length || !crypto.timingSafeEqual(digest, sig)) {
+	// 	console.log(`Request body digest (${digest}) did not match ${sigHeaderName} (${sig})`);
+
+	// 	result = false;
+	// }
+	// const blob = JSON.stringify(req.body);
+	// const hmac = crypto.createHmac('sha1', secret);
+	// const ourSignature = `sha1=${hmac.update(blob).digest('hex')}`;
+
+	// const theirSignature = req.get('X-Hub-Signature');
+
+	// const bufferA = Buffer.from(ourSignature, 'utf8');
+	// const bufferB = Buffer.from(theirSignature, 'utf8');
+
+	// const safe = crypto.timingSafeEqual(bufferA, bufferB);
+
+	// if (safe) {
+	// 	console.log('Valid signature');
+	// } else {
+	// 	console.log('Invalid signature');
+	// }
+
+	const theirSignature = req.headers['x-hub-signature'];
+
 	const payload = JSON.stringify(req.body);
-	console.log('payload', payload);
-	if (!payload) {
-		result = false;
+
+	const ourSignature = `sha1=${crypto.createHmac('sha1', secret).update(payload).digest('hex')}`;
+    
+	console.log(theirSignature, ourSignature);
+
+	if (crypto.timingSafeEqual(Buffer.from(theirSignature), Buffer.from(ourSignature))) {
+		console.log('all good');
+	} else {
+		console.log('not good');
 	}
-
-	const sig = new Buffer.from(req.get(sigHeaderName) || '', 'utf8');
-
-	const hmac = crypto.createHmac(sigHashAlg, secret)
-
-	const digest = new Buffer.from(sigHashAlg + '=' + hmac.update(payload).digest('hex'), 'utf8');
-
-	if (sig.length !== digest.length || !crypto.timingSafeEqual(digest, sig)) {
-		console.log(`Request body digest (${digest}) did not match ${sigHeaderName} (${sig})`);
-
-		result = false;
-	}
+	
+	// result = false;
 
 	return result;
 };

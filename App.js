@@ -18,7 +18,6 @@ var cookieParser = require('cookie-parser');
 
 const { task } = require('./server/controller/service/cronjob');
 
-
 env.config();
 
 const { NODE_ENV, PORT, DEV_PORT } = process.env;
@@ -58,7 +57,7 @@ global.__basedir = __dirname;
 
 // Routes middleware
 
-app.use('/public',  cors(corsOptions), express.static(path.join(__dirname, 'uploads')));
+app.use('/public', cors(corsOptions), express.static(path.join(__dirname, 'uploads')));
 
 app.use(express.static(path.join(__dirname, 'dist')));
 
@@ -72,7 +71,7 @@ app.use('/robots.txt', (req, res) => {
 });
 
 if (NODE_ENV !== 'development') {
-	app.get('/*',  cors(corsOptions), (req, res) => {
+	app.get('/*', cors(corsOptions), (req, res) => {
 		res.sendFile(path.join(__dirname, 'dist', 'index.html'));
 	});
 }
@@ -91,7 +90,5 @@ if (process.env.NODE_ENV !== 'development') {
 }
 
 app.listen(RUNTIME_PORT, () => {
-
 	console.log(`Server is running ${RUNTIME_PORT}`);
-
 });
