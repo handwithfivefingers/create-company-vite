@@ -53,9 +53,7 @@ const gitAction = async (req, res) => {
 
 const validateGit = async (req, res) => {
 	let result = false;
-
 	const payload = JSON.stringify(req.body);
-
 	console.log('payload', payload);
 	if (!payload) {
 		result = false;
@@ -69,7 +67,7 @@ const validateGit = async (req, res) => {
 
 	if (sig.length !== digest.length || !crypto.timingSafeEqual(digest, sig)) {
 		console.log(`Request body digest (${digest}) did not match ${sigHeaderName} (${sig})`);
-        
+
 		result = false;
 	}
 
