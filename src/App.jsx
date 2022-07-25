@@ -1,15 +1,15 @@
 import LoadingScreen from '@/components/LoadingScreen';
 import RouterContext, { RouterProvider } from '@/helper/Context';
 import { ConfigProvider } from 'antd';
-import 'aos/dist/aos.css';
-import moment from 'moment';
 import { useContext, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { BrowserRouter, useLocation, useRoutes } from 'react-router-dom';
-import './assets/css/styles.scss';
 import { LAYOUT_ROUTER, UserRouter } from './constant/Route';
 import { useAuth, useDetectLocation } from './helper/Hook';
 import { CommonAction } from './store/actions';
+import moment from 'moment';
+import './assets/css/styles.scss';
+import 'aos/dist/aos.css';
 
 ConfigProvider.config({
 	theme: {

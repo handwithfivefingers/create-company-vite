@@ -52,20 +52,23 @@ const gitAction = async (req, res) => {
 
 const validateGit = async (req, res) => {
 	let result = false;
-	if (req.method == 'POST') {
-		if (!req.rawBody) {
-			result = false;
-		}
 
-		const sig = Buffer.from(req.get(sigHeaderName) || '', 'utf8');
-		const hmac = crypto.createHmac(sigHashAlg, secret);
-		const digest = Buffer.from(sigHashAlg + '=' + hmac.update(req.rawBody).digest('hex'), 'utf8');
+	console.log(req.rawBody);
+	console.log(req.body);
 
-		if (sig.length !== digest.length || !crypto.timingSafeEqual(digest, sig)) {
-			// return next(`Request body digest (${digest}) did not match ${sigHeaderName} (${sig})`);
-			result = false;
-		}
+	if (!req.rawBody) {
+		result = false;
 	}
+
+	const sig = Buffer.from(req.get(sigHeaderName) || '', 'utf8');
+	const hmac = crypto.createHmac(sigHashAlg, secret);
+	const digest = Buffer.from(sigHashAlg + '=' + hmac.update(req.rawBody).digest('hex'), 'utf8');
+
+	if (sig.length !== digest.length || !crypto.timingSafeEqual(digest, sig)) {
+		console.log(`Request body digest (${digest}) did not match ${sigHeaderName} (${sig})`);
+		result = false;
+	}
+
 	return result;
 };
 
