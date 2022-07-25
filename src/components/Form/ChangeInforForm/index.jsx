@@ -71,7 +71,7 @@ const ChangeInforForm = forwardRef((props, ref) => {
               },
             ]);
           }}
-          placeholder="Chọn loại hình doanh nghiệp"
+          placeholder="Bấm vào đây"
         >
           {props.data?.map((item) => {
             return (

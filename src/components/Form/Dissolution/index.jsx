@@ -32,7 +32,7 @@ const Dissolution = forwardRef((props, ref) => {
       >
         <Select
           onSelect={(val, opt) => handleChange(val, opt, 'selectProduct')}
-          placeholder="Chọn loại hình doanh nghiệp"
+          placeholder="Bấm vào đây"
         >
           {props.data?.map((item) => {
             return (
