@@ -27,9 +27,9 @@ const DiaChiTruSoChinh = forwardRef((props, ref) => {
         <CCInput name={[...BASE_FORM, "core", "address", "city"]} label="Tỉnh/Thành phố" />
       </Form.Item>
 
-      <CCInput name={[...BASE_FORM, "core", "address_opt_1"]} label="Địa chỉ chi nhánh (nếu có)" />
+      {/* <CCInput name={[...BASE_FORM, "core", "address_opt_1"]} label="Địa chỉ chi nhánh (nếu có)" /> */}
 
-      <CCInput name={[...BASE_FORM, "core", "address_opt_2"]} label="Địa chỉ văn phòng đại diện (nếu có)" />
+      {/* <CCInput name={[...BASE_FORM, "core", "address_opt_2"]} label="Địa chỉ văn phòng đại diện (nếu có)" /> */}
     </Form.Item>
   );
 });

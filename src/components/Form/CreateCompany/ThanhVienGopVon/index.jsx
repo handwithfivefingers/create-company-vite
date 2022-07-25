@@ -34,7 +34,12 @@ const ThanhVienGopVon = forwardRef((props, ref) => {
     if (present === "personal") {
       xhtml = (
         <div className={styles.groupInput}>
-          <CCInput name={[...BASE_FORM, "origin_person", "name"]} label={FormFieldText["origin_person"]} />
+          {/* <CCInput name={[...BASE_FORM, "origin_person", "name"]} label={FormFieldText["origin_person"]} /> */}
+          <CCInput 
+          name={[...BASE_FORM, "origin_person", "name"]} 
+          label= "Họ và Tên"
+          placeholder="NGUYỄN VĂN A"
+          />
 
           <CCInput type="date" name={[...BASE_FORM, "origin_person", "birth_day"]} label="Ngày sinh" />
 
@@ -47,11 +52,11 @@ const ThanhVienGopVon = forwardRef((props, ref) => {
 
           <CCInput name={[...BASE_FORM, "origin_person", "per_type"]} label="Dân tộc" />
 
-          <CCInput name={[...BASE_FORM, "origin_person", "national"]} label="Quốc tịch" />
+          {/* <CCInput name={[...BASE_FORM, "origin_person", "national"]} label="Quốc tịch" /> */}
 
-          <CCInput name={[...BASE_FORM, "origin_person", "reg_address"]} label="Nơi đăng kí hộ khẩu thường trú" />
+          {/* <CCInput name={[...BASE_FORM, "origin_person", "reg_address"]} label="Nơi đăng kí hộ khẩu thường trú" /> */}
 
-          <CCInput name={[...BASE_FORM, "origin_person", "current_address"]} label="Chỗ ở hiện tại" />
+          {/* <CCInput name={[...BASE_FORM, "origin_person", "current_address"]} label="Chỗ ở hiện tại" /> */}
 
           <CCInput
             type="select"
@@ -101,15 +106,18 @@ const ThanhVienGopVon = forwardRef((props, ref) => {
 
           <CCInput label="Số điện thoại" name={[...BASE_FORM, "origin_person", "contact", "phone"]} />
 
-          <Form.Item name={[...BASE_FORM, "company_value"]} label="Giá trị góp vốn">
+          {/* <Form.Item name={[...BASE_FORM, "company_value"]} label="Giá trị góp vốn">
             <InputNumber formatter={(val) => `${number_format(val)}`} style={{ width: "100%" }} />
-          </Form.Item>
+          </Form.Item> */}
         </div>
       );
     } else if (present === "organization") {
       xhtml = (
         <div className={styles.groupInput}>
-          <CCInput name={[...BASE_FORM, "origin_person", "name"]} label={"Tên người đại diện"} />
+          <CCInput 
+          name={[...BASE_FORM, "origin_person", "name"]} 
+          label={"Tên người đại diện"}
+           />
 
           <CCInput
             type="select"
@@ -118,18 +126,18 @@ const ThanhVienGopVon = forwardRef((props, ref) => {
             options={SELECT.TITLE}
           />
 
-          <CCInput type="date" name={[...BASE_FORM, "origin_person", "birth_day"]} label="Ngày sinh" />
+          {/* <CCInput type="date" name={[...BASE_FORM, "origin_person", "birth_day"]} label="Ngày sinh" /> */}
 
-          <CCInput
+          {/* <CCInput
             type="select"
             name={[...BASE_FORM, "origin_person", "gender"]}
             label="Giới tính"
             options={SELECT.GENDER}
-          />
+          /> */}
 
-          <CCInput name={[...BASE_FORM, "origin_person", "per_type"]} label="Dân tộc" />
+          {/* <CCInput name={[...BASE_FORM, "origin_person", "per_type"]} label="Dân tộc" /> */}
 
-          <CCInput name={[...BASE_FORM, "origin_person", "national"]} label="Quốc tịch" />
+          {/* <CCInput name={[...BASE_FORM, "origin_person", "national"]} label="Quốc tịch" /> */}
 
           <Form.Item label="Địa chỉ trụ sở chính">
             <CCInput

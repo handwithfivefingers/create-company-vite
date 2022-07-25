@@ -355,11 +355,12 @@ const PENDING_FORM = {
 
       place_provide: 'Nơi cấp',
       obj: 'Đối tượng tạm ngưng',
+      
       branch: {
         branch_name: 'Tên chi nhánh/văn phòng đại diện/địa điểm kinh doanh (ghi bằng chữ in hoa)',
         resp_office: 'Mã số thuế chi nhánh/văn phòng đại diện/địa điểm kinh doanh',
-        branch_name_opt: 'Tên chi nhánh (optional)',
-        branch_mst_opt: 'Mã số chi nhánh/Mã số thuế của chi nhánh  (optional)',
+        branch_name_opt: 'Tên chi nhánh',
+        branch_mst_opt: 'Mã số chi nhánh/Mã số thuế của chi nhánh',
       },
       time_range: {
         start: 'Thời gian đăng ký tạm ngưng từ',
@@ -374,27 +375,27 @@ const PENDING_FORM = {
     // Tạm ngưng kinh doanh
     title: 'Tạm ngưng kinh doanh',
     fields: {
-      company_name: 'Tên doanh nghiệp (ghi bằng chữ in hoa)',
-      mst: 'Mã số doanh nghiệp/Mã số thuế',
+      company_name: 'Tên doanh nghiệp',
+      mst: 'Mã số doanh nghiệp hoặc Mã số thuế',
       time_provide: 'Ngày cấp',
       place_provide: 'Nơi cấp',
-      opt_code: 'Số Giấy chứng nhận đăng ký kinh doanh (chỉ kê khai nếu không có mã số doanh nghiệp/mã số thuế)',
+      // opt_code: 'Số Giấy chứng nhận đăng ký kinh doanh (chỉ kê khai nếu không có mã số doanh nghiệp/mã số thuế)',
       obj: 'Đối tượng tạm ngưng',
       location: 'Địa chỉ trụ sở chính',
-      main_legal: 'Người đại diện pháp luật (nhập đầy đủ họ và tên)',
+      main_legal: 'Người đại diện pháp luật',
+      branch_name: 'Tên chi nhánh hoặc văn phòng đại diện hoặc địa điểm kinh doanh',
+      resp_office: 'Mã số chi nhánh hoặc Mã số thuế của chi nhánh',
+      
       list_president: {
         president: 'Tên thành viên',
       },
       contribute_members: {
-        name: 'Nhập tên Chủ tịch HĐTV',
+        name: 'Họ và Tên',
         capital: 'Vốn góp',
-        capital_percent: 'chiếm % vốn điều lệ',
+        capital_percent: 'Chiếm % vốn điều lệ',
       },
       branch: {
-        branch_name: 'Tên chi nhánh/văn phòng đại diện/địa điểm kinh doanh (ghi bằng chữ in hoa)',
-        resp_office: 'Mã số thuế chi nhánh/văn phòng đại diện/địa điểm kinh doanh',
-        branch_name_opt: 'Tên chi nhánh (optional)',
-        branch_mst_opt: 'Mã số chi nhánh/Mã số thuế của chi nhánh  (optional)',
+        
         time_range: {
           start: 'Thời gian đăng ký tạm ngưng từ',
           end: 'Thời gian đăng ký tạm ngưng đến',
@@ -405,7 +406,7 @@ const PENDING_FORM = {
         end: 'Thời gian đăng ký tạm ngưng đến',
       },
       reason: 'Lý do tạm ngưng',
-      org_person: 'Người đại diện pháp luật (nhập đầy đủ họ và tên)',
+      org_person: 'Người đại diện pháp luật',
     },
   },
 };
@@ -415,16 +416,16 @@ const DISSOLUTION_FORM = {
     title: 'Giải thể',
     fields: {
       company_name: 'Tên doanh nghiệp',
-      mst: 'Mã số doanh nghiệp/Mã số thuế',
+      mst: 'Mã số doanh nghiệp hoặc Mã số thuế',
       org_person: 'Người đại diện pháp luật',
       location: 'Địa chỉ trụ sở chính',
       list_president: {
-        president: 'Tên thành viên',
+        president: 'Họ và Tên',
       },
       contribute_members: {
-        name: 'Nhập tên Chủ tịch HĐTV',
+        name: 'Họ và Tên',
         capital: 'Vốn góp',
-        capital_percent: 'chiếm % vốn điều lệ',
+        capital_percent: 'Chiếm % vốn điều lệ',
       },
     },
     // Giải thể

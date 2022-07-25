@@ -14,7 +14,7 @@ const Admin = (props) => {
         </div>
       }
     >
-      dasdkg asdg kasg d testing 3
+    
       <Outlet />
     </Suspense>
   );

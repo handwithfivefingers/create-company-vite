@@ -1,7 +1,7 @@
 export const stepType1 = [
   {
     title: "Bước 1",
-    desc: "Chọn loại hình",
+    desc: "Chọn loại hình doanh nghiệp",
   },
   {
     title: "Bước 2",
