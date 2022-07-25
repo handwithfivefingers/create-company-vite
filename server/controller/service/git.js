@@ -60,9 +60,9 @@ const validateGit = async (req, res) => {
 		result = false;
 	}
 
-	const sig = Buffer.from(req.get(sigHeaderName) || '', 'utf8');
+	const sig = new Buffer.from(req.get(sigHeaderName) || '', 'utf8');
 	const hmac = crypto.createHmac(sigHashAlg, secret);
-	const digest = Buffer.from(sigHashAlg + '=' + hmac.update(req.rawBody).digest('hex'), 'utf8');
+	const digest = new Buffer.from(sigHashAlg + '=' + hmac.update(req.rawBody).digest('hex'), 'utf8');
 
 	if (sig.length !== digest.length || !crypto.timingSafeEqual(digest, sig)) {
 		console.log(`Request body digest (${digest}) did not match ${sigHeaderName} (${sig})`);
