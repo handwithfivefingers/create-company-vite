@@ -278,20 +278,20 @@ const getDissolutionFiles = (type, key) => {
 		// TwoPerson - 2 Thành viên
 		dissolution_bienban_twoPerson: {
 			name: 'Biên bản họp của HĐTV',
-			path: '/files/dissolution/dissolution_bien_ban_hop_giai_the_hdtv.docx',
+			path: '/files/dissolution/2tv/dissolution_bien_ban_hop_giai_the_hdtv.docx',
 		},
 		dissolution_quyetdinh_twoPerson: {
 			name: 'Quyết định họp của HĐTV',
-			path: '/files/dissolution/dissolution_quyet_dinh_giai_the_hdtv.docx',
+			path: '/files/dissolution/2tv/dissolution_quyet_dinh_giai_the_hdtv.docx',
 		},
 		// Cooperation - Cổ phần
 		dissolution_bienban_cp: {
 			name: 'Biên bản họp của HĐQT',
-			path: '/files/dissolution/dissolution_bien_ban_hop_giai_the_hddcd.docx',
+			path: '/files/dissolution/cp/dissolution_bien_ban_hop_giai_the_hddcd.docx',
 		},
 		dissolution_quyetdinh_cp: {
 			name: 'Quyết định họp của HĐQT',
-			path: '/files/dissolution/dissolution_quyet_dinh_giai_the_hddcd.docx',
+			path: '/files/dissolution/cp/dissolution_quyet_dinh_giai_the_hddcd.docx',
 		},
 	};
 
