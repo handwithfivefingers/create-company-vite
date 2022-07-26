@@ -1,99 +1,104 @@
-import React, { useCallback, useState, useEffect, useLayoutEffect, useRef, memo } from 'react';
+import React, { useCallback, useState, useEffect, useLayoutEffect, useRef, memo, useMemo } from 'react';
 import styles from './styles.module.scss';
 import { isEqual } from 'lodash';
 const VirtualScroll = (props) => {
-  const [list, setList] = useState();
+	const [list, setList] = useState();
 
-  const [visibleList, setVisibleList] = useState();
+	const [visibleList, setVisibleList] = useState();
 
-  const [scrollHeight, setScrollHeight] = useState(0);
+	const [scrollHeight, setScrollHeight] = useState(0);
 
-  const [firstItem, setFirstItem] = useState(0);
+	const [firstItem, setFirstItem] = useState(0);
 
-  const itemRef = useRef();
+	const scrollY = useRef(0);
 
-  const containerRef = useRef();
+	const itemRef = useRef();
 
-  const anchorItem = useRef({ index: 0, offset: 0 });
+	const containerRef = useRef();
 
-  const lastScrollTop = useRef(0);
+	const anchorItem = useRef({ index: 0, offset: 0 });
 
-  const ELEMENT_HEIGHT = 22;
+	const lastScrollTop = useRef(0);
 
-  const BUFFER_SIZE = useRef(3);
-  
-  let VISIBLE_COUNT = 0;
+	const ELEMENT_HEIGHT = 22;
 
-  useEffect(() => {
-    setList(props.data);
-    setVisibleList(props.data.slice(0, 30));
-  }, [props]);
+	const BUFFER_SIZE = 3;
 
-  const scroll = useCallback((event) => {
-    const container = event.target;
-    const delta = container.scrollTop - lastScrollTop.current;
+	let VISIBLE_COUNT = 0;
 
-    lastScrollTop.current = container.scrollTop;
+	useEffect(() => {
+		setList(props.data);
+		setVisibleList(props.data.slice(0, 30));
+	}, [props]);
 
-    const isPositive = delta >= 0;
-    anchorItem.current.offset += delta;
-    // console.log(container, container.scrollTop, delta);
-    // console.log(isPositive, anchorItem.current);
+	const scroll = useCallback(
+		(event) => {
+			const container = event.target;
 
-    let tempFirst = firstItem;
+			const delta = container.scrollTop - lastScrollTop.current;
 
-    tempFirst = Math.min(list.length - VISIBLE_COUNT, anchorItem.current.index - BUFFER_SIZE);
-  
-    console.log(firstItem, tempFirst, isPositive, list, VISIBLE_COUNT)
-    updateAnchorItem(container);
-    // if (isPositive) {
-    //   if (anchorItem.current.offset >= ELEMENT_HEIGHT) {
-    //     updateAnchorItem(container);
-    //   }
-    //   if (anchorItem.current.index - tempFirst >= BUFFER_SIZE) {
-    //     tempFirst = Math.min(list.length - VISIBLE_COUNT, anchorItem.current.index - BUFFER_SIZE);
-    //     setFirstItem(tempFirst);
-    //   }
-    // } else {
-    //   // Roll up
-    //   if (container.scrollTop <= 0) {
-    //     anchorItem.current = { index: 0, offset: 0 };
-    //   } else if (anchorItem.current.offset < 0) {
-    //     updateAnchorItem(container);
-    //   }
-    //   // Has the updated index changed
-    //   if (anchorItem.current.index - firstItem < BUFFER_SIZE) {
-    //     tempFirst = Math.max(0, anchorItem.current.index - BUFFER_SIZE);
-    //     setFirstItem(tempFirst);
-    //   }
-    // }
-  
-  }, [list, anchorItem]);
+			lastScrollTop.current = container.scrollTop;
 
-  const updateAnchorItem = useCallback((container) => {
-    const index = Math.floor(container.scrollTop / ELEMENT_HEIGHT);
-    const offset = container.scrollTop - ELEMENT_HEIGHT * index;
-    anchorItem.current = {
-      index,
-      offset,
-    };
-  }, []);
+			const isPositive = delta >= 0;
+			// console.log('delta', delta);
 
-  console.log('trigger render');
+			anchorItem.current.offset += delta;
 
-  return (
-    <div onScroll={scroll} ref={containerRef} className={styles.container}>
-      <div className={styles.sentry} style={{ transform: `translateY(${scrollHeight}px)` }}></div>
+			let tempFirst = firstItem;
 
-      {visibleList?.map((item, idx) => (
-        <div key={idx} style={{ transform: `translateY(${item.scrollY}px)` }} className={styles.wrapItem} ind={idx}>
-          <li ref={itemRef} item={item}>
-            {item._id}
-          </li>
-        </div>
-      ))}
-    </div>
-  );
+			tempFirst = Math.min(list.length - VISIBLE_COUNT, anchorItem.current.index - BUFFER_SIZE);
+
+			// console.log('anchorItem', anchorItem.current);
+
+			// console.log('tempFirst:', tempFirst);
+
+			updateAnchorItem(container);
+		},
+		[list, anchorItem]
+	);
+
+	const updateAnchorItem = useCallback((container) => {
+		const index = Math.floor(container.scrollTop / ELEMENT_HEIGHT);
+		const offset = container.scrollTop - ELEMENT_HEIGHT * index;
+		anchorItem.current = {
+			index,
+			offset,
+		};
+		handleSetNewList();
+	}, []);
+
+	const handleSetNewList = () => {
+		setVisibleList(props.data.slice(anchorItem.current.index, anchorItem.current.index + 30));
+		scrollY.current = anchorItem.current.index * ELEMENT_HEIGHT + anchorItem.current.offset;
+	};
+
+	const visibleChildren = useMemo(
+		() =>
+			visibleList?.map((item, idx) => (
+				<div
+					key={idx}
+					style={{ transform: `translateY(${scrollY.current}px)` }}
+					className={styles.wrapItem}
+					ind={idx}
+					_id={item._id}
+				>
+					<li ref={itemRef} item={item}>
+						{item._id}
+					</li>
+				</div>
+			)),
+		[visibleList, scrollY]
+	);
+
+	// console.log('trigger render', visibleList);
+
+	return (
+		<div onScroll={scroll} ref={containerRef} className={styles.container}>
+			<div className={styles.sentry} style={{ transform: `translateY(${scrollHeight}px)` }}></div>
+
+			{visibleChildren}
+		</div>
+	);
 };
 
 export default memo(VirtualScroll, (a, b) => isEqual(a, b));
