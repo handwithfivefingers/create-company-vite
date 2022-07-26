@@ -6,8 +6,8 @@ const api_path = {
 };
 
 const AdminUserService = {
-  getUser: () => {
-    return axios.get(api_path.getUser);
+  getUser: (params) => {
+    return axios.post(api_path.getUser, params);
   },
   deleteUser: (id) => {
     return axios.post(`${api_path.deleteUser}/${id}`);

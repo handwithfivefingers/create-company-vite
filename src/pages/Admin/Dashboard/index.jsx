@@ -24,12 +24,13 @@ const AdminDashboard = () => {
 	}, []);
 
 	const layoutEffection = () => {
-		let siteLayout = document.querySelector('.site-layout-background');
+		let siteLayout = document.querySelector('.ant-layout-content');
 
-		let { height } = siteLayout.getBoundingClientRect();
+		let { height } = siteLayout?.getBoundingClientRect();
 
 		setContainerHeight(height - 156);
 	};
+	
 	const getScreenData = async () => {
 		try {
 			setLoading(true);

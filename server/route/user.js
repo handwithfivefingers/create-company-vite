@@ -4,7 +4,7 @@ const { fetchUser, deleteUser } = require("../controller/admin/user");
 const { fetchProfile, changePassword } = require("../controller/user/profile");
 const router = express.Router();
 
-router.get("/admin/user", requireSignin, fetchUser);
+router.post("/admin/user", requireSignin, fetchUser);
 
 router.post("/admin/delete/:id", requireSignin, deleteUser);
 

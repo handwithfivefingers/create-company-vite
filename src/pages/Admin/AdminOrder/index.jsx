@@ -187,7 +187,15 @@ const AdminOrder = () => {
 	};
 
 	const renderTag = (record) => {
-		return record?.payment === 1 ? <Tag key={makeid(9)} color='green'>Đã thanh toán</Tag> : <Tag key={makeid(9)}  color='volcano'>Chưa thanh toán</Tag>;
+		return record?.payment === 1 ? (
+			<Tag key={makeid(9)} color='green'>
+				Đã thanh toán
+			</Tag>
+		) : (
+			<Tag key={makeid(9)} color='volcano'>
+				Chưa thanh toán
+			</Tag>
+		);
 	};
 
 	const renderProgress = (record) => {
