@@ -199,7 +199,7 @@ const ThanhVienGopVon = forwardRef((props, ref) => {
 
             <CCInput name={[...BASE_FORM, "origin_person", "company", "city"]} label="Tỉnh/Thành phố" />
 
-            <CCInput name={[...BASE_FORM, "origin_person", "company", "national"]} label="Quốc gia" />
+            {/* <CCInput name={[...BASE_FORM, "origin_person", "company", "national"]} label="Quốc gia" /> */}
           </Form.Item>
 
           <Form.Item
