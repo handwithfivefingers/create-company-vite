@@ -25,12 +25,17 @@ const DiaChiTruSoChinh = forwardRef((props, ref) => {
         <CCInput name={[...BASE_FORM, "core", "address", "town"]} label="Xã/Phường/Thị trấn" />
         <CCInput name={[...BASE_FORM, "core", "address", "district"]} label="Quận/Huyện/Thị xã/Thành phố thuộc tỉnh" />
         <CCInput name={[...BASE_FORM, "core", "address", "city"]} label="Tỉnh/Thành phố" />
+        <CCInput label="Số điện thoại liên hệ" name={[...BASE_FORM, "core", "contact", "phone"]} />
+        <CCInput type="email" label="Email liên hệ (nếu có)" name={[...BASE_FORM, "core", "contact", "email"]} />
       </Form.Item>
 
       {/* <CCInput name={[...BASE_FORM, "core", "address_opt_1"]} label="Địa chỉ chi nhánh (nếu có)" /> */}
 
       {/* <CCInput name={[...BASE_FORM, "core", "address_opt_2"]} label="Địa chỉ văn phòng đại diện (nếu có)" /> */}
+          {/* <CCInput label="Số điện thoại" name={[...BASE_FORM, "core", "contact", "phone"]} /> */}
+
     </Form.Item>
+    
   );
 });
 
