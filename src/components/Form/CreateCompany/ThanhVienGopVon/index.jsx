@@ -41,13 +41,14 @@ const ThanhVienGopVon = forwardRef((props, ref) => {
           placeholder="NGUYỄN VĂN A"
           />
 
-          <CCInput type="date" name={[...BASE_FORM, "origin_person", "birth_day"]} label="Ngày sinh" />
+          <CCInput type="date" name={[...BASE_FORM, "origin_person", "birth_day"]} label="Ngày sinh" placeholder="Chọn ngày" />
 
           <CCInput
             type="select"
             name={[...BASE_FORM, "origin_person", "gender"]}
             label="Giới tính"
             options={SELECT.GENDER}
+            placeholder="Bấm chọn"
           />
 
           <CCInput name={[...BASE_FORM, "origin_person", "per_type"]} label="Dân tộc" />
@@ -66,7 +67,7 @@ const ThanhVienGopVon = forwardRef((props, ref) => {
             options={SELECT.DOC_TYPE}
           />
 
-          <CCInput label={"Số CMND/ CCCD/ Hộ chiếu"} name={[...BASE_FORM, "origin_person", "doc_code"]} />
+          <CCInput label={"Số CMND/ CCCD/ Hộ chiếu"} name={[...BASE_FORM, "origin_person", "doc_code"]} placeholder="0010829446357"/>
 
           <CCInput type="date" name={[...BASE_FORM, "origin_person", "doc_time_provide"]} label="Ngày cấp" />
 
@@ -104,7 +105,7 @@ const ThanhVienGopVon = forwardRef((props, ref) => {
             <CCInput label="Tỉnh/Thành phố" name={[...BASE_FORM, "origin_person", "contact", "city"]} />
           </Form.Item>
 
-          <CCInput label="Số điện thoại" name={[...BASE_FORM, "origin_person", "contact", "phone"]} />
+          {/* <CCInput label="Số điện thoại" name={[...BASE_FORM, "origin_person", "contact", "phone"]} /> */}
 
           {/* <Form.Item name={[...BASE_FORM, "company_value"]} label="Giá trị góp vốn">
             <InputNumber formatter={(val) => `${number_format(val)}`} style={{ width: "100%" }} />
@@ -114,15 +115,53 @@ const ThanhVienGopVon = forwardRef((props, ref) => {
     } else if (present === "organization") {
       xhtml = (
         <div className={styles.groupInput}>
+          {/* START Nhập thông tin của tổ chức */}
+          <CCInput label={"Tên tổ chức"} name={[...BASE_FORM, "origin_person", "organization_name"]} placeholder="CÔNG TY TNHH DỊCH VỤ TƯ VẤN WARREN B"/>
+          <CCInput label="Nhập mã số doanh nghiệp hoặc Mã số thuế" name={[...BASE_FORM, 'mst']} placeholder="0316184427" />
+          <CCInput type="date" name={[...BASE_FORM, "organization_name", "doc_time_provide"]} 
+          label={
+            <div dangerouslySetInnerHTML={{ __html: '</>Ngày cấp <i>(ngày đăng ký lần đầu)</i></>' }} />
+          }
+          />
+          <CCInput name={[...BASE_FORM, "organization_name", "doc_place_provide"]} label="Nơi cấp" placeholder="Sở Kế hoạch và Đầu tư TP. Hồ Chí Minh – Phòng đăng ký kinh doanh"/>
+         
+          <Form.Item label="Địa chỉ trụ sở chính" className={styles.newLine}>
+          <CCInput
+              name={[...BASE_FORM, "organization_name", "company", "address"]}
+              label="Số nhà, ngách, hẻm, ngõ, đường phố/tổ/xóm/ấp/thôn"
+            />
+
+          <CCInput name={[...BASE_FORM, "organization_name", "company", "town"]} label="Xã/Phường/Thị trấn" />
+
+          <CCInput
+              name={[...BASE_FORM, "organization_name", "company", "district"]}
+              label="Quận/Huyện/Thị xã/Thành phố thuộc tỉnh"
+          />
+
+          <CCInput name={[...BASE_FORM, "organization_name", "company", "city"]} label="Tỉnh/Thành phố" />
+
+
+          {/* <CCInput name={[...BASE_FORM, "organization_name", "company", "national"]} label="Quốc gia" /> */}
+          
+          {/* END thông tin của tổ chức */}
+          </Form.Item>
+
+
           <CCInput 
           name={[...BASE_FORM, "origin_person", "name"]} 
-          label={"Tên người đại diện"}
+          label={
+            <div dangerouslySetInnerHTML={{ __html: '</>Họ và Tên người đại diện theo pháp luật <i>(ĐDPL)</i></>' }} />
+          }
+          placeholder="NGUYỄN VĂN A"
            />
 
           <CCInput
             type="select"
             name={[...BASE_FORM, "origin_person", "title"]}
-            label="Chức danh"
+            label={
+              <div dangerouslySetInnerHTML={{ __html: '</>Chức danh <i>(ĐDPL)</i></>' }} />
+            }
+            
             options={SELECT.TITLE}
           />
 
@@ -139,7 +178,12 @@ const ThanhVienGopVon = forwardRef((props, ref) => {
 
           {/* <CCInput name={[...BASE_FORM, "origin_person", "national"]} label="Quốc tịch" /> */}
 
-          <Form.Item label="Địa chỉ trụ sở chính">
+          <Form.Item 
+           name={[...BASE_FORM, "origin_person", "title"]}
+           label={
+             <div dangerouslySetInnerHTML={{ __html: '</>Địa chỉ thường trú <i>(ĐDPL)</i></>' }} />
+           }
+          >
             <CCInput
               name={[...BASE_FORM, "origin_person", "company", "address"]}
               label="Số nhà, ngách, hẻm, ngõ, đường phố/tổ/xóm/ấp/thôn"
@@ -157,7 +201,11 @@ const ThanhVienGopVon = forwardRef((props, ref) => {
             <CCInput name={[...BASE_FORM, "origin_person", "company", "national"]} label="Quốc gia" />
           </Form.Item>
 
-          <Form.Item label="Địa chỉ liên lạc">
+          <Form.Item 
+          label={
+            <div dangerouslySetInnerHTML={{ __html: '</>Địa chỉ liên lạc <i>(ĐDPL)</i></>' }} />
+          }
+          >
             <CCInput
               name={[...BASE_FORM, "origin_person", "contact", "address"]}
               label="Số nhà, ngách, hẻm, ngõ, đường phố/tổ/xóm/ấp/thôn"
@@ -173,7 +221,6 @@ const ThanhVienGopVon = forwardRef((props, ref) => {
             <CCInput name={[...BASE_FORM, "origin_person", "contact", "city"]} label="Tỉnh/Thành phố" />
           </Form.Item>
 
-          <CCInput label={"Tên tổ chức"} name={[...BASE_FORM, "origin_person", "organization_name"]} />
 
           <CCInput
             type="select"
@@ -196,11 +243,7 @@ const ThanhVienGopVon = forwardRef((props, ref) => {
 
           <CCInput name={[...BASE_FORM, "origin_person", "doc_place_provide"]} label="Nơi cấp" />
 
-          <CCInput label="Số điện thoại" name={[...BASE_FORM, "origin_person", "contact", "phone"]} />
-
-          <Form.Item name={[...BASE_FORM, "company_value"]} label="Giá trị góp vốn">
-            <InputNumber formatter={(val) => `${number_format(val)}`} style={{ width: "100%" }} />
-          </Form.Item>
+          
         </div>
       );
     }
@@ -220,15 +263,15 @@ const ThanhVienGopVon = forwardRef((props, ref) => {
         <Col span={24}>
           <CCInput
             type="select"
-            label="Người đại diện"
+            
             name={[...BASE_FORM, "present_person"]}
             onSelect={(e) => setPresent(e)}
             // defaultValue="personal"
             defaultActiveFirstOption
-            // placeholder="Chọn người đại diện"
+            placeholder="Bấm vào đây"
             options={[
-              { value: "personal", name: "Người đại diện là cá nhân" },
-              { value: "organization", name: "Người đại diện là tổ chức" },
+              { value: "personal", name: "Thành viên góp vốn là cá nhân" },
+              { value: "organization", name: "Thành viên góp vốn là tổ chức" },
             ]}
           />
         </Col>

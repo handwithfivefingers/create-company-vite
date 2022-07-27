@@ -32,7 +32,7 @@ const NgangNgheDangKi = forwardRef((props, ref) => {
   };
   return (
     <Form.Item
-      label={<h2>Ngành nghề đăng kí</h2>}
+      label={<h2>Ngành nghề đăng kí kinh doanh</h2>}
       className={clsx([
         styles.hide,
         {
@@ -40,10 +40,10 @@ const NgangNgheDangKi = forwardRef((props, ref) => {
         },
       ])}
     >
-      <Form.Item label="Ngành nghề chính">
+      <Form.Item label="Chọn ngành nghề kinh doanh chính">
         <Row gutter={[16, 12]}>
           <Col span={24}>
-            <Form.Item name={[...BASE_FORM, "company_main_career"]} placeholder="Gõ tên ngành hoặc mã ngành">
+            <Form.Item name={[...BASE_FORM, "company_main_career"]}>
               <Select
                 showSearch
                 allowClear
@@ -52,6 +52,7 @@ const NgangNgheDangKi = forwardRef((props, ref) => {
                   option.children.join("").toLowerCase().indexOf(input.toLowerCase()) >= 0
                 }
                 onChange={(val, opt) => handleChange("company_main_career", val, opt)}
+                placeholder="Gõ tên ngành hoặc mã ngành"
               >
                 {careerData.map((item) => (
                   <Select.Option key={item._id} value={item._id} code={item.code} name={item.name}>
@@ -65,16 +66,17 @@ const NgangNgheDangKi = forwardRef((props, ref) => {
       </Form.Item>
       <Row gutter={[16, 12]}>
         <Col span={24}>
-          <Form.Item name={[...BASE_FORM, "company_opt_career"]} label="Tên ngành">
+          <Form.Item name={[...BASE_FORM, "company_opt_career"]} label="Chọn thêm ngành nghề kinh doanh">
             <Select
               showSearch
               mode="multiple"
               allowClear
               style={{ width: "100%" }}
-              placeholder="Please select"
               onChange={(val, opt) => handleChange("company_opt_career", val, opt)}
               optionFilterProp="children"
+              placeholder="Gõ tên ngành hoặc mã ngành"
               filterOption={(input, option) => option.children.join("").toLowerCase().indexOf(input.toLowerCase()) >= 0}
+              
             >
               {careerData.map((item) => (
                 <Select.Option key={item._id} value={item._id} code={item.code} name={item.name}>

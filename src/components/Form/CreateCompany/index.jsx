@@ -26,7 +26,7 @@ const CreateCompany = forwardRef((props, formRef) => {
 
   const dropdownRender = (pathName) => {
     return (
-      <Select>
+      <Select placeholder="Bấm vào đây">
         {props.data?.map((item) => {
           return (
             <Select.Option
@@ -76,8 +76,9 @@ const CreateCompany = forwardRef((props, formRef) => {
           ])}
         >
           <Col span={24}>
-            <Form.Item name={['selectProduct']} required label="Chọn loại hình doanh nghiệp">
+            <Form.Item name={['selectProduct']} required label="Chọn loại hình doanh nghiệp" placeholder="Bấm vào đây">
               {dropdownRender(['selectProduct'])}
+              
             </Form.Item>
           </Col>
         </Row>
