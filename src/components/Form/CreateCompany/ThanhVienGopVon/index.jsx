@@ -146,7 +146,7 @@ const ThanhVienGopVon = forwardRef((props, ref) => {
           {/* END thông tin của tổ chức */}
           </Form.Item>
 
-
+          {/* START Nhập thông tin của người ĐDPL (của tổ chức trên) */}  
           <CCInput 
           name={[...BASE_FORM, "origin_person", "name"]} 
           label={
