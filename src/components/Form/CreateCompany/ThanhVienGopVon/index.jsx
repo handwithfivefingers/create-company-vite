@@ -69,7 +69,7 @@ const ThanhVienGopVon = forwardRef((props, ref) => {
 
           <CCInput label={"Số CMND/ CCCD/ Hộ chiếu"} name={[...BASE_FORM, "origin_person", "doc_code"]} placeholder="0010829446357"/>
 
-          <CCInput type="date" name={[...BASE_FORM, "origin_person", "doc_time_provide"]} label="Ngày cấp" />
+          <CCInput type="date" name={[...BASE_FORM, "origin_person", "doc_time_provide"]} label="Ngày cấp" placeholder="Chọn ngày"/>
 
           <CCInput name={[...BASE_FORM, "origin_person", "doc_place_provide"]} label="Nơi cấp" />
 
@@ -122,6 +122,7 @@ const ThanhVienGopVon = forwardRef((props, ref) => {
           label={
             <div dangerouslySetInnerHTML={{ __html: '</>Ngày cấp <i>(ngày đăng ký lần đầu)</i></>' }} />
           }
+          placeholder="Chọn ngày"
           />
           <CCInput name={[...BASE_FORM, "organization_name", "doc_place_provide"]} label="Nơi cấp" placeholder="Sở Kế hoạch và Đầu tư TP. Hồ Chí Minh – Phòng đăng ký kinh doanh"/>
          
