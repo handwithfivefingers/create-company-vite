@@ -100,7 +100,7 @@ const validateGit = async (req) => {
 	} else {
 		console.log('not good');
 	}
-	
+
 	// result = false;
 
 	return result;
