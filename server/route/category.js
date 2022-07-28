@@ -1,6 +1,6 @@
 const express = require('express');
 const { upload, requireSignin } = require('../middleware/index');
-const { getCategories, updateCate } = require('../controller/category');
+const { getCategories, updateCate } = require('../controller');
 
 const router = express.Router();
 

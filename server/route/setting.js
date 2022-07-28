@@ -2,7 +2,7 @@ const express = require("express");
 
 const { upload, requireSignin } = require("../middleware");
 
-const { settingTemplateMail, getSettingMail } = require("../controller/setting");
+const { settingTemplateMail, getSettingMail } = require("../controller");
 
 const router = express.Router();
 

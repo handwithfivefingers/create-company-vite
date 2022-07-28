@@ -1,6 +1,7 @@
 const { User } = require('../../model');
 const { successHandler, errHandler, deletedHandler } = require('../../response');
 const PAGE_SIZE = 10;
+
 exports.fetchUser = async (req, res) => {
 	try {
 		const { page, ...condition } = req.body;

@@ -1,6 +1,6 @@
 const express = require("express");
 const { upload, requireSignin } = require("../middleware/index");
-const { getProductBySlug, createProduct, editProduct, fetchProduct, deleteProduct } = require("../controller/product");
+const { getProductBySlug, createProduct, editProduct, fetchProduct, deleteProduct } = require("../controller");
 
 const router = express.Router();
 

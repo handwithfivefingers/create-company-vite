@@ -1,22 +1,19 @@
-const express = require("express");
-const { upload, requireSignin } = require("./../middleware/index");
-const { fetchCareer, createCareer, deleteCareer, editCareer } = require("../controller/career");
+const express = require('express');
+const { upload, requireSignin } = require('./../middleware/index');
+const { fetchCareer, createCareer, deleteCareer, editCareer } = require('../controller');
 
 const router = express.Router();
 
 //Get
-router.get("/nganhnghe", requireSignin, upload.none(), fetchCareer);
+router.get('/nganhnghe', requireSignin, upload.none(), fetchCareer);
 
 //Post
-router.post("/nganhnghe", requireSignin, upload.none(), createCareer);
-
+router.post('/nganhnghe', requireSignin, upload.none(), createCareer);
 
 //Edit
-router.post("/nganhnghe/edit/:id", requireSignin, upload.none(), editCareer);
-
-
+router.post('/nganhnghe/edit/:id', requireSignin, upload.none(), editCareer);
 
 //Delete
-router.post("/nganhnghe/delete/:id", requireSignin, upload.none(), deleteCareer);
+router.post('/nganhnghe/delete/:id', requireSignin, upload.none(), deleteCareer);
 
 module.exports = router;

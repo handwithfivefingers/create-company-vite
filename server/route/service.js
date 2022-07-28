@@ -1,12 +1,12 @@
 const express = require('express');
 
 const { upload, requireSignin } = require('../middleware/index');
-const { sendmailWithAttachments } = require('../controller/sendmail');
-const { testPayment, getUrlReturn } = require('../controller/service/payment');
-const { checkingOrder } = require('../controller/service/ReadAndWrite');
+
+const { sendmailWithAttachments } = require('../controller');
+
+const { getProvince, checkingOrder, testPayment, getUrlReturn } = require('../controller/service');
+
 const router = express.Router();
-
-
 
 router.post('/sendmail', upload.array('attachments', 5), sendmailWithAttachments);
 
@@ -16,6 +16,6 @@ router.get('/return_vnp', requireSignin, upload.none(), getUrlReturn);
 
 router.post('/service/order', checkingOrder);
 
-
+router.get('/service/province', getProvince);
 
 module.exports = router;
