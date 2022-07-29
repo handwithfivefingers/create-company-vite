@@ -149,7 +149,7 @@ const checkVariable = (val) => {
 	} else return typeof val;
 };
 
-const num2Word2 = () => {
+const num2Word2 = (ty) => {
 	var t = ['không', 'một', 'hai', 'ba', 'bốn', 'năm', 'sáu', 'bảy', 'tám', 'chín'],
 		r = function (r, n) {
 			var o = '',
@@ -196,9 +196,13 @@ const num2Word2 = () => {
 	};
 };
 
-const to_vietnamese = (number) => {
-	const dvBlock = '1 nghìn triệu tỷ'.split(' ');
+const defaultNumbers = ' hai ba bốn năm sáu bảy tám chín';
+const chuHangDonVi = ('1 một' + defaultNumbers).split(' ');
+const chuHangChuc = ('lẻ mười' + defaultNumbers).split(' ');
+const chuHangTram = ('không một' + defaultNumbers).split(' ');
+const dvBlock = '1 nghìn triệu tỷ'.split(' ');
 
+const to_vietnamese = (number) => {
 	var str = parseInt(number) + '';
 	var i = 0;
 	var arr = [];
@@ -212,11 +216,13 @@ const to_vietnamese = (number) => {
 
 	// Chia chuỗi số thành một mảng từng khối có 3 chữ số
 	while (index >= 0) {
+		// ['000', '000', '000', '000', '000', '000', '000']
 		arr.push(str.substring(index, Math.max(index - 3, 0)));
 		index -= 3;
 	}
 
 	// Lặp từng khối trong mảng trên và convert từng khối đấy ra chữ Việt Nam
+
 	for (i = arr.length - 1; i >= 0; i--) {
 		if (arr[i] != '' && arr[i] != '000') {
 			result.push(convert_block_three(arr[i]));
@@ -234,6 +240,98 @@ const to_vietnamese = (number) => {
 	// Trả về kết quả kèm xóa những ký tự thừa
 	return rsString.replace(/[0-9]/g, '').replace(/ /g, ' ').replace(/ $/, '');
 };
+const convert_block_two = (number) => {
+	var dv = chuHangDonVi[number[1]];
+	var chuc = chuHangChuc[number[0]];
+	var append = '';
+
+	// Nếu chữ số hàng đơn vị là 5
+	if (number[0] > 0 && number[1] == 5) {
+		dv = 'lăm';
+	}
+
+	// Nếu số hàng chục lớn hơn 1
+	if (number[0] > 1) {
+		append = ' mươi';
+
+		if (number[1] == 1) {
+			dv = ' mốt';
+		}
+	}
+
+	return chuc + '' + append + ' ' + dv;
+};
+
+const convert_block_three = (number) => {
+	if (number == '000') return '';
+	var _a = number + ''; //Convert biến 'number' thành kiểu string
+
+	//Kiểm tra độ dài của khối
+	switch (_a.length) {
+		case 0:
+			return '';
+		case 1:
+			return chuHangDonVi[_a];
+		case 2:
+			return convert_block_two(_a);
+		case 3:
+			var chuc_dv = '';
+			if (_a.slice(1, 3) != '00') {
+				chuc_dv = convert_block_two(_a.slice(1, 3));
+			}
+			var tram = chuHangTram[_a[0]] + ' trăm';
+			return tram + ' ' + chuc_dv;
+	}
+};
+
+/**
+  3 Trăm
+  6 Nghìn
+  9 Triệu
+  12 Tỉ
+  15 Trăm Tỉ
+  18 Nghìn Tỉ
+  21 Triệu Tỉ
+  24 Tỉ Tỉ
+ */
+
+// const howToConvert = (number) => {
+// 	let str = number.toString();
+
+// 	let perBill = str.length % 12;
+// 	let perMill = str.length % 9;
+// 	let perThou = str.length % 6;
+// 	let perHund = str.length % 3;
+
+// };
+
+class howToConvert {
+	// constructor(props) {
+	// 	super(props);
+	// }
+
+	str = this.props.number.toString();
+	perBill = str.length % 12;
+	perMill = str.length % 9;
+	perThou = str.length % 6;
+	perHund = str.length % 3;
+
+	getBil = () => {
+		let num = this.str % 12;
+		let newStr = [].fill('Tỉ ', 0, num);
+		return this;
+	};
+	getMill = () => {
+		return this;
+	};
+	getThou = () => {
+		return this;
+	};
+	getHnd = () => {
+		return this;
+	};
+}
+
 export {
 	number_format,
 	renderSkeleton,
@@ -245,4 +343,6 @@ export {
 	log,
 	makeid,
 	checkVariable,
+	to_vietnamese,
+	num2Word2 
 };

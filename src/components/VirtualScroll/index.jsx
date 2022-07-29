@@ -29,6 +29,7 @@ const VirtualScroll = (props) => {
 	useEffect(() => {
 		setList(props.data);
 		setVisibleList(props.data.slice(0, 30));
+		setScrollHeight(ELEMENT_HEIGHT * props.data.length);
 	}, [props]);
 
 	const scroll = useCallback(
@@ -57,46 +58,45 @@ const VirtualScroll = (props) => {
 		[list, anchorItem]
 	);
 
-	const updateAnchorItem = useCallback((container) => {
-		const index = Math.floor(container.scrollTop / ELEMENT_HEIGHT);
-		const offset = container.scrollTop - ELEMENT_HEIGHT * index;
-		anchorItem.current = {
-			index,
-			offset,
-		};
-		handleSetNewList();
-	}, []);
+	const updateAnchorItem = useCallback(
+		(container) => {
+			const index = Math.floor(container.scrollTop / ELEMENT_HEIGHT);
+			const offset = container.scrollTop - ELEMENT_HEIGHT * index;
+			anchorItem.current = {
+				index,
+				offset,
+			};
+			handleSetNewList();
+		},
+		[scrollHeight]
+	);
 
 	const handleSetNewList = () => {
 		setVisibleList(props.data.slice(anchorItem.current.index, anchorItem.current.index + 30));
-		scrollY.current = anchorItem.current.index * ELEMENT_HEIGHT + anchorItem.current.offset;
+		scrollY.current =
+			scrollY.current >= scrollHeight
+				? 23 * 22 - scrollHeight
+				: anchorItem.current.index * ELEMENT_HEIGHT + anchorItem.current.offset;
 	};
 
 	const visibleChildren = useMemo(
 		() =>
 			visibleList?.map((item, idx) => (
-				<div
-					key={idx}
-					style={{ transform: `translateY(${scrollY.current}px)` }}
-					className={styles.wrapItem}
-					ind={idx}
-					_id={item._id}
-				>
-					<li ref={itemRef} item={item}>
-						{item._id}
-					</li>
-				</div>
+				<li ref={itemRef} item={item} key={item._id} ind={item._id}>
+					{item._id}
+				</li>
 			)),
 		[visibleList, scrollY]
 	);
 
-	// console.log('trigger render', visibleList);
+	console.log('trigger render');
 
 	return (
 		<div onScroll={scroll} ref={containerRef} className={styles.container}>
-			<div className={styles.sentry} style={{ transform: `translateY(${scrollHeight}px)` }}></div>
-
-			{visibleChildren}
+			<div className={styles.sentry} style={{ transform: `translateY(${scrollY.current}px)` }}></div>
+			<div style={{ transform: `translateY(${scrollY.current}px)`, height: scrollHeight }} className={styles.wrapItem}>
+				{visibleChildren}
+			</div>
 		</div>
 	);
 };

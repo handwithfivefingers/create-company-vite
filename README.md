@@ -139,3 +139,11 @@ pm2 reload ecosystem.config.js
 pm2 delete ecosystem.config.js
 
 ```
+
+
+### Note
+```
+https://github.com/hienvd/clean-code-javascript 
+
+
+```

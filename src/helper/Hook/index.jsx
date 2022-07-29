@@ -1,6 +1,7 @@
 import { AuthAction } from '@/store/actions';
 import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { ProvinceAction } from '@/store/actions';
 
 const useAuth = () => {
 	const authReducer = useSelector((state) => state.authReducer);
@@ -38,7 +39,6 @@ const useScrollAware = () => {
 
 	useEffect(() => {
 		const scrollContainer = ref.current;
-		console.log(scrollContainer);
 		setScrollTop(scrollContainer?.scrollTop);
 		scrollContainer.addEventListener('scroll', onScroll);
 		return () => scrollContainer.removeEventListener('scroll', onScroll);
@@ -46,5 +46,6 @@ const useScrollAware = () => {
 
 	return [scrollTop, ref];
 };
-export { useAuth, useDetectLocation, useScrollAware };
 
+
+export { useAuth, useDetectLocation, useScrollAware };

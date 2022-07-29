@@ -13,85 +13,87 @@ import ThanhVienGopVon from './ThanhVienGopVon';
 const BASE_FORM = ['create_company', 'approve'];
 
 const CreateCompany = forwardRef((props, formRef) => {
-  const [current, setCurrent] = useState(1);
 
-  useEffect(() => {
-    setCurrent(props.step);
-  }, [props.step]);
+	// const [current, setCurrent] = useState(1);
 
-  const handleFieldsChange = (field, fields) => {
-    let val = formRef.current.getFieldsValue();
-    window.localStorage.setItem('formData', JSON.stringify(val));
-  };
+	// useEffect(() => {
+	// 	setCurrent(props.step);
+	// }, [props.step]);
 
-  const dropdownRender = (pathName) => {
-    return (
-      <Select placeholder="Bấm vào đây">
-        {props.data?.map((item) => {
-          return (
-            <Select.Option
-              key={item._id}
-              value={item._id}
-              {...item}
-              onChange={(v, opt) => {
-                formRef.current.setFields([
-                  {
-                    name: [pathName],
-                    value: opt,
-                  },
-                ]);
-              }}
-            >
-              {item.name}
-            </Select.Option>
-          );
-        })}
-      </Select>
-    );
-  };
+	const handleFieldsChange = (field, fields) => {
+		let val = formRef.current.getFieldsValue();
+		window.localStorage.setItem('formData', JSON.stringify(val));
+	};
 
-  return (
-    <>
-      <Form
-        layout="vertical"
-        ref={formRef}
-        onFieldsChange={handleFieldsChange}
-        autoComplete="off"
-        initialValues={{
-          create_company: {
-            approve: {
-              origin_person: {
-                national: 'Việt Nam',
-              },
-            },
-          },
-        }}
-      >
-        <Row
-          className={clsx([
-            styles.hide,
-            {
-              [styles.visible]: current === 0,
-            },
-          ])}
-        >
-          <Col span={24}>
-            <Form.Item name={['selectProduct']} required label="Chọn loại hình doanh nghiệp" placeholder="Bấm vào đây">
-              {dropdownRender(['selectProduct'])}
-              
-            </Form.Item>
-          </Col>
-        </Row>
-        <GiaTriGopVon BASE_FORM={BASE_FORM} current={current} ref={formRef} /> {/** 1 */}
-        <ThanhVienGopVon BASE_FORM={BASE_FORM} current={current} ref={formRef} /> {/** 2 */}
-        <NguoiDaiDienPhapLuat BASE_FORM={BASE_FORM} current={current} ref={formRef} /> {/** 3 */}
-        <ChuTichHoiDongThanhVien BASE_FORM={BASE_FORM} current={current} ref={formRef} /> {/** 4 */}
-        <TenCongTy BASE_FORM={BASE_FORM} current={current} ref={formRef} /> {/** 5 */}
-        <DiaChiTruSoChinh BASE_FORM={BASE_FORM} current={current} ref={formRef} /> {/** 6 */}
-        <NgangNgheDangKi BASE_FORM={BASE_FORM} current={current} ref={formRef} /> {/** 7 */}
-      </Form>
-    </>
-  );
+	const dropdownRender = (pathName) => {
+		return (
+			<Select placeholder='Bấm vào đây'>
+				{props.data?.map((item) => {
+					return (
+						<Select.Option
+							key={item._id}
+							value={item._id}
+							{...item}
+							onChange={(v, opt) => {
+								formRef.current.setFields([
+									{
+										name: [pathName],
+										value: opt,
+									},
+								]);
+							}}
+						>
+							{item.name}
+						</Select.Option>
+					);
+				})}
+			</Select>
+		);
+	};
+
+
+
+	return (
+		<>
+			<Form
+				layout='vertical'
+				ref={formRef}
+				onFieldsChange={handleFieldsChange}
+				autoComplete='off'
+				initialValues={{
+					create_company: {
+						approve: {
+							origin_person: {
+								national: 'Việt Nam',
+							},
+						},
+					},
+				}}
+			>
+				<Row
+					className={clsx([
+						styles.hide,
+						{
+							[styles.visible]: props.step === 0,
+						},
+					])}
+				>
+					<Col span={24}>
+						<Form.Item name={['selectProduct']} required label='Chọn loại hình doanh nghiệp' placeholder='Bấm vào đây'>
+							{dropdownRender(['selectProduct'])}
+						</Form.Item>
+					</Col>
+				</Row>
+				<GiaTriGopVon BASE_FORM={BASE_FORM} current={props.step} ref={formRef} /> {/** 1 */}
+				<ThanhVienGopVon BASE_FORM={BASE_FORM} current={props.step} ref={formRef} /> {/** 2 */}
+				<NguoiDaiDienPhapLuat BASE_FORM={BASE_FORM} current={props.step} ref={formRef} /> {/** 3 */}
+				{/**     <ChuTichHoiDongThanhVien BASE_FORM={BASE_FORM} current={props.step} ref={formRef} /> 4 */}
+				<TenCongTy BASE_FORM={BASE_FORM} current={props.step} ref={formRef} /> {/** 5 */}
+				<DiaChiTruSoChinh BASE_FORM={BASE_FORM} current={props.step} ref={formRef} /> {/** 6 */}
+				<NgangNgheDangKi BASE_FORM={BASE_FORM} current={props.step} ref={formRef} /> {/** 7 */}
+			</Form>
+		</>
+	);
 });
 
 export default CreateCompany;

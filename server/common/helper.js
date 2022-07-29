@@ -300,4 +300,17 @@ const getVpnParams = (req, params) => {
 	return vnp_Params;
 };
 
-module.exports = { sortObject, getVpnParams, flattenObject, convertFile, removeListFiles };
+const findNestedObj = (entireObj, { ...rest }) => {
+	let foundObj;
+	let { keyToFind, valToFind } = rest;
+	
+	JSON.stringify(entireObj, (_, nestedValue) => {
+		if (nestedValue && nestedValue[keyToFind] === valToFind) {
+			foundObj = nestedValue;
+		}
+		return nestedValue;
+	});
+	return foundObj;
+};
+
+module.exports = { sortObject, getVpnParams, flattenObject, convertFile, removeListFiles, findNestedObj };
