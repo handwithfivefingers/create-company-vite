@@ -79,13 +79,14 @@ const ThanhVienGopVon = forwardRef((props, ref) => {
             name={[...BASE_FORM, 'origin_person', 'gender']}
             label="Giới tính"
             options={SELECT.GENDER}
-            placeholder="Bấm chọn"
+            placeholder="Bấm vào đây"
           />
 
           <CCSelect.SelectPersonType
             ref={ref}
             name={[...BASE_FORM, 'origin_person', 'per_type']}
             label="Dân tộc"
+            placeholder="Bấm vào đây"
           />
 
           <CCInput
@@ -113,6 +114,7 @@ const ThanhVienGopVon = forwardRef((props, ref) => {
             ref={ref}
             name={[...BASE_FORM, 'origin_person', 'doc_place_provide']}
             label="Nơi cấp"
+            placeholder="Bấm vào đây"
           />
 
           <Form.Item label="Địa chỉ thường trú" className={styles.newLine}>
@@ -168,10 +170,16 @@ const ThanhVienGopVon = forwardRef((props, ref) => {
             }
             placeholder="Chọn ngày"
           />
-          <CCInput
+          {/* <CCInput
             name={[...BASE_FORM, 'organization_name', 'doc_place_provide']}
             label="Nơi cấp"
             placeholder="Sở Kế hoạch và Đầu tư TP. Hồ Chí Minh – Phòng đăng ký kinh doanh"
+          /> */}
+           <CCSelect.SelectDocProvide
+            ref={ref}
+            name={[...BASE_FORM, 'organization_name', 'doc_place_provide']}
+            label="Nơi cấp"
+            placeholder="Bấm vào đây"
           />
 
           <Form.Item label="Địa chỉ trụ sở chính" className={styles.newLine}>
@@ -213,6 +221,7 @@ const ThanhVienGopVon = forwardRef((props, ref) => {
             type="date"
             name={[...BASE_FORM, 'origin_person', 'birth_day']}
             label="Ngày sinh"
+            placeholder="Chọn ngày"
           />
 
           <CCInput
@@ -220,6 +229,7 @@ const ThanhVienGopVon = forwardRef((props, ref) => {
             name={[...BASE_FORM, 'origin_person', 'gender']}
             label="Giới tính"
             options={SELECT.GENDER}
+            placeholder="Bấm vào đây"
           />
 
           {/* <CCInput name={[...BASE_FORM, 'origin_person', 'per_type']} label='Dân tộc' /> */}
@@ -228,6 +238,7 @@ const ThanhVienGopVon = forwardRef((props, ref) => {
             ref={ref}
             name={[...BASE_FORM, 'origin_person', 'per_type']}
             label="Dân tộc"
+            placeholder="Bấm vào đây"
           />
 
           <CCInput
@@ -254,12 +265,14 @@ const ThanhVienGopVon = forwardRef((props, ref) => {
             type="date"
             name={[...BASE_FORM, 'origin_person', 'doc_time_provide']}
             label="Ngày cấp"
+            placeholder="Chọn ngày"
           />
 
           <CCSelect.SelectDocProvide
             ref={ref}
             name={[...BASE_FORM, 'origin_person', 'doc_place_provide']}
             label="Nơi cấp"
+            placeholder="Bấm vào đây"
           />
 
           <Form.Item
