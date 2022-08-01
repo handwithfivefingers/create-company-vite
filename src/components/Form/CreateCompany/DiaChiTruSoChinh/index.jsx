@@ -18,7 +18,15 @@ const DiaChiTruSoChinh = forwardRef((props, ref) => {
         },
       ])}
     >
-      <Form.Item label="Địa chỉ trụ sở chính">
+      <Form.Item l
+      label={
+        <div
+          dangerouslySetInnerHTML={{
+            __html: '</><b>Địa chỉ liên lạc <i>(ĐDPL)</i><b></>',
+          }}
+        />
+      }
+      >
         <CCSelect.SelectProvince
           ref={ref}
           name={[...BASE_FORM, 'core', 'address']}
