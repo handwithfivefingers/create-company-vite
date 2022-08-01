@@ -4,8 +4,7 @@ const { sortBy } = require('lodash')
 
 const getProvince = async (req, res) => {
   try {
-    let data = PROVINCE
-	// .map(({ districts, ...item }) => ({ ...item }))
+    let data = PROVINCE.map(({ districts, ...item }) => ({ ...item }))
 
     let { code, wards } = req.query
 
