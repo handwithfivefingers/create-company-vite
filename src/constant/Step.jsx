@@ -32,7 +32,7 @@ const CREATE_COMPANY_STEP = [
 		desc: 'Ngành nghề đăng kí',
 	},
 	{
-		title: 'Bước 9',
+		title: 'Bước 8',
 		desc: 'Xem lại',
 	},
 ];

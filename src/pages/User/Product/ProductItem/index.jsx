@@ -133,7 +133,7 @@ const UserProductItem = (props) => {
               setStep={(e) => setCurrent(e)}
             />
 
-            {current === 8 ? renderPrewviewForm(formRef) : ''}
+            {current === 7 ? renderPrewviewForm(formRef) : ''}
 
             <div
               className={'card-boxShadow'}
@@ -319,10 +319,6 @@ const UserProductItem = (props) => {
     setChangeInforStep(data)
   }, [])
 
-  const handleSetPendingStep = useCallback((val) => {
-    let data = setPendingStep(data)
-  }, [])
-
   const closeModal = useCallback(() => {
     setChildModal({
       ...childModal,
@@ -345,7 +341,7 @@ const UserProductItem = (props) => {
       },
     }
     paymentService(params)
-  }, [])
+  }, [data])
 
   const handlePurchaseCreateCompany = useCallback(() => {
     let val = formRef.current.getFieldsValue()
@@ -375,7 +371,7 @@ const UserProductItem = (props) => {
     }
 
     paymentService(params)
-  }, [])
+  }, [data])
 
   const handlePurchasePending = useCallback(() => {
     let val = formRef.current.getFieldsValue()
@@ -393,7 +389,7 @@ const UserProductItem = (props) => {
     }
 
     paymentService(params)
-  }, [])
+  }, [data])
 
   const handlePurchaseDissolution = useCallback(() => {
     let val = formRef.current.getFieldsValue()
@@ -411,7 +407,7 @@ const UserProductItem = (props) => {
     }
 
     paymentService(params)
-  }, [])
+  }, [data])
 
   const handleSave = useCallback(() => {
     let val = formRef.current.getFieldsValue()
@@ -429,7 +425,7 @@ const UserProductItem = (props) => {
     }
     // console.log(params);
     saveService(params)
-  }, [])
+  }, [data])
 
   const handleSaveChangeInfo = useCallback(() => {
     let val = formRef.current.getFieldsValue()
@@ -447,7 +443,7 @@ const UserProductItem = (props) => {
     }
     // console.log(params);
     saveService(params)
-  }, [])
+  }, [data])
 
   const handleSavePending = useCallback(() => {
     let val = formRef.current.getFieldsValue()
@@ -464,7 +460,7 @@ const UserProductItem = (props) => {
       },
     }
     saveService(params)
-  }, [])
+  }, [data])
 
   const handleSaveDissolution = useCallback(() => {
     let val = formRef.current.getFieldsValue()
@@ -480,7 +476,7 @@ const UserProductItem = (props) => {
     }
 
     saveService(params)
-  }, [])
+  }, [data])
 
   // Service
   const saveService = (params) => {

@@ -162,6 +162,137 @@ const SelectProvince = forwardRef((props, ref) => {
   )
 })
 
+const SelectTitle = forwardRef((props, ref) => {
+  const [inpShow, setInpShow] = useState(false)
+
+  useEffect(() => {}, [ref])
+  const handleSelect = (val, opt) => {
+    if (val === 3) {
+      setInpShow(true)
+    } else {
+      ref.current.setFields([{ name: [...props.name], value: val }])
+      setInpShow(false)
+    }
+  }
+
+  return (
+    <Form.Item name={[...props.name]} label={props.label}>
+      <Row gutter={[16, 12]}>
+        <Col span={inpShow ? 8 : 24}>
+          <Select
+            placeholder={props.placeholder}
+            onChange={(val, opt) => handleSelect(val, opt)}
+          >
+            <Option value={'Tổng Giám Đốc'}>Tổng Giám Đốc</Option>
+            <Option value={'Giám Đốc'}>Giám Đốc</Option>
+            <Option value={3}>Khác</Option>
+          </Select>
+        </Col>
+        <Col span={inpShow ? 16 : 0}>
+          {inpShow && (
+            <Input
+              onChange={(e) =>
+                ref.current.setFields([
+                  { name: [...props.name], value: e.target.value },
+                ])
+              }
+            />
+          )}
+        </Col>
+      </Row>
+    </Form.Item>
+  )
+})
+
+const SelectInput = forwardRef((props, ref) => {
+  useEffect(() => {}, [ref])
+
+  return <div>SelectInput</div>
+})
+
+const SelectPersonType = forwardRef((props, ref) => {
+  const [inpShow, setInpShow] = useState(false)
+  useEffect(() => {}, [ref])
+  const handleSelect = (val, opt) => {
+    if (val === 1) {
+      ref.current.setFields([{ name: [...props.name], value: 'Kinh' }])
+      setInpShow(false)
+    } else setInpShow(true)
+  }
+
+  return (
+    <Form.Item name={[...props.name]} label={props.label}>
+      <Row gutter={[16, 12]}>
+        <Col span={inpShow ? 8 : 24}>
+          <Select
+            placeholder={props.placeholder}
+            onChange={(val, opt) => handleSelect(val, opt)}
+          >
+            <Option value={1}>Kinh</Option>
+            <Option value={2}>Khác</Option>
+          </Select>
+        </Col>
+        <Col span={inpShow ? 16 : 0}>
+          {inpShow && (
+            <Input
+              onChange={(e) =>
+                ref.current.setFields([
+                  { name: [...props.name], value: e.target.value },
+                ])
+              }
+            />
+          )}
+        </Col>
+      </Row>
+    </Form.Item>
+  )
+})
+
+const SelectDocProvide = forwardRef((props, ref) => {
+  const [inpShow, setInpShow] = useState(false)
+  useEffect(() => {}, [ref])
+  const handleSelect = (val, opt) => {
+    if (val === 1) {
+      ref.current.setFields([
+        {
+          name: [...props.name],
+          value: 'Cục Cảnh Sát Quản Lý Hành Chính Về Trật Tự Xã Hội',
+        },
+      ])
+      setInpShow(false)
+    } else setInpShow(true)
+  }
+
+  return (
+    <Form.Item name={[...props.name]} label={props.label}>
+      <Row gutter={[16, 12]}>
+        <Col span={inpShow ? 8 : 24}>
+          <Select
+            placeholder={props.placeholder}
+            onChange={(val, opt) => handleSelect(val, opt)}
+          >
+            <Option value={1}>
+              Cục Cảnh Sát Quản Lý Hành Chính Về Trật Tự Xã Hội
+            </Option>
+            <Option value={2}>Khác</Option>
+          </Select>
+        </Col>
+        <Col span={inpShow ? 16 : 0}>
+          {inpShow && (
+            <Input
+              onChange={(e) =>
+                ref.current.setFields([
+                  { name: [...props.name], value: e.target.value },
+                ])
+              }
+            />
+          )}
+        </Col>
+      </Row>
+    </Form.Item>
+  )
+})
+
 const SelectCascader = forwardRef((props, ref) => {
   const { province: city } = useSelector((state) => state.provinceReducer)
 
@@ -318,102 +449,12 @@ const SelectCascader = forwardRef((props, ref) => {
     </>
   )
 })
-
-const SelectInput = forwardRef((props, ref) => {
-  useEffect(() => {}, [ref])
-
-  return <div>SelectInput</div>
-})
-
-const SelectPersonType = forwardRef((props, ref) => {
-  const [inpShow, setInpShow] = useState(false)
-  useEffect(() => {}, [ref])
-  const handleSelect = (val, opt) => {
-    if (val === 1) {
-      ref.current.setFields([{ name: [...props.name], value: 'Kinh' }])
-      setInpShow(false)
-    } else setInpShow(true)
-  }
-
-  return (
-    <Form.Item name={[...props.name]} label={props.label}>
-      <Row gutter={[16, 12]}>
-        <Col span={inpShow ? 8 : 24}>
-          <Select
-            placeholder={props.placeholder}
-            onChange={(val, opt) => handleSelect(val, opt)}
-          >
-            <Option value={1}>Kinh</Option>
-            <Option value={2}>Khác</Option>
-          </Select>
-        </Col>
-        <Col span={inpShow ? 16 : 0}>
-          {inpShow && (
-            <Input
-              onChange={(e) =>
-                ref.current.setFields([
-                  { name: [...props.name], value: e.target.value },
-                ])
-              }
-            />
-          )}
-        </Col>
-      </Row>
-    </Form.Item>
-  )
-})
-
-const SelectDocProvide = forwardRef((props, ref) => {
-  const [inpShow, setInpShow] = useState(false)
-  useEffect(() => {}, [ref])
-  const handleSelect = (val, opt) => {
-    if (val === 1) {
-      ref.current.setFields([
-        {
-          name: [...props.name],
-          value: 'Cục Cảnh Sát Quản Lý Hành Chính Về Trật Tự Xã Hội',
-        },
-      ])
-      setInpShow(false)
-    } else setInpShow(true)
-  }
-
-  return (
-    <Form.Item name={[...props.name]} label={props.label}>
-      <Row gutter={[16, 12]}>
-        <Col span={inpShow ? 8 : 24}>
-          <Select
-            placeholder={props.placeholder}
-            onChange={(val, opt) => handleSelect(val, opt)}
-          >
-            <Option value={1}>
-              Cục Cảnh Sát Quản Lý Hành Chính Về Trật Tự Xã Hội
-            </Option>
-            <Option value={2}>Khác</Option>
-          </Select>
-        </Col>
-        <Col span={inpShow ? 16 : 0}>
-          {inpShow && (
-            <Input
-              onChange={(e) =>
-                ref.current.setFields([
-                  { name: [...props.name], value: e.target.value },
-                ])
-              }
-            />
-          )}
-        </Col>
-      </Row>
-    </Form.Item>
-  )
-})
-
 const CCSelect = {
   SelectProvince,
   SelectInput,
   SelectPersonType,
   SelectDocProvide,
-  SelectCascader,
+  SelectTitle,
 }
 
 export default CCSelect

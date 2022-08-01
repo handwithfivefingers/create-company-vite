@@ -10,31 +10,43 @@ const ThanhVienGopVon = forwardRef((props, ref) => {
   const [present, setPresent] = useState('')
   const { current, BASE_FORM } = props
 
-  const [radio, setRadio] = useState(1)
+  const [radio, setRadio] = useState(null)
 
   useEffect(() => {
     if (present === 'organization') {
-      ref.current.setFields([
-        {
-          name: [
-            'create_company',
-            'approve',
-            'origin_person',
-            'company',
-            'national',
-          ],
-          value: 'Việt Nam',
-        },
-      ])
+      let pathName = [...BASE_FORM, 'origin_person', 'company', 'national']
+      onSetFields(pathName, 'Việt Nam')
     }
   }, [present])
+  const onSetFields = (pathName, val, upper = false) => {
+    ref.current.setFields([
+      {
+        name: pathName,
+        value: upper ? val.toUpperCase() : val,
+      },
+    ])
+  }
+  // const setFields = (e, pathname) => {
+  //   ref.current.setFields([
+  //     {
+  //       name: Array.isArray(pathname) ? [...pathname] : [pathname],
+  //       value: e.target.value.toUpperCase(),
+  //     },
+  //   ]);
+  // };
 
   const onRadioChange = (e) => {
     setRadio(e.target.value)
     if (e.target.value === 1) {
-      let field = [...BASE_FORM, 'origin_person', 'contact']
+      let field = [...BASE_FORM, 'origin_person']
       let listField = ['address', 'town', 'district', 'city']
+
+      listField.forEach((item) => {
+        let val = ref.current.getFieldValue([...field, 'current', item])
+        onSetFields([...field, 'contact', item], val)
+      })
     }
+    console.log(ref.current.getFieldsValue())
   }
   const renderPresentPerson = () => {
     let xhtml = null
@@ -46,6 +58,13 @@ const ThanhVienGopVon = forwardRef((props, ref) => {
             name={[...BASE_FORM, 'origin_person', 'name']}
             label="Họ và Tên"
             placeholder="NGUYỄN VĂN A"
+            onChange={(e) =>
+              onSetFields(
+                [...BASE_FORM, 'origin_person', 'name'],
+                e.target.value,
+                true,
+              )
+            }
           />
 
           <CCInput
@@ -62,8 +81,6 @@ const ThanhVienGopVon = forwardRef((props, ref) => {
             options={SELECT.GENDER}
             placeholder="Bấm chọn"
           />
-
-          {/* <CCInput name={[...BASE_FORM, 'origin_person', 'per_type']} label='Dân tộc' /> */}
 
           <CCSelect.SelectPersonType
             ref={ref}
@@ -92,8 +109,6 @@ const ThanhVienGopVon = forwardRef((props, ref) => {
             placeholder="Chọn ngày"
           />
 
-          {/* <CCInput name={[...BASE_FORM, 'origin_person', 'doc_place_provide']} label='Nơi cấp' /> */}
-
           <CCSelect.SelectDocProvide
             ref={ref}
             name={[...BASE_FORM, 'origin_person', 'doc_place_provide']}
@@ -101,9 +116,7 @@ const ThanhVienGopVon = forwardRef((props, ref) => {
           />
 
           <Form.Item label="Địa chỉ thường trú" className={styles.newLine}>
-            {/* <CCSelect.SelectProvince ref={ref} name={[...BASE_FORM, 'origin_person', 'current']} /> */}
-
-            <CCSelect.SelectCascader
+            <CCSelect.SelectProvince
               ref={ref}
               name={[...BASE_FORM, 'origin_person', 'current']}
             />
@@ -184,9 +197,8 @@ const ThanhVienGopVon = forwardRef((props, ref) => {
             }
             placeholder="NGUYỄN VĂN A"
           />
-
-          <CCInput
-            type="select"
+          <CCSelect.SelectTitle
+            ref={ref}
             name={[...BASE_FORM, 'origin_person', 'title']}
             label={
               <div
@@ -195,7 +207,6 @@ const ThanhVienGopVon = forwardRef((props, ref) => {
                 }}
               />
             }
-            options={SELECT.TITLE_2}
           />
 
           <CCInput
@@ -253,7 +264,6 @@ const ThanhVienGopVon = forwardRef((props, ref) => {
 
           <Form.Item
             className={styles.newLine}
-            // name={[...BASE_FORM, 'origin_person', 'title']}
             label={
               <div
                 dangerouslySetInnerHTML={{
@@ -262,27 +272,11 @@ const ThanhVienGopVon = forwardRef((props, ref) => {
               />
             }
           >
-            {/* <CCInput
-							name={[...BASE_FORM, 'origin_person', 'company', 'address']}
-							label='Số nhà, ngách, hẻm, ngõ, đường phố/tổ/xóm/ấp/thôn'
-						/>
-
-						<CCInput name={[...BASE_FORM, 'origin_person', 'company', 'town']} label='Xã/Phường/Thị trấn' />
-
-						<CCInput
-							name={[...BASE_FORM, 'origin_person', 'company', 'district']}
-							label='Quận/Huyện/Thị xã/Thành phố thuộc tỉnh'
-						/>
-
-						<CCInput name={[...BASE_FORM, 'origin_person', 'company', 'city']} label='Tỉnh/Thành phố' /> */}
-
             <CCSelect.SelectProvince
               ref={ref}
               name={[...BASE_FORM, 'origin_person', 'company']}
               label="Nơi cấp"
             />
-
-            {/* <CCInput name={[...BASE_FORM, "origin_person", "company", "national"]} label="Quốc gia" /> */}
           </Form.Item>
 
           <Form.Item
@@ -295,20 +289,6 @@ const ThanhVienGopVon = forwardRef((props, ref) => {
             }
             className={styles.newLine}
           >
-            {/* <CCInput
-							name={[...BASE_FORM, 'origin_person', 'contact', 'address']}
-							label='Số nhà, ngách, hẻm, ngõ, đường phố/tổ/xóm/ấp/thôn'
-						/>
-
-						<CCInput name={[...BASE_FORM, 'origin_person', 'company_town']} label='Xã/Phường/Thị trấn' />
-
-						<CCInput
-							name={[...BASE_FORM, 'origin_person', 'contact', 'district']}
-							label='Quận/Huyện/Thị xã/Thành phố thuộc tỉnh'
-						/>
-
-						<CCInput name={[...BASE_FORM, 'origin_person', 'contact', 'city']} label='Tỉnh/Thành phố' /> */}
-
             <Radio.Group onChange={onRadioChange} value={radio}>
               <Space direction="vertical">
                 <Radio value={1}>Giống với địa chỉ thường trú</Radio>

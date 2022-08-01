@@ -10,7 +10,7 @@ const router = express.Router();
 router.get('/order', requireSignin, upload.none(), getOrdersFromUser);
 
 //create order
-router.post('/order/create', requireSignin, upload.none(), createOrders);
+router.post('/order/create', upload.none(), createOrders);
 
 //create and payment
 
