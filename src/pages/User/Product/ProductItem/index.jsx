@@ -140,8 +140,8 @@ const UserProductItem = (props) => {
               style={{ position: 'sticky', bottom: 0 }}
             >
               {current > 0 ? <Button onClick={Prev}>Prev</Button> : ''}
-              {current < 8 ? <Button onClick={Next}>Next</Button> : ''}
-              {current === 8 ? (
+              {current < 7 ? <Button onClick={Next}>Next</Button> : ''}
+              {current === 7 ? (
                 <>
                   <Button loading={loading} onClick={handleSave}>
                     Lưu lại
