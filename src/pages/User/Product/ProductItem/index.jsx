@@ -1,20 +1,23 @@
 import { Button, Card, message, Modal } from 'antd';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import dateformat from 'dateformat';
 import CCSteps from '@/components/CCHeaderSteps';
 import ChangeInforForm from '@/components/Form/ChangeInforForm';
 import CreateCompany from '@/components/Form/CreateCompany';
 import PreviewData from '@/components/Form/PreviewData';
-import { stepType1 } from '@/constant/Step';
-import { useParams } from 'react-router-dom';
 import TamHoanForm from '@/components/Form/PendingForm';
-import styles from './styles.module.scss';
-import ProductService from '@/service/UserService/ProductService';
 import Dissolution from '@/components/Form/Dissolution';
-import dateformat from 'dateformat';
-import { ProvinceAction } from '@/store/actions';
+
+import { CREATE_COMPANY_STEP, DISSOLUTION_STEP, PENDING_STEP } from '@/constant/Step';
+import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
+import ProductService from '@/service/UserService/ProductService';
+
+import { ProvinceAction } from '@/store/actions';
+
+import styles from './styles.module.scss';
 
 const UserProductItem = (props) => {
 	const formRef = useRef();
@@ -46,32 +49,6 @@ const UserProductItem = (props) => {
 		},
 	]);
 
-	const [pendingStep, setPendingStep] = useState([
-		{
-			title: 'Bước 1',
-			desc: 'Chọn loại hình doanh nghiệp',
-		},
-		{
-			title: `Bước 2`,
-			desc: 'Xem lại',
-		},
-	]);
-
-	const [dissolutionStep, setDissolutionStep] = useState([
-		{
-			title: 'Bước 1',
-			desc: 'Chọn loại hình doanh nghiệp',
-		},
-		{
-			title: `Bước 2`,
-			desc: 'Giải thể',
-		},
-		{
-			title: `Bước 2`,
-			desc: 'Xem lại',
-		},
-	]);
-
 	const [childModal, setChildModal] = useState({
 		visible: false,
 		width: 0,
@@ -79,6 +56,7 @@ const UserProductItem = (props) => {
 	});
 
 	const province = useSelector((state) => state.provinceReducer?.province);
+
 	const dispatch = useDispatch();
 
 	let params = useParams();
@@ -98,8 +76,8 @@ const UserProductItem = (props) => {
 			console.log(err);
 		}
 	};
-	// console.log(data);
-	const Next = () => {
+
+	const Next = useCallback(() => {
 		// case here
 		let val = formRef.current?.getFieldsValue();
 		setForm({
@@ -107,11 +85,11 @@ const UserProductItem = (props) => {
 			...val,
 		});
 		setCurrent(current + 1);
-	};
+	}, []);
 
-	const Prev = () => {
+	const Prev = useCallback(() => {
 		setCurrent(current - 1);
-	};
+	}, []);
 
 	// handle all data here
 	const setDataOutput = (output) => {
@@ -206,12 +184,7 @@ const UserProductItem = (props) => {
 				// Tạm hoãn
 				return (
 					<Card className='card-boxShadow'>
-						<TamHoanForm
-							data={data.data}
-							ref={formRef}
-							current={current}
-							onFinishScreen={(val) => handleSetPendingStep(val)}
-						/>
+						<TamHoanForm data={data.data} ref={formRef} current={current} />
 
 						{current === 2 ? renderPrewviewForm(formRef) : ''}
 
@@ -235,12 +208,7 @@ const UserProductItem = (props) => {
 			case 4:
 				return (
 					<Card className='card-boxShadow'>
-						<Dissolution
-							data={data.data}
-							ref={formRef}
-							current={current}
-							// onFinishScreen={(val) => handleSetDissolutionStep(val)}
-						/>
+						<Dissolution data={data.data} ref={formRef} current={current} />
 
 						{current === 2 ? renderPrewviewForm(formRef) : ''}
 
@@ -269,19 +237,19 @@ const UserProductItem = (props) => {
 	const renderHeaderStep = (type) => {
 		switch (type) {
 			case 1:
-				return <CCSteps step={current} data={stepType1} onFinishScreen={(ind) => setCurrent(ind)} />;
+				return <CCSteps step={current} data={CREATE_COMPANY_STEP} onFinishScreen={(ind) => setCurrent(ind)} />;
 			case 2:
 				return <CCSteps step={current} data={changeInforStep} onFinishScreen={(ind) => setCurrent(ind)} />;
 			case 3:
-				return <CCSteps step={current} data={pendingStep} onFinishScreen={(ind) => setCurrent(ind)} />;
+				return <CCSteps step={current} data={PENDING_STEP} onFinishScreen={(ind) => setCurrent(ind)} />;
 			case 4:
-				return <CCSteps step={current} data={dissolutionStep} onFinishScreen={(ind) => setCurrent(ind)} />;
+				return <CCSteps step={current} data={DISSOLUTION_STEP} onFinishScreen={(ind) => setCurrent(ind)} />;
 			default:
 				return null;
 		}
 	};
 
-	const handleChangeInforForm = (val) => {
+	const handleChangeInforForm = useCallback((val) => {
 		let data = [
 			{
 				title: 'Bước 1',
@@ -301,60 +269,21 @@ const UserProductItem = (props) => {
 			title: `Bước ${val.length > 0 ? val.length + 4 : data.length + 3}`,
 			desc: 'Xem lại',
 		});
-
 		setChangeInforStep(data);
-	};
+	}, []);
 
-	const handleSetPendingStep = (val) => {
-		let data = [
-			{
-				title: 'Bước 1',
-				desc: 'Chọn loại hình doanh nghiệp',
-			},
-		];
+	const handleSetPendingStep = useCallback((val) => {
+		let data = setPendingStep(data);
+	}, []);
 
-		data.push(
-			{
-				title: `Bước 2`,
-				// desc: `${val.children}`,
-				desc: 'Nhập thông tin', // update 27/06/2022
-			},
-			{
-				title: `Bước 3`,
-				desc: 'Xem lại',
-			}
-		);
-		setPendingStep(data);
-	};
-
-	// const handleSetDissolutionStep = (val) => {
-	//   let data = [
-	//     {
-	//       title: 'Bước 1',
-	//       desc: 'Chọn loại hình',
-	//     },
-	//   ];
-	//   data.push(
-	//     {
-	//       title: `Bước 2`,
-	//       desc: `${val.children}`,
-	//     },
-	//     {
-	//       title: `Bước 3`,
-	//       desc: 'Xem lại',
-	//     }
-	//   );
-	//   setDissolutionStep(data);
-	// };
-
-	const closeModal = () => {
+	const closeModal = useCallback(() => {
 		setChildModal({
 			...childModal,
 			visible: false,
 		});
-	};
+	}, []);
 
-	const handlePurchaseChangeInfo = () => {
+	const handlePurchaseChangeInfo = useCallback(() => {
 		let val = formRef.current.getFieldsValue();
 		// let uy_quyen = uyquyenRef.current.getFieldsValue();
 		let params = {
@@ -369,9 +298,9 @@ const UserProductItem = (props) => {
 			},
 		};
 		paymentService(params);
-	};
+	}, []);
 
-	const handlePurchaseCreateCompany = () => {
+	const handlePurchaseCreateCompany = useCallback(() => {
 		let val = formRef.current.getFieldsValue();
 		let body = {
 			...val,
@@ -397,9 +326,9 @@ const UserProductItem = (props) => {
 		};
 
 		paymentService(params);
-	};
+	}, []);
 
-	const handlePurchasePending = () => {
+	const handlePurchasePending = useCallback(() => {
 		let val = formRef.current.getFieldsValue();
 		// let uy_quyen = uyquyenRef.current.getFieldsValue();
 		let params = {
@@ -415,9 +344,9 @@ const UserProductItem = (props) => {
 		};
 
 		paymentService(params);
-	};
+	}, []);
 
-	const handlePurchaseDissolution = () => {
+	const handlePurchaseDissolution = useCallback(() => {
 		let val = formRef.current.getFieldsValue();
 		// let uy_quyen = uyquyenRef.current.getFieldsValue();
 		let params = {
@@ -433,9 +362,9 @@ const UserProductItem = (props) => {
 		};
 
 		paymentService(params);
-	};
+	}, []);
 
-	const handleSave = () => {
+	const handleSave = useCallback(() => {
 		let val = formRef.current.getFieldsValue();
 		// console.log(val);
 
@@ -451,9 +380,9 @@ const UserProductItem = (props) => {
 		};
 		// console.log(params);
 		saveService(params);
-	};
+	}, []);
 
-	const handleSaveChangeInfo = () => {
+	const handleSaveChangeInfo = useCallback(() => {
 		let val = formRef.current.getFieldsValue();
 		// let uy_quyen = uyquyenRef.current.getFieldsValue();
 		let params = {
@@ -469,9 +398,9 @@ const UserProductItem = (props) => {
 		};
 		// console.log(params);
 		saveService(params);
-	};
+	}, []);
 
-	const handleSavePending = () => {
+	const handleSavePending = useCallback(() => {
 		let val = formRef.current.getFieldsValue();
 
 		let params = {
@@ -486,11 +415,10 @@ const UserProductItem = (props) => {
 			},
 		};
 		saveService(params);
-	};
+	}, []);
 
-	const handleSaveDissolution = () => {
+	const handleSaveDissolution = useCallback(() => {
 		let val = formRef.current.getFieldsValue();
-		// let uy_quyen = uyquyenRef.current.getFieldsValue();
 		let params = {
 			track: {
 				step: 1,
@@ -499,12 +427,11 @@ const UserProductItem = (props) => {
 			payment: 0,
 			data: {
 				...val,
-				// ...uy_quyen,
 			},
 		};
 
 		saveService(params);
-	};
+	}, []);
 
 	// Service
 	const saveService = (params) => {
