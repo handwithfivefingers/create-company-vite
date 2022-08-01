@@ -2,8 +2,12 @@
 
 const { Product, Category, Career } = require('./../model');
 const { updatedHandler, errHandler, successHandler } = require('../response');
-const lodash = require('lodash');
+const { filterData, filterCaregories, handleCheckChildren } = require('../common/helper');
+
 const slugify = require('slugify');
+
+const puppeteer = require('puppeteer');
+
 const createProduct = async (req, res) => {
 	try {
 		const obj = {
@@ -114,59 +118,53 @@ const getProductBySlug = async (req, res) => {
 	}
 };
 
-const filterData = (data = null) => {
-	if (data) {
-		return data.map((item) => ({
-			name: item.name,
-			price: item?.price,
-			type: item?.type,
-			_id: item?._id,
-			slug: item?.slug,
-			categories: filterData(item?.categories),
-			parentId: item?.parentId || [],
-		}));
-	} else return null;
+const demoPuppeteer = async (req, res) => {
+	try {
+		let query = req.body.q;
+		let text = await mstHeadlessBrowser(query);
+		console.log(text);
+		return successHandler(text, res);
+	} catch (err) {
+		console.log('puppeteer error', err);
+		return errHandler(err, res);
+	}
 };
 
-const filterCaregories = (prevData) => {
-	let data = [];
+const mstHeadlessBrowser = async (params) => {
+	const browser = await puppeteer.launch();
 
-	let parent;
-	let children;
+	const page = await browser.newPage();
 
-	parent = prevData.filter((item) => item.parentId.length == 0);
-	children = prevData.filter((item) => item.parentId.length > 0);
+	const inputSearch = 'input[name=q]';
 
-	for (let p of parent) {
-		data.push({
-			name: p?.name,
-			price: p?.price,
-			type: p?.type,
-			_id: p?._id,
-			slug: p?.slug,
-			categories: p?.categories,
-			children: [],
-		});
-	}
+	await page.goto('https://masothue.com/', { waitUntil: 'networkidle2' });
 
-	if (children.length > 0) {
-		children.map((child) => {
-			const current = handleCheckChildren(child, data);
-			data = current;
-		});
-	}
-	return data;
-};
+	await page.waitForSelector(inputSearch);
+	console.log('anchor', params);
 
-const handleCheckChildren = (child, data) => {
-	return data.map((item) => {
-		if (lodash.some(child.parentId, { _id: item._id })) {
-			item.children.push({ ...child });
-			return item;
-		} else {
-			return item;
+	await page.$eval(inputSearch, (el, v) => (el.value = v), params);
+	// await page.screenshot({ path: `uploads/puppeteer/input.png`, fullPage: true });
+	await page.click('button[type="submit"]');
+
+	await page.waitForNavigation({ waitUntil: 'networkidle2' });
+
+	// await page.screenshot({ path: `uploads/puppeteer/loading.png`, fullPage: true });
+
+	const text = await page.evaluate(async () => {
+		const anchor = document.querySelector('#main section .container');
+
+		if (anchor) {
+			return anchor?.textContent || anchor?.textContent || anchor?.innerText || anchor;
 		}
+
+		return 'Objective not found';
 	});
+
+	// await page.screenshot({ path: `uploads/puppeteer/result.png`, fullPage: true });
+
+	await browser.close();
+
+	return text;
 };
 
 module.exports = {
@@ -175,4 +173,5 @@ module.exports = {
 	fetchProduct,
 	deleteProduct,
 	getProductBySlug,
+	demoPuppeteer,
 };

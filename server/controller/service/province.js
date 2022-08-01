@@ -1,19 +1,26 @@
 const { findNestedObj } = require('../../common/helper');
 const PROVINCE = require('../../../uploads/mockdata/province.json');
+const { sortBy } = require('lodash');
 
 const getProvince = async (req, res) => {
 	try {
-		let data = [];
+		let data = PROVINCE.map(({ districts, ...item }) => ({ ...item }));
 
 		let { code, wards } = req.query;
 
-		let log = findNestedObj(PROVINCE, { keyToFind: 'codename', valToFind: 'xa_yen_trung' });
+		// let log = findNestedObj(PROVINCE, { keyToFind: 'codename', valToFind: 'xa_yen_trung' });
 
-		let districts = await getDistrict({ data: PROVINCE, code, wards: !wards });
+		// let districts = await getDistrict({ data: PROVINCE, code, wards: !wards });
 
-		let ward = (districts && (await getWards({ data: districts, code: wards }))) || [];
+		// let ward = (districts && (await getWards({ data: districts, code: wards }))) || [];
 
-		data = ward;
+		if (code) {
+			data = getDistrict(PROVINCE, code);
+			if (wards) {
+				let wardData = getDistrict(PROVINCE, code, true);
+				data = getWards(wardData, wards);
+			}
+		}
 
 		return res.status(200).json({
 			data,
@@ -24,33 +31,61 @@ const getProvince = async (req, res) => {
 		return res.sendStatus(500);
 	}
 };
-
-const getDistrict = ({ data, code = null, wards = null } = {}) => {
-	if (!code) return data;
-
+/**
+ * Lấy thông tin Quận huyện
+ */
+const getDistrict = (data, disCode = null, getWards = false) => {
 	let result = [];
 
-	let [district] = data?.filter((item) => item.code == code);
+	let [_districts] = data.filter((item) => item.code === Number(disCode));
 
-	result = district && district.districts;
+	let { districts } = _districts;
 
-	if (wards) {
-		result = result?.map(({ wards, ...item }) => ({ ...item }));
+	result = districts?.map(({ wards, ...item }) => ({ ...item, wards: getWards ? [...wards] : [] }));
+
+	return sortBy(result, 'codename');
+};
+
+/**
+ * Lấy thông tin Phường Xã
+ */
+const getWards = (_districts, wardCode = null) => {
+	let result = [];
+
+	let [_wards] = _districts?.filter((item) => item.code === Number(wardCode));
+
+	if (_wards && _wards.wards) {
+		result = _wards.wards;
 	}
-
 	return result;
 };
 
-const getWards = ({ data, code }) => {
-	if (!code) return data;
+// const getDistrict = ({ data, code = null, wards = null } = {}) => {
+// 	if (!code) return data;
 
-	let result = [];
+// 	let result = [];
 
-	let [ward] = data?.filter((item) => item.code == code);
+// 	let [district] = data?.filter((item) => item.code == code);
 
-	result = ward && ward.wards;
+// 	result = district && district.districts;
 
-	return result;
-};
+// 	if (wards) {
+// 		result = result?.map(({ wards, ...item }) => ({ ...item }));
+// 	}
+
+// 	return result;
+// };
+
+// const getWards = ({ data, code }) => {
+// 	if (!code) return data;
+
+// 	let result = [];
+
+// 	let [ward] = data?.filter((item) => item.code == code);
+
+// 	result = ward && ward.wards;
+
+// 	return result;
+// };
 
 module.exports = { getProvince };

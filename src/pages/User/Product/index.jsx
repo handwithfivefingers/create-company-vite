@@ -3,8 +3,8 @@ import React, { useEffect, useState } from 'react';
 import CardCategory from '../../../components/CardCategory';
 // import { useGetProvince } from '../../../helper/Hook';
 import CategoryService from '../../../service/UserService/CategoriesService';
-import { ProvinceAction } from '@/store/actions';
-import { useDispatch, useSelector } from 'react-redux';
+
+
 import styles from './styles.module.scss';
 
 const { Paragraph } = Typography;
@@ -12,12 +12,11 @@ const { Paragraph } = Typography;
 const UserProductPage = () => {
 	const [loading, setLoading] = useState(false);
 	const [product, setProduct] = useState([]);
-	const province = useSelector((state) => state.provinceReducer?.province);
-	const dispatch = useDispatch();
+
 
 	useEffect(() => {
 		getScreenData();
-		!province.length && dispatch(ProvinceAction.getProvinceAction());
+	
 	}, []);
 
 	const getScreenData = async () => {

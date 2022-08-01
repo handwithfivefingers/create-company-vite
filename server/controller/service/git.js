@@ -15,12 +15,10 @@ const gitAction = async (req, res) => {
 
 		res.end();
 
-		// if (!isValid) return;
-
 		let cd = 'cd ' + repo;
-		// let cd = 'node -v';
 		let checkout = 'git checkout -- .';
 		let pullCode = 'git pull';
+		let installPackage = 'npm ci';
 		let buildPackage = 'npm run build';
 		let restartPm2 = 'pm2 reload ecosystem.config.js';
 
@@ -35,6 +33,10 @@ const gitAction = async (req, res) => {
 		console.log('command ---> ' + pullCode);
 
 		exec(pullCode);
+
+		console.log('command ---> ' + installPackage);
+
+		exec(installPackage);
 
 		console.log('command ---> ' + buildPackage);
 

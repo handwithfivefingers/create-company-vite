@@ -36,7 +36,7 @@ const NgangNgheDangKi = forwardRef((props, ref) => {
       className={clsx([
         styles.hide,
         {
-          [styles.visible]: current === 7,
+          [styles.visible]: current === 6,
         },
       ])}
     >

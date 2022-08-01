@@ -140,10 +140,12 @@ pm2 delete ecosystem.config.js
 
 ```
 
-
 ### Note
+
 ```
-https://github.com/hienvd/clean-code-javascript 
+https://github.com/hienvd/clean-code-javascript
+
+// 8502505778 - Nguyễn Thị Khánh Chung
 
 
 ```
