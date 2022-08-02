@@ -28,17 +28,18 @@ export default defineConfig({
     jsxInject: ``,
   },
   build: {
-    // commonjsOptions: {
-    //   include: [/linked-dep/, /node_modules/],
-    // },
     outDir: 'dist',
-    reportCompressedSize: false,
+    minify: true,
     sourcemap: false,
+    reportCompressedSize: false,
+    commonjsOptions: {
+      sourceMap: false,
+    },
     rollupOptions: {
       output: {
         manualChunks: {
           vendor: globalVendorPackages,
-          ...renderChunks(dependencies),
+          // ...renderChunks(dependencies),
         },
       },
     },
