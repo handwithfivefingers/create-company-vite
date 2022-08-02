@@ -1,7 +1,20 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import path from 'path'
+import { dependencies } from './package.json'
 // https://vitejs.dev/config/
+
+const globalVendorPackages = ['react', 'react-dom', 'react-router-dom']
+
+function renderChunks(deps) {
+  let chunks = {}
+  Object.keys(deps).forEach((key) => {
+    if (globalVendorPackages.includes(key)) return
+    chunks[key] = [key]
+  })
+  return chunks
+}
+
 export default defineConfig({
   plugins: [react({})],
   root: '.',
@@ -15,9 +28,19 @@ export default defineConfig({
     jsxInject: ``,
   },
   build: {
-    commonjsOptions: {
-      include: [/linked-dep/, /node_modules/],
-    },
+    // commonjsOptions: {
+    //   include: [/linked-dep/, /node_modules/],
+    // },
     outDir: 'dist',
+    reportCompressedSize: false,
+    sourcemap: false,
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          vendor: globalVendorPackages,
+          ...renderChunks(dependencies),
+        },
+      },
+    },
   },
 })

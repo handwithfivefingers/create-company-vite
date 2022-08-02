@@ -1,14 +1,18 @@
 import React, { useState, useEffect, useRef, forwardRef } from 'react'
 import { Form, Select, Input, Row, Col, Cascader } from 'antd'
-import { useSelector } from 'react-redux'
 import CCInput from '@/components/CCInput'
 import GlobalService from '@/service/GlobalService'
 import _ from 'lodash'
+
+import { useDispatch, useSelector } from 'react-redux'
+import { ProvinceAction } from '@/store/actions'
+
 const { Option } = Select
+
 const SelectProvince = forwardRef((props, ref) => {
   const { province: city } = useSelector((state) => state.provinceReducer)
+  const dispatch = useDispatch()
 
-  // const [city, setCity] = useState([]);
   const [params, setParams] = useState({
     code: null,
     wards: null,
@@ -17,7 +21,10 @@ const SelectProvince = forwardRef((props, ref) => {
   const [districts, setDistricts] = useState([])
 
   const [wards, setWards] = useState([])
-
+  useEffect(() => {
+    !city.length && dispatch(ProvinceAction.getProvinceAction())
+  }, [])
+  
   useEffect(() => {
     getScreenData(params)
   }, [params])

@@ -1,27 +1,46 @@
-import { Button, Card, message, Modal } from 'antd'
-import React, { useCallback, useEffect, useRef, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import dateformat from 'dateformat'
 import CCSteps from '@/components/CCHeaderSteps'
-import ChangeInforForm from '@/components/Form/ChangeInforForm'
-import CreateCompany from '@/components/Form/CreateCompany'
-import PreviewData from '@/components/Form/PreviewData'
-import TamHoanForm from '@/components/Form/PendingForm'
-import Dissolution from '@/components/Form/Dissolution'
-
+import { Button, Card, message, Modal, Space, Spin } from 'antd'
+import dateformat from 'dateformat'
+import React, {
+  lazy,
+  Suspense,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from 'react'
 import {
   CREATE_COMPANY_STEP,
   DISSOLUTION_STEP,
   PENDING_STEP,
 } from '@/constant/Step'
-import { useParams } from 'react-router-dom'
-import { useDispatch, useSelector } from 'react-redux'
-
 import ProductService from '@/service/UserService/ProductService'
-
-import { ProvinceAction } from '@/store/actions'
-
+import { useNavigate, useParams } from 'react-router-dom'
 import styles from './styles.module.scss'
+
+const ChangeInforForm = lazy(() => {
+  // console.log('lazy ChangeInforForm')
+  return import('@/components/Form/ChangeInforForm')
+})
+const CreateCompany = lazy(() => {
+  // console.log('lazy CreateCompany')
+  return import('@/components/Form/CreateCompany')
+})
+
+const PreviewData = lazy(() => {
+  // console.log('lazy PreviewData')
+  return import('@/components/Form/PreviewData')
+})
+
+const TamHoanForm = lazy(() => {
+  // console.log('lazy TamHoanForm')
+  return import('@/components/Form/PendingForm')
+})
+
+const Dissolution = lazy(() => {
+  // console.log('lazy Dissolution')
+  return import('@/components/Form/Dissolution')
+})
 
 const UserProductItem = (props) => {
   const formRef = useRef()
@@ -59,29 +78,27 @@ const UserProductItem = (props) => {
     component: null,
   })
 
-  const province = useSelector((state) => state.provinceReducer?.province)
-
-  const dispatch = useDispatch()
-
   let params = useParams()
 
   useEffect(() => {
     getDataBySlug()
-    !province.length && dispatch(ProvinceAction.getProvinceAction())
   }, [])
 
   const getDataBySlug = async () => {
     try {
+      setLoading(true)
       let res = await ProductService.getDataBySlug(params)
       if (res) {
         setData(res.data)
       }
     } catch (err) {
       console.log(err)
+    } finally {
+      setLoading(false)
     }
   }
 
-  const Next = useCallback(() => {
+  const Next = () => {
     // case here
     let val = formRef.current?.getFieldsValue()
     setForm({
@@ -89,12 +106,9 @@ const UserProductItem = (props) => {
       ...val,
     })
     setCurrent(current + 1)
-  }, [current])
+  }
 
-  const Prev = useCallback(() => {
-    setCurrent(current - 1)
-  }, [current])
-
+  const Prev = () => setCurrent(current - 1)
   // handle all data here
   const setDataOutput = (output) => {
     console.log(output)
@@ -125,131 +139,171 @@ const UserProductItem = (props) => {
         // Thành lập doanh nghiệp
         return (
           <Card className="card-boxShadow">
-            <CreateCompany
-              data={data.data}
-              ref={formRef}
-              onFinishScreen={(output) => setDataOutput(output)}
-              step={current}
-              setStep={(e) => setCurrent(e)}
-            />
-
-            {current === 7 ? renderPrewviewForm(formRef) : ''}
-
-            <div
-              className={'card-boxShadow'}
-              style={{ position: 'sticky', bottom: 0 }}
+            <Suspense
+              fallback={
+                <div className="container spin-suspense">
+                  <Space align="center">
+                    <Spin spinning={true} tip="Loading..." />
+                  </Space>
+                </div>
+              }
             >
-              {current > 0 ? <Button onClick={Prev}>Prev</Button> : ''}
-              {current < 7 ? <Button onClick={Next}>Next</Button> : ''}
-              {current === 7 ? (
-                <>
-                  <Button loading={loading} onClick={handleSave}>
-                    Lưu lại
-                  </Button>
-                  <Button
-                    loading={loading}
-                    onClick={handlePurchaseCreateCompany}
-                  >
-                    Thanh toán
-                  </Button>
-                </>
-              ) : (
-                ''
-              )}
-            </div>
+              <CreateCompany
+                data={data.data}
+                ref={formRef}
+                onFinishScreen={(output) => setDataOutput(output)}
+                step={current}
+                setStep={(e) => setCurrent(e)}
+              />
+
+              {current === 7 ? renderPrewviewForm(formRef) : ''}
+
+              <div
+                className={'card-boxShadow'}
+                style={{ position: 'sticky', bottom: 0 }}
+              >
+                {current > 0 ? <Button onClick={Prev}>Prev</Button> : ''}
+                {current < 7 ? <Button onClick={Next}>Next</Button> : ''}
+                {current === 7 ? (
+                  <>
+                    <Button loading={loading} onClick={handleSave}>
+                      Lưu lại
+                    </Button>
+                    <Button
+                      loading={loading}
+                      onClick={handlePurchaseCreateCompany}
+                    >
+                      Thanh toán
+                    </Button>
+                  </>
+                ) : (
+                  ''
+                )}
+              </div>
+            </Suspense>
           </Card>
         )
       case 2:
         // Thay đổi thông tin
         return (
           <Card className="card-boxShadow">
-            <ChangeInforForm
-              data={data.data}
-              ref={formRef}
-              current={current}
-              onFinishScreen={(val) => handleChangeInforForm(val)}
-            />
-
-            {current === changeInforStep?.length - 1
-              ? renderPrewviewForm(formRef)
-              : ''}
-
-            <div
-              className={'card-boxShadow'}
-              style={{ position: 'sticky', bottom: 0 }}
+            <Suspense
+              fallback={
+                <div className="container spin-suspense">
+                  <Space align="center">
+                    <Spin spinning={true} tip="Loading..." />
+                  </Space>
+                </div>
+              }
             >
-              {current > 0 && <Button onClick={Prev}>Prev</Button>}
+              <ChangeInforForm
+                data={data.data}
+                ref={formRef}
+                current={current}
+                onFinishScreen={(val) => handleChangeInforForm(val)}
+              />
+              {current === changeInforStep?.length - 1
+                ? renderPrewviewForm(formRef)
+                : ''}
+              <div
+                className={'card-boxShadow'}
+                style={{ position: 'sticky', bottom: 0 }}
+              >
+                {current > 0 && <Button onClick={Prev}>Prev</Button>}
 
-              {current < changeInforStep.length - 1 && (
-                <Button onClick={Next}>Next</Button>
-              )}
+                {current < changeInforStep.length - 1 && (
+                  <Button onClick={Next}>Next</Button>
+                )}
 
-              {current === changeInforStep.length - 1 && (
-                <>
-                  <Button loading={loading} onClick={handleSaveChangeInfo}>
-                    Lưu lại
-                  </Button>
-                  <Button loading={loading} onClick={handlePurchaseChangeInfo}>
-                    Thanh toán
-                  </Button>
-                </>
-              )}
-            </div>
+                {current === changeInforStep.length - 1 && (
+                  <>
+                    <Button loading={loading} onClick={handleSaveChangeInfo}>
+                      Lưu lại
+                    </Button>
+                    <Button
+                      loading={loading}
+                      onClick={handlePurchaseChangeInfo}
+                    >
+                      Thanh toán
+                    </Button>
+                  </>
+                )}
+              </div>
+            </Suspense>
           </Card>
         )
       case 3:
         // Tạm hoãn
         return (
           <Card className="card-boxShadow">
-            <TamHoanForm data={data.data} ref={formRef} current={current} />
-
-            {current === 2 ? renderPrewviewForm(formRef) : ''}
-
-            <div
-              className={'card-boxShadow'}
-              style={{ position: 'sticky', bottom: 0 }}
+            <Suspense
+              fallback={
+                <div className="container spin-suspense">
+                  <Space align="center">
+                    <Spin spinning={true} tip="Loading..." />
+                  </Space>
+                </div>
+              }
             >
-              {current > 0 && <Button onClick={Prev}>Prev</Button>}
+              <TamHoanForm data={data.data} ref={formRef} current={current} />
+              {current === 2 ? renderPrewviewForm(formRef) : ''}
+              <div
+                className={'card-boxShadow'}
+                style={{ position: 'sticky', bottom: 0 }}
+              >
+                {current > 0 && <Button onClick={Prev}>Prev</Button>}
 
-              {current < 2 && <Button onClick={Next}>Next</Button>}
-              {current === 2 && (
-                <>
-                  <Button loading={loading} onClick={handleSavePending}>
-                    Lưu lại
-                  </Button>
-                  <Button loading={loading} onClick={handlePurchasePending}>
-                    Thanh toán
-                  </Button>
-                </>
-              )}
-            </div>
+                {current < 2 && <Button onClick={Next}>Next</Button>}
+                {current === 2 && (
+                  <>
+                    <Button loading={loading} onClick={handleSavePending}>
+                      Lưu lại
+                    </Button>
+                    <Button loading={loading} onClick={handlePurchasePending}>
+                      Thanh toán
+                    </Button>
+                  </>
+                )}
+              </div>
+            </Suspense>
           </Card>
         )
       case 4:
         return (
           <Card className="card-boxShadow">
-            <Dissolution data={data.data} ref={formRef} current={current} />
-
-            {current === 2 ? renderPrewviewForm(formRef) : ''}
-
-            <div
-              className={'card-boxShadow'}
-              style={{ position: 'sticky', bottom: 0 }}
+            <Suspense
+              fallback={
+                <div className="container spin-suspense">
+                  <Space align="center">
+                    <Spin spinning={true} tip="Loading..." />
+                  </Space>
+                </div>
+              }
             >
-              {current > 0 && <Button onClick={Prev}>Prev</Button>}
+              <Dissolution data={data.data} ref={formRef} current={current} />
+              {current === 2 ? renderPrewviewForm(formRef) : ''}
+              <div
+                className={'card-boxShadow'}
+                style={{ position: 'sticky', bottom: 0 }}
+              >
+                {current > 0 && <Button onClick={Prev}>Prev</Button>}
 
-              {current < 2 && <Button onClick={Next}>Next</Button>}
-              {current === 2 && (
-                <>
-                  <Button loading={loading} onClick={handleSaveDissolution}>
-                    Lưu lại
-                  </Button>
-                  <Button loading={loading} onClick={handlePurchaseDissolution}>
-                    Thanh toán
-                  </Button>
-                </>
-              )}
-            </div>
+                {current < 2 && <Button onClick={Next}>Next</Button>}
+                {current === 2 && (
+                  <>
+                    <Button loading={loading} onClick={handleSaveDissolution}>
+                      Lưu lại
+                    </Button>
+                    <Button
+                      loading={loading}
+                      onClick={handlePurchaseDissolution}
+                    >
+                      Thanh toán
+                    </Button>
+                  </>
+                )}
+              </div>
+            </Suspense>
           </Card>
         )
       default:
@@ -518,7 +572,7 @@ const UserProductItem = (props) => {
       {data && renderHeaderStep(data?.type)}
 
       <div className={styles.formContent}>
-        {data && renderFormByType(data?.type)}
+        <Spin spinning={loading}>{data && renderFormByType(data?.type)}</Spin>
       </div>
 
       <Modal
