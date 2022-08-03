@@ -29,7 +29,7 @@ export default defineConfig({
   },
   build: {
     outDir: 'dist',
-    minify: true,
+    minify: 'esbuild',
     sourcemap: false,
     reportCompressedSize: false,
     commonjsOptions: {
