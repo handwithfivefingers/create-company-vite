@@ -18,7 +18,7 @@ const gitAction = async (req, res) => {
 		let cd = 'cd ' + repo;
 		let checkout = 'git checkout -- .';
 		let pullCode = 'git pull';
-		let installPackage = 'npm ci';
+		let installPackage = 'npm install';
 		let buildPackage = 'npm run build';
 		let restartPm2 = 'pm2 reload ecosystem.config.js';
 
