@@ -60,7 +60,6 @@ const CreateCompany = forwardRef((props, formRef) => {
   }, [])
 
   const onSetFields = (pathName, val) => {
-    console.log(val)
     formRef.current.setFields([
       {
         name: pathName,
