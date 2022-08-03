@@ -1,15 +1,16 @@
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons'
 import { Button, Col, Form, Row, Space } from 'antd'
-import clsx from 'clsx'
 import { differenceBy } from 'lodash'
-import React, { forwardRef } from 'react'
+import React, { forwardRef, useState } from 'react'
 import CCInput from '@/components/CCInput'
 import { SELECT } from '@/constant/Common'
 import { makeid } from '@/helper/Common'
+import clsx from 'clsx'
 import styles from '../CreateCompany.module.scss'
+
 const NguoiDaiDienPhapLuat = forwardRef((props, ref) => {
   const { current, BASE_FORM } = props
-
+  const [present, setPresent] = useState(null)
   const handleAddmoreField = (lth, add) => {
     // lth : length
     // add : func
@@ -50,7 +51,7 @@ const NguoiDaiDienPhapLuat = forwardRef((props, ref) => {
   }
 
   const renderOptions = () => {
-    let { create_company } = ref.current?.getFieldsValue();
+    let { create_company } = ref.current?.getFieldsValue()
     let optionsData = SELECT.TITLE
     // console.log(create_company)
     if (!create_company?.approve) return
@@ -75,7 +76,126 @@ const NguoiDaiDienPhapLuat = forwardRef((props, ref) => {
       ])}
     >
       <Row gutter={[16, 12]}>
-        <Form.List name={[...BASE_FORM, 'legal_respon']} key={makeid(5)}>
+        <CCInput
+          type="select"
+          onSelect={(e) => setPresent(e)}
+          // defaultValue="personal"
+          defaultActiveFirstOption
+          placeholder="Bấm vào đây"
+          options={[
+            { value: 'personal', name: 'Thành viên góp vốn là cá nhân' },
+            { value: 'organization', name: 'Thành viên góp vốn là tổ chức' },
+          ]}
+        />
+        {present === 'organization' && (
+          <Form.List name={[...BASE_FORM, ' ']} key={makeid(5)}>
+            {(fields, { add, remove }) => (
+              <>
+                <Col span={24}>
+                  {fields.length >= 3 ? (
+                    ''
+                  ) : (
+                    <Space>
+                      <Button
+                        type="dashed"
+                        onClick={() => handleAddmoreField(fields?.length, add)}
+                        block
+                        icon={<PlusOutlined />}
+                      >
+                        Thêm
+                      </Button>
+                    </Space>
+                  )}
+                </Col>
+
+                {fields?.map((field, i) => (
+                  <Col lg={8} md={12} sm={24} xs={24} key={i}>
+                    <CCInput name={[field.name, 'name']} label="Họ và tên" />
+
+                    <CCInput
+                      type="select"
+                      name={[field.name, 'title']}
+                      label="Chức danh"
+                      options={renderOptions}
+                      onDropdownVisibleChange={renderOptions}
+                    />
+
+                    <CCInput
+                      type="select"
+                      name={[field.name, 'gender']}
+                      label="Giới tính"
+                      options={SELECT.GENDER}
+                    />
+
+                    <CCInput
+                      type="date"
+                      name={[field.name, 'birth_day']}
+                      label="Ngày sinh"
+                    />
+
+                    <CCInput name={[field.name, 'per_type']} label="Dân tộc" />
+
+                    <CCInput
+                      name={[field.name, 'national']}
+                      label="Quốc tịch"
+                    />
+
+                    <CCInput
+                      name={[field.name, 'reg_address']}
+                      label="Nơi đăng kí hộ khẩu thường trú"
+                    />
+
+                    <CCInput
+                      name={[field.name, 'current_address']}
+                      label="Nơi ở hiện tại"
+                    />
+
+                    <Form.Item label={<h4>Loại giấy tờ pháp lý </h4>}>
+                      <Row gutter={[16, 12]}>
+                        <Col lg={24} md={24} sm={24} xs={24}>
+                          <CCInput
+                            type="select"
+                            name={[field.name, 'doc_type']}
+                            label="Loại giấy tờ"
+                            options={SELECT.DOC_TYPE}
+                          />
+                        </Col>
+                        <Col lg={24} md={24} sm={24} xs={24}>
+                          <CCInput
+                            name={[field.name, 'doc_code']}
+                            label="Số CMND/ CCCD/ Hộ chiếu"
+                          />
+                        </Col>
+
+                        <Col lg={24} md={24} sm={24} xs={24}>
+                          <CCInput
+                            type="date"
+                            name={[field.name, 'doc_time_provide']}
+                            label="Ngày cấp"
+                          />
+                        </Col>
+
+                        <Col lg={24} md={24} sm={24} xs={24}>
+                          <CCInput
+                            name={[field.name, 'doc_place_provide']}
+                            label="Nơi cấp"
+                          />
+                        </Col>
+                      </Row>
+                    </Form.Item>
+
+                    <Space
+                      style={{ display: 'flex', justifyContent: 'center' }}
+                    >
+                      <MinusCircleOutlined onClick={() => remove(field.name)} />
+                    </Space>
+                  </Col>
+                ))}
+              </>
+            )}
+          </Form.List>
+        )}
+        {/* <Form.List name={[...BASE_FORM, ' ']} key={makeid(5)}>
           {(fields, { add, remove }) => (
             <>
               <Col span={24}>
@@ -175,7 +295,7 @@ const NguoiDaiDienPhapLuat = forwardRef((props, ref) => {
               ))}
             </>
           )}
-        </Form.List>
+        </Form.List> */}
       </Row>
     </Form.Item>
   )

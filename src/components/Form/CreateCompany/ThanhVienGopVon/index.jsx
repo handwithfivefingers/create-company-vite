@@ -26,14 +26,6 @@ const ThanhVienGopVon = forwardRef((props, ref) => {
       },
     ])
   }
-  // const setFields = (e, pathname) => {
-  //   ref.current.setFields([
-  //     {
-  //       name: Array.isArray(pathname) ? [...pathname] : [pathname],
-  //       value: e.target.value.toUpperCase(),
-  //     },
-  //   ]);
-  // };
 
   const onRadioChange = (e) => {
     setRadio(e.target.value)
@@ -46,7 +38,7 @@ const ThanhVienGopVon = forwardRef((props, ref) => {
         onSetFields([...field, 'contact', item], val)
       })
     }
-    console.log(ref.current.getFieldsValue())
+
   }
   const renderPresentPerson = () => {
     let xhtml = null
@@ -354,6 +346,7 @@ const ThanhVienGopVon = forwardRef((props, ref) => {
     }
     return xhtml
   }
+  
   return (
     <Form.Item
       label={<h3>Thành viên góp vốn</h3>}
