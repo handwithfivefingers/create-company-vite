@@ -6,8 +6,6 @@ import styles from './CreateCompany.module.scss'
 
 const DiaChiTruSoChinh = lazy(() => {
   return import(`./DiaChiTruSoChinh`).then(({ default: Component }) => {
-    // console.log('import lazy DiaChiTruSoChinh')
-
     return {
       default: forwardRef((props, ref) => <Component ref={ref} {...props} />),
     }
@@ -16,8 +14,6 @@ const DiaChiTruSoChinh = lazy(() => {
 
 const GiaTriGopVon = lazy(() => {
   return import(`./GiaTriGopVon`).then(({ default: Component }) => {
-    // console.log('import lazy GiaTriGopVon')
-
     return {
       default: forwardRef((props, ref) => <Component ref={ref} {...props} />),
     }
@@ -25,8 +21,6 @@ const GiaTriGopVon = lazy(() => {
 })
 const NgangNgheDangKi = lazy(() => {
   return import(`./NgangNgheDangKi`).then(({ default: Component }) => {
-    // console.log('import lazy NgangNgheDangKi')
-
     return {
       default: forwardRef((props, ref) => <Component ref={ref} {...props} />),
     }
@@ -34,8 +28,6 @@ const NgangNgheDangKi = lazy(() => {
 })
 const NguoiDaiDienPhapLuat = lazy(() => {
   return import(`./NguoiDaiDienPhapLuat`).then(({ default: Component }) => {
-    // console.log('import lazy NguoiDaiDienPhapLuat')
-
     return {
       default: forwardRef((props, ref) => <Component ref={ref} {...props} />),
     }
@@ -43,8 +35,6 @@ const NguoiDaiDienPhapLuat = lazy(() => {
 })
 const TenCongTy = lazy(() => {
   return import(`./TenCongTy`).then(({ default: Component }) => {
-    // console.log('import lazy TenCongTy')
-
     return {
       default: forwardRef((props, ref) => <Component ref={ref} {...props} />),
     }
@@ -52,7 +42,6 @@ const TenCongTy = lazy(() => {
 })
 const ThanhVienGopVon = lazy(() => {
   return import(`./ThanhVienGopVon`).then(({ default: Component }) => {
-    // console.log('import lazy ThanhVienGopVon')
     return {
       default: forwardRef((props, ref) => <Component ref={ref} {...props} />),
     }
