@@ -1,54 +1,36 @@
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons'
 import { Button, Col, Form, Row, Space } from 'antd'
 import { differenceBy } from 'lodash'
-import React, { forwardRef, useState } from 'react'
+import React, { forwardRef, useState, useEffect } from 'react'
 import CCInput from '@/components/CCInput'
 import { SELECT } from '@/constant/Common'
 import { makeid } from '@/helper/Common'
 import clsx from 'clsx'
 import styles from '../CreateCompany.module.scss'
+import CCListForm from '../../../CCListForm'
+import CCSelect from '../../../CCSelect'
 
 const NguoiDaiDienPhapLuat = forwardRef((props, ref) => {
   const { current, BASE_FORM } = props
   const [present, setPresent] = useState(null)
-  const handleAddmoreField = (lth, add) => {
-    // lth : length
-    // add : func
-    if (lth >= 1) {
-      add()
-    } else {
-      const { create_company } = ref.current.getFieldsValue()
+  let obj = [{}, {}, {}, {}, {}] // defaultObj
+  useEffect(() => {
+    let pathName = [...BASE_FORM, 'legal_respon']
+    let val
+    if (present !== 2) {
+      let { create_company } = ref.current.getFieldsValue()
+      console.log(create_company)
       let { origin_person } = create_company?.approve
-      if (!origin_person) add()
+      if (!origin_person) val = obj.slice(0, 1)
       else {
-        let {
-          name,
-          gender,
-          birth_day,
-          per_type,
-          reg_address,
-          current_address,
-          doc_type,
-          doc_code,
-          doc_time_provide,
-          doc_place_provide,
-        } = origin_person
-        let data = {
-          name,
-          gender,
-          birth_day,
-          per_type,
-          reg_address,
-          current_address,
-          doc_type,
-          doc_code,
-          doc_time_provide,
-          doc_place_provide,
-        }
-        add(data)
+        val = [{ ...origin_person }]
       }
+    } else {
+      val = [{}]
     }
-  }
+
+    onSetFields(pathName, val)
+  }, [present])
 
   const renderOptions = () => {
     let { create_company } = ref.current?.getFieldsValue()
@@ -65,6 +47,83 @@ const NguoiDaiDienPhapLuat = forwardRef((props, ref) => {
     return differenceBy(optionsData, matchItem, 'value')
   }
 
+  const getPersonType = () => {
+    // let personType = ref.current.getFieldValue([...BASE_FORM, 'present_person'])
+    let result =
+      ref.current.getFieldValue([...BASE_FORM, 'origin_person', 'name']) ||
+      'None'
+    return result
+  }
+
+  const onSetFields = (pathName, val) => {
+    ref.current.setFields([
+      {
+        name: Array.isArray(pathName) ? [...pathName] : [pathName],
+        value: val,
+      },
+    ])
+  }
+
+  // const listForm = [
+  //   {
+  //     label: 'Họ và tên',
+  //     name: 'name',
+  //   },
+  //   {
+  //     label: 'Chức danh',
+  //     name: 'title',
+  //     type: 'select',
+  //     options: renderOptions(),
+  //     onDropdownVisibleChange: renderOptions(),
+  //   },
+  //   {
+  //     label: 'Giới tính',
+  //     name: 'gender',
+  //     type: 'select',
+  //     options: SELECT.GENDER,
+  //   },
+  //   {
+  //     label: 'Ngày sinh',
+  //     name: 'birth_day',
+  //     type: 'date',
+  //   },
+  //   {
+  //     label: 'Dân tộc',
+  //     name: 'per_type',
+  //   },
+  //   {
+  //     label: 'Quốc tịch',
+  //     name: 'national',
+  //   },
+  //   {
+  //     label: 'Nơi đăng kí hộ khẩu thường trú',
+  //     name: 'reg_address',
+  //   },
+  //   {
+  //     label: 'Nơi ở hiện tại',
+  //     name: 'current_address',
+  //   },
+  //   {
+  //     label: 'Loại giấy tờ',
+  //     name: 'doc_type',
+  //     type: 'select',
+  //     options: SELECT.DOC_TYPE,
+  //   },
+  //   {
+  //     label: 'Số CMND/ CCCD/ Hộ chiếu',
+  //     name: 'doc_code',
+  //   },
+  //   {
+  //     label: 'Ngày cấp',
+  //     name: 'doc_time_provide',
+  //     type: 'date',
+  //   },
+  //   {
+  //     label: 'Nơi cấp',
+  //     name: 'doc_place_provide',
+  //   },
+  // ]
+
   return (
     <Form.Item
       label={<h2>Người đại diện pháp luật </h2>}
@@ -79,123 +138,17 @@ const NguoiDaiDienPhapLuat = forwardRef((props, ref) => {
         <CCInput
           type="select"
           onSelect={(e) => setPresent(e)}
-          // defaultValue="personal"
-          defaultActiveFirstOption
           placeholder="Bấm vào đây"
           options={[
-            { value: 'personal', name: 'Thành viên góp vốn là cá nhân' },
-            { value: 'organization', name: 'Thành viên góp vốn là tổ chức' },
+            {
+              value: 1,
+              name: getPersonType(),
+            },
+            { value: 2, name: 'Khác' },
           ]}
         />
-        {present === 'organization' && (
-          <Form.List name={[...BASE_FORM, ' ']} key={makeid(5)}>
-            {(fields, { add, remove }) => (
-              <>
-                <Col span={24}>
-                  {fields.length >= 3 ? (
-                    ''
-                  ) : (
-                    <Space>
-                      <Button
-                        type="dashed"
-                        onClick={() => handleAddmoreField(fields?.length, add)}
-                        block
-                        icon={<PlusOutlined />}
-                      >
-                        Thêm
-                      </Button>
-                    </Space>
-                  )}
-                </Col>
 
-                {fields?.map((field, i) => (
-                  <Col lg={8} md={12} sm={24} xs={24} key={i}>
-                    <CCInput name={[field.name, 'name']} label="Họ và tên" />
-
-                    <CCInput
-                      type="select"
-                      name={[field.name, 'title']}
-                      label="Chức danh"
-                      options={renderOptions}
-                      onDropdownVisibleChange={renderOptions}
-                    />
-
-                    <CCInput
-                      type="select"
-                      name={[field.name, 'gender']}
-                      label="Giới tính"
-                      options={SELECT.GENDER}
-                    />
-
-                    <CCInput
-                      type="date"
-                      name={[field.name, 'birth_day']}
-                      label="Ngày sinh"
-                    />
-
-                    <CCInput name={[field.name, 'per_type']} label="Dân tộc" />
-
-                    <CCInput
-                      name={[field.name, 'national']}
-                      label="Quốc tịch"
-                    />
-
-                    <CCInput
-                      name={[field.name, 'reg_address']}
-                      label="Nơi đăng kí hộ khẩu thường trú"
-                    />
-
-                    <CCInput
-                      name={[field.name, 'current_address']}
-                      label="Nơi ở hiện tại"
-                    />
-
-                    <Form.Item label={<h4>Loại giấy tờ pháp lý </h4>}>
-                      <Row gutter={[16, 12]}>
-                        <Col lg={24} md={24} sm={24} xs={24}>
-                          <CCInput
-                            type="select"
-                            name={[field.name, 'doc_type']}
-                            label="Loại giấy tờ"
-                            options={SELECT.DOC_TYPE}
-                          />
-                        </Col>
-                        <Col lg={24} md={24} sm={24} xs={24}>
-                          <CCInput
-                            name={[field.name, 'doc_code']}
-                            label="Số CMND/ CCCD/ Hộ chiếu"
-                          />
-                        </Col>
-
-                        <Col lg={24} md={24} sm={24} xs={24}>
-                          <CCInput
-                            type="date"
-                            name={[field.name, 'doc_time_provide']}
-                            label="Ngày cấp"
-                          />
-                        </Col>
-
-                        <Col lg={24} md={24} sm={24} xs={24}>
-                          <CCInput
-                            name={[field.name, 'doc_place_provide']}
-                            label="Nơi cấp"
-                          />
-                        </Col>
-                      </Row>
-                    </Form.Item>
-
-                    <Space
-                      style={{ display: 'flex', justifyContent: 'center' }}
-                    >
-                      <MinusCircleOutlined onClick={() => remove(field.name)} />
-                    </Space>
-                  </Col>
-                ))}
-              </>
-            )}
-          </Form.List>
-        )}
-        {/* <Form.List name={[...BASE_FORM, ' ']} key={makeid(5)}>
+        <Form.List name={[...BASE_FORM, 'legal_respon']} key={makeid(5)}>
           {(fields, { add, remove }) => (
             <>
               <Col span={24}>
@@ -205,7 +158,7 @@ const NguoiDaiDienPhapLuat = forwardRef((props, ref) => {
                   <Space>
                     <Button
                       type="dashed"
-                      onClick={() => handleAddmoreField(fields?.length, add)}
+                      onClick={() => add()}
                       block
                       icon={<PlusOutlined />}
                     >
@@ -244,14 +197,16 @@ const NguoiDaiDienPhapLuat = forwardRef((props, ref) => {
 
                   <CCInput name={[field.name, 'national']} label="Quốc tịch" />
 
-                  <CCInput
-                    name={[field.name, 'reg_address']}
+                  <CCSelect.SelectProvince
+                    ref={ref}
+                    name={[field.name, 'current']}
                     label="Nơi đăng kí hộ khẩu thường trú"
                   />
 
-                  <CCInput
-                    name={[field.name, 'current_address']}
+                  <CCSelect.SelectProvince
+                    name={[field.name, 'contact']}
                     label="Nơi ở hiện tại"
+                    ref={ref}
                   />
 
                   <Form.Item label={<h4>Loại giấy tờ pháp lý </h4>}>
@@ -289,13 +244,17 @@ const NguoiDaiDienPhapLuat = forwardRef((props, ref) => {
                   </Form.Item>
 
                   <Space style={{ display: 'flex', justifyContent: 'center' }}>
-                    <MinusCircleOutlined onClick={() => remove(field.name)} />
+                    {fields.length > 1 ? (
+                      <MinusCircleOutlined onClick={() => remove(field.name)} />
+                    ) : (
+                      ''
+                    )}
                   </Space>
                 </Col>
               ))}
             </>
           )}
-        </Form.List> */}
+        </Form.List>
       </Row>
     </Form.Item>
   )

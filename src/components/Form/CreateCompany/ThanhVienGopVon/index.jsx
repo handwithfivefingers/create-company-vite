@@ -11,13 +11,32 @@ const ThanhVienGopVon = forwardRef((props, ref) => {
   const { current, BASE_FORM } = props
 
   const [radio, setRadio] = useState(null)
-
+  useEffect(() => {
+    onSetFields(
+      [...BASE_FORM, 'origin_person', 'doc_type'],
+      'Chứng minh nhân dân',
+    )
+  })
   useEffect(() => {
     if (present === 'organization') {
       let pathName = [...BASE_FORM, 'origin_person', 'company', 'national']
       onSetFields(pathName, 'Việt Nam')
     }
   }, [present])
+
+  useEffect(() => {
+    if (radio === 1) {
+      let field = [...BASE_FORM, 'origin_person']
+      let listField = ['address', 'town', 'district', 'city']
+
+      listField.forEach((item) => {
+        let path = [...field, 'current', item]
+        let val = ref.current.getFieldValue(path)
+        onSetFields(path, val)
+      })
+    }
+  }, [radio])
+
   const onSetFields = (pathName, val, upper = false) => {
     ref.current.setFields([
       {
@@ -38,7 +57,6 @@ const ThanhVienGopVon = forwardRef((props, ref) => {
         onSetFields([...field, 'contact', item], val)
       })
     }
-
   }
   const renderPresentPerson = () => {
     let xhtml = null
@@ -109,33 +127,35 @@ const ThanhVienGopVon = forwardRef((props, ref) => {
             placeholder="Bấm vào đây"
           />
 
-          <Form.Item 
-          // label="Địa chỉ thường trú"
-          
-          label={
-            <div
-              dangerouslySetInnerHTML={{
-                __html: '</><b>Địa chỉ thường trú</b></>',
-              }}
-            />
-          }
-          className={styles.newLine}>
+          <Form.Item
+            // label="Địa chỉ thường trú"
+
+            label={
+              <div
+                dangerouslySetInnerHTML={{
+                  __html: '</><b>Địa chỉ thường trú</b></>',
+                }}
+              />
+            }
+            className={styles.newLine}
+          >
             <CCSelect.SelectProvince
               ref={ref}
               name={[...BASE_FORM, 'origin_person', 'current']}
             />
           </Form.Item>
 
-          <Form.Item 
-          // label="Địa chỉ liên lạc" 
-          label={
-            <div
-              dangerouslySetInnerHTML={{
-                __html: '</><b>Địa chỉ liên lạc</b></>',
-              }}
-            />
-          }
-          className={styles.newLine}>
+          <Form.Item
+            // label="Địa chỉ liên lạc"
+            label={
+              <div
+                dangerouslySetInnerHTML={{
+                  __html: '</><b>Địa chỉ liên lạc</b></>',
+                }}
+              />
+            }
+            className={styles.newLine}
+          >
             <Radio.Group onChange={onRadioChange} value={radio}>
               <Space direction="vertical">
                 <Radio value={1}>Giống với địa chỉ thường trú</Radio>
@@ -161,7 +181,6 @@ const ThanhVienGopVon = forwardRef((props, ref) => {
           {/* START Nhập thông tin của tổ chức */}
           <CCInput
             label={'Tên tổ chức'}
-           
             name={[...BASE_FORM, 'origin_person', 'organization_name']}
             placeholder="CÔNG TY TNHH DỊCH VỤ TƯ VẤN WARREN B"
           />
@@ -187,24 +206,24 @@ const ThanhVienGopVon = forwardRef((props, ref) => {
             label="Nơi cấp"
             placeholder="Sở Kế hoạch và Đầu tư TP. Hồ Chí Minh – Phòng đăng ký kinh doanh"
           /> */}
-           <CCSelect.SelectDocProvide
+          <CCSelect.SelectDocProvide
             ref={ref}
             name={[...BASE_FORM, 'organization_name', 'doc_place_provide']}
             label="Nơi cấp"
             placeholder="Bấm vào đây"
           />
 
-          <Form.Item 
-          // label="Địa chỉ trụ sở chính" 
-          label={
-            <div
-              dangerouslySetInnerHTML={{
-                __html:
-                  '</><b>Địa chỉ trụ sở chính</b></>',
-              }}
-            />
-          }
-          className={styles.newLine}>
+          <Form.Item
+            // label="Địa chỉ trụ sở chính"
+            label={
+              <div
+                dangerouslySetInnerHTML={{
+                  __html: '</><b>Địa chỉ trụ sở chính</b></>',
+                }}
+              />
+            }
+            className={styles.newLine}
+          >
             <CCSelect.SelectProvince
               ref={ref}
               name={[...BASE_FORM, 'organization_name', 'company']}
@@ -213,7 +232,7 @@ const ThanhVienGopVon = forwardRef((props, ref) => {
 
             {/* END thông tin của tổ chức */}
           </Form.Item>
-          
+
           {/* START Nhập thông tin của người ĐDPL (của tổ chức trên) */}
           <CCInput
             name={[...BASE_FORM, 'origin_person', 'name']}
@@ -309,8 +328,8 @@ const ThanhVienGopVon = forwardRef((props, ref) => {
           >
             <CCSelect.SelectProvince
               ref={ref}
-              name={[...BASE_FORM, 'origin_person', 'company']}
-              label="Nơi cấp"
+              name={[...BASE_FORM, 'origin_person', 'current']}
+              label="Nơi đăng kí hộ khẩu thường trú"
             />
           </Form.Item>
 
@@ -336,7 +355,7 @@ const ThanhVienGopVon = forwardRef((props, ref) => {
                 <CCSelect.SelectProvince
                   ref={ref}
                   name={[...BASE_FORM, 'origin_person', 'contact']}
-                  label="Nơi cấp"
+                  label="Nơi ở hiện tại"
                 />
               </div>
             )}
@@ -346,7 +365,7 @@ const ThanhVienGopVon = forwardRef((props, ref) => {
     }
     return xhtml
   }
-  
+
   return (
     <Form.Item
       label={<h3>Thành viên góp vốn</h3>}

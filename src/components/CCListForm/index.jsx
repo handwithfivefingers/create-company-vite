@@ -1,55 +1,124 @@
-import React, { forwardRef, useEffect, useState, useRef } from 'react';
-import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
-import { Button, Col, Form, InputNumber, Row, Space, Spin } from 'antd';
-import CCInput from '@/components/CCInput';
+import React, { forwardRef, useEffect, useState, useRef } from 'react'
+import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons'
+import { Button, Col, Form, InputNumber, Row, Space, Spin } from 'antd'
+import CCInput from '@/components/CCInput'
 
 const CCListForm = forwardRef((props, ref) => {
-  const { BASE_FORM, listForm, listName, btnText, formLength, defaultLength } = props;
+  const { BASE_FORM, listForm, listName, btnText, formLength, defaultLength } =
+    props
 
-  let obj = [{}, {}, {}, {}, {}]; // defaultObj
+  let obj = [{}, {}, {}, {}, {}] // defaultObj
 
-  const [list, setList] = useState();
-  const [loading, setLoading] = useState(false);
+  const [list, setList] = useState()
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
-    ref.current.setFields([
-      {
-        name: [...BASE_FORM, listName],
-        value: obj.slice(0, defaultLength || 1),
-      },
-    ]);
-  }, [props]);
+    let pathName = [...BASE_FORM, listName]
+    let val = obj.slice(0, defaultLength || 1)
+
+    onSetFields(pathName, val)
+  }, [props])
 
   const handleChange = (e, formItem, fieldIndex) => {
-    let val = e.target.value;
+    let val = e.target.value
+    let pathName = [...BASE_FORM, listName, fieldIndex, formItem?.name]
     if (formItem?.options?.toUpperCase) {
-      val = val.toUpperCase();
+      val = val.toUpperCase()
     }
-    ref.current.setFields([
-      {
-        name: [...BASE_FORM, listName, fieldIndex, formItem?.name],
-        value: val,
-      },
-    ]);
-  };
+
+    onSetFields(pathName, val)
+  }
 
   const handleRenderLabel = (formItem, i) => {
     // console.log(formItem, i);
-    let index = formItem.options?.compare?.index;
+    let index = formItem.options?.compare?.index
     if (index && index <= i + 1) {
-      return formItem?.options?.customLabel + (i + 1);
+      return formItem?.options?.customLabel + (i + 1)
     }
-    return formItem?.label;
-  };
+    return formItem?.label
+  }
 
   const renderListform = (listForm, field, fieldIndex) => {
-    let xhtml = null;
+    let xhtml = null
 
     xhtml = listForm.map((formItem, formIndex) => {
-      let { options } = formItem;
-      let column = options?.column;
-      let inputType = options?.format;
-
+      let { options } = formItem
+      let column = options?.column
+      let inputType = options?.format
+      switch (formItem?.type) {
+        case 'date':
+          return (
+            <Col span={column || 24}>
+              <CCInput
+                key={[field.name, formIndex, formItem?.name]}
+                label={handleRenderLabel(formItem, fieldIndex)}
+                name={[field.name, formItem?.name]}
+                type={formItem?.type}
+                layout={formItem?.options?.layout}
+                placeholder={formItem?.placeholder}
+              />
+            </Col>
+          )
+        case 'select':
+          return (
+            <Col span={column || 24}>
+              {' '}
+              <CCInput
+                key={[field.name, formIndex, formItem?.name]}
+                label={handleRenderLabel(formItem, fieldIndex)}
+                name={[field.name, formItem?.name]}
+                type={formItem?.type}
+                onChange={
+                  formItem?.onChange
+                    ? (e) => handleChange(e, formItem, fieldIndex)
+                    : ''
+                }
+                options={formItem?.options}
+                layout={formItem?.options?.layout}
+                placeholder={formItem?.placeholder}
+              />
+            </Col>
+          )
+        default:
+          return (
+            <Col span={column || 24}>
+              {inputType ? (
+                <Form.Item
+                  label={handleRenderLabel(formItem, fieldIndex)}
+                  key={[field.name, formIndex, formItem?.name]}
+                  name={[field.name, formItem?.name]}
+                  type={formItem?.type}
+                  onChange={(e) => handleChange(e, formItem, fieldIndex)}
+                  layout={formItem?.options?.layout}
+                >
+                  <InputNumber
+                    style={{ width: '100%' }}
+                    placeholder={formItem?.placeholder}
+                    max={options?.max}
+                    min={options?.min}
+                    formatter={options?.formatter}
+                    parser={options?.parser}
+                    length={options?.length}
+                  />
+                </Form.Item>
+              ) : (
+                <CCInput
+                  key={[field.name, formIndex, formItem?.name]}
+                  label={handleRenderLabel(formItem, fieldIndex)}
+                  name={[field.name, formItem?.name]}
+                  type={formItem?.type}
+                  onChange={
+                    formItem?.onChange
+                      ? (e) => handleChange(e, formItem, fieldIndex)
+                      : ''
+                  }
+                  layout={formItem?.options?.layout}
+                  placeholder={formItem?.placeholder}
+                />
+              )}
+            </Col>
+          )
+      }
       return (
         <Col span={column || 24}>
           {inputType ? (
@@ -77,17 +146,30 @@ const CCListForm = forwardRef((props, ref) => {
               label={handleRenderLabel(formItem, fieldIndex)}
               name={[field.name, formItem?.name]}
               type={formItem?.type}
-              onChange={formItem?.onChange ? (e) => handleChange(e, formItem, fieldIndex) : ''}
+              onChange={
+                formItem?.onChange
+                  ? (e) => handleChange(e, formItem, fieldIndex)
+                  : ''
+              }
               layout={formItem?.options?.layout}
               placeholder={formItem?.placeholder}
             />
           )}
         </Col>
-      );
-    });
-    return xhtml;
-  };
-  console.log('getlist', list);
+      )
+    })
+    return xhtml
+  }
+
+  const onSetFields = (pathName, val) => {
+    ref.current.setFields([
+      {
+        name: pathName,
+        value: val,
+      },
+    ])
+  }
+  console.log('getlist', list)
   return (
     <Form.Item label={<h4>{props?.label}</h4>}>
       <Row gutter={[16, 12]}>
@@ -98,13 +180,19 @@ const CCListForm = forwardRef((props, ref) => {
                 {fields?.map((field, i) => (
                   <>
                     <Col lg={12} md={12} sm={24} xs={24} key={[field, i + 1]}>
-                      <Row gutter={[16, 12]}>{renderListform(listForm, field, i)}</Row>
+                      <Row gutter={[16, 12]}>
+                        {renderListform(listForm, field, i)}
+                      </Row>
 
-                      <Space style={{ display: 'flex', justifyContent: 'center' }}>
+                      <Space
+                        style={{ display: 'flex', justifyContent: 'center' }}
+                      >
                         {fields.length <= (defaultLength || 1) ? (
                           ''
                         ) : (
-                          <MinusCircleOutlined onClick={() => remove(field.name)} />
+                          <MinusCircleOutlined
+                            onClick={() => remove(field.name)}
+                          />
                         )}
                       </Space>
                     </Col>
@@ -115,7 +203,12 @@ const CCListForm = forwardRef((props, ref) => {
                   ''
                 ) : (
                   <Form.Item label=" ">
-                    <Button type="dashed" onClick={() => add()} block icon={<PlusOutlined />}>
+                    <Button
+                      type="dashed"
+                      onClick={() => add()}
+                      block
+                      icon={<PlusOutlined />}
+                    >
                       {btnText}
                     </Button>
                   </Form.Item>
@@ -126,7 +219,7 @@ const CCListForm = forwardRef((props, ref) => {
         )}
       </Row>
     </Form.Item>
-  );
-});
+  )
+})
 
-export default CCListForm;
+export default CCListForm

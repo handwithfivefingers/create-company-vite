@@ -24,7 +24,7 @@ const SelectProvince = forwardRef((props, ref) => {
   useEffect(() => {
     !city.length && dispatch(ProvinceAction.getProvinceAction())
   }, [])
-  
+
   useEffect(() => {
     getScreenData(params)
   }, [params])
@@ -80,7 +80,11 @@ const SelectProvince = forwardRef((props, ref) => {
 
   return (
     <>
-      <Form.Item name={[...props.name, 'city']} placeholder={props.placeholder}>
+      <Form.Item
+        name={[...props.name, 'city']}
+        placeholder={props.placeholder}
+        label={props?.label}
+      >
         <Select
           showSearch
           label="Tỉnh/Thành phố"
