@@ -1,5 +1,5 @@
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons'
-import { Button, Col, Form, Row, Space } from 'antd'
+import { Button, Col, Form, Row, Space, Typography } from 'antd'
 import { differenceBy } from 'lodash'
 import React, { forwardRef, useState, useEffect } from 'react'
 import CCInput from '@/components/CCInput'
@@ -170,88 +170,94 @@ const NguoiDaiDienPhapLuat = forwardRef((props, ref) => {
 
                 {fields?.map((field, i) => (
                   <Col lg={8} md={12} sm={24} xs={24} key={i}>
-                    <CCInput name={[field.name, 'name']} label="Họ và tên" />
-
-                    <CCInput
-                      type="select"
-                      name={[field.name, 'title']}
-                      label="Chức danh"
-                      options={renderOptions}
-                      onDropdownVisibleChange={renderOptions}
-                    />
-
-                    <CCInput
-                      type="select"
-                      name={[field.name, 'gender']}
-                      label="Giới tính"
-                      options={SELECT.GENDER}
-                    />
-
-                    <CCInput
-                      type="date"
-                      name={[field.name, 'birth_day']}
-                      label="Ngày sinh"
-                    />
-
-                    <CCInput name={[field.name, 'per_type']} label="Dân tộc" />
-
-                    <CCSelect.SelectProvince
-                      ref={ref}
-                      name={[field.name, 'current']}
-                      label="Nơi đăng kí hộ khẩu thường trú"
-                    />
-
-                    <CCSelect.SelectProvince
-                      name={[field.name, 'contact']}
-                      label="Nơi ở hiện tại"
-                      ref={ref}
-                    />
-
-                    <Form.Item label={<h4>Loại giấy tờ pháp lý </h4>}>
-                      <Row gutter={[16, 12]}>
-                        <Col lg={24} md={24} sm={24} xs={24}>
-                          <CCInput
-                            type="select"
-                            name={[field.name, 'doc_type']}
-                            label="Loại giấy tờ"
-                            options={SELECT.DOC_TYPE}
-                          />
-                        </Col>
-                        <Col lg={24} md={24} sm={24} xs={24}>
-                          <CCInput
-                            name={[field.name, 'doc_code']}
-                            label="Số CMND/ CCCD/ Hộ chiếu"
-                          />
-                        </Col>
-
-                        <Col lg={24} md={24} sm={24} xs={24}>
-                          <CCInput
-                            type="date"
-                            name={[field.name, 'doc_time_provide']}
-                            label="Ngày cấp"
-                          />
-                        </Col>
-
-                        <Col lg={24} md={24} sm={24} xs={24}>
-                          <CCInput
-                            name={[field.name, 'doc_place_provide']}
-                            label="Nơi cấp"
-                          />
-                        </Col>
-                      </Row>
-                    </Form.Item>
-
-                    <Space
-                      style={{ display: 'flex', justifyContent: 'center' }}
+                    <Form.Item
+                      label={<h5>Thông tin người đại diện thứ {i + 1}</h5>}
                     >
-                      {fields.length > 1 ? (
-                        <MinusCircleOutlined
-                          onClick={() => remove(field.name)}
+                      <CCInput name={[field.name, 'name']} label="Họ và tên" />
+
+                      <CCSelect.SelectTitle
+                        name={[field.name, 'title']}
+                        label="Chức danh"
+                        options={SELECT.TITLE_3}
+                        ref={ref}
+                      />
+
+                      <CCInput
+                        type="select"
+                        name={[field.name, 'gender']}
+                        label="Giới tính"
+                        options={SELECT.GENDER}
+                      />
+
+                      <CCInput
+                        type="date"
+                        name={[field.name, 'birth_day']}
+                        label="Ngày sinh"
+                      />
+
+                      <CCInput
+                        name={[field.name, 'per_type']}
+                        label="Dân tộc"
+                      />
+                      <Form.Item label="Nơi đăng kí hộ khẩu thường trú">
+                        <CCSelect.SelectProvince
+                          ref={ref}
+                          name={[field.name, 'current']}
                         />
-                      ) : (
-                        ''
-                      )}
-                    </Space>
+                      </Form.Item>
+                      <Form.Item label="Nơi ở hiện tại">
+                        <CCSelect.SelectProvince
+                          name={[field.name, 'contact']}
+                          ref={ref}
+                        />
+                      </Form.Item>
+
+                      <Form.Item label={<h4>Loại giấy tờ pháp lý </h4>}>
+                        <Row gutter={[16, 12]}>
+                          <Col lg={24} md={24} sm={24} xs={24}>
+                            <CCInput
+                              type="select"
+                              name={[field.name, 'doc_type']}
+                              label="Loại giấy tờ"
+                              options={SELECT.DOC_TYPE}
+                            />
+                          </Col>
+                          <Col lg={24} md={24} sm={24} xs={24}>
+                            <CCInput
+                              name={[field.name, 'doc_code']}
+                              label="Số CMND/ CCCD/ Hộ chiếu"
+                            />
+                          </Col>
+
+                          <Col lg={24} md={24} sm={24} xs={24}>
+                            <CCInput
+                              type="date"
+                              name={[field.name, 'doc_time_provide']}
+                              label="Ngày cấp"
+                            />
+                          </Col>
+
+                          <Col lg={24} md={24} sm={24} xs={24}>
+                            <CCInput
+                              name={[field.name, 'doc_place_provide']}
+                              label="Nơi cấp"
+                            />
+                          </Col>
+                        </Row>
+                      </Form.Item>
+
+                      <Space
+                        style={{ display: 'flex', justifyContent: 'center' }}
+                      >
+                        {fields.length > 1 ? (
+                          <MinusCircleOutlined
+                            onClick={() => remove(field.name)}
+                          />
+                        ) : (
+                          ''
+                        )}
+                      </Space>
+                    </Form.Item>
                   </Col>
                 ))}
               </>

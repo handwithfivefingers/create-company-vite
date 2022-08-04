@@ -83,11 +83,10 @@ const SelectProvince = forwardRef((props, ref) => {
       <Form.Item
         name={[...props.name, 'city']}
         placeholder={props.placeholder}
-        label={props?.label}
+        label="Tỉnh/Thành phố"
       >
         <Select
           showSearch
-          label="Tỉnh/Thành phố"
           onChange={(val, opt) => handleSelectCity(val, opt)}
           optionFilterProp="children"
           allowClear
@@ -178,7 +177,7 @@ const SelectTitle = forwardRef((props, ref) => {
 
   useEffect(() => {}, [ref])
   const handleSelect = (val, opt) => {
-    if (val === 3) {
+    if (val === 1) {
       setInpShow(true)
     } else {
       ref.current.setFields([{ name: [...props.name], value: val }])
@@ -194,9 +193,17 @@ const SelectTitle = forwardRef((props, ref) => {
             placeholder={props.placeholder}
             onChange={(val, opt) => handleSelect(val, opt)}
           >
-            <Option value={'Tổng Giám Đốc'}>Tổng Giám Đốc</Option>
-            <Option value={'Giám Đốc'}>Giám Đốc</Option>
-            <Option value={3}>Khác</Option>
+            {/* <Option value={'Tổng Giám Đốc'}>Tổng Giám Đốc</Option>
+            <Option value={'Giám Đốc'}>Giám Đốc</Option> */}
+            {props.options.map((option, i) => (
+              <Option
+                value={option.value}
+                key={[option.value, i, Math.random()]}
+              >
+                {option.name}
+              </Option>
+            ))}
+            <Option value={1}>Khác</Option>
           </Select>
         </Col>
         <Col span={inpShow ? 16 : 0}>

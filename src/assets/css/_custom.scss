@@ -1,6 +1,5 @@
 @mixin scroll($height: 10px, $width: 10px, $bg) {
   &::-webkit-scrollbar {
-    // width: 20px;
     width: $height;
     height: $width;
     cursor: pointer;
@@ -8,22 +7,17 @@
 
   /* Track */
   &::-webkit-scrollbar-track {
-    // box-shadow: inset 0 0 5px grey;
-    // background: if($bg) else rgba(0, 0, 0, 0.09);
     @if $bg {
       background: $bg;
     } @else {
       background: rgba(0, 0, 0, 0.09);
     }
-    // border-radius: 10px;
     cursor: pointer;
   }
 
   /* Handle */
   &::-webkit-scrollbar-thumb {
-    // background: red;
     background: rgba(0, 0, 0, 0.3);
-    // border-radius: 10px;
     cursor: pointer;
   }
 
@@ -42,28 +36,6 @@
   }
 }
 
-// // custom ant
-// .cc-card {
-//   display: grid;
-//   overflow: overlay;
-//   // max-height: calc(100vh - 76px - 40px - 24px);
-//   height: calc(100% - 25px);
-//   grid-template-rows: 50px 1fr;
-//   @include scroll(6px, 6px, transparent);
-//   .ant-card-head {
-//     .ant-card-head-wrapper {
-//       .ant-card-head-title {
-//         padding: 12px 0;
-//       }
-//     }
-//   }
-//   .ant-card-body {
-//     padding: 12px 8px;
-//   }
-// }
-.ant-card-body {
-  // padding: 0;
-}
 .ant-layout-footer {
   padding: 8px 50px;
 }
@@ -96,6 +68,9 @@ div.ant-form-item-control-input-content {
 input[type='text'] {
   height: 32px;
 }
+.ant-row {
+  width: 100%;
+}
 
 /// Side bar
 $color: var(--text4);
@@ -116,8 +91,6 @@ $bg: #fff;
 .inline {
   overflow: hidden;
   white-space: normal;
-  //   letter-spacing: 0.5px;
-  // display: -webkit-box;
   -webkit-line-clamp: 1;
   -webkit-box-orient: vertical;
   color: #000;
@@ -129,29 +102,8 @@ $bg: #fff;
   @include scroll(6px, 6px, transparent);
 }
 
-// // custom ant
-// .cc-card {
-//   display: grid;
-//   overflow: overlay;
-//   // max-height: calc(100vh - 76px - 40px - 24px);
-//   height: calc(100% - 25px);
-//   grid-template-rows: 50px 1fr;
-//   @include scroll(6px, 6px, transparent);
-//   .ant-card-head {
-//     .ant-card-head-wrapper {
-//       .ant-card-head-title {
-//         padding: 12px 0;
-//       }
-//     }
-//   }
-//   .ant-card-body {
-//     padding: 12px 8px;
-//   }
-// }
 .cc-card {
   display: grid;
   overflow: overlay;
   @include scroll(6px, 6px, transparent);
-}
-.ant-layout-content {
 }

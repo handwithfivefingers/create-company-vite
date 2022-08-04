@@ -151,10 +151,6 @@ export const SELECT = {
       value: 'Phó giám đốc',
       name: 'Phó giám đốc',
     },
-    {
-      value: 'Khác',
-      name: 'Khác',
-    },
   ],
   TITLE_2: [
     {
@@ -164,10 +160,6 @@ export const SELECT = {
     {
       value: 'Giám đốc',
       name: 'Giám đốc',
-    },
-    {
-      value: 'Khác',
-      name: 'Khác',
     },
   ],
   COMPANY_MODEL: [

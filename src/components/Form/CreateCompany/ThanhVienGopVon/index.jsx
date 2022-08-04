@@ -256,6 +256,7 @@ const ThanhVienGopVon = forwardRef((props, ref) => {
                 }}
               />
             }
+            options={SELECT.TITLE_2}
           />
 
           <CCInput

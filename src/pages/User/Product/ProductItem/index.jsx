@@ -1,45 +1,34 @@
 import CCSteps from '@/components/CCHeaderSteps'
-import { Button, Card, message, Modal, Space, Spin } from 'antd'
-import dateformat from 'dateformat'
-import React, {
-  lazy,
-  Suspense,
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-} from 'react'
 import {
   CREATE_COMPANY_STEP,
   DISSOLUTION_STEP,
   PENDING_STEP,
 } from '@/constant/Step'
 import ProductService from '@/service/UserService/ProductService'
+import { message, Modal, Spin } from 'antd'
+import dateformat from 'dateformat'
+import React, { lazy, useCallback, useEffect, useRef, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import styles from './styles.module.scss'
 
-const ChangeInforForm = lazy(() => {
-  // console.log('lazy ChangeInforForm')
-  return import('@/components/Form/ChangeInforForm')
+const CreateCompanyPages = lazy(() => {
+  return import('./CreateCompanyPages')
 })
-const CreateCompany = lazy(() => {
-  // console.log('lazy CreateCompany')
-  return import('@/components/Form/CreateCompany')
+
+const ChangeInfoPages = lazy(() => {
+  return import('./ChangeInfoPages')
+})
+
+const PendingPages = lazy(() => {
+  return import('./PendingPages')
+})
+
+const DissolutionPages = lazy(() => {
+  return import('./DissolutionPages')
 })
 
 const PreviewData = lazy(() => {
-  // console.log('lazy PreviewData')
   return import('@/components/Form/PreviewData')
-})
-
-const TamHoanForm = lazy(() => {
-  // console.log('lazy TamHoanForm')
-  return import('@/components/Form/PendingForm')
-})
-
-const Dissolution = lazy(() => {
-  // console.log('lazy Dissolution')
-  return import('@/components/Form/Dissolution')
 })
 
 const UserProductItem = (props) => {
@@ -47,15 +36,11 @@ const UserProductItem = (props) => {
 
   const uyquyenRef = useRef()
 
-  const [form, setForm] = useState({})
-
   const [current, setCurrent] = useState(0)
 
   const [data, setData] = useState()
 
   const [loading, setLoading] = useState()
-
-  const navigate = useNavigate()
 
   const [changeInforStep, setChangeInforStep] = useState([
     {
@@ -78,6 +63,8 @@ const UserProductItem = (props) => {
     component: null,
   })
 
+  const navigate = useNavigate()
+  
   let params = useParams()
 
   useEffect(() => {
@@ -98,23 +85,19 @@ const UserProductItem = (props) => {
     }
   }
 
-  const Next = () => {
-    // case here
-    let val = formRef.current?.getFieldsValue()
-    setForm({
-      ...form,
-      ...val,
-    })
+  const Next = useCallback(() => {
     setCurrent(current + 1)
-  }
+  }, [current])
 
-  const Prev = () => setCurrent(current - 1)
-  // handle all data here
+  const Prev = useCallback(() => {
+    setCurrent(current - 1)
+  }, [current])
+
   const setDataOutput = (output) => {
     console.log(output)
   }
 
-  const renderPrewviewForm = (ref) => {
+  const renderPrewviewForm = useCallback((ref) => {
     let val = ref?.current.getFieldsValue()
     let uy_quyen = uyquyenRef.current?.getFieldsValue()
     let input = {}
@@ -131,180 +114,72 @@ const UserProductItem = (props) => {
         }}
       />
     )
-  }
+  }, [])
 
   const renderFormByType = (type) => {
     switch (type) {
       case 1:
         // Thành lập doanh nghiệp
         return (
-          <Card className="card-boxShadow">
-            <Suspense
-              fallback={
-                <div className="container spin-suspense">
-                  <Space align="center">
-                    <Spin spinning={true} tip="Loading..." />
-                  </Space>
-                </div>
-              }
-            >
-              <CreateCompany
-                data={data.data}
-                ref={formRef}
-                onFinishScreen={(output) => setDataOutput(output)}
-                step={current}
-                setStep={(e) => setCurrent(e)}
-              />
-
-              {current === 7 ? renderPrewviewForm(formRef) : ''}
-
-              <div
-                className={'card-boxShadow'}
-                style={{ position: 'sticky', bottom: 0 }}
-              >
-                {current > 0 ? <Button onClick={Prev}>Prev</Button> : ''}
-                {current < 7 ? <Button onClick={Next}>Next</Button> : ''}
-                {current === 7 ? (
-                  <>
-                    <Button loading={loading} onClick={handleSave}>
-                      Lưu lại
-                    </Button>
-                    <Button
-                      loading={loading}
-                      onClick={handlePurchaseCreateCompany}
-                    >
-                      Thanh toán
-                    </Button>
-                  </>
-                ) : (
-                  ''
-                )}
-              </div>
-            </Suspense>
-          </Card>
+          <CreateCompanyPages
+            data={data.data}
+            ref={formRef}
+            onFinishScreen={(output) => setDataOutput(output)}
+            step={current}
+            setStep={(e) => setCurrent(e)}
+            renderPrewviewForm={renderPrewviewForm}
+            loading={loading}
+            handleSave={handleSave}
+            handlePurchaseCreateCompany={handlePurchaseCreateCompany}
+            Prev={Prev}
+            Next={Next}
+          />
         )
       case 2:
         // Thay đổi thông tin
         return (
-          <Card className="card-boxShadow">
-            <Suspense
-              fallback={
-                <div className="container spin-suspense">
-                  <Space align="center">
-                    <Spin spinning={true} tip="Loading..." />
-                  </Space>
-                </div>
-              }
-            >
-              <ChangeInforForm
-                data={data.data}
-                ref={formRef}
-                current={current}
-                onFinishScreen={(val) => handleChangeInforForm(val)}
-              />
-              {current === changeInforStep?.length - 1
-                ? renderPrewviewForm(formRef)
-                : ''}
-              <div
-                className={'card-boxShadow'}
-                style={{ position: 'sticky', bottom: 0 }}
-              >
-                {current > 0 && <Button onClick={Prev}>Prev</Button>}
-
-                {current < changeInforStep.length - 1 && (
-                  <Button onClick={Next}>Next</Button>
-                )}
-
-                {current === changeInforStep.length - 1 && (
-                  <>
-                    <Button loading={loading} onClick={handleSaveChangeInfo}>
-                      Lưu lại
-                    </Button>
-                    <Button
-                      loading={loading}
-                      onClick={handlePurchaseChangeInfo}
-                    >
-                      Thanh toán
-                    </Button>
-                  </>
-                )}
-              </div>
-            </Suspense>
-          </Card>
+          <ChangeInfoPages
+            data={data.data}
+            ref={formRef}
+            onFinishScreen={(val) => handleChangeInforForm(val)}
+            step={current}
+            renderPrewviewForm={renderPrewviewForm}
+            loading={loading}
+            handleSaveChangeInfo={handleSaveChangeInfo}
+            handlePurchaseChangeInfo={handlePurchaseChangeInfo}
+            Prev={Prev}
+            Next={Next}
+            changeInforStep={changeInforStep}
+          />
         )
       case 3:
         // Tạm hoãn
         return (
-          <Card className="card-boxShadow">
-            <Suspense
-              fallback={
-                <div className="container spin-suspense">
-                  <Space align="center">
-                    <Spin spinning={true} tip="Loading..." />
-                  </Space>
-                </div>
-              }
-            >
-              <TamHoanForm data={data.data} ref={formRef} current={current} />
-              {current === 2 ? renderPrewviewForm(formRef) : ''}
-              <div
-                className={'card-boxShadow'}
-                style={{ position: 'sticky', bottom: 0 }}
-              >
-                {current > 0 && <Button onClick={Prev}>Prev</Button>}
-
-                {current < 2 && <Button onClick={Next}>Next</Button>}
-                {current === 2 && (
-                  <>
-                    <Button loading={loading} onClick={handleSavePending}>
-                      Lưu lại
-                    </Button>
-                    <Button loading={loading} onClick={handlePurchasePending}>
-                      Thanh toán
-                    </Button>
-                  </>
-                )}
-              </div>
-            </Suspense>
-          </Card>
+          <PendingPages
+            renderPrewviewForm={renderPrewviewForm}
+            data={data.data}
+            loading={loading}
+            Prev={Prev}
+            Next={Next}
+            handleSavePending={handleSavePending}
+            handlePurchasePending={handlePurchasePending}
+            step={current}
+            ref={formRef}
+          />
         )
       case 4:
         return (
-          <Card className="card-boxShadow">
-            <Suspense
-              fallback={
-                <div className="container spin-suspense">
-                  <Space align="center">
-                    <Spin spinning={true} tip="Loading..." />
-                  </Space>
-                </div>
-              }
-            >
-              <Dissolution data={data.data} ref={formRef} current={current} />
-              {current === 2 ? renderPrewviewForm(formRef) : ''}
-              <div
-                className={'card-boxShadow'}
-                style={{ position: 'sticky', bottom: 0 }}
-              >
-                {current > 0 && <Button onClick={Prev}>Prev</Button>}
-
-                {current < 2 && <Button onClick={Next}>Next</Button>}
-                {current === 2 && (
-                  <>
-                    <Button loading={loading} onClick={handleSaveDissolution}>
-                      Lưu lại
-                    </Button>
-                    <Button
-                      loading={loading}
-                      onClick={handlePurchaseDissolution}
-                    >
-                      Thanh toán
-                    </Button>
-                  </>
-                )}
-              </div>
-            </Suspense>
-          </Card>
+          <DissolutionPages
+            renderPrewviewForm={renderPrewviewForm}
+            handleSaveDissolution={handleSaveDissolution}
+            handlePurchaseDissolution={handlePurchaseDissolution}
+            data={data.data}
+            step={current}
+            loading={loading}
+            Prev={Prev}
+            Next={Next}
+            ref={formRef}
+          />
         )
       default:
         return null
@@ -312,42 +187,17 @@ const UserProductItem = (props) => {
   }
 
   const renderHeaderStep = (type) => {
-    switch (type) {
-      case 1:
-        return (
-          <CCSteps
-            step={current}
-            data={CREATE_COMPANY_STEP}
-            onFinishScreen={(ind) => setCurrent(ind)}
-          />
-        )
-      case 2:
-        return (
-          <CCSteps
-            step={current}
-            data={changeInforStep}
-            onFinishScreen={(ind) => setCurrent(ind)}
-          />
-        )
-      case 3:
-        return (
-          <CCSteps
-            step={current}
-            data={PENDING_STEP}
-            onFinishScreen={(ind) => setCurrent(ind)}
-          />
-        )
-      case 4:
-        return (
-          <CCSteps
-            step={current}
-            data={DISSOLUTION_STEP}
-            onFinishScreen={(ind) => setCurrent(ind)}
-          />
-        )
-      default:
-        return null
+    let options = {
+      step: current,
+      data: null,
+      onFinishScreen: (index) => setCurrent(index),
     }
+
+    if (type === 1) options.data = CREATE_COMPANY_STEP
+    else if (type === 2) options.data = changeInforStep
+    else if (type === 3) options.data = PENDING_STEP
+    else if (type === 4) options.data = DISSOLUTION_STEP
+    return <CCSteps {...options} />
   }
 
   const handleChangeInforForm = useCallback((val) => {
@@ -367,7 +217,7 @@ const UserProductItem = (props) => {
     }
 
     data.push({
-      title: `Bước ${val.length > 0 ? val.length + 4 : data.length + 3}`,
+      title: `Bước ${val.length > 0 ? val.length + 3 : data.length + 1}`,
       desc: 'Xem lại',
     })
     setChangeInforStep(data)
@@ -381,20 +231,8 @@ const UserProductItem = (props) => {
   }, [])
 
   const handlePurchaseChangeInfo = useCallback(() => {
-    let val = formRef.current.getFieldsValue()
-    // let uy_quyen = uyquyenRef.current.getFieldsValue();
-    let params = {
-      track: {
-        step: 1,
-        status: 'progress',
-      },
-      payment: 0,
-      data: {
-        ...val,
-        // ...uy_quyen,
-      },
-    }
-    paymentService(params)
+    const params = getParams()
+    return paymentService(params)
   }, [data])
 
   const handlePurchaseCreateCompany = useCallback(() => {
@@ -412,7 +250,6 @@ const UserProductItem = (props) => {
         ),
       },
     }
-
     let params = {
       track: {
         step: 1,
@@ -423,51 +260,23 @@ const UserProductItem = (props) => {
         ...body,
       },
     }
-
-    paymentService(params)
+    return paymentService(params)
   }, [data])
 
   const handlePurchasePending = useCallback(() => {
-    let val = formRef.current.getFieldsValue()
-    // let uy_quyen = uyquyenRef.current.getFieldsValue();
-    let params = {
-      track: {
-        step: 1,
-        status: 'progress',
-      },
-      payment: 0,
-      data: {
-        ...val,
-        // ...uy_quyen,
-      },
-    }
-
-    paymentService(params)
+    const params = getParams()
+    return paymentService(params)
   }, [data])
 
   const handlePurchaseDissolution = useCallback(() => {
-    let val = formRef.current.getFieldsValue()
-    // let uy_quyen = uyquyenRef.current.getFieldsValue();
-    let params = {
-      track: {
-        step: 1,
-        status: 'progress',
-      },
-      payment: 0,
-      data: {
-        ...val,
-        // ...uy_quyen,
-      },
-    }
-
-    paymentService(params)
+    const params = getParams()
+    return paymentService(params)
   }, [data])
-
-  const handleSave = useCallback(() => {
+  const getParams = () => {
+    let result = {}
     let val = formRef.current.getFieldsValue()
-    // console.log(val);
 
-    let params = {
+    result = {
       track: {
         step: 1,
         status: 'progress',
@@ -477,94 +286,62 @@ const UserProductItem = (props) => {
         ...val,
       },
     }
-    // console.log(params);
+    return result
+  }
+  const handleSave = useCallback(() => {
+    const params = getParams()
     saveService(params)
   }, [data])
 
   const handleSaveChangeInfo = useCallback(() => {
-    let val = formRef.current.getFieldsValue()
-    // let uy_quyen = uyquyenRef.current.getFieldsValue();
-    let params = {
-      track: {
-        step: 1,
-        status: 'progress',
-      },
-      payment: 0,
-      data: {
-        ...val,
-        // ...uy_quyen,
-      },
-    }
-    // console.log(params);
-    saveService(params)
+    const params = getParams()
+    return saveService(params)
   }, [data])
 
   const handleSavePending = useCallback(() => {
-    let val = formRef.current.getFieldsValue()
-
-    let params = {
-      track: {
-        step: 1,
-        status: 'progress',
-      },
-      payment: 0,
-      data: {
-        ...val,
-        // ...uy_quyen,
-      },
-    }
-    saveService(params)
+    const params = getParams()
+    return saveService(params)
   }, [data])
 
   const handleSaveDissolution = useCallback(() => {
-    let val = formRef.current.getFieldsValue()
-    let params = {
-      track: {
-        step: 1,
-        status: 'progress',
-      },
-      payment: 0,
-      data: {
-        ...val,
-      },
-    }
-
-    saveService(params)
+    const params = getParams()
+    return saveService(params)
   }, [data])
 
   // Service
-  const saveService = (params) => {
-    setLoading(true)
-    ProductService.createCompany(params)
-      .then((res) => {
-        if (res.data.status === 200) {
-          message.success(res.data.message)
-          navigate('/user/san-pham')
-        }
-      })
-      .catch((err) => {
-        console.log(err)
-      })
-      .finally(() => setLoading(false))
+  const saveService = async (params) => {
+    try {
+      setLoading(true)
+      const res = await ProductService.createCompany(params)
+      if (res.data.status === 200) {
+        message.success(res.data.message)
+        navigate('/user/san-pham')
+      }
+    } catch (error) {
+      console.log(error)
+    } finally {
+      setLoading(false)
+    }
   }
 
-  const paymentService = (params) => {
+  const paymentService = async (params) => {
     const date = new Date()
     var createDate = dateformat(date, 'yyyymmddHHmmss')
     var orderId = dateformat(date, 'HHmmss')
 
     params.createDate = createDate
     params.orderId = orderId
-
-    ProductService.createCompanyWithPayment(params)
-      .then((res) => {
-        if (res.data.status === 200) {
-          return (window.location.href = res.data.url)
-        }
-      })
-      .catch((err) => {
-        console.log(err)
-      })
+    try {
+      setLoading(true)
+      let res = await ProductService.createCompanyWithPayment(params)
+      if (res.data.status === 200) {
+        return (window.location.href = res.data.url)
+      }
+    } catch (err) {
+      console.log(err)
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (

@@ -27,7 +27,7 @@ const TamHoanForm = forwardRef((props, ref) => {
       props.onFinishScreen(opt);
     }
   };
-
+console.log(props)
   return (
     <Form ref={ref} layout="vertical">
       <Form.Item
