@@ -3,6 +3,7 @@ import axios from "../../config/axios";
 const api_path = {
   getProducts: "/product",
   getCategories: "/category",
+
 };
 
 const CategoryService = {

@@ -35,7 +35,6 @@ const NguoiDaiDienPhapLuat = forwardRef((props, ref) => {
   const renderOptions = () => {
     let { create_company } = ref.current?.getFieldsValue()
     let optionsData = SELECT.TITLE
-    // console.log(create_company)
     if (!create_company?.approve) return
     let { legal_respon } = create_company?.approve
     let matchItem
@@ -48,10 +47,8 @@ const NguoiDaiDienPhapLuat = forwardRef((props, ref) => {
   }
 
   const getPersonType = () => {
-    // let personType = ref.current.getFieldValue([...BASE_FORM, 'present_person'])
-    let result =
-      ref.current.getFieldValue([...BASE_FORM, 'origin_person', 'name']) ||
-      'None'
+    let pathName = [...BASE_FORM, 'origin_person', 'name']
+    let result = ref?.current?.getFieldValue(pathName) || 'None'
     return result
   }
 
@@ -135,126 +132,132 @@ const NguoiDaiDienPhapLuat = forwardRef((props, ref) => {
       ])}
     >
       <Row gutter={[16, 12]}>
-        <CCInput
-          type="select"
-          onSelect={(e) => setPresent(e)}
-          placeholder="Bấm vào đây"
-          options={[
-            {
-              value: 1,
-              name: getPersonType(),
-            },
-            { value: 2, name: 'Khác' },
-          ]}
-        />
+        <Col span={24}>
+          <CCInput
+            type="select"
+            onSelect={(e) => setPresent(e)}
+            placeholder="Bấm vào đây"
+            options={[
+              {
+                value: 1,
+                name: getPersonType(),
+              },
+              { value: 2, name: 'Khác' },
+            ]}
+          />
+        </Col>
 
-        <Form.List name={[...BASE_FORM, 'legal_respon']} key={makeid(5)}>
-          {(fields, { add, remove }) => (
-            <>
-              <Col span={24}>
-                {fields.length >= 3 ? (
-                  ''
-                ) : (
-                  <Space>
-                    <Button
-                      type="dashed"
-                      onClick={() => add()}
-                      block
-                      icon={<PlusOutlined />}
-                    >
-                      Thêm
-                    </Button>
-                  </Space>
-                )}
-              </Col>
-
-              {fields?.map((field, i) => (
-                <Col lg={8} md={12} sm={24} xs={24} key={i}>
-                  <CCInput name={[field.name, 'name']} label="Họ và tên" />
-
-                  <CCInput
-                    type="select"
-                    name={[field.name, 'title']}
-                    label="Chức danh"
-                    options={renderOptions}
-                    onDropdownVisibleChange={renderOptions}
-                  />
-
-                  <CCInput
-                    type="select"
-                    name={[field.name, 'gender']}
-                    label="Giới tính"
-                    options={SELECT.GENDER}
-                  />
-
-                  <CCInput
-                    type="date"
-                    name={[field.name, 'birth_day']}
-                    label="Ngày sinh"
-                  />
-
-                  <CCInput name={[field.name, 'per_type']} label="Dân tộc" />
-
-                  <CCInput name={[field.name, 'national']} label="Quốc tịch" />
-
-                  <CCSelect.SelectProvince
-                    ref={ref}
-                    name={[field.name, 'current']}
-                    label="Nơi đăng kí hộ khẩu thường trú"
-                  />
-
-                  <CCSelect.SelectProvince
-                    name={[field.name, 'contact']}
-                    label="Nơi ở hiện tại"
-                    ref={ref}
-                  />
-
-                  <Form.Item label={<h4>Loại giấy tờ pháp lý </h4>}>
-                    <Row gutter={[16, 12]}>
-                      <Col lg={24} md={24} sm={24} xs={24}>
-                        <CCInput
-                          type="select"
-                          name={[field.name, 'doc_type']}
-                          label="Loại giấy tờ"
-                          options={SELECT.DOC_TYPE}
-                        />
-                      </Col>
-                      <Col lg={24} md={24} sm={24} xs={24}>
-                        <CCInput
-                          name={[field.name, 'doc_code']}
-                          label="Số CMND/ CCCD/ Hộ chiếu"
-                        />
-                      </Col>
-
-                      <Col lg={24} md={24} sm={24} xs={24}>
-                        <CCInput
-                          type="date"
-                          name={[field.name, 'doc_time_provide']}
-                          label="Ngày cấp"
-                        />
-                      </Col>
-
-                      <Col lg={24} md={24} sm={24} xs={24}>
-                        <CCInput
-                          name={[field.name, 'doc_place_provide']}
-                          label="Nơi cấp"
-                        />
-                      </Col>
-                    </Row>
-                  </Form.Item>
-
-                  <Space style={{ display: 'flex', justifyContent: 'center' }}>
-                    {fields.length > 1 ? (
-                      <MinusCircleOutlined onClick={() => remove(field.name)} />
-                    ) : (
-                      ''
-                    )}
-                  </Space>
+        {present && (
+          <Form.List name={[...BASE_FORM, 'legal_respon']} key={makeid(9)}>
+            {(fields, { add, remove }) => (
+              <>
+                <Col span={24}>
+                  {fields.length >= 3 ? (
+                    ''
+                  ) : (
+                    <Space>
+                      <Button
+                        type="dashed"
+                        onClick={() => add()}
+                        block
+                        icon={<PlusOutlined />}
+                      >
+                        Thêm
+                      </Button>
+                    </Space>
+                  )}
                 </Col>
-              ))}
-            </>
-          )}
-        </Form.List>
+
+                {fields?.map((field, i) => (
+                  <Col lg={8} md={12} sm={24} xs={24} key={i}>
+                    <CCInput name={[field.name, 'name']} label="Họ và tên" />
+
+                    <CCInput
+                      type="select"
+                      name={[field.name, 'title']}
+                      label="Chức danh"
+                      options={renderOptions}
+                      onDropdownVisibleChange={renderOptions}
+                    />
+
+                    <CCInput
+                      type="select"
+                      name={[field.name, 'gender']}
+                      label="Giới tính"
+                      options={SELECT.GENDER}
+                    />
+
+                    <CCInput
+                      type="date"
+                      name={[field.name, 'birth_day']}
+                      label="Ngày sinh"
+                    />
+
+                    <CCInput name={[field.name, 'per_type']} label="Dân tộc" />
+
+                    <CCSelect.SelectProvince
+                      ref={ref}
+                      name={[field.name, 'current']}
+                      label="Nơi đăng kí hộ khẩu thường trú"
+                    />
+
+                    <CCSelect.SelectProvince
+                      name={[field.name, 'contact']}
+                      label="Nơi ở hiện tại"
+                      ref={ref}
+                    />
+
+                    <Form.Item label={<h4>Loại giấy tờ pháp lý </h4>}>
+                      <Row gutter={[16, 12]}>
+                        <Col lg={24} md={24} sm={24} xs={24}>
+                          <CCInput
+                            type="select"
+                            name={[field.name, 'doc_type']}
+                            label="Loại giấy tờ"
+                            options={SELECT.DOC_TYPE}
+                          />
+                        </Col>
+                        <Col lg={24} md={24} sm={24} xs={24}>
+                          <CCInput
+                            name={[field.name, 'doc_code']}
+                            label="Số CMND/ CCCD/ Hộ chiếu"
+                          />
+                        </Col>
+
+                        <Col lg={24} md={24} sm={24} xs={24}>
+                          <CCInput
+                            type="date"
+                            name={[field.name, 'doc_time_provide']}
+                            label="Ngày cấp"
+                          />
+                        </Col>
+
+                        <Col lg={24} md={24} sm={24} xs={24}>
+                          <CCInput
+                            name={[field.name, 'doc_place_provide']}
+                            label="Nơi cấp"
+                          />
+                        </Col>
+                      </Row>
+                    </Form.Item>
+
+                    <Space
+                      style={{ display: 'flex', justifyContent: 'center' }}
+                    >
+                      {fields.length > 1 ? (
+                        <MinusCircleOutlined
+                          onClick={() => remove(field.name)}
+                        />
+                      ) : (
+                        ''
+                      )}
+                    </Space>
+                  </Col>
+                ))}
+              </>
+            )}
+          </Form.List>
+        )}
       </Row>
     </Form.Item>
   )
