@@ -7,13 +7,11 @@ const repo = '/usr/share/nginx/html/create-company-vite'
 
 const gitAction = async (req, res) => {
   // if (process.env.NODE_ENV === 'development') return res.end();
-
+  res.end()
   try {
     // let command = 'cd ' + repo + '\ && git checkout -- . \ && git pull';
 
     // let isValid = await validateGit(req);
-
-    res.end()
 
     let cd = 'cd ' + repo
     let checkout = 'git checkout -- .'
@@ -24,34 +22,32 @@ const gitAction = async (req, res) => {
 
     let chormium = cd + '/node_modules/puppeteer' + '/.local-chromium'
 
-    console.log('command ---> ' + cd)
+    console.log('command :::::::::: ' + cd)
 
     exec(cd)
 
-    console.log('command ---> ' + checkout)
+    console.log('command :::::::::: ' + checkout)
 
     exec(checkout)
 
-    console.log('command ---> ' + pullCode)
+    console.log('command :::::::::: ' + pullCode)
 
     exec(pullCode)
 
-    console.log('command ---> ' + installPackage)
+    console.log('command :::::::::: ' + installPackage)
 
     exec(installPackage)
 
-    console.log('command ---> ' + buildPackage)
+    console.log('command :::::::::: ' + buildPackage)
 
     exec(buildPackage)
 
-    console.log('Done')
-
-    console.log('command ---> ' + restartPm2)
-
-    exec(restartPm2)
+    console.log('Done :::::::::: ')
   } catch (err) {
     console.log('git error', err)
-    res.end()
+  } finally {
+    console.log('command :::::::::: ' + restartPm2)
+    exec(restartPm2)
   }
 }
 
