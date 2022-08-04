@@ -148,7 +148,7 @@ const NguoiDaiDienPhapLuat = forwardRef((props, ref) => {
                         block
                         icon={<PlusOutlined />}
                       >
-                        Thêm
+                         Thêm người đại diện
                       </Button>
                     </Space>
                   )}
