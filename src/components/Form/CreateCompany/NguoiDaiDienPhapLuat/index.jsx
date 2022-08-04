@@ -32,20 +32,6 @@ const NguoiDaiDienPhapLuat = forwardRef((props, ref) => {
     onSetFields(pathName, val)
   }, [present])
 
-  const renderOptions = () => {
-    let { create_company } = ref.current?.getFieldsValue()
-    let optionsData = SELECT.TITLE
-    if (!create_company?.approve) return
-    let { legal_respon } = create_company?.approve
-    let matchItem
-    if (legal_respon) {
-      matchItem = legal_respon
-        .filter((item) => item?.title)
-        .map((item) => ({ ...item, value: item?.title }))
-    }
-    return differenceBy(optionsData, matchItem, 'value')
-  }
-
   const getPersonType = () => {
     let pathName = [...BASE_FORM, 'origin_person', 'name']
     let result = ref?.current?.getFieldValue(pathName) || 'None'
@@ -176,7 +162,12 @@ const NguoiDaiDienPhapLuat = forwardRef((props, ref) => {
                       <CCInput name={[field.name, 'name']} label="Họ và tên" />
 
                       <CCSelect.SelectTitle
-                        name={[field.name, 'title']}
+                        name={[
+                          ...BASE_FORM,
+                          'legal_respon',
+                          field.name,
+                          'title',
+                        ]}
                         label="Chức danh"
                         options={SELECT.TITLE_3}
                         ref={ref}
@@ -202,12 +193,12 @@ const NguoiDaiDienPhapLuat = forwardRef((props, ref) => {
                       <Form.Item label="Nơi đăng kí hộ khẩu thường trú">
                         <CCSelect.SelectProvince
                           ref={ref}
-                          name={[field.name, 'current']}
+                          name={[...BASE_FORM, 'legal_respon', field.name, 'current']}
                         />
                       </Form.Item>
                       <Form.Item label="Nơi ở hiện tại">
                         <CCSelect.SelectProvince
-                          name={[field.name, 'contact']}
+                          name={[...BASE_FORM, 'legal_respon', field.name, 'contact']}
                           ref={ref}
                         />
                       </Form.Item>

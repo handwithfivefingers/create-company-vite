@@ -177,6 +177,7 @@ const SelectTitle = forwardRef((props, ref) => {
 
   useEffect(() => {}, [ref])
   const handleSelect = (val, opt) => {
+    console.log([...props.name])
     if (val === 1) {
       setInpShow(true)
     } else {
