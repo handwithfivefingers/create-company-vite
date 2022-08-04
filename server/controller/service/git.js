@@ -1,111 +1,121 @@
-const exec = require('child_process').execSync;
-const crypto = require('crypto');
-const sigHeaderName = 'X-Hub-Signature-256';
-const sigHashAlg = 'sha256';
-const secret = 'Hdme195';
-const repo = '/usr/share/nginx/html/create-company-vite';
+const exec = require('child_process').execSync
+const crypto = require('crypto')
+const sigHeaderName = 'X-Hub-Signature-256'
+const sigHashAlg = 'sha256'
+const secret = 'Hdme195'
+const repo = '/usr/share/nginx/html/create-company-vite'
 
 const gitAction = async (req, res) => {
-	// if (process.env.NODE_ENV === 'development') return res.end();
+  // if (process.env.NODE_ENV === 'development') return res.end();
 
-	try {
-		// let command = 'cd ' + repo + '\ && git checkout -- . \ && git pull';
+  try {
+    // let command = 'cd ' + repo + '\ && git checkout -- . \ && git pull';
 
-		// let isValid = await validateGit(req);
+    // let isValid = await validateGit(req);
 
-		res.end();
+    res.end()
 
-		let cd = 'cd ' + repo;
-		let checkout = 'git checkout -- .';
-		let pullCode = 'git pull';
-		let installPackage = 'npm install';
-		let buildPackage = 'npm run build';
-		let restartPm2 = 'pm2 reload ecosystem.config.js';
+    let cd = 'cd ' + repo
+    let checkout = 'git checkout -- .'
+    let pullCode = 'git pull'
+    let installPackage = 'npm install'
+    let buildPackage = 'npm run build'
+    let restartPm2 = 'pm2 reload ecosystem.config.js'
 
-		console.log('command ---> ' + cd);
+    let chormium = cd + '/node_modules/puppeteer' + '/.local-chromium'
 
-		exec(cd);
+    console.log('command ---> ' + cd)
 
-		console.log('command ---> ' + checkout);
+    exec(cd)
 
-		exec(checkout);
+    console.log('command ---> ' + checkout)
 
-		console.log('command ---> ' + pullCode);
+    exec(checkout)
 
-		exec(pullCode);
+    console.log('command ---> ' + pullCode)
 
-		console.log('command ---> ' + installPackage);
+    exec(pullCode)
 
-		exec(installPackage);
+    console.log('command ---> ' + installPackage)
 
-		console.log('command ---> ' + buildPackage);
+    exec(installPackage)
 
-		exec(buildPackage);
+    console.log('command ---> ' + buildPackage)
 
-		console.log('Done');
+    exec(buildPackage)
 
-		console.log('command ---> ' + restartPm2);
+    console.log('Done')
 
-		exec(restartPm2);
-	} catch (err) {
-		console.log('git error', err);
-		res.end();
-	}
-};
+    console.log('command ---> ' + restartPm2)
+
+    exec(restartPm2)
+  } catch (err) {
+    console.log('git error', err)
+    res.end()
+  }
+}
 
 const validateGit = async (req) => {
-	let result = false;
-	// const payload = JSON.stringify(req.body);
-	// console.log('payload', payload);
-	// if (!payload) {
-	// 	result = false;
-	// }
+  let result = false
+  // const payload = JSON.stringify(req.body);
+  // console.log('payload', payload);
+  // if (!payload) {
+  // 	result = false;
+  // }
 
-	// const sig = new Buffer.from(req.get(sigHeaderName) || '', 'utf8');
+  // const sig = new Buffer.from(req.get(sigHeaderName) || '', 'utf8');
 
-	// const hmac = crypto.createHmac(sigHashAlg, secret)
+  // const hmac = crypto.createHmac(sigHashAlg, secret)
 
-	// const digest = new Buffer.from(sigHashAlg + '=' + hmac.update(payload).digest('hex'), 'utf8');
+  // const digest = new Buffer.from(sigHashAlg + '=' + hmac.update(payload).digest('hex'), 'utf8');
 
-	// if (sig.length !== digest.length || !crypto.timingSafeEqual(digest, sig)) {
-	// 	console.log(`Request body digest (${digest}) did not match ${sigHeaderName} (${sig})`);
+  // if (sig.length !== digest.length || !crypto.timingSafeEqual(digest, sig)) {
+  // 	console.log(`Request body digest (${digest}) did not match ${sigHeaderName} (${sig})`);
 
-	// 	result = false;
-	// }
-	// const blob = JSON.stringify(req.body);
-	// const hmac = crypto.createHmac('sha1', secret);
-	// const ourSignature = `sha1=${hmac.update(blob).digest('hex')}`;
+  // 	result = false;
+  // }
+  // const blob = JSON.stringify(req.body);
+  // const hmac = crypto.createHmac('sha1', secret);
+  // const ourSignature = `sha1=${hmac.update(blob).digest('hex')}`;
 
-	// const theirSignature = req.get('X-Hub-Signature');
+  // const theirSignature = req.get('X-Hub-Signature');
 
-	// const bufferA = Buffer.from(ourSignature, 'utf8');
-	// const bufferB = Buffer.from(theirSignature, 'utf8');
+  // const bufferA = Buffer.from(ourSignature, 'utf8');
+  // const bufferB = Buffer.from(theirSignature, 'utf8');
 
-	// const safe = crypto.timingSafeEqual(bufferA, bufferB);
+  // const safe = crypto.timingSafeEqual(bufferA, bufferB);
 
-	// if (safe) {
-	// 	console.log('Valid signature');
-	// } else {
-	// 	console.log('Invalid signature');
-	// }
+  // if (safe) {
+  // 	console.log('Valid signature');
+  // } else {
+  // 	console.log('Invalid signature');
+  // }
 
-	const theirSignature = req.headers['x-hub-signature'];
+  const theirSignature = req.headers['x-hub-signature']
 
-	const payload = JSON.stringify(req.body);
+  const payload = JSON.stringify(req.body)
 
-	const ourSignature = `sha1=${crypto.createHmac('sha1', secret).update(payload).digest('hex')}`;
+  const ourSignature = `sha1=${crypto
+    .createHmac('sha1', secret)
+    .update(payload)
+    .digest('hex')}`
 
-	console.log(theirSignature, ourSignature);
+  console.log(theirSignature, ourSignature)
 
-	if (crypto.timingSafeEqual(Buffer.from(theirSignature), Buffer.from(ourSignature))) {
-		console.log('all good');
-	} else {
-		console.log('not good');
-	}
+  if (
+    crypto.timingSafeEqual(
+      Buffer.from(theirSignature),
+      Buffer.from(ourSignature),
+    )
+  ) {
+    console.log('all good')
+  } else {
+    console.log('not good')
+  }
 
-	// result = false;
+  // result = false;
 
-	return result;
-};
+  return result
+}
 
-module.exports = { gitAction };
+module.exports = { gitAction }
