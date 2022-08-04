@@ -149,7 +149,14 @@ const mstHeadlessBrowser = async (params) => {
     '#main section .container div.tax-listing div h3',
   ]
 
-  const browser = await puppeteer.launch()
+  const browser = await puppeteer.launch({
+    args: [
+      '--disable-setuid-sandbox',
+      '--no-sandbox',
+      '--disable-gpu',
+      '--no-first-run',
+    ],
+  })
 
   const page = await browser.newPage()
 
