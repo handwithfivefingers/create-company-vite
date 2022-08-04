@@ -29,19 +29,19 @@ export default defineConfig({
   },
   build: {
     outDir: 'dist',
-    minify: 'esbuild',
+    minify: false,
     sourcemap: false,
     reportCompressedSize: false,
     commonjsOptions: {
       sourceMap: false,
     },
-    rollupOptions: {
-      output: {
-        manualChunks: {
-          vendor: globalVendorPackages,
-          // ...renderChunks(dependencies),
-        },
-      },
-    },
+    // rollupOptions: {
+    //   output: {
+    //     manualChunks: {
+    //       vendor: globalVendorPackages,
+    //       // ...renderChunks(dependencies),
+    //     },
+    //   },
+    // },
   },
 })
