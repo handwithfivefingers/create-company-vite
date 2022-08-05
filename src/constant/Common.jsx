@@ -136,21 +136,21 @@ export const SELECT = {
       name: 'Chủ tịch công ty',
     },
     {
-      value: 'Giám đốc',
-      name: 'Giám đốc',
-    },
-    {
       value: 'Tổng giám đốc',
       name: 'Tổng giám đốc',
     },
     {
-      value: 'Phó tổng giám đốc',
-      name: 'Phó tổng giám đốc',
+      value: 'Giám đốc',
+      name: 'Giám đốc',
     },
-    {
-      value: 'Phó giám đốc',
-      name: 'Phó giám đốc',
-    },
+    // {
+    //   value: 'Phó tổng giám đốc',
+    //   name: 'Phó tổng giám đốc',
+    // },
+    // {
+    //   value: 'Phó giám đốc',
+    //   name: 'Phó giám đốc',
+    // },
   ],
   TITLE_2: [
     {
