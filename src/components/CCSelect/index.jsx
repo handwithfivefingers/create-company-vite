@@ -166,7 +166,8 @@ const SelectProvince = forwardRef((props, ref) => {
       <CCInput
         label="Số nhà, ngách, hẻm, ngõ, đường phố/tổ/xóm/ấp/thôn"
         name={[...props.name, 'address']}
-        placeholder={props.placeholder}
+        //placeholder={props.placeholder}
+        placeholder="20 Nguyễn Hữu Thọ"
       />
     </>
   )

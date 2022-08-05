@@ -22,7 +22,7 @@ const DiaChiTruSoChinh = forwardRef((props, ref) => {
       label={
         <div
           dangerouslySetInnerHTML={{
-            __html: '</><b>Địa chỉ liên lạc <i>(ĐDPL)</i><b></>',
+            __html: '</><b>Địa chỉ trụ sở chính<b></>',
           }}
         />
       }
