@@ -149,28 +149,24 @@ const mstHeadlessBrowser = async (params) => {
     '#main section .container div.tax-listing div h3',
   ]
 
-  const browser = await puppeteer.launch({
-    args: [
-      '--disable-setuid-sandbox',
-      '--no-sandbox',
-      '--disable-gpu',
-      '--no-first-run',
-    ],
-  })
+  const browser = await puppeteer.launch()
 
   const page = await browser.newPage()
 
   await page.goto('https://masothue.com/')
 
+  // await page.waitForNavigation()
+
   await page.waitForSelector(inputSearch)
 
   await page.$eval(inputSearch, (el, v) => (el.value = v), params)
+
   // await page.screenshot({ path: `uploads/puppeteer/input.png`, fullPage: true });
   await page.click('button[type="submit"]')
 
-  await page.waitForNavigation({
-    timeout: 5000,
-  })
+  await page.waitForNavigation()
+
+  await page.waitForSelector('#main section .container', { timeout: 5000 })
 
   //   await page.screenshot({
   //     path: `uploads/puppeteer/loading.png`,

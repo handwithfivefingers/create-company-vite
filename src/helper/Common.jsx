@@ -3,6 +3,15 @@ import ProductCard from '../components/Products'
 import { BaseFieldText } from './../constant/Common'
 import moment from 'moment'
 
+const onSetFields = (pathName, val, ref, upper = false) => {
+  ref.current.setFields([
+    {
+      name: pathName,
+      value: upper ? val.toUpperCase() : val,
+    },
+  ])
+}
+
 const number_format = (number) => {
   // console.log(number)
   return new Intl.NumberFormat().format(number)
@@ -370,4 +379,5 @@ export {
   checkVariable,
   to_vietnamese,
   num2Word2,
+  onSetFields,
 }

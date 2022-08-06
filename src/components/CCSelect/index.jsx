@@ -77,11 +77,11 @@ const SelectProvince = forwardRef((props, ref) => {
     } finally {
     }
   }
-
+  let name = props?.nameSet ? props?.nameSet : props?.name
   return (
     <>
       <Form.Item
-        name={[...props.name, 'city']}
+        name={[...name, 'city']}
         placeholder={props.placeholder}
         label="Tỉnh/Thành phố"
       >
@@ -110,7 +110,7 @@ const SelectProvince = forwardRef((props, ref) => {
 
       <Form.Item
         label="Quận/Huyện/Thị xã/Thành phố thuộc tỉnh"
-        name={[...props.name, 'district']}
+        name={[...name, 'district']}
       >
         <Select
           placeholder={props.placeholder}
@@ -136,11 +136,11 @@ const SelectProvince = forwardRef((props, ref) => {
         </Select>
       </Form.Item>
 
-      <Form.Item label="Xã/Phường/Thị trấn" name={[...props.name, 'town']}>
+      <Form.Item label="Xã/Phường/Thị trấn" name={[...name, 'town']}>
         <Select
           placeholder={props.placeholder}
           onChange={(val, opt) =>
-            onSetFields([...props.name, 'town'], opt.name)
+            onSetFields([...name, 'town'], opt.name)
           }
           showSearch
           optionFilterProp="children"
@@ -165,7 +165,7 @@ const SelectProvince = forwardRef((props, ref) => {
 
       <CCInput
         label="Số nhà, ngách, hẻm, ngõ, đường phố/tổ/xóm/ấp/thôn"
-        name={[...props.name, 'address']}
+        name={[...name, 'address']}
         //placeholder={props.placeholder}
         placeholder="20 Nguyễn Hữu Thọ"
       />

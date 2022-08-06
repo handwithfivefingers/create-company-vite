@@ -18,18 +18,19 @@ const DiaChiTruSoChinh = forwardRef((props, ref) => {
         },
       ])}
     >
-      <Form.Item l
-      label={
-        <div
-          dangerouslySetInnerHTML={{
-            __html: '</><b>Địa chỉ trụ sở chính<b></>',
-          }}
-        />
-      }
+      <Form.Item
+        l
+        label={
+          <div
+            dangerouslySetInnerHTML={{
+              __html: '</><b>Địa chỉ trụ sở chính<b></>',
+            }}
+          />
+        }
       >
         <CCSelect.SelectProvince
           ref={ref}
-          name={[...BASE_FORM, 'core', 'address']}
+          nameSet={[...BASE_FORM, 'core', 'address']}
           label="Nơi cấp"
         />
         <CCInput
@@ -43,7 +44,6 @@ const DiaChiTruSoChinh = forwardRef((props, ref) => {
           name={[...BASE_FORM, 'core', 'contact', 'email']}
         />
       </Form.Item>
-
     </Form.Item>
   )
 })

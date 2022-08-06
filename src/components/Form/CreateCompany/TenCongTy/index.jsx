@@ -6,6 +6,7 @@ import CCInput from '@/components/CCInput'
 import clsx from 'clsx'
 import styles from '../CreateCompany.module.scss'
 import ProductService from '@/service/UserService/ProductService'
+import { onSetFields } from '@/helper/Common'
 
 const popData = {
   content: (
@@ -53,10 +54,14 @@ const popData = {
 }
 
 const TenCongTy = forwardRef((props, ref) => {
+  let timeout
+
   const { BASE_FORM, current } = props
 
   const [companyData, setCompanyData] = useState([])
+
   const [loading, setLoading] = useState(false)
+
   const getCompanyByName = async (val) => {
     if (val.length <= 4) {
       setCompanyData([])
@@ -77,6 +82,16 @@ const TenCongTy = forwardRef((props, ref) => {
     }
   }
 
+  const inputChange = ({ value, pathName, search = false } = {}) => {
+    onSetFields(pathName, value, ref, true)
+
+    if (search) {
+      if (timeout) clearTimeout(timeout)
+      timeout = setTimeout(() => {
+        getCompanyByName(value)
+      }, 700)
+    }
+  }
   return (
     <Form.Item
       label={<h2>Tên công ty </h2>}
@@ -113,7 +128,13 @@ const TenCongTy = forwardRef((props, ref) => {
             label="Tên công ty bằng Tiếng Việt"
           >
             <Input
-              onChange={debounce((e) => getCompanyByName(e.target.value), 700)}
+              onChange={(e) =>
+                inputChange({
+                  value: e.target.value,
+                  pathName: [...BASE_FORM, 'core', 'name'],
+                  search: true,
+                })
+              }
             />
           </Form.Item>
           <div className="container" style={{ minHeight: 30 }}>
@@ -131,11 +152,23 @@ const TenCongTy = forwardRef((props, ref) => {
           <CCInput
             name={[...BASE_FORM, 'core', 'name_en']}
             label="Tên công ty bằng Tiếng Anh (nếu có)"
+            onChange={(e) =>
+              inputChange({
+                value: e.target.value,
+                pathName: [...BASE_FORM, 'core', 'name_en'],
+              })
+            }
           />
 
           <CCInput
             name={[...BASE_FORM, 'core', 'name_vn']}
             label="Tên công ty viết tắt (nếu có)"
+            onChange={(e) =>
+              inputChange({
+                value: e.target.value,
+                pathName: [...BASE_FORM, 'core', 'name_vn'],
+              })
+            }
           />
         </Col>
       </Row>

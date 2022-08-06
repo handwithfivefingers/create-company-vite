@@ -21,15 +21,17 @@ const NguoiDaiDienPhapLuat = forwardRef((props, ref) => {
       let { create_company } = ref.current.getFieldsValue()
       console.log(create_company)
       let { origin_person } = create_company?.approve
-      if (!origin_person) val = obj.slice(0, 1)
-      else {
+      if (!origin_person) {
+        onSetFields(pathName, [{}])
+      } else {
         val = [{ ...origin_person }]
+        console.log('val', val)
+        onSetFields(pathName, val)
       }
     } else {
-      val = [{}]
+      onSetFields(pathName, [{}])
     }
-
-    onSetFields(pathName, val)
+    console.log(ref.current.getFieldsValue())
   }, [present])
 
   const getPersonType = () => {
@@ -41,71 +43,11 @@ const NguoiDaiDienPhapLuat = forwardRef((props, ref) => {
   const onSetFields = (pathName, val) => {
     ref.current.setFields([
       {
-        name: Array.isArray(pathName) ? [...pathName] : [pathName],
+        name: pathName,
         value: val,
       },
     ])
   }
-
-  // const listForm = [
-  //   {
-  //     label: 'Họ và tên',
-  //     name: 'name',
-  //   },
-  //   {
-  //     label: 'Chức danh',
-  //     name: 'title',
-  //     type: 'select',
-  //     options: renderOptions(),
-  //     onDropdownVisibleChange: renderOptions(),
-  //   },
-  //   {
-  //     label: 'Giới tính',
-  //     name: 'gender',
-  //     type: 'select',
-  //     options: SELECT.GENDER,
-  //   },
-  //   {
-  //     label: 'Ngày sinh',
-  //     name: 'birth_day',
-  //     type: 'date',
-  //   },
-  //   {
-  //     label: 'Dân tộc',
-  //     name: 'per_type',
-  //   },
-  //   {
-  //     label: 'Quốc tịch',
-  //     name: 'national',
-  //   },
-  //   {
-  //     label: 'Nơi đăng kí hộ khẩu thường trú',
-  //     name: 'reg_address',
-  //   },
-  //   {
-  //     label: 'Nơi ở hiện tại',
-  //     name: 'current_address',
-  //   },
-  //   {
-  //     label: 'Loại giấy tờ',
-  //     name: 'doc_type',
-  //     type: 'select',
-  //     options: SELECT.DOC_TYPE,
-  //   },
-  //   {
-  //     label: 'Số CMND/ CCCD/ Hộ chiếu',
-  //     name: 'doc_code',
-  //   },
-  //   {
-  //     label: 'Ngày cấp',
-  //     name: 'doc_time_provide',
-  //     type: 'date',
-  //   },
-  //   {
-  //     label: 'Nơi cấp',
-  //     name: 'doc_place_provide',
-  //   },
-  // ]
 
   return (
     <Form.Item
@@ -121,7 +63,7 @@ const NguoiDaiDienPhapLuat = forwardRef((props, ref) => {
         <Col span={24}>
           <CCInput
             type="select"
-            onSelect={(e) => setPresent(e)}
+            onChange={(e) => setPresent(e)}
             placeholder="Bấm vào đây"
             options={[
               {
@@ -148,7 +90,7 @@ const NguoiDaiDienPhapLuat = forwardRef((props, ref) => {
                         block
                         icon={<PlusOutlined />}
                       >
-                         Thêm người đại diện
+                        Thêm người đại diện
                       </Button>
                     </Space>
                   )}
@@ -193,12 +135,12 @@ const NguoiDaiDienPhapLuat = forwardRef((props, ref) => {
                       <Form.Item label="Nơi đăng kí hộ khẩu thường trú">
                         <CCSelect.SelectProvince
                           ref={ref}
-                          name={[...BASE_FORM, 'legal_respon', field.name, 'current']}
+                          name={[field.name, 'current']}
                         />
                       </Form.Item>
                       <Form.Item label="Nơi ở hiện tại">
                         <CCSelect.SelectProvince
-                          name={[...BASE_FORM, 'legal_respon', field.name, 'contact']}
+                          name={[field.name, 'contact']}
                           ref={ref}
                         />
                       </Form.Item>
