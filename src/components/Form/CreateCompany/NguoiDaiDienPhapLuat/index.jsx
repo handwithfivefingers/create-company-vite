@@ -40,11 +40,11 @@ const NguoiDaiDienPhapLuat = forwardRef((props, ref) => {
     return result
   }
 
-  const onSetFields = (pathName, val) => {
+  const onSetFields = (pathName, val, upper = false) => {
     ref.current.setFields([
       {
         name: pathName,
-        value: val,
+        value: upper ? val.toUpperCase() : val,
       },
     ])
   }
@@ -101,15 +101,20 @@ const NguoiDaiDienPhapLuat = forwardRef((props, ref) => {
                     <Form.Item
                       label={<h5>Thông tin người đại diện thứ {i + 1}</h5>}
                     >
-                      <CCInput name={[field.name, 'name']} label="Họ và tên" />
+                      <CCInput
+                        name={[field.name, 'name']}
+                        label="Họ và tên"
+                        onChange={(e) =>
+                          onSetFields(
+                            [...BASE_FORM, 'legal_respon', i, 'name'],
+                            e.target.value,
+                            true,
+                          )
+                        }
+                      />
 
                       <CCSelect.SelectTitle
-                        name={[
-                          ...BASE_FORM,
-                          'legal_respon',
-                          field.name,
-                          'title',
-                        ]}
+                        name={[...BASE_FORM, 'legal_respon', i, 'title']}
                         label="Chức danh"
                         options={SELECT.TITLE_3}
                         ref={ref}
@@ -128,9 +133,10 @@ const NguoiDaiDienPhapLuat = forwardRef((props, ref) => {
                         label="Ngày sinh"
                       />
 
-                      <CCInput
+                      <CCSelect.SelectPersonType
                         name={[field.name, 'per_type']}
                         label="Dân tộc"
+                        ref={ref}
                       />
                       <Form.Item label="Nơi đăng kí hộ khẩu thường trú">
                         <CCSelect.SelectProvince
@@ -171,9 +177,10 @@ const NguoiDaiDienPhapLuat = forwardRef((props, ref) => {
                           </Col>
 
                           <Col lg={24} md={24} sm={24} xs={24}>
-                            <CCInput
+                            <CCSelect.SelectDocProvide
                               name={[field.name, 'doc_place_provide']}
                               label="Nơi cấp"
+                              ref={ref}
                             />
                           </Col>
                         </Row>

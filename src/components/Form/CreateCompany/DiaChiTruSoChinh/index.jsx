@@ -30,7 +30,7 @@ const DiaChiTruSoChinh = forwardRef((props, ref) => {
       >
         <CCSelect.SelectProvince
           ref={ref}
-          nameSet={[...BASE_FORM, 'core', 'address']}
+          name={[...BASE_FORM, 'core', 'address']}
           label="Nơi cấp"
         />
         <CCInput

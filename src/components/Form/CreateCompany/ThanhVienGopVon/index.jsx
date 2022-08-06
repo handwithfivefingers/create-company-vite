@@ -316,6 +316,13 @@ const OriginalPerson = forwardRef((props, ref) => {
           />
         }
         placeholder="NGUYỄN VĂN A"
+        onChange={(e) =>
+          onSetFields(
+            [...BASE_FORM, 'origin_person', 'organization_name'],
+            e.target.value,
+            true,
+          )
+        }
       />
       <CCSelect.SelectTitle
         ref={ref}

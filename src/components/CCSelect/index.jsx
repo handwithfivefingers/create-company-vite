@@ -139,9 +139,7 @@ const SelectProvince = forwardRef((props, ref) => {
       <Form.Item label="Xã/Phường/Thị trấn" name={[...name, 'town']}>
         <Select
           placeholder={props.placeholder}
-          onChange={(val, opt) =>
-            onSetFields([...name, 'town'], opt.name)
-          }
+          onChange={(val, opt) => onSetFields([...name, 'town'], opt.name)}
           showSearch
           optionFilterProp="children"
           allowClear
@@ -189,8 +187,8 @@ const SelectTitle = forwardRef((props, ref) => {
 
   return (
     <Form.Item name={[...props.name]} label={props.label}>
-      <Row gutter={[16, 12]}>
-        <Col span={inpShow ? 8 : 24}>
+      <Row>
+        <Col span={inpShow ? 8 : 24} style={{ padding: 0 }}>
           <Select
             placeholder={props.placeholder}
             onChange={(val, opt) => handleSelect(val, opt)}
@@ -232,7 +230,9 @@ const SelectInput = forwardRef((props, ref) => {
 
 const SelectPersonType = forwardRef((props, ref) => {
   const [inpShow, setInpShow] = useState(false)
+
   useEffect(() => {}, [ref])
+
   const handleSelect = (val, opt) => {
     if (val === 1) {
       ref.current.setFields([{ name: [...props.name], value: 'Kinh' }])
@@ -242,8 +242,8 @@ const SelectPersonType = forwardRef((props, ref) => {
 
   return (
     <Form.Item name={[...props.name]} label={props.label}>
-      <Row gutter={[16, 12]}>
-        <Col span={inpShow ? 8 : 24}>
+      <Row>
+        <Col span={inpShow ? 8 : 24} style={{ padding: 0 }}>
           <Select
             placeholder={props.placeholder}
             onChange={(val, opt) => handleSelect(val, opt)}
@@ -269,9 +269,16 @@ const SelectPersonType = forwardRef((props, ref) => {
 })
 
 const SelectDocProvide = forwardRef((props, ref) => {
-  const [inpShow, setInpShow] = useState(false)
-  useEffect(() => {}, [ref])
+  const [select, SetSelect] = useState(1)
+  useEffect(() => {
+    let val = ref.current.getFieldValue([...props.name])
+    console.log(val, props.name)
+    if (val !== 'Cục Cảnh Sát Quản Lý Hành Chính Về Trật Tự Xã Hội') {
+      SetSelect(2)
+    }
+  }, [props])
   const handleSelect = (val, opt) => {
+    SetSelect(val)
     if (val === 1) {
       ref.current.setFields([
         {
@@ -279,17 +286,17 @@ const SelectDocProvide = forwardRef((props, ref) => {
           value: 'Cục Cảnh Sát Quản Lý Hành Chính Về Trật Tự Xã Hội',
         },
       ])
-      setInpShow(false)
-    } else setInpShow(true)
+    }
   }
-
+  console.log('select', select)
   return (
     <Form.Item name={[...props.name]} label={props.label}>
-      <Row gutter={[16, 12]}>
-        <Col span={inpShow ? 8 : 24}>
+      <Row>
+        <Col span={select === 2 ? 8 : 24} style={{ padding: 0 }}>
           <Select
             placeholder={props.placeholder}
             onChange={(val, opt) => handleSelect(val, opt)}
+            value={select}
           >
             <Option value={1}>
               Cục Cảnh Sát Quản Lý Hành Chính Về Trật Tự Xã Hội
@@ -297,8 +304,8 @@ const SelectDocProvide = forwardRef((props, ref) => {
             <Option value={2}>Khác</Option>
           </Select>
         </Col>
-        <Col span={inpShow ? 16 : 0}>
-          {inpShow && (
+        <Col span={select === 2 ? 16 : 0}>
+          {select === 2 && (
             <Input
               onChange={(e) =>
                 ref.current.setFields([

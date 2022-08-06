@@ -157,14 +157,18 @@ const orderWithPayment = async (req, res) => {
 
     //  khai báo
     const { track, payment, data, categories } = req.body
-    const { selectProduct } = data
+
+    const { selectProduct, ...rest } = data
+
+    if (!selectProduct) return errHandler('', res)
 
     let price = await calcPrice(selectProduct._id)
 
-    let files = findKeysByObject(data, selectProduct?.type)
+    let { files, result, msg } = findKeysByObject(rest, selectProduct?.type)
 
     if (!price) return errHandler('Product not found', res)
-    if (!files) return errHandler('', res)
+
+    if (!result) return errHandler(msg, res)
 
     var newData = {
       track,
@@ -306,7 +310,6 @@ const paymentOrder = (req, res, params) => {
 // common
 
 const calcPrice = async (productId) => {
-  console.log(productId)
   if (!productId) return null
 
   let _prod = await Product.findOne({ _id: productId }).select('price')
@@ -317,39 +320,60 @@ const calcPrice = async (productId) => {
 }
 
 const findKeysByObject = (obj, type = null) => {
-  if (!type) return
-  if (!obj) return
+  let msg = ''
+  let result = true
+
+  if (!type) {
+    result = false
+    msg = `Missing ['type'] property`
+  }
+
+  if (!obj) {
+    result = false
+    msg = `Missing ['data"] property`
+  }
+
+  let files = []
 
   try {
-    let files = []
-
     for (let props in obj) {
       let list = getListFiles(props)
 
       let keys = Object.keys(obj?.[props]).map((key) => key)
 
-      if (keys && list) {
+      if (keys && list && result) {
         for (let i = 0, len = keys.length; i < len; i++) {
           let key = keys[i]
 
           let objProperty = list?.[key]
 
           let isFunction = objProperty && typeof objProperty === 'function'
+
           if (isFunction) {
             // explicit property
+
             if (props === 'create_company') {
               let opt = obj[props][key]?.present_person // get selected item
-              files = [...files, ...objProperty(type, props, key, opt)]
+
+              if (!opt) {
+                result = false
+                msg = `Missing Key ['present_person']`
+              } else {
+                files = [...files, ...objProperty(type, props, key, opt)]
+              }
             } else {
               files = [...files, ...objProperty(type, props, key)]
             }
           }
+
+          if (!result) break
         }
       }
     }
-    // console.log(files);
+
     files = uniqBy(files, 'path').filter((item) => item)
-    return files
+
+    return { files, result, msg }
   } catch (err) {
     console.log('findKeysByObject', err)
   }

@@ -64,7 +64,7 @@ const UserProductItem = (props) => {
   })
 
   const navigate = useNavigate()
-  
+
   let params = useParams()
 
   useEffect(() => {
@@ -237,17 +237,18 @@ const UserProductItem = (props) => {
 
   const handlePurchaseCreateCompany = useCallback(() => {
     let val = formRef.current.getFieldsValue()
+    let { approve } = val.create_company
+    console.log(approve)
+    let company_opt_career = approve.company_opt_career?.map(
+      ({ value, name, code }) => ({ value, name, code }),
+    )
     let body = {
       ...val,
       create_company: {
-        ...val.create_company,
-        company_opt_career: val.create_company.company_opt_career.map(
-          (item) => ({
-            value: item.value,
-            name: item.name,
-            code: item.code,
-          }),
-        ),
+        approve: {
+          ...approve,
+          company_opt_career,
+        },
       },
     }
     let params = {
