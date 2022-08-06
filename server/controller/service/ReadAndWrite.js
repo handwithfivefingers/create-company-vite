@@ -63,7 +63,7 @@ const handleConvertFile = async (order, req, res) => {
       mailParams.filesPath = attachments
 
       // console.log("mailParams", mailParams);
-      return res.status(200).json({ message: 'ok' })
+      // return res.status(200).json({ message: 'ok' })
 
       await sendmailWithAttachments(req, res, mailParams)
 
@@ -80,7 +80,7 @@ const handleConvertFile = async (order, req, res) => {
 
     return errHandler(err, res)
   } finally {
-    // await removeListFiles(attachments)
+    await removeListFiles(attachments)
   }
 }
 

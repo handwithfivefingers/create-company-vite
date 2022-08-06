@@ -224,7 +224,7 @@ const flattenObject = (data) => {
       _template.lr_new_title = _template[props]
     }
   }
-  console.log(_template)
+  // console.log(_template)
   return _template
 }
 
