@@ -126,6 +126,7 @@ const TenCongTy = forwardRef((props, ref) => {
           <Form.Item
             name={[...BASE_FORM, 'core', 'name']}
             label="Tên công ty bằng Tiếng Việt"
+        
           >
             <Input
               onChange={(e) =>
