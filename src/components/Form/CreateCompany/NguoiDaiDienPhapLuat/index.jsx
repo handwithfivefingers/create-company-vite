@@ -121,6 +121,7 @@ const NguoiDaiDienPhapLuat = forwardRef((props, ref) => {
                       <CCSelect.SelectTitle
                         name={[...BASE_FORM, 'legal_respon', i, 'title']}
                         label="Chức danh"
+                        placeholder='Bấm vào đây'
                         options={SELECT.TITLE_3}
                         ref={ref}
                       />
@@ -130,6 +131,7 @@ const NguoiDaiDienPhapLuat = forwardRef((props, ref) => {
                         name={[field.name, 'gender']}
                         label="Giới tính"
                         options={SELECT.GENDER}
+                        placeholder='Bấm vào đây'
                       />
 
                       <CCInput
@@ -182,6 +184,7 @@ const NguoiDaiDienPhapLuat = forwardRef((props, ref) => {
                               name={[field.name, 'doc_type']}
                               label="Loại giấy tờ"
                               options={SELECT.DOC_TYPE}
+                              placeholder='Bấm vào đây'
                             />
                           </Col>
                           <Col lg={24} md={24} sm={24} xs={24}>
@@ -196,6 +199,7 @@ const NguoiDaiDienPhapLuat = forwardRef((props, ref) => {
                               type="date"
                               name={[field.name, 'doc_time_provide']}
                               label="Ngày cấp"
+                              placeholder='Chọn ngày'
                             />
                           </Col>
 

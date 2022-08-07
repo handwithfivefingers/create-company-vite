@@ -335,6 +335,7 @@ const OriginalPerson = forwardRef((props, ref) => {
             }}
           />
         }
+        placeholder='Bấm vào đây'
         options={SELECT.TITLE_2}
       />
 
