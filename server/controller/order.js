@@ -114,9 +114,15 @@ const createOrders = async (req, res) => {
     //  khai báo
     const { track, payment, data, categories } = req.body
 
-    const { selectProduct, selectChildProduct } = data
+    // const { selectProduct, selectChildProduct } = data
+    const { selectProduct, ...rest } = data
+    if (!selectProduct) return errHandler('', res)
 
-    let files = findKeysByObject(data, selectProduct?.type)
+    let { files, result, msg } = findKeysByObject(rest, selectProduct?.type)
+    
+    if (!result) return errHandler(msg, res)
+
+    // let files = findKeysByObject(data, selectProduct?.type)
 
     let price = await calcPrice(selectProduct._id)
 

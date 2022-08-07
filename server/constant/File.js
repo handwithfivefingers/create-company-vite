@@ -134,7 +134,7 @@ const getCreateCompanyFiles = (type, key, opt = null) => {
       path: '/files/create_company/create_company_File_4_PhuLuc_I_10_DanhSachNguoiDaiDien.docx',
     },
     create_company_quyetdinh_nguoidaidienvon: {
-      name: '',
+      name: 'Quyết định người đại diện vốn',
       path: '/files/create_company/create_company_File_QuyetDinhNguoiDaiDienVon.docx',
     },
   }

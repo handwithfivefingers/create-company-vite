@@ -74,7 +74,7 @@ const handleConvertFile = async (order, req, res) => {
       error: 'Files not found',
     })
   } catch (err) {
-    console.log('handleConvertFile error')
+    console.log('handleConvertFile error', err)
 
     attachments.length > 0 && (await removeListFiles(attachments, true))
 

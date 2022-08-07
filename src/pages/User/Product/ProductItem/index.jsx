@@ -235,8 +235,8 @@ const UserProductItem = (props) => {
     return paymentService(params)
   }, [data])
 
-  const handlePurchaseCreateCompany = useCallback(() => {
-    let val = formRef.current.getFieldsValue()
+  const handlePurchaseCreateCompany = useCallback((ref) => {
+    let val = ref ? ref.current.getFieldsValue(): formRef.current.getFieldsValue()
     let { approve } = val.create_company
     // console.log(approve)
     let company_opt_career = approve.company_opt_career?.map(
@@ -273,10 +273,10 @@ const UserProductItem = (props) => {
     const params = getParams()
     return paymentService(params)
   }, [data])
-  const getParams = () => {
+  const getParams = (ref=null) => {
     let result = {}
-    let val = formRef.current.getFieldsValue()
-
+    let val = ref ? ref.current.getFieldsValue(): formRef.current.getFieldsValue()
+    console.log(val)
     result = {
       track: {
         step: 1,
@@ -289,9 +289,11 @@ const UserProductItem = (props) => {
     }
     return result
   }
-  const handleSave = useCallback(() => {
-    const params = getParams()
+  const handleSave = useCallback((ref) => {
+    const params = getParams(ref)
+    // return; 
     saveService(params)
+    
   }, [data])
 
   const handleSaveChangeInfo = useCallback(() => {
