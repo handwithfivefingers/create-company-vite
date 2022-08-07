@@ -118,19 +118,19 @@ const getCreateCompanyFiles = (type, key, opt = null) => {
       path: '/files/create_company/create_company_uyquyen.docx',
     },
     create_company_dieuleA: {
-      name: 'Điều lệ cá nhân',
+      name: 'Điều lệ công ty - cá nhân',
       path: '/files/create_company/create_company_File_1A_DieuLeCaNhan.docx',
     },
     create_company_dieuleB: {
-      name: 'Điều lệ tổ chức',
+      name: 'Điều lệ công ty - tổ chức',
       path: '/files/create_company/create_company_File_1B_DieuLeToChuc.docx',
     },
     create_company_phu_luc_2: {
-      name: 'Phụ lục I - 2',
+      name: 'Phụ lục I-2 Đơn đề nghị đăng ký Công ty TNHH 1 thành viên',
       path: '/files/create_company/create_company_File_2_PhuLuc_I_2_GiayDeNghiDangKiMTV.docx',
     },
     create_company_phu_luc_4: {
-      name: 'Phụ lục I - 10',
+      name: 'Phụ lục I-10 Danh sách người đại diện',
       path: '/files/create_company/create_company_File_4_PhuLuc_I_10_DanhSachNguoiDaiDien.docx',
     },
     create_company_quyetdinh_nguoidaidienvon: {
