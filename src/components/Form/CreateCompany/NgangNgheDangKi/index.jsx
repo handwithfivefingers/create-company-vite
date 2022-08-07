@@ -20,15 +20,25 @@ const NgangNgheDangKi = forwardRef((props, ref) => {
       .catch((err) => console.log(err))
       .finally(() => {})
   }
-
-  const handleChange = (pathName, value, opt) => {
-    ref.current.setFieldsValue({
-      create_company: {
-        approve: {
-          [pathName]: opt,
-        },
+  /**
+   * 
+   * @param {*} pathName 
+   * @param {*} val 
+   * @param {*} opt Object or Array
+   */
+  const handleChange = (pathName, val, opt) => {
+    let value;
+    if (Array.isArray(opt)) {
+      value = opt.map(({ code, name, value }) => ({ code, name, value }))
+    } else {
+      value = opt
+    }
+    ref.current.setFields([
+      {
+        name: pathName,
+        value,
       },
-    })
+    ])
   }
   return (
     <Form.Item
@@ -55,7 +65,7 @@ const NgangNgheDangKi = forwardRef((props, ref) => {
                     .indexOf(input.toLowerCase()) >= 0
                 }
                 onChange={(val, opt) =>
-                  handleChange('company_main_career', val, opt)
+                  handleChange([...BASE_FORM, 'company_main_career'], val, opt)
                 }
                 placeholder="Gõ tên ngành hoặc mã ngành"
               >
@@ -86,7 +96,7 @@ const NgangNgheDangKi = forwardRef((props, ref) => {
               allowClear
               style={{ width: '100%' }}
               onChange={(val, opt) =>
-                handleChange('company_opt_career', val, opt)
+                handleChange([...BASE_FORM, 'company_opt_career'], val, opt)
               }
               optionFilterProp="children"
               placeholder="Gõ tên ngành hoặc mã ngành"

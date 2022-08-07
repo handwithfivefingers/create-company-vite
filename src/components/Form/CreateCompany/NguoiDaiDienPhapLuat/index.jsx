@@ -1,20 +1,18 @@
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons'
-import { Button, Col, Form, Row, Space, Typography } from 'antd'
-import { differenceBy } from 'lodash'
+import { Button, Col, Form, Row, Space } from 'antd'
 import React, { forwardRef, useState, useEffect } from 'react'
 import CCInput from '@/components/CCInput'
 import { SELECT } from '@/constant/Common'
 import { makeid } from '@/helper/Common'
 import clsx from 'clsx'
 import styles from '../CreateCompany.module.scss'
-import CCListForm from '../../../CCListForm'
 import CCSelect from '../../../CCSelect'
 
 const NguoiDaiDienPhapLuat = forwardRef((props, ref) => {
   const { current, BASE_FORM } = props
 
   const [present, setPresent] = useState(null)
-
+  const [trigger, setTrigger] = useState(false)
   let obj = [{}, {}, {}, {}, {}] // defaultObj
 
   useEffect(() => {
@@ -31,7 +29,6 @@ const NguoiDaiDienPhapLuat = forwardRef((props, ref) => {
         onSetFields(pathName, null)
       } else {
         val = { ...origin_person }
-
         onSetFields(pathName, val)
       }
     } else {
@@ -45,13 +42,15 @@ const NguoiDaiDienPhapLuat = forwardRef((props, ref) => {
     return result
   }
 
-  const onSetFields = (pathName, val, upper = false) => {
+  const onSetFields = async (pathName, val, upper = false) => {
     ref.current.setFields([
       {
         name: pathName,
         value: upper ? val.toUpperCase() : val,
       },
     ])
+    await new Promise((resolve, reject) => setTimeout(resolve, 200));
+    setTrigger(!trigger)
   }
 
   return (
@@ -121,7 +120,7 @@ const NguoiDaiDienPhapLuat = forwardRef((props, ref) => {
                       <CCSelect.SelectTitle
                         name={[...BASE_FORM, 'legal_respon', i, 'title']}
                         label="Chức danh"
-                        placeholder='Bấm vào đây'
+                        placeholder="Bấm vào đây"
                         options={SELECT.TITLE_3}
                         ref={ref}
                       />
@@ -131,7 +130,7 @@ const NguoiDaiDienPhapLuat = forwardRef((props, ref) => {
                         name={[field.name, 'gender']}
                         label="Giới tính"
                         options={SELECT.GENDER}
-                        placeholder='Bấm vào đây'
+                        placeholder="Bấm vào đây"
                       />
 
                       <CCInput
@@ -144,7 +143,20 @@ const NguoiDaiDienPhapLuat = forwardRef((props, ref) => {
                         name={[field.name, 'per_type']}
                         label="Dân tộc"
                         dependencies={[field.name, 'per_type']}
-                        pathName={[...BASE_FORM, 'legal_respon', i, 'per_type']}
+                        data={{
+                          pathName: [
+                            ...BASE_FORM,
+                            'legal_respon',
+                            i,
+                            'per_type',
+                          ],
+                          value: ref?.current?.getFieldValue([
+                            'create_company',
+                            'approve',
+                            'origin_person',
+                            'per_type',
+                          ]),
+                        }}
                         ref={ref}
                       />
 
@@ -152,26 +164,40 @@ const NguoiDaiDienPhapLuat = forwardRef((props, ref) => {
                         <CCSelect.SelectProvince
                           ref={ref}
                           name={[field.name, 'current']}
-                          dependencies={[field.name, 'current']}
-                          pathName={[
-                            ...BASE_FORM,
-                            'legal_respon',
-                            i,
-                            'current',
-                          ]}
+                          data={{
+                            pathName: [
+                              ...BASE_FORM,
+                              'legal_respon',
+                              i,
+                              'current',
+                            ],
+                            value: ref?.current?.getFieldValue([
+                              'create_company',
+                              'approve',
+                              'origin_person',
+                              'current',
+                            ]),
+                          }}
                         />
                       </Form.Item>
 
                       <Form.Item label="Nơi ở hiện tại">
                         <CCSelect.SelectProvince
                           name={[field.name, 'contact']}
-                          dependencies={[field.name, 'contact']}
-                          pathName={[
-                            ...BASE_FORM,
-                            'legal_respon',
-                            i,
-                            'contact',
-                          ]}
+                          data={{
+                            pathName: [
+                              ...BASE_FORM,
+                              'legal_respon',
+                              i,
+                              'contact',
+                            ],
+                            value: ref?.current?.getFieldValue([
+                              'create_company',
+                              'approve',
+                              'origin_person',
+                              'contact',
+                            ]),
+                          }}
                           ref={ref}
                         />
                       </Form.Item>
@@ -184,7 +210,7 @@ const NguoiDaiDienPhapLuat = forwardRef((props, ref) => {
                               name={[field.name, 'doc_type']}
                               label="Loại giấy tờ"
                               options={SELECT.DOC_TYPE}
-                              placeholder='Bấm vào đây'
+                              placeholder="Bấm vào đây"
                             />
                           </Col>
                           <Col lg={24} md={24} sm={24} xs={24}>
@@ -199,7 +225,7 @@ const NguoiDaiDienPhapLuat = forwardRef((props, ref) => {
                               type="date"
                               name={[field.name, 'doc_time_provide']}
                               label="Ngày cấp"
-                              placeholder='Chọn ngày'
+                              placeholder="Chọn ngày"
                             />
                           </Col>
 
@@ -207,14 +233,22 @@ const NguoiDaiDienPhapLuat = forwardRef((props, ref) => {
                             <CCSelect.SelectDocProvide
                               name={[field.name, 'doc_place_provide']}
                               label="Nơi cấp"
-                              ref={ref}
                               dependencies={[field.name, 'doc_place_provide']}
-                              pathName={[
-                                ...BASE_FORM,
-                                'legal_respon',
-                                i,
-                                'doc_place_provide',
-                              ]}
+                              data={{
+                                pathName: [
+                                  ...BASE_FORM,
+                                  'legal_respon',
+                                  i,
+                                  'doc_place_provide',
+                                ],
+                                value: ref?.current?.getFieldValue([
+                                  'create_company',
+                                  'approve',
+                                  'origin_person',
+                                  'doc_place_provide',
+                                ]),
+                              }}
+                              ref={ref}
                             />
                           </Col>
                         </Row>

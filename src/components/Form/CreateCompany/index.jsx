@@ -51,10 +51,6 @@ const ThanhVienGopVon = lazy(() => {
 const BASE_FORM = ['create_company', 'approve']
 
 const CreateCompany = forwardRef((props, formRef) => {
-  // const handleFieldsChange = (field, fields) => {
-  // 	let val = formRef.current.getFieldsValue();
-  // 	window.localStorage.setItem('formData', JSON.stringify(val));
-  // };
   useEffect(() => {
     onSetFields([...BASE_FORM, 'origin_person', 'national'], 'Việt Nam')
   }, [])
@@ -121,54 +117,54 @@ const CreateCompany = forwardRef((props, formRef) => {
           }
         >
           {/** 1 */}
-          {props.step >= 1 && (
+          {
             <GiaTriGopVon
               BASE_FORM={BASE_FORM}
               current={props.step}
               ref={formRef}
             />
-          )}
+          }
           {/** 2 */}
-          {props.step >= 2 && (
+          {
             <ThanhVienGopVon
               BASE_FORM={BASE_FORM}
               current={props.step}
               ref={formRef}
             />
-          )}
+          }
           {/** 3 */}
-          {props.step >= 3 && (
+          {
             <NguoiDaiDienPhapLuat
               BASE_FORM={BASE_FORM}
               current={props.step}
               ref={formRef}
             />
-          )}
+          }
 
           {/** 4 */}
-          {props.step >= 4 && (
+          {
             <TenCongTy
               BASE_FORM={BASE_FORM}
               current={props.step}
               ref={formRef}
             />
-          )}
+          }
           {/** 5 */}
-          {props.step >= 5 && (
+          {
             <DiaChiTruSoChinh
               BASE_FORM={BASE_FORM}
               current={props.step}
               ref={formRef}
             />
-          )}
+          }
           {/** 6 */}
-          {props.step >= 6 && (
+          {
             <NgangNgheDangKi
               BASE_FORM={BASE_FORM}
               current={props.step}
               ref={formRef}
             />
-          )}
+          }
         </Suspense>
       </Form>
     </>

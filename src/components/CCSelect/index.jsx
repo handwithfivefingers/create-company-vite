@@ -21,7 +21,7 @@ const SelectProvince = forwardRef((props, ref) => {
 
   const [wards, setWards] = useState([])
 
-  const name = props?.nameSet ? props?.nameSet : props?.name
+  const name = props?.name
 
   useEffect(() => {
     !city.length && dispatch(ProvinceAction.getProvinceAction())
@@ -34,13 +34,18 @@ const SelectProvince = forwardRef((props, ref) => {
   useEffect(() => {
     let val = ref.current.getFieldValue([...name])
     onSetFields([...name], val, ref)
+    console.log(ref.current.getFieldsValue())
   }, [props])
 
-  const handleSelectCity = (val, opt) => {
-    let pathName = name
-    if (props.pathName) {
-      pathName = props.pathName
+  useEffect(() => {
+    if (props.data) {
+      let { pathName, value } = props?.data
+      onSetFields([...pathName], value, ref)
     }
+  }, [])
+
+  const handleSelectCity = (val, opt) => {
+    let pathName = props.data?.pathName || name
 
     onSetFields([...pathName, 'city'], opt.name, ref)
 
@@ -51,15 +56,10 @@ const SelectProvince = forwardRef((props, ref) => {
       [...pathName, 'town'],
     ]
     listFields.forEach((item) => onSetFields([...item], null, ref))
-
-    // console.log('handleSelectCity', ref.current.getFieldsValue())
   }
 
   const handleSelectDistricts = (val, opt) => {
-    let pathName = name
-    if (props.pathName) {
-      pathName = props.pathName
-    }
+    let pathName = props.data?.pathName || name
 
     onSetFields([...pathName, 'district'], opt.name, ref)
 
@@ -67,11 +67,8 @@ const SelectProvince = forwardRef((props, ref) => {
   }
 
   const handleSelectWards = (val, opt) => {
-    let pathName = name
+    let pathName = props.data?.pathName || name
 
-    if (props.pathName) {
-      pathName = props.pathName
-    }
     onSetFields([...pathName, 'town'], opt.name, ref)
   }
 
@@ -93,7 +90,6 @@ const SelectProvince = forwardRef((props, ref) => {
       }
     } catch (err) {
       console.log('getScreenData err: ' + err)
-    } finally {
     }
   }
 
@@ -183,7 +179,6 @@ const SelectProvince = forwardRef((props, ref) => {
       <CCInput
         label="Số nhà, ngách, hẻm, ngõ, đường phố/tổ/xóm/ấp/thôn"
         name={[...name, 'address']}
-        //placeholder={props.placeholder}
         placeholder="27 Nguyễn Hữu Thọ"
       />
     </>
@@ -201,7 +196,6 @@ const SelectTitle = forwardRef((props, ref) => {
     let val = ref.current.getFieldValue([...pathName])
   }, [ref])
   const handleSelect = (val, opt) => {
-    // console.log([...props.name])
     if (val === 1) {
       setInpShow(true)
     } else {
@@ -218,8 +212,6 @@ const SelectTitle = forwardRef((props, ref) => {
             placeholder={props.placeholder}
             onChange={(val, opt) => handleSelect(val, opt)}
           >
-            {/* <Option value={'Tổng Giám Đốc'}>Tổng Giám Đốc</Option>
-            <Option value={'Giám Đốc'}>Giám Đốc</Option> */}
             {props.options.map((option, i) => (
               <Option
                 value={option.value}
@@ -247,49 +239,74 @@ const SelectTitle = forwardRef((props, ref) => {
   )
 })
 
-const SelectInput = forwardRef((props, ref) => {
-  useEffect(() => {}, [ref])
-
-  return <div>SelectInput</div>
-})
-
 const SelectPersonType = forwardRef((props, ref) => {
-  const [select, setSelect] = useState(1)
+  const [select, SetSelect] = useState(1)
+  const [input, SetInput] = useState('')
+  const DEFAULT_SELECT = 'Kinh'
 
-  const [input, setInput] = useState('')
   useEffect(() => {
-    let pathName = props.name
-    if (props.pathName) {
-      pathName = props.pathName
-    }
-    let val = ref.current.getFieldValue([...pathName])
-    if (val && val !== 'Kinh') {
-      setSelect(2)
-      setInput(val)
+    let pathName = props.data?.pathName || props.name
+    let value = props.data?.value || ref.current.getFieldValue([...pathName])
+    if (value && value !== DEFAULT_SELECT) {
+      SetSelect(2)
+      SetInput(value)
+      onSetFields(pathName, value, ref)
+    } else {
+      SetSelect(1)
+      onSetFields(pathName, DEFAULT_SELECT, ref)
     }
   }, [props])
 
+  // useEffect(() => {
+  //   let pathName = props.name
+  //   if (props.data) {
+  //     pathName = props.data.pathName
+  //   }
+
+  //   let val = ref.current.getFieldValue([...pathName])
+  //   if (val && val !== DEFAULT_SELECT) {
+  //     setSelect(2)
+  //     setInput(val)
+  //     onSetFields(pathName, val, ref)
+  //   }
+  // }, [props])
+
+  // useEffect(() => {
+  //   if (props?.data) {
+  //     let { value, pathName } = props.data
+  //     onSetFields(pathName, value, ref)
+  //     if (value && value !== DEFAULT_SELECT) {
+  //       setSelect(2)
+  //       setInput(value)
+  //     }
+  //   }
+  // }, [])
+
   const handleSelect = (val, opt) => {
     let pathName = props.name
-    if (props.pathName) {
-      pathName = props.pathName
+    if (props.data) {
+      pathName = props.data.pathName
     }
     if (val === 1) {
-      ref.current.setFields([{ name: [...pathName], value: 'Kinh' }])
-      setSelect(1)
-    } else setSelect(2)
+      ref.current.setFields([{ name: [...pathName], value: DEFAULT_SELECT }])
+      SetSelect(1)
+    } else SetSelect(2)
   }
 
   const handleInputChange = (e) => {
     let pathName = props.name
-    if (props.pathName) {
-      pathName = props.pathName
+    if (props.data) {
+      pathName = props.data.pathName
     }
-    setInput(e.target.value)
+    SetInput(e.target.value)
     ref.current.setFields([{ name: [...pathName], value: e.target.value }])
   }
   return (
-    <Form.Item name={[...props.name]} label={props.label}>
+    <Form.Item
+      name={[...props.name]}
+      label={props.label}
+      dependencies={props.dependencies}
+    >
       <Row>
         <Col span={select === 2 ? 8 : 24} style={{ padding: 0 }}>
           <Select
@@ -297,7 +314,7 @@ const SelectPersonType = forwardRef((props, ref) => {
             placeholder={props.placeholder}
             onChange={(val, opt) => handleSelect(val, opt)}
           >
-            <Option value={1}>Kinh</Option>
+            <Option value={1}>{DEFAULT_SELECT}</Option>
             <Option value={2}>Khác</Option>
           </Select>
         </Col>
@@ -313,40 +330,38 @@ const SelectPersonType = forwardRef((props, ref) => {
 
 const SelectDocProvide = forwardRef((props, ref) => {
   const [select, SetSelect] = useState(1)
-  const [input, SetInput] = useState('')
-  useEffect(() => {
-    let pathName = props.name
 
-    if (props.pathName) {
-      pathName = props.pathName
-    }
-    let val = ref.current.getFieldValue([...pathName])
-    if (val && val !== 'Cục Cảnh Sát Quản Lý Hành Chính Về Trật Tự Xã Hội') {
+  const [input, SetInput] = useState('')
+  const DEFAULT_SELECT = 'Cục Cảnh Sát Quản Lý Hành Chính Về Trật Tự Xã Hội'
+  useEffect(() => {
+    let pathName = props.data?.pathName || props.name
+    let value = props.data?.value || ref.current.getFieldValue([...pathName])
+    if (value && value !== DEFAULT_SELECT) {
       SetSelect(2)
-      SetInput(val)
+      SetInput(value)
+      onSetFields(pathName, value, ref)
+    } else {
+      SetSelect(1)
+      onSetFields(pathName, DEFAULT_SELECT, ref)
     }
   }, [props])
 
   const handleSelect = (val, opt) => {
-    let pathName = props.name
-    if (props.pathName) {
-      pathName = props.pathName
-    }
+    let pathName = props.data?.pathName || props.name
+
     SetSelect(val)
     if (val === 1) {
       ref.current.setFields([
         {
           name: [...pathName],
-          value: 'Cục Cảnh Sát Quản Lý Hành Chính Về Trật Tự Xã Hội',
+          value: DEFAULT_SELECT,
         },
       ])
     }
   }
   const handleInputchange = (e) => {
-    let pathName = props.name
-    if (props.pathName) {
-      pathName = props.pathName
-    }
+    let pathName = props.data?.pathName || props.name
+
     SetInput(e.target.value)
 
     ref.current.setFields([{ name: [...pathName], value: e.target.value }])
@@ -360,9 +375,7 @@ const SelectDocProvide = forwardRef((props, ref) => {
             onChange={(val, opt) => handleSelect(val, opt)}
             value={select}
           >
-            <Option value={1}>
-              Cục Cảnh Sát Quản Lý Hành Chính Về Trật Tự Xã Hội
-            </Option>
+            <Option value={1}>{DEFAULT_SELECT}</Option>
             <Option value={2}>Khác</Option>
           </Select>
         </Col>
@@ -376,165 +389,8 @@ const SelectDocProvide = forwardRef((props, ref) => {
   )
 })
 
-const SelectCascader = forwardRef((props, ref) => {
-  const { province: city } = useSelector((state) => state.provinceReducer)
-
-  // const [city, setCity] = useState([]);
-  const [params, setParams] = useState({
-    code: null,
-    wards: null,
-  })
-
-  const [districts, setDistricts] = useState([])
-
-  const [wards, setWards] = useState([])
-
-  useEffect(() => {
-    getScreenData(params)
-  }, [params])
-
-  const handleSelectCity = (val, opt) => {
-    onSetFields([...props.name, 'city'], opt.name)
-
-    setParams({ code: val, ward: null })
-
-    let listFields = [
-      [...props.name, 'district'],
-      [...props.name, 'town'],
-    ]
-    listFields.forEach((item) => onSetFields([...item], null))
-
-    // console.log(ref.current.getFieldsValue())
-  }
-
-  const handleSelectDistricts = (val, opt) => {
-    onSetFields([...props.name, 'district'], opt.name)
-    setParams((state) => ({ ...state, wards: val }))
-  }
-
-  const onSetFields = (pathName, val) => {
-    ref.current.setFields([
-      {
-        name: [...pathName],
-        value: val,
-      },
-    ])
-  }
-
-  const getScreenData = async ({ code = null, wards = null } = {}) => {
-    try {
-      if (!code) return
-
-      let res = await GlobalService.getProvince({ code, wards })
-      // console.log(res)
-      let { data } = res.data
-      if (res) {
-        if (code) {
-          if (wards) {
-            return setWards(data)
-          }
-          return setDistricts(data)
-        }
-      }
-    } catch (err) {
-      console.log('getScreenData err: ' + err)
-    } finally {
-    }
-  }
-
-  return (
-    <>
-      <Form.Item name={[...props.name, 'city']} placeholder={props.placeholder}>
-        <Select
-          showSearch
-          label="Tỉnh/Thành phố"
-          onChange={(val, opt) => handleSelectCity(val, opt)}
-          optionFilterProp="children"
-          allowClear
-          filterOption={(input, option) =>
-            option.children?.toLowerCase().indexOf(input.toLowerCase()) >= 0
-          }
-        >
-          {city.map((item) => {
-            return (
-              <Option
-                key={[item.code, item.codename]}
-                name={item.name}
-                value={item.code}
-              >
-                {item.name}
-              </Option>
-            )
-          })}
-        </Select>
-      </Form.Item>
-
-      <Form.Item
-        label="Quận/Huyện/Thị xã/Thành phố thuộc tỉnh"
-        name={[...props.name, 'district']}
-      >
-        <Select
-          placeholder={props.placeholder}
-          onChange={(val, opt) => handleSelectDistricts(val, opt)}
-          optionFilterProp="children"
-          showSearch
-          allowClear
-          filterOption={(input, option) =>
-            option.children?.toLowerCase().indexOf(input.toLowerCase()) >= 0
-          }
-        >
-          {districts.map((item) => {
-            return (
-              <Option
-                key={[item.code, item.codename]}
-                name={item.name}
-                value={item.code}
-              >
-                {item.name}
-              </Option>
-            )
-          })}
-        </Select>
-      </Form.Item>
-
-      <Form.Item label="Xã/Phường/Thị trấn" name={[...props.name, 'town']}>
-        <Select
-          placeholder={props.placeholder}
-          onChange={(val, opt) =>
-            onSetFields([...props.name, 'town'], opt.name)
-          }
-          showSearch
-          optionFilterProp="children"
-          allowClear
-          filterOption={(input, option) =>
-            option.children?.toLowerCase().indexOf(input.toLowerCase()) >= 0
-          }
-        >
-          {wards.map((item) => {
-            return (
-              <Option
-                key={[item.code, item.codename]}
-                name={item.name}
-                value={item.code}
-              >
-                {item.name}
-              </Option>
-            )
-          })}
-        </Select>
-      </Form.Item>
-
-      <CCInput
-        label="Số nhà, ngách, hẻm, ngõ, đường phố/tổ/xóm/ấp/thôn"
-        name={[...props.name, 'address']}
-        placeholder={props.placeholder}
-      />
-    </>
-  )
-})
 const CCSelect = {
   SelectProvince,
-  SelectInput,
   SelectPersonType,
   SelectDocProvide,
   SelectTitle,
