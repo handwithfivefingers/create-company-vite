@@ -184,7 +184,7 @@ const SelectProvince = forwardRef((props, ref) => {
         label="Số nhà, ngách, hẻm, ngõ, đường phố/tổ/xóm/ấp/thôn"
         name={[...name, 'address']}
         //placeholder={props.placeholder}
-        placeholder="20 Nguyễn Hữu Thọ"
+        placeholder="27 Nguyễn Hữu Thọ"
       />
     </>
   )
