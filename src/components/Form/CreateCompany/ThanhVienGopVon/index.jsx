@@ -226,8 +226,9 @@ const Personal = forwardRef((props, ref) => {
           <div
             style={{
               padding: '8px 0',
-              opacity: radio && radio === 1 ? '0' : '1',
-              visibility: radio && radio === 1 ? 'hidden' : 'visible',
+              opacity: radio && radio === 2 ? '1' : '0',
+              visibility: radio && radio === 2 ? 'visible' : 'hidden',
+              display: radio && radio === 2 ? 'block' : 'none',
             }}
           >
             <CCSelect.SelectProvince
@@ -318,7 +319,7 @@ const OriginalPerson = forwardRef((props, ref) => {
         placeholder="NGUYỄN VĂN A"
         onChange={(e) =>
           onSetFields(
-            [...BASE_FORM, 'origin_person', 'organization_name'],
+            [...BASE_FORM, 'origin_person', 'name'],
             e.target.value,
             true,
           )
@@ -433,8 +434,10 @@ const OriginalPerson = forwardRef((props, ref) => {
           <div
             style={{
               padding: '8px 0',
-              opacity: radio && radio === 1 ? '0' : '1',
-              visibility: radio && radio === 1 ? 'hidden' : 'visible',
+              opacity: radio && radio === 2 ? '1' : '0',
+              visibility: radio && radio === 2 ? 'visible' : 'hidden',
+              display: radio && radio === 2 ? 'block' : 'none',
+
             }}
           >
             <CCSelect.SelectProvince

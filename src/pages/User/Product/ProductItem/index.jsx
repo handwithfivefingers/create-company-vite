@@ -238,7 +238,7 @@ const UserProductItem = (props) => {
   const handlePurchaseCreateCompany = useCallback(() => {
     let val = formRef.current.getFieldsValue()
     let { approve } = val.create_company
-    console.log(approve)
+    // console.log(approve)
     let company_opt_career = approve.company_opt_career?.map(
       ({ value, name, code }) => ({ value, name, code }),
     )

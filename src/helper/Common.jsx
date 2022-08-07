@@ -2,11 +2,17 @@ import { Skeleton, Col } from 'antd'
 import ProductCard from '../components/Products'
 import { BaseFieldText } from './../constant/Common'
 import moment from 'moment'
-
+/**
+ * 
+ * @param {*} pathName Array field name
+ * @param {*} val value
+ * @param {*} ref reference form
+ * @param {*} upper Boolean
+ */
 const onSetFields = (pathName, val, ref, upper = false) => {
   ref.current.setFields([
     {
-      name: pathName,
+      name: [...pathName],
       value: upper ? val.toUpperCase() : val,
     },
   ])

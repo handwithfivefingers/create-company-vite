@@ -89,7 +89,7 @@ const VirtualScroll = (props) => {
 		[visibleList, scrollY]
 	);
 
-	console.log('trigger render');
+	// console.log('trigger render');
 
 	return (
 		<div onScroll={scroll} ref={containerRef} className={styles.container}>

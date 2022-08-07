@@ -107,7 +107,7 @@ const PreviewData = ({ data }) => {
 
         if (isSpecial) {
           let specialObject = [arrayItem || arrayItem.name];
-          console.log('arrayItem', specialObject);
+          // console.log('arrayItem', specialObject);
           return (
             <CCDescription.DescListItem title={checkTitle(keys, arrayIndex)}>
               {renderDescription(specialObject, label, index1, arrayIndex)}

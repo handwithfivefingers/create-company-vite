@@ -4,7 +4,6 @@ const initState = {
 };
 
 export default function provinceReducer(state = initState, action) {
-	console.log(action);
 	switch (action.type) {
 		case PROVINCE.SUCCESS:
 			return { ...state, province: action.payload.data };

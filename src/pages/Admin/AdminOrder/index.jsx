@@ -57,7 +57,7 @@ const AdminOrder = () => {
 	};
 
 	const handlePayment = (record) => {
-		console.log(record);
+		// console.log(record);
 		setLoading(true);
 		axios
 			.get(`/api/payment/${record._id}`)

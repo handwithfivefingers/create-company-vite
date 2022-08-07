@@ -16,7 +16,7 @@ const PendingPages = forwardRef((props, ref) => {
     handlePurchasePending,
     step,
   } = props
-  console.log(step)
+  // console.log(step)
   return (
     <Card className="card-boxShadow">
       <Suspense
