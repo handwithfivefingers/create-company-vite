@@ -13,9 +13,9 @@ const DissolutionComponent = forwardRef((props, ref) => {
 			{current === 2 ? renderPrewviewForm(formRef) : ''}
 
 			<div className={'card-boxShadow'} style={{ position: 'sticky', bottom: 0 }}>
-				{current > 0 && <Button onClick={Prev}>Prev</Button>}
+				{current > 0 && <Button onClick={Prev}>Quay lại</Button>}
 
-				{current < 2 && <Button onClick={Next}>Next</Button>}
+				{current < 2 && <Button onClick={Next}>Tiếp tục</Button>}
 				{current === 2 && (
 					<>
 						<Button loading={loading} onClick={handleSaveDissolution}>

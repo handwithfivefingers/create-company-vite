@@ -44,8 +44,8 @@ const CreateCompanyPages = forwardRef((props, ref) => {
           className={'card-boxShadow'}
           style={{ position: 'sticky', bottom: 0 }}
         >
-          {step > 0 ? <Button onClick={Prev}>Prev</Button> : ''}
-          {step < 7 ? <Button onClick={Next}>Next</Button> : ''}
+          {step > 0 ? <Button onClick={Prev}>Quay lại</Button> : ''}
+          {step < 7 ? <Button onClick={Next}>Tiếp tục</Button> : ''}
           {step === 7 ? (
             <>
               <Button loading={loading} onClick={handleSave}>
