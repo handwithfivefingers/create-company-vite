@@ -39,10 +39,13 @@ const PendingPages = forwardRef((props, ref) => {
           {step < 2 && <Button onClick={Next}>Tiếp tục</Button>}
           {step === 2 && (
             <>
-              <Button loading={loading} onClick={handleSavePending}>
+              <Button loading={loading} onClick={() => handleSavePending(ref)}>
                 Lưu lại
               </Button>
-              <Button loading={loading} onClick={handlePurchasePending}>
+              <Button
+                loading={loading}
+                onClick={() => handlePurchasePending(ref)}
+              >
                 Thanh toán
               </Button>
             </>

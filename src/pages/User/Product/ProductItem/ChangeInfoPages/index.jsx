@@ -8,7 +8,6 @@ const ChangeInforForm = lazy(() => {
 
 const ChangeInfoPages = forwardRef((props, ref) => {
   const {
-    setStep,
     renderPrewviewForm,
     handleSaveChangeInfo,
     handlePurchaseChangeInfo,
@@ -51,10 +50,16 @@ const ChangeInfoPages = forwardRef((props, ref) => {
 
           {step === changeInforStep?.length - 1 && (
             <>
-              <Button loading={loading} onClick={handleSaveChangeInfo}>
+              <Button
+                loading={loading}
+                onClick={() => handleSaveChangeInfo(ref)}
+              >
                 Lưu lại
               </Button>
-              <Button loading={loading} onClick={handlePurchaseChangeInfo}>
+              <Button
+                loading={loading}
+                onClick={() => handlePurchaseChangeInfo(ref)}
+              >
                 Thanh toán
               </Button>
             </>

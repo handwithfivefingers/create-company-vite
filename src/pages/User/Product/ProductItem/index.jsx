@@ -230,53 +230,51 @@ const UserProductItem = (props) => {
     })
   }, [])
 
-  const handlePurchaseChangeInfo = useCallback(() => {
-    const params = getParams()
-    return paymentService(params)
-  }, [data])
+  const handlePurchaseChangeInfo = useCallback(
+    (ref) => {
+      const params = getParams(ref)
+      return paymentService(params)
+    },
+    [data],
+  )
 
-  const handlePurchaseCreateCompany = useCallback((ref) => {
-    let val = ref ? ref.current.getFieldsValue(): formRef.current.getFieldsValue()
-    let { approve } = val.create_company
-    // console.log(approve)
-    let company_opt_career = approve.company_opt_career?.map(
-      ({ value, name, code }) => ({ value, name, code }),
-    )
-    let body = {
-      ...val,
-      create_company: {
-        approve: {
-          ...approve,
-          company_opt_career,
+  const handlePurchaseCreateCompany = useCallback(
+    (ref) => {
+      let val = ref.current.getFieldsValue()
+      let params = {
+        track: {
+          step: 1,
+          status: 'progress',
         },
-      },
-    }
-    let params = {
-      track: {
-        step: 1,
-        status: 'progress',
-      },
-      payment: 0,
-      data: {
-        ...body,
-      },
-    }
-    return paymentService(params)
-  }, [data])
+        payment: 0,
+        data: {
+          ...val,
+        },
+      }
+      return paymentService(params)
+    },
+    [data],
+  )
 
-  const handlePurchasePending = useCallback(() => {
-    const params = getParams()
-    return paymentService(params)
-  }, [data])
+  const handlePurchasePending = useCallback(
+    (ref) => {
+      const params = getParams(ref)
+      return paymentService(params)
+    },
+    [data],
+  )
 
-  const handlePurchaseDissolution = useCallback(() => {
-    const params = getParams()
-    return paymentService(params)
-  }, [data])
-  const getParams = (ref=null) => {
+  const handlePurchaseDissolution = useCallback(
+    (ref) => {
+      const params = getParams(ref)
+      return paymentService(params)
+    },
+    [data],
+  )
+
+  const getParams = (ref = null) => {
     let result = {}
-    let val = ref ? ref.current.getFieldsValue(): formRef.current.getFieldsValue()
-    console.log(val)
+    let val = ref?.current.getFieldsValue()
     result = {
       track: {
         step: 1,
@@ -289,27 +287,40 @@ const UserProductItem = (props) => {
     }
     return result
   }
-  const handleSave = useCallback((ref) => {
-    const params = getParams(ref)
-    // return; 
-    saveService(params)
-    
-  }, [data])
 
-  const handleSaveChangeInfo = useCallback(() => {
-    const params = getParams()
-    return saveService(params)
-  }, [data])
+  const handleSave = useCallback(
+    (ref) => {
+      const params = getParams(ref)
+      console.log('handleSave', params)
+      // return
+      saveService(params)
+    },
+    [data],
+  )
 
-  const handleSavePending = useCallback(() => {
-    const params = getParams()
-    return saveService(params)
-  }, [data])
+  const handleSaveChangeInfo = useCallback(
+    (ref) => {
+      const params = getParams(ref)
+      return saveService(params)
+    },
+    [data],
+  )
 
-  const handleSaveDissolution = useCallback(() => {
-    const params = getParams()
-    return saveService(params)
-  }, [data])
+  const handleSavePending = useCallback(
+    (ref) => {
+      const params = getParams(ref)
+      return saveService(params)
+    },
+    [data],
+  )
+
+  const handleSaveDissolution = useCallback(
+    (ref) => {
+      const params = getParams(ref)
+      return saveService(params)
+    },
+    [data],
+  )
 
   // Service
   const saveService = async (params) => {

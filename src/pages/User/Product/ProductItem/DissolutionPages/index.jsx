@@ -39,10 +39,16 @@ const DissolutionPages = forwardRef((props, ref) => {
           {step < 2 && <Button onClick={Next}>Tiếp tục</Button>}
           {step === 2 && (
             <>
-              <Button loading={loading} onClick={handleSaveDissolution}>
+              <Button
+                loading={loading}
+                onClick={() => handleSaveDissolution(ref)}
+              >
                 Lưu lại
               </Button>
-              <Button loading={loading} onClick={handlePurchaseDissolution}>
+              <Button
+                loading={loading}
+                onClick={() => handlePurchaseDissolution(ref)}
+              >
                 Thanh toán
               </Button>
             </>

@@ -1,4 +1,4 @@
-import React, { forwardRef, useState, useEffect, useRef } from 'react'
+import React, { forwardRef, useState, useEffect, useRef, useMemo } from 'react'
 import { Form, Row, Col, InputNumber, Radio, Space } from 'antd'
 import CCInput from '@/components/CCInput'
 import clsx from 'clsx'
@@ -187,8 +187,6 @@ const Personal = forwardRef((props, ref) => {
       />
 
       <Form.Item
-        // label="Địa chỉ thường trú"
-
         label={
           <div
             dangerouslySetInnerHTML={{
@@ -203,9 +201,7 @@ const Personal = forwardRef((props, ref) => {
           name={[...BASE_FORM, 'origin_person', 'current']}
         />
       </Form.Item>
-
       <Form.Item
-        // label="Địa chỉ liên lạc"
         label={
           <div
             dangerouslySetInnerHTML={{
@@ -335,7 +331,7 @@ const OriginalPerson = forwardRef((props, ref) => {
             }}
           />
         }
-        placeholder='Bấm vào đây'
+        placeholder="Bấm vào đây"
         options={SELECT.TITLE_2}
       />
 
@@ -438,7 +434,6 @@ const OriginalPerson = forwardRef((props, ref) => {
               opacity: radio && radio === 2 ? '1' : '0',
               visibility: radio && radio === 2 ? 'visible' : 'hidden',
               display: radio && radio === 2 ? 'block' : 'none',
-
             }}
           >
             <CCSelect.SelectProvince

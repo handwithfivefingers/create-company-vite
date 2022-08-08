@@ -15,7 +15,7 @@ const listOfFields = [
 ];
 
 const PreviewData = ({ data }) => {
-  console.log(data)
+  // console.log(data)
   const renderTitle = (newData, label) => {
     let xhtml = '';
     for (let property in label) {

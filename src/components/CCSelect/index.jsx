@@ -1,7 +1,7 @@
 import CCInput from '@/components/CCInput'
 import GlobalService from '@/service/GlobalService'
 import { Col, Form, Input, Row, Select } from 'antd'
-import React, { forwardRef, useEffect, useState } from 'react'
+import React, { forwardRef, memo, useEffect, useState } from 'react'
 import { onSetFields } from '@/helper/Common'
 import { ProvinceAction } from '@/store/actions'
 import { useDispatch, useSelector } from 'react-redux'
@@ -34,7 +34,6 @@ const SelectProvince = forwardRef((props, ref) => {
   useEffect(() => {
     let val = ref.current.getFieldValue([...name])
     onSetFields([...name], val, ref)
-    console.log(ref.current.getFieldsValue())
   }, [props])
 
   useEffect(() => {
@@ -396,4 +395,4 @@ const CCSelect = {
   SelectTitle,
 }
 
-export default CCSelect
+export default memo(CCSelect)
