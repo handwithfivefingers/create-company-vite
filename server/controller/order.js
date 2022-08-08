@@ -4,17 +4,15 @@ const {
   permisHandler,
   existHandler,
 } = require('../response')
-const { Product, Category, Career, User, Order } = require('./../model')
+const { Product, Order } = require('./../model')
 const { sendmailWithAttachments } = require('./sendmail')
 const shortid = require('shortid')
-const mongoose = require('mongoose')
 const qs = require('query-string')
 const crypto = require('crypto')
 const { ResponseCode } = require('../common/ResponseCode')
 const { getListFiles } = require('../constant/File')
 const { uniqBy } = require('lodash')
 const { getVpnParams, sortObject } = require('../common/helper')
-const fs = require('fs')
 const PAGE_SIZE = 10
 
 // Get getOrdersFromUser
@@ -25,68 +23,9 @@ const getOrdersFromUser = async (req, res) => {
       .populate('products', 'name type')
       .populate('orderOwner', 'name')
       .sort('-createdAt')
-    // console.log(_order);
     return successHandler(_order, res)
   } catch (err) {
     console.log('getOrdersFromUser error')
-    return errHandler(err, res)
-  }
-}
-
-// admin
-const getOrders = async (req, res) => {
-  try {
-    const { page, ...condition } = req.body
-
-    let current_page = (parseInt(page) - 1) * PAGE_SIZE
-
-    const email = new RegExp(condition?.name, 'i')
-
-    let _user = await User.find({
-      $and: [
-        {
-          email: email,
-          // role: "User",
-        },
-      ],
-    }).select('_id')
-
-    let newCondition = _user.map((item) => ({ orderOwner: item._id }))
-
-    if (req.role === 'admin') {
-      let _order = await Order.find({
-        $or: newCondition.length > 0 ? newCondition : [{}],
-      })
-        .populate('products', 'name')
-        .populate('orderOwner', 'name email')
-        .skip(current_page)
-        .limit(PAGE_SIZE)
-        .sort('-createdAt')
-
-      const count = await Order.find({
-        $or: newCondition.length > 0 ? newCondition : [{}],
-      }).countDocuments()
-
-      return successHandler({ _order, count, current_page: page || 1 }, res)
-    }
-    return getOrder(req, res)
-  } catch (err) {
-    console.log('getOrders error')
-    return errHandler(err, res)
-  }
-}
-
-const getOrder = async (req, res) => {
-  try {
-    let _order = await Order.find({ orderOwner: req.id })
-      .populate('products', 'name')
-      .populate('orderOwner', 'name')
-      // .limit(10)
-      .sort('-createdAt')
-
-    return successHandler(_order, res)
-  } catch (err) {
-    console.log('getOrder error')
     return errHandler(err, res)
   }
 }
@@ -114,21 +53,20 @@ const createOrders = async (req, res) => {
     //  khai báo
     const { track, payment, data, categories } = req.body
 
-    // const { selectProduct, selectChildProduct } = data
     const { selectProduct, ...rest } = data
+
     if (!selectProduct) return errHandler('', res)
 
     let { files, result, msg } = findKeysByObject(rest, selectProduct?.type)
-    
-    if (!result) return errHandler(msg, res)
 
-    // let files = findKeysByObject(data, selectProduct?.type)
+    if (!result) return errHandler(msg, res)
 
     let price = await calcPrice(selectProduct._id)
 
     if (!price) return errHandler('Product not found', res)
-    if (!files) return errHandler('', res)
 
+    if (!files) return errHandler('', res)
+    console.log('req.id', req.id)
     let newData = {
       track,
       payment,
@@ -289,20 +227,6 @@ const getUrlReturn = async (req, res) => {
   }
 }
 
-// exports.getFilefromPath = async (req, res) => {
-//   let { filePath, fileName } = req.body;
-//   if (!filePath) return;
-//   if (!fileName) return;
-//   try {
-//     var data = fs.readFileSync('filePath');
-//     res.contentType('application/pdf');
-//     res.send(data);
-//   } catch (err) {
-//     console.log('getUrlReturn', err);
-//     return errHandler(err, res);
-//   }
-// };
-
 const paymentOrder = (req, res, params) => {
   let vnp_Params = getVpnParams(req, params)
 
@@ -387,7 +311,6 @@ const findKeysByObject = (obj, type = null) => {
 
 module.exports = {
   getOrdersFromUser,
-  getOrders,
   getOrderBySlug,
   createOrders,
   orderWithPayment,

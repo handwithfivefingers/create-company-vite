@@ -3,7 +3,7 @@ import { Button, Col, Form, Row, Space, Radio } from 'antd'
 import React, { forwardRef, useState, useEffect } from 'react'
 import CCInput from '@/components/CCInput'
 import { SELECT } from '@/constant/Common'
-import { makeid } from '@/helper/Common'
+import { onSetFields } from '@/helper/Common'
 import clsx from 'clsx'
 import styles from '../CreateCompany.module.scss'
 import CCSelect from '../../../CCSelect'
@@ -56,7 +56,7 @@ const NguoiDaiDienPhapLuat = forwardRef((props, ref) => {
         } else {
           setRadio([null, null, null])
         }
-        onSetFields([...BASE_FORM, 'legal_respon'], [rest])
+        onSetFields([...BASE_FORM, 'legal_respon'], [rest], ref)
 
         setListForm(val)
       }
@@ -73,16 +73,6 @@ const NguoiDaiDienPhapLuat = forwardRef((props, ref) => {
     return result
   }
 
-  const onSetFields = async (pathName, val, upper = false) => {
-    ref.current.setFields([
-      {
-        name: pathName,
-        value: upper ? val.toUpperCase() : val,
-      },
-    ])
-    await new Promise((resolve, reject) => setTimeout(resolve, 200))
-  }
-
   const renderListForm = (i) => {
     let xhtml = null
     xhtml = (
@@ -95,6 +85,7 @@ const NguoiDaiDienPhapLuat = forwardRef((props, ref) => {
               onSetFields(
                 [...BASE_FORM, 'legal_respon', i, 'name'],
                 e.target.value,
+                ref,
                 true,
               )
             }
@@ -222,7 +213,7 @@ const NguoiDaiDienPhapLuat = forwardRef((props, ref) => {
 
     val = [...val.slice(0, index), ...val.slice(index + 1)]
 
-    onSetFields([...BASE_FORM, 'legal_respon'], val)
+    onSetFields([...BASE_FORM, 'legal_respon'], val, ref)
 
     setListForm(val)
   }
@@ -243,7 +234,7 @@ const NguoiDaiDienPhapLuat = forwardRef((props, ref) => {
 
       arrayProvince.forEach((item) => {
         let val = ref.current.getFieldValue([...field, index, 'current', item])
-        onSetFields([...field, index, 'contact', item], val)
+        onSetFields([...field, index, 'contact', item], val, ref)
       })
     }
   }
@@ -274,205 +265,12 @@ const NguoiDaiDienPhapLuat = forwardRef((props, ref) => {
           />
         </Col>
         <Col span={24}>
-          {listForm.length < 3 && (
+          {present && listForm.length < 3 && (
             <Button onClick={addItem} icon={<PlusOutlined />}>
               Thêm
             </Button>
           )}
         </Col>
-        {/* {present && (
-          <Form.List name={[...BASE_FORM, 'legal_respon']} key={makeid(9)}>
-            {(fields, { add, remove }) => (
-              <>
-                <Col span={24}>
-                  {fields.length >= 3 ? (
-                    ''
-                  ) : (
-                    <Space>
-                      <Button
-                        type="dashed"
-                        onClick={() => add()}
-                        block
-                        icon={<PlusOutlined />}
-                      >
-                        Thêm người đại diện
-                      </Button>
-                    </Space>
-                  )}
-                </Col>
-
-                {fields?.map((field, i) => (
-                  <Col lg={8} md={12} sm={24} xs={24} key={i}>
-                    <Form.Item
-                      label={<h5>Thông tin người đại diện thứ {i + 1}</h5>}
-                    >
-                      <CCInput
-                        name={[field.name, 'name']}
-                        label="Họ và tên"
-                        onChange={(e) =>
-                          onSetFields(
-                            [...BASE_FORM, 'legal_respon', i, 'name'],
-                            e.target.value,
-                            true,
-                          )
-                        }
-                      />
-
-                      <CCSelect.SelectTitle
-                        name={[...BASE_FORM, 'legal_respon', i, 'title']}
-                        label="Chức danh"
-                        placeholder="Bấm vào đây"
-                        options={SELECT.TITLE_3}
-                        ref={ref}
-                      />
-
-                      <CCInput
-                        type="select"
-                        name={[field.name, 'gender']}
-                        label="Giới tính"
-                        options={SELECT.GENDER}
-                        placeholder="Bấm vào đây"
-                      />
-
-                      <CCInput
-                        type="date"
-                        name={[field.name, 'birth_day']}
-                        label="Ngày sinh"
-                      />
-
-                      <CCSelect.SelectPersonType
-                        name={[field.name, 'per_type']}
-                        label="Dân tộc"
-                        dependencies={[field.name, 'per_type']}
-                        data={{
-                          pathName: [
-                            ...BASE_FORM,
-                            'legal_respon',
-                            i,
-                            'per_type',
-                          ],
-                          value: ref?.current?.getFieldValue([
-                            'create_company',
-                            'approve',
-                            'origin_person',
-                            'per_type',
-                          ]),
-                        }}
-                        ref={ref}
-                      />
-
-                      <Form.Item label="Nơi đăng kí hộ khẩu thường trú">
-                        <CCSelect.SelectProvince
-                          ref={ref}
-                          name={[field.name, 'current']}
-                          data={{
-                            pathName: [
-                              ...BASE_FORM,
-                              'legal_respon',
-                              i,
-                              'current',
-                            ],
-                            value: ref?.current?.getFieldValue([
-                              'create_company',
-                              'approve',
-                              'origin_person',
-                              'current',
-                            ]),
-                          }}
-                        />
-                      </Form.Item>
-
-                      <Form.Item label="Nơi ở hiện tại">
-                        <CCSelect.SelectProvince
-                          name={[field.name, 'contact']}
-                          data={{
-                            pathName: [
-                              ...BASE_FORM,
-                              'legal_respon',
-                              i,
-                              'contact',
-                            ],
-                            value: ref?.current?.getFieldValue([
-                              'create_company',
-                              'approve',
-                              'origin_person',
-                              'contact',
-                            ]),
-                          }}
-                          ref={ref}
-                        />
-                      </Form.Item>
-
-                      <Form.Item label={<h4>Loại giấy tờ pháp lý </h4>}>
-                        <Row gutter={[16, 12]}>
-                          <Col lg={24} md={24} sm={24} xs={24}>
-                            <CCInput
-                              type="select"
-                              name={[field.name, 'doc_type']}
-                              label="Loại giấy tờ"
-                              options={SELECT.DOC_TYPE}
-                              placeholder="Bấm vào đây"
-                            />
-                          </Col>
-                          <Col lg={24} md={24} sm={24} xs={24}>
-                            <CCInput
-                              name={[field.name, 'doc_code']}
-                              label="Số CMND/ CCCD/ Hộ chiếu"
-                            />
-                          </Col>
-
-                          <Col lg={24} md={24} sm={24} xs={24}>
-                            <CCInput
-                              type="date"
-                              name={[field.name, 'doc_time_provide']}
-                              label="Ngày cấp"
-                              placeholder="Chọn ngày"
-                            />
-                          </Col>
-
-                          <Col lg={24} md={24} sm={24} xs={24}>
-                            <CCSelect.SelectDocProvide
-                              name={[field.name, 'doc_place_provide']}
-                              label="Nơi cấp"
-                              dependencies={[field.name, 'doc_place_provide']}
-                              data={{
-                                pathName: [
-                                  ...BASE_FORM,
-                                  'legal_respon',
-                                  i,
-                                  'doc_place_provide',
-                                ],
-                                value: ref?.current?.getFieldValue([
-                                  'create_company',
-                                  'approve',
-                                  'origin_person',
-                                  'doc_place_provide',
-                                ]),
-                              }}
-                              ref={ref}
-                            />
-                          </Col>
-                        </Row>
-                      </Form.Item>
-
-                      <Space
-                        style={{ display: 'flex', justifyContent: 'center' }}
-                      >
-                        {fields.length > 1 ? (
-                          <MinusCircleOutlined
-                            onClick={() => remove(field.name)}
-                          />
-                        ) : (
-                          ''
-                        )}
-                      </Space>
-                    </Form.Item>
-                  </Col>
-                ))}
-              </>
-            )}
-          </Form.List>
-        )} */}
 
         {present &&
           listForm.map((item, i) => {
