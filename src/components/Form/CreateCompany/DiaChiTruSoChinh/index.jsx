@@ -19,7 +19,6 @@ const DiaChiTruSoChinh = forwardRef((props, ref) => {
       ])}
     >
       <Form.Item
-        l
         label={
           <div
             dangerouslySetInnerHTML={{

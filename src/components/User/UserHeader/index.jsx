@@ -1,23 +1,23 @@
-import { ClockCircleOutlined } from '@ant-design/icons';
-import { PageHeader } from 'antd';
-import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-import { makeid } from '@/helper/Common';
-import styles from './styles.module.scss';
+import { ClockCircleOutlined } from '@ant-design/icons'
+import { PageHeader } from 'antd'
+import React, { useEffect, useState } from 'react'
+import { useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
+import { makeid } from '@/helper/Common'
+import styles from './styles.module.scss'
 
 const UserHeader = (props) => {
-  const navigate = useNavigate();
-  const [time, setTime] = useState(new Date().toString('HH:mm'));
+  const navigate = useNavigate()
+  const [time, setTime] = useState(new Date().toString('HH:mm'))
 
-  const commonReducer = useSelector((state) => state.commonReducer);
+  const commonReducer = useSelector((state) => state.commonReducer)
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setTime(new Date().toString('HH:mm'));
-    }, 60000);
-    return () => clearInterval(interval);
-  }, []);
+      setTime(new Date().toString('HH:mm'))
+    }, 60000)
+    return () => clearInterval(interval)
+  }, [])
 
   return (
     <PageHeader
@@ -26,10 +26,14 @@ const UserHeader = (props) => {
       className={styles.siteHeader}
       onBack={() => navigate(-1)}
       title={<div key={makeid(9)}>{commonReducer?.title}</div>}
-      // subTitle="This is a subtitle"
-      extra={[<ClockCircleOutlined key="clock-1" color="#6f3a3a" />, <span style={{ color: '#6f3a3a' }}>{time}</span>]}
+      extra={[
+        <ClockCircleOutlined key="clock-1" color="#6f3a3a" />,
+        <span style={{ color: '#6f3a3a' }} key="time">
+          {time}
+        </span>,
+      ]}
     />
-  );
-};
+  )
+}
 
-export default React.memo(UserHeader);
+export default React.memo(UserHeader)

@@ -2,7 +2,6 @@ import React, { forwardRef, Suspense, lazy } from 'react'
 import { Card, Space, Spin, Button } from 'antd'
 
 const CreateCompany = lazy(() => {
-  // console.log('lazy CreateCompany')
   return import('@/components/Form/CreateCompany')
 })
 const CreateCompanyPages = forwardRef((props, ref) => {
@@ -23,7 +22,10 @@ const CreateCompanyPages = forwardRef((props, ref) => {
     <Card className="card-boxShadow">
       <Suspense
         fallback={
-          <div className="container spin-suspense">
+          <div
+            className="container spin-suspense"
+            key="create_company_page_suspense"
+          >
             <Space align="center">
               <Spin spinning={true} tip="Loading..." />
             </Space>
