@@ -371,14 +371,15 @@ const OriginalPerson = forwardRef((props, ref) => {
         name={[...BASE_FORM, 'origin_person', 'doc_type']}
         label="Loại giấy tờ"
         // defaultValue="Chứng minh nhân dân"
-        disabled
-        defaultActiveFirstOption
-        options={[
-          {
-            name: 'Chứng minh nhân dân',
-            value: 'Chứng minh nhân dân',
-          },
-        ]}
+        // disabled
+        // defaultActiveFirstOption
+        options={SELECT.DOC_TYPE}
+        // options={[
+        //   {
+        //     name: 'Chứng minh nhân dân',
+        //     value: 'Chứng minh nhân dân',
+        //   },
+        // ]}
       />
 
       <CCInput
