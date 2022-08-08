@@ -8,19 +8,17 @@ const repo = '/usr/share/nginx/html/create-company-vite'
 const gitAction = async (req, res) => {
   // if (process.env.NODE_ENV === 'development') return res.end();
   res.end()
+
+  let cd = 'cd ' + repo
+  let checkout = 'git checkout -- .'
+  let pullCode = 'git pull'
+  let installPackage = 'npm install'
+  let buildPackage = 'npm run build'
+  let restartPm2 = 'pm2 reload ecosystem.config.js'
+  let chormium = cd + '/node_modules/puppeteer' + '/.local-chromium'
+
+
   try {
-    // let command = 'cd ' + repo + '\ && git checkout -- . \ && git pull';
-
-    // let isValid = await validateGit(req);
-
-    let cd = 'cd ' + repo
-    let checkout = 'git checkout -- .'
-    let pullCode = 'git pull'
-    let installPackage = 'npm install'
-    let buildPackage = 'npm run build'
-    let restartPm2 = 'pm2 reload ecosystem.config.js'
-
-    let chormium = cd + '/node_modules/puppeteer' + '/.local-chromium'
 
     console.log('command :::::::::: ' + cd)
 

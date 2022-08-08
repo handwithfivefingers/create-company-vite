@@ -59,7 +59,7 @@ const handleConvertFile = async (order, req, res) => {
 
         attachments.push({ pdfFile, name: file.name })
       }
-
+      // return;
       mailParams.filesPath = attachments
 
       // console.log("mailParams", mailParams);
@@ -80,7 +80,7 @@ const handleConvertFile = async (order, req, res) => {
 
     return errHandler(err, res)
   } finally {
-    await removeListFiles(attachments)
+    // await removeListFiles(attachments)
   }
 }
 
