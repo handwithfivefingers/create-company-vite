@@ -32,32 +32,32 @@ const SelectProvince = forwardRef((props, ref) => {
   }, [params])
 
   useEffect(() => {
-    let val = ref.current.getFieldValue([...name])
-    onSetFields([...name], val, ref)
-  }, [props])
-
-  useEffect(() => {
     if (props.data) {
       let { pathName, value } = props?.data
       onSetFields([...pathName], value, ref)
+    } else {
+      let val = ref.current.getFieldValue([...name])
+      onSetFields([...name], val, ref)
     }
   }, [])
 
+
   const handleSelectCity = (val, opt) => {
+
     let pathName = props.data?.pathName || name
-
     onSetFields([...pathName, 'city'], opt.name, ref)
-
     setParams({ code: val, ward: null })
-
     let listFields = [
       [...pathName, 'district'],
       [...pathName, 'town'],
     ]
+
     listFields.forEach((item) => onSetFields([...item], null, ref))
+
   }
 
   const handleSelectDistricts = (val, opt) => {
+
     let pathName = props.data?.pathName || name
 
     onSetFields([...pathName, 'district'], opt.name, ref)
@@ -66,6 +66,7 @@ const SelectProvince = forwardRef((props, ref) => {
   }
 
   const handleSelectWards = (val, opt) => {
+    
     let pathName = props.data?.pathName || name
 
     onSetFields([...pathName, 'town'], opt.name, ref)

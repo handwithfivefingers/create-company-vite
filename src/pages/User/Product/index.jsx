@@ -1,12 +1,10 @@
 import { message, Skeleton, Typography } from 'antd'
 import React, { useEffect, useState } from 'react'
 import CardCategory from '../../../components/CardCategory'
-// import { useGetProvince } from '../../../helper/Hook';
 import CategoryService from '../../../service/UserService/CategoriesService'
-
+import clsx from 'clsx'
 import styles from './styles.module.scss'
 
-const { Paragraph } = Typography
 
 const UserProductPage = () => {
   const [loading, setLoading] = useState(false)
@@ -33,7 +31,7 @@ const UserProductPage = () => {
   }
 
   return (
-    <div className={styles.cardgrid}>
+    <div className={clsx([styles.cardgrid, 'container'])}>
       <Skeleton active loading={loading}>
         {product?.map((item) => {
           return <CardCategory data={item} key={item._id} />

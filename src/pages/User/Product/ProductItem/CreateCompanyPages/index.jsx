@@ -1,9 +1,9 @@
 import React, { forwardRef, Suspense, lazy } from 'react'
 import { Card, Space, Spin, Button } from 'antd'
-
-const CreateCompany = lazy(() => {
-  return import('@/components/Form/CreateCompany')
-})
+import CreateCompany from '@/components/Form/CreateCompany'
+// const CreateCompany = lazy(() => {
+//   return import('@/components/Form/CreateCompany')
+// })
 const CreateCompanyPages = forwardRef((props, ref) => {
   const {
     setStep,
@@ -18,6 +18,13 @@ const CreateCompanyPages = forwardRef((props, ref) => {
     Next,
   } = props
 
+  const saveCreateCompany = () => {
+    // console
+    let value = ref.current.getFieldsValue()
+    console.log('saveCreateCompany', value)
+
+    // handleSave()
+  }
   return (
     <Card className="card-boxShadow">
       <Suspense
@@ -47,10 +54,12 @@ const CreateCompanyPages = forwardRef((props, ref) => {
           style={{ position: 'sticky', bottom: 0 }}
         >
           {step > 0 ? <Button onClick={Prev}>Quay lại</Button> : ''}
+
           {step < 7 ? <Button onClick={Next}>Tiếp tục</Button> : ''}
-          {step === 7 ? (
+
+          {step === 7 && (
             <>
-              <Button loading={loading} onClick={() => handleSave(ref)}>
+              <Button loading={loading} onClick={saveCreateCompany}>
                 Lưu lại
               </Button>
               <Button
@@ -60,8 +69,6 @@ const CreateCompanyPages = forwardRef((props, ref) => {
                 Thanh toán
               </Button>
             </>
-          ) : (
-            ''
           )}
         </div>
       </Suspense>

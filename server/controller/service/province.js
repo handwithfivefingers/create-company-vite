@@ -18,6 +18,7 @@ const getProvince = async (req, res) => {
 
     return res.status(200).json({
       data,
+      count: data.length,
       // log,
     })
   } catch (err) {
@@ -56,33 +57,5 @@ const getWards = (_districts, wardCode = null) => {
   }
   return result
 }
-
-// const getDistrict = ({ data, code = null, wards = null } = {}) => {
-// 	if (!code) return data;
-
-// 	let result = [];
-
-// 	let [district] = data?.filter((item) => item.code == code);
-
-// 	result = district && district.districts;
-
-// 	if (wards) {
-// 		result = result?.map(({ wards, ...item }) => ({ ...item }));
-// 	}
-
-// 	return result;
-// };
-
-// const getWards = ({ data, code }) => {
-// 	if (!code) return data;
-
-// 	let result = [];
-
-// 	let [ward] = data?.filter((item) => item.code == code);
-
-// 	result = ward && ward.wards;
-
-// 	return result;
-// };
 
 module.exports = { getProvince }

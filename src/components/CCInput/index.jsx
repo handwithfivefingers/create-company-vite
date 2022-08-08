@@ -135,10 +135,6 @@ const CCInput = forwardRef((props, ref) => {
         </>
       )
     case 'select':
-      // let option
-      // if (props?.onDropdownVisibleChange) {
-      //   option = props?.options()
-      // }
       return (
         <Form.Item name={name} label={label || ' '}>
           <Select

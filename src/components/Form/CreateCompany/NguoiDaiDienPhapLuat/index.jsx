@@ -49,7 +49,7 @@ const NguoiDaiDienPhapLuat = forwardRef((props, ref) => {
         value: upper ? val.toUpperCase() : val,
       },
     ])
-    await new Promise((resolve, reject) => setTimeout(resolve, 200));
+    await new Promise((resolve) => setTimeout(resolve, 200))
     setTrigger(!trigger)
   }
 
@@ -151,8 +151,7 @@ const NguoiDaiDienPhapLuat = forwardRef((props, ref) => {
                             'per_type',
                           ],
                           value: ref?.current?.getFieldValue([
-                            'create_company',
-                            'approve',
+                            ...BASE_FORM,
                             'origin_person',
                             'per_type',
                           ]),
@@ -172,8 +171,7 @@ const NguoiDaiDienPhapLuat = forwardRef((props, ref) => {
                               'current',
                             ],
                             value: ref?.current?.getFieldValue([
-                              'create_company',
-                              'approve',
+                              ...BASE_FORM,
                               'origin_person',
                               'current',
                             ]),
@@ -192,8 +190,7 @@ const NguoiDaiDienPhapLuat = forwardRef((props, ref) => {
                               'contact',
                             ],
                             value: ref?.current?.getFieldValue([
-                              'create_company',
-                              'approve',
+                              ...BASE_FORM,
                               'origin_person',
                               'contact',
                             ]),
@@ -242,8 +239,7 @@ const NguoiDaiDienPhapLuat = forwardRef((props, ref) => {
                                   'doc_place_provide',
                                 ],
                                 value: ref?.current?.getFieldValue([
-                                  'create_company',
-                                  'approve',
+                                  ...BASE_FORM,
                                   'origin_person',
                                   'doc_place_provide',
                                 ]),
