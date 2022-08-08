@@ -167,7 +167,7 @@ const Personal = forwardRef((props, ref) => {
       />
 
       <CCInput
-        label={'Số CMND/ CCCD/ Hộ chiếu'}
+        label={'Số CMND hoặc CCCD hoặc Hộ chiếu'}
         name={[...BASE_FORM, 'origin_person', 'doc_code']}
         placeholder="0010829446357"
       />
@@ -382,7 +382,7 @@ const OriginalPerson = forwardRef((props, ref) => {
       />
 
       <CCInput
-        label={'Chứng minh nhân dân'}
+        label={'Số CMND hoặc CCCD hoặc Hộ chiếu'}
         name={[...BASE_FORM, 'origin_person', 'doc_code']}
       />
 
