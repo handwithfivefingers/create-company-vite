@@ -15,10 +15,12 @@
 }
 
 .groupInput {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 12px;
-  width: 100%;
+  @media (min-width: 600px) {
+    display: grid;
+    grid-template-columns: repeat(2, calc(50% - 6px));
+    gap: 12px;
+    width: 100%;
+  }
 }
 
 .newLine {
