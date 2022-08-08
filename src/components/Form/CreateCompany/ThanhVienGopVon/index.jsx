@@ -278,7 +278,14 @@ const OriginalPerson = forwardRef((props, ref) => {
       <CCSelect.SelectDocProvide
         ref={ref}
         name={[...BASE_FORM, 'organization_name', 'doc_place_provide']}
-        label="Nơi cấp"
+        // label="Nơi cấp"
+        label={
+          <div
+            dangerouslySetInnerHTML={{
+              __html: '</>Nơi cấp <i>(Sở kế hoạch và đầu tư tỉnh...)</i></>',
+            }}
+          />
+        }
         placeholder="Bấm vào đây"
       />
 
