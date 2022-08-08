@@ -27,7 +27,7 @@ const UserSidebar = (props) => {
 		else setCurrent(location.pathname);
 	}, [location]);
 
-	const renderSidebar = useCallback((route) => {
+	const renderSidebar = (route) => {
 		let xhtml = null;
 		xhtml = route.map((item, i) => {
 			return (
@@ -37,7 +37,7 @@ const UserSidebar = (props) => {
 			);
 		});
 		return xhtml;
-	}, []);
+	}
 
 	const signOut = async () => {
 		await dispatch(AuthAction.AuthLogout());

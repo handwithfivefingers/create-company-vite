@@ -256,31 +256,6 @@ const SelectPersonType = forwardRef((props, ref) => {
     }
   }, [props])
 
-  // useEffect(() => {
-  //   let pathName = props.name
-  //   if (props.data) {
-  //     pathName = props.data.pathName
-  //   }
-
-  //   let val = ref.current.getFieldValue([...pathName])
-  //   if (val && val !== DEFAULT_SELECT) {
-  //     setSelect(2)
-  //     setInput(val)
-  //     onSetFields(pathName, val, ref)
-  //   }
-  // }, [props])
-
-  // useEffect(() => {
-  //   if (props?.data) {
-  //     let { value, pathName } = props.data
-  //     onSetFields(pathName, value, ref)
-  //     if (value && value !== DEFAULT_SELECT) {
-  //       setSelect(2)
-  //       setInput(value)
-  //     }
-  //   }
-  // }, [])
-
   const handleSelect = (val, opt) => {
     let pathName = props.name
     if (props.data) {
@@ -358,6 +333,7 @@ const SelectDocProvide = forwardRef((props, ref) => {
       ])
     }
   }
+
   const handleInputchange = (e) => {
     let pathName = props.data?.pathName || props.name
 
@@ -395,4 +371,4 @@ const CCSelect = {
   SelectTitle,
 }
 
-export default memo(CCSelect)
+export default CCSelect

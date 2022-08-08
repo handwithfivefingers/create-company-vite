@@ -12,7 +12,6 @@ const CCInput = forwardRef((props, ref) => {
     onChange,
     style,
     placeholder,
-    defaultValue,
     ...rest
   } = props
   const [optional, setOptional] = useState([])
@@ -146,7 +145,6 @@ const CCInput = forwardRef((props, ref) => {
             onSelect={props?.onSelect}
             onChange={props?.onChange}
             disabled={props?.disabled}
-            defaultValue={props?.defaultValue || null}
             defaultActiveFirstOption={props?.defaultActiveFirstOption}
             onDropdownVisibleChange={handleOptions}
             style={props?.style}

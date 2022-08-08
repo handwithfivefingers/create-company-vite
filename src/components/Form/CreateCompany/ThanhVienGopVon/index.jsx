@@ -162,7 +162,7 @@ const Personal = forwardRef((props, ref) => {
         type="select"
         name={[...BASE_FORM, 'origin_person', 'doc_type']}
         label="Loại giấy tờ"
-        defaultValue="Chứng minh nhân dân"
+        // defaultValue="Chứng minh nhân dân"
         options={SELECT.DOC_TYPE}
       />
 
@@ -363,7 +363,7 @@ const OriginalPerson = forwardRef((props, ref) => {
         type="select"
         name={[...BASE_FORM, 'origin_person', 'doc_type']}
         label="Loại giấy tờ"
-        defaultValue="Chứng minh nhân dân"
+        // defaultValue="Chứng minh nhân dân"
         disabled
         defaultActiveFirstOption
         options={[
