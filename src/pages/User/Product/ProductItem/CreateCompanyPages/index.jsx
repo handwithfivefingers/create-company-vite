@@ -25,6 +25,7 @@ const CreateCompanyPages = forwardRef((props, ref) => {
 
     // handleSave()
   }
+
   return (
     <Card className="card-boxShadow">
       <Suspense
@@ -59,12 +60,15 @@ const CreateCompanyPages = forwardRef((props, ref) => {
 
           {step === 7 && (
             <>
-              <Button loading={loading} onClick={saveCreateCompany}>
+              <Button
+                loading={loading}
+                onClick={() => handleSave(ref ?? ref.current.getFieldsValue())}
+              >
                 Lưu lại
               </Button>
               <Button
                 loading={loading}
-                onClick={() => handlePurchaseCreateCompany(ref)}
+                onClick={() => handlePurchaseCreateCompany(ref ?? ref.current.getFieldsValue())}
               >
                 Thanh toán
               </Button>

@@ -100,7 +100,7 @@ const UserProductItem = (props) => {
   const renderPrewviewForm = useCallback((ref) => {
     let val = ref?.current.getFieldsValue()
     let input = { ...val }
-    console.log(val)
+    console.log('renderPrewviewForm', val, ref)
     return (
       <PreviewData
         data={input}
@@ -282,31 +282,38 @@ const UserProductItem = (props) => {
     }
     return result
   }
-
+  /**
+   * @value {Object}
+   */
   const handleSave = useCallback(
-    (ref) => {
-      let params = {}
-      let val = ref?.current.getFieldsValue()
-      params = {
+    async (value) => {
+      let params = {
         track: {
           step: 1,
           status: 'progress',
         },
         payment: 0,
         data: {
-          ...val,
+          ...value,
         },
       }
-      console.log('handleSave', params)
-      return
       saveService(params)
     },
     [data],
   )
 
   const handleSaveChangeInfo = useCallback(
-    (ref) => {
-      const params = getParams(ref)
+    (value) => {
+      const params = {
+        track: {
+          step: 1,
+          status: 'progress',
+        },
+        payment: 0,
+        data: {
+          ...value,
+        },
+      }
       return saveService(params)
     },
     [data],
