@@ -385,6 +385,7 @@ const handleCheckChildren = (child, data) => {
     }
   })
 }
+
 module.exports = {
   sortObject,
   getVpnParams,

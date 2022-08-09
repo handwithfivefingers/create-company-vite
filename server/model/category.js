@@ -21,7 +21,3 @@ module.exports = {
     required: true,
   },
 };
-// models -> check exists then return else create
-// let Dataset =
-//   mongoose.models.Category || mongoose.model("Category", categorySchema);
-// export default Dataset;

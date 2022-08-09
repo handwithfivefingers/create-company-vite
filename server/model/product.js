@@ -34,8 +34,3 @@ module.exports = {
     },
   ],
 };
-
-// models -> check exists then return else create
-// let Dataset =
-//   mongoose.models.Product || mongoose.model("Product", productSchema);
-// export default Dataset;

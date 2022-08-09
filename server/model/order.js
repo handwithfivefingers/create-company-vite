@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose')
 
 module.exports = {
   name: {
@@ -11,7 +11,7 @@ module.exports = {
   },
   orderOwner: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
+    ref: 'User',
   },
   track: {
     step: {
@@ -25,13 +25,14 @@ module.exports = {
   },
   payment: {
     type: Number,
+    enum: [0, 1],
     default: 0,
     required: true,
   },
   products: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Product",
+      ref: 'Product',
     },
   ],
   data: {
@@ -59,7 +60,7 @@ module.exports = {
   },
   categories: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "Category",
+    ref: 'Category',
   },
   files: [
     {
@@ -69,5 +70,11 @@ module.exports = {
   send: {
     type: Number,
     default: 0,
+    enum: [0, 1],
   },
-};
+  delete_flag: {
+    type: Number,
+    enum: [0, 1],
+    default: 0,
+  },
+}

@@ -131,8 +131,6 @@ const cronMail = async ({ ...rest }) => {
       type: 'path',
       ...rest,
     }
-    // console.log("preparefor sendmail");
-
     await withFilesPath(params, transporter)
   } catch (err) {
     console.log('cron failed', err)
@@ -171,10 +169,8 @@ const withAttachments = async (
       html: content, // html body,
     })
   } catch (err) {
-    // return sendFailed(err, res);
     throw err
   } finally {
-    // attachments?.map((item) => removeFile(item.path));
     await removeListFiles(attachments, true)
   }
 }
@@ -195,8 +191,6 @@ const sendMail = async (
     })
   } catch (err) {
     console.log('sendMail failed')
-
-    // return sendFailed(err, res);
     throw err
   }
 }
@@ -219,12 +213,6 @@ const withFilesPath = async (params, transporter) => {
   })
 
   try {
-    // kích hoạt gửi mail ->
-    // gửi client : trong quá trình , vui check mail
-    // Thành công, -> gửi mail
-    // Thất bại -> báo lỗi
-    // console.log("preparefor sendmail");
-
     return await transporter.sendMail({
       from: adminEmail, // sender address
       to: email,
@@ -234,11 +222,13 @@ const withFilesPath = async (params, transporter) => {
     })
   } catch (err) {
     console.log('send mail failed ', err)
+
     for (let attach of attachments) {
       if (fs.existsSync(attach.pdfFile)) {
         fs.unlinkSync(attach.path)
       }
     }
+
     throw err
   } finally {
     await Order.updateOne({ _id: rest._id }, { send: 1 })

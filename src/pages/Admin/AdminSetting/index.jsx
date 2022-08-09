@@ -1,9 +1,19 @@
-import React, { forwardRef, useEffect, useState, useRef } from 'react';
-import { Card, Row, Col, Form, Input, Button, Tabs, Select, message } from 'antd';
-import AdminMailService from '@/service/AdminService/AdminMailService';
-import AdminSettingService from '@/service/AdminService/AdminSettingService';
-
-const { TabPane } = Tabs;
+import React, { forwardRef, useEffect, useState, useRef } from 'react'
+import {
+  Card,
+  Row,
+  Col,
+  Form,
+  Input,
+  Button,
+  Tabs,
+  Select,
+  message,
+} from 'antd'
+import AdminMailService from '@/service/AdminService/AdminMailService'
+import AdminSettingService from '@/service/AdminService/AdminSettingService'
+import { onSetFields } from '@/helper/Common'
+const { TabPane } = Tabs
 
 const ChangePassword = forwardRef((props, ref) => {
   return (
@@ -25,23 +35,18 @@ const ChangePassword = forwardRef((props, ref) => {
         </Form.Item>
       </Form.Item>
     </Form>
-  );
-});
+  )
+})
 
 const SettingMail = forwardRef((props, ref) => {
   useEffect(() => {
-    let { mailRegister, mailPayment } = props?.settingMail;
-    if (mailRegister) {
-      ref.current.setFieldsValue({
-        mailRegister: mailRegister._id,
-      });
+    let { _id, ...mail } = props?.settingMail
+    if (mail) {
+      for (let key in mail) {
+        onSetFields([key], mail[key]._id, ref)
+      }
     }
-    if (mailPayment) {
-      ref.current.setFieldsValue({
-        mailPayment: mailPayment._id,
-      });
-    }
-  }, [props]);
+  }, [props])
   return (
     <Form ref={ref} onFinish={props.mailSubmit} layout="vertical">
       <Form.Item label={'Mail đăng kí'} name="mailRegister">
@@ -62,76 +67,92 @@ const SettingMail = forwardRef((props, ref) => {
           ))}
         </Select>
       </Form.Item>
+
+      <Form.Item label={'Mail Thanh Toán Thành Công'} name="mailPaymentSuccess">
+        <Select>
+          {props.options?.map((item) => (
+            <Select.Option key={item._id} value={item._id}>
+              {item.name}
+            </Select.Option>
+          ))}
+        </Select>
+      </Form.Item>
       <Form.Item>
         <Button htmlType="submit" loading={props?.loading}>
           Xác nhận
         </Button>
       </Form.Item>
     </Form>
-  );
-});
+  )
+})
 
 const AdminSetting = () => {
-  const formRef = useRef();
-  const mailRef = useRef();
-  const [loading, setLoading] = useState(false);
-  const [options, setOptions] = useState([]);
-  const [settingMail, setSettingMail] = useState({});
+  const formRef = useRef()
+  const mailRef = useRef()
+  const [loading, setLoading] = useState(false)
+  const [options, setOptions] = useState([])
+  const [settingMail, setSettingMail] = useState({})
 
   useEffect(() => {
-    fetchTemplateMail();
-    fetchSetting();
-  }, []);
+    fetchTemplateMail()
+    fetchSetting()
+  }, [])
 
   const passwordSubmit = (val) => {
-    console.log(val);
-  };
+    console.log(val)
+  }
 
   const mailSubmit = async (val) => {
     try {
-      setLoading(true);
-      let res = await AdminSettingService.updateSetting({ ...val });
-      message.success(res.data.message);
+      setLoading(true)
+      let res = await AdminSettingService.updateSetting({ ...val })
+      message.success(res.data.message)
     } catch (err) {
-      console.log(err);
+      console.log(err)
     } finally {
-      fetchSetting();
+      fetchSetting()
     }
-  };
+  }
 
   const fetchTemplateMail = async (page = 1) => {
-    setLoading(true);
-    let params = { page: page };
+    setLoading(true)
+    let params = { page: page }
     try {
-      let res = await AdminMailService.getTemplate(params);
+      let res = await AdminMailService.getTemplate(params)
       if (res.data.status === 200) {
-        setOptions(res.data.data._template);
+        setOptions(res.data.data._template)
       } else {
-        message.error(res.data.message);
+        message.error(res.data.message)
       }
     } catch (err) {
-      console.log(err);
+      console.log(err)
     } finally {
-      setLoading(false);
+      setLoading(false)
     }
-  };
+  }
 
   const fetchSetting = async () => {
     try {
-      setLoading(true);
-      let res = await AdminSettingService.getSetting();
-      let { data } = res.data;
-      setSettingMail(data);
+      setLoading(true)
+      let res = await AdminSettingService.getSetting()
+      let { data } = res.data
+      setSettingMail(data)
     } catch (err) {
-      console.log(err);
+      console.log(err)
     } finally {
-      setLoading(false);
+      setLoading(false)
     }
-  };
+  }
   const tabList = [
     {
       name: 'Đổi mật khẩu',
-      content: <ChangePassword passwordSubmit={passwordSubmit} ref={formRef} loading={loading} />,
+      content: (
+        <ChangePassword
+          passwordSubmit={passwordSubmit}
+          ref={formRef}
+          loading={loading}
+        />
+      ),
     },
     {
       name: 'Mail',
@@ -145,7 +166,7 @@ const AdminSetting = () => {
         />
       ),
     },
-  ];
+  ]
 
   return (
     <Card title="Cài đặt">
@@ -161,7 +182,7 @@ const AdminSetting = () => {
         </Col>
       </Row>
     </Card>
-  );
-};
+  )
+}
 
-export default AdminSetting;
+export default AdminSetting
