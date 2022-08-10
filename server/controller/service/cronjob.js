@@ -29,14 +29,12 @@ const handleConvertFile = async (order) => {
     files = uniqBy(files, 'name').filter((item) => item);
 
     if (files) {
+
       let _contentOrder = flattenObject(data);
 
       for (let file of files) {
-        console.log('start');
 
         let pdfFile = await convertFile(file, _contentOrder);
-
-        // console.log("pdfFile", pdfFile);
 
         attachments.push({ pdfFile, name: file.name });
       }
@@ -45,11 +43,14 @@ const handleConvertFile = async (order) => {
 
       await cronMail(mailParams);
 
-      // return res.status(200).json({ message: "ok" });
       return console.log('Cronjob success');
+
     }
+
     return console.log('Cronjob error');
+
   } catch (err) {
+
     console.log('handleConvertFile error', err);
     
     await createLog(err);
@@ -63,7 +64,7 @@ const handleConvertFile = async (order) => {
 };
 
 const getMailContent = async (order) => {
-  let _setting = await Setting.find().populate('mailRegister mailPayment'); // -> _setting
+  let _setting = await Setting.find().populate('mailPayment'); // -> _setting
   let mailParams;
   mailParams = {
     email: order.orderOwner?.email || 'handgod1995@gmail.com',
@@ -72,9 +73,13 @@ const getMailContent = async (order) => {
     _id: order._id,
     type: 'path',
   };
+
   if (_setting) {
+
     let { mailPayment } = _setting[0];
+    
     let { subject, content } = mailPayment;
+
     mailParams.subject = subject;
     mailParams.content = content;
   } else {

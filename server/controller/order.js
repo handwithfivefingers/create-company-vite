@@ -172,7 +172,7 @@ const getUrlReturn = async (req, res) => {
 
     let url =
       process.env.NODE_ENV === 'development'
-        ? `http://localhost:3000/user/result?`
+        ? `http://localhost:3003/user/result?`
         : `https://app.thanhlapcongtyonline.vn/user/result?`
 
     if (secureHash === signed) {
@@ -193,23 +193,21 @@ const getUrlReturn = async (req, res) => {
           new: true,
         })
 
-        // console.log("getUrlReturn updated Success");
-
         let _order = await Order.findOne({
           _id: req.query.vnp_OrderInfo,
         }).populate('orderOwner', '_id name email')
 
-        // console.log(_order);
+        let [_paymentSuccess] = await Setting.find().populate(
+          'mailPaymentSuccess',
+        )
 
         let params = {
-          email: _order.orderOwner.email,
-          subject: 'Thanh toán thành công',
-          content: `Chào ${_order?.orderOwner?.name},<br />
-        Quý khách đã thanh toán thành công.
-        Thông tin giấy tờ sẽ được gửi sớm nhất có thể, quý khách vui lòng đợi trong giây lát.
-        <br/> Xin cảm ơn`,
+          email: _order.orderOwner.email || 'handgd1995@gmail.com',
+          subject: _paymentSuccess.subject,
+          content: _paymentSuccess.content,
           type: 'any',
         }
+
         await sendmailWithAttachments(req, res, params)
 
         return res.redirect(url + query)

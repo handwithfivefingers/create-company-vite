@@ -3,7 +3,13 @@ import Tracking from '@/components/Tracking'
 import axios from '@/config/axios'
 import { makeid, number_format } from '@/helper/Common'
 import AdminOrderService from '@/service/AdminService/AdminOrderService'
-import { DeleteOutlined, FormOutlined } from '@ant-design/icons'
+import {
+  DeleteOutlined,
+  FormOutlined,
+  SearchOutlined,
+  BarsOutlined,
+  MoreOutlined,
+} from '@ant-design/icons'
 import {
   Button,
   Card,
@@ -15,6 +21,8 @@ import {
   Table,
   Tag,
   Tooltip,
+  PageHeader,
+  Segmented,
 } from 'antd'
 import moment from 'moment'
 import React, { useCallback, useEffect, useRef, useState } from 'react'
@@ -22,12 +30,17 @@ import { Link } from 'react-router-dom'
 import styles from './styles.module.scss'
 const AdminOrder = () => {
   const [loading, setLoading] = useState(false)
+
   const [data, setData] = useState([])
+
+  const [segment, setSegment] = useState(1)
+
   const [childModal, setChildModal] = useState({
     visible: false,
     component: null,
     width: 0,
   })
+
   const formRef = useRef()
 
   const pagiConfig = {
@@ -182,20 +195,6 @@ const AdminOrder = () => {
   }
 
   const renderDate = (record) => {
-    // console.log(
-    //   Date.parse(record?.createdAt).toLocaleDateString('ja-JA', {
-    //     weekday: 'narrow',
-    //     year: 'numeric',
-    //     month: 'long',
-    //     day: 'numeric',
-    //   })
-    // );
-    // let result = new Date.parse(record?.createdAt).toLocaleDateString('vi-Vi', {
-    // 	weekday: 'long',
-    // 	year: 'numeric',
-    // 	month: 'long',
-    // 	day: 'numeric',
-    // });
     let result = moment(record.createdAt).format('HH:mm DD-MM-YYYY ')
     return result
   }
@@ -248,28 +247,75 @@ const AdminOrder = () => {
   console.log('renderProduct')
   return (
     <>
-      <Card
-        className="cc-card"
+      {/* <PageHeader
         title="Quản lý đơn hàng"
         extra={[
           <Form key="filter" ref={formRef} onFinish={onFilter}>
             <div className={styles.searchForm}>
-              <Form.Item name="company">
+              <Form.Item name="company" key="company">
                 <Input placeholder="Tên công ty" />
               </Form.Item>
-              <Form.Item name="user">
+              <Form.Item name="user" key="user">
                 <Input placeholder="Người dùng" />
               </Form.Item>
-              <Form.Item>
-                <Button htmlType="submit">Tìm kiếm</Button>
+              <Form.Item key="submit">
+                <Button htmlType="submit" icon={<SearchOutlined />} />
               </Form.Item>
             </div>
           </Form>,
         ]}
-      >
+        style={{
+          padding: '16px 0'
+        }}
+      /> */}
+      <div className={styles.header}>
+        {segment === 1 && (
+          <PageHeader
+            title="Quản lý đơn hàng"
+            style={{
+              padding: '16px 0',
+            }}
+          />
+        )}
+        <Form
+          key="filter"
+          ref={formRef}
+          onFinish={onFilter}
+          style={{
+            display: segment === 2 ? 'block' : 'none',
+          }}
+        >
+          <div className={styles.searchForm}>
+            <Form.Item name="company" key="company">
+              <Input placeholder="Tên công ty" />
+            </Form.Item>
+
+            <Form.Item name="user" key="user">
+              <Input placeholder="Tên công ty" />
+            </Form.Item>
+
+            <Button htmlType="submit" icon={<SearchOutlined />} />
+          </div>
+        </Form>
+        <Segmented
+          options={[
+            {
+              value: 1,
+              icon: <BarsOutlined />,
+            },
+            {
+              value: 2,
+              icon: <MoreOutlined />,
+            },
+          ]}
+          defaultValue={segment}
+          onChange={(value) => setSegment(value)}
+        />
+      </div>
+
+      <div style={{ padding: 8, background: '#fff' }}>
         <Table
           dataSource={data._order}
-          // loading={loading}
           loading={{
             spinning: loading,
             tip: 'Loading...',
@@ -281,7 +327,10 @@ const AdminOrder = () => {
           pagination={false}
           rowKey={(record) => record._id || makeid(9)}
           scroll={{ x: 1280 }}
-          sticky={{ offsetHeader: 50 }}
+          sticky={{
+            offsetScroll: 8,
+            offsetHeader: -8,
+          }}
         >
           <Table.Column
             title="Đơn hàng"
@@ -291,16 +340,16 @@ const AdminOrder = () => {
           <Table.Column
             className={styles.inline}
             title="Người đăng kí"
-			width="120px"
+            width="175px"
             render={(val, record, i) => record?.orderOwner?.email}
           />
           <Table.Column
-            width="200px"
             title="Sản phẩm"
             render={(val, record, i) => renderProduct(val, record, i)}
           />
           <Table.Column
             title="Giá tiền"
+            width="150px"
             render={(val, record, i) => <>{number_format(record?.price)} VND</>}
           />
           <Table.Column
@@ -310,19 +359,21 @@ const AdminOrder = () => {
           />
           <Table.Column
             title="Thanh toán"
+            width="150px"
             render={(val, record, i) => renderTag(record)}
           />
           <Table.Column
             title="Ngày tạo"
-            width="200px"
+            width="150px"
             render={(val, record, i) => renderDate(record)}
           />
           <Table.Column
             title="Thao tác"
+            width="104px"
             render={(val, record, i) => renderAction(record)}
           />
         </Table>
-      </Card>
+      </div>
       <CCPagination {...pagiConfig} />
 
       <Modal

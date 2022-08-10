@@ -1,13 +1,13 @@
-module.exports  = {
+module.exports = {
   name: {
     type: String,
     required: true,
   },
   subject: {
-    type:String,
-    required:true,
+    type: String,
+    required: true,
   },
   content: {
     type: String,
   },
-};
+}

@@ -4,8 +4,6 @@ const path = require('path')
 const ReadFile = async (req, res) => {
 
   let folderName = path.resolve(path.join(global.__basedir, 'uploads'))
-
-  console.log(folderName)
   
   if (!fs.existsSync(folderName)) {
     fs.mkdirSync(folderName)

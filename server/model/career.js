@@ -15,13 +15,3 @@ module.exports = {
     min: 1,
   },
 };
-
-// careerSchema.virtual('products', {
-//   ref: 'Product',
-//   localField: '_id',
-//   foreignField: 'nganhnghe'
-// });
-
-// models -> check exists then return else create
-// let Dataset = mongoose.models.Career || mongoose.model('Career', careerSchema)
-// export default Dataset
