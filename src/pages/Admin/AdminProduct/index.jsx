@@ -29,6 +29,7 @@ import { number_format, makeid } from '@/helper/Common'
 import AdminProductService from '@/service/AdminService/AdminProductService'
 import CCPagination from '@/components/CCPagination'
 import styles from './styles.module.scss'
+import AdminHeader from '../../../components/Admin/AdminHeader'
 
 const { TabPane } = Tabs
 const AdminProduct = (props) => {
@@ -36,7 +37,6 @@ const AdminProduct = (props) => {
   const [cateData, setCateData] = useState([])
   const [loading, setLoading] = useState(false)
   const [career, setCareer] = useState([])
-  const [segment, setSegment] = useState(1)
 
   const [childModal, setChildModal] = useState({
     visible: false,
@@ -279,165 +279,42 @@ const AdminProduct = (props) => {
       visible: false,
     })
   }
+  const renderExtra = () => {
+    let xhtml = null
 
+    xhtml = (
+      <div className={styles.extraAction}>
+        <Button
+          type="dashed"
+          onClick={onHandleAdd}
+          icon={<PlusSquareOutlined />}
+        >
+          Thêm sản phẩm
+        </Button>
+        <Button
+          type="dashed"
+          onClick={onHandleCreateCategory}
+          icon={<PlusSquareOutlined />}
+        >
+          Thêm danh mục
+        </Button>
+        <Button
+          type="dashed"
+          onClick={onHandleAddCareer}
+          icon={<PlusSquareOutlined />}
+        >
+          Thêm ngành nghê
+        </Button>
+      </div>
+    )
+
+    return xhtml
+  }
   return (
     <>
-      <div className={styles.headerWrapper}>
-        {segment === 1 && (
-          <PageHeader
-            title="Template Mail"
-            style={{
-              padding: '16px 0',
-            }}
-          />
-        )}
-        {segment === 2 && (
-          <>
-            <Button
-              type="action"
-              onClick={onHandleAdd}
-              icon={<PlusSquareOutlined />}
-              style={{
-                background: '#fff',
-                display: 'flex',
-                alignItems: 'center',
-              }}
-            >
-              Thêm sản phẩm
-            </Button>
-            <Button
-              type="action"
-              onClick={onHandleCreateCategory}
-              icon={<PlusSquareOutlined />}
-              style={{
-                background: '#fff',
-                display: 'flex',
-                alignItems: 'center',
-              }}
-            >
-              Thêm danh mục
-            </Button>
-            <Button
-              type="action"
-              onClick={onHandleAddCareer}
-              icon={<PlusSquareOutlined />}
-              style={{
-                background: '#fff',
-                display: 'flex',
-                alignItems: 'center',
-              }}
-            >
-              Thêm ngành nghê
-            </Button>
-          </>
-        )}
-        <Segmented
-          options={[
-            {
-              value: 1,
-              icon: <BarsOutlined />,
-            },
-            {
-              value: 2,
-              icon: <MoreOutlined />,
-            },
-          ]}
-          defaultValue={segment}
-          onChange={(value) => setSegment(value)}
-        />
-      </div>
+      <AdminHeader title="Template Mail" extra={renderExtra()} />
 
       <div style={{ padding: 8, background: '#fff' }}>
-        {/* <Table
-            size="small"
-            bordered
-            dataSource={data._template}
-            loading={{
-              spinning: loading,
-              tip: 'Loading...',
-              delay: 100,
-            }}
-            pagination={{
-              current: data.current_page,
-              pageSize: 10,
-              total: data.count,
-              onChange: (page, pageSize) => {
-                fetchTemplateMail(page)
-              },
-              showSizeChanger: false,
-            }}
-            sticky={{
-              offsetScroll: 8,
-              offsetHeader: -8,
-            }}
-            scroll={{ x: 1200 }}
-            rowKey={(record) => record._id}
-          >
-            <Table.Column
-              width={'20%'}
-              title="Mẫu Email"
-              dataIndex="name"
-              render={(val, record, i) => (
-                <Tooltip title={record.name} color={'#108ee9'} key={'#108ee9'}>
-                  {record.name}
-                </Tooltip>
-              )}
-            />
-            <Table.Column
-              width={'20%'}
-              title="Subject"
-              dataIndex="subject"
-              render={(val, record, i) => record.subject}
-            />
-            <Table.Column
-              title="Nội dung Email"
-              width={'50%'}
-              render={(val, record, i) => (
-                <div className={styles.tableContent}>
-                  <Popover
-                    content={
-                      <div className={styles.popover}>
-                        {parser(record?.content || '')}
-                      </div>
-                    }
-                    color={'#108ee9'}
-                    key={'#108ee9'}
-                    title={record.name || ''}
-                    placement="top"
-                  >
-                    {parser(record?.content || '')}
-                  </Popover>
-                </div>
-              )}
-            />
-
-            <Table.Column
-              width={'10%'}
-              title="Action"
-              render={(val, record, i) => (
-                <Row>
-                  <Col span={12}>
-                    <Button
-                      type="text"
-                      size="small"
-                      onClick={() => editTemplate(record)}
-                    >
-                      <FormOutlined />
-                    </Button>
-                  </Col>
-                  <Col span={12}>
-                    <Button
-                      type="text"
-                      size="small"
-                      onClick={() => deleteTemplate(record)}
-                    >
-                      <DeleteOutlined />
-                    </Button>
-                  </Col>
-                </Row>
-              )}
-            />
-          </Table> */}
         <Tabs defaultActiveKey="1">
           <TabPane tab="Danh mục" key="1">
             <Table

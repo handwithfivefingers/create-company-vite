@@ -3,6 +3,7 @@ import { Card, message, Modal, Table, Button, PageHeader } from 'antd'
 import AdminUserService from '@/service/AdminService/AdminUserService'
 import styles from './styles.module.scss'
 import CCPagination from '@/components/CCPagination'
+import AdminHeader from '@/components/Admin/AdminHeader'
 const AdminUser = () => {
   const [loading, setLoading] = useState(false)
   const [data, setData] = useState([])
@@ -65,8 +66,8 @@ const AdminUser = () => {
 
   return (
     <>
-      <PageHeader title="Quản lý người dùng" />
-
+      {/* <PageHeader title="Quản lý người dùng" /> */}
+      <AdminHeader title="Quản lý người dùng" />
       <div style={{ padding: 8, background: '#fff' }}>
         <Table
           bordered

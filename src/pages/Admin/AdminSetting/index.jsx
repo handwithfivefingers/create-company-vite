@@ -13,21 +13,34 @@ import {
 import AdminMailService from '@/service/AdminService/AdminMailService'
 import AdminSettingService from '@/service/AdminService/AdminSettingService'
 import { onSetFields } from '@/helper/Common'
+import CCInput from '@/components/CCInput'
+import AdminHeader from '@/components/Admin/AdminHeader'
+import styles from './styles.module.scss'
 const { TabPane } = Tabs
 
 const ChangePassword = forwardRef((props, ref) => {
   return (
     <Form onFinish={props?.passwordSubmit} ref={ref} layout="vertical">
       <Form.Item label={<h3>Đổi mật khẩu</h3>}>
-        <Form.Item name="old_password">
-          <Input.Password placeholder="Mật khẩu hiện tại" />
-        </Form.Item>
-        <Form.Item name="new_password">
-          <Input.Password placeholder="Mật khẩu mới" />
-        </Form.Item>
-        <Form.Item name="confirm_password">
-          <Input.Password placeholder="Xác nhận mật khẩu mới" />
-        </Form.Item>
+        <CCInput
+          type="password"
+          name="old_password"
+          label="Mật khẩu hiện tại"
+          placeholder="********"
+        />
+        <CCInput
+          type="password"
+          name="new_password"
+          label="Mật khẩu mới"
+          placeholder="********"
+        />
+        <CCInput
+          type="password"
+          name="confirm_password"
+          label="Xác nhận mật khẩu mới"
+          placeholder="********"
+        />
+
         <Form.Item>
           <Button htmlType="submit" loading={props?.loading}>
             Xác nhận
@@ -47,40 +60,41 @@ const SettingMail = forwardRef((props, ref) => {
       }
     }
   }, [props])
+
+  const getOptions = () => {
+    let result = []
+    result = props.options.map(({ _id, name }) => ({ value: _id, name: name }))
+    return result
+  }
   return (
     <Form ref={ref} onFinish={props.mailSubmit} layout="vertical">
-      <Form.Item label={'Mail đăng kí'} name="mailRegister">
-        <Select>
-          {props.options?.map((item) => (
-            <Select.Option key={item._id} value={item._id}>
-              {item.name}
-            </Select.Option>
-          ))}
-        </Select>
-      </Form.Item>
-      <Form.Item label={'Mail Thanh Toán'} name="mailPayment">
-        <Select>
-          {props.options?.map((item) => (
-            <Select.Option key={item._id} value={item._id}>
-              {item.name}
-            </Select.Option>
-          ))}
-        </Select>
-      </Form.Item>
+      <Form.Item label={<h3>Đổi mật khẩu</h3>}>
+        <CCInput
+          type="select"
+          label={'Mail đăng kí'}
+          name="mailRegister"
+          options={getOptions()}
+        />
 
-      <Form.Item label={'Mail Thanh Toán Thành Công'} name="mailPaymentSuccess">
-        <Select>
-          {props.options?.map((item) => (
-            <Select.Option key={item._id} value={item._id}>
-              {item.name}
-            </Select.Option>
-          ))}
-        </Select>
-      </Form.Item>
-      <Form.Item>
-        <Button htmlType="submit" loading={props?.loading}>
-          Xác nhận
-        </Button>
+        <CCInput
+          type="select"
+          label={'Mail Thanh Toán'}
+          name="mailPayment"
+          options={getOptions()}
+        />
+
+        <CCInput
+          type="select"
+          label={'Mail Thanh Toán Thành Công'}
+          name="mailPaymentSuccess"
+          options={getOptions()}
+        />
+
+        <Form.Item>
+          <Button htmlType="submit" loading={props?.loading}>
+            Xác nhận
+          </Button>
+        </Form.Item>
       </Form.Item>
     </Form>
   )
@@ -169,19 +183,18 @@ const AdminSetting = () => {
   ]
 
   return (
-    <Card title="Cài đặt">
-      <Row gutter={[16, 12]}>
-        <Col span={24}>
-          <Tabs defaultActiveKey="1">
-            {tabList.map((tab, i) => (
-              <TabPane tab={tab.name} key={[tab.name, i]}>
-                {tab.content}
-              </TabPane>
-            ))}
-          </Tabs>
-        </Col>
-      </Row>
-    </Card>
+  
+    <>
+      <AdminHeader title="Cài đặt" />
+
+      <Tabs defaultActiveKey="1" >
+        {tabList.map((tab, i) => (
+          <TabPane tab={tab.name} key={[tab.name, i]} className={styles.container}>
+            {tab.content}
+          </TabPane>
+        ))}
+      </Tabs>
+    </>
   )
 }
 

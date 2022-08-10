@@ -6,34 +6,27 @@ import AdminOrderService from '@/service/AdminService/AdminOrderService'
 import {
   DeleteOutlined,
   FormOutlined,
-  SearchOutlined,
-  BarsOutlined,
-  MoreOutlined,
+  SearchOutlined
 } from '@ant-design/icons'
 import {
-  Button,
-  Card,
-  Form,
+  Button, Form,
   Input,
   message,
   Modal,
   Space,
   Table,
   Tag,
-  Tooltip,
-  PageHeader,
-  Segmented,
+  Tooltip
 } from 'antd'
 import moment from 'moment'
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
+import AdminHeader from '../../../components/Admin/AdminHeader'
 import styles from './styles.module.scss'
 const AdminOrder = () => {
   const [loading, setLoading] = useState(false)
 
   const [data, setData] = useState([])
-
-  const [segment, setSegment] = useState(1)
 
   const [childModal, setChildModal] = useState({
     visible: false,
@@ -247,71 +240,24 @@ const AdminOrder = () => {
   console.log('renderProduct')
   return (
     <>
-      {/* <PageHeader
+      <AdminHeader
         title="Quản lý đơn hàng"
-        extra={[
+        extra={
           <Form key="filter" ref={formRef} onFinish={onFilter}>
             <div className={styles.searchForm}>
               <Form.Item name="company" key="company">
                 <Input placeholder="Tên công ty" />
               </Form.Item>
+
               <Form.Item name="user" key="user">
-                <Input placeholder="Người dùng" />
+                <Input placeholder="người dùng" />
               </Form.Item>
-              <Form.Item key="submit">
-                <Button htmlType="submit" icon={<SearchOutlined />} />
-              </Form.Item>
+
+              <Button htmlType="submit" icon={<SearchOutlined />} />
             </div>
-          </Form>,
-        ]}
-        style={{
-          padding: '16px 0'
-        }}
-      /> */}
-      <div className={styles.header}>
-        {segment === 1 && (
-          <PageHeader
-            title="Quản lý đơn hàng"
-            style={{
-              padding: '16px 0',
-            }}
-          />
-        )}
-        <Form
-          key="filter"
-          ref={formRef}
-          onFinish={onFilter}
-          style={{
-            display: segment === 2 ? 'block' : 'none',
-          }}
-        >
-          <div className={styles.searchForm}>
-            <Form.Item name="company" key="company">
-              <Input placeholder="Tên công ty" />
-            </Form.Item>
-
-            <Form.Item name="user" key="user">
-              <Input placeholder="Tên công ty" />
-            </Form.Item>
-
-            <Button htmlType="submit" icon={<SearchOutlined />} />
-          </div>
-        </Form>
-        <Segmented
-          options={[
-            {
-              value: 1,
-              icon: <BarsOutlined />,
-            },
-            {
-              value: 2,
-              icon: <MoreOutlined />,
-            },
-          ]}
-          defaultValue={segment}
-          onChange={(value) => setSegment(value)}
-        />
-      </div>
+          </Form>
+        }
+      />
 
       <div style={{ padding: 8, background: '#fff' }}>
         <Table

@@ -5,15 +5,7 @@ import styles from './styles.module.scss'
 const { RangePicker } = DatePicker
 
 const CCInput = forwardRef((props, ref) => {
-  const {
-    name,
-    label,
-    value,
-    onChange,
-    style,
-    placeholder,
-    ...rest
-  } = props
+  const { name, label, value, onChange, style, placeholder, ...rest } = props
   const [optional, setOptional] = useState([])
 
   const handleOptions = () => {
@@ -24,6 +16,7 @@ const CCInput = forwardRef((props, ref) => {
     } else {
       option = props?.options
     }
+
     setOptional(option)
   }
 
@@ -58,6 +51,23 @@ const CCInput = forwardRef((props, ref) => {
             onChange={props?.onChange}
             style={props.style}
             formatter={props?.formatter}
+            placeholder={props?.placeholder}
+            {...rest}
+            autoComplete="off"
+          />
+        </Form.Item>
+      )
+    case 'password':
+      return (
+        <Form.Item
+          value={props?.value}
+          name={props.name}
+          label={props?.label || ' '}
+          key={props?.key}
+        >
+          <Input.Password
+            onChange={props?.onChange}
+            style={props.style}
             placeholder={props?.placeholder}
             {...rest}
             autoComplete="off"
