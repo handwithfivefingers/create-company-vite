@@ -167,7 +167,7 @@ const Personal = forwardRef((props, ref) => {
       />
 
       <CCInput
-        label={'Số CMND/ CCCD/ Hộ chiếu'}
+        label={'Số CMND hoặc CCCD hoặc Hộ chiếu'}
         name={[...BASE_FORM, 'origin_person', 'doc_code']}
         placeholder="0010829446357"
       />
@@ -278,7 +278,14 @@ const OriginalPerson = forwardRef((props, ref) => {
       <CCSelect.SelectDocProvide
         ref={ref}
         name={[...BASE_FORM, 'organization_name', 'doc_place_provide']}
-        label="Nơi cấp"
+        // label="Nơi cấp"
+        label={
+          <div
+            dangerouslySetInnerHTML={{
+              __html: '</>Nơi cấp <i>(Sở kế hoạch và đầu tư tỉnh...)</i></>',
+            }}
+          />
+        }
         placeholder="Bấm vào đây"
       />
 
@@ -364,18 +371,19 @@ const OriginalPerson = forwardRef((props, ref) => {
         name={[...BASE_FORM, 'origin_person', 'doc_type']}
         label="Loại giấy tờ"
         // defaultValue="Chứng minh nhân dân"
-        disabled
-        defaultActiveFirstOption
-        options={[
-          {
-            name: 'Chứng minh nhân dân',
-            value: 'Chứng minh nhân dân',
-          },
-        ]}
+        // disabled
+        // defaultActiveFirstOption
+        options={SELECT.DOC_TYPE}
+        // options={[
+        //   {
+        //     name: 'Chứng minh nhân dân',
+        //     value: 'Chứng minh nhân dân',
+        //   },
+        // ]}
       />
 
       <CCInput
-        label={'Chứng minh nhân dân'}
+        label={'Số CMND hoặc CCCD hoặc Hộ chiếu'}
         name={[...BASE_FORM, 'origin_person', 'doc_code']}
       />
 

@@ -1,3 +1,4 @@
+@import '@/assets/css/custom';
 .searchForm {
   display: grid;
   grid-template-columns: repeat(3, auto);
@@ -8,4 +9,10 @@
       margin: 0;
     }
   }
+}
+
+.inline {
+  @extend .inline;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
