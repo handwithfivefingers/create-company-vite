@@ -48,6 +48,7 @@ const GiaTriGopVon = forwardRef((props, ref) => {
       gutter={[16, 12]}
       className={clsx([
         styles.hide,
+        props.className,
         {
           [styles.visible]: current === 1,
         },

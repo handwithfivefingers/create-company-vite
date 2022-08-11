@@ -1,7 +1,7 @@
-import { Spin, Space } from 'antd';
-import React, { Suspense } from 'react';
-import { Outlet } from 'react-router-dom';
-import WithAuth from '@/components/HOC/WithAuth';
+import { Spin, Space } from 'antd'
+import React, { Suspense } from 'react'
+import { Outlet } from 'react-router-dom'
+import WithAuth from '@/components/HOC/WithAuth'
 
 const Admin = (props) => {
   return (
@@ -14,10 +14,13 @@ const Admin = (props) => {
         </div>
       }
     >
-    
-      <Outlet />
+      <Outlet
+        context={{
+          animateClass: 'animate__animated animate__fadeIn animate__faster',
+        }}
+      />
     </Suspense>
-  );
-};
+  )
+}
 
-export default WithAuth(Admin, 'admin');
+export default WithAuth(Admin, 'admin')

@@ -4,7 +4,7 @@ import React, { forwardRef } from 'react'
 import CCInput from '@/components/CCInput'
 import { SELECT } from '@/constant/Common'
 import styles from '../CreateCompany.module.scss'
-
+import onSetFields from '@/helper/Commmon';
 const ChuTichHoiDongThanhVien = forwardRef((props, ref) => {
   const { BASE_FORM, current } = props
 
@@ -35,28 +35,30 @@ const ChuTichHoiDongThanhVien = forwardRef((props, ref) => {
   }
   const handleClear = () => {
     let { create_company } = ref.current.getFieldsValue()
-    ref.current.setFieldsValue({
-      ...create_company,
-      create_company: {
-        approve: {
-          ...create_company.approve,
-          per_main: {
-            name: undefined,
-            gender: undefined,
-            birth_day: undefined,
-            per_type: undefined,
-            reg_address: undefined,
-            current_address: undefined,
-          },
-        },
-      },
-    })
+    // ref.current.setFieldsValue({
+    //   ...create_company,
+    //   create_company: {
+    //     approve: {
+    //       ...create_company.approve,
+    //       per_main: {
+    //         name: undefined,
+    //         gender: undefined,
+    //         birth_day: undefined,
+    //         per_type: undefined,
+    //         reg_address: undefined,
+    //         current_address: undefined,
+    //       },
+    //     },
+    //   },
+    // })
+    onSetFields(['create_company', 'approve', 'per_main'], null, ref)
   }
   return (
     <>
       <Form.Item
         className={clsx([
           styles.hide,
+          props.className,
           {
             [styles.visible]: current === 4,
           },

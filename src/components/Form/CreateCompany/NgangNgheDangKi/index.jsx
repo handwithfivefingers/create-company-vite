@@ -45,6 +45,7 @@ const NgangNgheDangKi = forwardRef((props, ref) => {
       label={<h2>Ngành nghề đăng kí kinh doanh</h2>}
       className={clsx([
         styles.hide,
+        props.className,
         {
           [styles.visible]: current === 6,
         },

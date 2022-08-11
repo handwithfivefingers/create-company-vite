@@ -59,6 +59,7 @@ const ThanhVienGopVon = forwardRef((props, ref) => {
       })
     }
   }
+
   const renderPresentPerson = () => {
     let xhtml = null
 
@@ -91,6 +92,7 @@ const ThanhVienGopVon = forwardRef((props, ref) => {
       label={<h3>Thành viên góp vốn</h3>}
       className={clsx([
         styles.hide,
+        props.className,
         {
           [styles.visible]: current === 2,
         },

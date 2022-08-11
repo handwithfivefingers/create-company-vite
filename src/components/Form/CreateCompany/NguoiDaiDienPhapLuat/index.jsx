@@ -244,6 +244,7 @@ const NguoiDaiDienPhapLuat = forwardRef((props, ref) => {
       label={<h2>Người đại diện pháp luật </h2>}
       className={clsx([
         styles.hide,
+        props.className,
         {
           [styles.visible]: current === 3,
         },

@@ -97,6 +97,7 @@ const TenCongTy = forwardRef((props, ref) => {
       label={<h2>Tên công ty </h2>}
       className={clsx([
         styles.hide,
+        props.className,
         {
           [styles.visible]: current === 4,
         },

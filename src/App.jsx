@@ -9,7 +9,8 @@ import { useAuth, useDetectLocation } from './helper/Hook';
 import { CommonAction } from './store/actions';
 import moment from 'moment';
 import './assets/css/styles.scss';
-import 'aos/dist/aos.css';
+import 'animate.css';
+
 
 ConfigProvider.config({
 	theme: {

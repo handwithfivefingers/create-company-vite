@@ -13,6 +13,7 @@ const DiaChiTruSoChinh = forwardRef((props, ref) => {
       label={<h2>Địa chỉ đặt trụ sở</h2>}
       className={clsx([
         styles.hide,
+        props.className,
         {
           [styles.visible]: current === 5,
         },

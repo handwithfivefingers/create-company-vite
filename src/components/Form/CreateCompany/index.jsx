@@ -80,6 +80,30 @@ const CreateCompany = forwardRef((props, formRef) => {
       </Select>
     )
   }
+  const animateClass = 'animate__animated animate__fadeIn animate__faster'
+
+  const renderFormItem = () => {
+    let html = null
+    const listForm = [
+      GiaTriGopVon,
+      ThanhVienGopVon,
+      NguoiDaiDienPhapLuat,
+      TenCongTy,
+      DiaChiTruSoChinh,
+      NgangNgheDangKi,
+    ]
+
+    const configs = {
+      BASE_FORM: BASE_FORM,
+      current: props.step,
+      ref: formRef,
+      className: animateClass,
+    }
+
+    html = listForm.map((Component) => <Component {...configs} />)
+
+    return html
+  }
   return (
     <>
       <Form
@@ -102,6 +126,7 @@ const CreateCompany = forwardRef((props, formRef) => {
               required
               label="Chọn loại hình doanh nghiệp"
               placeholder="Bấm vào đây"
+              className={animateClass}
             >
               {dropdownRender(['selectProduct'])}
             </Form.Item>
@@ -116,55 +141,8 @@ const CreateCompany = forwardRef((props, formRef) => {
             </div>
           }
         >
-          {/** 1 */}
-          {
-            <GiaTriGopVon
-              BASE_FORM={BASE_FORM}
-              current={props.step}
-              ref={formRef}
-            />
-          }
-          {/** 2 */}
-          {
-            <ThanhVienGopVon
-              BASE_FORM={BASE_FORM}
-              current={props.step}
-              ref={formRef}
-            />
-          }
-          {/** 3 */}
-          {
-            <NguoiDaiDienPhapLuat
-              BASE_FORM={BASE_FORM}
-              current={props.step}
-              ref={formRef}
-            />
-          }
-
-          {/** 4 */}
-          {
-            <TenCongTy
-              BASE_FORM={BASE_FORM}
-              current={props.step}
-              ref={formRef}
-            />
-          }
-          {/** 5 */}
-          {
-            <DiaChiTruSoChinh
-              BASE_FORM={BASE_FORM}
-              current={props.step}
-              ref={formRef}
-            />
-          }
-          {/** 6 */}
-          {
-            <NgangNgheDangKi
-              BASE_FORM={BASE_FORM}
-              current={props.step}
-              ref={formRef}
-            />
-          }
+          {renderFormItem()}
+    
         </Suspense>
       </Form>
     </>
