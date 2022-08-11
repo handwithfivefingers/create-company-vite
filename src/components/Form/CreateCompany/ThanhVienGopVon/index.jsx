@@ -89,7 +89,7 @@ const ThanhVienGopVon = forwardRef((props, ref) => {
 
   return (
     <Form.Item
-      label={<h3>Thành viên góp vốn</h3>}
+      // label={<h3>Thành viên góp vốn</h3>}
       className={clsx([
         styles.hide,
         props.className,
@@ -247,6 +247,7 @@ const OriginalPerson = forwardRef((props, ref) => {
   return (
     <div className={styles.groupInput}>
       {/* START Nhập thông tin của tổ chức */}
+      
       <CCInput
         label={'Tên tổ chức'}
         name={[...BASE_FORM, 'origin_person', 'organization_name']}
@@ -277,7 +278,7 @@ const OriginalPerson = forwardRef((props, ref) => {
         placeholder="Chọn ngày"
       />
 
-      <CCSelect.SelectDocProvide
+      {/* <CCSelect.SelectDocProvide
         ref={ref}
         name={[...BASE_FORM, 'organization_name', 'doc_place_provide']}
         // label="Nơi cấp"
@@ -289,7 +290,7 @@ const OriginalPerson = forwardRef((props, ref) => {
           />
         }
         placeholder="Bấm vào đây"
-      />
+      /> */}
 
       <Form.Item
         label={
