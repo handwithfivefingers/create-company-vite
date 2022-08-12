@@ -3,13 +3,16 @@ import { Button, Drawer, Form, message, Modal, Table, Tag, Tooltip } from 'antd'
 import dateformat from 'dateformat'
 import { useEffect, useState } from 'react'
 import { MdCreditCard } from 'react-icons/md'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useOutletContext } from 'react-router-dom'
 import { number_format } from '@/helper/Common'
 import OrderService from '@/service/UserService/OrderService'
 import moment from 'moment'
 import styles from './styles.module.scss'
+import clsx from 'clsx'
 
 const UserOrder = () => {
+  const { animateClass } = useOutletContext()
+
   const [loading, setLoading] = useState(false)
   const [data, setData] = useState([])
   const [modal, setModal] = useState({
@@ -17,12 +20,15 @@ const UserOrder = () => {
     width: 0,
     component: null,
   })
+  
   const [drawer, setDrawer] = useState({
     visible: false,
     width: 0,
     data: null,
   })
+
   let navigate = useNavigate()
+
   useEffect(() => {
     getScreenData()
   }, [])
@@ -83,7 +89,6 @@ const UserOrder = () => {
   }
 
   const onEditOrder = (record) => {
-    console.log('order', record)
 
     let { data } = record
     let url = null
@@ -102,12 +107,11 @@ const UserOrder = () => {
   }
 
   return (
-    <div className={'cc-scroll'}>
+    <div className={clsx(['cc-scroll', animateClass])}>
       <Table
         size="small"
         bordered
         dataSource={data}
-        // loading={loading}
         loading={{
           spinning: loading,
           tip: 'Loading...',
@@ -162,9 +166,7 @@ const UserOrder = () => {
           align="center"
           title="Ngày tạo"
           render={(val, record, i) => {
-            return (
-              <>{moment(record.createdAt).format('HH:mm DD-MM-YYYY')}</>
-            )
+            return <>{moment(record.createdAt).format('HH:mm DD-MM-YYYY')}</>
           }}
         />
         <Table.Column
@@ -195,7 +197,7 @@ const UserOrder = () => {
                   <FormOutlined />
                 </Button>
               </Tooltip>
-              {/* {!record.payment &&   */}
+
               <Tooltip title="Thanh toán" color={'blue'}>
                 <Button
                   size="large"
@@ -207,7 +209,6 @@ const UserOrder = () => {
                   <MdCreditCard />
                 </Button>
               </Tooltip>
-              {/* // } */}
             </div>
           )}
         />

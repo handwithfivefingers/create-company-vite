@@ -4,11 +4,12 @@ import CardCategory from '../../../components/CardCategory'
 import CategoryService from '../../../service/UserService/CategoriesService'
 import clsx from 'clsx'
 import styles from './styles.module.scss'
-
+import { useOutletContext } from 'react-router-dom'
 
 const UserProductPage = () => {
   const [loading, setLoading] = useState(false)
   const [product, setProduct] = useState([])
+  const { animateClass } = useOutletContext()
 
   useEffect(() => {
     getScreenData()
@@ -31,7 +32,7 @@ const UserProductPage = () => {
   }
 
   return (
-    <div className={clsx([styles.cardgrid, 'container'])}>
+    <div className={clsx([styles.cardgrid, animateClass, 'container'])}>
       <Skeleton active loading={loading}>
         {product?.map((item) => {
           return <CardCategory data={item} key={item._id} />

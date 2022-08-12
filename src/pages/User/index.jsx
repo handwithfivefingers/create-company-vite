@@ -2,7 +2,7 @@ import { Spin, Space } from 'antd'
 import React, { Suspense } from 'react'
 import { Outlet } from 'react-router-dom'
 import WithAuth from '@/components/HOC/WithAuth'
-import { useOutletContext } from 'react-router-dom'
+
 const UserDashboard = () => {
   return (
     <Suspense
