@@ -10,6 +10,16 @@ import { CommonAction } from './store/actions'
 import moment from 'moment'
 import './assets/css/styles.scss'
 import 'animate.css'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: 0,
+      refetchOnWindowFocus: false,
+    },
+  },
+})
 
 ConfigProvider.config({
   theme: {
@@ -80,6 +90,7 @@ const RouterComponent = (props) => {
 
 function App() {
   const auth = useAuth() // custom Hook
+
   const [route, setRoute] = useState({
     to: '',
     from: '',
@@ -88,9 +99,6 @@ function App() {
 
   const authReducer = useSelector((state) => state.authReducer)
 
-  if (authReducer.authenticating && !authReducer.status) {
-    return <LoadingScreen />
-  }
   const routerHistoryHandler = (val) => {
     setRoute((state) => ({
       ...state,
@@ -98,16 +106,25 @@ function App() {
       listHistory: [...state.listHistory, { ...val }].slice(-20),
     }))
   }
-  console.log(route);
+
+  if (authReducer.authenticating && !authReducer.status) {
+    return <LoadingScreen />
+  }
+
   return (
     <div className="App">
-      <ConfigProvider>
-        <RouterProvider value={{ route, setRoute: (val) => routerHistoryHandler(val) }}>
-          <BrowserRouter>
-            <RouterComponent auth={auth} />
-          </BrowserRouter>
-        </RouterProvider>
-      </ConfigProvider>
+      <QueryClientProvider client={queryClient}>
+        <ConfigProvider>
+          <RouterProvider
+            value={{ route, setRoute: (val) => routerHistoryHandler(val) }}
+          >
+            <BrowserRouter>
+              <RouterComponent auth={auth} />
+            </BrowserRouter>
+          </RouterProvider>
+        </ConfigProvider>
+        <ReactQueryDevtools initialIsOpen={false} />
+      </QueryClientProvider>
     </div>
   )
 }

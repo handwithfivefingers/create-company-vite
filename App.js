@@ -14,14 +14,16 @@ const AppRouter = require('./server/route')
 
 const GitRouter = require('./server/route/git')
 
-var cookieParser = require('cookie-parser')
+const cookieParser = require('cookie-parser')
+const process = require('process')
+const os = require('os')
 
 const { task } = require('./server/controller/service/cronjob')
 
 env.config()
 
 const { NODE_ENV, PORT, DEV_PORT } = process.env
-process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = 1; // Conflict ssl
+process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = 1 // Conflict ssl
 const RUNTIME_PORT = NODE_ENV === 'development' ? DEV_PORT || 3001 : PORT
 
 const mongoseOptions = {
@@ -100,4 +102,14 @@ if (process.env.NODE_ENV !== 'development') {
 
 app.listen(RUNTIME_PORT, () => {
   console.log(`Server is running ${RUNTIME_PORT}`)
+
+  const startUsage = process.cpuUsage()
+  // { user: 38579, system: 6986 }
+
+  // spin the CPU for 500 milliseconds
+  const now = Date.now()
+  while (Date.now() - now < 500);
+
+  console.log(process.cpuUsage(startUsage))
+  // { user: 514883, system: 11226 }
 })

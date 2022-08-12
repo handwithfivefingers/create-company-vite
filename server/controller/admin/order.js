@@ -28,41 +28,19 @@ const getOrderBySlug = async (req, res) => {
 }
 
 const getOrders = async (req, res) => {
-  const { page, ...condition } = req.body
-
-  let current_page = (parseInt(page) - 1) * PAGE_SIZE
-
-  const email = new RegExp(condition?.name, 'i')
-
   try {
-    // let _user = await User.find({
-    //   $and: [
-    //     {
-    //       email: email ? email : '',
-    //     },
-    //   ],
-    // }).select('_id')
-
-    // let newCondition = _user.map((item) => ({ orderOwner: item._id }))
-
     if (req.role === 'admin') {
-      let _order = await Order.find({
-        // $or: newCondition.length > 0 ? newCondition : [{}],
-      })
+      let _order = await Order.find()
         .populate('main_career', ['name', 'code'])
         .populate('products', 'name')
         .populate({
           path: 'orderOwner',
           select: 'name email',
         })
-        .skip(current_page)
-        .limit(PAGE_SIZE)
         .sort('-createdAt')
-      const count = await Order.find({
-        // $or: newCondition.length > 0 ? newCondition : [{}],
-      }).countDocuments()
+      const count = await Order.find({}).countDocuments()
 
-      return successHandler({ _order, count, current_page: page || 1 }, res)
+      return successHandler({ _order, count }, res)
     }
     return permisHandler(res)
   } catch (err) {
@@ -83,26 +61,6 @@ const deleteOrder = async (req, res) => {
 
     return errHandler(err, res)
   }
-}
-
-const calcPrice = async (productArray) => {
-  // console.log(productArray);
-  if (typeof productArray === 'string') {
-    let _product = await Product.findOne({ _id: productArray }).select(
-      '_id price',
-    )
-    // console.log(_product);
-    return _product.price
-  }
-
-  let allProduct = productArray?.map(async (_id) => {
-    let _product = await Product.findOne({ _id: _id }).select('_id price')
-    return _product
-  })
-
-  return await Promise.all(allProduct)
-    .then((res) => res.reduce((prev, current) => (prev += current.price), 0))
-    .catch((err) => console.log(err))
 }
 
 module.exports = {

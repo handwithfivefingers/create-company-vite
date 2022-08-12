@@ -3,30 +3,33 @@ import Tracking from '@/components/Tracking'
 import axios from '@/config/axios'
 import { makeid, number_format } from '@/helper/Common'
 import AdminOrderService from '@/service/AdminService/AdminOrderService'
+import { DeleteOutlined, FormOutlined, SearchOutlined } from '@ant-design/icons'
 import {
-  DeleteOutlined,
-  FormOutlined,
-  SearchOutlined
-} from '@ant-design/icons'
-import {
-  Button, Form,
+  Button,
+  Form,
   Input,
   message,
   Modal,
   Space,
   Table,
   Tag,
-  Tooltip
+  Tooltip,
 } from 'antd'
 import moment from 'moment'
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import AdminHeader from '../../../components/Admin/AdminHeader'
 import styles from './styles.module.scss'
+import { useQuery } from '@tanstack/react-query'
+
 const AdminOrder = () => {
   const [loading, setLoading] = useState(false)
-
-  const [data, setData] = useState([])
+  const [pagiConfigs, setPagiConfigs] = useState({
+    current: 1,
+    pageSize: 10,
+    onChange: (page, pageSize) => handleChangePage(page, pageSize),
+    showSizeChanger: false,
+  })
 
   const [childModal, setChildModal] = useState({
     visible: false,
@@ -35,56 +38,53 @@ const AdminOrder = () => {
   })
 
   const formRef = useRef()
-
-  const pagiConfig = {
-    current: data.current_page,
-    pageSize: 10,
-    total: data.count,
-    onChange: (page, pageSize) => {
-      fetchOrders(page)
+  const { data, isFetching, isLoading, status } = useQuery(
+    ['adminOrder'],
+    () => AdminOrderService.getOrder(),
+    {
+      staleTime: 60 * 1000, // 1 minute
+      refetchOnWindowFocus: true,
     },
-    showSizeChanger: false,
-  }
-
+  )
   useEffect(() => {
-    fetchOrders()
-  }, [])
-
-  const fetchOrders = async (page) => {
-    // page -> number
-    try {
-      setLoading(true)
-      let { company, user } = formRef?.current.getFieldsValue()
-      let params = {
-        page,
-        company,
-        user,
-      }
-      let res = await AdminOrderService.getOrder(params)
-      let { data, status } = res.data
-      setData(data)
-      if (status !== 200) {
-        message.error(res.data.message)
-      }
-    } catch (err) {
-      console.log(err)
-    } finally {
-      setLoading(false)
-    }
-  }
-
-  const handlePayment = (record) => {
-    // console.log(record);
-    setLoading(true)
-    axios
-      .get(`/api/payment/${record._id}`)
-      .then((res) => {
-        if (res.data.status === 200) {
-          window.location.href = res.data.url
-        }
+    if (status === 'success') {
+      setPagiConfigs({
+        ...pagiConfigs,
+        total: data?.data?.data?.count,
+        pagiData: data?.data?.data?._order?.slice(
+          (pagiConfigs.current - 1) * pagiConfigs.pageSize,
+          (pagiConfigs.current - 1) * pagiConfigs.pageSize +
+            pagiConfigs.pageSize,
+        ),
       })
-      .catch((err) => console.log(err))
-      .finally(setLoading(false))
+    }
+  }, [data])
+
+  // const handlePayment = (record) => {
+  //   // console.log(record);
+  //   setLoading(true)
+  //   axios
+  //     .get(`/api/payment/${record._id}`)
+  //     .then((res) => {
+  //       if (res.data.status === 200) {
+  //         window.location.href = res.data.url
+  //       }
+  //     })
+  //     .catch((err) => console.log(err))
+  //     .finally(setLoading(false))
+  // }
+  const handleChangePage = (current, pageSize) => {
+    console.log('handleChangePage', current, pageSize)
+    setPagiConfigs({
+      ...pagiConfigs,
+      pagiData: data?.data?.data?._order?.slice(
+        (current - 1) * pageSize,
+        (current - 1) * pageSize + pageSize,
+      ),
+      current,
+      pageSize,
+      total: data?.data?.data?.count,
+    })
   }
 
   const onHandleDelete = (record) => {
@@ -112,11 +112,6 @@ const AdminOrder = () => {
       let { current_page } = data
       fetchOrders(current_page)
     }
-  }
-
-  const onFilter = (val) => {
-    let { current_page } = data
-    fetchOrders(current_page)
   }
 
   const checkProgress = (record) => {
@@ -237,13 +232,14 @@ const AdminOrder = () => {
       </div>
     )
   }
-  console.log('renderProduct')
+
+  console.log('renderProduct', data)
   return (
     <>
       <AdminHeader
         title="Quản lý đơn hàng"
         extra={
-          <Form key="filter" ref={formRef} onFinish={onFilter}>
+          <Form key="filter" ref={formRef}>
             <div className={styles.searchForm}>
               <Form.Item name="company" key="company">
                 <Input placeholder="Tên công ty" />
@@ -261,9 +257,9 @@ const AdminOrder = () => {
 
       <div style={{ padding: 8, background: '#fff' }}>
         <Table
-          dataSource={data._order}
+          dataSource={pagiConfigs?.pagiData}
           loading={{
-            spinning: loading,
+            spinning: isLoading,
             tip: 'Loading...',
             delay: 100,
           }}
@@ -320,7 +316,16 @@ const AdminOrder = () => {
           />
         </Table>
       </div>
-      <CCPagination {...pagiConfig} />
+      <CCPagination
+        {...pagiConfigs}
+        // current={1}
+        // pageSize={10}
+        // total={data?.data?.data?.count}
+        // onChange={(page, pageSize) => {
+        //   console.log(page, pageSize)
+        // }}
+        // showSizeChanger={false}
+      />
 
       <Modal
         footer={null}

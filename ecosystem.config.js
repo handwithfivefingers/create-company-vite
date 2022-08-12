@@ -9,6 +9,7 @@ module.exports = {
       max_memory_restart: '1G',
       error_file: './uploads/logs/error.log',
       out_file: './uploads/logs/out.log',
+      pid_file: './uploads/logs/pid.pid',
       log_date_format: 'CC_LOGS ::: HH:mm Z ::: DD-MM-YYYY',
       combine_logs: true,
       watch_delay: 1000,
