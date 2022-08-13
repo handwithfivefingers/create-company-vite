@@ -30,6 +30,7 @@ import AdminProductService from '@/service/AdminService/AdminProductService'
 import CCPagination from '@/components/CCPagination'
 import styles from './styles.module.scss'
 import AdminHeader from '../../../components/Admin/AdminHeader'
+import { useFetch } from '../../../helper/Hook'
 
 const { TabPane } = Tabs
 const AdminProduct = (props) => {
@@ -43,52 +44,102 @@ const AdminProduct = (props) => {
     width: 0,
     component: null,
   })
+  const {
+    data: careerData,
+    isLoading: careerLoading,
+    status: careerStatus,
+    refetch: careerRefetch,
+  } = useFetch({
+    cacheName: ['adminProduct', 'career'],
+    fn: () => AdminProductService.getCareer(),
+  })
+  const {
+    data: category,
+    isLoading: categoryLoading,
+    status: categoryStatus,
+    refetch: categoryRefetch,
+  } = useFetch({
+    cacheName: ['adminProduct', 'category'],
+    fn: () => AdminProductService.getCategory(),
+  })
+  const {
+    data: product,
+    isLoading: productLoading,
+    status: productStatus,
+    refetch: productRefetch,
+  } = useFetch({
+    cacheName: ['adminProduct', 'product'],
+    fn: () => AdminProductService.getProduct(),
+  })
+
 
   useEffect(() => {
-    getScreenData()
-    getCateData()
-    getCareer()
-  }, [])
-
-  const getCareer = async () => {
-    try {
-      const { data } = await axios.get(`/nganhnghe`)
-      if (data.status === 200) {
-        setCareer(data.data)
-      }
-    } catch (err) {
-      console.log(err)
-      message.error(data.message || data.error)
+    if (categoryStatus === 'success' && category) {
+      setCateData(category)
     }
-  }
+  }, [category])
 
-  const getScreenData = () => {
-    setLoading(true)
-    AdminProductService.getProduct()
-      .then((res) => {
-        if (res.data.status === 200) {
-          let _data = res.data.data.map((el) => ({
-            ...el,
-            children: el.children.map((item) => ({
-              ...item,
-              _uuid: makeid(9),
-            })),
-          }))
-          setData(_data)
-        }
-      })
-      .finally(() => setLoading(false))
-  }
+  useEffect(() => {
+    if (productStatus === 'success' && product) {
 
-  const getCateData = () => {
-    AdminProductService.getCategory()
-      .then((res) => {
-        if (res.data.status === 200) {
-          setCateData(res.data.data)
-        }
-      })
-      .catch((err) => console.log(err))
-  }
+      let _data = product.map((el) => ({
+        ...el,
+        children: el.children.map((item) => ({
+          ...item,
+          _uuid: makeid(9),
+        })),
+      }))
+      setData(_data)
+      // setData(product)
+    }
+  }, [product])
+
+  useEffect(() => {
+    if (careerStatus === 'success' && careerData) {
+      setCareer(careerData)
+    }
+  }, [careerData])
+
+
+  // const getCareer = async () => {
+  //   try {
+  //     const { data } = await AdminProductService.getCareer()
+  //     if (data.status === 200) {
+  //       setCareer(data.data)
+  //     }
+  //   } catch (err) {
+  //     console.log(err)
+  //     message.error(data.message || data.error)
+  //   }
+  // }
+
+  // const getScreenData = () => {
+  //   setLoading(true)
+  //   AdminProductService.getProduct()
+  //     .then((res) => {
+  //       if (res.data.status === 200) {
+  //         let _data = res.data.data.map((el) => ({
+  //           ...el,
+  //           children: el.children.map((item) => ({
+  //             ...item,
+  //             _uuid: makeid(9),
+  //           })),
+  //         }))
+  //         setData(_data)
+  //       }
+  //     })
+  //     .finally(() => setLoading(false))
+  // }
+
+  // const getCateData = () => {
+  //   AdminProductService.getCategory()
+  //     .then((res) => {
+  //       if (res.data.status === 200) {
+  //         setCateData(res.data.data)
+  //       }
+  //     })
+  //     .catch((err) => console.log(err))
+  // }
 
   // Product
 
@@ -319,7 +370,7 @@ const AdminProduct = (props) => {
           <TabPane tab="Danh mục" key="1">
             <Table
               loading={{
-                spinning: loading,
+                spinning: categoryLoading,
                 tip: 'Loading...',
                 delay: 100,
               }}
@@ -363,7 +414,7 @@ const AdminProduct = (props) => {
           <TabPane tab="Sản phẩm" key="2">
             <Table
               loading={{
-                spinning: loading,
+                spinning: productLoading,
                 tip: 'Loading...',
                 delay: 100,
               }}

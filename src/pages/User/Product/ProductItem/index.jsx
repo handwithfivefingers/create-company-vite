@@ -9,6 +9,7 @@ import { message, Modal, Spin } from 'antd'
 import dateformat from 'dateformat'
 import React, { lazy, useCallback, useEffect, useRef, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
+import { useFetch } from '../../../../helper/Hook'
 import styles from './styles.module.scss'
 
 const CreateCompanyPages = lazy(() => {
@@ -33,8 +34,6 @@ const PreviewData = lazy(() => {
 
 const UserProductItem = (props) => {
   const formRef = useRef()
-
-  const uyquyenRef = useRef()
 
   const [current, setCurrent] = useState(0)
 
@@ -63,27 +62,31 @@ const UserProductItem = (props) => {
     component: null,
   })
 
+  const {
+    data: productData,
+    isFetching,
+    isLoading,
+    status,
+    refetch,
+  } = useFetch({
+    cacheName: ['userProduct'],
+    fn: () => ProductService.getDataBySlug(params),
+    otherPath: true,
+  })
+
   const navigate = useNavigate()
 
   let params = useParams()
 
   useEffect(() => {
-    getDataBySlug()
-  }, [])
+    refetch(['userProduct'])
+  },[params])
 
-  const getDataBySlug = async () => {
-    try {
-      setLoading(true)
-      let res = await ProductService.getDataBySlug(params)
-      if (res) {
-        setData(res.data)
-      }
-    } catch (err) {
-      console.log(err)
-    } finally {
-      setLoading(false)
+  useEffect(() => {
+    if (productData && status === 'success') {
+      setData(productData)
     }
-  }
+  }, [productData])
 
   const Next = useCallback(() => {
     setCurrent(current + 1)
@@ -123,7 +126,7 @@ const UserProductItem = (props) => {
             step={current}
             setStep={(e) => setCurrent(e)}
             renderPrewviewForm={renderPrewviewForm}
-            loading={loading}
+            loading={isLoading}
             handleSave={handleSave}
             handlePurchaseCreateCompany={handlePurchaseCreateCompany}
             Prev={Prev}
@@ -139,7 +142,7 @@ const UserProductItem = (props) => {
             onFinishScreen={(val) => handleChangeInforForm(val)}
             step={current}
             renderPrewviewForm={renderPrewviewForm}
-            loading={loading}
+            loading={isLoading}
             handleSaveChangeInfo={handleSaveChangeInfo}
             handlePurchaseChangeInfo={handlePurchaseChangeInfo}
             Prev={Prev}
@@ -153,7 +156,7 @@ const UserProductItem = (props) => {
           <PendingPages
             renderPrewviewForm={renderPrewviewForm}
             data={data.data}
-            loading={loading}
+            loading={isLoading}
             Prev={Prev}
             Next={Next}
             handleSavePending={handleSavePending}
@@ -170,7 +173,7 @@ const UserProductItem = (props) => {
             handlePurchaseDissolution={handlePurchaseDissolution}
             data={data.data}
             step={current}
-            loading={loading}
+            loading={isLoading}
             Prev={Prev}
             Next={Next}
             ref={formRef}
@@ -376,7 +379,7 @@ const UserProductItem = (props) => {
       {data && renderHeaderStep(data?.type)}
 
       <div className={styles.formContent}>
-        <Spin spinning={loading}>{data && renderFormByType(data?.type)}</Spin>
+        <Spin spinning={isFetching}>{data && renderFormByType(data?.type)}</Spin>
       </div>
 
       <Modal

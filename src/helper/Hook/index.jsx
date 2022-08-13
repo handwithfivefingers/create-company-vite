@@ -2,7 +2,7 @@ import { AuthAction } from '@/store/actions'
 import { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { ProvinceAction } from '@/store/actions'
-
+import { useQuery } from '@tanstack/react-query'
 const useAuth = () => {
   const authReducer = useSelector((state) => state.authReducer)
 
@@ -47,31 +47,32 @@ const useScrollAware = () => {
   return [scrollTop, ref]
 }
 
-const useFetch = (props) => {
-  let [loading, setLoading] = useState(false)
-  let [data, setData] = useState([])
-
-  useEffect(() => {
-    if (props.fn) {
-      getScreenData(props.fn)
-    }
-  }, [props])
-
-  const getScreenData = async (fn) => {
-    try {
-      setLoading(true)
+const useFetch = ({
+  cacheName,
+  fn,
+  path,
+  staleTime = 60 * 1000,
+  refetchOnWindowFocus = true,
+  otherPath,
+}) => {
+  const { data, isFetching, isLoading, status, refetch } = useQuery(
+    cacheName,
+    async () => {
       let res = await fn()
-      if (res) {
-        setData(res.data)
+      let result
+      result = path ? res.data?.[path] : res.data?.data
+      if (otherPath) {
+        result = { ...result, ...res.data }
       }
-    } catch (err) {
-      console.log('useFetch', err)
-    } finally {
-      setLoading(false)
-    }
-  }
+      return result
+    },
+    {
+      staleTime, // 1 minute
+      refetchOnWindowFocus,
+    },
+  )
 
-  return [loading, data, setData]
+  return { data, isLoading, status, refetch, isFetching }
 }
 
 export { useAuth, useDetectLocation, useScrollAware, useFetch }

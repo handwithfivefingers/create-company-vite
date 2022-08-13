@@ -269,77 +269,91 @@ const CREATE_COMPANY_FORM = {
     title: 'Thành lập doanh nghiệp',
     fields: {
       base_val: {
-        num: 'Vốn điều lệ (bằng số)',
-        char: 'Vốn điều lệ (bằng chữ)',
+        name: 'Vốn điều lệ',
+        fields: {
+          num: 'Vốn điều lệ (bằng số)',
+          char: 'Vốn điều lệ (bằng chữ)',
+        },
       },
       origin_person: {
-        name: 'Thành viên góp vốn',
-        gender: 'Giới tính',
-        birth_day: 'Ngày sinh',
-        per_type: 'Dân tộc',
-        doc_type: 'Loại giấy tờ',
-        doc_code: 'Mã doanh nghiệp',
-        doc_time_provide: 'Ngày cấp',
-        doc_place_provide: ' Nơi cấp',
-        contact: {
-          address: 'Số nhà, ngách, hẻm, ngõ, đường phố/tổ/xóm/ấp/thôn',
-          town: 'Xã/Phường/Thị trấn',
-          district: 'Quận/Huyện/Thị xã/Thành phố thuộc tỉnh',
-          city: 'Tỉnh/Thành phố',
-          phone: 'Số điện thoại',
-        },
-        current: {
-          address: 'Số nhà, ngách, hẻm, ngõ, đường phố/tổ/xóm/ấp/thôn',
-          town: 'Xã/Phường/Thị trấn',
-          district: 'Quận/Huyện/Thị xã/Thành phố thuộc tỉnh',
-          city: 'Tỉnh/Thành phố',
+        label: 'Thành viên góp vốn',
+        fields: {
+          name: 'Thành viên góp vốn',
+          gender: 'Giới tính',
+          birth_day: 'Ngày sinh',
+          per_type: 'Dân tộc',
+          doc_type: 'Loại giấy tờ',
+          doc_code: 'Mã doanh nghiệp',
+          doc_time_provide: 'Ngày cấp',
+          doc_place_provide: ' Nơi cấp',
+          contact: {
+            address: 'Số nhà, ngách, hẻm, ngõ, đường phố/tổ/xóm/ấp/thôn',
+            town: 'Xã/Phường/Thị trấn',
+            district: 'Quận/Huyện/Thị xã/Thành phố thuộc tỉnh',
+            city: 'Tỉnh/Thành phố',
+            phone: 'Số điện thoại',
+          },
+          current: {
+            address: 'Số nhà, ngách, hẻm, ngõ, đường phố/tổ/xóm/ấp/thôn',
+            town: 'Xã/Phường/Thị trấn',
+            district: 'Quận/Huyện/Thị xã/Thành phố thuộc tỉnh',
+            city: 'Tỉnh/Thành phố',
+          },
         },
       },
       present_person: 'Người đại diện',
       company_value: 'Giá trị góp vốn',
       legal_respon: {
-        name: 'Họ và tên',
-        gender: 'Giới tính',
-        birth_day: 'Ngày sinh',
-        per_type: 'Dân tộc',
-        doc_type: 'Loại giấy tờ',
-        doc_code: 'Số CMND/ CCCD/ Hộ chiếu',
-        doc_time_provide: 'Ngày cấp',
-        doc_place_provide: ' Nơi cấp',
-        title: 'Chức danh',
-        current: {
-          address: 'Số nhà, ngách, hẻm, ngõ, đường phố/tổ/xóm/ấp/thôn',
-          city: 'Tỉnh/Thành phố',
-          district: 'Quận/Huyện/Thị xã/Thành phố thuộc tỉnh',
-          town: 'Xã/Phường/Thị trấn',
-        },
-        contact: {
-          address: 'Số nhà, ngách, hẻm, ngõ, đường phố/tổ/xóm/ấp/thôn',
-          city: 'Tỉnh/Thành phố',
-          district: 'Quận/Huyện/Thị xã/Thành phố thuộc tỉnh',
-          town: 'Xã/Phường/Thị trấn',
+        label: 'Người đại diện pháp luật',
+        fields: {
+          name: 'Họ và tên',
+          gender: 'Giới tính',
+          birth_day: 'Ngày sinh',
+          per_type: 'Dân tộc',
+          doc_type: 'Loại giấy tờ',
+          doc_code: 'Số CMND/ CCCD/ Hộ chiếu',
+          doc_time_provide: 'Ngày cấp',
+          doc_place_provide: ' Nơi cấp',
+          title: 'Chức danh',
+          current: {
+            address: 'Số nhà, ngách, hẻm, ngõ, đường phố/tổ/xóm/ấp/thôn',
+            city: 'Tỉnh/Thành phố',
+            district: 'Quận/Huyện/Thị xã/Thành phố thuộc tỉnh',
+            town: 'Xã/Phường/Thị trấn',
+          },
+          contact: {
+            address: 'Số nhà, ngách, hẻm, ngõ, đường phố/tổ/xóm/ấp/thôn',
+            city: 'Tỉnh/Thành phố',
+            district: 'Quận/Huyện/Thị xã/Thành phố thuộc tỉnh',
+            town: 'Xã/Phường/Thị trấn',
+          },
         },
       },
-     
+
       core: {
-        name: 'Tên công ty bằng Tiếng Việt',
-        name_en: 'Tên công ty bằng Tiếng Anh (nếu có)',
-        name_vn: 'Tên công ty viết tắt (nếu có)',
-        address: {
-          address: 'Số nhà, ngách, hẻm, ngõ, đường phố/tổ/xóm/ấp/thôn',
-          city: 'Tỉnh/Thành phố',
-          district: 'Quận/Huyện/Thị xã/Thành phố thuộc tỉnh',
-          town: 'Xã/Phường/Thị trấn',
-        },
-        address_opt_1: 'Địa chỉ chi nhánh (nếu có)',
-        address_opt_2: 'Địa chỉ văn phòng đại diện (nếu có)',
-        contact: {
-          email: 'Email liên hệ (nếu có)',
-          phone: 'Số điện thoại liên hệ',
+        label: '',
+        fields: {
+          name: 'Tên công ty bằng Tiếng Việt',
+          name_en: 'Tên công ty bằng Tiếng Anh (nếu có)',
+          name_vn: 'Tên công ty viết tắt (nếu có)',
+          address: {
+            address: 'Số nhà, ngách, hẻm, ngõ, đường phố/tổ/xóm/ấp/thôn',
+            city: 'Tỉnh/Thành phố',
+            district: 'Quận/Huyện/Thị xã/Thành phố thuộc tỉnh',
+            town: 'Xã/Phường/Thị trấn',
+          },
+          address_opt_1: 'Địa chỉ chi nhánh (nếu có)',
+          address_opt_2: 'Địa chỉ văn phòng đại diện (nếu có)',
+          contact: {
+            email: 'Email liên hệ (nếu có)',
+            phone: 'Số điện thoại liên hệ',
+          },
         },
       },
       company_main_career: 'Ngành nghề chính',
-      company_opt_career: 'Ngành nghề phụ',
+      company_opt_career: {
+        name: 'Ngành nghề phụ',
+      },
     },
   },
 }
@@ -455,6 +469,20 @@ const LABEL = {
   uy_quyen: { ...UY_QUYEN },
 }
 
+const NEWLABEL = (pathName) =>
+  ({
+    // Thay đổi thông tin
+    change_info: { ...CHANGE_INFO_FORM },
+    // Thành lập công ty
+    create_company: { ...CREATE_COMPANY_FORM },
+    // Tạm hoãn
+    pending: { ...PENDING_FORM },
+    // Giải thể
+    dissolution: { ...DISSOLUTION_FORM },
+
+    uy_quyen: { ...UY_QUYEN },
+  }[pathName])
+
 export {
   LABEL,
   CREATE_COMPANY_FORM,
@@ -470,4 +498,5 @@ export {
   THAY_DOI_NGANH_NGHE_FORM,
   THAY_DOI_TEN_DOANH_NGHIEP_FORM,
   THAY_DOI_THONG_TIN_DANG_KI_THUE_FORM,
+  NEWLABEL,
 }

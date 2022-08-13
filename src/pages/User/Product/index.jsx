@@ -5,35 +5,28 @@ import CategoryService from '../../../service/UserService/CategoriesService'
 import clsx from 'clsx'
 import styles from './styles.module.scss'
 import { useOutletContext } from 'react-router-dom'
+import { useFetch } from '../../../helper/Hook'
 
 const UserProductPage = () => {
   const [loading, setLoading] = useState(false)
   const [product, setProduct] = useState([])
   const { animateClass } = useOutletContext()
 
+  const { data, isLoading, status, refetch } = useFetch({
+    cacheName: ['userOrder'],
+    fn: () => CategoryService.getCategories(),
+  })
+
   useEffect(() => {
-    getScreenData()
-  }, [])
 
-  const getScreenData = async () => {
-    try {
-      setLoading(true)
-      let res = await CategoryService.getCategories()
-      const { status, data } = res.data
-
-      if (status === 200) {
-        setProduct(data)
-      } else message.error(res.data.message)
-    } catch (e) {
-      message.error(res.data.message)
-    } finally {
-      setLoading(false)
+    if (data) {
+      setProduct(data)
     }
-  }
+  }, [data])
 
   return (
     <div className={clsx([styles.cardgrid, animateClass, 'container'])}>
-      <Skeleton active loading={loading}>
+      <Skeleton active loading={isLoading}>
         {product?.map((item) => {
           return <CardCategory data={item} key={item._id} />
         })}

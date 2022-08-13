@@ -1,17 +1,31 @@
 import LoadingScreen from '@/components/LoadingScreen'
+
 import RouterContext, { RouterProvider } from '@/helper/Context'
+
 import { ConfigProvider } from 'antd'
+
 import { useContext, useEffect, useState } from 'react'
+
 import { useDispatch, useSelector } from 'react-redux'
+
 import { BrowserRouter, useLocation, useRoutes } from 'react-router-dom'
+
 import { LAYOUT_ROUTER, UserRouter } from './constant/Route'
+
 import { useAuth, useDetectLocation } from './helper/Hook'
+
 import { CommonAction } from './store/actions'
+
 import moment from 'moment'
+
 import './assets/css/styles.scss'
+
 import 'animate.css'
+
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
+
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -24,9 +38,9 @@ const queryClient = new QueryClient({
 ConfigProvider.config({
   theme: {
     primaryColor: '#cd2027',
-    // primaryColor: "#791314",
   },
 })
+
 moment.defaultFormat = 'DD/MM/YYYY'
 
 const RouterComponent = (props) => {
