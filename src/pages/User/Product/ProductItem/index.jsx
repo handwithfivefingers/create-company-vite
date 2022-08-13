@@ -206,7 +206,7 @@ const UserProductItem = (props) => {
       },
       {
         title: `Bước 2`,
-        desc: 'Thông tin doanh nghiệp',
+        desc: 'Thông tin chung',
       },
     ]
 
