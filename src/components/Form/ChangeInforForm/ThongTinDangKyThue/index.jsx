@@ -38,7 +38,7 @@ const ThongTinDangKyThue = forwardRef((props, ref) => {
 
       <CCInput label="Mã số doanh nghiệp/ mã số thuế" name={[...BASE_FORM, "mst"]} /> */}
 
-      <CCInput label="Họ và tên Giám đốc/Tổng giám đốc" name={[...BASE_FORM, "name"]} />
+      <CCInput label="Họ và tên Giám đốc hoặc Tổng giám đốc" name={[...BASE_FORM, "name"]} placeholder="NGUYỄN VĂN A"/>
 
       <CCInput label="Điện thoại" name={[...BASE_FORM, "phone"]} />
 
@@ -52,14 +52,33 @@ const ThongTinDangKyThue = forwardRef((props, ref) => {
         <CCInput label="Tỉnh/Thành phố" name={[...BASE_FORM, "city"]} />
       </Form.Item>
 
-      <CCInput label="Ngày bắt đầu hoạt động" name={[...BASE_FORM, "start_active"]} type="date" />
+      <CCInput label="Ngày bắt đầu hoạt động" name={[...BASE_FORM, "start_active"]} type="date" placeholder="Bấm chọn"/>
 
-      <CCInput label="Hình thức hạch toán" name={[...BASE_FORM, "accounting"]} type="select" options={accounting} />
+      <CCInput label="Hình thức hạch toán" name={[...BASE_FORM, "accounting"]} type="select" options={accounting} placeholder="Bấm vào đây"/>
 
       <Form.Item label="Ngày, tháng bắt đầu và kết thúc niên độ kế toán">
-        <CCInput label="Bắt đầu từ ngày (chọn ngày/ tháng)" name={[...BASE_FORM, "start_date"]} type="date" />
+        <CCInput 
+        // label="Bắt đầu từ ngày (chọn ngày/ tháng)" 
+        label={
+          <div
+            dangerouslySetInnerHTML={{
+              __html: '</>Bắt đầu từ ngày <i>(chọn ngày/ tháng)</i></>',
+            }}
+          />
+        }
+        name={[...BASE_FORM, "start_date"]} type="date" placeholder="Bấm chọn"/>
 
-        <CCInput label="Đến ngày (chọn ngày/ tháng)" name={[...BASE_FORM, "end_date"]} type="date" />
+        <CCInput 
+        // label="Đến ngày (chọn ngày/ tháng)" 
+        label={
+          <div
+            dangerouslySetInnerHTML={{
+              __html: '</>Đến ngày <i>(chọn ngày/ tháng)</i></>',
+            }}
+          />
+        }
+        name={[...BASE_FORM, "end_date"]} 
+        type="date" placeholder="Bấm chọn"/>
 
         <CCInput label="Tổng số lao động" name={[...BASE_FORM, "employee"]} type="number" />
       </Form.Item>
@@ -69,6 +88,7 @@ const ThongTinDangKyThue = forwardRef((props, ref) => {
         label="Có hoạt động theo dự án BOT/BTO/BT/BOO, BLT, BTL, O&M không?"
         options={active_bot}
         type="select"
+        placeholder="Bấm vào đây"
       />
     </Form.Item>
   );

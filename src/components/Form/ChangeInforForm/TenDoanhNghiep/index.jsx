@@ -32,6 +32,7 @@ const TenDoanhNghiep = forwardRef((props, ref) => {
         label="Doanh nghiệp đăng ký thay đổi tên cơ sở"
         name={["change_info", "name", "base_type"]}
         options={base_type}
+        placeholder="Bấm vào đây"
       />
 
       <Form.Item label={"Thay đổi tên công ty thành"}>
@@ -43,7 +44,12 @@ const TenDoanhNghiep = forwardRef((props, ref) => {
 
         <p>Note: Validating Company name</p>
 
-        <CCInput label="Tên người đại diện pháp luật" name={["change_info", "name", "legal_person"]} />
+        <CCInput 
+        label={
+          <div dangerouslySetInnerHTML={{ __html: '</>Người đại diện pháp luật <i>(nhập đầy đủ họ và tên)</i></>' }} />
+        } 
+        name={["change_info", "name", "legal_person"]} 
+        placeholder="NGUYỄN VĂN A"/>
       </Form.Item>
     </Form.Item>
   );
