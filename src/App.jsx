@@ -26,6 +26,10 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 
+import 'moment/locale/vi'
+
+import locale from 'antd/es/date-picker/locale/vi_VN'
+
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -39,9 +43,12 @@ ConfigProvider.config({
   theme: {
     primaryColor: '#cd2027',
   },
+  locale: locale,
 })
 
 moment.defaultFormat = 'DD/MM/YYYY'
+
+moment.locale("vi");
 
 const RouterComponent = (props) => {
   let location = useLocation()

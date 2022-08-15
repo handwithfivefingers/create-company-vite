@@ -77,9 +77,7 @@ const NguoiDaiDienPhapLuat = forwardRef((props, ref) => {
     let xhtml = null
     xhtml = (
       <Col lg={8} md={12} sm={24} xs={24} key={i}>
-        
-        <Form.Item 
-        label={<h5>Thông tin người đại diện thứ {i + 1}</h5>}> 
+        <Form.Item label={<h5>Thông tin người đại diện thứ {i + 1}</h5>}>
           <CCInput
             name={[...BASE_FORM, 'legal_respon', i, 'name']}
             label="Họ và tên"

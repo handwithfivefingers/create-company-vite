@@ -310,6 +310,14 @@ const CREATE_COMPANY_FORM = {
               town: 'Xã/Phường/Thị trấn',
             },
           },
+          organization: {
+            fields: {
+              name: 'Tên tổ chức',
+              mst: 'Mã số doanh nghiệp hoặc Mã số thuế',
+              doc_place_provide: 'Ngày cấp',
+              doc_time_provide: 'Nơi cấp',
+            },
+          },
         },
       },
       present_person: 'Người đại diện',

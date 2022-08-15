@@ -1,7 +1,7 @@
 import { Col, Form, Row, Select, Space, Spin } from 'antd'
 import clsx from 'clsx'
 import React, { forwardRef, lazy, useEffect, useState, Suspense } from 'react'
-
+import { onSetFields } from '@/helper/Common'
 import styles from './CreateCompany.module.scss'
 
 const DiaChiTruSoChinh = lazy(() => {
@@ -51,24 +51,25 @@ const ThanhVienGopVon = lazy(() => {
 const BASE_FORM = ['create_company', 'approve']
 
 const CreateCompany = forwardRef((props, formRef) => {
+  const [select, setSelect] = useState()
+
   useEffect(() => {
-    onSetFields([...BASE_FORM, 'origin_person', 'national'], 'Việt Nam')
+    onSetFields(
+      [...BASE_FORM, 'origin_person', 'national'],
+      'Việt Nam',
+      formRef,
+    )
   }, [])
 
-  const onSetFields = (pathName, val) => {
-    formRef.current.setFields([
-      {
-        name: pathName,
-        value: val,
-      },
-    ])
+  const handleSelect = (v, opt, pathName) => {
+    onSetFields([pathName], opt, formRef)
+    setSelect(opt)
   }
-
   const dropdownRender = (pathName) => {
     return (
       <Select
         placeholder="Bấm vào đây"
-        onChange={(v, opt) => onSetFields([pathName], opt)}
+        onChange={(v, opt) => handleSelect(v, opt, pathName)}
       >
         {props.data?.map((item) => {
           return (
@@ -82,7 +83,7 @@ const CreateCompany = forwardRef((props, formRef) => {
   }
   const animateClass = 'animate__animated animate__fadeIn animate__faster'
 
-  const renderFormItem = () => {
+  const renderFormItem = (data) => {
     let html = null
     const listForm = [
       GiaTriGopVon,
@@ -98,12 +99,14 @@ const CreateCompany = forwardRef((props, formRef) => {
       current: props.step,
       ref: formRef,
       className: animateClass,
+      data,
     }
 
     html = listForm.map((Component) => <Component {...configs} />)
 
     return html
   }
+
   return (
     <>
       <Form
@@ -141,8 +144,7 @@ const CreateCompany = forwardRef((props, formRef) => {
             </div>
           }
         >
-          {renderFormItem()}
-    
+          {renderFormItem(select)}
         </Suspense>
       </Form>
     </>

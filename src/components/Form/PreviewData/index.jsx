@@ -172,7 +172,7 @@ const PreviewData = forwardRef((props, ref) => {
             field: props,
             name: [...pathName, key, props],
             label: labelName,
-            fields: labelFields[props].fields ? labelFields[props].fields : [],
+            fields: labelFields[props]?.fields ? labelFields[props].fields : [],
           })
         }
       }
