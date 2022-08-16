@@ -40,7 +40,7 @@ const ChangeInfoPages = forwardRef((props, ref) => {
           current={step}
           onFinishScreen={onFinishScreen}
         />
-        {step === changeInforStep?.length - 1 ?? (
+        {step === changeInforStep?.length - 1 && (
           <PreviewData
             ref={ref}
             onFinishScreen={() => {

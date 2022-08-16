@@ -38,7 +38,12 @@ const PreviewData = forwardRef((props, ref) => {
 
       if (item.data.length) {
         let list = renderFieldForm(data)
-        xhtml.push(list)
+        xhtml.push(
+          <>
+            <h3>{title}</h3>
+            {list}
+          </>,
+        )
       }
     }
     return xhtml
@@ -55,14 +60,6 @@ const PreviewData = forwardRef((props, ref) => {
         label: undefined
         name: (3) ['create_company', 'approve', 'base_val']
        */
-
-      /**
-      let { fields, label, name } = item
-
-      let singleItem = renderSingleItem({ label, fields, name })
-
-      singleItem && xhtml.push(singleItem)
-      */
 
       let { fields, label, name } = item
       let data = ref.current.getFieldValue(name)
@@ -128,13 +125,6 @@ const PreviewData = forwardRef((props, ref) => {
                 )
               )
             } else {
-              if (itemKeys === 'Vốn điều lệ (bằng số)') {
-                let val = `$ ${dataKeys}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
-                return (
-                  itemKeys && <Paragraph>{`${itemKeys}: ${val}`}</Paragraph>
-                )
-              }
-
               return (
                 itemKeys && <Paragraph>{`${itemKeys}: ${dataKeys}`}</Paragraph>
               )
@@ -237,7 +227,7 @@ const PreviewData = forwardRef((props, ref) => {
     return xhtml
   }
 
-  // console.log('previewData', formData)
+  console.log('previewData', formData)
 
   return formData ? renderPreviewData(formData) : ''
 })

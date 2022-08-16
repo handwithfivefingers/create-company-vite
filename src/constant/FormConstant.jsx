@@ -154,12 +154,18 @@ const GIAM_VON_DIEU_LE_FORM = {
     company_name: 'Tên doanh nghiệp',
     mst: 'Mã số doanh nghiệp/ mã số thuế',
     base_val: {
-      num: 'Vốn điều lệ đã đăng ký (bằng số)',
-      char: 'Vốn điều lệ đã đăng ký (bằng chữ)',
+      label: 'Vốn điều lệ đã đăng ký',
+      fields: {
+        num: 'Vốn điều lệ đã đăng ký (bằng số)',
+        char: 'Vốn điều lệ đã đăng ký (bằng chữ)',
+      },
     },
     new_base_val: {
-      num: 'Vốn điều lệ sau khi giảm (bằng số)',
-      char: 'Vốn điều lệ sau khi giảm (bằng chữ)',
+      label: 'Vốn điều lệ sau khi giảm',
+      fields: {
+        num: 'Vốn điều lệ sau khi giảm (bằng số)',
+        char: 'Vốn điều lệ sau khi giảm (bằng chữ)',
+      },
     },
     type: 'Hình thức giảm vốn',
   },
