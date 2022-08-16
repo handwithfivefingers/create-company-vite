@@ -80,7 +80,7 @@ const LoginUser = async (req, res) => {
 		}
 		return loginFailed(res);
 	} catch (err) {
-		console.log('LoginUser error');
+		console.log('LoginUser error', err);
 		return errHandler(err, res);
 	}
 };

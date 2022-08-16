@@ -5,7 +5,7 @@
   "scripts": {
     "start": "node App.js",
     "dev-f": "vite --host",
-    "dev-s": "nodemon --trace-deprecation --watch App.js server",
+    "dev-s": "nodemon --trace-deprecation --watch App.js",
     "build": "vite build",
     "preview": "vite preview"
   },

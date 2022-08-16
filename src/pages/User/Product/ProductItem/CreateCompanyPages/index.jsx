@@ -4,10 +4,13 @@ import CreateCompany from '@/components/Form/CreateCompany'
 // const CreateCompany = lazy(() => {
 //   return import('@/components/Form/CreateCompany')
 // })
+const PreviewData = lazy(() => {
+  return import('@/components/Form/PreviewData')
+})
+
 const CreateCompanyPages = forwardRef((props, ref) => {
   const {
     setStep,
-    renderPrewviewForm,
     handleSave,
     handlePurchaseCreateCompany,
     data,
@@ -48,7 +51,15 @@ const CreateCompanyPages = forwardRef((props, ref) => {
           setStep={setStep}
         />
 
-        {step === 7 ? renderPrewviewForm(ref) : ''}
+        {/* {step === 7 ? renderPrewviewForm(ref) : ''} */}
+        {step === 7 && (
+          <PreviewData
+            ref={ref}
+            onFinishScreen={() => {
+              closeModal()
+            }}
+          />
+        )}
 
         <div
           className={'card-boxShadow'}
@@ -68,7 +79,11 @@ const CreateCompanyPages = forwardRef((props, ref) => {
               </Button>
               <Button
                 loading={loading}
-                onClick={() => handlePurchaseCreateCompany(ref ?? ref.current.getFieldsValue())}
+                onClick={() =>
+                  handlePurchaseCreateCompany(
+                    ref ?? ref.current.getFieldsValue(),
+                  )
+                }
               >
                 Thanh toán
               </Button>

@@ -5,7 +5,7 @@ import {
   PENDING_STEP,
 } from '@/constant/Step'
 import ProductService from '@/service/UserService/ProductService'
-import { message, Modal, Spin } from 'antd'
+import { message, Modal, Spin, Form } from 'antd'
 import dateformat from 'dateformat'
 import React, { lazy, useCallback, useEffect, useRef, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
@@ -28,9 +28,6 @@ const DissolutionPages = lazy(() => {
   return import('./DissolutionPages')
 })
 
-const PreviewData = lazy(() => {
-  return import('@/components/Form/PreviewData')
-})
 
 const UserProductItem = (props) => {
   const formRef = useRef()
@@ -38,8 +35,6 @@ const UserProductItem = (props) => {
   const [current, setCurrent] = useState(0)
 
   const [data, setData] = useState()
-
-  const [loading, setLoading] = useState()
 
   const [changeInforStep, setChangeInforStep] = useState([
     {
@@ -80,7 +75,7 @@ const UserProductItem = (props) => {
 
   useEffect(() => {
     refetch(['userProduct'])
-  },[params])
+  }, [params])
 
   useEffect(() => {
     if (productData && status === 'success') {
@@ -100,19 +95,19 @@ const UserProductItem = (props) => {
     console.log(output)
   }
 
-  const renderPrewviewForm = useCallback((ref) => {
-    let val = ref?.current.getFieldsValue()
-    let input = { ...val }
-    console.log('renderPrewviewForm', val, ref)
-    return (
-      <PreviewData
-        data={input}
-        onFinishScreen={() => {
-          closeModal()
-        }}
-      />
-    )
-  }, [])
+  // const renderPrewviewForm = useCallback((ref) => {
+  //   let val = ref?.current.getFieldsValue()
+  //   let input = { ...val }
+  //   return (
+  //     <PreviewData
+  //       ref={formRef}
+  //       data={input}
+  //       onFinishScreen={() => {
+  //         closeModal()
+  //       }}
+  //     />
+  //   )
+  // }, [])
 
   const renderFormByType = (type) => {
     switch (type) {
@@ -125,7 +120,6 @@ const UserProductItem = (props) => {
             onFinishScreen={(output) => setDataOutput(output)}
             step={current}
             setStep={(e) => setCurrent(e)}
-            renderPrewviewForm={renderPrewviewForm}
             loading={isLoading}
             handleSave={handleSave}
             handlePurchaseCreateCompany={handlePurchaseCreateCompany}
@@ -141,7 +135,6 @@ const UserProductItem = (props) => {
             ref={formRef}
             onFinishScreen={(val) => handleChangeInforForm(val)}
             step={current}
-            renderPrewviewForm={renderPrewviewForm}
             loading={isLoading}
             handleSaveChangeInfo={handleSaveChangeInfo}
             handlePurchaseChangeInfo={handlePurchaseChangeInfo}
@@ -154,7 +147,6 @@ const UserProductItem = (props) => {
         // Tạm hoãn
         return (
           <PendingPages
-            renderPrewviewForm={renderPrewviewForm}
             data={data.data}
             loading={isLoading}
             Prev={Prev}
@@ -168,7 +160,6 @@ const UserProductItem = (props) => {
       case 4:
         return (
           <DissolutionPages
-            renderPrewviewForm={renderPrewviewForm}
             handleSaveDissolution={handleSaveDissolution}
             handlePurchaseDissolution={handlePurchaseDissolution}
             data={data.data}
@@ -341,7 +332,6 @@ const UserProductItem = (props) => {
   // Service
   const saveService = async (params) => {
     try {
-      setLoading(true)
       const res = await ProductService.createCompany(params)
       if (res.data.status === 200) {
         message.success(res.data.message)
@@ -349,8 +339,6 @@ const UserProductItem = (props) => {
       }
     } catch (error) {
       console.log(error)
-    } finally {
-      setLoading(false)
     }
   }
 
@@ -362,15 +350,12 @@ const UserProductItem = (props) => {
     params.createDate = createDate
     params.orderId = orderId
     try {
-      setLoading(true)
       let res = await ProductService.createCompanyWithPayment(params)
       if (res.data.status === 200) {
         return (window.location.href = res.data.url)
       }
     } catch (err) {
       console.log(err)
-    } finally {
-      setLoading(false)
     }
   }
 
@@ -379,7 +364,9 @@ const UserProductItem = (props) => {
       {data && renderHeaderStep(data?.type)}
 
       <div className={styles.formContent}>
-        <Spin spinning={isFetching}>{data && renderFormByType(data?.type)}</Spin>
+        <Spin spinning={isFetching}>
+          {data && renderFormByType(data?.type)}
+        </Spin>
       </div>
 
       <Modal

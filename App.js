@@ -15,10 +15,9 @@ const AppRouter = require('./server/route')
 const GitRouter = require('./server/route/git')
 
 const cookieParser = require('cookie-parser')
-const process = require('process')
-const os = require('os')
 
 const { task } = require('./server/controller/service/cronjob')
+const { off } = require('process')
 
 env.config()
 
@@ -33,14 +32,14 @@ const mongoseOptions = {
 }
 
 // DB
-mongoose
-  .connect(process.env.DATABASE_URL, mongoseOptions)
-  .then(() => {
-    console.log('DB connected')
-  })
-  .catch((err) => {
-    console.log(err)
-  })
+const connectDB = async () => {
+  try {
+    const db = await mongoose.connect(process.env.DATABASE_URL, mongoseOptions)
+    if (db.connections) console.log('DB connected')
+  } catch (err) {
+    console.log('db error connection', err)
+  }
+}
 
 // middleware
 
@@ -96,20 +95,13 @@ app.use((err, req, res, next) => {
 })
 
 // Cron running ;
-if (process.env.NODE_ENV !== 'development') {
-  task.start()
-}
 
-app.listen(RUNTIME_PORT, () => {
+app.listen(RUNTIME_PORT, async () => {
+  await connectDB()
+
+  if (process.env.NODE_ENV !== 'development') {
+    task.start()
+  }
+
   console.log(`Server is running ${RUNTIME_PORT}`)
-
-  const startUsage = process.cpuUsage()
-  // { user: 38579, system: 6986 }
-
-  // spin the CPU for 500 milliseconds
-  const now = Date.now()
-  while (Date.now() - now < 500);
-
-  console.log(process.cpuUsage(startUsage))
-  // { user: 514883, system: 11226 }
 })

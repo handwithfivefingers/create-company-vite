@@ -8,7 +8,6 @@ import { useOutletContext } from 'react-router-dom'
 import { useFetch } from '../../../helper/Hook'
 
 const UserProductPage = () => {
-  const [loading, setLoading] = useState(false)
   const [product, setProduct] = useState([])
   const { animateClass } = useOutletContext()
 
@@ -18,7 +17,6 @@ const UserProductPage = () => {
   })
 
   useEffect(() => {
-
     if (data) {
       setProduct(data)
     }

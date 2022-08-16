@@ -5,9 +5,11 @@ const Dissolution = lazy(() => {
   // console.log('lazy CreateCompany')
   return import('@/components/Form/Dissolution')
 })
+const PreviewData = lazy(() => {
+  return import('@/components/Form/PreviewData')
+})
 const DissolutionPages = forwardRef((props, ref) => {
   const {
-    renderPrewviewForm,
     handleSaveDissolution,
     handlePurchaseDissolution,
     data,
@@ -29,7 +31,15 @@ const DissolutionPages = forwardRef((props, ref) => {
         }
       >
         <Dissolution data={data} ref={ref} current={step} />
-        {step === 2 ? renderPrewviewForm(ref) : ''}
+        {/* {step === 2 ? renderPrewviewForm(ref) : ''} */}
+        {step === 2 && (
+          <PreviewData
+            ref={ref}
+            onFinishScreen={() => {
+              closeModal()
+            }}
+          />
+        )}
         <div
           className={'card-boxShadow'}
           style={{ position: 'sticky', bottom: 0 }}

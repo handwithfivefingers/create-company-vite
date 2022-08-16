@@ -1,9 +1,10 @@
 .cardgrid {
+  $w: 100%;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  grid-template-rows: repeat(2, minmax(200px, 350px));
+  grid-auto-rows: min-content;
   gap: 12px;
-  $w: 100%;
+  padding: 12px;
   overflow-y: auto;
   @media (min-width: 990px) and (max-width: 1200px) {
     grid-template-columns: repeat(3, 1fr);
@@ -11,9 +12,7 @@
   @media (max-width: 990px) {
     grid-template-columns: repeat(2, 1fr);
   }
-
   @media (max-width: 525px) {
     grid-template-columns: 1fr;
   }
-  padding: 12px;
 }

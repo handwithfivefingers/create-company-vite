@@ -1,14 +1,17 @@
 import React, { forwardRef, Suspense, lazy } from 'react'
 import { Card, Space, Spin, Button } from 'antd'
+// import PreviewData from '../../../../../components/Form/PreviewData'
 
 const ChangeInforForm = lazy(() => {
-  // console.log('lazy ChangeInforForm')
   return import('@/components/Form/ChangeInforForm')
+})
+
+const PreviewData = lazy(() => {
+  return import('@/components/Form/PreviewData')
 })
 
 const ChangeInfoPages = forwardRef((props, ref) => {
   const {
-    renderPrewviewForm,
     handleSaveChangeInfo,
     handlePurchaseChangeInfo,
     data,
@@ -37,7 +40,14 @@ const ChangeInfoPages = forwardRef((props, ref) => {
           current={step}
           onFinishScreen={onFinishScreen}
         />
-        {step === changeInforStep?.length - 1 ? renderPrewviewForm(ref) : ''}
+        {step === changeInforStep?.length - 1 ?? (
+          <PreviewData
+            ref={ref}
+            onFinishScreen={() => {
+              closeModal()
+            }}
+          />
+        )}
         <div
           className={'card-boxShadow'}
           style={{ position: 'sticky', bottom: 0 }}

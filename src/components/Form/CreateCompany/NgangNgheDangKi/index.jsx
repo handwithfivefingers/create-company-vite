@@ -3,35 +3,37 @@ import clsx from 'clsx'
 import React, { forwardRef, useEffect, useState } from 'react'
 import HomepageService from '@/service/GlobalService'
 import styles from '../CreateCompany.module.scss'
+import { useFetch } from '@/helper/Hook'
 
 const NgangNgheDangKi = forwardRef((props, ref) => {
   const { BASE_FORM, current } = props
 
   const [careerData, setCareerData] = useState([])
-  useEffect(() => {
-    onFetchCareer()
-  }, [])
 
-  const onFetchCareer = () => {
-    HomepageService.fetchCareer()
-      .then((res) => {
-        setCareerData(res.data.data)
-      })
-      .catch((err) => console.log(err))
-      .finally(() => {})
-  }
+  const { data, isLoading, status, refetch } = useFetch({
+    cacheName: ['careerData'],
+    fn: () => HomepageService.fetchCareer(),
+  })
+
+  useEffect(() => {
+    if (data && status === 'success') {
+      setCareerData(data)
+    }
+  }, [data])
+
   /**
-   * 
-   * @param {*} pathName 
-   * @param {*} val 
+   *
+   * @param {*} pathName
+   * @param {*} val
    * @param {*} opt Object or Array
    */
-  const handleChange = (pathName, val, opt) => {
-    let value;
+  const handleChange = (pathName, opt) => {
+    console.log(opt)
+    let value
     if (Array.isArray(opt)) {
       value = opt.map(({ code, name, value }) => ({ code, name, value }))
     } else {
-      value = opt
+      value = { code: opt.code, name: opt.name, value: opt.value }
     }
     ref.current.setFields([
       {
@@ -66,7 +68,7 @@ const NgangNgheDangKi = forwardRef((props, ref) => {
                     .indexOf(input.toLowerCase()) >= 0
                 }
                 onChange={(val, opt) =>
-                  handleChange([...BASE_FORM, 'company_main_career'], val, opt)
+                  handleChange([...BASE_FORM, 'company_main_career'], opt)
                 }
                 placeholder="Gõ tên ngành hoặc mã ngành"
               >
@@ -97,7 +99,7 @@ const NgangNgheDangKi = forwardRef((props, ref) => {
               allowClear
               style={{ width: '100%' }}
               onChange={(val, opt) =>
-                handleChange([...BASE_FORM, 'company_opt_career'], val, opt)
+                handleChange([...BASE_FORM, 'company_opt_career'], opt)
               }
               optionFilterProp="children"
               placeholder="Gõ tên ngành hoặc mã ngành"

@@ -269,7 +269,7 @@ const CREATE_COMPANY_FORM = {
     title: 'Thành lập doanh nghiệp',
     fields: {
       base_val: {
-        name: 'Vốn điều lệ',
+        label: 'Vốn điều lệ',
         fields: {
           num: 'Vốn điều lệ (bằng số)',
           char: 'Vốn điều lệ (bằng chữ)',
@@ -287,17 +287,22 @@ const CREATE_COMPANY_FORM = {
           doc_time_provide: 'Ngày cấp',
           doc_place_provide: ' Nơi cấp',
           contact: {
-            address: 'Số nhà, ngách, hẻm, ngõ, đường phố/tổ/xóm/ấp/thôn',
-            town: 'Xã/Phường/Thị trấn',
-            district: 'Quận/Huyện/Thị xã/Thành phố thuộc tỉnh',
-            city: 'Tỉnh/Thành phố',
-            phone: 'Số điện thoại',
+            label: 'Địa chỉ thường trú',
+            fields: {
+              address: 'Số nhà, ngách, hẻm, ngõ, đường phố/tổ/xóm/ấp/thôn',
+              city: 'Tỉnh/Thành phố',
+              district: 'Quận/Huyện/Thị xã/Thành phố thuộc tỉnh',
+              town: 'Xã/Phường/Thị trấn',
+            },
           },
           current: {
-            address: 'Số nhà, ngách, hẻm, ngõ, đường phố/tổ/xóm/ấp/thôn',
-            town: 'Xã/Phường/Thị trấn',
-            district: 'Quận/Huyện/Thị xã/Thành phố thuộc tỉnh',
-            city: 'Tỉnh/Thành phố',
+            label: 'Địa chỉ hiện tại',
+            fields: {
+              address: 'Số nhà, ngách, hẻm, ngõ, đường phố/tổ/xóm/ấp/thôn',
+              city: 'Tỉnh/Thành phố',
+              district: 'Quận/Huyện/Thị xã/Thành phố thuộc tỉnh',
+              town: 'Xã/Phường/Thị trấn',
+            },
           },
         },
       },
@@ -313,34 +318,43 @@ const CREATE_COMPANY_FORM = {
           doc_type: 'Loại giấy tờ',
           doc_code: 'Số CMND/ CCCD/ Hộ chiếu',
           doc_time_provide: 'Ngày cấp',
-          doc_place_provide: ' Nơi cấp',
+          doc_place_provide: 'Nơi cấp',
           title: 'Chức danh',
           current: {
-            address: 'Số nhà, ngách, hẻm, ngõ, đường phố/tổ/xóm/ấp/thôn',
-            city: 'Tỉnh/Thành phố',
-            district: 'Quận/Huyện/Thị xã/Thành phố thuộc tỉnh',
-            town: 'Xã/Phường/Thị trấn',
+            label: 'Địa chỉ thường trú',
+            fields: {
+              address: 'Số nhà, ngách, hẻm, ngõ, đường phố/tổ/xóm/ấp/thôn',
+              city: 'Tỉnh/Thành phố',
+              district: 'Quận/Huyện/Thị xã/Thành phố thuộc tỉnh',
+              town: 'Xã/Phường/Thị trấn',
+            },
           },
           contact: {
-            address: 'Số nhà, ngách, hẻm, ngõ, đường phố/tổ/xóm/ấp/thôn',
-            city: 'Tỉnh/Thành phố',
-            district: 'Quận/Huyện/Thị xã/Thành phố thuộc tỉnh',
-            town: 'Xã/Phường/Thị trấn',
+            label: 'Địa chỉ hiện tại',
+            fields: {
+              address: 'Số nhà, ngách, hẻm, ngõ, đường phố/tổ/xóm/ấp/thôn',
+              city: 'Tỉnh/Thành phố',
+              district: 'Quận/Huyện/Thị xã/Thành phố thuộc tỉnh',
+              town: 'Xã/Phường/Thị trấn',
+            },
           },
         },
       },
 
       core: {
-        label: '',
+        label: 'Thông tin doanh nghiệp',
         fields: {
           name: 'Tên công ty bằng Tiếng Việt',
           name_en: 'Tên công ty bằng Tiếng Anh (nếu có)',
           name_vn: 'Tên công ty viết tắt (nếu có)',
           address: {
-            address: 'Số nhà, ngách, hẻm, ngõ, đường phố/tổ/xóm/ấp/thôn',
-            city: 'Tỉnh/Thành phố',
-            district: 'Quận/Huyện/Thị xã/Thành phố thuộc tỉnh',
-            town: 'Xã/Phường/Thị trấn',
+            label: 'Địa chỉ trụ sở chính',
+            fields: {
+              address: 'Số nhà, ngách, hẻm, ngõ, đường phố/tổ/xóm/ấp/thôn',
+              city: 'Tỉnh/Thành phố',
+              district: 'Quận/Huyện/Thị xã/Thành phố thuộc tỉnh',
+              town: 'Xã/Phường/Thị trấn',
+            },
           },
           address_opt_1: 'Địa chỉ chi nhánh (nếu có)',
           address_opt_2: 'Địa chỉ văn phòng đại diện (nếu có)',
@@ -350,9 +364,19 @@ const CREATE_COMPANY_FORM = {
           },
         },
       },
-      company_main_career: 'Ngành nghề chính',
+      company_main_career: {
+        label: 'Ngành nghề chính',
+        fields: {
+          name: 'Tên ngành',
+          code: 'Mã ngành',
+        },
+      },
       company_opt_career: {
-        name: 'Ngành nghề phụ',
+        label: 'Ngành nghề phụ',
+        fields: {
+          name: 'Tên ngành',
+          code: 'Mã ngành',
+        },
       },
     },
   },

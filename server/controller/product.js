@@ -121,7 +121,7 @@ const getProductBySlug = async (req, res) => {
 
     return successHandler(lastData, res, _cate)
   } catch (err) {
-    console.log('getProductBySlug error')
+    console.log('getProductBySlug error', err)
 
     return errHandler(err, res)
   }

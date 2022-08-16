@@ -5,9 +5,12 @@ const TamHoanForm = lazy(() => {
   // console.log('lazy TamHoanForm')
   return import('@/components/Form/PendingForm')
 })
+
+const PreviewData = lazy(() => {
+  return import('@/components/Form/PreviewData')
+})
 const PendingPages = forwardRef((props, ref) => {
   const {
-    renderPrewviewForm,
     data,
     loading,
     Prev,
@@ -29,7 +32,15 @@ const PendingPages = forwardRef((props, ref) => {
         }
       >
         <TamHoanForm data={data} ref={ref} current={step} />
-        {step === 2 ? renderPrewviewForm(ref) : ''}
+        {/* {step === 2 ? renderPrewviewForm(ref) : ''} */}
+        {step === 2 && (
+          <PreviewData
+            ref={ref}
+            onFinishScreen={() => {
+              closeModal()
+            }}
+          />
+        )}
         <div
           className={'card-boxShadow'}
           style={{ position: 'sticky', bottom: 0 }}

@@ -1,8 +1,9 @@
-import React from 'react'
+import React, { forwardRef, useEffect, useState } from 'react'
 import moment from 'moment'
 import { LABEL, NEWLABEL } from '@/constant/FormConstant'
 import CCDescription from '@/components/CCDescription'
 import { checkVariable } from '@/helper/Common'
+import { Form, Descriptions, Divider, Typography } from 'antd'
 
 const listOfFields = [
   'company_opt_career',
@@ -13,167 +14,140 @@ const listOfFields = [
   'list_president',
   'contribute_members',
 ]
+const { Paragraph, Text } = Typography
+const PreviewData = forwardRef((props, ref) => {
+  const [formData, setFormData] = useState([])
 
-const PreviewData = ({ data }) => {
-  // console.log(data)
-  // const renderTitle = (newData, label) => {
-  //   let xhtml = ''
-  //   for (let property in label) {
-  //     xhtml = [newData && <p key={[label?.title, property]}> {label?.title}</p>]
-  //   }
-  //   return xhtml
-  // }
+  useEffect(() => {
+    if (ref.current) {
+      let data = ref?.current.getFieldsValue()
+      setFormData(data)
+    }
+  }, [props])
 
-  // const checkData = (newData, label) => {
-  //   let xhtml = []
-  //   if (newData) {
-  //     xhtml.push(getDataFromObj(newData, label))
-  //   }
-  //   return xhtml
-  // }
+  const renderBaseForm = (list) => {
+    let xhtml = []
 
-  // const getDataFromObj = (objData, label) => {
-  //   let xhtml = []
-  //   xhtml.push(
-  //     Object.keys(objData)
-  //       .map((key, index) => {
-  //         let currentPath = objData[key]
-  //         if (currentPath) {
-  //           return renderDescription(currentPath, label?.[key], key, index)
-  //         }
-  //         return null
-  //       })
-  //       .filter((item) => item),
-  //   )
-  //   return xhtml
-  // }
+    for (let item of list) {
+      let title = ''
+      let data = []
 
-  // const checkTitle = (keys, index = null) => {
-  //   switch (keys) {
-  //     case 'legal_respon':
-  //       return `Người Đại Diện Pháp Luật ${index + 1}`
-  //     case 'company_opt_career':
-  //       return `Ngành nghề phụ ${index + 1}`
-  //     case 'company_main_career':
-  //       return `Ngành nghề chính`
-  //     case 'detail_after':
-  //       return `Sửa đổi chi tiết ngành, nghề ${index + 1}`
-  //     case 'exclude':
-  //       return `Bỏ ngành, nghề ${index + 1}`
-  //     case 'include':
-  //       return `Ngành nghề bổ sung ${index + 1}`
-  //     case 'list_president':
-  //       if (index < 1) {
-  //         return `Tên Chủ tịch HĐQT ${index + 1}`
-  //       } else {
-  //         return `Tên thành viên HĐQT ${index + 1}`
-  //       }
-  //     case 'contribute_members':
-  //       if (index < 1) {
-  //         return `Tên Chủ tịch HĐTV ${index + 1}`
-  //       } else {
-  //         return `Tên thành viên góp vốn thứ ${index + 1}`
-  //       }
-  //     default:
-  //       return ''
-  //   }
-  // }
+      if (item.title) title = item.title
+      if (item.data) data = item.data
+      // console.log('renderBaseForm', list)
 
-  // /**
-  //  *
-  //  * @param {current Obj || Array || String} item
-  //  * @param {current Label Path} label
-  //  * @param {field Name} keys
-  //  * @param {*} index1
-  //  * @param {*} index2
-  //  * @returns
-  //  */
+      if (item.data.length) {
+        let list = renderFieldForm(data)
+        xhtml.push(list)
+      }
+    }
+    return xhtml
+  }
 
-  // const renderDescription = (
-  //   item,
-  //   label,
-  //   keys = null,
-  //   index1 = null,
-  //   index2 = null,
-  // ) => {
-  //   let itemVariable = checkVariable(item)
+  const renderFieldForm = (listData) => {
+    let xhtml = []
 
-  //   let isSpecial = handleSpecialFields(keys)
+    for (let item of listData) {
+      /**
+       * ITEM DATA:
+        field: "base_val"
+        fields: {num: 'Vốn điều lệ (bằng số)', char: 'Vốn điều lệ (bằng chữ)'}
+        label: undefined
+        name: (3) ['create_company', 'approve', 'base_val']
+       */
 
-  //   let subLabel = [label, index2 > 0 ? [' - ', index2 + 1] : '']
+      /**
+      let { fields, label, name } = item
 
-  //   if (itemVariable === 'String') {
-  //     return (
-  //       <CCDescription.DescItem key={subLabel} label={subLabel || null}>
-  //         {[item]}
-  //       </CCDescription.DescItem>
-  //     )
-  //   } else if (itemVariable === 'Array') {
-  //     return item.map((arrayItem, arrayIndex) => {
-  //       // Special Fields ....
+      let singleItem = renderSingleItem({ label, fields, name })
 
-  //       if (isSpecial) {
-  //         let specialObject = [arrayItem || arrayItem.name]
-  //         // console.log('arrayItem', specialObject);
-  //         return (
-  //           <CCDescription.DescListItem title={checkTitle(keys, arrayIndex)}>
-  //             {renderDescription(specialObject, label, index1, arrayIndex)}
-  //           </CCDescription.DescListItem>
-  //         )
-  //       } else
-  //         return (
-  //           <CCDescription.DescListItem title={checkTitle(keys, arrayIndex)}>
-  //             {renderDescription(arrayItem, label, index1, arrayIndex)}
-  //           </CCDescription.DescListItem>
-  //         )
-  //     })
-  //   } else if (itemVariable === 'Moment') {
-  //     return (
-  //       <CCDescription.DescItem key={[label, index1]} label={subLabel}>
-  //         {moment(item).format('DD/MM/YYYY')}
-  //       </CCDescription.DescItem>
-  //     )
-  //   } else if (itemVariable === 'Object') {
-  //     if (isSpecial) {
-  //       // console.log(item);
-  //       return (
-  //         <CCDescription.DescItem key={subLabel} label={subLabel}>
-  //           {[item.name || item]}
-  //         </CCDescription.DescItem>
-  //       )
-  //     }
-  //     return getDataFromObj(item, label)
-  //   } else {
-  //     console.log('item', item)
-  //     return null
-  //   }
-  // }
+      singleItem && xhtml.push(singleItem)
+      */
 
-  // const handleSpecialFields = (field) => {
-  //   return listOfFields.some((item) => item === field)
-  // }
+      let { fields, label, name } = item
+      let data = ref.current.getFieldValue(name)
 
-  // if (data) {
-  //   let xhtml = []
-  //   for (var property in data) {
-  //     for (let props in LABEL[property]) {
-  //       let label = LABEL[property][props].fields
-  //       let newData = data[property][props]
-  //       xhtml.push(
-  //         newData && (
-  //           <CCDescription.Desc
-  //             layout="vertical"
-  //             bordered
-  //             title={renderTitle(newData, LABEL[property][props])}
-  //           >
-  //             {checkData(newData, label)}
-  //           </CCDescription.Desc>
-  //         ),
-  //       )
-  //     }
-  //   }
-  //   return xhtml
-  // }
+      // console.log(data, fields)
+      let loopItem = renderLoopItem({ data, fields, label })
+      console.log()
+      xhtml.push(
+        <>
+          <Divider orientationMargin={0} orientation="left">
+            <h5>{label} </h5>
+          </Divider>
+
+          {loopItem}
+        </>,
+      )
+    }
+    return xhtml
+  }
+
+  const renderLoopItem = ({ data, fields, label }) => {
+    let xhtml = []
+    if (typeof data === 'string') {
+      let text = data
+      if (text === 'personal') text = 'Thành viên góp vốn là cá nhân'
+      else if (text === 'organization') text = 'Thành viên góp vốn là tổ chức'
+
+      xhtml.push(<Paragraph>{text}</Paragraph>)
+    } else if (typeof data === 'object') {
+      if (Array.isArray(data)) {
+        return data.map((item) => renderLoopItem({ data: item, fields, label }))
+      } else {
+        let result = Object.keys(data).map((key) => {
+          let dataKeys = data?.[key]
+          let itemKeys = fields?.[key]
+
+          if (typeof itemKeys === 'object' && itemKeys.label) {
+            let title = itemKeys.label
+
+            return (
+              <>
+                <Divider dashed orientationMargin={12} orientation="left">
+                  {title}
+                </Divider>
+
+                {renderLoopItem({
+                  data: dataKeys,
+                  fields: itemKeys.fields,
+                })}
+                <Divider dashed />
+              </>
+            )
+          } else {
+            if (
+              itemKeys !== 'Vốn điều lệ (bằng số)' &&
+              moment(dataKeys, 'DD-MM-YYYY').isValid()
+            ) {
+              return (
+                itemKeys && (
+                  <Paragraph>{`${itemKeys}: ${moment(dataKeys).format(
+                    'DD/MM/YYYY',
+                  )}`}</Paragraph>
+                )
+              )
+            } else {
+              if (itemKeys === 'Vốn điều lệ (bằng số)') {
+                let val = `$ ${dataKeys}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+                return (
+                  itemKeys && <Paragraph>{`${itemKeys}: ${val}`}</Paragraph>
+                )
+              }
+
+              return (
+                itemKeys && <Paragraph>{`${itemKeys}: ${dataKeys}`}</Paragraph>
+              )
+            }
+          }
+        })
+
+        xhtml.push(result)
+      }
+    }
+
+    return xhtml
+  }
 
   const getFieldsInfo = (pLabel, pData, pathName) => {
     // loop base on pData, not from constant;
@@ -189,11 +163,6 @@ const PreviewData = ({ data }) => {
 
       let labelFields = pLabel[key]?.fields
 
-      // console.log(pTitle, labelFields, dataFields);
-
-      // caseData = dataFields.map(item => {
-
-      // })
       for (let props in dataFields) {
         // props -> Field name 1
 
@@ -207,18 +176,7 @@ const PreviewData = ({ data }) => {
             name: [...pathName, key, props],
             label: labelName,
           })
-        }
-        // else if (Array.isArray(val)) {
-        //   let labelName = labelFields[props]?.label
-
-        //   caseData.push({
-        //     field: props,
-        //     name: [...pathName, key, props],
-        //     label: labelName,
-        //     fields: labelFields[props].fields ? labelFields[props].fields : []
-        //   })
-        // }
-        else if (typeof val === 'object') {
+        } else if (typeof val === 'object') {
           let labelName = labelFields[props]?.label
           caseData.push({
             field: props,
@@ -230,28 +188,58 @@ const PreviewData = ({ data }) => {
       }
       result.push({ title: pTitle, data: caseData })
     }
-
-    // console.log(caseData)
     return result
   }
 
-  if (data) {
-    let { selectProduct, selectChildProduct, ...rest } = data
+  /**
+   *
+   * @param {*Old Object} obj
+   * @param {*New Object} newKeys
+   * @returns {* Array
+   */
 
-    let productType = Object.keys(rest) // get keys Product
+  const renameKeys = (obj, newKeys) => {
+    const keyValues =
+      obj &&
+      Object.keys(obj)?.map((key) => {
+        // key => code name value
+        const newKey = newKeys?.[key] || key
+        if (typeof newKeys[key] === 'object') {
+          let newK = newKeys?.[key]
+          let oldK = obj?.[key]
+          return renameKeys(oldK, newK)
+        }
 
-    let listProductItem = rest[productType] // dynamic Data
-    let listLabel = NEWLABEL(productType) // Constant
-
-    console.log('listProductItem', listProductItem)
-    console.log('listLabel', listLabel)
-
-    let list = getFieldsInfo(listLabel, listProductItem, productType)
-
-    console.log(list)
+        return { [newKey]: obj[key] }
+      })
+    return keyValues
   }
 
-  return null
-}
+  const renderPreviewData = (data) => {
+    let xhtml = null
+    if (data) {
+      let { selectProduct, selectChildProduct, ...rest } = data
+
+      let productType = Object.keys(rest) // get keys Product
+
+      let listProductItem = rest[productType] // dynamic Data
+
+      let listLabel = NEWLABEL(productType) // Constant
+
+      let list = getFieldsInfo(listLabel, listProductItem, productType)
+      // console.log(list)
+      if (list.length) {
+        let newList = renderBaseForm(list)
+
+        xhtml = newList
+      }
+    }
+    return xhtml
+  }
+
+  // console.log('previewData', formData)
+
+  return formData ? renderPreviewData(formData) : ''
+})
 
 export default PreviewData
