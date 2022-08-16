@@ -80,11 +80,11 @@ export const SELECT = {
   ],
   OWNER: [
     {
-      name: 'Trường hợp chủ sở hữu là cá nhân',
+      name: 'Chủ sở hữu là cá nhân',
       value: 'personal',
     },
     {
-      name: 'Trường hợp chủ sở hữu là tổ chức',
+      name: 'Chủ sở hữu là tổ chức',
       value: 'organization',
     },
   ],

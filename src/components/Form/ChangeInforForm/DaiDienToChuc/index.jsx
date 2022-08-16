@@ -12,9 +12,9 @@ const DaiDienToChuc = forwardRef((props, ref) => {
         [styles.active]: props.current === props.index,
       })}
     >
-      <CCInput label="Tên doanh nghiệp" name={["change_info", "present_change", "company_name"]} />
+      <CCInput label="Tên doanh nghiệp" name={["change_info", "present_change", "company_name"]} placeholder="CÔNG TY TNHH DỊCH VỤ TƯ VẤN WARREN B"/>
 
-      <CCInput label="Mã số doanh nghiệp/ mã số thuế" name={["change_info", "present_change", "mst"]} />
+      <CCInput label="Mã số doanh nghiệp hoặc Mã số thuế" name={["change_info", "present_change", "mst"]} placeholder="0316184427"/>
     </Form.Item>
   );
 });

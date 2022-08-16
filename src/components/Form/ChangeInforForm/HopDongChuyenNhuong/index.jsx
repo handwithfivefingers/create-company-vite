@@ -37,10 +37,10 @@ const HopDongChuyenNhuong = forwardRef((props, ref) => {
       xhtml = (
         <Row>
           <Col lg={12} md={12} sm={24} xs={24}>
-            <CCInput name={[...fieldName, "personal", "name"]} label="Họ và tên" />
+            <CCInput name={[...fieldName, "personal", "name"]} label="Họ và tên" placeholder="NGUYỄN VĂN A"/>
           </Col>
           <Col lg={12} md={12} sm={24} xs={24}>
-            <CCInput type="date" name={[...fieldName, "personal", "birth_day"]} label="Ngày sinh" />
+            <CCInput type="date" name={[...fieldName, "personal", "birth_day"]} label="Ngày sinh" placeholder="Bấm chọn"/>
           </Col>
 
           <Col lg={12} md={12} sm={24} xs={24}>
@@ -49,6 +49,7 @@ const HopDongChuyenNhuong = forwardRef((props, ref) => {
               name={[...fieldName, "personal", "doc_type"]}
               label="Loại giấy tờ pháp lý"
               options={SELECT.DOC_TYPE}
+              placeholder="Bấm vào đây"
             />
           </Col>
 
@@ -57,7 +58,7 @@ const HopDongChuyenNhuong = forwardRef((props, ref) => {
           </Col>
 
           <Col lg={12} md={12} sm={24} xs={24}>
-            <CCInput type="date" name={[...fieldName, "personal", "doc_time_provide"]} label="Ngày cấp" />
+            <CCInput type="date" name={[...fieldName, "personal", "doc_time_provide"]} label="Ngày cấp" placeholder="Bấm chọn"/>
           </Col>
 
           <Col lg={12} md={12} sm={24} xs={24}>
@@ -80,10 +81,10 @@ const HopDongChuyenNhuong = forwardRef((props, ref) => {
       xhtml = (
         <Row>
           <Col lg={12} md={12} sm={24} xs={24}>
-            <CCInput name={[...fieldName, "organization", "company_name"]} label="Tên doanh nghiệp" />
+            <CCInput name={[...fieldName, "organization", "company_name"]} label="Tên doanh nghiệp" placeholder="CÔNG TY TNHH DỊCH VỤ TƯ VẤN WARREN B"/>
           </Col>
           <Col lg={12} md={12} sm={24} xs={24}>
-            <CCInput name={[...fieldName, "organization", "mst"]} label="Mã số doanh nghiệp" />
+            <CCInput name={[...fieldName, "organization", "mst"]} label="Mã số doanh nghiệp hoặc Mã số thuế" placeholder="0316184427"/>
           </Col>
           <Col span={24}>
             <Form.Item label="Địa chỉ trụ sở chính">
@@ -124,7 +125,7 @@ const HopDongChuyenNhuong = forwardRef((props, ref) => {
         (
           <Row>
             <Col lg={12} md={12} sm={24} xs={24}>
-              <CCInput name={[...fieldName, "personal", "name"]} label="Họ và tên" />
+              <CCInput name={[...fieldName, "personal", "name"]} label="Họ và tên" placeholder="NGUYỄN VĂN A"/>
             </Col>
             <Col lg={12} md={12} sm={24} xs={24}>
               <CCInput
@@ -132,10 +133,11 @@ const HopDongChuyenNhuong = forwardRef((props, ref) => {
                 label="Giới tính"
                 type="select"
                 options={SELECT.GENDER}
+                placeholder="Bấm vào đây"
               />
             </Col>
             <Col lg={12} md={12} sm={24} xs={24}>
-              <CCInput name={[...fieldName, "personal", "birth_day"]} label="Ngày sinh" type="date" />
+              <CCInput name={[...fieldName, "personal", "birth_day"]} label="Ngày sinh" type="date" placeholder="Bấm chọn"/>
             </Col>
             <Col lg={12} md={12} sm={24} xs={24}>
               <CCInput name={[...fieldName, "personal", "per_type"]} label="Dân tộc" />
@@ -146,6 +148,7 @@ const HopDongChuyenNhuong = forwardRef((props, ref) => {
                 name={[...fieldName, "personal", "doc_type"]}
                 label="Loại giấy tờ pháp lý"
                 options={SELECT.DOC_TYPE}
+                placeholder="Bấm vào đây"
               />
             </Col>
 
@@ -154,7 +157,7 @@ const HopDongChuyenNhuong = forwardRef((props, ref) => {
             </Col>
 
             <Col lg={12} md={12} sm={24} xs={24}>
-              <CCInput name={[...fieldName, "personal", "doc_time_provide"]} label="Ngày cấp" type="date" />
+              <CCInput name={[...fieldName, "personal", "doc_time_provide"]} label="Ngày cấp" type="date" placeholder="Bấm chọn"/>
             </Col>
 
             <Col lg={12} md={12} sm={24} xs={24}>
@@ -316,6 +319,7 @@ const HopDongChuyenNhuong = forwardRef((props, ref) => {
           name={[...BASE_FORM, "A_side", "owner"]}
           onChange={(e) => setSohuuA(e)}
           options={SELECT.OWNER}
+          placeholder="Bấm vào đây"
         />
 
         {renderFormOnwerA(sohuuA, [...BASE_FORM, "A_side"])}
@@ -328,6 +332,7 @@ const HopDongChuyenNhuong = forwardRef((props, ref) => {
           name={[...BASE_FORM, "B_side", "owner"]}
           onChange={(e) => setSohuuB(e)}
           options={SELECT.OWNER}
+          placeholder="Bấm vào đây"
         />
 
         {renderFormOwnerB(sohuuB, [...BASE_FORM, "B_side"])}

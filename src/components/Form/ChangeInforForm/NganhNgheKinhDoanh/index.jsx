@@ -50,10 +50,11 @@ const NganhNgheKinhDoanh = forwardRef((props, ref) => {
       <Form.Item
         label="Bổ sung ngành, nghề kinh doanh"
         name={[...BASE_FORM, "include"]}
-        placeholder="Gõ tên ngành hoặc mã ngành"
+        
       >
         <Select
           showSearch
+          placeholder="Gõ tên ngành hoặc mã ngành"
           allowClear
           mode="multiple"
           optionFilterProp="children"
@@ -75,6 +76,7 @@ const NganhNgheKinhDoanh = forwardRef((props, ref) => {
       >
         <Select
           showSearch
+          placeholder="Gõ tên ngành hoặc mã ngành"
           allowClear
           mode="multiple"
           optionFilterProp="children"
@@ -92,10 +94,11 @@ const NganhNgheKinhDoanh = forwardRef((props, ref) => {
       <Form.Item
         label="Sửa đổi chi tiết ngành, nghề kinh doanh sau"
         name={[...BASE_FORM, "detail_after"]}
-        placeholder="Gõ tên ngành hoặc mã ngành"
+        
       >
         <Select
           showSearch
+          placeholder="Gõ tên ngành hoặc mã ngành"
           allowClear
           mode="multiple"
           optionFilterProp="children"
@@ -110,7 +113,19 @@ const NganhNgheKinhDoanh = forwardRef((props, ref) => {
         </Select>
       </Form.Item>
 
-      <CCInput label="Tên người Đại diện pháp luật" name={[...BASE_FORM, "legal_person"]} />
+      <CCInput 
+      // label="Tên người Đại diện pháp luật" 
+      label={
+        <div
+          dangerouslySetInnerHTML={{
+            __html: '</>Tên người Đại diện pháp luật</>',
+          }}
+        />
+      }
+      name={[...BASE_FORM, "legal_person"]} 
+      placeholder="NGUYỄN VĂN A"
+      />
+      
     </Form.Item>
   );
 });

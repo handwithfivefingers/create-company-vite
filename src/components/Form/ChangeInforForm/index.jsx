@@ -89,6 +89,7 @@ const ChangeInforForm = forwardRef((props, ref) => {
         className={clsx(styles.current, {
           [styles.active]: props.current === 0,
         })}
+      
       >
         <Select
           showSearch
@@ -96,7 +97,7 @@ const ChangeInforForm = forwardRef((props, ref) => {
           allowClear
           style={{ width: '100%' }}
           listHeight={300}
-          placeholder="Please select"
+          placeholder="Bấm vào đây"
           optionFilterProp="children"
           onChange={handleOnChange}
           filterOption={(input, option) => {

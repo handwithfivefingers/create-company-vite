@@ -43,9 +43,15 @@ const DiaChiTruSoChinh = forwardRef((props, ref) => {
         name={[...BASE_FORM, "inside"]}
         label="Doanh nghiệp nằm trong"
         options={SELECT.BUSINESS_LOCATION}
+        placeholder="Bấm vào đây"
       />
 
-      <CCInput name={[...BASE_FORM, "legal_person"]} label="Tên người đại diện pháp luật" />
+      <CCInput 
+      name={[...BASE_FORM, "legal_person"]} 
+      label="Tên người đại diện pháp luật" 
+      placeholder="NGUYỄN VĂN A"
+      />
+      
       {/* </Form> */}
     </Form.Item>
   );

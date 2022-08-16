@@ -43,7 +43,7 @@ const UserProductItem = (props) => {
     },
     {
       title: `Bước 2`,
-      desc: 'Thông tin doanh nghiệp',
+      desc: 'Thông tin chung',
     },
     {
       title: `Bước 3`,
@@ -193,11 +193,11 @@ const UserProductItem = (props) => {
     let data = [
       {
         title: 'Bước 1',
-        desc: 'Chọn loại hình',
+        desc: 'Chọn loại hình doanh nghiệp',
       },
       {
         title: `Bước 2`,
-        desc: 'Thông tin doanh nghiệp',
+        desc: 'Thông tin chung',
       },
     ]
 
