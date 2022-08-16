@@ -9,7 +9,7 @@ import styles from '../CreateCompany.module.scss'
 import CCSelect from '../../../CCSelect'
 import _ from 'lodash'
 
-const NguoiDaiDienPhapLuat = forwardRef((props, ref) => {
+const NguoiDaiDienPhapLuat = forwardRef(({ data, ...props }, ref) => {
   const { current, BASE_FORM } = props
 
   const [present, setPresent] = useState(null)
@@ -44,7 +44,7 @@ const NguoiDaiDienPhapLuat = forwardRef((props, ref) => {
 
         setListForm(val)
       } else {
-        let { title, organization_name, ...rest } = origin_person
+        let { title, organization_name, ...rest } = origin_person?.[0]
 
         let val = []
 
@@ -77,7 +77,24 @@ const NguoiDaiDienPhapLuat = forwardRef((props, ref) => {
     let xhtml = null
     xhtml = (
       <Col lg={8} md={12} sm={24} xs={24} key={i}>
-        <Form.Item label={<h5>Thông tin người đại diện thứ {i + 1}</h5>}>
+        <Form.Item
+          label={
+            <div className={styles.label}>
+              <div className={styles.title}>
+                Thông tin người đại diện thứ {i + 1}
+              </div>
+              <Button
+                type="text"
+                shape="circle"
+                danger
+                icon={<MinusCircleOutlined onClick={() => removeItem(i)} />}
+                style={{
+                  display: listForm.length > 1 ? 'block' : 'none',
+                }}
+              />
+            </div>
+          }
+        >
           <CCInput
             name={[...BASE_FORM, 'legal_respon', i, 'name']}
             label="Họ và tên"
@@ -98,103 +115,106 @@ const NguoiDaiDienPhapLuat = forwardRef((props, ref) => {
             options={SELECT.TITLE_3}
             ref={ref}
           />
+          <div style={{ display: present === 1 && i == 0 ? 'none' : 'block' }}>
+            <CCInput
+              type="select"
+              name={[...BASE_FORM, 'legal_respon', i, 'gender']}
+              label="Giới tính"
+              options={SELECT.GENDER}
+              placeholder="Bấm vào đây"
+            />
 
-          <CCInput
-            type="select"
-            name={[...BASE_FORM, 'legal_respon', i, 'gender']}
-            label="Giới tính"
-            options={SELECT.GENDER}
-            placeholder="Bấm vào đây"
-          />
+            <CCInput
+              type="date"
+              name={[...BASE_FORM, 'legal_respon', i, 'birth_day']}
+              label="Ngày sinh"
+            />
 
-          <CCInput
-            type="date"
-            name={[...BASE_FORM, 'legal_respon', i, 'birth_day']}
-            label="Ngày sinh"
-          />
-
-          <CCSelect.SelectPersonType
-            name={[...BASE_FORM, 'legal_respon', i, 'per_type']}
-            label="Dân tộc"
-            ref={ref}
-          />
-
-          <Form.Item label="Nơi đăng kí hộ khẩu thường trú">
-            <CCSelect.SelectProvince
+            <CCSelect.SelectPersonType
+              name={[...BASE_FORM, 'legal_respon', i, 'per_type']}
+              label="Dân tộc"
               ref={ref}
-              name={[...BASE_FORM, 'legal_respon', i, 'current']}
             />
-          </Form.Item>
 
-          <Form.Item label="Nơi ở hiện tại">
-            <Radio.Group onChange={(e) => onRadioChange(e, i)} value={radio[i]}>
-              <Space direction="vertical">
-                <Radio value={1}>Giống với địa chỉ thường trú</Radio>
-                <Radio value={2}>Khác</Radio>
-              </Space>
-            </Radio.Group>
+            <Form.Item label="Nơi đăng kí hộ khẩu thường trú">
+              <CCSelect.SelectProvince
+                ref={ref}
+                name={[...BASE_FORM, 'legal_respon', i, 'current']}
+              />
+            </Form.Item>
 
-            {
-              <div
-                style={{
-                  padding: '8px 0',
-                  opacity: radio[i] && radio[i] === 2 ? '1' : '0',
-                  visibility: radio[i] && radio[i] === 2 ? 'visible' : 'hidden',
-                  display: radio[i] && radio[i] === 2 ? 'block' : 'none',
-                }}
+            <Form.Item label="Nơi ở hiện tại">
+              <Radio.Group
+                onChange={(e) => onRadioChange(e, i)}
+                value={radio[i]}
               >
-                <CCSelect.SelectProvince
-                  ref={ref}
-                  name={[...BASE_FORM, 'legal_respon', i, 'contact']}
-                  label="Nơi ở hiện tại"
-                />
-              </div>
-            }
-          </Form.Item>
+                <Space direction="vertical">
+                  <Radio value={1}>Giống với địa chỉ thường trú</Radio>
+                  <Radio value={2}>Khác</Radio>
+                </Space>
+              </Radio.Group>
 
-          <Form.Item label={<h4>Loại giấy tờ pháp lý </h4>}>
-            <Row gutter={[16, 12]}>
-              <Col lg={24} md={24} sm={24} xs={24}>
-                <CCInput
-                  type="select"
-                  name={[...BASE_FORM, 'legal_respon', i, 'doc_type']}
-                  label="Loại giấy tờ"
-                  options={SELECT.DOC_TYPE}
-                  placeholder="Bấm vào đây"
-                />
-              </Col>
-              <Col lg={24} md={24} sm={24} xs={24}>
-                <CCInput
-                  name={[...BASE_FORM, 'legal_respon', i, 'doc_code']}
-                  label="Số CMND/ CCCD/ Hộ chiếu"
-                />
-              </Col>
+              {
+                <div
+                  style={{
+                    padding: '8px 0',
+                    opacity: radio[i] && radio[i] === 2 ? '1' : '0',
+                    visibility:
+                      radio[i] && radio[i] === 2 ? 'visible' : 'hidden',
+                    display: radio[i] && radio[i] === 2 ? 'block' : 'none',
+                  }}
+                >
+                  <CCSelect.SelectProvince
+                    ref={ref}
+                    name={[...BASE_FORM, 'legal_respon', i, 'contact']}
+                    label="Nơi ở hiện tại"
+                  />
+                </div>
+              }
+            </Form.Item>
 
-              <Col lg={24} md={24} sm={24} xs={24}>
-                <CCInput
-                  type="date"
-                  name={[...BASE_FORM, 'legal_respon', i, 'doc_time_provide']}
-                  label="Ngày cấp"
-                  placeholder="Chọn ngày"
-                />
-              </Col>
+            <Form.Item label={<h4>Loại giấy tờ pháp lý </h4>}>
+              <Row gutter={[16, 12]}>
+                <Col lg={24} md={24} sm={24} xs={24}>
+                  <CCInput
+                    type="select"
+                    name={[...BASE_FORM, 'legal_respon', i, 'doc_type']}
+                    label="Loại giấy tờ"
+                    options={SELECT.DOC_TYPE}
+                    placeholder="Bấm vào đây"
+                  />
+                </Col>
+                <Col lg={24} md={24} sm={24} xs={24}>
+                  <CCInput
+                    name={[...BASE_FORM, 'legal_respon', i, 'doc_code']}
+                    label="Số CMND/ CCCD/ Hộ chiếu"
+                  />
+                </Col>
 
-              <Col lg={24} md={24} sm={24} xs={24}>
-                <CCSelect.SelectDocProvide
-                  name={[...BASE_FORM, 'legal_respon', i, 'doc_place_provide']}
-                  label="Nơi cấp"
-                  ref={ref}
-                />
-              </Col>
-            </Row>
-          </Form.Item>
+                <Col lg={24} md={24} sm={24} xs={24}>
+                  <CCInput
+                    type="date"
+                    name={[...BASE_FORM, 'legal_respon', i, 'doc_time_provide']}
+                    label="Ngày cấp"
+                    placeholder="Chọn ngày"
+                  />
+                </Col>
 
-          {listForm.length > 1 && (
-            <Button
-              onClick={() => removeItem(i)}
-              icon={<MinusCircleOutlined />}
-            />
-          )}
+                <Col lg={24} md={24} sm={24} xs={24}>
+                  <CCSelect.SelectDocProvide
+                    name={[
+                      ...BASE_FORM,
+                      'legal_respon',
+                      i,
+                      'doc_place_provide',
+                    ]}
+                    label="Nơi cấp"
+                    ref={ref}
+                  />
+                </Col>
+              </Row>
+            </Form.Item>
+          </div>
         </Form.Item>
       </Col>
     )
@@ -203,7 +223,7 @@ const NguoiDaiDienPhapLuat = forwardRef((props, ref) => {
   }
 
   const addItem = () => {
-    const val = ref.current.getFieldValue([...BASE_FORM, 'legal_respon'])
+    // const val = ref.current.getFieldValue([...BASE_FORM, 'legal_respon'])
 
     setListForm([...listForm, listField])
   }
@@ -230,12 +250,9 @@ const NguoiDaiDienPhapLuat = forwardRef((props, ref) => {
     if (value === 1) {
       let field = [...BASE_FORM, 'legal_respon']
 
-      let arrayProvince = ['address', 'town', 'district', 'city']
-
-      arrayProvince.forEach((item) => {
-        let val = ref.current.getFieldValue([...field, index, 'current', item])
-        onSetFields([...field, index, 'contact', item], val, ref)
-      })
+      // let arrayProvince = ['address', 'town', 'district', 'city']
+      let val = ref.current.getFieldValue([...field, index, 'current'])
+      onSetFields([...field, index, 'contact'], val, ref)
     }
   }
 

@@ -55,15 +55,16 @@ const CreateCompany = forwardRef((props, formRef) => {
 
   useEffect(() => {
     onSetFields(
-      [...BASE_FORM, 'origin_person', 'national'],
+      [...BASE_FORM, 'origin_person', 0, 'national'],
       'Việt Nam',
       formRef,
     )
   }, [])
 
   const handleSelect = (v, opt, pathName) => {
-    onSetFields([pathName], opt, formRef)
-    setSelect(opt)
+    let { type, name, value } = opt
+    onSetFields([pathName], { type, name, value }, formRef)
+    setSelect({ type, name, value })
   }
   const dropdownRender = (pathName) => {
     return (

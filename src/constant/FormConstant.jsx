@@ -284,6 +284,7 @@ const CREATE_COMPANY_FORM = {
       origin_person: {
         label: 'Thành viên góp vốn',
         fields: {
+          capital: 'Số tiền góp vốn',
           name: 'Thành viên góp vốn',
           gender: 'Giới tính',
           birth_day: 'Ngày sinh',

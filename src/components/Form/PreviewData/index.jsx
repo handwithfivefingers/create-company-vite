@@ -3,7 +3,7 @@ import moment from 'moment'
 import { LABEL, NEWLABEL } from '@/constant/FormConstant'
 import CCDescription from '@/components/CCDescription'
 import { checkVariable } from '@/helper/Common'
-import { Form, Descriptions, Divider, Typography } from 'antd'
+import { Form, Descriptions, Divider, Typography , Col, Row} from 'antd'
 
 const listOfFields = [
   'company_opt_career',
@@ -90,7 +90,23 @@ const PreviewData = forwardRef((props, ref) => {
       xhtml.push(<Paragraph>{text}</Paragraph>)
     } else if (typeof data === 'object') {
       if (Array.isArray(data)) {
-        return data.map((item) => renderLoopItem({ data: item, fields, label }))
+        return data.map((item, i) => {
+          // console.log(item);
+          const ordered = Object.keys(item).sort().reverse().reduce(
+            (obj, key) => { 
+              obj[key] = item[key]; 
+              return obj;
+            }, 
+            {}
+          );
+
+          return (
+            <Col span={8}>
+              <p>{[label,' ',i + 1]}</p>
+              {renderLoopItem({ data: ordered, fields, label })}
+            </Col>
+          )
+        })
       } else {
         let result = Object.keys(data).map((key) => {
           let dataKeys = data?.[key]
@@ -207,29 +223,34 @@ const PreviewData = forwardRef((props, ref) => {
 
   const renderPreviewData = (data) => {
     let xhtml = null
-    if (data) {
-      let { selectProduct, selectChildProduct, ...rest } = data
 
-      let productType = Object.keys(rest) // get keys Product
+    try {
+      if (data) {
+        let { selectProduct, selectChildProduct, ...rest } = data
 
-      let listProductItem = rest[productType] // dynamic Data
+        let productType = Object.keys(rest) // get keys Product
 
-      let listLabel = NEWLABEL(productType) // Constant
+        let listProductItem = rest[productType] // dynamic Data
 
-      let list = getFieldsInfo(listLabel, listProductItem, productType)
-      // console.log(list)
-      if (list.length) {
-        let newList = renderBaseForm(list)
+        let listLabel = NEWLABEL(productType) // Constant
 
-        xhtml = newList
+        let list = getFieldsInfo(listLabel, listProductItem, productType)
+
+        if (list.length) {
+          let newList = renderBaseForm(list)
+
+          xhtml = newList
+        }
       }
+    } catch (error) {
+      console.log('renderPreviewData', error)
+    } finally {
+      return xhtml
     }
-    return xhtml
   }
 
-  console.log('previewData', formData)
 
-  return formData ? renderPreviewData(formData) : ''
+  return formData ? <Row>{renderPreviewData(formData)}</Row> : ''
 })
 
 export default PreviewData

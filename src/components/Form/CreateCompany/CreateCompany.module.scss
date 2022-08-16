@@ -26,3 +26,14 @@
   flex-direction: row;
   justify-content: space-between;
 }
+
+.label {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  .title {
+    margin: 0;
+    font-size:20px;
+  }
+}

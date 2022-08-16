@@ -1,68 +1,51 @@
 import React, { forwardRef, useState, useEffect, useRef, useMemo } from 'react'
-import { Form, Row, Col, InputNumber, Radio, Space } from 'antd'
+import { Form, Row, Col, InputNumber, Radio, Space, Button } from 'antd'
 import CCInput from '@/components/CCInput'
 import clsx from 'clsx'
 import styles from './styles.module.scss'
 import { SELECT } from '@/constant/Common'
 import CCSelect from '../../../CCSelect'
 import { onSetFields } from '@/helper/Common'
-
-const ThanhVienGopVon = forwardRef((props, ref) => {
+import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons'
+const ThanhVienGopVon = forwardRef(({ data, ...props }, ref) => {
   const [present, setPresent] = useState('')
   const { current, BASE_FORM } = props
+  const [listForm, setListForm] = useState([])
 
-  const [radio, setRadio] = useState(null)
   useEffect(() => {
     onSetFields(
-      [...BASE_FORM, 'origin_person', 'doc_type'],
+      [...BASE_FORM, 'origin_person', 0, 'doc_type'],
       'Chứng minh nhân dân',
       ref,
     )
   }, [])
 
-  useEffect(() => {
-    if (present) {
-      let pathName = [...BASE_FORM, 'origin_person', 'company', 'national']
-      onSetFields(pathName, 'Việt Nam', ref)
+  // useEffect(() => {
+  //   if (present) {
+  //     let pathName = [...BASE_FORM, 'origin_person', 'company', 'national']
+  //     onSetFields(pathName, 'Việt Nam', ref)
+  //   }
+  // }, [present])
+
+  const handleSelectPresentPerson = (val, opt) => {
+    setPresent(val)
+    let value = [{}] // default is 1
+    if (data?.type == '2') {
+      value.push({}) // -> 2
+    } else if (data?.type === '3') {
+      value.push({}, {}) // -> 3
     }
-  }, [present])
-
-  useEffect(() => {
-    if (radio === 1) {
-      let field = [...BASE_FORM, 'origin_person']
-      let listField = ['address', 'town', 'district', 'city']
-
-      listField.forEach((item) => {
-        let path = [...field, 'current', item]
-        let val = ref.current.getFieldValue(path)
-        onSetFields(path, val, ref)
-      })
-    }
-  }, [radio])
-
-  const onRadioChange = (e) => {
-    setRadio(e.target.value)
-    if (e.target.value === 1) {
-      let field = [...BASE_FORM, 'origin_person']
-      let listField = ['address', 'town', 'district', 'city']
-
-      listField.forEach((item) => {
-        let val = ref.current.getFieldValue([...field, 'current', item])
-        onSetFields([...field, 'contact', item], val, ref)
-      })
-    }
+    setListForm(value)
   }
 
-  const renderPresentPerson = () => {
+  const renderPresentPerson = (index) => {
     let xhtml = null
 
     if (present === 'personal') {
       xhtml = (
         <Personal
           ref={ref}
-          onRadioChange={onRadioChange}
-          radio={radio}
-          BASE_FORM={BASE_FORM}
+          BASE_FORM={[...BASE_FORM, 'origin_person', index]}
           onSetFields={onSetFields}
         />
       )
@@ -70,19 +53,43 @@ const ThanhVienGopVon = forwardRef((props, ref) => {
       xhtml = (
         <OriginalPerson
           ref={ref}
-          onRadioChange={onRadioChange}
           onSetFields={onSetFields}
-          radio={radio}
-          BASE_FORM={[...BASE_FORM, 'original_person']}
+          BASE_FORM={[...BASE_FORM, 'original_person', index]}
         />
       )
     }
     return xhtml
   }
 
+  /**
+   * @functions List Form Functions
+   */
+
+  const addItem = () => {
+    setListForm([...listForm, {}])
+  }
+
+  const removeItem = (index) => {
+    try {
+      let val = ref.current.getFieldValue([...BASE_FORM, 'origin_person'])
+      console.log(val)
+      // return
+      val = [...val.slice(0, index), ...val.slice(index + 1)]
+      onSetFields([...BASE_FORM, 'origin_person'], val, ref)
+      setListForm(val)
+    } catch (err) {
+      console.log('removeItem', err)
+    }
+  }
+
+  // const renderListForm = (index) => {
+  //   let xhtml = null
+  //   xhtml = renderPresentPerson()
+  //   return xhtml
+  // }
+
   return (
     <Form.Item
-      // label={<h3>Thành viên góp vốn</h3>}
       className={clsx([
         styles.hide,
         props.className,
@@ -96,7 +103,7 @@ const ThanhVienGopVon = forwardRef((props, ref) => {
           <CCInput
             type="select"
             name={[...BASE_FORM, 'present_person']}
-            onSelect={(e) => setPresent(e)}
+            onSelect={handleSelectPresentPerson}
             defaultActiveFirstOption
             placeholder="Bấm vào đây"
             options={[
@@ -105,19 +112,81 @@ const ThanhVienGopVon = forwardRef((props, ref) => {
             ]}
           />
         </Col>
-        <Col span={24}>{renderPresentPerson()}</Col>
+        <Col span={24}>
+          {present && listForm.length < 10 && (
+            <Button onClick={addItem} icon={<PlusOutlined />}>
+              Thêm người đại diện
+            </Button>
+          )}
+        </Col>
+        {listForm.map((item, i) => {
+          return (
+            <Col
+              span={listForm.length == 1 ? 24 : 12}
+              key={[...BASE_FORM, 'origin_person', i]}
+            >
+              <Form.Item
+                label={
+                  <div className={styles.label}>
+                    <div className={styles.title}>
+                      Thành viên góp vốn {i + 1}
+                    </div>
+                    <Button
+                      type="text"
+                      shape="circle"
+                      danger
+                      icon={
+                        <MinusCircleOutlined onClick={() => removeItem(i)} />
+                      }
+                      style={{
+                        display:
+                          (data?.type == 2 && listForm.length > 2) ||
+                          (data?.type == 3 && listForm.length > 3)
+                            ? 'block'
+                            : 'none',
+                      }}
+                    />
+                  </div>
+                }
+              >
+                {renderPresentPerson(i)}
+              </Form.Item>
+            </Col>
+          )
+        })}
       </Row>
     </Form.Item>
   )
 })
 
-export default ThanhVienGopVon
-
 const Personal = forwardRef((props, ref) => {
-  const { BASE_FORM, onRadioChange, radio, onSetFields } = props
+  const { BASE_FORM, onSetFields } = props
 
+  const [radio, setRadio] = useState(null)
+
+  const onRadioChange = (e) => {
+    setRadio(e.target.value)
+    if (e.target.value === 1) {
+      let val = ref.current.getFieldValue([...BASE_FORM, 'current'])
+      onSetFields([...BASE_FORM, 'contact'], val, ref)
+    }
+  }
   return (
     <div className={styles.groupInput}>
+      <Form.Item
+        name={[...BASE_FORM, 'capital']}
+        label="Số tiền góp vốn"
+        placeholder="Số tiền góp vốn"
+      >
+        <InputNumber
+          formatter={(value) =>
+            `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+          }
+          min={0}
+          style={{ width: '100%' }}
+        />
+      </Form.Item>
+
       <CCInput
         name={[...BASE_FORM, 'name']}
         label="Họ và Tên"
@@ -228,12 +297,35 @@ const Personal = forwardRef((props, ref) => {
 })
 
 const OriginalPerson = forwardRef((props, ref) => {
-  const { BASE_FORM, onRadioChange, radio, onSetFields } = props
+  const { BASE_FORM, onSetFields } = props
+
+  const [radio, setRadio] = useState(null)
+  const onRadioChange = (e) => {
+    setRadio(e.target.value)
+
+    if (e.target.value === 1) {
+      let val = ref.current.getFieldValue([...BASE_FORM, 'current'])
+      onSetFields([...BASE_FORM, 'contact'], val, ref)
+    }
+  }
 
   return (
     <div className={styles.groupInput}>
       {/* START Nhập thông tin của tổ chức */}
-
+      <Form.Item
+        name={[...BASE_FORM, 'capital']}
+        label="Số tiền góp vốn"
+        placeholder="Số tiền góp vốn"
+      >
+        <InputNumber
+          formatter={(value) =>
+            `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+          }
+          min={0}
+          style={{ width: '100%' }}
+        />
+      </Form.Item>
+      
       <CCInput
         label="Tên tổ chức"
         name={[...BASE_FORM, 'organization', 'name']}
@@ -403,7 +495,7 @@ const OriginalPerson = forwardRef((props, ref) => {
           >
             <CCSelect.SelectProvince
               ref={ref}
-              name={[...BASE_FORM, 'origin_person', 'contact']}
+              name={[...BASE_FORM, 'contact']}
               label="Nơi ở hiện tại"
             />
           </div>
@@ -412,3 +504,5 @@ const OriginalPerson = forwardRef((props, ref) => {
     </div>
   )
 })
+
+export default ThanhVienGopVon
