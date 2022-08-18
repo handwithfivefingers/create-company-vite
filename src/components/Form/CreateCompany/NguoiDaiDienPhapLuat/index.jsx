@@ -46,8 +46,9 @@ const NguoiDaiDienPhapLuat = forwardRef(({ data, ...props }, ref) => {
       } else {
         let { title, organization_name, ...rest } = origin_person?.[0]
 
-        let val = []
+        console.log('origin_person', origin_person)
 
+        let val = []
         val.push(rest)
 
         if (_.isEqual(rest.current, rest.contact)) {
@@ -68,7 +69,7 @@ const NguoiDaiDienPhapLuat = forwardRef(({ data, ...props }, ref) => {
   }, [present])
 
   const getPersonType = () => {
-    let pathName = [...BASE_FORM, 'origin_person', 'name']
+    let pathName = [...BASE_FORM, 'origin_person', 0, 'name']
     let result = ref?.current?.getFieldValue(pathName) || 'None'
     return result
   }
@@ -252,6 +253,8 @@ const NguoiDaiDienPhapLuat = forwardRef(({ data, ...props }, ref) => {
 
       // let arrayProvince = ['address', 'town', 'district', 'city']
       let val = ref.current.getFieldValue([...field, index, 'current'])
+
+      console.log('onRadioChange', val)
       onSetFields([...field, index, 'contact'], val, ref)
     }
   }

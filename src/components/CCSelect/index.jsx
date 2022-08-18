@@ -41,9 +41,7 @@ const SelectProvince = forwardRef((props, ref) => {
     }
   }, [])
 
-
   const handleSelectCity = (val, opt) => {
-
     let pathName = props.data?.pathName || name
     onSetFields([...pathName, 'city'], opt.name, ref)
     setParams({ code: val, ward: null })
@@ -53,11 +51,9 @@ const SelectProvince = forwardRef((props, ref) => {
     ]
 
     listFields.forEach((item) => onSetFields([...item], null, ref))
-
   }
 
   const handleSelectDistricts = (val, opt) => {
-
     let pathName = props.data?.pathName || name
 
     onSetFields([...pathName, 'district'], opt.name, ref)
@@ -66,7 +62,6 @@ const SelectProvince = forwardRef((props, ref) => {
   }
 
   const handleSelectWards = (val, opt) => {
-    
     let pathName = props.data?.pathName || name
 
     onSetFields([...pathName, 'town'], opt.name, ref)
@@ -246,7 +241,7 @@ const SelectPersonType = forwardRef((props, ref) => {
 
   useEffect(() => {
     let pathName = props.data?.pathName || props.name
-    let value = props.data?.value || ref.current.getFieldValue([...pathName])
+    let value = props.data?.value || ref?.current?.getFieldValue([...pathName])
     if (value && value !== DEFAULT_SELECT) {
       SetSelect(2)
       SetInput(value)

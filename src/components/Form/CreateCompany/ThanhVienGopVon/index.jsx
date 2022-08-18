@@ -8,9 +8,9 @@ import CCSelect from '../../../CCSelect'
 import { onSetFields } from '@/helper/Common'
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons'
 const ThanhVienGopVon = forwardRef(({ data, ...props }, ref) => {
-  const [present, setPresent] = useState('')
+  const [present, setPresent] = useState({})
   const { current, BASE_FORM } = props
-  const [listForm, setListForm] = useState([])
+  const [listForm, setListForm] = useState([{}])
 
   useEffect(() => {
     onSetFields(
@@ -20,28 +20,21 @@ const ThanhVienGopVon = forwardRef(({ data, ...props }, ref) => {
     )
   }, [])
 
-  // useEffect(() => {
-  //   if (present) {
-  //     let pathName = [...BASE_FORM, 'origin_person', 'company', 'national']
-  //     onSetFields(pathName, 'Việt Nam', ref)
-  //   }
-  // }, [present])
-
-  const handleSelectPresentPerson = (val, opt) => {
-    setPresent(val)
-    let value = [{}] // default is 1
-    if (data?.type == '2') {
+  useEffect(() => {
+    let value = [...listForm] // default is 1
+    if (data?.type == '2' && value.length < 2) {
       value.push({}) // -> 2
-    } else if (data?.type === '3') {
+      setListForm(value)
+    } else if (data?.type === '3' && value.length < 3) {
       value.push({}, {}) // -> 3
+      setListForm(value)
     }
-    setListForm(value)
-  }
+  }, [present])
 
   const renderPresentPerson = (index) => {
     let xhtml = null
 
-    if (present === 'personal') {
+    if (present?.[index] === 'personal') {
       xhtml = (
         <Personal
           ref={ref}
@@ -49,12 +42,12 @@ const ThanhVienGopVon = forwardRef(({ data, ...props }, ref) => {
           onSetFields={onSetFields}
         />
       )
-    } else if (present === 'organization') {
+    } else if (present?.[index] === 'organization') {
       xhtml = (
         <OriginalPerson
           ref={ref}
           onSetFields={onSetFields}
-          BASE_FORM={[...BASE_FORM, 'original_person', index]}
+          BASE_FORM={[...BASE_FORM, 'origin_person', index]}
         />
       )
     }
@@ -72,7 +65,6 @@ const ThanhVienGopVon = forwardRef(({ data, ...props }, ref) => {
   const removeItem = (index) => {
     try {
       let val = ref.current.getFieldValue([...BASE_FORM, 'origin_person'])
-      console.log(val)
       // return
       val = [...val.slice(0, index), ...val.slice(index + 1)]
       onSetFields([...BASE_FORM, 'origin_person'], val, ref)
@@ -82,12 +74,11 @@ const ThanhVienGopVon = forwardRef(({ data, ...props }, ref) => {
     }
   }
 
-  // const renderListForm = (index) => {
-  //   let xhtml = null
-  //   xhtml = renderPresentPerson()
-  //   return xhtml
-  // }
+  const handleSetListForm = ({ index, val }) => {
+    setPresent((state) => ({ ...state, [index]: val }))
+  }
 
+  // console.log(listForm)
   return (
     <Form.Item
       className={clsx([
@@ -100,20 +91,7 @@ const ThanhVienGopVon = forwardRef(({ data, ...props }, ref) => {
     >
       <Row gutter={[16, 12]}>
         <Col span={24}>
-          <CCInput
-            type="select"
-            name={[...BASE_FORM, 'present_person']}
-            onSelect={handleSelectPresentPerson}
-            defaultActiveFirstOption
-            placeholder="Bấm vào đây"
-            options={[
-              { value: 'personal', name: 'Thành viên góp vốn là cá nhân' },
-              { value: 'organization', name: 'Thành viên góp vốn là tổ chức' },
-            ]}
-          />
-        </Col>
-        <Col span={24}>
-          {present && listForm.length < 10 && (
+          {listForm.length < 10 && data?.type !== '1' && (
             <Button onClick={addItem} icon={<PlusOutlined />}>
               Thêm người đại diện
             </Button>
@@ -149,6 +127,13 @@ const ThanhVienGopVon = forwardRef(({ data, ...props }, ref) => {
                   </div>
                 }
               >
+                <PresentPerson
+                  BASE_FORM={BASE_FORM}
+                  index={i}
+                  setListForm={handleSetListForm}
+                  ref={ref}
+                />
+
                 {renderPresentPerson(i)}
               </Form.Item>
             </Col>
@@ -325,7 +310,7 @@ const OriginalPerson = forwardRef((props, ref) => {
           style={{ width: '100%' }}
         />
       </Form.Item>
-      
+
       <CCInput
         label="Tên tổ chức"
         name={[...BASE_FORM, 'organization', 'name']}
@@ -462,7 +447,7 @@ const OriginalPerson = forwardRef((props, ref) => {
       >
         <CCSelect.SelectProvince
           ref={ref}
-          name={[...BASE_FORM, 'origin_person', 'current']}
+          name={[...BASE_FORM, 'current']}
           label="Nơi đăng kí hộ khẩu thường trú"
         />
       </Form.Item>
@@ -502,6 +487,34 @@ const OriginalPerson = forwardRef((props, ref) => {
         }
       </Form.Item>
     </div>
+  )
+})
+
+const PresentPerson = forwardRef((props, ref) => {
+  const { BASE_FORM, index, setListForm } = props
+
+  const handleSelectPresentPerson = (val, opt) => {
+    setListForm({ index, val })
+  }
+
+  return (
+    <CCInput
+      type="select"
+      name={[...BASE_FORM, 'origin_person', index, 'present_person']}
+      onSelect={handleSelectPresentPerson}
+      defaultActiveFirstOption
+      placeholder="Bấm vào đây"
+      options={[
+        {
+          value: 'personal',
+          name: 'Thành viên góp vốn là cá nhân',
+        },
+        {
+          value: 'organization',
+          name: 'Thành viên góp vốn là tổ chức',
+        },
+      ]}
+    />
   )
 })
 

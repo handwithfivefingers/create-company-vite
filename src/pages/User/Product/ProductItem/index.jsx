@@ -28,7 +28,6 @@ const DissolutionPages = lazy(() => {
   return import('./DissolutionPages')
 })
 
-
 const UserProductItem = (props) => {
   const formRef = useRef()
 
@@ -94,21 +93,6 @@ const UserProductItem = (props) => {
   const setDataOutput = (output) => {
     console.log(output)
   }
-
-  // const renderPrewviewForm = useCallback((ref) => {
-  //   let val = ref?.current.getFieldsValue()
-  //   let input = { ...val }
-  //   return (
-  //     <PreviewData
-  //       ref={formRef}
-  //       data={input}
-  //       onFinishScreen={() => {
-  //         closeModal()
-  //       }}
-  //     />
-  //   )
-  // }, [])
-
   const renderFormByType = (type) => {
     switch (type) {
       case 1:
@@ -280,7 +264,8 @@ const UserProductItem = (props) => {
    * @value {Object}
    */
   const handleSave = useCallback(
-    async (value) => {
+    async (ref) => {
+      let value = ref.current.getFieldsValue()
       let params = {
         track: {
           step: 1,
@@ -291,6 +276,8 @@ const UserProductItem = (props) => {
           ...value,
         },
       }
+      // console.log(params)
+      // return
       saveService(params)
     },
     [data],

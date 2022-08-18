@@ -2,8 +2,9 @@ import {
   CaretLeftOutlined,
   CaretRightOutlined,
   PieChartOutlined,
+  TeamOutlined,
 } from '@ant-design/icons'
-import { Layout, Menu } from 'antd'
+import { Layout, Menu, Button } from 'antd'
 // import { signOut } from "next-auth/react";
 import { memo, useEffect, useState } from 'react'
 import { RiLogoutCircleLine } from 'react-icons/ri'
@@ -80,7 +81,7 @@ const AdminSidebar = () => {
           </div>
         }
       >
-        <div className="logo" style={{ height: 64 }} />
+        <div className="logo" style={{ height: 65 }} />
         <Menu
           theme="dark"
           defaultSelectedKeys={[current]}
@@ -90,7 +91,13 @@ const AdminSidebar = () => {
           <Menu.Item key={'/'} icon={<PieChartOutlined />}>
             <Link to={'/'}>Trang chủ</Link>
           </Menu.Item>
+
+          <Menu.Item key={'/end-user'} icon={<TeamOutlined />} type="text">
+            <Link to={'/user'}>End User</Link>
+          </Menu.Item>
+
           {renderSidebar(AdminRouter)}
+
           <Menu.Item
             key="/logout"
             onClick={() => signOut()}

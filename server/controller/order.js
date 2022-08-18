@@ -61,7 +61,7 @@ const createOrders = async (req, res) => {
 
     if (!result) return errHandler(msg, res)
 
-    let price = await calcPrice(selectProduct._id)
+    let price = await calcPrice(selectProduct._id || selectProduct.value)
 
     if (!price) return errHandler('Product not found', res)
 
@@ -106,7 +106,7 @@ const orderWithPayment = async (req, res) => {
 
     if (!selectProduct) return errHandler('', res)
 
-    let price = await calcPrice(selectProduct._id)
+    let price = await calcPrice(selectProduct._id || selectProduct.value)
 
     let { files, result, msg } = findKeysByObject(rest, selectProduct?.type)
 
@@ -281,7 +281,20 @@ const findKeysByObject = (obj, type = null) => {
             // explicit property
 
             if (props === 'create_company') {
-              let opt = obj[props][key]?.present_person // get selected item
+              // let opt = obj[props][key]?.present_person // get selected item
+
+              let origin_person = obj[props][key]?.origin_person
+              console.log(origin_person)
+              let opt = ''
+
+              if (origin_person) {
+                let organization = origin_person.some(
+                  (item) => item.present_person === 'organization',
+                )
+                organization ? (opt = 'organization') : (opt = 'personal')
+              }
+
+              console.log('server opt', opt)
 
               if (!opt) {
                 result = false

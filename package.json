@@ -4,8 +4,9 @@
   "version": "0.0.0",
   "scripts": {
     "start": "node App.js",
+    "dev":"concurrently \"npm run dev-f\" \"nodemon --trace-deprecation App.js\" ",
     "dev-f": "vite --host",
-    "dev-s": "nodemon --trace-deprecation --watch App.js",
+    "dev-s": "nodemon --trace-deprecation App.js",
     "build": "vite build",
     "preview": "vite preview"
   },
@@ -49,6 +50,7 @@
     "@vitejs/plugin-react": "^2.0.0",
     "angular-expressions": "^1.1.5",
     "bcryptjs": "^2.4.3",
+    "concurrently": "^7.3.0",
     "config": "^3.3.6",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",

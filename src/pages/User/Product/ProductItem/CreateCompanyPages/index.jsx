@@ -71,19 +71,12 @@ const CreateCompanyPages = forwardRef((props, ref) => {
 
           {step === 7 && (
             <>
-              <Button
-                loading={loading}
-                onClick={() => handleSave(ref ?? ref.current.getFieldsValue())}
-              >
+              <Button loading={loading} onClick={() => handleSave(ref)}>
                 Lưu lại
               </Button>
               <Button
                 loading={loading}
-                onClick={() =>
-                  handlePurchaseCreateCompany(
-                    ref ?? ref.current.getFieldsValue(),
-                  )
-                }
+                onClick={() => handlePurchaseCreateCompany(ref)}
               >
                 Thanh toán
               </Button>
