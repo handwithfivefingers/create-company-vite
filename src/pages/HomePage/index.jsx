@@ -7,7 +7,7 @@ import { Tabs } from 'antd'
 import AuthService from '@/service/AuthService'
 import { AuthAction } from '@/store/actions'
 import { useDispatch, useSelector } from 'react-redux'
-import RouterContext from '@/helper/Context'
+import { RouterContext } from '@/helper/Context'
 
 const { TabPane } = Tabs
 

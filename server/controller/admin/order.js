@@ -30,7 +30,7 @@ const getOrderBySlug = async (req, res) => {
 const getOrders = async (req, res) => {
   try {
     if (req.role === 'admin') {
-      let _order = await Order.find()
+      let _order = await Order.find({ delete_flag: { $ne: 1 } })
         .populate('main_career', ['name', 'code'])
         .populate('products', 'name')
         .populate({
@@ -53,7 +53,7 @@ const getOrders = async (req, res) => {
 const deleteOrder = async (req, res) => {
   let { id } = req.params
   try {
-    await Order.findOneAndDelete({ _id: id })
+    await Order.findOneAndUpdate({ _id: id }, { delete_flag: 1 })
 
     return deletedHandler(_, res)
   } catch (err) {

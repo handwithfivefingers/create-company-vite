@@ -1,6 +1,17 @@
-import { createContext } from "react";
+import { createContext } from 'react'
 
-const RouterContext = createContext({});
-export const RouterProvider = RouterContext.Provider;
-export const RouterConsumer = RouterContext.Consumer;
-export default RouterContext;
+const initBreakPoints = {
+  screen: '',
+}
+const RouterContext = createContext({})
+const BreakPointContext = createContext(initBreakPoints)
+
+const RouterProvider = RouterContext.Provider
+const RouterConsumer = RouterContext.Consumer
+
+const BreakPointProvider = BreakPointContext.Provider
+const BreakPointConsumer = BreakPointContext.Consumer
+
+
+
+export { RouterContext, RouterProvider, BreakPointProvider, BreakPointContext }

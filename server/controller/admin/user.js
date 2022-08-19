@@ -8,7 +8,7 @@ exports.fetchUser = async (req, res) => {
 
     let current_page = (parseInt(page) - 1) * PAGE_SIZE
 
-    let _user = await User.find({})
+    let _user = await User.find({ delete_flag: { $ne: 1 } })
       .select('-hash_password')
       .skip(current_page)
       .limit(PAGE_SIZE)
@@ -26,7 +26,7 @@ exports.deleteUser = async (req, res) => {
   let { id } = req.params
 
   try {
-    let _user = await User.findOneAndDelete({ _id: id })
+    let _user = await User.findOneAndUpdate({ _id: id }, { delete_flag: 1 })
     if (_user) return deletedHandler(_user, res)
   } catch (err) {
     console.log(err)

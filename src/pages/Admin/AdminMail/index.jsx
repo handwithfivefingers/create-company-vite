@@ -25,10 +25,14 @@ import { useEffect, useState, memo } from 'react'
 import TemplateMail from '@/components/Form/TemplateMail'
 import AdminMailService from '@/service/AdminService/AdminMailService'
 import styles from './styles.module.scss'
+
+
 function ListTemplateMail(props) {
   // const router = useRouter();
   const [data, setData] = useState([])
+
   const [loading, setLoading] = useState(false)
+
   const [segment, setSegment] = useState(1)
 
   const [drawer, setDrawer] = useState({
@@ -37,6 +41,7 @@ function ListTemplateMail(props) {
     component: null,
     width: 0,
   })
+
   const fetchTemplateMail = async (page = 1) => {
     try {
       let params = { page: page }

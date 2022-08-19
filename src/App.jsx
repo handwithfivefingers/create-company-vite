@@ -1,6 +1,11 @@
 import LoadingScreen from '@/components/LoadingScreen'
 
-import RouterContext, { RouterProvider } from '@/helper/Context'
+import {
+  RouterProvider,
+  RouterContext,
+  BreakPointProvider,
+  BreakPointContext,
+} from '@/helper/Context'
 
 import { ConfigProvider } from 'antd'
 
@@ -48,7 +53,7 @@ ConfigProvider.config({
 
 moment.defaultFormat = 'DD/MM/YYYY'
 
-moment.locale("vi");
+moment.locale('vi')
 
 const RouterComponent = (props) => {
   let location = useLocation()
@@ -88,7 +93,7 @@ const RouterComponent = (props) => {
     )
     item && dispatch(CommonAction.titleChange(item.title))
   }
-
+  console.log(route)
   return (
     <div
       className={`${transitionStage}`}

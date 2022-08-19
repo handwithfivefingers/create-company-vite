@@ -26,6 +26,7 @@ import { Link } from 'react-router-dom'
 import AdminHeader from '../../../components/Admin/AdminHeader'
 import styles from './styles.module.scss'
 import { useFetch } from '../../../helper/Hook'
+import { useMutation } from '@tanstack/react-query'
 
 const AdminOrder = () => {
   const [loading, setLoading] = useState(false)
@@ -39,16 +40,13 @@ const AdminOrder = () => {
   })
   const [current, setCurrent] = useState(1)
 
-  const [searchText, setSearchText] = useState('')
-  const [searchedColumn, setSearchedColumn] = useState('')
   const searchInput = useRef(null)
-
-  const formRef = useRef()
 
   const { data, isLoading, status, refetch } = useFetch({
     cacheName: ['adminOrder'],
     fn: () => AdminOrderService.getOrder(),
   })
+
 
   const pagiConfigs = {
     current: current,
@@ -57,6 +55,8 @@ const AdminOrder = () => {
     pageSize: 10,
     onChange: (current, pageSize) => setCurrent(current),
   }
+
+
 
   useEffect(() => {
     if (status === 'success' && data) {
@@ -72,19 +72,7 @@ const AdminOrder = () => {
     }
   }, [current, data])
 
-  // const handlePayment = (record) => {
-  //   // console.log(record);
-  //   setLoading(true)
-  //   axios
-  //     .get(`/api/payment/${record._id}`)
-  //     .then((res) => {
-  //       if (res.data.status === 200) {
-  //         window.location.href = res.data.url
-  //       }
-  //     })
-  //     .catch((err) => console.log(err))
-  //     .finally(setLoading(false))
-  // }
+
 
   const onHandleDelete = (record) => {
     // console.log("delete", record);

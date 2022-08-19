@@ -71,7 +71,7 @@ const AdminUser = () => {
       <div style={{ padding: 8, background: '#fff' }}>
         <Table
           bordered
-          size="middle"
+          size="small"
           sticky={{
             offsetScroll: 8,
             offsetHeader: -8,
@@ -93,7 +93,11 @@ const AdminUser = () => {
             width={'25%'}
             render={(v, record, i) => record.name}
           />
-          <Table.Column title="Email" render={(v, record, i) => record.email} />
+          <Table.Column
+            className={styles.inline}
+            title="Email"
+            render={(v, record, i) => record.email}
+          />
           <Table.Column
             title="Số điện thoại"
             width={'120px'}
