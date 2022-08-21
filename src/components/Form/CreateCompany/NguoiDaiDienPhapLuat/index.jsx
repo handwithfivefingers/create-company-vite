@@ -32,23 +32,64 @@ const NguoiDaiDienPhapLuat = forwardRef(({ data, ...props }, ref) => {
     doc_place_provide: '',
   }
   useEffect(() => {
-    if (present === 1) {
-      let { create_company } = ref.current.getFieldsValue()
+    // if (present === 1) {
+    //   let { create_company } = ref.current.getFieldsValue()
 
-      let { origin_person } = create_company?.approve
+    //   let { origin_person } = create_company?.approve
 
-      if (!origin_person) {
+    //   if (!origin_person) {
+    //     let val = []
+
+    //     val.push(listField)
+
+    //     setListForm(val)
+    //   } else {
+    //     let { title, organization_name, ...rest } = origin_person?.[0]
+
+    //     console.log('origin_person', origin_person)
+
+    //     let val = []
+    //     val.push(rest)
+
+    //     if (_.isEqual(rest.current, rest.contact)) {
+    //       // setting display radio
+    //       setRadio([1, null, null])
+    //     } else {
+    //       setRadio([null, null, null])
+    //     }
+    //     onSetFields([...BASE_FORM, 'legal_respon'], [rest], ref)
+
+    //     setListForm(val)
+    //   }
+    // } else {
+    //   let val = []
+    //   val.push(listField)
+    //   setListForm(val)
+    // }
+    if(present !== -1) {
+    //  let { create_company } = ref.current.getFieldsValue()
+
+    //   let { origin_person } = create_company?.approve
+
+    let pathName = [...BASE_FORM, 'origin_person']
+
+    let originPerson = ref?.current?.getFieldValue(pathName)
+    console.log(originPerson);
+
+      if (!originPerson) {
+
         let val = []
 
         val.push(listField)
 
         setListForm(val)
       } else {
-        let { title, organization_name, ...rest } = origin_person?.[0]
 
-        console.log('origin_person', origin_person)
+        let { title, ...rest } = originPerson?.[present] || {}
 
+        // console.log('origin_person', origin_person)
         let val = []
+
         val.push(rest)
 
         if (_.isEqual(rest.current, rest.contact)) {
@@ -62,16 +103,28 @@ const NguoiDaiDienPhapLuat = forwardRef(({ data, ...props }, ref) => {
         setListForm(val)
       }
     } else {
-      let val = []
+            let val = []
       val.push(listField)
       setListForm(val)
     }
   }, [present])
 
   const getPersonType = () => {
-    let pathName = [...BASE_FORM, 'origin_person', 0, 'name']
-    let result = ref?.current?.getFieldValue(pathName) || 'None'
-    return result
+
+    let pathName = [...BASE_FORM, 'origin_person']
+
+    // let result = ref?.current?.getFieldValue(pathName) || 'None'
+
+    let originPerson = ref?.current?.getFieldValue(pathName)
+
+    let options = originPerson?.map(({name},index) => ({name, value: index})) || []
+
+    options.push({
+      value: -1, name: 'Khác'
+    })
+
+
+    return options
   }
 
   const renderListForm = (i) => {
@@ -116,7 +169,7 @@ const NguoiDaiDienPhapLuat = forwardRef(({ data, ...props }, ref) => {
             options={SELECT.TITLE_3}
             ref={ref}
           />
-          <div style={{ display: present === 1 && i == 0 ? 'none' : 'block' }}>
+          <div style={{ display: present !== -1 && i == 0 ? 'none' : 'block' }}>
             <CCInput
               type="select"
               name={[...BASE_FORM, 'legal_respon', i, 'gender']}
@@ -274,26 +327,20 @@ const NguoiDaiDienPhapLuat = forwardRef(({ data, ...props }, ref) => {
         <Col span={24}>
           <CCInput
             type="select"
-            onChange={(e) => setPresent(e)}
+            onChange={(e) =>  setPresent(e)}
             placeholder="Bấm vào đây"
-            options={[
-              {
-                value: 1,
-                name: getPersonType(),
-              },
-              { value: 2, name: 'Khác' },
-            ]}
+            options={getPersonType}
           />
         </Col>
         <Col span={24}>
-          {present && listForm.length < 3 && (
+          {present  !== -1 && listForm.length < 3 && (
             <Button onClick={addItem} icon={<PlusOutlined />}>
               Thêm người đại diện
             </Button>
           )}
         </Col>
 
-        {present &&
+        {present !== -1 &&
           listForm.map((item, i) => {
             return renderListForm(i)
           })}

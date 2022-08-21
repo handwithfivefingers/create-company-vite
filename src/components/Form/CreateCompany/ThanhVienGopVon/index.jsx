@@ -31,6 +31,12 @@ const ThanhVienGopVon = forwardRef(({ data, ...props }, ref) => {
     }
   }, [present])
 
+  useEffect(() => {
+    if (data?.type) {
+      setListForm([{}])
+    }
+  }, [data])
+
   const renderPresentPerson = (index) => {
     let xhtml = null
 
@@ -90,13 +96,14 @@ const ThanhVienGopVon = forwardRef(({ data, ...props }, ref) => {
       ])}
     >
       <Row gutter={[16, 12]}>
-        <Col span={24}>
-          {listForm.length < 10 && data?.type !== '1' && (
-            <Button onClick={addItem} icon={<PlusOutlined />}>
+        {listForm.length < 10 && data?.type !== '1' && (
+          <Col span={24} style={{position:'sticky', top:'0', zIndex:1}}>
+            <Button onClick={addItem} icon={<PlusOutlined />} type="primary">
               Thêm người đại diện
             </Button>
-          )}
-        </Col>
+          </Col>
+        )}
+
         {listForm.map((item, i) => {
           return (
             <Col
@@ -107,7 +114,7 @@ const ThanhVienGopVon = forwardRef(({ data, ...props }, ref) => {
                 label={
                   <div className={styles.label}>
                     <div className={styles.title}>
-                      Thành viên góp vốn {i + 1}
+                      {data?.type !== '1' && `Thành viên góp vốn ${i + 1}`}
                     </div>
                     <Button
                       type="text"

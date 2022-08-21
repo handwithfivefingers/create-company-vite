@@ -64,6 +64,15 @@ const CreateCompany = forwardRef((props, formRef) => {
   const handleSelect = (v, opt, pathName) => {
     let { type, name, value } = opt
     onSetFields([pathName], { type, name, value }, formRef)
+    // reset Field
+    let originPerson = [...BASE_FORM, 'origin_person']
+    
+    let legelRespon = [...BASE_FORM, 'legal_respon']
+
+    onSetFields([pathName], { type, name, value }, formRef)
+    onSetFields([originPerson], undefined, formRef)
+    onSetFields([legelRespon], undefined, formRef)
+
     setSelect({ type, name, value })
   }
   const dropdownRender = (pathName) => {
