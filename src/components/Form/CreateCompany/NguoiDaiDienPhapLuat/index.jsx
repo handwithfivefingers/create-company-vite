@@ -314,7 +314,7 @@ const NguoiDaiDienPhapLuat = forwardRef(({ data, ...props }, ref) => {
 
   return (
     <Form.Item
-      label={<h2>Người đại diện pháp luật </h2>}
+      label={<h5>Người đại diện pháp luật </h5>}
       className={clsx([
         styles.hide,
         props.className,
@@ -328,7 +328,7 @@ const NguoiDaiDienPhapLuat = forwardRef(({ data, ...props }, ref) => {
           <CCInput
             type="select"
             onChange={(e) =>  setPresent(e)}
-            placeholder="Bấm vào đây"
+            placeholder="Chọn người đại diện"
             options={getPersonType}
           />
         </Col>

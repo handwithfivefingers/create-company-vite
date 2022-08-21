@@ -99,7 +99,7 @@ const ThanhVienGopVon = forwardRef(({ data, ...props }, ref) => {
         {listForm.length < 10 && data?.type !== '1' && (
           <Col span={24} style={{position:'sticky', top:'0', zIndex:1}}>
             <Button onClick={addItem} icon={<PlusOutlined />} type="primary">
-              Thêm người đại diện
+              Thêm thành viên góp vốn
             </Button>
           </Col>
         )}
@@ -371,7 +371,7 @@ const OriginalPerson = forwardRef((props, ref) => {
           <div
             dangerouslySetInnerHTML={{
               __html:
-                '</>Họ và Tên người đại diện theo pháp luật <i>(ĐDPL)</i></>',
+                '</>Họ và Tên đại diện theo pháp luật <i>(ĐDPL)</i></>',
             }}
           />
         }
