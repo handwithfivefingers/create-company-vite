@@ -114,7 +114,7 @@ const ThanhVienGopVon = forwardRef(({ data, ...props }, ref) => {
                 label={
                   <div className={styles.label}>
                     <div className={styles.title}>
-                      {data?.type !== '1' && `Thành viên góp vốn ${i + 1}`}
+                      {data?.type !== '1' && `Thành viên góp vốn thứ ${i + 1}`}
                     </div>
                     <Button
                       type="text"
