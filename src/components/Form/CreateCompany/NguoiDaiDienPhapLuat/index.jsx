@@ -289,14 +289,32 @@ const FormListPersonType = forwardRef((props, ref) => {
           ref={ref}
         />
 
-        <Form.Item label="Nơi đăng kí hộ khẩu thường trú">
+        <Form.Item 
+        // label="Nơi đăng kí hộ khẩu thường trú"
+        label={
+          <div
+            dangerouslySetInnerHTML={{
+              __html: '</><b>Địa chỉ thường trú</b></>',
+            }}
+          />
+        }
+        >
           <CCSelect.SelectProvince
             ref={ref}
             name={[...BASE_FORM, 'legal_respon', i, 'current']}
           />
         </Form.Item>
 
-        <Form.Item label="Nơi ở hiện tại">
+        <Form.Item 
+        // label="Nơi ở hiện tại"
+        label={
+          <div
+            dangerouslySetInnerHTML={{
+              __html: '</><b>Nơi ở hiện tại</b></>',
+            }}
+          />
+        }
+        >
           <Radio.Group onChange={(e) => onRadioChange(e, i)} value={radio[i]}>
             <Space direction="vertical">
               <Radio value={1}>Giống với địa chỉ thường trú</Radio>
