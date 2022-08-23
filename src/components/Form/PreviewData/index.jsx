@@ -1,10 +1,16 @@
-import React, { forwardRef, useEffect, useState } from 'react'
+import React, {
+  forwardRef,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react'
 import moment from 'moment'
 import { LABEL, NEWLABEL } from '@/constant/FormConstant'
 import CCDescription from '@/components/CCDescription'
 import { checkVariable } from '@/helper/Common'
-import { Form, Descriptions, Divider, Typography , Col, Row} from 'antd'
-
+import { Form, Descriptions, Divider, Typography, Col, Row } from 'antd'
+import _ from 'lodash'
 const listOfFields = [
   'company_opt_career',
   'include',
@@ -33,8 +39,8 @@ const PreviewData = forwardRef((props, ref) => {
       let data = []
 
       if (item.title) title = item.title
+
       if (item.data) data = item.data
-      // console.log('renderBaseForm', list)
 
       if (item.data.length) {
         let list = renderFieldForm(data)
@@ -64,9 +70,8 @@ const PreviewData = forwardRef((props, ref) => {
       let { fields, label, name } = item
       let data = ref.current.getFieldValue(name)
 
-      // console.log(data, fields)
       let loopItem = renderLoopItem({ data, fields, label })
-      console.log()
+
       xhtml.push(
         <>
           <Divider orientationMargin={0} orientation="left">
@@ -81,6 +86,16 @@ const PreviewData = forwardRef((props, ref) => {
   }
 
   const renderLoopItem = ({ data, fields, label }) => {
+    // const FIELD_SORTER = [
+    //   'name',
+    //   'title',
+    //   'gender',
+    //   'birth_day',
+    //   'per_type',
+    //   'doc_code',
+    //   'doc_time_provide',
+    //   'doc_place_provide',
+    // ]
     let xhtml = []
     if (typeof data === 'string') {
       let text = data
@@ -91,18 +106,10 @@ const PreviewData = forwardRef((props, ref) => {
     } else if (typeof data === 'object') {
       if (Array.isArray(data)) {
         return data.map((item, i) => {
-          // console.log(item);
-          const ordered = Object.keys(item).sort().reverse().reduce(
-            (obj, key) => { 
-              obj[key] = item[key]; 
-              return obj;
-            }, 
-            {}
-          );
-
+          const ordered = objectSorter(item)
           return (
             <Col span={8}>
-              <p>{[label,' ',i + 1]}</p>
+              <p>{[label, ' ', i + 1]}</p>
               {renderLoopItem({ data: ordered, fields, label })}
             </Col>
           )
@@ -114,7 +121,6 @@ const PreviewData = forwardRef((props, ref) => {
 
           if (typeof itemKeys === 'object' && itemKeys.label) {
             let title = itemKeys.label
-
             return (
               <>
                 <Divider dashed orientationMargin={12} orientation="left">
@@ -131,7 +137,7 @@ const PreviewData = forwardRef((props, ref) => {
           } else {
             if (
               itemKeys !== 'Vốn điều lệ (bằng số)' &&
-              moment(dataKeys, 'DD-MM-YYYY').isValid()
+              moment(dataKeys, 'DD-MM-YYYY', true).isValid()
             ) {
               return (
                 itemKeys && (
@@ -184,6 +190,7 @@ const PreviewData = forwardRef((props, ref) => {
           })
         } else if (typeof val === 'object') {
           let labelName = labelFields[props]?.label
+
           caseData.push({
             field: props,
             name: [...pathName, key, props],
@@ -192,8 +199,10 @@ const PreviewData = forwardRef((props, ref) => {
           })
         }
       }
+
       result.push({ title: pTitle, data: caseData })
     }
+
     return result
   }
 
@@ -249,8 +258,91 @@ const PreviewData = forwardRef((props, ref) => {
     }
   }
 
+  const sorter = (a, b) => {
+    // if (arr.includes(a)) {
+    //   return 1
+    // }
+    // if (arr.includes(b)) {
+    //   return -1
+    // }
 
-  return formData ? <Row>{renderPreviewData(formData)}</Row> : ''
+    // 'name',
+    // 'title',
+    // 'gender',
+    // 'birth_day',
+    // 'per_type',
+    // 'doc_code',
+    // 'doc_time_provide',
+    // 'doc_place_provide',
+
+    if (a == 'organization') return 1
+    if (b == 'organization') return -1
+
+    if (a == 'name') return 1
+    if (b == 'name') return -1
+
+    if (a == 'title') return 1
+    if (b == 'title') return -1
+
+    if (a == 'gender') return 1
+    if (b == 'gender') return -1
+
+    if (a == 'birth_day') return 1
+    if (b == 'birth_day') return -1
+
+    if (a == 'per_type') return 1
+    if (b == 'per_type') return -1
+
+    if (a == 'doc_code') return 1
+    if (b == 'doc_code') return -1
+
+    if (a == 'doc_time_provide') return 1
+    if (b == 'doc_time_provide') return -1
+
+    if (a == 'doc_place_provide') return 1
+    if (b == 'doc_place_provide') return -1
+
+    if (a == 'city') return 1
+    if (b == 'city') return -1
+
+    if (a == 'district') return 1
+    if (b == 'district') return -1
+
+    if (a == 'town') return 1
+    if (b == 'town') return -1
+
+    if (a == 'address') return 1
+    if (b == 'address') return -1
+
+    return 0
+  }
+
+  const objectSorter = (item) => {
+    let object = {}
+    object = Object?.keys(item)
+      .sort((a, b) => sorter(a, b))
+      .reverse()
+      .reduce((obj, key) => {
+        obj[key] = item[key]
+
+        if (
+          !Array.isArray(obj[key]) &&
+          typeof obj[key] === 'object' &&
+          !moment(obj[key], 'DD-MM-YYYY', true).isValid()
+        ) {
+          obj[key] = objectSorter(obj[key])
+        }
+        return obj
+      }, {})
+
+    return object
+  }
+
+  return formData ? (
+    <Row gutter={[16, 12]}>{renderPreviewData(formData)}</Row>
+  ) : (
+    ''
+  )
 })
 
 export default PreviewData

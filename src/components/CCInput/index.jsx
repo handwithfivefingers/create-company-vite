@@ -156,6 +156,7 @@ const CCInput = forwardRef((props, ref) => {
             style={props?.style}
             placeholder={props?.placeholder}
             autoComplete="off"
+            value={props?.value}
           >
             {optional?.map((item, i) => {
               return (

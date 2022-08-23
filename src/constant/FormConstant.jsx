@@ -312,6 +312,7 @@ const CREATE_COMPANY_FORM = {
             },
           },
           organization: {
+            label: 'Tổ Chức',
             fields: {
               name: 'Tên tổ chức',
               mst: 'Mã số doanh nghiệp hoặc Mã số thuế',

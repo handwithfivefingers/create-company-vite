@@ -197,6 +197,7 @@ const getCreateCompanyFiles = (type, key, opt = null) => {
             allFiles.create_company_2tv_phuluc_I_3_GDNDKCTTNHH2TV,
             allFiles.create_company_2tv_mau_dieu_le_CTTNHH2TVTLDNSD,
             // Quyết định người đại diện vốn
+            allFiles.create_company_quyetdinh_nguoidaidienvon,
             allFiles.create_company_phu_luc_4,
             allFiles.create_company_uyquyen,
           ]
@@ -205,7 +206,8 @@ const getCreateCompanyFiles = (type, key, opt = null) => {
             allFiles.create_company_2tv_phuluc_I_6_DSTVCTTNHH2TV,
             allFiles.create_company_2tv_phuluc_I_3_GDNDKCTTNHH2TV,
             allFiles.create_company_2tv_mau_dieu_le_CTTNHH2TVTLDNSD,
-
+            // Quyết định người đại diện vốn
+            allFiles.create_company_quyetdinh_nguoidaidienvon,
             allFiles.create_company_uyquyen,
           ]
         }
@@ -216,6 +218,7 @@ const getCreateCompanyFiles = (type, key, opt = null) => {
             allFiles.create_company_cp_phuluc_I_7_DSCDSLCTCP,
             allFiles.create_company_cp_mau_dieu_le_CTCPTLDNSD,
             // Quyết định người đại diện vốn
+            allFiles.create_company_quyetdinh_nguoidaidienvon,
             allFiles.create_company_phu_luc_4,
             allFiles.create_company_uyquyen,
           ]
@@ -224,7 +227,8 @@ const getCreateCompanyFiles = (type, key, opt = null) => {
             allFiles.create_company_cp_phuluc_I_4_GDNDKCTCP,
             allFiles.create_company_cp_phuluc_I_7_DSCDSLCTCP,
             allFiles.create_company_cp_mau_dieu_le_CTCPTLDNSD,
-
+            // Quyết định người đại diện vốn
+            allFiles.create_company_quyetdinh_nguoidaidienvon,
             allFiles.create_company_uyquyen,
           ]
         }

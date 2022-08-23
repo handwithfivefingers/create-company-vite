@@ -29,8 +29,9 @@ const GiaTriGopVon = forwardRef((props, ref) => {
     let numInp = ref.current.getFieldValue([...BASE_FORM, 'base_val', 'num'])
     if (timer) clearTimeout(timer)
     timer = setTimeout(() => {
-      let transform = to_vietnamese(numInp)
-      onSetFields([...BASE_FORM, 'base_val', 'char'], transform)
+      let transform = to_vietnamese(numInp) 
+      let upperLetter = transform.charAt(0).toUpperCase() + transform.slice(1);
+      onSetFields([...BASE_FORM, 'base_val', 'char'], upperLetter)
     }, 1000)
   }
 

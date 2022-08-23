@@ -33,7 +33,17 @@ const ThanhVienGopVon = forwardRef(({ data, ...props }, ref) => {
 
   useEffect(() => {
     if (data?.type) {
-      setListForm([{}])
+      switch (data?.type) {
+        case '2':
+          setListForm([{}, {}])
+          break
+        case '3':
+          setListForm([{}, {}, {}])
+          break
+        default:
+          setListForm([{}])
+          break
+      }
     }
   }, [data])
 
@@ -43,6 +53,7 @@ const ThanhVienGopVon = forwardRef(({ data, ...props }, ref) => {
     if (present?.[index] === 'personal') {
       xhtml = (
         <Personal
+          type={data?.type}
           ref={ref}
           BASE_FORM={[...BASE_FORM, 'origin_person', index]}
           onSetFields={onSetFields}
@@ -51,6 +62,7 @@ const ThanhVienGopVon = forwardRef(({ data, ...props }, ref) => {
     } else if (present?.[index] === 'organization') {
       xhtml = (
         <OriginalPerson
+          type={data?.type}
           ref={ref}
           onSetFields={onSetFields}
           BASE_FORM={[...BASE_FORM, 'origin_person', index]}
@@ -71,10 +83,14 @@ const ThanhVienGopVon = forwardRef(({ data, ...props }, ref) => {
   const removeItem = (index) => {
     try {
       let val = ref.current.getFieldValue([...BASE_FORM, 'origin_person'])
-      // return
+
       val = [...val.slice(0, index), ...val.slice(index + 1)]
+
+      let listVal = [...listForm.slice(0, index), ...listForm.slice(index + 1)]
+
       onSetFields([...BASE_FORM, 'origin_person'], val, ref)
-      setListForm(val)
+
+      setListForm(listVal)
     } catch (err) {
       console.log('removeItem', err)
     }
@@ -84,7 +100,6 @@ const ThanhVienGopVon = forwardRef(({ data, ...props }, ref) => {
     setPresent((state) => ({ ...state, [index]: val }))
   }
 
-  // console.log(listForm)
   return (
     <Form.Item
       className={clsx([
@@ -97,7 +112,7 @@ const ThanhVienGopVon = forwardRef(({ data, ...props }, ref) => {
     >
       <Row gutter={[16, 12]}>
         {listForm.length < 10 && data?.type !== '1' && (
-          <Col span={24} style={{position:'sticky', top:'0', zIndex:1}}>
+          <Col span={24} style={{ position: 'sticky', top: '0', zIndex: 1 }}>
             <Button onClick={addItem} icon={<PlusOutlined />} type="primary">
               Thêm thành viên góp vốn
             </Button>
@@ -152,7 +167,7 @@ const ThanhVienGopVon = forwardRef(({ data, ...props }, ref) => {
 })
 
 const Personal = forwardRef((props, ref) => {
-  const { BASE_FORM, onSetFields } = props
+  const { BASE_FORM, onSetFields, type } = props
 
   const [radio, setRadio] = useState(null)
 
@@ -165,19 +180,21 @@ const Personal = forwardRef((props, ref) => {
   }
   return (
     <div className={styles.groupInput}>
-      <Form.Item
-        name={[...BASE_FORM, 'capital']}
-        label="Số tiền góp vốn"
-        placeholder="Số tiền góp vốn"
-      >
-        <InputNumber
-          formatter={(value) =>
-            `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
-          }
-          min={0}
-          style={{ width: '100%' }}
-        />
-      </Form.Item>
+      {type && type !== '1' && (
+        <Form.Item
+          name={[...BASE_FORM, 'capital']}
+          label="Số tiền góp vốn"
+          placeholder="Số tiền góp vốn"
+        >
+          <InputNumber
+            formatter={(value) =>
+              `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+            }
+            min={0}
+            style={{ width: '100%' }}
+          />
+        </Form.Item>
+      )}
 
       <CCInput
         name={[...BASE_FORM, 'name']}
@@ -289,7 +306,7 @@ const Personal = forwardRef((props, ref) => {
 })
 
 const OriginalPerson = forwardRef((props, ref) => {
-  const { BASE_FORM, onSetFields } = props
+  const { BASE_FORM, onSetFields, type } = props
 
   const [radio, setRadio] = useState(null)
   const onRadioChange = (e) => {
@@ -304,19 +321,21 @@ const OriginalPerson = forwardRef((props, ref) => {
   return (
     <div className={styles.groupInput}>
       {/* START Nhập thông tin của tổ chức */}
-      <Form.Item
-        name={[...BASE_FORM, 'capital']}
-        label="Số tiền góp vốn"
-        placeholder="Số tiền góp vốn"
-      >
-        <InputNumber
-          formatter={(value) =>
-            `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
-          }
-          min={0}
-          style={{ width: '100%' }}
-        />
-      </Form.Item>
+      {type && type !== '1' && (
+        <Form.Item
+          name={[...BASE_FORM, 'capital']}
+          label="Số tiền góp vốn"
+          placeholder="Số tiền góp vốn"
+        >
+          <InputNumber
+            formatter={(value) =>
+              `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+            }
+            min={0}
+            style={{ width: '100%' }}
+          />
+        </Form.Item>
+      )}
 
       <CCInput
         label="Tên tổ chức"
@@ -370,8 +389,7 @@ const OriginalPerson = forwardRef((props, ref) => {
         label={
           <div
             dangerouslySetInnerHTML={{
-              __html:
-                '</>Họ và Tên đại diện theo pháp luật <i>(ĐDPL)</i></>',
+              __html: '</>Họ và Tên đại diện theo pháp luật <i>(ĐDPL)</i></>',
             }}
           />
         }
