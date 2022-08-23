@@ -68,7 +68,7 @@ const NguoiDaiDienPhapLuat = forwardRef(({ data, ...props }, ref) => {
       <Row gutter={[16, 12]}>
         <Col span={24}>
           {listForm.length < 3 && (
-            <Button onClick={addItem} icon={<PlusOutlined />}>
+            <Button onClick={addItem} icon={<PlusOutlined />} type="primary">
               Thêm người đại diện
             </Button>
           )}
