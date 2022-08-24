@@ -59,6 +59,7 @@ const GiaiThe = forwardRef((props, ref) => {
             btnText="Thêm thành viên HĐQT (nếu có)"
             listName="list_president"
             ref={ref}
+            
           />
           <Form.Item label="Tổng số vốn điều lệ" name={[...BASE_FORM, 'total_capital']}>
             <InputNumber
@@ -157,7 +158,19 @@ const GiaiThe = forwardRef((props, ref) => {
         onChange={(e) => setFields(e, [...BASE_FORM, 'org_person'])}
       />
 
-      <CCInput label="Địa chỉ trụ sở chính" name={[...BASE_FORM, 'location']} placeholder="Nhập địa chỉ trụ sở chính" />
+      <CCInput 
+      label="Địa chỉ trụ sở chính" 
+      name={[...BASE_FORM, 'location']} 
+      placeholder="Nhập địa chỉ trụ sở chính" 
+      />
+
+      
+      {/* <CCSelect.SelectDocProvide
+        
+        name={[...BASE_FORM, 'location']}
+        label="Nơi cấp"
+        placeholder="Bấm vào đây"
+      /> */}
 
       {renderFormByType(type)}
     </Form.Item>

@@ -261,6 +261,7 @@ const FormListPersonType = forwardRef((props, ref) => {
           type="date"
           name={[...BASE_FORM, 'legal_respon', i, 'birth_day']}
           label="Ngày sinh"
+          placeholder="Chọn ngày"
         />
 
         <CCSelect.SelectPersonType
@@ -334,7 +335,8 @@ const FormListPersonType = forwardRef((props, ref) => {
             <Col lg={24} md={24} sm={24} xs={24}>
               <CCInput
                 name={[...BASE_FORM, 'legal_respon', i, 'doc_code']}
-                label="Số CMND/ CCCD/ Hộ chiếu"
+                label="Số CMND / CCCD / Hộ chiếu"
+                placeholder="0316184427"
               />
             </Col>
 
