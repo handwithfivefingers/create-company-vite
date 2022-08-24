@@ -165,13 +165,19 @@ const dateConvert = (dateString) => {
 
 const flattenObject = (data) => {
   const _template = {}
+
   objToKeys(data, _template)
+
   const date = new Date()
+
   _template.date = date.getDate()
+
   _template.month = date.getMonth() + 1 // Month start at 0 -> 11
+
   _template.year = date.getFullYear()
+
   // handle Change Info Array;
-  console.log(_template)
+
   for (let props in _template) {
     if (
       props === 'change_info_transfer_contract_A_side_owner' &&
@@ -202,29 +208,53 @@ const flattenObject = (data) => {
       ]
     }
     if (props === 'create_company_approve_legal_respon') {
-      _template.legal_respon = _template[props].map((item) => ({
-        ...item,
-        birth_day: dateConvert(item.birth_day),
-        doc_time_provide: dateConvert(item.doc_time_provide),
-        title_type:
-          item.title === 'Chủ tịch công ty'
-            ? 1
-            : item.title === 'Giám đốc'
-            ? 2
-            : 3,
-      }))
+      _template.legal_respon = _template[props].map(
+        ({ birth_day, doc_time_provide, ...rest }) => ({
+          ...rest,
+          birth_day: dateConvert(birth_day),
+          doc_time_provide: dateConvert(doc_time_provide),
+        }),
+      )
 
       delete _template.create_company_approve_legal_respon
     }
-    if (props)
-      if (props === 'change_info_legal_representative_doc_place_provide') {
-        _template.lr_doc_place_provide = _template[props]
-      }
+
+    if (props === 'create_company_approve_origin_person') {
+      _template.organiz = _template[props]
+        .filter((item) => item.present_person !== 'personal')
+        .map(
+          ({ organization, doc_time_provide, birth_day, ...item }, index) => ({
+            ...item,
+            birth_day: dateConvert(birth_day),
+            doc_time_provide: dateConvert(doc_time_provide),
+            organization: {
+              ...organization,
+              doc_time_provide: dateConvert(organization.doc_time_provide),
+            },
+            index: index + 1,
+          }),
+        )
+
+      _template[props] = _template[props].map(
+        ({ birth_day, doc_time_provide, ...rest }) => ({
+          ...rest,
+          birth_day: dateConvert(birth_day),
+          doc_time_provide: dateConvert(doc_time_provide),
+        }),
+      )
+    }
+
+    if (props === 'change_info_legal_representative_doc_place_provide') {
+      _template.lr_doc_place_provide = _template[props]
+    }
+
     if (props === 'change_info_legal_representative_new_title') {
       _template.lr_new_title = _template[props]
     }
   }
-  // console.log(_template)
+
+  console.log(_template)
+
   return _template
 }
 
@@ -253,6 +283,7 @@ const removeListFiles = (attachments, path = null) => {
     console.log('removeListFiles error: ' + err)
   }
 }
+
 const sortObject = (obj) => {
   var sorted = {}
   var str = []

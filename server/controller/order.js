@@ -74,7 +74,7 @@ const createOrders = async (req, res) => {
       categories,
       orderOwner: req.id,
       name: shortid.generate(),
-      products: selectProduct._id,
+      products: selectProduct._id || selectProduct.value,
       files,
       price,
     }

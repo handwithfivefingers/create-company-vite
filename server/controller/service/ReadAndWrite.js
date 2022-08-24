@@ -25,8 +25,6 @@ const checkingOrder = async (req, res) => {
       'email',
     )
 
-    console.log('coming', _order)
-
     if (_order) return handleConvertFile(_order, req, res)
 
     return res.status(200).json({ data: [] })
@@ -40,30 +38,30 @@ const checkingOrder = async (req, res) => {
 const handleConvertFile = async (order, req, res) => {
   // handle Single File
   let attachments = []
+
   try {
+
     let { files, data } = order
+
     let mailParams = await getMailContent(order)
+
     files = uniqBy(files, 'name').filter((item) => item)
 
     if (files) {
+
       let _contentOrder = flattenObject(data)
 
       console.log(_contentOrder)
 
       for (let file of files) {
-        // console.log("start");
 
         let pdfFile = await convertFile(file, _contentOrder)
 
-        // console.log("pdfFile", pdfFile);
-
         attachments.push({ pdfFile, name: file.name })
       }
-      // return;
+
       mailParams.filesPath = attachments
 
-      // console.log("mailParams", mailParams);
-      // return res.status(200).json({ message: 'ok' })
 
       await sendmailWithAttachments(req, res, mailParams)
 
@@ -74,11 +72,13 @@ const handleConvertFile = async (order, req, res) => {
       error: 'Files not found',
     })
   } catch (err) {
+
     console.log('handleConvertFile error', err)
 
     attachments.length > 0 && (await removeListFiles(attachments, true))
 
     return errHandler(err, res)
+
   } finally {
     // await removeListFiles(attachments)
   }

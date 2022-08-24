@@ -36,24 +36,6 @@ const NguoiDaiDienPhapLuat = forwardRef(({ data, ...props }, ref) => {
     setListForm([...listForm, listField])
   }
 
-  const onRadioChange = (e, index) => {
-    let value = e.target.value
-
-    let radioArray = radio
-
-    radioArray[index] = value
-
-    setRadio([...radioArray])
-
-    if (value === 1) {
-      let field = [...BASE_FORM, 'legal_respon']
-
-      let val = ref.current.getFieldValue([...field, index, 'current'])
-
-      onSetFields([...field, index, 'contact'], val, ref)
-    }
-  }
-
   return (
     <Form.Item
       label={<h5>Người đại diện pháp luật </h5>}
@@ -125,7 +107,7 @@ const PeronalType = forwardRef((props, ref) => {
     let originPerson = ref?.current?.getFieldValue(pathName)
 
     let options = originPerson?.map(({ name, organization }, index) => ({
-      name: organization ? organization?.name : name || '',
+      name:  name || '...',
       value: index,
     })) || [{ value: null, name: 'None' }]
 
@@ -218,9 +200,7 @@ const FormListPersonType = forwardRef((props, ref) => {
 
     objPresent[index] = null
 
-    objPresent = objPresent.filter((item) => item !== null)
-
-    objPresent = [...objPresent, null]
+    objPresent = [...objPresent.filter((item) => item !== null), null]
 
     setPresent(objPresent)
 
