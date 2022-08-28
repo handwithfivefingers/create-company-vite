@@ -104,15 +104,15 @@ const orderWithPayment = async (req, res) => {
 
     const { selectProduct, ...rest } = data
 
-    if (!selectProduct) return errHandler('', res)
+    if (!selectProduct) throw 'Product not found'
 
     let price = await calcPrice(selectProduct._id || selectProduct.value)
 
     let { files, result, msg } = findKeysByObject(rest, selectProduct?.type)
 
-    if (!price) return errHandler('Product not found', res)
+    if (!price) throw 'Product not found'
 
-    if (!result) return errHandler(msg, res)
+    if (!result) throw msg
 
     var newData = {
       track,
@@ -121,7 +121,7 @@ const orderWithPayment = async (req, res) => {
       categories,
       orderOwner: req.id,
       name: shortid.generate(),
-      products: selectProduct,
+      products: selectProduct._id || selectProduct.value,
       price,
       files,
     }
@@ -197,14 +197,14 @@ const getUrlReturn = async (req, res) => {
           _id: req.query.vnp_OrderInfo,
         }).populate('orderOwner', '_id name email')
 
-        let [_paymentSuccess] = await Setting.find().populate(
+        let [{ subject, content }] = await Setting.find().populate(
           'mailPaymentSuccess',
         )
 
         let params = {
           email: _order.orderOwner.email || 'handgd1995@gmail.com',
-          subject: _paymentSuccess.subject,
-          content: _paymentSuccess.content,
+          subject,
+          content,
           type: 'any',
         }
 
