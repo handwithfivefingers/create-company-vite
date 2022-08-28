@@ -23,113 +23,139 @@ p,
 a {
   font-size: 16px;
 }
-
-@media (min-width: 1366px) {
-  h1 {
-    // font-size: 47.52px;
-    font-size: 2.2rem;
-  }
-  h2 {
-    // font-size: 42px;
-    font-size: 2rem;
-  }
-  h3 {
-    // font-size: 36px;
-    font-size: 1.7rem;
-  }
-  h4 {
-    // font-size: 30px;
-    font-size: 1.5rem;
-  }
-  h5 {
-    font-size: 1.3rem;
-  }
-  .h {
-    // font-size: 23.76px;
-    font-size: 1.4rem;
-    div {
-      font-size: 23.76px;
-    }
-  }
+h1 {
+  font-size: clamp(20px, 5vw, 2em);
+}
+h2 {
+  font-size: clamp(16px, 4vw, 1.5em);
+}
+h3 {
+  font-size: clamp(14px, 3.5vw, 1.17em);
+}
+h4 {
+  font-size: clamp(12px, 3vw, 1em);
+}
+h5 {
+  font-size: clamp(10px, 2vw, 0.83em);
 }
 
-@media (max-width: 1366px) {
-  .h {
-    // font-size: 20px;
-    font-size: 1.2rem;
-    div {
-      font-size: 1.2rem;
-    }
-  }
-  h1 {
-    // font-size: 36px !important;
-    font-size: 2rem !important;
-  }
-  h2 {
-    // font-size: 32px;
-    font-size: 1.8rem;
-  }
-  h3 {
-    // font-size: 28px;
-    font-size: 1.6rem;
-  }
-  h4 {
-    // font-size: 24px;
-    font-size: 1.4rem;
-  }
-  h5 {
-    font-size: 1.2rem;
-  }
-}
-@media (max-width: 990px) {
-  .h {
-    // font-size: 18px;
-    font-size: 1.1rem;
-    div {
-      font-size: 1.1rem;
-    }
-  }
-  h1 {
-    // font-size: 36px !important;
-    font-size: 2rem !important;
-  }
-  h2 {
-    // font-size: 32px;
-    font-size: 1.8rem;
-  }
-  h3 {
-    // font-size: 28px;
-    font-size: 1.6rem;
-  }
-  h4 {
-    // font-size: 24px;
-    font-size: 1.4rem;
-  }
-  h5 {
-    font-size: 1.2rem;
-  }
-}
-@media (max-width: 768px) {
-  .h {
-    font-size: 1rem;
-    div {
-      font-size: 1rem;
-    }
-  }
-  h1 {
-    // font-size: 30px !important;
-    font-size: 1.8rem;
-  }
-  h2 {
-    font-size: 1.6rem;
-  }
-  h3 {
-    font-size: 1.4rem;
-  }
-  h4 {
-    font-size: 1.3rem;
-  }
-  h5 {
-    font-size: 1.1rem;
-  }
-}
+// @media (min-width: 1366px) {
+//   h1 {
+//     // font-size: 47.52px;
+//     font-size: 2em;
+//     font-weight: bolder;
+//   }
+//   h2 {
+//     // font-size: 42px;
+//     font-size: 1.5em;
+//     font-weight: bolder;
+//   }
+//   h3 {
+//     // font-size: 36px;
+
+//     font-size: 1.17em;
+//     font-weight: bolder;
+//   }
+//   h4 {
+//     // font-size: 30px;
+//     font-size: 1em;
+//     font-weight: bolder;
+//   }
+//   h5 {
+//     font-size: 0.83em;
+//     font-weight: bolder;
+//   }
+//   .h {
+//     // font-size: 23.76px;
+//     font-size: 1.4rem;
+//     div {
+//       font-size: 23.76px;
+//     }
+//   }
+// }
+
+// @media (max-width: 1366px) {
+//   .h {
+//     // font-size: 20px;
+//     font-size: 1.2rem;
+//     div {
+//       font-size: 1.2rem;
+//     }
+//   }
+//   h1 {
+//     // font-size: 36px !important;
+//     font-size: 1.8rem;
+//     font-weight: bolder;
+//   }
+//   h2 {
+//     // font-size: 32px;
+//     font-size: 1.4rem;
+//     font-weight: bolder;
+//   }
+//   h3 {
+//     // font-size: 28px;
+//     font-size: 1.2rem;
+//     font-weight: bolder;
+//   }
+//   h4 {
+//     // font-size: 24px;
+//     font-size: 1rem;
+//     font-weight: bolder;
+//   }
+//   h5 {
+//     font-size: 0.8rem;
+//     font-weight: bolder;
+//   }
+// }
+// @media (max-width: 990px) {
+//   .h {
+//     // font-size: 18px;
+//     font-size: 1.1rem;
+//     div {
+//       font-size: 1.1rem;
+//     }
+//   }
+//   h1 {
+//     // font-size: 36px !important;
+//     font-size: 2rem !important;
+//   }
+//   h2 {
+//     // font-size: 32px;
+//     font-size: 1.8rem;
+//   }
+//   h3 {
+//     // font-size: 28px;
+//     font-size: 1.6rem;
+//   }
+//   h4 {
+//     // font-size: 24px;
+//     font-size: 1.4rem;
+//   }
+//   h5 {
+//     font-size: 1.2rem;
+//   }
+// }
+// @media (max-width: 768px) {
+//   .h {
+//     font-size: 1rem;
+//     div {
+//       font-size: 1rem;
+//     }
+//   }
+//   h1 {
+//     // font-size: 30px !important;
+//     font-size: 1.8rem;
+//   }
+//   h2 {
+//     font-size: 1.6rem;
+//   }
+//   h3 {
+//     font-size: 1.4rem;
+//   }
+//   h4 {
+//     font-size: 1.3rem;
+//   }
+//   h5 {
+//     font-size: 1.1rem;
+//   }
+// }

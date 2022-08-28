@@ -339,7 +339,9 @@ const PreviewData = forwardRef((props, ref) => {
   }
 
   return formData ? (
-    <Row gutter={[16, 12]}>{renderPreviewData(formData)}</Row>
+    <Row gutter={[16, 12]} style={{ margin: 0 }}>
+      {renderPreviewData(formData)}
+    </Row>
   ) : (
     ''
   )
