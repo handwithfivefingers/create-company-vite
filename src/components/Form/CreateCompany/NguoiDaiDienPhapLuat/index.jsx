@@ -270,6 +270,33 @@ const FormListPersonType = forwardRef((props, ref) => {
           ref={ref}
         />
 
+        <CCInput
+                type="select"
+                name={[...BASE_FORM, 'legal_respon', i, 'doc_type']}
+                label="Loại giấy tờ"
+                options={SELECT.DOC_TYPE}
+                placeholder="Bấm vào đây"
+        />
+        
+        <CCInput
+                name={[...BASE_FORM, 'legal_respon', i, 'doc_code']}
+                label="Số CMND / CCCD / Hộ chiếu"
+                placeholder="0316184427"
+        />
+
+        <CCInput
+                type="date"
+                name={[...BASE_FORM, 'legal_respon', i, 'doc_time_provide']}
+                label="Ngày cấp"
+                placeholder="Chọn ngày"
+        />
+
+        <CCSelect.SelectDocProvide
+                name={[...BASE_FORM, 'legal_respon', i, 'doc_place_provide']}
+                label="Nơi cấp"
+                ref={ref}
+        />
+
         <Form.Item 
         // label="Nơi đăng kí hộ khẩu thường trú"
         label={
@@ -321,7 +348,9 @@ const FormListPersonType = forwardRef((props, ref) => {
           }
         </Form.Item>
 
-        <Form.Item label={<h4>Loại giấy tờ pháp lý </h4>}>
+       
+
+        {/* <Form.Item label={<h4>Loại giấy tờ pháp lý </h4>}>
           <Row gutter={[16, 12]}>
             <Col lg={24} md={24} sm={24} xs={24}>
               <CCInput
@@ -357,7 +386,9 @@ const FormListPersonType = forwardRef((props, ref) => {
               />
             </Col>
           </Row>
-        </Form.Item>
+        </Form.Item> */}
+
+        
       </div>
     </Form.Item>
   )
