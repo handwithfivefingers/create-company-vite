@@ -38,7 +38,7 @@ const NguoiDaiDienPhapLuat = forwardRef(({ data, ...props }, ref) => {
 
   return (
     <Form.Item
-      label={<h5>Người đại diện pháp luật </h5>}
+      label={<h3>Người đại diện pháp luật </h3>}
       className={clsx([
         styles.hide,
         props.className,

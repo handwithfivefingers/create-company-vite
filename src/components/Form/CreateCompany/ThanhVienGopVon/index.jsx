@@ -459,7 +459,7 @@ const OriginalPerson = forwardRef((props, ref) => {
         ref={ref}
         name={[...BASE_FORM, 'doc_place_provide']}
         label="Nơi cấp"
-        placeholder="Bấm vào đây"
+        placeholder="Bấm vào đây" 
       />
 
       <Form.Item
