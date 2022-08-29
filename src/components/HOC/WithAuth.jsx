@@ -20,9 +20,6 @@ export default function WithAuth(Component, role) {
 					<AdminSidebar />
 					<Layout className={clsx(['site-layout', styles.adminSiteLayout])}>
 						<Content className={clsx([styles.adminMainContent])}>
-							{/* <div className={`site-layout-background`}>
-							
-							</div> */}
 							<Component {...props} />
 						</Content>
 						<Footer style={{ textAlign: 'center' }} className={styles.footer}>

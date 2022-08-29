@@ -45,17 +45,10 @@
   .mainContent {
     position: relative;
     display: grid;
-    row-gap: 12px;
+    row-gap: 6px;
     overflow: hidden;
     grid-template-rows: 62px 1fr;
     @include scroll(6px, 6px, transparent);
-    :global {
-      .ant-card-body {
-        &:first-child {
-          padding: 6px;
-        }
-      }
-    }
   }
 }
 

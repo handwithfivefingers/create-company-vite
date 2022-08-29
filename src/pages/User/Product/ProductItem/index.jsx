@@ -276,8 +276,6 @@ const UserProductItem = (props) => {
           ...value,
         },
       }
-      // console.log(params)
-      // return
       saveService(params)
     },
     [data],

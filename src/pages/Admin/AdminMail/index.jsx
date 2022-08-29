@@ -26,7 +26,6 @@ import TemplateMail from '@/components/Form/TemplateMail'
 import AdminMailService from '@/service/AdminService/AdminMailService'
 import styles from './styles.module.scss'
 
-
 function ListTemplateMail(props) {
   // const router = useRouter();
   const [data, setData] = useState([])
@@ -190,36 +189,20 @@ function ListTemplateMail(props) {
             width={'20%'}
             title="Mẫu Email"
             dataIndex="name"
-            render={(val, record, i) => (
-              <Tooltip title={record.name} color={'#108ee9'} key={'#108ee9'}>
-                {record.name}
-              </Tooltip>
-            )}
+            render={(val, record, i) => val}
           />
           <Table.Column
             width={'20%'}
             title="Subject"
             dataIndex="subject"
-            render={(val, record, i) => record.subject}
+            render={(val, record, i) => val}
           />
           <Table.Column
             title="Nội dung Email"
             width={'50%'}
             render={(val, record, i) => (
               <div className={styles.tableContent}>
-                <Popover
-                  content={
-                    <div className={styles.popover}>
-                      {parser(record?.content || '')}
-                    </div>
-                  }
-                  color={'#108ee9'}
-                  key={'#108ee9'}
-                  title={record.name || ''}
-                  placement="top"
-                >
-                  {parser(record?.content || '')}
-                </Popover>
+                {parser(record?.content || '')}
               </div>
             )}
           />

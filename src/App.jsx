@@ -93,7 +93,7 @@ const RouterComponent = (props) => {
     )
     item && dispatch(CommonAction.titleChange(item.title))
   }
-  console.log(route)
+
   return (
     <div
       className={`${transitionStage}`}
