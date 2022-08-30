@@ -55,6 +55,14 @@ expressions.filters.formatNumber = function (input, type) {
   return output.reverse().join('')
 }
 
+expressions.filters.formatDate = function (input, type = null) {
+  if (!input) return input
+
+  let val = input.toString()
+
+  return moment(val).format(type ? type : '[ngày] DD [tháng] MM [năm] YYYY')
+}
+
 expressions.filters.where = function (input, query) {
   return input.filter(function (item) {
     return expressions.compile(query)(item)
@@ -136,12 +144,8 @@ const dateFields = [
 ]
 
 const objToKeys = (obj, baseObj, path = null) => {
-  const regex = /(?=.*\d[\s\S][-T:.Z])\w+/g
-
   Object.keys(obj).forEach((item) => {
     let isSpecial = specialFields.some((elmt) => elmt === item)
-
-    let isDate = dateFields.some((elmt) => elmt === item)
 
     // item => dissolution , uy_quyen, pending, .... 1st
 
@@ -157,20 +161,10 @@ const objToKeys = (obj, baseObj, path = null) => {
       // String || Number || Date
 
       if (typeof obj[item] !== 'object') {
-        // console.log("\x1b[32m", "fieldName");
-        // console.log(newPath);
-        // console.log("\x1b[36m", "data Display");
-        // console.log(obj[item]);
-
-        if (typeof obj[item] === 'string' && isDate) {
-          // Type DATE
-          baseObj[newPath] = dateConvert(obj[item]) // Date Time convert
-        } else {
-          // Type String || Number
-          baseObj[newPath] = obj[item] // create exist value for Number || String field
-        }
+        baseObj[newPath] = obj[item] // create exist value for Number || String field
       } else if (obj[item].length > 0) {
         // Handle with Array
+
         baseObj[newPath] = obj[item].map((elmt, i) => ({
           ...elmt,
           index: `${i + 1}`,
@@ -184,11 +178,6 @@ const objToKeys = (obj, baseObj, path = null) => {
       }
     }
   })
-}
-
-const dateConvert = (dateString) => {
-  // return Date.parse(dateString).toString(`dd/MM/yyyy`);
-  return moment(dateString).format(`DD/MM/YYYY`)
 }
 
 const flattenObject = (data) => {
@@ -236,13 +225,7 @@ const flattenObject = (data) => {
       ]
     }
     if (props === 'create_company_approve_legal_respon') {
-      _template.legal_respon = _template[props].map(
-        ({ birth_day, doc_time_provide, ...rest }) => ({
-          ...rest,
-          birth_day: dateConvert(birth_day),
-          doc_time_provide: dateConvert(doc_time_provide),
-        }),
-      )
+      _template.legal_respon = _template[props].map((item) => item)
 
       delete _template.create_company_approve_legal_respon
     }
@@ -250,26 +233,12 @@ const flattenObject = (data) => {
     if (props === 'create_company_approve_origin_person') {
       _template.organiz = _template[props]
         .filter((item) => item.present_person !== 'personal')
-        .map(
-          ({ organization, doc_time_provide, birth_day, ...item }, index) => ({
-            ...item,
-            birth_day: dateConvert(birth_day),
-            doc_time_provide: dateConvert(doc_time_provide),
-            organization: {
-              ...organization,
-              doc_time_provide: dateConvert(organization.doc_time_provide),
-            },
-            index: index + 1,
-          }),
-        )
+        .map((item, index) => ({
+          ...item,
+          index: index + 1,
+        }))
 
-      _template[props] = _template[props].map(
-        ({ birth_day, doc_time_provide, ...rest }) => ({
-          ...rest,
-          birth_day: dateConvert(birth_day),
-          doc_time_provide: dateConvert(doc_time_provide),
-        }),
-      )
+      _template[props] = _template[props].map((item) => item)
     }
 
     if (props === 'change_info_legal_representative_doc_place_provide') {
