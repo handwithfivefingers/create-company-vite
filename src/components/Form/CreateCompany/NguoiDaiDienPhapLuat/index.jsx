@@ -34,7 +34,17 @@ const NguoiDaiDienPhapLuat = forwardRef(({ data, ...props }, ref) => {
 
   const addItem = () => {
     setListForm([...listForm, listField])
+
+    return scrollIntoField()
   }
+
+  const scrollIntoField = () => {
+    let len = listForm.length
+    let pathName = [...BASE_FORM, 'legal_respon', len - 1, 'name']
+    ref.current.scrollToField(pathName, { behavior: 'smooth' })
+  }
+
+  console.log(data)
 
   return (
     <Form.Item
@@ -66,6 +76,7 @@ const NguoiDaiDienPhapLuat = forwardRef(({ data, ...props }, ref) => {
                 handleForm={{ state: listForm, setState: setListForm }}
                 presentState={{ state: present, setState: setPresent }}
                 radioState={{ state: radio, setState: setRadio }}
+                type={data?.type}
               />
             </Col>
           )
@@ -91,7 +102,6 @@ const PeronalType = forwardRef((props, ref) => {
 
     setRadio([...radioArray])
 
-
     if (value === 1) {
       let field = [...BASE_FORM, 'legal_respon']
 
@@ -107,7 +117,7 @@ const PeronalType = forwardRef((props, ref) => {
     let originPerson = ref?.current?.getFieldValue(pathName)
 
     let options = originPerson?.map(({ name, organization }, index) => ({
-      name:  name || '...',
+      name: name || '...',
       value: index,
     })) || [{ value: null, name: 'None' }]
 
@@ -136,7 +146,6 @@ const PeronalType = forwardRef((props, ref) => {
     let legalPathName = [...BASE_FORM, 'legal_respon', index]
 
     let originPerson = ref?.current?.getFieldValue(originPathName)
-
 
     if (!originPerson) {
     } else {
@@ -177,13 +186,14 @@ const PeronalType = forwardRef((props, ref) => {
         radioState={{ state: radio, setState: onRadioChange }}
         BASE_FORM={BASE_FORM}
         i={index}
+        type={props?.type}
       />
     </>
   )
 })
 
 const FormListPersonType = forwardRef((props, ref) => {
-  const { i, presentState, radioState, listFormState, BASE_FORM } = props
+  const { i, presentState, radioState, listFormState, BASE_FORM, type } = props
 
   const { state, setState } = listFormState
 
@@ -244,7 +254,15 @@ const FormListPersonType = forwardRef((props, ref) => {
         name={[...BASE_FORM, 'legal_respon', i, 'title']}
         label="Chức danh"
         placeholder="Bấm vào đây"
-        options={SELECT.TITLE_3}
+        options={
+          +type === 1
+            ? SELECT.TITLE_1TV
+            : +type === 2
+            ? SELECT.TITLE_2TV
+            : +type === 3
+            ? SELECT.TITLE_CP
+            : ''
+        }
         ref={ref}
       />
 
@@ -271,41 +289,41 @@ const FormListPersonType = forwardRef((props, ref) => {
         />
 
         <CCInput
-                type="select"
-                name={[...BASE_FORM, 'legal_respon', i, 'doc_type']}
-                label="Loại giấy tờ"
-                options={SELECT.DOC_TYPE}
-                placeholder="Bấm vào đây"
-        />
-        
-        <CCInput
-                name={[...BASE_FORM, 'legal_respon', i, 'doc_code']}
-                label="Số CMND / CCCD / Hộ chiếu"
-                placeholder="0316184427"
+          type="select"
+          name={[...BASE_FORM, 'legal_respon', i, 'doc_type']}
+          label="Loại giấy tờ"
+          options={SELECT.DOC_TYPE}
+          placeholder="Bấm vào đây"
         />
 
         <CCInput
-                type="date"
-                name={[...BASE_FORM, 'legal_respon', i, 'doc_time_provide']}
-                label="Ngày cấp"
-                placeholder="Chọn ngày"
+          name={[...BASE_FORM, 'legal_respon', i, 'doc_code']}
+          label="Số CMND / CCCD / Hộ chiếu"
+          placeholder="0316184427"
+        />
+
+        <CCInput
+          type="date"
+          name={[...BASE_FORM, 'legal_respon', i, 'doc_time_provide']}
+          label="Ngày cấp"
+          placeholder="Chọn ngày"
         />
 
         <CCSelect.SelectDocProvide
-                name={[...BASE_FORM, 'legal_respon', i, 'doc_place_provide']}
-                label="Nơi cấp"
-                ref={ref}
+          name={[...BASE_FORM, 'legal_respon', i, 'doc_place_provide']}
+          label="Nơi cấp"
+          ref={ref}
         />
 
-        <Form.Item 
-        // label="Nơi đăng kí hộ khẩu thường trú"
-        label={
-          <div
-            dangerouslySetInnerHTML={{
-              __html: '</><b>Địa chỉ thường trú</b></>',
-            }}
-          />
-        }
+        <Form.Item
+          // label="Nơi đăng kí hộ khẩu thường trú"
+          label={
+            <div
+              dangerouslySetInnerHTML={{
+                __html: '</><b>Địa chỉ thường trú</b></>',
+              }}
+            />
+          }
         >
           <CCSelect.SelectProvince
             ref={ref}
@@ -313,15 +331,15 @@ const FormListPersonType = forwardRef((props, ref) => {
           />
         </Form.Item>
 
-        <Form.Item 
-        // label="Nơi ở hiện tại"
-        label={
-          <div
-            dangerouslySetInnerHTML={{
-              __html: '</><b>Nơi ở hiện tại</b></>',
-            }}
-          />
-        }
+        <Form.Item
+          // label="Nơi ở hiện tại"
+          label={
+            <div
+              dangerouslySetInnerHTML={{
+                __html: '</><b>Nơi ở hiện tại</b></>',
+              }}
+            />
+          }
         >
           <Radio.Group onChange={(e) => onRadioChange(e, i)} value={radio[i]}>
             <Space direction="vertical">
@@ -347,8 +365,6 @@ const FormListPersonType = forwardRef((props, ref) => {
             </div>
           }
         </Form.Item>
-
-       
 
         {/* <Form.Item label={<h4>Loại giấy tờ pháp lý </h4>}>
           <Row gutter={[16, 12]}>
@@ -387,8 +403,6 @@ const FormListPersonType = forwardRef((props, ref) => {
             </Col>
           </Row>
         </Form.Item> */}
-
-        
       </div>
     </Form.Item>
   )

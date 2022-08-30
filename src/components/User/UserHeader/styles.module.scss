@@ -3,4 +3,7 @@
   position: sticky !important;
   z-index: 2;
   top:0;
+  > div {
+    align-items: center;
+  }
 }

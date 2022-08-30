@@ -21,7 +21,7 @@ const UserHeader = (props) => {
     return () => clearInterval(interval)
   }, [])
 
-  console.log('trigger render')
+
   return (
     <PageHeader
       key="userHeader"

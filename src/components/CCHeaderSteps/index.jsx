@@ -4,11 +4,11 @@ import clsx from 'clsx'
 import { Skeleton, Card } from 'antd'
 import { useSelector } from 'react-redux'
 const CCSteps = (props) => {
-  const [current, setCurrent] = useState(0)
+  // const [current, setCurrent] = useState(0)
   const collapsed = useSelector((state) => state.commonReducer.collapsed)
-  useEffect(() => {
-    setCurrent(props.step)
-  }, [props.step])
+  // useEffect(() => {
+  //   setCurrent(props.step)
+  // }, [props.step])
 
   const offset = props?.data?.length
   const handleClick = (ind) => {
@@ -29,8 +29,14 @@ const CCSteps = (props) => {
                 styles.stepItem,
                 {
                   [styles.sticky]: props.step == index,
+                  ['animate__animated animate__fadeIn animate__faster']:
+                    props.step == index,
                 },
               ])}
+              style={{
+                ['--animate-duration']: `0.5s`,
+                ['--animate-delay']: `0.3s`,
+              }}
               onClick={() => handleClick(index)}
             >
               <div className={clsx([styles.stepContent])}>
