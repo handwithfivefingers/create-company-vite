@@ -15,7 +15,9 @@ const libre = require('libreoffice-convert')
 const qs = require('query-string')
 
 const crypto = require('crypto')
+
 const moment = require('moment')
+
 libre.convertAsync = require('util').promisify(libre.convert)
 
 expressions.filters.lower = function (input) {
@@ -31,6 +33,32 @@ expressions.filters.upper = function (input) {
 expressions.filters.divideBy = function (input, num) {
   if (!input) return input
   return input / num
+}
+
+expressions.filters.formatNumber = function (input, type) {
+  if (!input) return input
+
+  let val = input.toString()
+
+  val = val.split('').reverse()
+
+  let len = Math.round(val.length / 3)
+
+  let output = []
+
+  for (let i = 0; i <= len; i++) {
+    let typeOutput = val.length > 3 ? type : ''
+    let Poutput = [...val.splice(0, 3), typeOutput]
+    output.push(...Poutput)
+  }
+
+  return output.reverse().join('')
+}
+
+expressions.filters.where = function (input, query) {
+  return input.filter(function (item) {
+    return expressions.compile(query)(item)
+  })
 }
 
 function nullGetter(tag, props) {
