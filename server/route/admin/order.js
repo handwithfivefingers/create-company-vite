@@ -1,16 +1,29 @@
-const express = require("express");
+const express = require('express')
 
-const { upload, requireSignin } = require("../../middleware/index");
+const { upload, requireSignin } = require('../../middleware/index')
 
-const { getOrderBySlug, getOrders , deleteOrder} = require("../../controller/admin/order");
+// const {
+//   getOrderBySlug,
+//   getOrders,
+//   deleteOrder,
+// } = require('../../controller/admin/order')
+const OrderAdmin = require('../../controller/admin/Order/index.js')
 
-const router = express.Router();
+const router = express.Router()
 
 // Admin Router
-router.get("/order/:id", requireSignin, upload.none(), getOrderBySlug);
+// router.get('/order/:id', requireSignin, upload.none(), getOrderBySlug)
 
-router.post("/order", requireSignin, upload.none(), getOrders);
+// router.post('/order', requireSignin, upload.none(), getOrders)
 
-router.post("/order/delete/:id", requireSignin, upload.none(), deleteOrder);
+// router.post('/order/delete/:id', requireSignin, upload.none(), deleteOrder)
 
-module.exports = router;
+const OrderAdminRouter = new OrderAdmin()
+
+router.get('/order/:id', requireSignin, OrderAdminRouter.getOrderByID)
+
+router.get('/order', requireSignin, OrderAdminRouter.getAllOrder)
+
+router.post('/order/delete/:id', requireSignin, OrderAdminRouter.deleteOrder)
+
+module.exports = router
