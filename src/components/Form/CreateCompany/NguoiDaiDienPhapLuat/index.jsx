@@ -179,6 +179,7 @@ const PeronalType = forwardRef((props, ref) => {
         placeholder="Chọn người đại diện"
         options={getPersonType}
         value={present[index]}
+        required
       />
 
       <FormListPersonType

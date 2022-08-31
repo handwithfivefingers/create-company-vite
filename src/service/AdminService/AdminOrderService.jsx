@@ -7,7 +7,7 @@ const api_path = {
 
 const AdminOrderService = {
   getOrder: (params) => {
-    return axios.post(api_path.getOrder, params);
+    return axios.get(api_path.getOrder, params);
   },
 
   getOrderBySlug: (params) => {
