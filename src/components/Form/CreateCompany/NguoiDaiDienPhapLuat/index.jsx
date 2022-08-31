@@ -36,6 +36,10 @@ const NguoiDaiDienPhapLuat = forwardRef(({ data, ...props }, ref) => {
     setListForm([...listForm, listField])
   }
 
+  useEffect(() => {
+    addItem();
+  }, [])
+
   return (
     <Form.Item
       label={<h5>Người đại diện pháp luật </h5>}
