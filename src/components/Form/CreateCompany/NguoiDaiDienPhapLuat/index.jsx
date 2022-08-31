@@ -176,9 +176,18 @@ const PeronalType = forwardRef((props, ref) => {
       <CCInput
         type="select"
         onChange={(e) => handleSelectPersonType(e, index)}
-        placeholder="Chọn người đại diện"
+        placeholder="Bấm vào đây"
         options={getPersonType}
         value={present[index]}
+        
+        required
+        label={
+          <div
+            dangerouslySetInnerHTML={{
+              __html: '</><b>Chọn người đại diện</>',
+            }}
+          />
+        }
       />
 
       <FormListPersonType
