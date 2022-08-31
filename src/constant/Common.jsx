@@ -130,7 +130,7 @@ export const SELECT = {
       name: 'Tổng giám đốc',
     },
   ],
-  TITLE_3: [
+  TITLE_1TV: [
     {
       value: 'Chủ tịch công ty',
       name: 'Chủ tịch công ty',
@@ -143,14 +143,34 @@ export const SELECT = {
       value: 'Giám đốc',
       name: 'Giám đốc',
     },
-    // {
-    //   value: 'Phó tổng giám đốc',
-    //   name: 'Phó tổng giám đốc',
-    // },
-    // {
-    //   value: 'Phó giám đốc',
-    //   name: 'Phó giám đốc',
-    // },
+  ],
+  TITLE_2TV: [
+    {
+      value: 'Chủ tịch hội đồng thành viên',
+      name: 'Chủ tịch hội đồng thành viên',
+    },
+    {
+      value: 'Tổng giám đốc',
+      name: 'Tổng giám đốc',
+    },
+    {
+      value: 'Giám đốc',
+      name: 'Giám đốc',
+    },
+  ],
+  TITLE_CP: [
+    {
+      value: 'Chủ tịch hội đồng quản trị',
+      name: 'Chủ tịch hội đồng quản trị',
+    },
+    {
+      value: 'Tổng giám đốc',
+      name: 'Tổng giám đốc',
+    },
+    {
+      value: 'Giám đốc',
+      name: 'Giám đốc',
+    },
   ],
   TITLE_2: [
     {

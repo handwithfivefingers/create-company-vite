@@ -207,14 +207,16 @@ const SelectTitle = forwardRef((props, ref) => {
             placeholder={props.placeholder}
             onChange={(val, opt) => handleSelect(val, opt)}
           >
-            {props.options.map((option, i) => (
-              <Option
-                value={option.value}
-                key={[option.value, i, Math.random()]}
-              >
-                {option.name}
-              </Option>
-            ))}
+            {(props.options &&
+              props?.options?.map((option, i) => (
+                <Option
+                  value={option.value}
+                  key={[option.value, i, Math.random()]}
+                >
+                  {option.name}
+                </Option>
+              ))) ||
+              []}
             <Option value={1}>Khác</Option>
           </Select>
         </Col>

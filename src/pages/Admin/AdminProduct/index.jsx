@@ -9,18 +9,7 @@ import {
   MoreOutlined,
 } from '@ant-design/icons'
 
-import {
-  Button,
-  Card,
-  Drawer,
-  message,
-  Modal,
-  Space,
-  Table,
-  Tabs,
-  PageHeader,
-  Segmented,
-} from 'antd'
+import { Button, Drawer, message, Modal, Space, Table, Tabs } from 'antd'
 import React, { useEffect, useState } from 'react'
 import CategoryForm from '@/components/Form/CategoryForm'
 import FormProduct from '@/components/Form/Product'
@@ -48,7 +37,6 @@ const AdminProduct = (props) => {
     data: careerData,
     isLoading: careerLoading,
     status: careerStatus,
-    refetch: careerRefetch,
   } = useFetch({
     cacheName: ['adminProduct', 'career'],
     fn: () => AdminProductService.getCareer(),
@@ -57,7 +45,6 @@ const AdminProduct = (props) => {
     data: category,
     isLoading: categoryLoading,
     status: categoryStatus,
-    refetch: categoryRefetch,
   } = useFetch({
     cacheName: ['adminProduct', 'category'],
     fn: () => AdminProductService.getCategory(),
@@ -66,12 +53,10 @@ const AdminProduct = (props) => {
     data: product,
     isLoading: productLoading,
     status: productStatus,
-    refetch: productRefetch,
   } = useFetch({
     cacheName: ['adminProduct', 'product'],
     fn: () => AdminProductService.getProduct(),
   })
-
 
   useEffect(() => {
     if (categoryStatus === 'success' && category) {
@@ -81,7 +66,6 @@ const AdminProduct = (props) => {
 
   useEffect(() => {
     if (productStatus === 'success' && product) {
-
       let _data = product.map((el) => ({
         ...el,
         children: el.children.map((item) => ({
@@ -90,7 +74,6 @@ const AdminProduct = (props) => {
         })),
       }))
       setData(_data)
-      // setData(product)
     }
   }, [product])
 
@@ -99,49 +82,6 @@ const AdminProduct = (props) => {
       setCareer(careerData)
     }
   }, [careerData])
-
-
-  // const getCareer = async () => {
-  //   try {
-  //     const { data } = await AdminProductService.getCareer()
-  //     if (data.status === 200) {
-  //       setCareer(data.data)
-  //     }
-  //   } catch (err) {
-  //     console.log(err)
-  //     message.error(data.message || data.error)
-  //   }
-  // }
-
-  // const getScreenData = () => {
-  //   setLoading(true)
-  //   AdminProductService.getProduct()
-  //     .then((res) => {
-  //       if (res.data.status === 200) {
-  //         let _data = res.data.data.map((el) => ({
-  //           ...el,
-  //           children: el.children.map((item) => ({
-  //             ...item,
-  //             _uuid: makeid(9),
-  //           })),
-  //         }))
-  //         setData(_data)
-  //       }
-  //     })
-  //     .finally(() => setLoading(false))
-  // }
-
-  // const getCateData = () => {
-  //   AdminProductService.getCategory()
-  //     .then((res) => {
-  //       if (res.data.status === 200) {
-  //         setCateData(res.data.data)
-  //       }
-  //     })
-  //     .catch((err) => console.log(err))
-  // }
-
-  // Product
 
   const onHandleEdit = (record) => {
     if (record) {
@@ -363,7 +303,7 @@ const AdminProduct = (props) => {
   }
   return (
     <>
-      <AdminHeader title="Template Mail" extra={renderExtra()} />
+      <AdminHeader title="Quản lý sản phẩm" extra={renderExtra()} />
 
       <div style={{ padding: 8, background: '#fff' }}>
         <Tabs defaultActiveKey="1">
@@ -404,7 +344,6 @@ const AdminProduct = (props) => {
                         onClick={(e) => onHandleUpdateCate(record)}
                         icon={<FormOutlined />}
                       />
-                      {/* <Button onClick={(e) => onHandleDeleteProduct(record)} icon={<MinusSquareOutlined />} /> */}
                     </Space>
                   )
                 }}

@@ -1,4 +1,4 @@
-import { message, Skeleton, Typography } from 'antd'
+import { Skeleton } from 'antd'
 import React, { useEffect, useState } from 'react'
 import CardCategory from '../../../components/CardCategory'
 import CategoryService from '../../../service/UserService/CategoriesService'
@@ -9,9 +9,7 @@ import { useFetch } from '../../../helper/Hook'
 
 const UserProductPage = () => {
   const [product, setProduct] = useState([])
-  const { animateClass } = useOutletContext()
-
-  const { data, isLoading, status, refetch } = useFetch({
+  const { data, isLoading, status } = useFetch({
     cacheName: ['userOrder'],
     fn: () => CategoryService.getCategories(),
   })
@@ -23,12 +21,31 @@ const UserProductPage = () => {
   }, [data])
 
   return (
-    <div className={clsx([styles.cardgrid, animateClass, 'container'])}>
-      <Skeleton active loading={isLoading}>
-        {product?.map((item) => {
-          return <CardCategory data={item} key={item._id} />
-        })}
-      </Skeleton>
+    <div className={clsx([styles.cardgrid, 'container'])}>
+      {product?.map((item, index) => {
+        return (
+          <Skeleton
+            key={item._id}
+            active
+            loading={isLoading}
+            className="animate__animated animate__fadeInUp animate__faster"
+            customStyles={{
+              ['--animate-duration']: `${(index + 2) / 10}s`,
+              ['--animate-delay']: `0.3s`,
+            }}
+          >
+            <CardCategory
+              key={item._id}
+              data={item}
+              className="animate__animated animate__fadeInUp animate__faster"
+              customStyles={{
+                ['--animate-duration']: `${(index + 2) / 10}s`,
+                ['--animate-delay']: `0.3s`,
+              }}
+            />{' '}
+          </Skeleton>
+        )
+      })}
     </div>
   )
 }

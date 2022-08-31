@@ -78,6 +78,18 @@ const ThanhVienGopVon = forwardRef(({ data, ...props }, ref) => {
 
   const addItem = () => {
     setListForm([...listForm, {}])
+
+    return handleScrolltoField()
+  }
+
+  const handleScrolltoField = () => {
+    let lastIndex = listForm.length - 1
+
+    let pathName = [...BASE_FORM, 'origin_person', lastIndex, 'present_person']
+
+    ref.current.scrollToField(pathName, {
+      behavior: 'smooth',
+    })
   }
 
   const removeItem = (index) => {
@@ -121,10 +133,7 @@ const ThanhVienGopVon = forwardRef(({ data, ...props }, ref) => {
 
         {listForm.map((item, i) => {
           return (
-            <Col
-              span={listForm.length == 1 ? 24 : 12}
-              key={[...BASE_FORM, 'origin_person', i]}
-            >
+            <Col span={24} key={[...BASE_FORM, 'origin_person', i]}>
               <Form.Item
                 label={
                   <div className={styles.label}>
@@ -459,7 +468,7 @@ const OriginalPerson = forwardRef((props, ref) => {
         ref={ref}
         name={[...BASE_FORM, 'doc_place_provide']}
         label="Nơi cấp"
-        placeholder="Bấm vào đây"
+        placeholder="Bấm vào đây" 
       />
 
       <Form.Item

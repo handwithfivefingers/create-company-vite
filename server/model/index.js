@@ -9,6 +9,7 @@ const setting = require('./setting')
 const log = require('./log')
 const mongoose = require('mongoose')
 const bcrypt = require('bcryptjs')
+const mongooseLeanVirtuals = require('mongoose-lean-virtuals')
 const { Schema } = mongoose
 
 // // Step 1 : Create Schema
@@ -38,8 +39,6 @@ userSchema.method({
 // // Step 3: Create Models
 
 const User = mongoose.model('User', userSchema)
-
-// const Company = mongoose.model("Company", companySchema);
 const Order = mongoose.model('Order', orderSchema)
 const Category = mongoose.model('Category', categorySchema)
 const Career = mongoose.model('Career', careerSchema)
@@ -80,7 +79,9 @@ orderSchema.virtual('data.create_company.opt_career', {
   foreignField: '_id',
 })
 
+
 orderSchema.set('toObject', { virtuals: true })
+
 orderSchema.set('toJSON', { virtuals: true })
 
 module.exports = {
