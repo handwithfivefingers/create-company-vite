@@ -33,9 +33,9 @@ const NguoiDaiDienPhapLuat = forwardRef(({ data, ...props }, ref) => {
   }
 
   useEffect(() => {
-    addItem();
+    addItem()
   }, [])
-  
+
   const addItem = () => {
     setListForm([...listForm, listField])
 
