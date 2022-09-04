@@ -26,7 +26,7 @@ const CCInput = forwardRef((props, ref) => {
         <Form.Item
           value={value}
           name={name}
-          label={label || ' '}
+          label={label && props?.display !== 'none' ? label || ' ' : ''}
           key={props?.key}
         >
           <Input
@@ -146,7 +146,10 @@ const CCInput = forwardRef((props, ref) => {
       )
     case 'select':
       return (
-        <Form.Item name={name} label={label || ' '}>
+        <Form.Item
+          name={name}
+          label={label && props?.display !== 'none' ? label || ' ' : ''}
+        >
           <Select
             onSelect={props?.onSelect}
             onChange={props?.onChange}

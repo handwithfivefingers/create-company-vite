@@ -70,6 +70,7 @@ const RouterComponent = (props) => {
 
   const dispatch = useDispatch()
 
+
   useEffect(() => {
     let { pathname } = location
 
@@ -77,7 +78,7 @@ const RouterComponent = (props) => {
       setRoute(routeDetect)
     }
 
-    if (location !== displayLocation && pathname === '/') {
+    if (location !== displayLocation && pathname === '/' && props.auth.status) {
       setTransistionStage('fadeOut')
     }
 

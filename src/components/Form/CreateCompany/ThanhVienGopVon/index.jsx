@@ -392,7 +392,7 @@ const OriginalPerson = forwardRef((props, ref) => {
           name={[...BASE_FORM, 'organization', 'doc_place_provide']}
         />
       </Form.Item>
-      
+
       <CCInput
         name={[...BASE_FORM, 'name']}
         label={
@@ -448,7 +448,6 @@ const OriginalPerson = forwardRef((props, ref) => {
         name={[...BASE_FORM, 'doc_type']}
         label="Loại giấy tờ"
         options={SELECT.DOC_TYPE}
-        
       />
 
       <CCInput
@@ -463,12 +462,12 @@ const OriginalPerson = forwardRef((props, ref) => {
         label="Ngày cấp"
         placeholder="Chọn ngày"
       />
-      
+
       <CCSelect.SelectDocProvide
         ref={ref}
         name={[...BASE_FORM, 'doc_place_provide']}
         label="Nơi cấp"
-        placeholder="Bấm vào đây" 
+        placeholder="Bấm vào đây"
       />
 
       <Form.Item
@@ -535,6 +534,7 @@ const PresentPerson = forwardRef((props, ref) => {
 
   return (
     <CCInput
+      display={'none'}
       type="select"
       name={[...BASE_FORM, 'origin_person', index, 'present_person']}
       onSelect={handleSelectPresentPerson}
