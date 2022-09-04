@@ -1,58 +1,55 @@
-import { DownOutlined, MenuOutlined } from "@ant-design/icons";
-import { Button, Drawer, Dropdown, Image, Menu } from "antd";
-import useBreakpoint from "antd/lib/grid/hooks/useBreakpoint";
-import clsx from "clsx";
+import { DownOutlined, MenuOutlined } from '@ant-design/icons'
+import { Button, Drawer, Dropdown, Image, Menu } from 'antd'
+import useBreakpoint from 'antd/lib/grid/hooks/useBreakpoint'
+import clsx from 'clsx'
 // import { signOut, useSession } from "next-auth/react";
-import { Link } from "react-router-dom";
-import { useNavigate, useLocation } from "react-router-dom";
+import { Link } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 // import { useRouter } from "next/router";
-import React, { useEffect, useState } from "react";
-import Logo from "@/assets/img/Logo.png";
-import styles from "./CustomHeader.module.scss";
+import React, { useEffect, useState } from 'react'
+import Logo from '@/assets/img/Logo.png'
+import styles from './CustomHeader.module.scss'
 const MobileMenu = (props) => {
-  const [visible, setVisible] = useState(false);
-  const [size, setSize] = useState();
+  const [visible, setVisible] = useState(false)
+  const [size, setSize] = useState()
 
-  let navigate = useNavigate();
+  let navigate = useNavigate()
 
   const showDefaultDrawer = () => {
-    setSize("default");
-    setVisible(true);
-  };
+    setSize('default')
+    setVisible(true)
+  }
   const signOut = () => {
-    console.log("signout");
-  };
+    console.log('signout')
+  }
   const onClose = () => {
-    setVisible(false);
-  };
+    setVisible(false)
+  }
 
   return (
-    <div
-      className={clsx([styles.mobileMenu, "container"])}
-      style={{ display: "flex", alignItems: "center", height: "100%" }}
-    >
+    <div className={clsx([styles.mobileMenu, 'container'])} style={{ display: 'flex', alignItems: 'center', height: '100%' }}>
       <Button
         type="text"
         onClick={showDefaultDrawer}
         style={{
-          color: props.path === "/" ? "" : "var(--text3)",
+          color: props.path === '/' ? '' : 'var(--text3)',
         }}
       >
         <MenuOutlined />
       </Button>
-      <Drawer placement="right" size={size} onClose={onClose} visible={visible}>
+      {/* <Drawer placement="right" size={size} onClose={onClose} visible={visible}>
         <Menu mode="vertical" className={styles.menuListItems}>
-          <Link to={"/"}>
+          <Link to={'/'}>
             <Image
               height="80px"
               src={Logo.src}
               alt="logo"
               preview={false}
               style={{
-                cursor: "pointer",
-                margin: "0 auto",
-                display: "flex",
-                justifyContent: "center",
+                cursor: 'pointer',
+                margin: '0 auto',
+                display: 'flex',
+                justifyContent: 'center',
               }}
               onClick={() => setVisible(!visible)}
             />
@@ -60,12 +57,12 @@ const MobileMenu = (props) => {
           {!props.permis ? (
             <>
               <Menu.Item>
-                <Link to={"/login"} key="1" className={styles.linkItem}>
+                <Link to={'/login'} key="1" className={styles.linkItem}>
                   Login
                 </Link>
               </Menu.Item>
               <Menu.Item key="2">
-                <Link to={"/register"} className={styles.linkItem}>
+                <Link to={'/register'} className={styles.linkItem}>
                   Register
                 </Link>
               </Menu.Item>
@@ -73,7 +70,7 @@ const MobileMenu = (props) => {
           ) : (
             <>
               <Menu.Item>
-                <Button type="text" onClick={() => navigate(`/${props?.auth?.role}` || "/")}>
+                <Button type="text" onClick={() => navigate(`/${props?.auth?.role}` || '/')}>
                   {props?.auth?.role}
                 </Button>
               </Menu.Item>
@@ -85,58 +82,43 @@ const MobileMenu = (props) => {
             </>
           )}
         </Menu>
-      </Drawer>
+      </Drawer> */}
     </div>
-  );
-};
+  )
+}
 
 const DesktopMenu = (props) => {
   const signOut = () => {
-    console.log("signout");
-  };
+    console.log('signout')
+  }
   return (
-    <div className={clsx([styles.container, "container"])}>
-      <ul className={styles.listItems}>
-        <Link to={"/"}>
-          <Image width={58} src={Logo} alt="logo" preview={false} style={{ cursor: "pointer" }} />
+    <div className={clsx([styles.container, 'container'])}>
+         <Link to={'/'}>
+          <Image width={58} src={Logo} alt="logo" preview={false} style={{ cursor: 'pointer' }} />
         </Link>
-        <Link
-          to={"/career"}
-          className={styles.linkItem}
-          style={{
-            color: props.path === "/" ? "" : "var(--text3)",
-          }}
-        >
-          Ngành nghề
+      {/* <ul className={styles.listItems}>
+        <Link to={'/'}>
+          <Image width={58} src={Logo} alt="logo" preview={false} style={{ cursor: 'pointer' }} />
         </Link>
-      </ul>
-      <Dropdown
+      </ul> */}
+      {/* <Dropdown
         overlay={
-          <Menu mode="horizontal" style={{ width: "140px" }}>
+          <Menu mode="horizontal" style={{ width: '140px' }}>
             {!props.permis ? (
               <>
                 <Menu.Item>
-                  <Link to={"/login"} key="1" className={styles.linkItem}>
+                  <Link to={'/login'} key="1" className={styles.linkItem}>
                     Login
                   </Link>
                 </Menu.Item>
                 <Menu.Item key="2">
-                  <Link to={"/register"} className={styles.linkItem}>
+                  <Link to={'/register'} className={styles.linkItem}>
                     Register
                   </Link>
                 </Menu.Item>
               </>
             ) : (
               <>
-                <Menu.Item>
-                  {/* <Button
-                    type="text"
-                    className={styles.capitalize}
-                    onClick={() => props.router.push(`/${props?.session?.role?.toLowerCase()}` || "/")}
-                  >
-                    {props?.session?.role}
-                  </Button> */}
-                </Menu.Item>
                 <Menu.Item>
                   <Button type="text" onClick={() => signOut()}>
                     Đăng xuất
@@ -150,38 +132,38 @@ const DesktopMenu = (props) => {
         <span className={styles.btn}>
           Tài khoản <DownOutlined />
         </span>
-      </Dropdown>
+      </Dropdown> */}
     </div>
-  );
-};
+  )
+}
 const CustomHeader = (props) => {
-  const [permis, setPermis] = useState(false);
-  const [top, setTop] = useState();
-  const [path, setPath] = useState();
-  const screens = useBreakpoint();
-  let location = useLocation();
-  const { auth } = props;
+  const [permis, setPermis] = useState(false)
+  const [top, setTop] = useState()
+  const [path, setPath] = useState()
+  const screens = useBreakpoint()
+  let location = useLocation()
+  const { auth } = props
 
   useEffect(() => {
-    if (auth.status) {
-      setPermis(true);
+    if (auth?.status) {
+      setPermis(true)
     } else {
-      setPermis(false);
+      setPermis(false)
     }
-  }, [auth]);
+  }, [auth])
 
   useEffect(() => {
-    setPath(location.pathname);
-  }, [location]);
+    setPath(location.pathname)
+  }, [location])
 
   useEffect(() => {
     let onScroll = () => {
-      let x = window.scrollY;
-      setTop(x);
-    };
-    window.addEventListener("scroll", onScroll);
-    return () => window.removeEventListener("scroll", onScroll);
-  }, [top]);
+      let x = window.scrollY
+      setTop(x)
+    }
+    window.addEventListener('scroll', onScroll)
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [top])
 
   return (
     <>
@@ -198,14 +180,11 @@ const CustomHeader = (props) => {
           },
         ])}
       >
-        {screens.md ? (
-          <DesktopMenu permis={permis} path={path} auth={auth} />
-        ) : (
-          <MobileMenu permis={permis} path={path} auth={auth} />
-        )}
+        {/* {screens.md ? <DesktopMenu permis={permis} path={path} auth={auth} /> : <MobileMenu permis={permis} path={path} auth={auth} />} */}
+        <DesktopMenu permis={permis} path={path} auth={auth} />
       </nav>
     </>
-  );
-};
+  )
+}
 
-export default CustomHeader;
+export default CustomHeader

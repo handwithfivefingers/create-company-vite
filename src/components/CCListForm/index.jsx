@@ -10,6 +10,7 @@ const CCListForm = forwardRef((props, ref) => {
   let obj = [{}, {}, {}, {}, {}] // defaultObj
 
   const [list, setList] = useState()
+
   const [loading, setLoading] = useState(false)
 
   useEffect(() => {
@@ -30,7 +31,7 @@ const CCListForm = forwardRef((props, ref) => {
   }
 
   const handleRenderLabel = (formItem, i) => {
-    // console.log(formItem, i);
+
     let index = formItem.options?.compare?.index
     if (index && index <= i + 1) {
       return formItem?.options?.customLabel + (i + 1)
@@ -119,44 +120,6 @@ const CCListForm = forwardRef((props, ref) => {
             </Col>
           )
       }
-      return (
-        <Col span={column || 24}>
-          {inputType ? (
-            <Form.Item
-              label={handleRenderLabel(formItem, fieldIndex)}
-              key={[field.name, formIndex, formItem?.name]}
-              name={[field.name, formItem?.name]}
-              type={formItem?.type}
-              onChange={(e) => handleChange(e, formItem, fieldIndex)}
-              layout={formItem?.options?.layout}
-            >
-              <InputNumber
-                style={{ width: '100%' }}
-                placeholder={formItem?.placeholder}
-                max={options?.max}
-                min={options?.min}
-                formatter={options?.formatter}
-                parser={options?.parser}
-                length={options?.length}
-              />
-            </Form.Item>
-          ) : (
-            <CCInput
-              key={[field.name, formIndex, formItem?.name]}
-              label={handleRenderLabel(formItem, fieldIndex)}
-              name={[field.name, formItem?.name]}
-              type={formItem?.type}
-              onChange={
-                formItem?.onChange
-                  ? (e) => handleChange(e, formItem, fieldIndex)
-                  : ''
-              }
-              layout={formItem?.options?.layout}
-              placeholder={formItem?.placeholder}
-            />
-          )}
-        </Col>
-      )
     })
     return xhtml
   }
@@ -169,7 +132,8 @@ const CCListForm = forwardRef((props, ref) => {
       },
     ])
   }
-  console.log('getlist', list)
+
+
   return (
     <Form.Item label={<h4>{props?.label}</h4>}>
       <Row gutter={[16, 12]}>

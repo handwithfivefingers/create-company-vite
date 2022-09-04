@@ -211,4 +211,62 @@ const CCInput = forwardRef((props, ref) => {
   }
 })
 
+const CCSelect = (props) => {
+  const [optional, setOptional] = useState([])
+  const {
+    onSelect,
+    onChange,
+    disabled,
+    defaultActiveFirstOption,
+    style,
+    placeholder,
+    value,
+    display,
+    label,
+  } = props
+
+  const handleOptions = () => {
+    let option
+    if (typeof props?.options !== 'object') {
+      // function
+      option = props?.options()
+    } else {
+      option = props?.options
+    }
+    setOptional(option)
+  }
+
+  return (
+    <Form.Item
+      name={name}
+      label={label && props?.display !== 'none' ? label || ' ' : ''}
+    >
+      <Select
+        onSelect={props?.onSelect}
+        onChange={props?.onChange}
+        disabled={props?.disabled}
+        defaultActiveFirstOption={props?.defaultActiveFirstOption}
+        onDropdownVisibleChange={handleOptions}
+        style={props?.style}
+        placeholder={props?.placeholder}
+        autoComplete="off"
+        value={props?.value}
+      >
+        {optional?.map((item, i) => {
+          return (
+            <Select.Option
+              value={item.value}
+              key={item.key ? item.key : [name, i, item.value]}
+            >
+              {item.name}
+            </Select.Option>
+          )
+        })}
+      </Select>
+    </Form.Item>
+  )
+}
+
+export { CCSelect }
+
 export default CCInput

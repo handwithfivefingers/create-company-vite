@@ -2,16 +2,27 @@
   $primary: var(--dark);
   background: $primary;
   // padding: 20px 0 0 0;
+
   .actionsBtn {
+    margin: auto;
     button {
       margin: 5px;
     }
   }
   :global {
     .ant-row {
-      margin: 0 !important; 
+      padding: 12px 0;
+
+      margin: 0 !important;
     }
   }
 }
 
-
+.contentHelper {
+  padding: 12px 0;
+  h3,
+  p {
+    padding: 4px 0;
+    margin: 0;
+  }
+}
