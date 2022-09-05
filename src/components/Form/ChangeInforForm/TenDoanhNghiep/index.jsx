@@ -17,7 +17,7 @@ const TenDoanhNghiep = forwardRef((props, ref) => {
 
   return (
     <Form.Item
-      label={<h4>Đăng ký thay đổi tên doanh nghiệp</h4>}
+      label={<h3>Đăng ký thay đổi tên doanh nghiệp</h3>}
       className={clsx(styles.current, {
         [styles.active]: props.current === props.index,
       })}
@@ -27,15 +27,24 @@ const TenDoanhNghiep = forwardRef((props, ref) => {
 
       <CCInput label="Mã số doanh nghiệp/ mã số thuế" name={["change_info", "name", "mst"]} /> */}
 
-      <CCInput
+      {/* <CCInput
         type="select"
         label="Doanh nghiệp đăng ký thay đổi tên cơ sở"
         name={["change_info", "name", "base_type"]}
         options={base_type}
         placeholder="Bấm vào đây"
-      />
+      /> */}
 
-      <Form.Item label={"Thay đổi tên công ty thành"}>
+      <Form.Item 
+      // label={"Thay đổi tên công ty thành"}
+      label={
+        <div
+          dangerouslySetInnerHTML={{
+            __html: '<b>Thay đổi tên công ty thành</b>',
+          }}
+        />
+      }
+      >
         <CCInput label="Tên công ty bằng tiếng Việt" name={["change_info", "name", "name_vi"]} />
 
         <CCInput label="Tên công ty bằng tiếng nước ngoài" name={["change_info", "name", "name_en"]} />
