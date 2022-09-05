@@ -52,10 +52,10 @@ const ChangeInfoPages = forwardRef((props, ref) => {
           className={'card-boxShadow'}
           style={{ position: 'sticky', bottom: 0 }}
         >
-          {step > 0 && <Button onClick={Prev}>Prev</Button>}
+          {step > 0 && <Button onClick={Prev}>Quay lại</Button>}
 
           {step < changeInforStep?.length - 1 && (
-            <Button onClick={Next}>Next</Button>
+            <Button onClick={Next}>Tiếp tục</Button>
           )}
 
           {step === changeInforStep?.length - 1 && (
