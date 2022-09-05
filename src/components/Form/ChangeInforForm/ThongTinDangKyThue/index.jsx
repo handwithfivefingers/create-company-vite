@@ -29,7 +29,7 @@ const ThongTinDangKyThue = forwardRef((props, ref) => {
   ];
   return (
     <Form.Item
-      label={<h4>Thông báo thay đổi thông tin đăng ký thuế</h4>}
+      label={<h3>Thông báo thay đổi thông tin đăng ký thuế</h3>}
       className={clsx(styles.current, {
         [styles.active]: props.current === props.index,
       })}
@@ -42,7 +42,16 @@ const ThongTinDangKyThue = forwardRef((props, ref) => {
 
       <CCInput label="Điện thoại" name={[...BASE_FORM, "phone"]} />
 
-      <Form.Item label="Địa chỉ nhận thông báo thuế">
+      <Form.Item 
+      // label="Địa chỉ nhận thông báo thuế"
+      label={
+        <div
+          dangerouslySetInnerHTML={{
+            __html: '<b>Địa chỉ nhận thông báo thuế</b>',
+          }}
+        />
+      }
+      >
         <CCInput label="Số nhà, ngách, hẻm, ngõ, đường phố/tổ/xóm/ấp/thôn" name={[...BASE_FORM, "address"]} />
 
         <CCInput label="Xã/Phường/Thị trấn" name={[...BASE_FORM, "town"]} />

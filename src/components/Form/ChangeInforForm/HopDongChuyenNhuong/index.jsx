@@ -303,7 +303,7 @@ const HopDongChuyenNhuong = forwardRef((props, ref) => {
 
   return (
     <Form.Item
-      label={<h4>Hợp đồng chuyển nhượng phần góp vốn</h4>}
+      label={<h3>Hợp đồng chuyển nhượng phần góp vốn</h3>}
       className={clsx(styles.current, {
         [styles.active]: props.current === props.index,
       })}
@@ -312,7 +312,16 @@ const HopDongChuyenNhuong = forwardRef((props, ref) => {
 
       <CCInput label="Mã số doanh nghiệp/ mã số thuế" name={[...BASE_FORM, "mst"]} /> */}
 
-      <Form.Item label="Bên chuyển nhượng phần góp vốn (bên A)">
+      <Form.Item 
+      // label="Bên chuyển nhượng phần góp vốn (bên A)"
+      label={
+        <div
+          dangerouslySetInnerHTML={{
+            __html: '<b>Bên chuyển nhượng phần góp vốn (bên A)</b>',
+          }}
+        />
+      }
+      >
         <CCInput
           type="select"
           label="Chủ sở hữu"
@@ -325,7 +334,16 @@ const HopDongChuyenNhuong = forwardRef((props, ref) => {
         {renderFormOnwerA(sohuuA, [...BASE_FORM, "A_side"])}
       </Form.Item>
 
-      <Form.Item label="Bên nhận chuyển nhượng phần vốn góp (Bên B)">
+      <Form.Item 
+      // label="Bên nhận chuyển nhượng phần vốn góp (Bên B)"
+      label={
+        <div
+          dangerouslySetInnerHTML={{
+            __html: '<b>Bên nhận chuyển nhượng phần vốn góp (Bên B)</b>',
+          }}
+        />
+      }
+      >
         <CCInput
           type="select"
           label="Chủ sở hữu"

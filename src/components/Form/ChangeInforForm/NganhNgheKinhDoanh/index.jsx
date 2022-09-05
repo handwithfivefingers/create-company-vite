@@ -37,7 +37,7 @@ const NganhNgheKinhDoanh = forwardRef((props, ref) => {
   };
   return (
     <Form.Item
-      label={<h4>Thông báo thay đổi ngành, nghề kinh doanh</h4>}
+      label={<h3>Thông báo thay đổi ngành, nghề kinh doanh</h3>}
       // bordered={false}
       className={clsx(styles.current, {
         [styles.active]: props.current === props.index,
