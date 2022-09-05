@@ -1,7 +1,7 @@
 import { Button, Form, Input, Space, Spin } from 'antd'
 import clsx from 'clsx'
 import React, { forwardRef } from 'react'
-import { FcGoogle } from 'react-icons/fc'
+import { FcGoogle, FcUnlock } from 'react-icons/fc'
 import styles from './Login.module.scss'
 
 const LoginForm = forwardRef((props, ref) => {
@@ -16,16 +16,15 @@ const LoginForm = forwardRef((props, ref) => {
           <Form.Item name="password" label="Mật khẩu">
             <Input.Password />
           </Form.Item>
-          <Space style={{ display: 'flex', justifyContent: 'space-between' }}>
-            <Button type="primary" htmlType="submit">
-              Đăng nhập
-            </Button>
-            <Button
-              type="ghost"
-              icon={<FcGoogle style={{ fontSize: 24 }} />}
-              onClick={props?.loginWithGoogle}
-            />
-          </Space>
+          <Form.Item>
+            <div style={{ display: 'flex', justifyContent: 'space-between', padding: '8px 0' }}>
+              <Button type="primary" htmlType="submit">
+                Đăng nhập
+              </Button>
+              <Button type="ghost" icon={<FcGoogle style={{ fontSize: 24 }} />} onClick={props?.loginWithGoogle} />
+            </div>
+            <Button type="text" onClick={props?.forgotPassword}>Quên mật khẩu</Button>
+          </Form.Item>
         </Form>
       </Spin>
     </div>

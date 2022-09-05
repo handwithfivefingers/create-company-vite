@@ -39,7 +39,7 @@ expressions.filters.formatNumber = function (input, type) {
   if (!input) return input
 
   let val = input.toString()
-  val = val.split('').reverse()
+  val = val.split('').reverse() // 
   let len = Math.round(val.length / 3)
   let output = []
   for (let i = 0; i <= len; i++) {

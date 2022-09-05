@@ -1,32 +1,21 @@
-import React, {
-  forwardRef,
-  useCallback,
-  useEffect,
-  useMemo,
-  useState,
-} from 'react'
+import React, { forwardRef, useCallback, useEffect, useMemo, useState } from 'react'
 import moment from 'moment'
 import { LABEL, NEWLABEL } from '@/constant/FormConstant'
 import CCDescription from '@/components/CCDescription'
 import { checkVariable } from '@/helper/Common'
 import { Form, Descriptions, Divider, Typography, Col, Row } from 'antd'
 import _ from 'lodash'
-const listOfFields = [
-  'company_opt_career',
-  'include',
-  'exclude',
-  'detail_after',
-  'company_main_career',
-  'list_president',
-  'contribute_members',
-]
+const listOfFields = ['company_opt_career', 'include', 'exclude', 'detail_after', 'company_main_career', 'list_president', 'contribute_members']
+
 const { Paragraph, Text } = Typography
+
 const PreviewData = forwardRef((props, ref) => {
   const [formData, setFormData] = useState([])
 
   useEffect(() => {
     if (ref.current) {
       let data = ref?.current.getFieldsValue()
+      console.log(data)
       setFormData(data)
     }
   }, [props])
@@ -57,7 +46,6 @@ const PreviewData = forwardRef((props, ref) => {
 
   const renderFieldForm = (listData) => {
     let xhtml = []
-
     for (let item of listData) {
       /**
        * ITEM DATA:
@@ -68,6 +56,7 @@ const PreviewData = forwardRef((props, ref) => {
        */
 
       let { fields, label, name } = item
+
       let data = ref.current.getFieldValue(name)
 
       let loopItem = renderLoopItem({ data, fields, label })
@@ -86,18 +75,10 @@ const PreviewData = forwardRef((props, ref) => {
   }
 
   const renderLoopItem = ({ data, fields, label }) => {
-    // const FIELD_SORTER = [
-    //   'name',
-    //   'title',
-    //   'gender',
-    //   'birth_day',
-    //   'per_type',
-    //   'doc_code',
-    //   'doc_time_provide',
-    //   'doc_place_provide',
-    // ]
     let xhtml = []
-    if (typeof data === 'string') {
+    console.log(data, label)
+
+    if (typeof data === 'string' || typeof data === 'number') {
       let text = data
       if (text === 'personal') text = 'Thành viên góp vốn là cá nhân'
       else if (text === 'organization') text = 'Thành viên góp vốn là tổ chức'
@@ -107,9 +88,12 @@ const PreviewData = forwardRef((props, ref) => {
       if (Array.isArray(data)) {
         return data.map((item, i) => {
           const ordered = objectSorter(item)
+
           return (
-            <Col span={8}>
-              <p>{[label, ' ', i + 1]}</p>
+            <Col lg={8} md={12} sm={24} xs={24}>
+              <p>
+                <strong>{[label, ' ', i + 1]}</strong>
+              </p>
               {renderLoopItem({ data: ordered, fields, label })}
             </Col>
           )
@@ -117,6 +101,7 @@ const PreviewData = forwardRef((props, ref) => {
       } else {
         let result = Object.keys(data).map((key) => {
           let dataKeys = data?.[key]
+
           let itemKeys = fields?.[key]
 
           if (typeof itemKeys === 'object' && itemKeys.label) {
@@ -135,20 +120,16 @@ const PreviewData = forwardRef((props, ref) => {
               </>
             )
           } else {
-            if (
-              itemKeys !== 'Vốn điều lệ (bằng số)' &&
-              moment(dataKeys, 'DD-MM-YYYY', true).isValid()
-            ) {
-              return (
-                itemKeys && (
-                  <Paragraph>{`${itemKeys}: ${moment(dataKeys).format(
-                    'DD/MM/YYYY',
-                  )}`}</Paragraph>
-                )
-              )
+            if (itemKeys !== 'Vốn điều lệ (bằng số)' && moment(dataKeys, 'DD-MM-YYYY', true).isValid()) {
+              return itemKeys && <Paragraph>{`${itemKeys}: ${moment(dataKeys).format('DD/MM/YYYY')}`}</Paragraph>
             } else {
               return (
-                itemKeys && <Paragraph>{`${itemKeys}: ${dataKeys}`}</Paragraph>
+                itemKeys && (
+                  <Paragraph>
+                    <span style={{ color: 'rgba(150, 150, 150, 0.8)' }}>{itemKeys} : </span>
+                    {dataKeys}
+                  </Paragraph>
+                )
               )
             }
           }
@@ -180,7 +161,7 @@ const PreviewData = forwardRef((props, ref) => {
 
         let val = dataFields[props]
 
-        if (typeof val === 'string') {
+        if (typeof val === 'string' || typeof val === 'number') {
           let labelName = labelFields[props]
 
           caseData.push({
@@ -206,30 +187,6 @@ const PreviewData = forwardRef((props, ref) => {
     return result
   }
 
-  /**
-   *
-   * @param {*Old Object} obj
-   * @param {*New Object} newKeys
-   * @returns {* Array
-   */
-
-  const renameKeys = (obj, newKeys) => {
-    const keyValues =
-      obj &&
-      Object.keys(obj)?.map((key) => {
-        // key => code name value
-        const newKey = newKeys?.[key] || key
-        if (typeof newKeys[key] === 'object') {
-          let newK = newKeys?.[key]
-          let oldK = obj?.[key]
-          return renameKeys(oldK, newK)
-        }
-
-        return { [newKey]: obj[key] }
-      })
-    return keyValues
-  }
-
   const renderPreviewData = (data) => {
     let xhtml = null
 
@@ -244,7 +201,6 @@ const PreviewData = forwardRef((props, ref) => {
         let listLabel = NEWLABEL(productType) // Constant
 
         let list = getFieldsInfo(listLabel, listProductItem, productType)
-
         if (list.length) {
           let newList = renderBaseForm(list)
 
@@ -259,22 +215,6 @@ const PreviewData = forwardRef((props, ref) => {
   }
 
   const sorter = (a, b) => {
-    // if (arr.includes(a)) {
-    //   return 1
-    // }
-    // if (arr.includes(b)) {
-    //   return -1
-    // }
-
-    // 'name',
-    // 'title',
-    // 'gender',
-    // 'birth_day',
-    // 'per_type',
-    // 'doc_code',
-    // 'doc_time_provide',
-    // 'doc_place_provide',
-
     if (a == 'organization') return 1
     if (b == 'organization') return -1
 
@@ -325,11 +265,7 @@ const PreviewData = forwardRef((props, ref) => {
       .reduce((obj, key) => {
         obj[key] = item[key]
 
-        if (
-          !Array.isArray(obj[key]) &&
-          typeof obj[key] === 'object' &&
-          !moment(obj[key], 'DD-MM-YYYY', true).isValid()
-        ) {
+        if (!Array.isArray(obj[key]) && typeof obj[key] === 'object' && !moment(obj[key], 'DD-MM-YYYY', true).isValid()) {
           obj[key] = objectSorter(obj[key])
         }
         return obj

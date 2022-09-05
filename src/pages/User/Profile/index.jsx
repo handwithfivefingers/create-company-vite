@@ -5,77 +5,73 @@ import React, { useEffect, useRef, useState } from 'react'
 import styles from './styles.module.scss'
 import clsx from 'clsx'
 import { useOutletContext } from 'react-router-dom'
+import { useFetch } from '../../../helper/Hook'
 
 const UserProfile = () => {
   const [loading, setLoading] = useState(false)
   const { animateClass } = useOutletContext()
 
-  const [data, setData] = useState([])
-
   const passRef = useRef()
   const profileRef = useRef()
   const screen = useBreakpoint()
 
-  useEffect(() => {
-    getScreenData()
-  }, [])
+  const {
+    data: profileData,
+    refetch,
+    status,
+    isLoading,
+  } = useFetch({
+    cacheName: ['userProfile'],
+    fn: () => fetchProfile(),
+  })
 
-  useEffect(() => {
-    profileRef.current.setFieldsValue({
-      name: data.name,
-      email: data.email,
-      phone: data.phone,
-    })
-  }, [data])
+  const fetchProfile = () => ProfileService.getProfile()
 
-  const getScreenData = () => {
-    setLoading(true)
-    ProfileService.getProfile()
-      .then((res) => {
-        const { status, data } = res.data
-        if (status === 200) {
-          setData(data)
-        } else {
-          message.error(res.data.message)
-        }
-      })
-      .finally(() => setLoading(false))
+  const onPassChange = async (val) => {
+    try {
+      console.log(val)
+      let { confirm_password, new_password, old_password } = val
+      if (!old_password) throw { message: 'Password is incorrect' }
+      if (confirm_password !== new_password) {
+        throw { message: 'Password does not match' }
+      }
+
+      let res = await ProfileService.changePassword(val)
+
+      if (res.data.status === 200) {
+        message.success(res.data.message)
+      } else {
+        throw { message: 'Something went wrong' }
+      }
+    } catch (err) {
+      message.error(
+        err.message || err.response.data.error || err.response.data.message,
+      )
+    } finally {
+      refetch()
+    }
   }
 
-  const onPassChange = (val) => {
-    setLoading(true)
-    ProfileService.changePassword(val)
-      .then((res) => {
-        if (res.data.status === 200) {
-          message.success(res.data.message)
-        } else {
-          message.error(res.data.message)
-        }
-      })
-      .catch((err) => console.log(err))
-      .finally(() => {
-        setLoading(false)
-        getScreenData()
-      })
+  const onProfileChange = async (val) => {
+    try {
+      let res = await ProfileService.changeProfile(val)
+      if (!res) throw { message: 'Something went wrong' }
+
+      if (res.data.status === 200) {
+        message.success(res.data.message)
+      } else {
+        throw { message: 'Something went wrong' }
+      }
+    } catch (err) {
+      message.error(
+        err.message || err.response.data.error || err.response.data.message,
+      )
+    } finally {
+      refetch()
+    }
   }
 
-  const onProfileChange = (val) => {
-    setLoading(true)
-    ProfileService.changeProfile(val)
-      .then((res) => {
-        if (res.data.status === 200) {
-          message.success(res.data.message)
-        } else {
-          message.error(res.data.message)
-        }
-      })
-      .catch((err) => console.log(err))
-      .finally(() => {
-        setLoading(false)
-        getScreenData()
-      })
-  }
-
+  console.log(profileData)
   return (
     <Row gutter={[16, 12]} className={animateClass ?? animateClass}>
       <Col lg={8} sm={24} xs={24} md={12} order={!screen.md ? 1 : 0}>
@@ -93,7 +89,7 @@ const UserProfile = () => {
               <Input />
             </Form.Item>
             <Form.Item>
-              <Button type="primary" htmlType="submit" loading={loading}>
+              <Button type="primary" htmlType="submit" loading={isLoading}>
                 Submit
               </Button>
             </Form.Item>
@@ -103,7 +99,12 @@ const UserProfile = () => {
 
       <Col lg={16} sm={24} xs={24} md={12}>
         <Card title="Thông tin cá nhân">
-          <Form onFinish={onProfileChange} ref={profileRef} layout="vertical">
+          <Form
+            onFinish={onProfileChange}
+            ref={profileRef}
+            layout="vertical"
+            initialValues={profileData}
+          >
             <Form.Item label="Name" name="name">
               <Input />
             </Form.Item>
