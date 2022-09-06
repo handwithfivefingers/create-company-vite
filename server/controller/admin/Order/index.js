@@ -1,16 +1,10 @@
-const {
-  existHandler,
-  successHandler,
-  errHandler,
-  permisHandler,
-  deletedHandler,
-} = require('../../../response')
+const { existHandler, successHandler, errHandler, permisHandler, deletedHandler } = require('../../../response')
 const { Order, Product, User } = require('../../../model')
 const _ = require('lodash')
 
-const PAGE_SIZE = 10
-
 module.exports = class OrderAdmin {
+  PAGE_SIZE = 10
+
   constructor() {}
 
   getOrderByID = async (req, res) => {
@@ -18,9 +12,7 @@ module.exports = class OrderAdmin {
     try {
       if (req.role !== 'admin') return permisHandler(res)
 
-      const _order = await Order.findById(id)
-        .populate('products', 'name type')
-        .populate('data.create_company.main_career', ['name', 'code'])
+      const _order = await Order.findById(id).populate('products', 'name type').populate('data.create_company.main_career', ['name', 'code'])
 
       return successHandler(_order, res)
     } catch (err) {

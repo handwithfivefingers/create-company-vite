@@ -1,25 +1,18 @@
-import CareerForm from '@/components/Form/CarrerForm'
-import {
-  FormOutlined,
-  MinusSquareOutlined,
-  PlusSquareOutlined,
-  DeleteOutlined,
-  SearchOutlined,
-  BarsOutlined,
-  MoreOutlined,
-} from '@ant-design/icons'
+import { FormOutlined, MinusSquareOutlined, PlusSquareOutlined, DeleteOutlined, SearchOutlined, BarsOutlined, MoreOutlined } from '@ant-design/icons'
 
 import { Button, Drawer, message, Modal, Space, Table, Tabs } from 'antd'
 import React, { useEffect, useState } from 'react'
-import CategoryForm from '@/components/Form/CategoryForm'
-import FormProduct from '@/components/Form/Product'
-import axios from '@/config/axios'
+
 import { number_format, makeid } from '@/helper/Common'
 import AdminProductService from '@/service/AdminService/AdminProductService'
 import CCPagination from '@/components/CCPagination'
 import styles from './styles.module.scss'
 import AdminHeader from '../../../components/Admin/AdminHeader'
 import { useFetch } from '../../../helper/Hook'
+import CareerCategory from './CareerCategory'
+import CategoryForm from './CategoryForm'
+import FormProduct from './Product'
+import CareerForm from './CarrerForm'
 
 const { TabPane } = Tabs
 const AdminProduct = (props) => {
@@ -56,6 +49,16 @@ const AdminProduct = (props) => {
   } = useFetch({
     cacheName: ['adminProduct', 'product'],
     fn: () => AdminProductService.getProduct(),
+  })
+
+  const {
+    data: careerCategory,
+    isLoading: careerCategoryLoading,
+    status: careerCategoryStatus,
+    refetch: careerCategoryRefetch,
+  } = useFetch({
+    cacheName: ['adminProduct', 'careerCategory'],
+    fn: () => AdminProductService.getCareerCategory(),
   })
 
   useEffect(() => {
@@ -264,43 +267,108 @@ const AdminProduct = (props) => {
     }
   }
 
+  const onHandleAddCareerCategory = () => {
+    setChildModal({
+      visible: true,
+      width: '50%',
+      component: (
+        <CareerCategory
+          data={careerData}
+          onFinishScreen={(output) => {
+            addCareerCategory(output)
+            closeModal()
+          }}
+        />
+      ),
+    })
+  }
+
+  const addCareerCategory = async (val) => {
+    try {
+      console.log(val)
+    } catch (err) {
+      console.log(err)
+      message.error('Something went wrong')
+    } finally {
+      careerCategoryRefetch()
+    }
+  }
+
+  const onCareerCateEdit = (record) => {
+    setChildModal({
+      visible: true,
+      width: '50%',
+      component: (
+        <CareerCategory
+          data={careerData}
+          name={record.name}
+          id={record._id}
+          onFinishScreen={(output) => {
+            updateCategories({ ...output, id: record._id })
+            closeModal()
+          }}
+        />
+      ),
+    })
+  }
+
+  const updateCategories = async (val) => {
+    try {
+      console.log(val)
+      let res = await AdminProductService.updateCareerCategory(val)
+      console.log(res)
+    } catch (error) {
+      console.log(error)
+    } finally {
+      careerCategoryRefetch()
+    }
+  }
+
+  const onCareerCateDelete = async (record) => {
+    let { _id: id } = record
+
+    try {
+      let res = await AdminProductService.deleteCareerCategory(id)
+      console.log(res)
+    } catch (error) {
+      console.log(error)
+    } finally {
+      careerCategoryRefetch()
+    }
+  }
+
   const closeModal = () => {
     setChildModal({
       ...childModal,
       visible: false,
     })
   }
+
   const renderExtra = () => {
     let xhtml = null
 
     xhtml = (
       <div className={styles.extraAction}>
-        <Button
-          type="dashed"
-          onClick={onHandleAdd}
-          icon={<PlusSquareOutlined />}
-        >
+        <Button type="dashed" onClick={onHandleAdd} icon={<PlusSquareOutlined />}>
           Thêm sản phẩm
         </Button>
-        <Button
-          type="dashed"
-          onClick={onHandleCreateCategory}
-          icon={<PlusSquareOutlined />}
-        >
+        <Button type="dashed" onClick={onHandleCreateCategory} icon={<PlusSquareOutlined />}>
           Thêm danh mục
         </Button>
-        <Button
-          type="dashed"
-          onClick={onHandleAddCareer}
-          icon={<PlusSquareOutlined />}
-        >
-          Thêm ngành nghê
+        <Button type="dashed" onClick={onHandleAddCareerCategory} icon={<PlusSquareOutlined />}>
+          Thêm danh mục ngành nghề
+        </Button>
+        <Button type="dashed" onClick={onHandleAddCareer} icon={<PlusSquareOutlined />}>
+          Thêm ngành nghề
         </Button>
       </div>
     )
 
     return xhtml
   }
+
+  console.log('careerCategory', careerCategory)
+
   return (
     <>
       <AdminHeader title="Quản lý sản phẩm" extra={renderExtra()} />
@@ -320,30 +388,16 @@ const AdminProduct = (props) => {
               bordered
               rowKey={(record) => record._id}
             >
-              <Table.Column
-                title="Danh mục"
-                render={(val, record, index) => record.name}
-              />
-              <Table.Column
-                title="Giá"
-                width={'25%'}
-                render={(val, record, index) => record.price}
-              />
-              <Table.Column
-                title="Loại"
-                width="100px"
-                render={(val, record, index) => record.type}
-              />
+              <Table.Column title="Danh mục" render={(val, record, index) => record.name} />
+              <Table.Column title="Giá" width={'25%'} render={(val, record, index) => record.price} />
+              <Table.Column title="Loại" width="100px" render={(val, record, index) => record.type} />
               <Table.Column
                 title=""
                 width="100px"
                 render={(val, record, i) => {
                   return (
                     <Space>
-                      <Button
-                        onClick={(e) => onHandleUpdateCate(record)}
-                        icon={<FormOutlined />}
-                      />
+                      <Button onClick={(e) => onHandleUpdateCate(record)} icon={<FormOutlined />} />
                     </Space>
                   )
                 }}
@@ -363,78 +417,57 @@ const AdminProduct = (props) => {
               rowKey={(record) => record._uuid || record._id}
               size="small"
             >
-              <Table.Column
-                title="Tên sản phẩm"
-                render={(val, record, i) => record?.name}
-              />
-              <Table.Column
-                title="Giá tiền"
-                width={'25%'}
-                render={(val, record, i) =>
-                  `${number_format(record?.price)} VND`
-                }
-              />
+              <Table.Column title="Tên sản phẩm" render={(val, record, i) => record?.name} />
+              <Table.Column title="Giá tiền" width={'25%'} render={(val, record, i) => `${number_format(record?.price)} VND`} />
               <Table.Column
                 title=""
                 width="100px"
                 render={(val, record, i) => {
                   return (
                     <Space>
-                      <Button
-                        onClick={(e) => onHandleEdit(record)}
-                        icon={<FormOutlined />}
-                      />
-                      <Button
-                        onClick={(e) => onHandleDelete(record)}
-                        icon={<MinusSquareOutlined />}
-                      />
+                      <Button onClick={(e) => onHandleEdit(record)} icon={<FormOutlined />} />
+                      <Button onClick={(e) => onHandleDelete(record)} icon={<MinusSquareOutlined />} />
                     </Space>
                   )
                 }}
               />
             </Table>
           </TabPane>
-          <TabPane tab="Ngành nghề" key="3">
-            <Table
-              dataSource={career}
-              rowKey={(record) => record._uuid || record._id}
-              size="small"
-              bordered
-            >
-              <Table.Column
-                title="Tên ngành"
-                render={(val, record, i) => record.name}
-              />
-              <Table.Column
-                title="Mã ngành"
-                width={'25%'}
-                render={(val, record, i) => record.code}
-              />
+          <TabPane tab="Danh mục Ngành nghề" key="3">
+            <Table dataSource={careerCategory} loading={careerCategoryLoading} rowKey={(record) => record._uuid || record._id || Math.random()} size="small" bordered>
+              <Table.Column title="ID" render={(val, record, i) => record._id} />
+              <Table.Column title="Tên" render={(val, record, i) => record.name} />
+              <Table.Column title="Ngày tạo" render={(val, record, i) => record.createdAt} />
               <Table.Column
                 width="100px"
                 title=""
                 render={(val, record, i) => (
                   <Space>
-                    <Button
-                      onClick={(e) => onHandleEdit(record)}
-                      icon={<FormOutlined />}
-                    />
-                    <Button
-                      onClick={(e) => deleteCareer(record)}
-                      icon={<MinusSquareOutlined />}
-                    />
+                    <Button onClick={(e) => onCareerCateEdit(record)} icon={<FormOutlined />} />
+                    <Button onClick={(e) => onCareerCateDelete(record)} icon={<MinusSquareOutlined />} />
+                  </Space>
+                )}
+              />
+            </Table>
+          </TabPane>
+          <TabPane tab="Ngành nghề" key="4">
+            <Table dataSource={career} rowKey={(record) => record._uuid || record._id} size="small" bordered>
+              <Table.Column title="Tên ngành" render={(val, record, i) => record.name} />
+              <Table.Column title="Mã ngành" width={'25%'} render={(val, record, i) => record.code} />
+              <Table.Column
+                width="100px"
+                title=""
+                render={(val, record, i) => (
+                  <Space>
+                    <Button onClick={(e) => onHandleEdit(record)} icon={<FormOutlined />} />
+                    <Button onClick={(e) => deleteCareer(record)} icon={<MinusSquareOutlined />} />
                   </Space>
                 )}
               />
             </Table>
           </TabPane>
         </Tabs>
-        <Drawer
-          visible={childModal.visible}
-          width={childModal.width}
-          onClose={closeModal}
-          destroyOnClose
-        >
+        <Drawer visible={childModal.visible} width={childModal.width} onClose={closeModal} destroyOnClose>
           {childModal.component}
         </Drawer>
       </div>

@@ -2,28 +2,21 @@ const { Order, Setting } = require('../../model')
 
 const libre = require('libreoffice-convert')
 
-const { sendmailWithAttachments } = require('../sendmail')
+const { sendmailWithAttachments } = require('@server/controller/user/Sendmail')
 
 const { errHandler } = require('../../response')
 
-const {
-  flattenObject,
-  convertFile,
-  removeListFiles,
-} = require('./../../common/helper')
+const { flattenObject, convertFile, removeListFiles } = require('../../common/helper')
+
 const { uniqBy } = require('lodash')
 
 libre.convertAsync = require('util').promisify(libre.convert)
 
 const checkingOrder = async (req, res) => {
-  if (process.env.NODE_ENV !== 'development')
-    return res.status(200).json({ message: 'ngonnn' })
+  if (process.env.NODE_ENV !== 'development') return res.status(200).json({ message: 'ngonnn' })
 
   try {
-    let _order = await Order.findOne({ _id: req.body._id }).populate(
-      'orderOwner',
-      'email',
-    )
+    let _order = await Order.findOne({ _id: req.body._id }).populate('orderOwner', 'email')
 
     if (_order) return handleConvertFile(_order, req, res)
 
@@ -40,7 +33,6 @@ const handleConvertFile = async (order, req, res) => {
   let attachments = []
 
   try {
-
     let { files, data } = order
 
     let mailParams = await getMailContent(order)
@@ -48,20 +40,15 @@ const handleConvertFile = async (order, req, res) => {
     files = uniqBy(files, 'name').filter((item) => item)
 
     if (files) {
-
       let _contentOrder = flattenObject(data)
 
-      console.log(_contentOrder)
-
       for (let file of files) {
-
         let pdfFile = await convertFile(file, _contentOrder)
 
         attachments.push({ pdfFile, name: file.name })
       }
 
       mailParams.filesPath = attachments
-
 
       await sendmailWithAttachments(req, res, mailParams)
 
@@ -72,13 +59,11 @@ const handleConvertFile = async (order, req, res) => {
       error: 'Files not found',
     })
   } catch (err) {
-
     console.log('handleConvertFile error', err)
 
     attachments.length > 0 && (await removeListFiles(attachments, true))
 
     return errHandler(err, res)
-
   } finally {
     // await removeListFiles(attachments)
   }

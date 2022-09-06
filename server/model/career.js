@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose')
 
 module.exports = {
   name: {
@@ -14,4 +14,10 @@ module.exports = {
     trim: true,
     min: 1,
   },
-};
+  category: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'CareerCategory',
+    },
+  ],
+}
