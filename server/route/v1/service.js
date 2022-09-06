@@ -1,10 +1,22 @@
 const express = require('express')
 
-const { upload, requireSignin } = require('../../middleware/index')
+const { upload, requireSignin } = require('@server/middleware/index')
 
-const { getProvince, checkingOrder, testPayment, getUrlReturn } = require('@server/controller/Service')
+// const { checkingOrder, testPayment, getUrlReturn } = require('@server/controller/Service')
 
-const MailService = require('../../controller/user/Sendmail')
+const Province = require('@server/controller/Service/Province')
+
+const MailService = require('@server/controller/user/Sendmail')
+
+const PaymentService = require('@server/controller/Service/Payment')
+
+const FileTemplateService = require('@server/controller/Service/FileTemplate')
+
+const { checkingOrder } = new FileTemplateService()
+
+const { testPayment, getUrlReturn } = new PaymentService()
+
+const { getProvince } = new Province()
 
 const { sendmailWithAttachments } = new MailService()
 
