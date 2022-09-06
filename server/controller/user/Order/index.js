@@ -49,7 +49,7 @@ module.exports = class OrderUser {
       const { track, payment, data, categories } = req.body
 
       const { selectProduct, ...rest } = data
-
+      console.log(selectProduct)
       if (!selectProduct) throw 'Product not found'
 
       let { files, result, msg } = this.findKeysByObject(rest, selectProduct?.type)

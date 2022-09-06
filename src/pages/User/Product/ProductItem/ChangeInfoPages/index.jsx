@@ -11,17 +11,7 @@ const PreviewData = lazy(() => {
 })
 
 const ChangeInfoPages = forwardRef((props, ref) => {
-  const {
-    handleSaveChangeInfo,
-    handlePurchaseChangeInfo,
-    data,
-    step,
-    loading,
-    onFinishScreen,
-    Prev,
-    Next,
-    changeInforStep,
-  } = props
+  const { handleSaveChangeInfo, handlePurchaseChangeInfo, data, step, loading, onFinishScreen, Prev, Next, changeInforStep } = props
 
   return (
     <Card className="card-boxShadow">
@@ -34,12 +24,7 @@ const ChangeInfoPages = forwardRef((props, ref) => {
           </div>
         }
       >
-        <ChangeInforForm
-          data={data}
-          ref={ref}
-          current={step}
-          onFinishScreen={onFinishScreen}
-        />
+        <ChangeInforForm data={data} ref={ref} current={step} onFinishScreen={onFinishScreen} />
         {step === changeInforStep?.length - 1 && (
           <PreviewData
             ref={ref}
@@ -48,28 +33,17 @@ const ChangeInfoPages = forwardRef((props, ref) => {
             }}
           />
         )}
-        <div
-          className={'card-boxShadow'}
-          style={{ position: 'sticky', bottom: 0 }}
-        >
+        <div className={'card-boxShadow'} style={{ position: 'sticky', bottom: 0 }}>
           {step > 0 && <Button onClick={Prev}>Quay lại</Button>}
 
-          {step < changeInforStep?.length - 1 && (
-            <Button onClick={Next}>Tiếp tục</Button>
-          )}
+          {step < changeInforStep?.length - 1 && <Button onClick={Next}>Tiếp tục</Button>}
 
           {step === changeInforStep?.length - 1 && (
             <>
-              <Button
-                loading={loading}
-                onClick={() => handleSaveChangeInfo(ref)}
-              >
+              <Button loading={loading} onClick={() => handleSaveChangeInfo(ref)}>
                 Lưu lại
               </Button>
-              <Button
-                loading={loading}
-                onClick={() => handlePurchaseChangeInfo(ref)}
-              >
+              <Button loading={loading} onClick={() => handlePurchaseChangeInfo(ref)}>
                 Thanh toán
               </Button>
             </>

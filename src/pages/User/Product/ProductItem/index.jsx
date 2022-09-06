@@ -1,9 +1,5 @@
 import CCSteps from '@/components/CCHeaderSteps'
-import {
-  CREATE_COMPANY_STEP,
-  DISSOLUTION_STEP,
-  PENDING_STEP,
-} from '@/constant/Step'
+import { CREATE_COMPANY_STEP, DISSOLUTION_STEP, PENDING_STEP } from '@/constant/Step'
 import ProductService from '@/service/UserService/ProductService'
 import { message, Modal, Spin, Form } from 'antd'
 import dateformat from 'dateformat'
@@ -130,16 +126,7 @@ const UserProductItem = (props) => {
       case 3:
         // Tạm hoãn
         return (
-          <PendingPages
-            data={data.data}
-            loading={isLoading}
-            Prev={Prev}
-            Next={Next}
-            handleSavePending={handleSavePending}
-            handlePurchasePending={handlePurchasePending}
-            step={current}
-            ref={formRef}
-          />
+          <PendingPages data={data.data} loading={isLoading} Prev={Prev} Next={Next} handleSavePending={handleSavePending} handlePurchasePending={handlePurchasePending} step={current} ref={formRef} />
         )
       case 4:
         return (
@@ -282,7 +269,8 @@ const UserProductItem = (props) => {
   )
 
   const handleSaveChangeInfo = useCallback(
-    (value) => {
+    (ref) => {
+      let value = ref.current.getFieldsValue()
       const params = {
         track: {
           step: 1,
@@ -349,9 +337,7 @@ const UserProductItem = (props) => {
       {data && renderHeaderStep(data?.type)}
 
       <div className={styles.formContent}>
-        <Spin spinning={isFetching}>
-          {data && renderFormByType(data?.type)}
-        </Spin>
+        <Spin spinning={isFetching}>{data && renderFormByType(data?.type)}</Spin>
       </div>
 
       <Modal
