@@ -6,8 +6,9 @@ const env = require('dotenv')
 
 const app = express()
 
-const { task } = require('@controller/Service/Cronjob')
+const Cronjob = require('./server/controller/Service/Cronjob')
 
+const { task } = new Cronjob()
 // env.config()
 
 process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = 1 // Conflict ssl
@@ -32,8 +33,9 @@ onInit()
 
 app.listen(RUNTIME_PORT, async () => {
   await connectDB()
-  if (process.env.NODE_ENV !== 'development') {
-    task.start()
-  }
+  task.start()
+  // if (process.env.NODE_ENV !== 'development') {
+  //   task.start()
+  // }
   console.log(`Server is running ${RUNTIME_PORT}`)
 })
