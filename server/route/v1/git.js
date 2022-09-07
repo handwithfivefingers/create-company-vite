@@ -1,9 +1,11 @@
-const express = require('express');
+const express = require('express')
 
-const router = express.Router();
+const router = express.Router()
 
-const { gitAction } = require('../../controller/Service');
+const GitService = require('../../controller/Service/Git')
 
-router.post('/pull', gitAction);
+const GitAction = new GitService()
 
-module.exports = router;
+router.post('/pull', GitAction.gitAction)
+
+module.exports = router
