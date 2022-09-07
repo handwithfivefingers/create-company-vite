@@ -1,6 +1,10 @@
 const cron = require('node-cron')
 const { Order, Setting } = require('../../model')
-const { cronMail } = require('../user/Sendmail')
+
+const MailService = require('../user/Sendmail')
+
+const { sendmailWcronMailithAttachments } = new MailService()
+
 const { flattenObject, convertFile, removeListFiles } = require('../../common/helper')
 const { uniqBy } = require('lodash')
 const { createLog } = require('../../response')
