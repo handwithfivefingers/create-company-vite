@@ -27,6 +27,13 @@ module.exports = class OrderAdmin {
 
       let { type } = req.query
 
+      // pagination using cursor
+      /**
+       *  Collections.find({ _id: { $gte: cursor_id } })
+       * .limit(100);
+       *
+       */
+
       let _order = await Order.find({ delete_flag: { $ne: 1 } })
         .populate('main_career', ['name', 'code'])
         .populate('products', 'name')

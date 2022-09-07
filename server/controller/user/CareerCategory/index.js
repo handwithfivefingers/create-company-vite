@@ -1,6 +1,7 @@
 const { CareerCategory, Career } = require('@model')
 const { successHandler } = require('@response')
 const { errHandler } = require('@response')
+const mongoose = require('mongoose')
 
 module.exports = class CareerCategoryClass {
   constructor() {}
@@ -8,9 +9,10 @@ module.exports = class CareerCategoryClass {
   fetchCareer = async (req, res) => {
     try {
       let _cate = await CareerCategory.find({ delete_flag: { $ne: 1 } })
+      
       return successHandler(_cate, res)
     } catch (err) {
-      console.log(err);
+      console.log(err)
       return errHandler(err, res)
     }
   }
@@ -33,7 +35,7 @@ module.exports = class CareerCategoryClass {
     try {
       let { name, category } = req.body
 
-      let _cate = await CareerCategory.findOne({ name })
+      let _cate = await CareerCategory.findOne({ name: req.body.name })
 
       if (_cate) throw 'Category already exists'
 
@@ -47,10 +49,15 @@ module.exports = class CareerCategoryClass {
         let parentId = _cateSaved._id
         await this.updateCareer(category, parentId)
       }
+
       return successHandler(_cateSaved, res)
+
     } catch (err) {
+
       console.log(err)
+
       return errHandler(err, res)
+
     }
   }
 

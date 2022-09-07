@@ -286,6 +286,8 @@ const AdminProduct = (props) => {
   const addCareerCategory = async (val) => {
     try {
       console.log(val)
+      let res = await AdminProductService.createCareerCategory(val)
+      console.log(res)
     } catch (err) {
       console.log(err)
       message.error('Something went wrong')

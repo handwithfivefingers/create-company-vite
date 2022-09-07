@@ -28,6 +28,7 @@ const corsOptions = {
 module.exports = class ConfigApp {
   constructor(app) {
     this.app = app
+    console.log('Routed Loaded')
   }
 
   onInit = () => {

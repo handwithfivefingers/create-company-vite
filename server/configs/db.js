@@ -11,7 +11,7 @@ module.exports = class Database {
   connectDB = async () => {
     try {
       const db = await mongoose.connect(process.env.DATABASE_URL, this.mongoseOptions)
-      if (db.connections) console.log('DB connected')
+      if (db.connections) console.log('Database Loaded')
     } catch (err) {
       console.log('db error connection', err)
     }

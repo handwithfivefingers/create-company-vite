@@ -87,10 +87,15 @@ const { createLog } = require('@response')
 // }
 
 module.exports = class CronTab {
+  constructor() {
+    console.log('Cron loaded')
+  }
+
   task = cron.schedule(
     '* * * * *',
     async () => {
-      let _order = await Order.findOne({ $and: [{ payment: 1, send: 0 }] }).populate('orderOwner', 'email')
+
+      let _order = await Order.findOne({ $and: [{ payment: 1, send: 0, delete_flag: { $ne: 1 } }] }).populate('orderOwner', 'email')
 
       if (_order) return this.handleConvertFile(_order)
     },
