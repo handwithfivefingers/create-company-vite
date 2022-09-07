@@ -1,5 +1,3 @@
-require('module-alias/register')
-
 const express = require('express')
 
 const env = require('dotenv')

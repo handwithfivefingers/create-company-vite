@@ -1,12 +1,20 @@
 const qs = require('query-string')
-const { errHandler } = require('../../response')
-const { Order } = require('../../model')
-const { sendmailWithAttachments } = require('../user/Sendmail')
-const { ResponseCode } = require('../../common/ResponseCode')
 
-const { getVpnParams, sortObject } = require('../../common/helper')
+const { errHandler } = require('@server/response')
+
+const { Order } = require('@server/model')
+
+const { sendmailWithAttachments } = require('../user/Sendmail')
+
+const { ResponseCode } = require('@server/common/ResponseCode')
+
+
+const { getVpnParams, sortObject } = require('@server/common/helper')
+
 const crypto = require('crypto')
+
 const { startSession } = require('mongoose')
+
 const testPayment = (req, res) => {
   let { createDate, orderId, amount, orderInfo } = req.body
   return paymentOrder(req, res, { createDate, orderId, amount, orderInfo })
