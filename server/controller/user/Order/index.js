@@ -3,7 +3,10 @@ const qs = require('query-string')
 const crypto = require('crypto')
 const { errHandler, successHandler, permisHandler, existHandler } = require('../../../response')
 const { Product, Order } = require('../../../model')
-const { sendmailWithAttachments } = require('../Sendmail')
+
+const MailService = require('@server/controller/user/Sendmail')
+const { sendmailWithAttachments } = new MailService()
+
 const { ResponseCode } = require('../../../common/ResponseCode')
 const { getListFiles } = require('../../../constant/File')
 const { getVpnParams, sortObject } = require('../../../common/helper')

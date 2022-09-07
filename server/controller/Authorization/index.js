@@ -3,7 +3,9 @@ const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const { loginFailed, createdHandler, errHandler, existHandler } = require('../../response')
 
-const { sendmailWithAttachments } = require('../user/Sendmail')
+const MailService = require('@server/controller/user/Sendmail')
+
+const { sendmailWithAttachments } = new MailService()
 
 module.exports = class Authorization {
   constructor() {}

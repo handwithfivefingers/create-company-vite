@@ -3,7 +3,7 @@ const { Order, Setting } = require('../../model')
 
 const MailService = require('../user/Sendmail')
 
-const { sendmailWcronMailithAttachments } = new MailService()
+const { cronMail } = new MailService()
 
 const { flattenObject, convertFile, removeListFiles } = require('../../common/helper')
 const { uniqBy } = require('lodash')
