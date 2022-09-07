@@ -1,5 +1,5 @@
-const { Career } = require('../../../model')
-const { updatedHandler, errHandler, successHandler, createdHandler, existHandler, deletedHandler } = require('../../../response')
+const { Career } = require('@model')
+const { updatedHandler, errHandler, successHandler, createdHandler, existHandler, deletedHandler } = require('@response')
 
 module.exports = class CareerClass {
   createCareer = async (req, res) => {

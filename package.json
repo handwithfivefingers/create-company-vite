@@ -11,7 +11,15 @@
     "preview": "vite preview"
   },
   "_moduleAliases": {
-    "@server": "./server"
+    "@server": "./server",
+    "@controller": "./server/controller",
+    "@middleware": "./server/middleware",
+    "@route": "./server/route",
+    "@model": "./server/model",
+    "@response": "./server/response",
+    "@constant": "./server/constant",
+    "@common": "./server/common",
+    "@uploads": "./uploads"
   },
   "dependencies": {
     "@pdftron/webviewer": "^8.3.0",

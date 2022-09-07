@@ -1,8 +1,8 @@
 const express = require('express')
 
-const { upload, requireSignin } = require('../../middleware/index')
+const { upload, requireSignin } = require('@middleware')
 
-const SettingClass = require('../../controller/user/Setting');
+const SettingClass = require('@controller/user/Setting');
 
 const { settingTemplateMail, getSettingMail } = new SettingClass()
 

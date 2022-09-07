@@ -1,6 +1,6 @@
-const { CareerCategory, Career } = require('../../../model')
-const { successHandler } = require('../../../response')
-const { errHandler } = require('../../../response')
+const { CareerCategory, Career } = require('@model')
+const { successHandler } = require('@response')
+const { errHandler } = require('@response')
 
 module.exports = class CareerCategoryClass {
   constructor() {}

@@ -4,8 +4,6 @@ const libre = require('libreoffice-convert')
 
 const MailService = require('@server/controller/user/Sendmail')
 
-const { sendmailWithAttachments } = new MailService()
-
 const { errHandler } = require('@server/response')
 
 const { flattenObject, convertFile, removeListFiles } = require('@server/common/helper')
@@ -14,6 +12,7 @@ const { uniqBy } = require('lodash')
 
 libre.convertAsync = require('util').promisify(libre.convert)
 
+const { sendmailWithAttachments } = new MailService()
 module.exports = class FileTemplate {
   checkingOrder = async (req, res) => {
     if (process.env.NODE_ENV !== 'development') return res.status(200).json({ message: 'ngonnn' })

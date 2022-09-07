@@ -1,16 +1,16 @@
 const shortid = require('shortid')
 const qs = require('query-string')
 const crypto = require('crypto')
-const { errHandler, successHandler, permisHandler, existHandler } = require('../../../response')
-const { Product, Order } = require('../../../model')
+const { errHandler, successHandler, permisHandler, existHandler } = require('@response')
+const { Product, Order } = require('@model')
+
+const { ResponseCode } = require('@common/ResponseCode')
+const { getListFiles } = require('@constant/File')
+const { getVpnParams, sortObject } = require('@common/helper')
+const { uniqBy } = require('lodash')
 
 const MailService = require('@server/controller/user/Sendmail')
 const { sendmailWithAttachments } = new MailService()
-
-const { ResponseCode } = require('../../../common/ResponseCode')
-const { getListFiles } = require('../../../constant/File')
-const { getVpnParams, sortObject } = require('../../../common/helper')
-const { uniqBy } = require('lodash')
 
 module.exports = class OrderUser {
   PAGE_SIZE = 10

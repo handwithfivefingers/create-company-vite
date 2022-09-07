@@ -1,8 +1,8 @@
 const express = require('express')
 
-const {  requireSignin } = require('../../middleware/index')
+const {  requireSignin } = require('@middleware')
 
-const OrderAdmin = require('../../controller/admin/Order/index')
+const OrderAdmin = require('@controller/admin/Order')
 
 const router = express.Router()
 

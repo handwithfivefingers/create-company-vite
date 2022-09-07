@@ -1,10 +1,10 @@
 const express = require('express')
 
-const { upload, requireSignin } = require('../../middleware')
+const { upload, requireSignin } = require('@middleware')
 
 const router = express.Router()
 
-const UserClass = require('../../controller/user/User')
+const UserClass = require('@controller/user/User')
 
 const { fetchProfile, changePassword } = new UserClass()
 // User

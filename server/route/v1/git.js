@@ -2,7 +2,7 @@ const express = require('express')
 
 const router = express.Router()
 
-const GitAction = require('@server/controller/Service/Git')
+const GitAction = require('@controller/Service/Git')
 
 const GitService = new GitAction()
 

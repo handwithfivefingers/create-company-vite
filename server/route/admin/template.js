@@ -1,9 +1,9 @@
 const express = require('express')
 
-const { upload, requireSignin } = require('../../middleware/index')
+const { upload, requireSignin } = require('@middleware')
 
-// const { fetchTemplate, editTemplate, createTemplate, deleteTemplate } = require('../../controller/admin')
-const TemplateAdmin = require('../../controller/admin/Template/index')
+// const { fetchTemplate, editTemplate, createTemplate, deleteTemplate } = require('@controller/admin')
+const TemplateAdmin = require('@controller/admin/Template')
 
 const TemplateMail = new TemplateAdmin()
 

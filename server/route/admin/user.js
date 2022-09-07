@@ -1,8 +1,8 @@
 const express = require('express')
 
-const { upload, requireSignin } = require('../../middleware/index')
+const { upload, requireSignin } = require('@middleware')
 
-const UserManageAdmin = require('../../controller/admin/User/index')
+const UserManageAdmin = require('@controller/admin/User')
 
 const User = new UserManageAdmin()
 

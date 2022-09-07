@@ -1,9 +1,9 @@
 const express = require('express')
-const { upload, requireSignin } = require('../../middleware/index')
+const { upload, requireSignin } = require('@middleware')
 
 const router = express.Router()
 
-const OrderUser = require('../../controller/user/Order')
+const OrderUser = require('@controller/user/Order')
 
 const { getOrdersFromUser, createOrders, orderWithPayment, getUrlReturn } = new OrderUser()
 

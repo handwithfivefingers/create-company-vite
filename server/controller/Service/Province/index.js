@@ -1,5 +1,5 @@
-const { findNestedObj } = require('@server/common/helper')
-const PROVINCE = require('../../../../uploads/mockdata/province.json')
+const { findNestedObj } = require('@common/helper')
+const PROVINCE = require('@uploads/mockdata/province.json')
 const { sortBy } = require('lodash')
 
 module.exports = class Province {

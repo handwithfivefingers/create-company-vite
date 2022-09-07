@@ -1,5 +1,5 @@
-const { permisHandler, errHandler } = require('../../../response')
-const { Setting } = require('../../../model')
+const { permisHandler, errHandler } = require('@response')
+const { Setting } = require('@model')
 
 module.exports = class SettingClass {
   settingTemplateMail = async (req, res) => {

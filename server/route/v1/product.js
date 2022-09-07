@@ -1,9 +1,9 @@
 const express = require('express')
-const { upload, requireSignin } = require('../../middleware/index')
+const { upload, requireSignin } = require('@middleware')
 
 const router = express.Router()
 
-const ProductClass = require('../../controller/user/Product')
+const ProductClass = require('@controller/user/Product')
 
 const { createProduct, editProduct, fetchProduct, deleteProduct, getProductBySlug, demoPuppeteer } = new ProductClass()
 // Create

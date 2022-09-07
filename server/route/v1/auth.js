@@ -1,9 +1,9 @@
 const express = require('express')
-const { upload, requireSignin } = require('../../middleware/index')
+const { upload, requireSignin } = require('@middleware')
 
 const router = express.Router() // get || post || put || delete || ....
 
-const Authorization = require('../../controller/Authorization')
+const Authorization = require('@controller/Authorization')
 
 const { registerUser, LoginUser, Logout, Authenticate } = new Authorization()
 

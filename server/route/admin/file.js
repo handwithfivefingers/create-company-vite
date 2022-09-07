@@ -1,6 +1,6 @@
 const express = require('express')
-const { upload, requireSignin } = require('../../middleware/index')
-const { ReadFile } = require('../../controller/admin/FileManager')
+const { upload, requireSignin } = require('@middleware')
+const { ReadFile } = require('@controller/admin/FileManager')
 
 const router = express.Router()
 

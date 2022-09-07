@@ -1,5 +1,5 @@
-const { Product, Category, Career } = require('../../../model')
-const { errHandler, successHandler } = require('../../../response')
+const { Product, Category, Career } = require('@model')
+const { errHandler, successHandler } = require('@response')
 // Fetch data
 
 module.exports = class CategoryClass {

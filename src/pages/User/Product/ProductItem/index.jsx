@@ -3,6 +3,7 @@ import { CREATE_COMPANY_STEP, DISSOLUTION_STEP, PENDING_STEP } from '@/constant/
 import ProductService from '@/service/UserService/ProductService'
 import { message, Modal, Spin, Form } from 'antd'
 import dateformat from 'dateformat'
+import moment from 'moment'
 import React, { lazy, useCallback, useEffect, useRef, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useFetch } from '../../../../helper/Hook'
@@ -193,6 +194,7 @@ const UserProductItem = (props) => {
   const handlePurchaseChangeInfo = useCallback(
     (ref) => {
       const params = getParams(ref)
+
       return paymentService(params)
     },
     [data],
@@ -316,12 +318,13 @@ const UserProductItem = (props) => {
   }
 
   const paymentService = async (params) => {
-    const date = new Date()
-    var createDate = dateformat(date, 'yyyymmddHHmmss')
-    var orderId = dateformat(date, 'HHmmss')
+
+    let createDate = moment().format('YYYYMMDDHHmmss')
+    let orderId = moment().format('HHmmss')
 
     params.createDate = createDate
     params.orderId = orderId
+
     try {
       let res = await ProductService.createCompanyWithPayment(params)
       if (res.data.status === 200) {

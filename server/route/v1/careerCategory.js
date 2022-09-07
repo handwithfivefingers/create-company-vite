@@ -1,8 +1,8 @@
 const express = require('express')
 
-const { upload, requireSignin } = require('../../middleware/index')
+const { upload, requireSignin } = require('@middleware')
 
-const CareerCategoryClass = require('../../controller/user/CareerCategory')
+const CareerCategoryClass = require('@controller/user/CareerCategory')
 
 const { fetchCareer, createCareer, fetchSingleCareerCate, updateCareerCate, deleteCareerCate } = new CareerCategoryClass()
 
