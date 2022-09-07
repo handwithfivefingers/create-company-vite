@@ -11,11 +11,11 @@ dotenv.config()
 
 const { GG_REFRESH_TOKEN: REFRESH_TOKEN, GG_REFRESH_URI: REFRESH_URI, GG_EMAIL_CLIENT_ID: CLIENT_ID, GG_EMAIL_CLIENT_SECRET: CLIENT_SECRET, MAIL_NAME, MAIL_PASSWORD } = process.env
 
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0'
 module.exports = class MailService {
   oAuth2Client
   mailConfig = {}
   constructor() {
-    process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0'
     this.oAuth2Client = new auth.OAuth2(CLIENT_ID, CLIENT_SECRET, REFRESH_URI)
     this.oAuth2Client.setCredentials({ refresh_token: REFRESH_TOKEN })
 
@@ -45,16 +45,6 @@ module.exports = class MailService {
   }
 
   sendmailWithAttachments = async (req, res, { type = 'attachments', ...rest }) => {
-    /**
-     * filesPath
-     * email
-     * removeFiles
-     * send
-     * _id
-     * type
-     * subject
-     * content
-     */
     try {
       if (type == 'attachments') {
         let params = {
