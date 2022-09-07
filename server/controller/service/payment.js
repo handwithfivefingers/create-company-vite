@@ -4,10 +4,11 @@ const { errHandler } = require('@server/response')
 
 const { Order } = require('@server/model')
 
-const { sendmailWithAttachments } = require('../user/Sendmail')
+const MailService = require('../user/Sendmail')
+
+const { sendmailWithAttachments } = new MailService()
 
 const { ResponseCode } = require('@server/common/ResponseCode')
-
 
 const { getVpnParams, sortObject } = require('@server/common/helper')
 
