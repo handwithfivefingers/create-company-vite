@@ -2,7 +2,7 @@ const express = require('express');
 
 const router = express.Router();
 
-const { gitAction } = require('@server/controller/Service');
+const { gitAction } = require('../../controller/Service');
 
 router.post('/pull', gitAction);
 

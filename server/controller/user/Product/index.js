@@ -1,8 +1,8 @@
 // import User from "./../model/user";
 
-const { Product, Category, Career } = require('@server/model')
-const { updatedHandler, errHandler, successHandler } = require('@server/response')
-const { filterData, filterCaregories, handleCheckChildren } = require('@server/common/helper')
+const { Product, Category, Career } = require('../../../model')
+const { updatedHandler, errHandler, successHandler } = require('../../../response')
+const { filterData, filterCaregories, handleCheckChildren } = require('../../../common/helper')
 
 const slugify = require('slugify')
 

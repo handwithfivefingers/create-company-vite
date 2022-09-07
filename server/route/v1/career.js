@@ -1,10 +1,10 @@
 const express = require('express')
-const { upload, requireSignin } = require('@server/middleware/index')
+const { upload, requireSignin } = require('../../middleware/index')
 // const { fetchCareer, createCareer, deleteCareer, editCareer } = require('../controller')
 
 const router = express.Router()
 
-const CareerClass = require('@server/controller/user/Career')
+const CareerClass = require('../../controller/user/Career')
 
 const { fetchCareer, createCareer, editCareer, deleteCareer } = new CareerClass()
 //Get

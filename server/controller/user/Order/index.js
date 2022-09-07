@@ -1,12 +1,12 @@
 const shortid = require('shortid')
 const qs = require('query-string')
 const crypto = require('crypto')
-const { errHandler, successHandler, permisHandler, existHandler } = require('@server/response')
-const { Product, Order } = require('@server/model')
-const { sendmailWithAttachments } = require('@server/controller/user/Sendmail')
-const { ResponseCode } = require('@server/common/ResponseCode')
-const { getListFiles } = require('@server/constant/File')
-const { getVpnParams, sortObject } = require('@server/common/helper')
+const { errHandler, successHandler, permisHandler, existHandler } = require('../../../response')
+const { Product, Order } = require('../../../model')
+const { sendmailWithAttachments } = require('../Sendmail')
+const { ResponseCode } = require('../../../common/ResponseCode')
+const { getListFiles } = require('../../../constant/File')
+const { getVpnParams, sortObject } = require('../../../common/helper')
 const { uniqBy } = require('lodash')
 
 module.exports = class OrderUser {

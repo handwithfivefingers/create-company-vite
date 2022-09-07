@@ -1,9 +1,9 @@
 const cron = require('node-cron')
-const { Order, Setting } = require('@server/model')
-const { cronMail } = require('@server/controller/user/sendmail')
-const { flattenObject, convertFile, removeListFiles } = require('@server/common/helper')
+const { Order, Setting } = require('../../model')
+const { cronMail } = require('../user/Sendmail')
+const { flattenObject, convertFile, removeListFiles } = require('../../common/helper')
 const { uniqBy } = require('lodash')
-const { createLog } = require('@server/response')
+const { createLog } = require('../../response')
 
 exports.task = cron.schedule(
   '* * * * *',

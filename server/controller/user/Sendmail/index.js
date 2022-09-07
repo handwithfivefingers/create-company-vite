@@ -1,10 +1,10 @@
 const fs = require('fs')
-const { removeFile, errHandler } = require('@server/response')
-const { TemplateMail, Order } = require('@server/model')
+const { removeFile, errHandler } = require('../../../response')
+const { TemplateMail, Order } = require('../../../model')
 const { auth } = require('googleapis').google
 const nodeMailer = require('nodemailer')
 const dotenv = require('dotenv')
-const { removeListFiles } = require('@server/common/helper')
+const { removeListFiles } = require('../../../common/helper')
 
 // *Useful for getting environment vairables
 dotenv.config()

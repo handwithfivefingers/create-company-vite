@@ -1,5 +1,5 @@
-const { User } = require('@server/model')
-const { successHandler, errHandler } = require('@server/response')
+const { User } = require('../../../model')
+const { successHandler, errHandler } = require('../../../response')
 const bcrypt = require('bcryptjs')
 
 module.exports = class UserClass {

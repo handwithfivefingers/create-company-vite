@@ -1,9 +1,9 @@
 const { User, Setting } = require('@server/model')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
-const { loginFailed, createdHandler, errHandler, existHandler } = require('@server/response')
+const { loginFailed, createdHandler, errHandler, existHandler } = require('../../response')
 
-const { sendmailWithAttachments } = require('@server/controller/user/Sendmail')
+const { sendmailWithAttachments } = require('../user/Sendmail')
 
 module.exports = class Authorization {
   constructor() {}

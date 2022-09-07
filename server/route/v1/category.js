@@ -1,9 +1,9 @@
 const express = require('express')
-const { upload, requireSignin } = require('@server/middleware/index')
+const { upload, requireSignin } = require('../../middleware/index')
 // const { getCategories, updateCate } = require('../controller')
 
 const router = express.Router()
-const CategoryClass = require('@server/controller/user/Category')
+const CategoryClass = require('../../controller/user/Category')
 
 const { getCategories, updateCate } = new CategoryClass()
 //Get

@@ -39,7 +39,7 @@ expressions.filters.formatNumber = function (input, type) {
   if (!input) return input
 
   let val = input.toString()
-  val = val.split('').reverse() // 
+  val = val.split('').reverse() //
   let len = Math.round(val.length / 3)
   let output = []
   for (let i = 0; i <= len; i++) {
@@ -87,10 +87,7 @@ function nullGetter(tag, props) {
 }
 
 function angularParser(tag) {
-  tag = tag
-    .replace(/^\.$/, 'this')
-    .replace(/(’|‘)/g, "'")
-    .replace(/(“|”)/g, '"')
+  tag = tag.replace(/^\.$/, 'this').replace(/(’|‘)/g, "'").replace(/(“|”)/g, '"')
   const expr = expressions.compile(tag)
   // expr = expressions.compile(tag);
   return {
@@ -131,24 +128,14 @@ const applyContent = async (file = null, data = null) => {
 }
 
 const saveFileAsDocx = async (buffer, ext) => {
-  let filePath = path.join(
-    global.__basedir,
-    '/uploads',
-    `${shortid.generate()}-output${ext}`,
-  )
+  let filePath = path.join(global.__basedir, '/uploads', `${shortid.generate()}-output${ext}`)
   fs.writeFileSync(filePath, buffer)
   return filePath
 }
 
 const specialFields = ['company_main_career', 'company_opt_career']
 
-const dateFields = [
-  'doc_time_provide',
-  'birth_day',
-  'time_provide',
-  'start',
-  'end',
-]
+const dateFields = ['doc_time_provide', 'birth_day', 'time_provide', 'start', 'end']
 
 const objToKeys = (obj, baseObj, path = null) => {
   Object.keys(obj).forEach((item) => {
@@ -203,21 +190,15 @@ const flattenObject = (data) => {
   // handle Change Info Array;
 
   for (let props in _template) {
-    if (
-      props === 'change_info_transfer_contract_A_side_owner' &&
-      _template.change_info_transfer_contract_A_side_owner === 'personal'
-    ) {
+    if (props === 'change_info_transfer_contract_A_side_owner' && _template.change_info_transfer_contract_A_side_owner === 'personal') {
       let {
         change_info_transfer_contract_A_side_personal_name: name,
         change_info_transfer_contract_A_side_personal_birth_day: birth_day,
         change_info_transfer_contract_A_side_personal_doc_type: doc_type,
         change_info_transfer_contract_A_side_personal_doc_code: doc_code,
-        change_info_transfer_contract_A_side_personal_doc_time_provide:
-          doc_time_provide,
-        change_info_transfer_contract_A_side_personal_doc_place_provide:
-          doc_place_provide,
-        change_info_transfer_contract_A_side_personal_contact_address:
-          contact_address,
+        change_info_transfer_contract_A_side_personal_doc_time_provide: doc_time_provide,
+        change_info_transfer_contract_A_side_personal_doc_place_provide: doc_place_provide,
+        change_info_transfer_contract_A_side_personal_contact_address: contact_address,
       } = _template
       _template.A_type = [
         {
@@ -307,20 +288,13 @@ const sortObject = (obj) => {
 const getVpnParams = (req, params) => {
   let { createDate, orderId, amount, orderInfo } = params
 
-  var ipAddr =
-    req.headers['x-forwarded-for'] ||
-    req.connection.remoteAddress ||
-    req.socket.remoteAddress ||
-    req.connection.socket.remoteAddress
+  var ipAddr = req.headers['x-forwarded-for'] || req.connection.remoteAddress || req.socket.remoteAddress || req.connection.socket.remoteAddress
 
   var tmnCode = process.env.TMN_CODE_VPN
 
   var secretKey = process.env.SECRET_KEY_VPN
 
-  var returnUrl =
-    process.env.NODE_ENV === 'DEV'
-      ? 'http://localhost:3001/api/order/payment/url_return'
-      : process.env.RETURN_URL
+  var returnUrl = process.env.NODE_ENV === 'DEV' ? 'http://localhost:3001/api/order/payment/url_return' : process.env.RETURN_URL
 
   var orderType = req?.body?.orderType || 'billpayment'
 

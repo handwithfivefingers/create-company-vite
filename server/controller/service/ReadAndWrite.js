@@ -2,7 +2,7 @@ const { Order, Setting } = require('../../model')
 
 const libre = require('libreoffice-convert')
 
-const { sendmailWithAttachments } = require('@server/controller/user/Sendmail')
+const { sendmailWithAttachments } = require('../user/Sendmail')
 
 const { errHandler } = require('../../response')
 
