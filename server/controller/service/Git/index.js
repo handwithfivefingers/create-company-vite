@@ -7,8 +7,7 @@ const repo = '/usr/share/nginx/html/create-company-vite'
 
 module.exports = class GitAction {
 
-  gitAction = async (req, res) => {
-    
+  gitPull = async (req, res) => {
     res.end()
     let cd = 'cd ' + repo
     let checkout = 'git checkout -- .'
@@ -30,11 +29,11 @@ module.exports = class GitAction {
       exec(buildPackage)
 
       // check folder if success
+
       // replace name with build folder
 
       console.log('Done :::::::::: ')
     } catch (err) {
-
       console.log('git error', err)
       // remove build folder if error
     } finally {
@@ -42,4 +41,5 @@ module.exports = class GitAction {
       exec(restartPm2)
     }
   }
+  
 }

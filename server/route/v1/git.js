@@ -2,10 +2,10 @@ const express = require('express')
 
 const router = express.Router()
 
-const GitService = require('../../controller/Service/Git')
+const GitAction = require('@server/controller/Service/Git')
 
-const GitAction = new GitService()
+const GitService = new GitAction()
 
-router.post('/pull', GitAction.gitAction)
+router.post('/pull', GitService.gitPull)
 
 module.exports = router
