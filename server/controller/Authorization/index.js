@@ -1,4 +1,4 @@
-const { User, Setting } = require('@server/model')
+const { User, Setting } = require('../../model')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const { loginFailed, createdHandler, errHandler, existHandler } = require('../../response')
