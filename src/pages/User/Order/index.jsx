@@ -122,7 +122,7 @@ const UserOrder = () => {
       >
         <Table.Column
           align="center"
-          title="Đơn hàng"
+          title="Mã đơn hàng"
           dataIndex="per_main"
           render={(val, record, i) => {
             return record._id
@@ -139,7 +139,7 @@ const UserOrder = () => {
         <Table.Column
           width="350px"
           align="center"
-          title="Loại hình"
+          title="Dịch vụ"
           dataIndex=""
           render={(val, record, i) => {
             // 2 Case : 22/03/2022
