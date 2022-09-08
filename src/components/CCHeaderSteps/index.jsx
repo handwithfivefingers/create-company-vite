@@ -16,6 +16,7 @@ const CCSteps = (props) => {
       props.onFinishScreen(ind)
     }
   }
+
   return (
     <Card
       className={clsx([styles.cardHeader, { [styles.collapsed]: collapsed }])}

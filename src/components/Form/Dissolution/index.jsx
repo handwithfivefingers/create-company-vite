@@ -1,24 +1,24 @@
-import { Form, Select } from 'antd';
-import clsx from 'clsx';
-import { forwardRef, useState } from 'react';
-import GiaiThe from './GiaiThe';
-import styles from './styles.module.scss';
+import { Form, Select } from 'antd'
+import clsx from 'clsx'
+import { forwardRef, useState } from 'react'
+import GiaiThe from './GiaiThe'
+import styles from './styles.module.scss'
 
 const Dissolution = forwardRef((props, ref) => {
-  const [selectType, setSelectType] = useState();
+  const [selectType, setSelectType] = useState()
 
   const handleChange = (val, opt, pathName) => {
-    setSelectType(opt);
+    setSelectType(opt)
     ref.current.setFields([
       {
         name: [pathName],
         value: opt,
       },
-    ]);
+    ])
     if (props.onFinishScreen) {
-      props.onFinishScreen(opt);
+      props.onFinishScreen(opt)
     }
-  };
+  }
 
   return (
     <Form ref={ref} layout="vertical">
@@ -30,23 +30,20 @@ const Dissolution = forwardRef((props, ref) => {
           [styles.active]: props.current === 0,
         })}
       >
-        <Select
-          onSelect={(val, opt) => handleChange(val, opt, 'selectProduct')}
-          placeholder="Bấm vào đây"
-        >
-          {props.data?.map((item) => {
+        <Select onSelect={(val, opt) => handleChange(val, opt, 'selectProduct')} placeholder="Bấm vào đây">
+          {props.data?.map(({ _id, name, type }) => {
             return (
-              <Select.Option key={item._id} value={item._id} {...item}>
-                {item.name}
+              <Select.Option key={_id} value={_id} type={type}>
+                {name}
               </Select.Option>
-            );
+            )
           })}
         </Select>
       </Form.Item>
 
       <GiaiThe current={props.current} index={1} ref={ref} data={selectType} />
     </Form>
-  );
-});
+  )
+})
 
-export default Dissolution;
+export default Dissolution

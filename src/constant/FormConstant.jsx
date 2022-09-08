@@ -433,7 +433,15 @@ const PENDING_FORM = {
       place_provide: 'Nơi cấp',
       // opt_code: 'Số Giấy chứng nhận đăng ký kinh doanh (chỉ kê khai nếu không có mã số doanh nghiệp/mã số thuế)',
       obj: 'Đối tượng tạm ngưng',
-      location: 'Địa chỉ trụ sở chính',
+      location: {
+        label: 'Địa chỉ trụ sở chính',
+        fields: {
+          address: 'Số nhà, ngách, hẻm, ngõ, đường phố/tổ/xóm/ấp/thôn',
+          city: 'Tỉnh/Thành phố',
+          district: 'Quận/Huyện/Thị xã/Thành phố thuộc tỉnh',
+          town: 'Xã/Phường/Thị trấn',
+        },
+      },
       main_legal: 'Người đại diện pháp luật',
       branch_name: 'Tên chi nhánh hoặc văn phòng đại diện hoặc địa điểm kinh doanh',
       resp_office: 'Mã số chi nhánh hoặc Mã số thuế của chi nhánh',
@@ -442,9 +450,12 @@ const PENDING_FORM = {
         president: 'Tên thành viên',
       },
       contribute_members: {
-        name: 'Họ và Tên',
-        capital: 'Vốn góp',
-        capital_percent: 'Chiếm % vốn điều lệ',
+        label: 'Hội đồng thành viên',
+        fields: {
+          name: 'Họ và Tên',
+          capital: 'Vốn góp',
+          capital_percent: 'Chiếm % vốn điều lệ',
+        },
       },
       branch: {
         time_range: {
@@ -469,7 +480,15 @@ const DISSOLUTION_FORM = {
       company_name: 'Tên doanh nghiệp',
       mst: 'Mã số doanh nghiệp hoặc Mã số thuế',
       org_person: 'Người đại diện pháp luật',
-      location: 'Địa chỉ trụ sở chính',
+      location: {
+        label: 'Địa chỉ trụ sở chính',
+        fields: {
+          address: 'Số nhà, ngách, hẻm, ngõ, đường phố/tổ/xóm/ấp/thôn',
+          city: 'Tỉnh/Thành phố',
+          district: 'Quận/Huyện/Thị xã/Thành phố thuộc tỉnh',
+          town: 'Xã/Phường/Thị trấn',
+        },
+      },
       list_president: {
         label: 'Hội đồng quản trị',
         fields: {

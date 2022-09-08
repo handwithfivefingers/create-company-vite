@@ -1,25 +1,33 @@
-import axios from '../config/axios';
+import axios from '../config/axios'
 
 const api_path = {
-	fetchCareer: '/nganhnghe',
-	sendMail: '/sendmail',
-	getProvince: '/service/province',
-};
+  fetchCareer: '/nganhnghe',
+  sendMail: '/sendmail',
+  getProvince: '/service/province',
+  getCareerCate: '/nganhnghe/category',
+  getSingleCareerCate: '/nganhnghe/category',
+}
 
 const GlobalService = {
-	fetchCareer: () => {
-		return axios.get(api_path.fetchCareer);
-	},
-	sendMail: (form) => {
-		return axios.post(api_path.sendMail, form);
-	},
-	/**
-	 * @code { Quận : Number }
-	 * @wards { Phường : Number }
-	 */
-	getProvince: (params) => {
-		return axios.get(api_path.getProvince, { params });
-	},
-};
+  fetchCareer: () => {
+    return axios.get(api_path.fetchCareer)
+  },
+  sendMail: (form) => {
+    return axios.post(api_path.sendMail, form)
+  },
+  /**
+   * @code { Quận : Number }
+   * @wards { Phường : Number }
+   */
+  getProvince: (params) => {
+    return axios.get(api_path.getProvince, { params })
+  },
+  getCareerCategory: () => {
+    return axios.get(api_path.getCareerCate)
+  },
+  getSingleCareerCategory: (id) => {
+    return axios.get(api_path.getSingleCareerCate + '/' + id)
+  },
+}
 
-export default GlobalService;
+export default GlobalService

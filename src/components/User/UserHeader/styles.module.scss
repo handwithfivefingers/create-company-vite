@@ -2,8 +2,20 @@
   background-color: #fff;
   position: sticky !important;
   z-index: 2;
-  top:0;
+  top: 0;
+  display: flex;
   > div {
     align-items: center;
+  }
+  :global {
+    .ant-page-header-heading {
+      width: 100%;
+      .ant-page-header-heading-extra {
+        display: flex;
+        flex: 1;
+        margin-left: auto;
+        justify-content: flex-end;
+      }
+    }
   }
 }

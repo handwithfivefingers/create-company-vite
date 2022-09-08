@@ -5,11 +5,22 @@ import React, { forwardRef, memo, useEffect, useState } from 'react'
 import { onSetFields } from '@/helper/Common'
 import { ProvinceAction } from '@/store/actions'
 import { useDispatch, useSelector } from 'react-redux'
-
+import { useFetch } from '@/helper/Hook'
 const { Option } = Select
 
 const SelectProvince = forwardRef((props, ref) => {
-  const { province: city } = useSelector((state) => state.provinceReducer)
+  // const { province: city } = useSelector((state) => state.provinceReducer)
+
+  const {
+    data: city,
+    isLoading,
+    status,
+    refetch,
+  } = useFetch({
+    cacheName: ['careerData', 'province'],
+    fn: () => GlobalService.getProvince(),
+  })
+
   const dispatch = useDispatch()
 
   const [params, setParams] = useState({
@@ -23,9 +34,9 @@ const SelectProvince = forwardRef((props, ref) => {
 
   const name = props?.name
 
-  useEffect(() => {
-    !city.length && dispatch(ProvinceAction.getProvinceAction())
-  }, [])
+  // useEffect(() => {
+  //   !city.length && dispatch(ProvinceAction.getProvinceAction())
+  // }, [])
 
   useEffect(() => {
     getScreenData(params)
@@ -87,30 +98,20 @@ const SelectProvince = forwardRef((props, ref) => {
       console.log('getScreenData err: ' + err)
     }
   }
-
+  if (!city) return 'loading'
   return (
     <>
-      <Form.Item
-        name={[...name, 'city']}
-        placeholder={props.placeholder}
-        label="Tỉnh/Thành phố"
-      >
+      <Form.Item name={[...name, 'city']} placeholder={props.placeholder} label="Tỉnh/Thành phố">
         <Select
           showSearch
           onChange={(val, opt) => handleSelectCity(val, opt)}
           optionFilterProp="children"
           allowClear
-          filterOption={(input, option) =>
-            option.children?.toLowerCase().indexOf(input.toLowerCase()) >= 0
-          }
+          filterOption={(input, option) => option.children?.toLowerCase().indexOf(input.toLowerCase()) >= 0}
         >
-          {city.map((item) => {
+          {city?.map((item) => {
             return (
-              <Option
-                key={[item.code, item.codename]}
-                name={item.name}
-                value={item.code}
-              >
+              <Option key={[item.code, item.codename]} name={item.name} value={item.code}>
                 {item.name}
               </Option>
             )
@@ -118,27 +119,18 @@ const SelectProvince = forwardRef((props, ref) => {
         </Select>
       </Form.Item>
 
-      <Form.Item
-        label="Quận/Huyện/Thị xã/Thành phố thuộc tỉnh"
-        name={[...name, 'district']}
-      >
+      <Form.Item label="Quận/Huyện/Thị xã/Thành phố thuộc tỉnh" name={[...name, 'district']}>
         <Select
           placeholder={props.placeholder}
           onChange={(val, opt) => handleSelectDistricts(val, opt)}
           optionFilterProp="children"
           showSearch
           allowClear
-          filterOption={(input, option) =>
-            option.children?.toLowerCase().indexOf(input.toLowerCase()) >= 0
-          }
+          filterOption={(input, option) => option.children?.toLowerCase().indexOf(input.toLowerCase()) >= 0}
         >
           {districts.map((item) => {
             return (
-              <Option
-                key={[item.code, item.codename]}
-                name={item.name}
-                value={item.code}
-              >
+              <Option key={[item.code, item.codename]} name={item.name} value={item.code}>
                 {item.name}
               </Option>
             )
@@ -153,17 +145,11 @@ const SelectProvince = forwardRef((props, ref) => {
           showSearch
           optionFilterProp="children"
           allowClear
-          filterOption={(input, option) =>
-            option.children?.toLowerCase().indexOf(input.toLowerCase()) >= 0
-          }
+          filterOption={(input, option) => option.children?.toLowerCase().indexOf(input.toLowerCase()) >= 0}
         >
           {wards.map((item) => {
             return (
-              <Option
-                key={[item.code, item.codename]}
-                name={item.name}
-                value={item.code}
-              >
+              <Option key={[item.code, item.codename]} name={item.name} value={item.code}>
                 {item.name}
               </Option>
             )
@@ -171,11 +157,7 @@ const SelectProvince = forwardRef((props, ref) => {
         </Select>
       </Form.Item>
 
-      <CCInput
-        label="Số nhà, ngách, hẻm, ngõ, đường phố/tổ/xóm/ấp/thôn"
-        name={[...name, 'address']}
-        placeholder="27 Nguyễn Hữu Thọ"
-      />
+      <CCInput label="Số nhà, ngách, hẻm, ngõ, đường phố/tổ/xóm/ấp/thôn" name={[...name, 'address']} placeholder="27 Nguyễn Hữu Thọ" />
     </>
   )
 })
@@ -203,16 +185,10 @@ const SelectTitle = forwardRef((props, ref) => {
     <Form.Item name={[...props.name]} label={props.label}>
       <Row>
         <Col span={inpShow ? 8 : 24} style={{ padding: 0 }}>
-          <Select
-            placeholder={props.placeholder}
-            onChange={(val, opt) => handleSelect(val, opt)}
-          >
+          <Select placeholder={props.placeholder} onChange={(val, opt) => handleSelect(val, opt)}>
             {(props.options &&
               props?.options?.map((option, i) => (
-                <Option
-                  value={option.value}
-                  key={[option.value, i, Math.random()]}
-                >
+                <Option value={option.value} key={[option.value, i, Math.random()]}>
                   {option.name}
                 </Option>
               ))) ||
@@ -220,17 +196,7 @@ const SelectTitle = forwardRef((props, ref) => {
             <Option value={1}>Khác</Option>
           </Select>
         </Col>
-        <Col span={inpShow ? 16 : 0}>
-          {inpShow && (
-            <Input
-              onChange={(e) =>
-                ref.current.setFields([
-                  { name: [...props.name], value: e.target.value },
-                ])
-              }
-            />
-          )}
-        </Col>
+        <Col span={inpShow ? 16 : 0}>{inpShow && <Input onChange={(e) => ref.current.setFields([{ name: [...props.name], value: e.target.value }])} />}</Col>
       </Row>
     </Form.Item>
   )
@@ -274,27 +240,15 @@ const SelectPersonType = forwardRef((props, ref) => {
     ref.current.setFields([{ name: [...pathName], value: e.target.value }])
   }
   return (
-    <Form.Item
-      name={[...props.name]}
-      label={props.label}
-      dependencies={props.dependencies}
-    >
+    <Form.Item name={[...props.name]} label={props.label} dependencies={props.dependencies}>
       <Row>
         <Col span={select === 2 ? 8 : 24} style={{ padding: 0 }}>
-          <Select
-            value={select}
-            placeholder={props.placeholder}
-            onChange={(val, opt) => handleSelect(val, opt)}
-          >
+          <Select value={select} placeholder={props.placeholder} onChange={(val, opt) => handleSelect(val, opt)}>
             <Option value={1}>{DEFAULT_SELECT}</Option>
             <Option value={2}>Khác</Option>
           </Select>
         </Col>
-        <Col span={select === 2 ? 16 : 0}>
-          {select === 2 && (
-            <Input value={input} onChange={(e) => handleInputChange(e)} />
-          )}
-        </Col>
+        <Col span={select === 2 ? 16 : 0}>{select === 2 && <Input value={input} onChange={(e) => handleInputChange(e)} />}</Col>
       </Row>
     </Form.Item>
   )
@@ -343,20 +297,12 @@ const SelectDocProvide = forwardRef((props, ref) => {
     <Form.Item name={[...props.name]} label={props.label}>
       <Row>
         <Col span={select === 2 ? 8 : 24} style={{ padding: 0 }}>
-          <Select
-            placeholder={props.placeholder}
-            onChange={(val, opt) => handleSelect(val, opt)}
-            value={select}
-          >
+          <Select placeholder={props.placeholder} onChange={(val, opt) => handleSelect(val, opt)} value={select}>
             <Option value={1}>{DEFAULT_SELECT}</Option>
             <Option value={2}>Khác</Option>
           </Select>
         </Col>
-        <Col span={select === 2 ? 16 : 0}>
-          {select === 2 && (
-            <Input onChange={(e) => handleInputchange(e)} value={input} />
-          )}
-        </Col>
+        <Col span={select === 2 ? 16 : 0}>{select === 2 && <Input onChange={(e) => handleInputchange(e)} value={input} />}</Col>
       </Row>
     </Form.Item>
   )

@@ -5,6 +5,7 @@ import { message, Modal, Spin, Form } from 'antd'
 import dateformat from 'dateformat'
 import moment from 'moment'
 import React, { lazy, useCallback, useEffect, useRef, useState } from 'react'
+import { useMemo } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useFetch } from '../../../../helper/Hook'
 import styles from './styles.module.scss'
@@ -147,18 +148,21 @@ const UserProductItem = (props) => {
     }
   }
 
-  const renderHeaderStep = (type) => {
-    let options = {
-      step: current,
-      data: null,
-      onFinishScreen: (index) => setCurrent(index),
-    }
+  const renderHeaderStep = () => {
+    // let { type } = data
+    if (data) {
+      let options = {
+        step: current,
+        data: null,
+        onFinishScreen: (index) => setCurrent(index),
+      }
 
-    if (type === 1) options.data = CREATE_COMPANY_STEP
-    else if (type === 2) options.data = changeInforStep
-    else if (type === 3) options.data = PENDING_STEP
-    else if (type === 4) options.data = DISSOLUTION_STEP
-    return <CCSteps {...options} />
+      if (data.type === 1) options.data = CREATE_COMPANY_STEP
+      else if (data.type === 2) options.data = changeInforStep
+      else if (data.type === 3) options.data = PENDING_STEP
+      else if (data.type === 4) options.data = DISSOLUTION_STEP
+      return <CCSteps {...options} />
+    }
   }
 
   const handleChangeInforForm = useCallback((val) => {
@@ -318,7 +322,6 @@ const UserProductItem = (props) => {
   }
 
   const paymentService = async (params) => {
-
     let createDate = moment().format('YYYYMMDDHHmmss')
     let orderId = moment().format('HHmmss')
 
@@ -337,7 +340,7 @@ const UserProductItem = (props) => {
 
   return (
     <div className={styles.mainContent}>
-      {data && renderHeaderStep(data?.type)}
+      {data && renderHeaderStep()}
 
       <div className={styles.formContent}>
         <Spin spinning={isFetching}>{data && renderFormByType(data?.type)}</Spin>
