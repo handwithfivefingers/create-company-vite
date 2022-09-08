@@ -30,6 +30,7 @@ const AdminProduct = (props) => {
     data: careerData,
     isLoading: careerLoading,
     status: careerStatus,
+    refetch: careerRefetch,
   } = useFetch({
     cacheName: ['adminProduct', 'career'],
     fn: () => AdminProductService.getCareer(),
@@ -182,15 +183,37 @@ const AdminProduct = (props) => {
   }
 
   const addCareer = (val) => {
-    let params = {
-      name: val.career_name,
-      code: val.career_code,
-    }
-    AdminProductService.createCareer(params)
+    AdminProductService.createCareer(val)
       .then((res) => console.log(res))
       .catch((err) => console.log(err))
   }
+  const onCareerEdit = (record) => {
+    setChildModal({
+      visible: true,
+      width: '50%',
+      component: (
+        <CareerForm
+          data={record}
+          onFinishScreen={(output) => {
+            // getScreenData();
+            updateCareer({ ...output, id: record._id })
+            closeModal()
+          }}
+        />
+      ),
+    })
+  }
+  const updateCareer = async (val) => {
+    try {
+      let res = await AdminProductService.updateCareer(val)
 
+      console.log(res)
+    } catch (err) {
+      console.log('updateCareer error: ' + err)
+    } finally {
+      careerRefetch()
+    }
+  }
   const deleteCareer = async (record) => {
     try {
       let res = await AdminProductService.deleteCareer(record._id)
@@ -369,8 +392,6 @@ const AdminProduct = (props) => {
     return xhtml
   }
 
-  console.log('careerCategory', careerCategory)
-
   return (
     <>
       <AdminHeader title="Quản lý sản phẩm" extra={renderExtra()} />
@@ -461,7 +482,7 @@ const AdminProduct = (props) => {
                 title=""
                 render={(val, record, i) => (
                   <Space>
-                    <Button onClick={(e) => onHandleEdit(record)} icon={<FormOutlined />} />
+                    <Button onClick={(e) => onCareerEdit(record)} icon={<FormOutlined />} />
                     <Button onClick={(e) => deleteCareer(record)} icon={<MinusSquareOutlined />} />
                   </Space>
                 )}

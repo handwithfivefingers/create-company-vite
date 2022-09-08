@@ -15,7 +15,6 @@ const PreviewData = forwardRef((props, ref) => {
   useEffect(() => {
     if (ref.current) {
       let data = ref?.current.getFieldsValue()
-      console.log(data)
       setFormData(data)
     }
   }, [props])
@@ -76,7 +75,6 @@ const PreviewData = forwardRef((props, ref) => {
 
   const renderLoopItem = ({ data, fields, label }) => {
     let xhtml = []
-    console.log(data, label)
 
     if (typeof data === 'string' || typeof data === 'number') {
       let text = data

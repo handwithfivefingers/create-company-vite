@@ -8,9 +8,11 @@ const api_path = {
   getCategories: '/admin/category',
   updateCategories: '/admin/category/update',
   createCategories: '/admin/category/create',
+
   getCareer: '/nganhnghe',
   createCareer: '/nganhnghe',
-  deleteCareer: '/nganhnghe/delete',
+  updateCareer: '/nganhnghe',
+  deleteCareer: '/nganhnghe',
 
   getCareerCategory: '/nganhnghe/category',
   createCareerCategory: '/nganhnghe/category',
@@ -47,8 +49,13 @@ const AdminProductService = {
   createCareer: (form) => {
     return axios.post(api_path.createCareer, form)
   },
+
+  updateCareer: ({ id, ...form }) => {
+    return axios.post(api_path.updateCareer + '/' + id, form)
+  },
+
   deleteCareer: (id) => {
-    return axios.post(`${api_path.deleteCareer}/${id}`)
+    return axios.delete(`${api_path.deleteCareer}/${id}`)
   },
   getCareerCategory: () => {
     return axios.get(api_path.getCareerCategory)

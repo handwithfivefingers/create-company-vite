@@ -14,9 +14,9 @@ router.get('/nganhnghe', requireSignin, upload.none(), fetchCareer)
 router.post('/nganhnghe', requireSignin, upload.none(), createCareer)
 
 //Edit
-router.post('/nganhnghe/edit/:id', requireSignin, upload.none(), editCareer)
+router.post('/nganhnghe/:id', requireSignin, upload.none(), editCareer)
 
 //Delete
-router.post('/nganhnghe/delete/:id', requireSignin, upload.none(), deleteCareer)
+router.delete('/nganhnghe/:id', requireSignin, upload.none(), deleteCareer)
 
 module.exports = router
