@@ -2,7 +2,7 @@ import { Form, InputNumber } from 'antd'
 import clsx from 'clsx'
 import React, { forwardRef, useEffect, useMemo, useState } from 'react'
 import CCInput from '@/components/CCInput'
-import styles from '../styles.module.scss'
+import styles from './styles.module.scss'
 import { DISSOLUTION_FORM } from '@/constant/FormConstant'
 import CCListForm from '@/components/CCListForm'
 import CCSelect from '@/components/CCSelect'
@@ -136,7 +136,7 @@ const GiaiThe = forwardRef((props, ref) => {
   return (
     <Form.Item
       // label="Giải thể"
-      className={clsx(styles.current, {
+      className={clsx(styles.groupInput, styles.current, {
         [styles.active]: props.current === props.index,
       })}
     >
@@ -157,15 +157,15 @@ const GiaiThe = forwardRef((props, ref) => {
         onChange={(e) => setFields(e, [...BASE_FORM, 'org_person'])}
       />
 
-      <Form.Item 
-      // label="Địa chỉ trụ sở chính"
-      label={
-        <div
-          dangerouslySetInnerHTML={{
-            __html: '<b>Địa chỉ trụ sở chính</b>',
-          }}
-        />
-      }
+      <Form.Item
+        // label="Địa chỉ trụ sở chính"
+        label={
+          <div
+            dangerouslySetInnerHTML={{
+              __html: '<b>Địa chỉ trụ sở chính</b>',
+            }}
+          />
+        }
       >
         <CCSelect.SelectProvince ref={ref} name={[...BASE_FORM, 'location']} placeholder="Nhập địa chỉ trụ sở chính" label="Địa chỉ trụ sở chính" />
       </Form.Item>

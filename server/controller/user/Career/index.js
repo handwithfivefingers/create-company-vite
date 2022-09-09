@@ -37,7 +37,6 @@ module.exports = class CareerClass {
   editCareer = async (req, res) => {
     try {
       let { id } = req.params
-
       const _update = {
         name: req.body.name,
         code: req.body.code,

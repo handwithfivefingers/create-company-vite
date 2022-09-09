@@ -5,7 +5,7 @@ const router = express.Router() // get || post || put || delete || ....
 
 const Authorization = require('@controller/Authorization')
 
-const { registerUser, LoginUser, Logout, Authenticate } = new Authorization()
+const { registerUser, LoginUser, Logout, Authenticate, ForgotPassword } = new Authorization()
 
 // // Create User
 router.post('/register', upload.none(), registerUser)
@@ -18,5 +18,7 @@ router.post('/logout', upload.none(), Logout)
 
 //authenticate
 router.post('/auth', requireSignin, Authenticate)
+
+router.post('/forgot-password', ForgotPassword)
 
 module.exports = router

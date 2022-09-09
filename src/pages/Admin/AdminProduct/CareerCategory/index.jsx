@@ -14,6 +14,7 @@ const CareerCategory = ({ data, onFinishScreen, id, name }) => {
   // if (id) {
   //   getScreenData(id)
   // }
+
   useEffect(() => {
     if (id) {
       getScreenData(id)
@@ -59,7 +60,7 @@ const CareerCategory = ({ data, onFinishScreen, id, name }) => {
 
         <Form.Item>
           <Button htmlType="submit" type="primary">
-            Tạo
+            {name ? 'Cập nhật' : 'Tạo'}
           </Button>
         </Form.Item>
       </Form>

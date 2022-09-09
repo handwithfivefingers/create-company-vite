@@ -3,23 +3,8 @@ import Tracking from '@/components/Tracking'
 import axios from '@/config/axios'
 import { makeid, number_format } from '@/helper/Common'
 import AdminOrderService from '@/service/AdminService/AdminOrderService'
-import {
-  DeleteOutlined,
-  FormOutlined,
-  SearchOutlined,
-  CloseOutlined,
-} from '@ant-design/icons'
-import {
-  Button,
-  Form,
-  Input,
-  message,
-  Modal,
-  Space,
-  Table,
-  Tag,
-  Tooltip,
-} from 'antd'
+import { DeleteOutlined, FormOutlined, SearchOutlined, CloseOutlined } from '@ant-design/icons'
+import { Button, Form, Input, message, Modal, Space, Table, Tag, Tooltip } from 'antd'
 import moment from 'moment'
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
@@ -27,7 +12,7 @@ import AdminHeader from '../../../components/Admin/AdminHeader'
 import styles from './styles.module.scss'
 import { useFetch } from '../../../helper/Hook'
 import { useMutation } from '@tanstack/react-query'
-
+import { motion } from 'framer-motion'
 const AdminOrder = () => {
   const [loading, setLoading] = useState(false)
 
@@ -47,7 +32,6 @@ const AdminOrder = () => {
     fn: () => AdminOrderService.getOrder(),
   })
 
-
   const pagiConfigs = {
     current: current,
     total: data?.count,
@@ -56,26 +40,18 @@ const AdminOrder = () => {
     onChange: (current, pageSize) => setCurrent(current),
   }
 
-
-
   useEffect(() => {
     if (status === 'success' && data) {
       setOrderData((state) => {
         let { _order } = data
 
-        let sliceData = _order?.slice(
-          (current - 1) * pagiConfigs.pageSize,
-          (current - 1) * pagiConfigs.pageSize + pagiConfigs.pageSize,
-        )
+        let sliceData = _order?.slice((current - 1) * pagiConfigs.pageSize, (current - 1) * pagiConfigs.pageSize + pagiConfigs.pageSize)
         return sliceData
       })
     }
   }, [current, data])
 
-
-
   const onHandleDelete = (record) => {
-    // console.log("delete", record);
     Modal.confirm({
       title: 'Xác thực',
       content: 'Bạn có muốn xóa ?',
@@ -155,15 +131,12 @@ const AdminOrder = () => {
 
     xhtml = (
       <Space>
-        <Button>
+        <Button type="primary">
           <Link to={`/admin/order/${record?._id}`}>
             <FormOutlined />
           </Link>
         </Button>
-        <Button
-          onClick={() => onHandleDelete(record)}
-          icon={<DeleteOutlined />}
-        />
+        <Button onClick={() => onHandleDelete(record)} icon={<DeleteOutlined />} />
       </Space>
     )
     return xhtml
@@ -171,7 +144,7 @@ const AdminOrder = () => {
 
   const renderDate = (record) => {
     let result = moment(record.createdAt).format('HH:mm DD-MM-YYYY ')
-    return result
+    return <span style={{ display: 'block', width: 120 }}>{result}</span>
   }
 
   const renderTag = (record) => {
@@ -205,10 +178,7 @@ const AdminOrder = () => {
 
   const renderProduct = (val, record, i) => {
     return (
-      <div
-        key={[val, i]}
-        style={{ display: 'flex', justifyContent: 'flex-start' }}
-      >
+      <div key={[val, i]} style={{ display: 'flex', justifyContent: 'flex-start' }}>
         <Space wrap size={[8, 16]} align="start">
           {record?.products.map((item) => (
             <Tag color="#108ee9" key={makeid(9)}>
@@ -227,12 +197,7 @@ const AdminOrder = () => {
   }
 
   const getColumnSearchProps = (dataIndex) => ({
-    filterDropdown: ({
-      setSelectedKeys,
-      selectedKeys,
-      confirm,
-      clearFilters,
-    }) => (
+    filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
       <div style={{ padding: 8 }}>
         <Space align="center" size={0}>
           <Button
@@ -247,18 +212,14 @@ const AdminOrder = () => {
             ref={searchInput}
             placeholder={`Tìm kiếm`}
             value={selectedKeys[0]}
-            onChange={(e) =>
-              setSelectedKeys(e.target.value ? [e.target.value] : [])
-            }
+            onChange={(e) => setSelectedKeys(e.target.value ? [e.target.value] : [])}
             onSearch={() => handleSearch(selectedKeys, confirm, dataIndex)}
             style={{ marginBottom: 0, display: 'block', width: 200 }}
           />
         </Space>
       </div>
     ),
-    filterIcon: (filtered) => (
-      <SearchOutlined style={{ color: filtered ? '#1890ff' : undefined }} />
-    ),
+    filterIcon: (filtered) => <SearchOutlined style={{ color: filtered ? '#1890ff' : undefined }} />,
     onFilter: (value, record) => {
       let [name1, name2] = dataIndex
       let label = record?.[name1]
@@ -272,10 +233,36 @@ const AdminOrder = () => {
     },
   })
 
+  const renderService = (val, record, i) => {
+    if (record?.data?.create_company) {
+      return (
+        <Tag color="#108ee9" key={makeid(9)}>
+          Thành lập doanh nghiệp
+        </Tag>
+      )
+    } else if (record?.data?.change_info) {
+      return (
+        <Tag color="#108ee9" key={makeid(9)}>
+          Thay đổi thông tin
+        </Tag>
+      )
+    } else if (record?.data?.pending) {
+      return (
+        <Tag color="#108ee9" key={makeid(9)}>
+          Tạm hoãn
+        </Tag>
+      )
+    } else if (record?.data?.dissolution) {
+      return (
+        <Tag color="#108ee9" key={makeid(9)}>
+          Giải thể
+        </Tag>
+      )
+    }
+  }
   return (
     <>
       <AdminHeader title="Quản lý đơn hàng" />
-
       <div style={{ padding: 8, background: '#fff' }}>
         <Table
           dataSource={orderData}
@@ -289,66 +276,31 @@ const AdminOrder = () => {
           className="table"
           pagination={false}
           rowKey={(record) => record._id || makeid(9)}
-          scroll={{ x: 1280 }}
+          scroll={{ x: true }}
           sticky={{
             offsetScroll: 8,
             offsetHeader: -8,
           }}
         >
-          <Table.Column
-            title="Đơn hàng"
-            width="210px"
-            render={(val, record, i) => record?._id}
-            {...getColumnSearchProps(['_id'])}
-          />
-          <Table.Column
-            className={styles.inline}
-            title="Người đăng kí"
-            width="175px"
-            render={(val, record, i) => record?.orderOwner?.email}
-            {...getColumnSearchProps(['orderOwner', 'email'])}
-          />
-          <Table.Column
-            title="Sản phẩm"
-            render={(val, record, i) => renderProduct(val, record, i)}
-          />
-          <Table.Column
-            title="Giá tiền"
-            width="150px"
-            render={(val, record, i) => <>{number_format(record?.price)} VND</>}
-          />
-          <Table.Column
-            title="Tiến độ"
-            width="75px"
-            render={(val, record, i) => renderProgress(record)}
-          />
-          <Table.Column
-            title="Thanh toán"
-            width="150px"
-            render={(val, record, i) => renderTag(record)}
-          />
-          <Table.Column
-            title="Ngày tạo"
-            width="150px"
-            render={(val, record, i) => renderDate(record)}
-          />
-          <Table.Column
-            title="Thao tác"
-            width="104px"
-            render={(val, record, i) => renderAction(record)}
-          />
+          <Table.Column title="Đơn hàng" width={210} render={(val, record, i) => record?._id} {...getColumnSearchProps(['_id'])} />
+          <Table.Column className={styles.inline} title="Người đăng kí" width="175px" render={(val, record, i) => record?.orderOwner?.email} {...getColumnSearchProps(['orderOwner', 'email'])} />
+          <Table.Column title="Sản phẩm" render={renderProduct} />
+          <Table.Column title="Dịch vụ" width={210} render={renderService} />
+          <Table.Column title="Giá tiền" width={150} render={(val, record, i) => <>{number_format(record?.price)} VND</>} />
+          <Table.Column title="Tiến độ" width={75} render={(val, record, i) => renderProgress(record)} />
+          <Table.Column title="Thanh toán" width={150} render={(val, record, i) => renderTag(record)} />
+          <Table.Column title="Ngày tạo" width={150} render={(val, record, i) => renderDate(record)} />
+          <Table.Column title="Thao tác" width={104} render={(val, record, i) => renderAction(record)} />
         </Table>
       </div>
+
       <CCPagination {...pagiConfigs} />
 
-      <Modal
-        footer={null}
-        onCancel={() => onClose()}
-        visible={childModal.visible}
-        width={childModal.width}
-      >
-        {childModal.component}
-      </Modal>
+      {childModal.visible && (
+        <Modal footer={null} onCancel={() => onClose()} visible={childModal.visible} width={childModal.width}>
+          {childModal.component}
+        </Modal>
+      )}
     </>
   )
 }

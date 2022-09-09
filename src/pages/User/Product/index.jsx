@@ -6,7 +6,7 @@ import clsx from 'clsx'
 import styles from './styles.module.scss'
 import { useOutletContext } from 'react-router-dom'
 import { useFetch } from '../../../helper/Hook'
-
+import { m } from 'framer-motion'
 const UserProductPage = () => {
   const [product, setProduct] = useState([])
   const { data, isLoading, status } = useFetch({
@@ -21,7 +21,7 @@ const UserProductPage = () => {
   }, [data])
 
   return (
-    <div className={clsx([styles.cardgrid, 'container'])}>
+    <m.div className={clsx([styles.cardgrid, 'container'])} initial={{ opacity: 0 }} exit={{ opacity: 0 }} animate={{ opacity: 1 }}>
       {product?.map((item, index) => {
         return (
           <Skeleton
@@ -46,7 +46,7 @@ const UserProductPage = () => {
           </Skeleton>
         )
       })}
-    </div>
+    </m.div>
   )
 }
 

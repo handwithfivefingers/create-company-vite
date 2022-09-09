@@ -5,10 +5,10 @@ import CCDescription from '@/components/CCDescription'
 import { checkVariable } from '@/helper/Common'
 import { Form, Descriptions, Divider, Typography, Col, Row } from 'antd'
 import _ from 'lodash'
-const listOfFields = ['company_opt_career', 'include', 'exclude', 'detail_after', 'company_main_career', 'list_president', 'contribute_members']
+import styles from './styles.module.scss'
+import clsx from 'clsx'
 
 const { Paragraph, Text } = Typography
-
 const PreviewData = forwardRef((props, ref) => {
   const [formData, setFormData] = useState([])
 
@@ -62,8 +62,8 @@ const PreviewData = forwardRef((props, ref) => {
 
       xhtml.push(
         <>
-          <Divider orientationMargin={0} orientation="left">
-            <h5>{label} </h5>
+          <Divider orientationMargin={0} orientation="left" className={styles.margin_0}>
+            <h5 className={clsx(styles.margin_0, styles.padding_4)}>{label} : </h5>
           </Divider>
 
           {loopItem}
@@ -81,15 +81,15 @@ const PreviewData = forwardRef((props, ref) => {
       if (text === 'personal') text = 'Thành viên góp vốn là cá nhân'
       else if (text === 'organization') text = 'Thành viên góp vốn là tổ chức'
 
-      xhtml.push(<Paragraph>{text}</Paragraph>)
+      xhtml.push(<Paragraph className={clsx(styles.margin_0, styles.padding_4)}>{text}</Paragraph>)
     } else if (typeof data === 'object') {
       if (Array.isArray(data)) {
         return data.map((item, i) => {
           const ordered = objectSorter(item)
 
           return (
-            <Col lg={8} md={12} sm={24} xs={24}>
-              <p>
+            <Col lg={8} md={12} sm={24} xs={24} key={[Math.random(), i]}>
+              <p className={styles.margin_0}>
                 <strong>{[label, ' ', i + 1]}</strong>
               </p>
               {renderLoopItem({ data: ordered, fields, label })}
@@ -106,27 +106,29 @@ const PreviewData = forwardRef((props, ref) => {
             let title = itemKeys.label
             return (
               <>
-                <Divider dashed orientationMargin={12} orientation="left">
-                  {title}
+                <Divider dashed orientation="left" className={styles.margin_0}>
+                  {title} :
                 </Divider>
 
                 {renderLoopItem({
                   data: dataKeys,
                   fields: itemKeys.fields,
                 })}
-                <Divider dashed />
+                <Divider dashed className={styles.margin_0} />
               </>
             )
           } else {
             if (itemKeys !== 'Vốn điều lệ (bằng số)' && moment(dataKeys, 'DD-MM-YYYY', true).isValid()) {
-              return itemKeys && <Paragraph>{`${itemKeys}: ${moment(dataKeys).format('DD/MM/YYYY')}`}</Paragraph>
+              return itemKeys && <Paragraph className={clsx(styles.margin_0, styles.padding_4)}>{`${itemKeys} : ${moment(dataKeys).format('DD/MM/YYYY')}`}</Paragraph>
             } else {
               return (
                 itemKeys && (
-                  <Paragraph>
-                    <span style={{ color: 'rgba(150, 150, 150, 0.8)' }}>{itemKeys} : </span>
-                    {dataKeys}
-                  </Paragraph>
+                  <Col span={24}>
+                    <Paragraph className={clsx(styles.margin_0, styles.padding_4)}>
+                      <span style={{ color: 'rgba(84, 84, 84, 0.8)' }}>{itemKeys} : </span>
+                      {dataKeys}
+                    </Paragraph>
+                  </Col>
                 )
               )
             }
@@ -272,13 +274,7 @@ const PreviewData = forwardRef((props, ref) => {
     return object
   }
 
-  return formData ? (
-    <Row gutter={[16, 12]} style={{ margin: 0 }}>
-      {renderPreviewData(formData)}
-    </Row>
-  ) : (
-    ''
-  )
+  return formData ? <Row gutter={[8, 6]}>{renderPreviewData(formData)}</Row> : ''
 })
 
 export default PreviewData

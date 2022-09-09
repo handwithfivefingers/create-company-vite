@@ -29,9 +29,6 @@ export default function ForgotPassword() {
       style={{ width: 350 }}
     >
       <Form layout="vertical" validateMessages={validateMessages}>
-        <Form.Item name={['phone']} label="Số điện thoại" required>
-          <Input />
-        </Form.Item>
         <Form.Item name={['email']} label="Email" rules={[{ type: 'email' }]} required>
           <Input />
         </Form.Item>

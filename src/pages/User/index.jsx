@@ -5,7 +5,33 @@ import WithAuth from '@/components/HOC/WithAuth'
 import { useEffect } from 'react'
 import ProfileService from '../../service/UserService/ProfileService'
 import { useFetch } from '../../helper/Hook'
-const UserDashboard = () => {
+import { motion } from 'framer-motion'
+const User = () => {
+  return (
+    <>
+      <Suspense
+        fallback={
+          <div className="container spin-suspense">
+            <Space align="center">
+              <Spin spinning={true} tip="Loading..." delay={500} />
+            </Space>
+          </div>
+        }
+      >
+        {/* <div className="animate__animated animate__fadeIn"> */}
+        <Outlet
+          context={{
+            animateClass: 'animate__animated animate__fadeIn animate__faster',
+          }}
+        />
+        {/* </div> */}
+      </Suspense>
+      <Tidio />
+    </>
+  )
+}
+
+const Tidio = () => {
   const {
     data: profileData,
     refetch,
@@ -19,11 +45,11 @@ const UserDashboard = () => {
 
   useEffect(() => {
     const PUBLIC_KEY = 'dsoujgdd2n9ranu8l3qkkbtrkx3mxgoj'
-    
+
     let ready = false
 
     let tidioScript = document.createElement('script')
-    
+
     tidioScript.src = `//code.tidio.co/${PUBLIC_KEY}.js`
 
     document.body.appendChild(tidioScript)
@@ -45,27 +71,6 @@ const UserDashboard = () => {
       }
     }
   }
-
-  return (
-    <Suspense
-      fallback={
-        <div className="container spin-suspense">
-          <Space align="center">
-            <Spin spinning={true} tip="Loading..." delay={500} />
-          </Space>
-        </div>
-      }
-    >
-      <Outlet
-        context={{
-          animateClass: 'animate__animated animate__fadeIn animate__faster',
-        }}
-      />
-      {/* <a href="#" onClick={handleOpenTidio}>
-        Open chat!
-      </a> */}
-    </Suspense>
-  )
+  return <></>
 }
-
-export default WithAuth(UserDashboard, 'user')
+export default WithAuth(User, 'user')

@@ -1,29 +1,10 @@
-import {
-  DeleteOutlined,
-  FormOutlined,
-  PlusSquareOutlined,
-  SearchOutlined,
-  BarsOutlined,
-  MoreOutlined,
-} from '@ant-design/icons'
+import { BarsOutlined, DeleteOutlined, FormOutlined, MoreOutlined, PlusSquareOutlined } from '@ant-design/icons'
 
-import {
-  Button,
-  Card,
-  Col,
-  Drawer,
-  message,
-  Popover,
-  Row,
-  Table,
-  Tooltip,
-  PageHeader,
-  Segmented,
-} from 'antd'
-import parser from 'html-react-parser'
-import { useEffect, useState, memo } from 'react'
 import TemplateMail from '@/components/Form/TemplateMail'
 import AdminMailService from '@/service/AdminService/AdminMailService'
+import { Button, Col, Drawer, message, PageHeader, Row, Segmented, Table } from 'antd'
+import parser from 'html-react-parser'
+import { memo, useEffect, useState } from 'react'
 import styles from './styles.module.scss'
 
 function ListTemplateMail(props) {
@@ -72,7 +53,10 @@ function ListTemplateMail(props) {
         <TemplateMail
           onClose={onClose}
           type={1}
-          onFinishScreen={() => fetchTemplateMail()}
+          onFinishScreen={() => {
+            onClose()
+            fetchTemplateMail()
+          }}
         />
       ),
     })
@@ -90,7 +74,10 @@ function ListTemplateMail(props) {
           content={record.content}
           onClose={onClose}
           type={2}
-          onFinishScreen={() => fetchTemplateMail()}
+          onFinishScreen={() => {
+            onClose()
+            fetchTemplateMail()
+          }}
         />
       ),
     })
@@ -130,18 +117,25 @@ function ListTemplateMail(props) {
           />
         )}
         {segment === 2 && (
-          <Button
-            key="add-template"
-            type="text"
-            onClick={() => addTemplate()}
+          <PageHeader
+            title={
+              <Button
+                key="add-template"
+                type="text"
+                onClick={() => addTemplate()}
+                style={{
+                  background: '#fff',
+                  display: 'flex',
+                  alignItems: 'center',
+                }}
+              >
+                <PlusSquareOutlined /> Thêm mới
+              </Button>
+            }
             style={{
-              background: '#fff',
-              display: 'flex',
-              alignItems: 'center',
+              padding: '16px 0',
             }}
-          >
-            <PlusSquareOutlined /> Thêm mới
-          </Button>
+          />
         )}
         <Segmented
           options={[
@@ -185,62 +179,27 @@ function ListTemplateMail(props) {
           scroll={{ x: 1200 }}
           rowKey={(record) => record._id}
         >
-          <Table.Column
-            width={'20%'}
-            title="Mẫu Email"
-            dataIndex="name"
-            render={(val, record, i) => val}
-          />
-          <Table.Column
-            width={'20%'}
-            title="Subject"
-            dataIndex="subject"
-            render={(val, record, i) => val}
-          />
-          <Table.Column
-            title="Nội dung Email"
-            width={'50%'}
-            render={(val, record, i) => (
-              <div className={styles.tableContent}>
-                {parser(record?.content || '')}
-              </div>
-            )}
-          />
+          <Table.Column width={'20%'} title="Mẫu Email" dataIndex="name" render={(val, record, i) => val} />
+          <Table.Column width={'20%'} title="Subject" dataIndex="subject" render={(val, record, i) => val} />
+          <Table.Column title="Nội dung Email" width={'50%'} render={(val, record, i) => <div className={styles.tableContent}>{parser(record?.content || '')}</div>} />
 
           <Table.Column
-            width={'10%'}
+            width={'80px'}
             title="Action"
             render={(val, record, i) => (
-              <Row>
-                <Col span={12}>
-                  <Button
-                    type="text"
-                    size="small"
-                    onClick={() => editTemplate(record)}
-                  >
-                    <FormOutlined />
-                  </Button>
-                </Col>
-                <Col span={12}>
-                  <Button
-                    type="text"
-                    size="small"
-                    onClick={() => deleteTemplate(record)}
-                  >
-                    <DeleteOutlined />
-                  </Button>
-                </Col>
-              </Row>
+              <span style={{ display: 'inline-block', width: 80 }}>
+                <Button type="primary" size="small" onClick={() => editTemplate(record)}>
+                  <FormOutlined />
+                </Button>
+                <Button type="text" size="small" onClick={() => deleteTemplate(record)}>
+                  <DeleteOutlined />
+                </Button>
+              </span>
             )}
           />
         </Table>
 
-        <Drawer
-          title={drawer.title}
-          width={720}
-          onClose={onClose}
-          visible={drawer.visible}
-        >
+        <Drawer title={drawer.title} width={720} onClose={onClose} visible={drawer.visible}>
           {drawer.component}
         </Drawer>
       </div>

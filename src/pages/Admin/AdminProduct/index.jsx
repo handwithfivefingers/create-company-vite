@@ -13,7 +13,7 @@ import CareerCategory from './CareerCategory'
 import CategoryForm from './CategoryForm'
 import FormProduct from './Product'
 import CareerForm from './CarrerForm'
-
+import { motion } from 'framer-motion'
 const { TabPane } = Tabs
 const AdminProduct = (props) => {
   const [data, setData] = useState([])
@@ -308,9 +308,8 @@ const AdminProduct = (props) => {
 
   const addCareerCategory = async (val) => {
     try {
-      console.log(val)
       let res = await AdminProductService.createCareerCategory(val)
-      console.log(res)
+      message.success(res.data.message)
     } catch (err) {
       console.log(err)
       message.error('Something went wrong')
@@ -339,9 +338,9 @@ const AdminProduct = (props) => {
 
   const updateCategories = async (val) => {
     try {
-      console.log(val)
       let res = await AdminProductService.updateCareerCategory(val)
-      console.log(res)
+      // console.log(res)
+      message.success(res.data.message)
     } catch (error) {
       console.log(error)
     } finally {
@@ -354,7 +353,7 @@ const AdminProduct = (props) => {
 
     try {
       let res = await AdminProductService.deleteCareerCategory(id)
-      console.log(res)
+      message.success(res.data.message)
     } catch (error) {
       console.log(error)
     } finally {
@@ -490,9 +489,11 @@ const AdminProduct = (props) => {
             </Table>
           </TabPane>
         </Tabs>
-        <Drawer visible={childModal.visible} width={childModal.width} onClose={closeModal} destroyOnClose>
-          {childModal.component}
-        </Drawer>
+        {childModal.visible && (
+          <Drawer visible={childModal.visible} width={childModal.width} onClose={closeModal} destroyOnClose>
+            {childModal.component}
+          </Drawer>
+        )}
       </div>
     </>
   )

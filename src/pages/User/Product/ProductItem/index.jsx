@@ -9,6 +9,7 @@ import { useMemo } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useFetch } from '../../../../helper/Hook'
 import styles from './styles.module.scss'
+import { m } from 'framer-motion'
 
 const CreateCompanyPages = lazy(() => {
   return import('./CreateCompanyPages')
@@ -339,7 +340,7 @@ const UserProductItem = (props) => {
   }
 
   return (
-    <div className={styles.mainContent}>
+    <m.div className={styles.mainContent} initial={{ opacity: 0 }} exit={{ opacity: 0 }} animate={{ opacity: 1 }}>
       {data && renderHeaderStep()}
 
       <div className={styles.formContent}>
@@ -357,7 +358,7 @@ const UserProductItem = (props) => {
       >
         {childModal.component}
       </Modal>
-    </div>
+    </m.div>
   )
 }
 

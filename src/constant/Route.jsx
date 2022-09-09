@@ -11,7 +11,7 @@ import Error from '@/pages/_error'
 import LoadingScreen from '@/components/LoadingScreen'
 import HomePage from '@/pages/HomePage'
 import Admin from '@/pages/Admin'
-import UserDashboard from '@/pages/User'
+import User from '@/pages/User'
 import ForgotPassword from '../pages/HomePage/ForgotPassword'
 import LoginPage from '../pages/HomePage/LoginPage'
 
@@ -27,7 +27,8 @@ const AdminProduct = lazy(() => import('@/pages/Admin/AdminProduct'))
 const AdminSetting = lazy(() => import('@/pages/Admin/AdminSetting'))
 const AdminUser = lazy(() => import('@/pages/Admin/AdminUser'))
 
-// const UserDashboard = lazy(() => import('@/pages/User'));
+// const User = lazy(() => import('@/pages/User'));
+const UserDashboard = lazy(() => import('@/pages/User/Dashboard'))
 const UserProductPage = lazy(() => import('@/pages/User/Product'))
 const UserProductItem = lazy(() => import('@/pages/User/Product/ProductItem'))
 const UserOrder = lazy(() => import('@/pages/User/Order'))
@@ -181,9 +182,14 @@ export const LAYOUT_ROUTER = ({ status, role }) => [
   {
     title: 'User',
     path: 'user',
-    element: <UserDashboard status={status} />,
+    element: <User status={status} />,
     children: status ? (
       [
+        {
+          index: true,
+          icon: <RiBarChartFill />,
+          element: <UserDashboard />,
+        },
         {
           path: 'san-pham',
           title: 'Sản phẩm',

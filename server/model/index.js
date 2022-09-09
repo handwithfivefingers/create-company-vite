@@ -8,8 +8,10 @@ const template = require('./template')
 const setting = require('./setting')
 const log = require('./log')
 const careerCategory = require('./careerCategory')
-const mongoose = require('mongoose')
+const otp = require('./otp')
+
 const bcrypt = require('bcryptjs')
+const mongoose = require('mongoose')
 
 const { Schema } = mongoose
 
@@ -24,7 +26,10 @@ const productSchema = new Schema({ ...product }, { timestamps: true })
 const settingSchema = new Schema({ ...setting }, { timestamps: true })
 const logSchema = new Schema({ ...log }, { timestamps: true })
 const careerCategorySchema = new Schema({ ...careerCategory }, { timestamps: true })
+
 const templateSchema = new Schema({ ...template }, { timestamps: true, collation: { locale: 'en_US', strength: 1 } })
+
+const otpSchema = new Schema({ ...otp }, { timestamps: true })
 
 // // Step 2 : Create Methods - Function
 
@@ -46,6 +51,7 @@ const TemplateMail = mongoose.model('TemplateMail', templateSchema)
 const Setting = mongoose.model('Setting', settingSchema)
 const Log = mongoose.model('Log', logSchema)
 const CareerCategory = mongoose.model('careerCategory', careerCategorySchema)
+const OTP = mongoose.model('OTP', otpSchema)
 
 // // Step 4 : Create Virtual Field - Reference
 
@@ -93,4 +99,5 @@ module.exports = {
   Log,
   Product,
   CareerCategory,
+  OTP,
 }

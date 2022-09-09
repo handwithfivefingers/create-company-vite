@@ -1,11 +1,11 @@
 import axios from '../config/axios'
 
 const api_path = {
-  fetchCareer: '/nganhnghe',
+  fetchCareer: '/career',
   sendMail: '/sendmail',
   getProvince: '/service/province',
-  getCareerCate: '/nganhnghe/category',
-  getSingleCareerCate: '/nganhnghe/category',
+  getCareerCate: '/career_cate',
+  getSingleCareerCate: '/career_cate',
 }
 
 const GlobalService = {

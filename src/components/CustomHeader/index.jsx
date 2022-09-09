@@ -37,52 +37,6 @@ const MobileMenu = (props) => {
       >
         <MenuOutlined />
       </Button>
-      {/* <Drawer placement="right" size={size} onClose={onClose} visible={visible}>
-        <Menu mode="vertical" className={styles.menuListItems}>
-          <Link to={'/'}>
-            <Image
-              height="80px"
-              src={Logo.src}
-              alt="logo"
-              preview={false}
-              style={{
-                cursor: 'pointer',
-                margin: '0 auto',
-                display: 'flex',
-                justifyContent: 'center',
-              }}
-              onClick={() => setVisible(!visible)}
-            />
-          </Link>
-          {!props.permis ? (
-            <>
-              <Menu.Item>
-                <Link to={'/login'} key="1" className={styles.linkItem}>
-                  Login
-                </Link>
-              </Menu.Item>
-              <Menu.Item key="2">
-                <Link to={'/register'} className={styles.linkItem}>
-                  Register
-                </Link>
-              </Menu.Item>
-            </>
-          ) : (
-            <>
-              <Menu.Item>
-                <Button type="text" onClick={() => navigate(`/${props?.auth?.role}` || '/')}>
-                  {props?.auth?.role}
-                </Button>
-              </Menu.Item>
-              <Menu.Item>
-                <Button type="text" onClick={() => signOut()}>
-                  Đăng xuất
-                </Button>
-              </Menu.Item>
-            </>
-          )}
-        </Menu>
-      </Drawer> */}
     </div>
   )
 }
@@ -93,46 +47,9 @@ const DesktopMenu = (props) => {
   }
   return (
     <div className={clsx([styles.container, 'container'])}>
-         <Link to={'/'}>
-          <Image width={58} src={Logo} alt="logo" preview={false} style={{ cursor: 'pointer' }} />
-        </Link>
-      {/* <ul className={styles.listItems}>
-        <Link to={'/'}>
-          <Image width={58} src={Logo} alt="logo" preview={false} style={{ cursor: 'pointer' }} />
-        </Link>
-      </ul> */}
-      {/* <Dropdown
-        overlay={
-          <Menu mode="horizontal" style={{ width: '140px' }}>
-            {!props.permis ? (
-              <>
-                <Menu.Item>
-                  <Link to={'/login'} key="1" className={styles.linkItem}>
-                    Login
-                  </Link>
-                </Menu.Item>
-                <Menu.Item key="2">
-                  <Link to={'/register'} className={styles.linkItem}>
-                    Register
-                  </Link>
-                </Menu.Item>
-              </>
-            ) : (
-              <>
-                <Menu.Item>
-                  <Button type="text" onClick={() => signOut()}>
-                    Đăng xuất
-                  </Button>
-                </Menu.Item>
-              </>
-            )}
-          </Menu>
-        }
-      >
-        <span className={styles.btn}>
-          Tài khoản <DownOutlined />
-        </span>
-      </Dropdown> */}
+      <Link to={'/'}>
+        <Image width={58} src={Logo} alt="logo" preview={false} style={{ cursor: 'pointer' }} />
+      </Link>
     </div>
   )
 }
@@ -180,7 +97,6 @@ const CustomHeader = (props) => {
           },
         ])}
       >
-        {/* {screens.md ? <DesktopMenu permis={permis} path={path} auth={auth} /> : <MobileMenu permis={permis} path={path} auth={auth} />} */}
         <DesktopMenu permis={permis} path={path} auth={auth} />
       </nav>
     </>

@@ -9,16 +9,16 @@ const api_path = {
   updateCategories: '/admin/category/update',
   createCategories: '/admin/category/create',
 
-  getCareer: '/nganhnghe',
-  createCareer: '/nganhnghe',
-  updateCareer: '/nganhnghe',
-  deleteCareer: '/nganhnghe',
+  getCareer: '/career',
+  createCareer: '/career',
+  updateCareer: '/career',
+  deleteCareer: '/career',
 
-  getCareerCategory: '/nganhnghe/category',
-  createCareerCategory: '/nganhnghe/category',
-  getSingleCareerCategory: '/nganhnghe/category',
-  updateCareerCategory: '/nganhnghe/category',
-  deleteCareerCategory: '/nganhnghe/category',
+  getCareerCategory: '/career_cate',
+  createCareerCategory: '/career_cate',
+  getSingleCareerCategory: '/career_cate',
+  updateCareerCategory: '/career_cate',
+  deleteCareerCategory: '/career_cate',
 }
 
 const AdminProductService = {

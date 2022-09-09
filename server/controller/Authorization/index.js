@@ -1,9 +1,9 @@
-const { User, Setting } = require('../../model')
+const { User, Setting, OTP } = require('../../model')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const { loginFailed, createdHandler, errHandler, existHandler } = require('../../response')
-
 const MailService = require('@server/controller/user/Sendmail')
+const otpGenerator = require('otp-generator')
 
 const { sendmailWithAttachments } = new MailService()
 
@@ -105,6 +105,61 @@ module.exports = class Authorization {
     })
   }
 
+  ForgotPassword = async (req, res) => {
+    try {
+      let { email } = req.body
+      // if (!email) throw { message: 'Email is required' }
+
+      let _user = await User.findOne({ email })
+      if (!_user) throw { message: 'User does not exist' }
+
+      let otpObj = new OTP({
+        opt: this.generateOTP(),
+        email,
+      })
+
+      let mailObj = await this.getTemplateMail('mailRegister')
+      otpObj.save().then((data) => {
+        if (otpObj === data) {
+        }
+      })
+
+      return res.sendStatus(200)
+    } catch (error) {
+      return errHandler(error, res)
+    }
+  }
+
+  ValidateOTP = async (req, res) => {
+    try {
+      let { email, OTP } = req.body
+      if (!OTP) throw { message: 'Invalid OTP' }
+
+      let _user = await OTP.findOne({ email: email })
+
+      if (!_user) throw { message: 'OTP Expired' }
+
+      let _userOTP = _user.otp
+
+      if (_userOTP !== OTP) throw { message: 'Invalid OTP' }
+
+
+
+
+    } catch (error) {
+      return errHandler(error, res)
+    }
+  }
+
+  ResetPassword = async (req, res) => { 
+    
+
+  }
+
+  generateOTP = () => {
+    let otp = otpGenerator.generate(6, { digits: true, lowerCaseAlphabets: false, upperCaseAlphabets: false, specialChars: false })
+  }
+
   generateToken = async (obj, res) => {
     const token = await jwt.sign(obj, process.env.SECRET, {
       expiresIn: process.env.EXPIRE_TIME,
@@ -143,6 +198,16 @@ module.exports = class Authorization {
     } catch (err) {
       // throw err;
       return errHandler(err, res)
+    }
+  }
+
+  getTemplateMail = async (template) => {
+    try {
+      let [_setting] = await Setting.find().populate(`${template}`, '-updatedAt -createdAt -_id -__v')
+      console.log(_setting?.[template])
+      return _setting?.[template]
+    } catch (error) {
+      throw error
     }
   }
 }

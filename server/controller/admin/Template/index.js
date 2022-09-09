@@ -1,4 +1,4 @@
-const { existHandler, successHandler, errHandler, permisHandler, deletedHandler } = require('../../../response')
+const { existHandler, successHandler, errHandler, permisHandler, deletedHandler, updatedHandler, createdHandler } = require('../../../response')
 const { TemplateMail } = require('../../../model')
 const _ = require('lodash')
 
@@ -45,6 +45,7 @@ module.exports = class TemplateAdmin {
 
       return createdHandler(_save, res)
     } catch (e) {
+      console.log(e);
       return errHandler(e, res)
     }
   }
@@ -64,6 +65,7 @@ module.exports = class TemplateAdmin {
 
       return updatedHandler(_updated, res)
     } catch (e) {
+      console.log('error', e)
       return errHandler(e, res)
     }
   }

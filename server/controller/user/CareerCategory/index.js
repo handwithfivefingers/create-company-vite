@@ -9,7 +9,7 @@ module.exports = class CareerCategoryClass {
   fetchCareer = async (req, res) => {
     try {
       let _cate = await CareerCategory.find({ delete_flag: { $ne: 1 } })
-      
+
       return successHandler(_cate, res)
     } catch (err) {
       console.log(err)
@@ -35,7 +35,9 @@ module.exports = class CareerCategoryClass {
     try {
       let { name, category } = req.body
 
-      let _cate = await CareerCategory.findOne({ name: req.body.name })
+      console.log('create cate')
+
+      let _cate = await CareerCategory.findOne({ name: req.body.name, delete_flag: 0 })
 
       if (_cate) throw 'Category already exists'
 
@@ -51,13 +53,10 @@ module.exports = class CareerCategoryClass {
       }
 
       return successHandler(_cateSaved, res)
-
     } catch (err) {
-
       console.log(err)
 
       return errHandler(err, res)
-
     }
   }
 

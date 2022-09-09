@@ -8,15 +8,15 @@ const CareerClass = require('@controller/user/Career')
 
 const { fetchCareer, createCareer, editCareer, deleteCareer } = new CareerClass()
 //Get
-router.get('/nganhnghe', requireSignin, upload.none(), fetchCareer)
+router.get('/career', requireSignin, upload.none(), fetchCareer)
 
 //Post
-router.post('/nganhnghe', requireSignin, upload.none(), createCareer)
+router.post('/career', requireSignin, upload.none(), createCareer)
 
 //Edit
-router.post('/nganhnghe/:id', requireSignin, upload.none(), editCareer)
+router.post('/career/:id', requireSignin, upload.none(), editCareer)
 
 //Delete
-router.delete('/nganhnghe/:id', requireSignin, upload.none(), deleteCareer)
+router.delete('/career/:id', requireSignin, upload.none(), deleteCareer)
 
 module.exports = router

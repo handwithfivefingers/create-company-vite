@@ -5,7 +5,7 @@ import { SELECT } from '@/constant/Common'
 import { PENDING_FORM } from '@/constant/FormConstant'
 import CCInput from '@/components/CCInput'
 import clsx from 'clsx'
-import styles from '../styles.module.scss'
+import styles from './styles.module.scss'
 import CCListForm from '@/components/CCListForm'
 import CCSelect from '@/components/CCSelect'
 
@@ -121,15 +121,15 @@ const TamNgungKinhDoanh = forwardRef(({ data, current, index }, ref) => {
 
         xhtml = (
           <>
-            <Form.Item 
-            // label={PENDING_FORM.approve.fields.location.label}
-            label={
-              <div
-                dangerouslySetInnerHTML={{
-                  __html: '<b>Địa chỉ trụ sở chính</b>',
-                }}
-              />
-            }
+            <Form.Item
+              // label={PENDING_FORM.approve.fields.location.label}
+              label={
+                <div
+                  dangerouslySetInnerHTML={{
+                    __html: '<b>Địa chỉ trụ sở chính</b>',
+                  }}
+                />
+              }
             >
               <CCSelect.SelectProvince ref={ref} label={'Địa chỉ trụ sở chính'} name={[...BASE_FORM, 'location']} placeholder="Địa chỉ trụ sở chính" />{' '}
             </Form.Item>
@@ -154,7 +154,7 @@ const TamNgungKinhDoanh = forwardRef(({ data, current, index }, ref) => {
 
   return (
     <Form.Item
-      className={clsx(styles.current, {
+      className={clsx(styles.groupInput, styles.current, {
         [styles.active]: current === index,
       })}
     >
@@ -165,6 +165,7 @@ const TamNgungKinhDoanh = forwardRef(({ data, current, index }, ref) => {
         onChange={(e) => handleChange(e, [...BASE_FORM, 'company_name'])}
       />
       <CCInput name={[...BASE_FORM, 'mst']} label="Mã số doanh nghiệp hoặc Mã số thuế" placeholder="0316184427" />
+
       <CCInput
         name={[...BASE_FORM, 'org_person']}
         label={
@@ -177,7 +178,9 @@ const TamNgungKinhDoanh = forwardRef(({ data, current, index }, ref) => {
         placeholder="NGUYỄN VĂN A"
         onChange={(e) => handleChange(e, [...BASE_FORM, 'org_person'])}
       />
+
       {renderFormByType}
+
       <CCInput
         type="select"
         name={[...BASE_FORM, 'obj']}
