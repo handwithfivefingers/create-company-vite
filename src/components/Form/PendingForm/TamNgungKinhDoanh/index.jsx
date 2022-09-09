@@ -121,7 +121,16 @@ const TamNgungKinhDoanh = forwardRef(({ data, current, index }, ref) => {
 
         xhtml = (
           <>
-            <Form.Item label={PENDING_FORM.approve.fields.location.label}>
+            <Form.Item 
+            // label={PENDING_FORM.approve.fields.location.label}
+            label={
+              <div
+                dangerouslySetInnerHTML={{
+                  __html: '<b>Địa chỉ trụ sở chính</b>',
+                }}
+              />
+            }
+            >
               <CCSelect.SelectProvince ref={ref} label={'Địa chỉ trụ sở chính'} name={[...BASE_FORM, 'location']} placeholder="Địa chỉ trụ sở chính" />{' '}
             </Form.Item>
 

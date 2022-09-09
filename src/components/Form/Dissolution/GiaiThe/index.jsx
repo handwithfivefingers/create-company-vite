@@ -157,7 +157,16 @@ const GiaiThe = forwardRef((props, ref) => {
         onChange={(e) => setFields(e, [...BASE_FORM, 'org_person'])}
       />
 
-      <Form.Item label="Địa chỉ trụ sở chính">
+      <Form.Item 
+      // label="Địa chỉ trụ sở chính"
+      label={
+        <div
+          dangerouslySetInnerHTML={{
+            __html: '<b>Địa chỉ trụ sở chính</b>',
+          }}
+        />
+      }
+      >
         <CCSelect.SelectProvince ref={ref} name={[...BASE_FORM, 'location']} placeholder="Nhập địa chỉ trụ sở chính" label="Địa chỉ trụ sở chính" />
       </Form.Item>
 
