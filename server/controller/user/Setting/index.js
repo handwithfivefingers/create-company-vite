@@ -4,18 +4,21 @@ const { Setting } = require('@model')
 module.exports = class SettingClass {
   settingTemplateMail = async (req, res) => {
     try {
-      let { mailRegister, mailPayment, mailPaymentSuccess } = req.body
+      let { ...rest } = req.body
+
       let _setting = await Setting.findOne({
         userOwner: req.id,
       })
+
       if (_setting) {
-        await Setting.updateOne({ userOwner: req.id }, { mailRegister, mailPayment, mailPaymentSuccess }, { new: true })
+        await Setting.updateOne({ userOwner: req.id }, { ...rest }, { new: true })
       } else {
         let _obj = new Setting({
-          mailRegister,
-          mailPayment,
-          mailPaymentSuccess,
+          // mailRegister,
+          // mailPayment,
+          // mailPaymentSuccess,
           userOwner: req.id,
+          ...rest,
         })
         await _obj.save()
       }

@@ -1,7 +1,7 @@
-const { User, Setting, OTP } = require('../../model')
+const { User, Setting, OTP, TemplateMail } = require('../../model')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
-const { loginFailed, createdHandler, errHandler, existHandler } = require('../../response')
+const { loginFailed, createdHandler, errHandler, existHandler, successHandler } = require('../../response')
 const MailService = require('@server/controller/user/Sendmail')
 const otpGenerator = require('otp-generator')
 
@@ -64,6 +64,8 @@ module.exports = class Authorization {
       if (response) {
         const auth = await response.authenticate(req.body.password)
 
+        console.log(auth, typeof req.body.password)
+
         if (auth) {
           let _tokenObj = { _id: response._id, role: response.role }
 
@@ -110,30 +112,54 @@ module.exports = class Authorization {
       let { email } = req.body
       // if (!email) throw { message: 'Email is required' }
 
+      // await OTP.deleteMany({})
+
       let _user = await User.findOne({ email })
+
       if (!_user) throw { message: 'User does not exist' }
 
+      await OTP.deleteMany({ email })
+
       let otpObj = new OTP({
-        opt: this.generateOTP(),
+        otp: this.generateOTP(),
         email,
       })
 
-      let mailObj = await this.getTemplateMail('mailRegister')
-      otpObj.save().then((data) => {
-        if (otpObj === data) {
-        }
-      })
+      let { name, content, subject } = await this.getTemplateMail('mailForgotPass')
 
-      return res.sendStatus(200)
+      // console.log(mailObj)
+
+      await otpObj.save()
+
+      // try to send mail
+      // let mailParams = mailObj.replace('{otp}', otpObj.otp)
+
+      // mailParams.email = _user.email
+
+      // console.log(name, content, subject)
+
+      let mailParams = {
+        email: _user.email,
+        content: content.replace('{name}', _user.name).replace('{otp}', otpObj.otp).replace('{link}', 'http://103.57.221.122:3004/forgot-password?step=2'),
+        subject,
+        type: 'any',
+      }
+
+      await sendmailWithAttachments(req, res, mailParams)
+
+      return successHandler({ message: 'OTP successfully registered' }, res)
     } catch (error) {
+      console.log('ForgotPassword', error)
+
       return errHandler(error, res)
     }
   }
 
   ValidateOTP = async (req, res) => {
     try {
-      let { email, OTP } = req.body
-      if (!OTP) throw { message: 'Invalid OTP' }
+      let { email, otp } = req.body
+
+      if (!otp) throw { message: 'Invalid OTP' }
 
       let _user = await OTP.findOne({ email: email })
 
@@ -141,23 +167,59 @@ module.exports = class Authorization {
 
       let _userOTP = _user.otp
 
-      if (_userOTP !== OTP) throw { message: 'Invalid OTP' }
+      let isOTPValid = _userOTP === otp
 
+      if (!isOTPValid) throw { message: 'Invalid OTP' }
 
-
-
+      res.sendStatus(200)
     } catch (error) {
       return errHandler(error, res)
     }
   }
 
-  ResetPassword = async (req, res) => { 
-    
+  ResetPassword = async (req, res) => {
+    try {
+      let { password, confirm_password, email, otp } = req.body
 
+      if (password !== confirm_password) throw { message: 'Invalid password' }
+
+      let [_user] = await User.aggregate([
+        {
+          $match: {
+            email: req.body.email,
+          },
+        },
+        {
+          $lookup: {
+            from: 'otps',
+            localField: 'email',
+            foreignField: 'email',
+            as: 'otp',
+          },
+        },
+        { $unwind: { path: '$otp' } }, // Extract array to Object
+      ])
+
+      let isOTPValid = _user?.otp?.otp === otp || false
+
+      if (!isOTPValid) throw { message: 'OTP invalid' }
+
+      const hash_password = await bcrypt.hash(password, 10)
+
+      await User.updateOne({ _id: _user._id }, { hash_password: hash_password })
+
+      await OTP.deleteOne({ email: email })
+
+      return successHandler('Change Password success', res)
+    } catch (error) {
+      console.log(error)
+
+      return errHandler(error, res)
+    }
   }
 
   generateOTP = () => {
-    let otp = otpGenerator.generate(6, { digits: true, lowerCaseAlphabets: false, upperCaseAlphabets: false, specialChars: false })
+    return otpGenerator.generate(6, { digits: true, lowerCaseAlphabets: false, upperCaseAlphabets: false, specialChars: false })
   }
 
   generateToken = async (obj, res) => {
@@ -175,6 +237,7 @@ module.exports = class Authorization {
   getMailParams = async ({ name, phone, password, role, email }, res) => {
     try {
       let _setting = await Setting.find().populate('mailRegister mailPayment')
+
       let mailParams = {
         phone,
         email,
@@ -204,8 +267,7 @@ module.exports = class Authorization {
   getTemplateMail = async (template) => {
     try {
       let [_setting] = await Setting.find().populate(`${template}`, '-updatedAt -createdAt -_id -__v')
-      console.log(_setting?.[template])
-      return _setting?.[template]
+      return _setting[template]
     } catch (error) {
       throw error
     }

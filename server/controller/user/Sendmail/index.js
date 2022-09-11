@@ -40,8 +40,7 @@ module.exports = class MailService {
       ...this.mailConfig.auth,
       accessToken,
     }
-
-    return nodeMailer.createTransport(mailConfig)
+    return nodeMailer.createTransport(this.mailConfig)
   }
 
   sendmailWithAttachments = async (req, res, { type = 'attachments', ...rest }) => {
@@ -125,12 +124,15 @@ module.exports = class MailService {
   sendMail = async (req, res, { adminEmail, email, subject, content, redirect, ...rest }) => {
     try {
       // console.log("send");
-      return await this.createTransport().sendMail({
+      let transport = await this.createTransport()
+
+      return await transport.sendMail({
         from: adminEmail, // sender address
         to: email,
         subject: subject, // Subject line
         html: content, // html body,
       })
+      
     } catch (err) {
       console.log('sendMail failed')
       throw err

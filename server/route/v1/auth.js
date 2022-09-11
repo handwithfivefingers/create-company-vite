@@ -5,7 +5,7 @@ const router = express.Router() // get || post || put || delete || ....
 
 const Authorization = require('@controller/Authorization')
 
-const { registerUser, LoginUser, Logout, Authenticate, ForgotPassword } = new Authorization()
+const { registerUser, LoginUser, Logout, Authenticate, ForgotPassword, ValidateOTP, ResetPassword } = new Authorization()
 
 // // Create User
 router.post('/register', upload.none(), registerUser)
@@ -20,5 +20,9 @@ router.post('/logout', upload.none(), Logout)
 router.post('/auth', requireSignin, Authenticate)
 
 router.post('/forgot-password', ForgotPassword)
+
+router.post('/check-otp', ValidateOTP)
+
+router.post('/reset-password', ResetPassword)
 
 module.exports = router
