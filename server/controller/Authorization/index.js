@@ -140,7 +140,7 @@ module.exports = class Authorization {
 
       let mailParams = {
         email: _user.email,
-        content: content.replace('{name}', _user.name).replace('{otp}', otpObj.otp).replace('{link}', 'http://103.57.221.122:3004/forgot-password?step=2'),
+        content: content.replace('{name}', _user.name).replace('{otp}', otpObj.otp).replace('{link}', `http://103.57.221.122:3004/forgot-password?step=2&email=${_user.email}`),
         subject,
         type: 'any',
       }
