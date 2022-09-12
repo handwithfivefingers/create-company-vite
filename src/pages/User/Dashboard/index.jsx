@@ -2,10 +2,11 @@ import { Card, Col, Row, Tabs } from 'antd'
 import React from 'react'
 import { m } from 'framer-motion'
 import styles from './styles.module.scss'
-import pdfMake from 'pdfmake/build/pdfmake'
-import html2canvas from 'html2canvas'
-import pdfFonts from 'pdfmake/build/vfs_fonts'
+
 import clsx from 'clsx'
+import html2canvas from 'html2canvas'
+const pdfFonts = require('pdfmake/build/vfs_fonts')
+const pdfMake = require('pdfmake/build/pdfmake')
 
 pdfMake.vfs = pdfFonts.pdfMake.vfs
 
