@@ -2,7 +2,7 @@ import axios from 'axios'
 import store from '@/store'
 import { AuthAction } from '@/store/actions'
 import history from '../helper/history'
-console.log(import.meta.env)
+// console.log(import.meta.env)
 const instance = axios.create({
   baseURL: import.meta.env.NODE_ENV === 'development' ? `http://localhost:3001/api` : `${import.meta.env.VITE_BASEHOST_PROD}/api`,
   timeout: 1000 * 30, // Wait for 30 seconds
