@@ -5,12 +5,12 @@ const { loginFailed, createdHandler, errHandler, existHandler, successHandler } 
 const MailService = require('@server/controller/user/Sendmail')
 const otpGenerator = require('otp-generator')
 
-const {OAuth2Client} = require('google-auth-library');
+const { OAuth2Client } = require('google-auth-library')
 
 const { sendmailWithAttachments } = new MailService()
 const { GG_REFRESH_TOKEN: REFRESH_TOKEN, GG_REFRESH_URI: REFRESH_URI, GG_EMAIL_CLIENT_ID: CLIENT_ID, GG_EMAIL_CLIENT_SECRET: CLIENT_SECRET, MAIL_NAME, MAIL_PASSWORD } = process.env
 
-const client = new OAuth2Client(CLIENT_ID);
+const client = new OAuth2Client(CLIENT_ID)
 module.exports = class Authorization {
   constructor() {}
 
@@ -97,9 +97,7 @@ module.exports = class Authorization {
     }
   }
 
-  LoginWithGoogle = async (req,res) => {
-
-  }
+  LoginWithGoogle = async (req, res) => {}
 
   Logout = async (req, res) => {
     res.clearCookie('create-company-token')
@@ -145,10 +143,10 @@ module.exports = class Authorization {
       // mailParams.email = _user.email
 
       // console.log(name, content, subject)
-
+      let BASE_URL = process.env.NODE_ENV !== 'development' ? process.env.VITE_BASEHOST_PROD : 'http://localhost:3003';
       let mailParams = {
         email: _user.email,
-        content: content.replace('{name}', _user.name).replace('{otp}', otpObj.otp).replace('{link}', `http://103.57.221.122:3004/forgot-password?step=2&email=${_user.email}`),
+        content: content.replace('{name}', _user.name).replace('{otp}', otpObj.otp).replace('{link}', `${BASE_URL}/forgot-password?step=2&email=${_user.email}`),
         subject,
         type: 'any',
       }
