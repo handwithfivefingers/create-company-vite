@@ -2,9 +2,9 @@ import axios from 'axios'
 import store from '@/store'
 import { AuthAction } from '@/store/actions'
 import history from '../helper/history'
-
+console.log(import.meta.env)
 const instance = axios.create({
-  baseURL: process.env.NODE_ENV === 'development' ? `http://localhost:3001/api` : `${process.env.VITE_BASEHOST_PROD}/api`,
+  baseURL: import.meta.env.NODE_ENV === 'development' ? `http://localhost:3001/api` : `${import.meta.env.VITE_BASEHOST_PROD}/api`,
   timeout: 1000 * 30, // Wait for 30 seconds
   headers: {
     'Access-Control-Allow-Origin': '*',

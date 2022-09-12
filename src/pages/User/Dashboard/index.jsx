@@ -5,12 +5,23 @@ import styles from './styles.module.scss'
 
 import clsx from 'clsx'
 import html2canvas from 'html2canvas'
-const pdfFonts = require('pdfmake/build/vfs_fonts')
-const pdfMake = require('pdfmake/build/pdfmake')
+import { useEffect } from 'react'
 
-pdfMake.vfs = pdfFonts.pdfMake.vfs
+var pdfMake
+var pdfFonts
 
 const UserDashboard = () => {
+
+  useEffect(() => {
+    loadPdfMake()
+  }, [])
+
+  const loadPdfMake = async () => {
+    pdfMake = await import('pdfmake/build/pdfmake')
+    pdfFonts = await import('pdfmake/build/vfs_fonts')
+    pdfMake.vfs = pdfFonts.pdfMake.vfs
+  }
+
   const applyCanvas = async () => {
     let listItem = document.querySelectorAll(`.${styles.size__A4}`)
     let img = []
@@ -23,8 +34,6 @@ const UserDashboard = () => {
   }
   const renderPDF = async () => {
     let img = await applyCanvas()
-
-    console.log(img)
     var docDefinition = {
       content: img.map((item) => ({ image: item, width: 600 })),
       pageSize: 'A4',
@@ -32,7 +41,6 @@ const UserDashboard = () => {
     }
     pdfMake.createPdf(docDefinition).open()
   }
-
   return (
     <m.div initial={{ opacity: 0 }} exit={{ opacity: 0 }} animate={{ opacity: 1 }}>
       <Row gutter={[0, 12]}>
