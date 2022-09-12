@@ -3,14 +3,15 @@ import ProductCard from '../components/Products'
 import { BaseFieldText } from './../constant/Common'
 import moment from 'moment'
 /**
- * 
+ *
  * @param {*} pathName Array field name
  * @param {*} val value
  * @param {*} ref reference form
  * @param {*} upper Boolean
  */
 const onSetFields = (pathName, val, ref, upper = false) => {
-  ref.current.setFields([
+  console.log(ref.current)
+  ref.current?.setFields([
     {
       name: [...pathName],
       value: upper ? val.toUpperCase() : val,
@@ -144,8 +145,7 @@ const log = (...rest) => {
 
 const makeid = (length) => {
   var result = ''
-  var characters =
-    'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
+  var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
   var charactersLength = characters.length
   for (var i = 0; i < length; i++) {
     result += characters.charAt(Math.floor(Math.random() * charactersLength))
@@ -166,33 +166,14 @@ const checkVariable = (val) => {
 }
 
 const num2Word2 = (ty) => {
-  var t = [
-      'không',
-      'một',
-      'hai',
-      'ba',
-      'bốn',
-      'năm',
-      'sáu',
-      'bảy',
-      'tám',
-      'chín',
-    ],
+  var t = ['không', 'một', 'hai', 'ba', 'bốn', 'năm', 'sáu', 'bảy', 'tám', 'chín'],
     r = function (r, n) {
       var o = '',
         a = Math.floor(r / 10),
         e = r % 10
       return (
-        a > 1
-          ? ((o = ' ' + t[a] + ' mươi'), 1 == e && (o += ' mốt'))
-          : 1 == a
-          ? ((o = ' mười'), 1 == e && (o += ' một'))
-          : n && e > 0 && (o = ' lẻ'),
-        5 == e && a >= 1
-          ? (o += ' lăm')
-          : 4 == e && a >= 1
-          ? (o += ' tư')
-          : (e > 1 || (1 == e && 0 == a)) && (o += ' ' + t[e]),
+        a > 1 ? ((o = ' ' + t[a] + ' mươi'), 1 == e && (o += ' mốt')) : 1 == a ? ((o = ' mười'), 1 == e && (o += ' một')) : n && e > 0 && (o = ' lẻ'),
+        5 == e && a >= 1 ? (o += ' lăm') : 4 == e && a >= 1 ? (o += ' tư') : (e > 1 || (1 == e && 0 == a)) && (o += ' ' + t[e]),
         o
       )
     },
@@ -200,12 +181,7 @@ const num2Word2 = (ty) => {
       var a = '',
         e = Math.floor(n / 100),
         n = n % 100
-      return (
-        o || e > 0
-          ? ((a = ' ' + t[e] + ' trăm'), (a += r(n, !0)))
-          : (a = r(n, !1)),
-        a
-      )
+      return o || e > 0 ? ((a = ' ' + t[e] + ' trăm'), (a += r(n, !0))) : (a = r(n, !1)), a
     },
     o = function (t, r) {
       var o = '',
@@ -214,22 +190,14 @@ const num2Word2 = (ty) => {
       a > 0 && ((o = n(a, r) + ' triệu'), (r = !0))
       var e = Math.floor(t / 1e3),
         t = t % 1e3
-      return (
-        e > 0 && ((o += n(e, r) + ' ngàn'), (r = !0)),
-        t > 0 && (o += n(t, r)),
-        o
-      )
+      return e > 0 && ((o += n(e, r) + ' ngàn'), (r = !0)), t > 0 && (o += n(t, r)), o
     }
   return {
     convert: function (r) {
       if (0 == r) return t[0]
       var n = '',
         a = ''
-      do
-        (ty = r % 1e9),
-          (r = Math.floor(r / 1e9)),
-          (n = r > 0 ? o(ty, !0) + a + n : o(ty, !1) + a + n),
-          (a = ' tỷ')
+      do (ty = r % 1e9), (r = Math.floor(r / 1e9)), (n = r > 0 ? o(ty, !0) + a + n : o(ty, !1) + a + n), (a = ' tỷ')
       while (r > 0)
       return n.trim()
     },

@@ -6,10 +6,11 @@ import dateformat from 'dateformat'
 import moment from 'moment'
 import React, { lazy, useCallback, useEffect, useRef, useState } from 'react'
 import { useMemo } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useNavigate, useParams, useLocation } from 'react-router-dom'
 import { useFetch } from '../../../../helper/Hook'
 import styles from './styles.module.scss'
 import { m } from 'framer-motion'
+import { onSetFields } from '../../../../helper/Common'
 
 const CreateCompanyPages = lazy(() => {
   return import('./CreateCompanyPages')
@@ -28,6 +29,8 @@ const DissolutionPages = lazy(() => {
 })
 
 const UserProductItem = (props) => {
+  let location = useLocation()
+
   const formRef = useRef()
 
   const [current, setCurrent] = useState(0)
@@ -108,6 +111,7 @@ const UserProductItem = (props) => {
             handlePurchaseCreateCompany={handlePurchaseCreateCompany}
             Prev={Prev}
             Next={Next}
+            editData={location.state}
           />
         )
       case 2:
@@ -124,12 +128,23 @@ const UserProductItem = (props) => {
             Prev={Prev}
             Next={Next}
             changeInforStep={changeInforStep}
+            editData={location.state}
           />
         )
       case 3:
         // Tạm hoãn
         return (
-          <PendingPages data={data.data} loading={isLoading} Prev={Prev} Next={Next} handleSavePending={handleSavePending} handlePurchasePending={handlePurchasePending} step={current} ref={formRef} />
+          <PendingPages
+            data={data.data}
+            loading={isLoading}
+            Prev={Prev}
+            Next={Next}
+            handleSavePending={handleSavePending}
+            handlePurchasePending={handlePurchasePending}
+            step={current}
+            ref={formRef}
+            editData={location.state}
+          />
         )
       case 4:
         return (
@@ -142,6 +157,7 @@ const UserProductItem = (props) => {
             Prev={Prev}
             Next={Next}
             ref={formRef}
+            editData={location.state}
           />
         )
       default:

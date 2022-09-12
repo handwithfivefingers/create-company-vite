@@ -16,7 +16,24 @@ import { onSetFields } from '@/helper/Common'
 
 const ChangeInforForm = forwardRef((props, ref) => {
   const [productSelect, setProductSelect] = useState('')
+
   const [selectType, setSelectType] = useState([])
+
+  console.log(props.edit)
+
+  useEffect(() => {
+    initForm()
+  }, [])
+
+  const initForm = () => {
+    if (props.edit) {
+      let { data, products } = props.edit;
+
+      let [opt] = products;
+
+      handleSelectProduct({ type: opt.type, name: opt.name, value: opt._id }, 'selectProduct')
+    }
+  }
 
   const checkType = (type, i, ref) => {
     switch (type) {
@@ -44,17 +61,18 @@ const ChangeInforForm = forwardRef((props, ref) => {
   }
 
   const handleOnChange = (val, opt) => {
+    console.log(opt)
     setSelectType(opt)
     if (props.onFinishScreen) {
       props.onFinishScreen(opt)
     }
   }
 
-  const handleSelectProduct = (val, { type, name, value }, pathName) => {
-    setProductSelect(val)
+  const handleSelectProduct = ({ type, name, value }, pathName) => {
+    console.log('coming')
+    setProductSelect(value)
     onSetFields([pathName], { type, name, value }, ref)
   }
-
 
   return (
     <Form ref={ref} layout="vertical" name="change_info">
@@ -66,7 +84,7 @@ const ChangeInforForm = forwardRef((props, ref) => {
           [styles.active]: props.current === 0,
         })}
       >
-        <Select onSelect={(val, opt) => handleSelectProduct(val, opt, 'selectProduct')} placeholder="Bấm vào đây">
+        <Select onSelect={(val, opt) => handleSelectProduct(opt, 'selectProduct')} placeholder="Bấm vào đây">
           {props.data?.map((item) => {
             return (
               <Select.Option key={item._id} value={item._id} {...item}>
@@ -125,9 +143,7 @@ const ChangeInforForm = forwardRef((props, ref) => {
           name={['change_info', 'base_inform', 'org_person']}
           placeholder="NGUYỄN VĂN A"
         />
-        
       </div>
-
     </Form>
   )
 })

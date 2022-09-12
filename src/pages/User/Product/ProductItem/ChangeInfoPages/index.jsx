@@ -11,7 +11,7 @@ const PreviewData = lazy(() => {
 })
 
 const ChangeInfoPages = forwardRef((props, ref) => {
-  const { handleSaveChangeInfo, handlePurchaseChangeInfo, data, step, loading, onFinishScreen, Prev, Next, changeInforStep } = props
+  const { handleSaveChangeInfo, handlePurchaseChangeInfo, data, step, loading, onFinishScreen, Prev, Next, changeInforStep, editData } = props
 
   return (
     <Card className="card-boxShadow">
@@ -24,7 +24,7 @@ const ChangeInfoPages = forwardRef((props, ref) => {
           </div>
         }
       >
-        <ChangeInforForm data={data} ref={ref} current={step} onFinishScreen={onFinishScreen} />
+        <ChangeInforForm data={data} ref={ref} current={step} onFinishScreen={onFinishScreen} edit={editData} />
         {step === changeInforStep?.length - 1 && (
           <PreviewData
             ref={ref}

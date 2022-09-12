@@ -5,8 +5,12 @@ const { loginFailed, createdHandler, errHandler, existHandler, successHandler } 
 const MailService = require('@server/controller/user/Sendmail')
 const otpGenerator = require('otp-generator')
 
-const { sendmailWithAttachments } = new MailService()
+const {OAuth2Client} = require('google-auth-library');
 
+const { sendmailWithAttachments } = new MailService()
+const { GG_REFRESH_TOKEN: REFRESH_TOKEN, GG_REFRESH_URI: REFRESH_URI, GG_EMAIL_CLIENT_ID: CLIENT_ID, GG_EMAIL_CLIENT_SECRET: CLIENT_SECRET, MAIL_NAME, MAIL_PASSWORD } = process.env
+
+const client = new OAuth2Client(CLIENT_ID);
 module.exports = class Authorization {
   constructor() {}
 
@@ -91,6 +95,10 @@ module.exports = class Authorization {
       console.log('LoginUser error', err)
       return errHandler(err, res)
     }
+  }
+
+  LoginWithGoogle = async (req,res) => {
+
   }
 
   Logout = async (req, res) => {

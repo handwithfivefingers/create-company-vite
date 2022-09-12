@@ -193,3 +193,41 @@ export const SELECT = {
     },
   ],
 }
+
+
+
+
+export const CHANGE_INFO_SELECTION = [
+  {
+    name: '',
+    value:'',
+  },
+  {
+    name: '',
+    value:'',
+  },
+  {
+    name: '',
+    value:'',
+  },
+  {
+    name: '',
+    value:'',
+  },
+  {
+    name: '',
+    value:'',
+  },
+  {
+    name: '',
+    value:'',
+  },
+  {
+    name: '',
+    value:'',
+  },
+  {
+    name: '',
+    value:'',
+  },
+]

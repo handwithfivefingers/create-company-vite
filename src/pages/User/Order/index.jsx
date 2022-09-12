@@ -102,7 +102,8 @@ const UserOrder = () => {
         url = 'thanh-lap-doanh-nghiep'
       }
     }
-    navigate(`/user/san-pham/${url}`, { state: record })
+
+    navigate(`/user/san-pham/${url}`, { state: { ...record } })
   }
   const renderService = (val, record, i) => {
     if (record?.data?.create_company) {
