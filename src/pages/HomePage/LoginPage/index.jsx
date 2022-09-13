@@ -17,15 +17,20 @@ export default function LoginPage() {
   const { route } = useContext(RouterContext)
   const authReducer = useSelector((state) => state.authReducer)
   const navigate = useNavigate()
+  const [tab, setTab] = useState(1)
+
   let type = useNavigationType()
 
   useEffect(() => {
     if (route.to && authReducer.status) {
       navigate(route.to)
     }
-
-    formRef.current.start()
   }, [])
+
+  useEffect(() => {
+    console.log('start ??');
+    formRef.current.start()
+  }, [tab])
 
   const onLogin = async (val) => {
     setLoading(true)
@@ -56,13 +61,17 @@ export default function LoginPage() {
     }
   }
 
+  // const handleTabChange = async (tab) => {
+  //   formRef.current.start()
+  // }
+
   return (
-    <Tabs defaultActiveKey="1" centered className={styles.tabs}>
+    <Tabs defaultActiveKey="1" centered className={styles.tabs} onChange={(tab) => setTab(tab)}>
       <TabPane tab="Đăng nhập" key="1">
         <LoginForm ref={formRef} onFinish={onLogin} loading={loading} loginWithGoogle={loginWithGoogle} forgotPassword={forgotPassword} />
       </TabPane>
       <TabPane tab="Đăng kí" key="2">
-        <RegisterForm ref={formRef} onFinish={onRegister} loading={loading} />
+        <RegisterForm ref={formRef} onFinish={onRegister} loading={loading} loginWithGoogle={loginWithGoogle} />
       </TabPane>
     </Tabs>
   )

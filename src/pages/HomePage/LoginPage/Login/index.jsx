@@ -16,7 +16,7 @@ const LoginForm = forwardRef((props, ref) => {
         client_id: `${CLIENT_ID}.apps.googleusercontent.com`,
         callback: async (response) => await handleCredentialResponse(response),
       })
-      google.accounts.id.renderButton(ggRef.current, { theme: 'outline', size: 'large', width: '308' })
+      google.accounts.id.renderButton(ggRef.current, { theme: 'filled_blue', size: 'large', width: '308' })
       google.accounts.id.prompt() // also display the One Tap dialog
     },
   }))
