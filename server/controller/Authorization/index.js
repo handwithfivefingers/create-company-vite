@@ -74,8 +74,10 @@ module.exports = class Authorization {
 
       if (response) {
         const auth = await response.authenticate(req.body.password)
+
+        console.log(response)
         if (auth) {
-          let _tokenObj = { _id: response._id, role: response.role }
+          let _tokenObj = { _id: response._id, role: response.role, updatedAt: response.updatedAt }
 
           await this.generateToken(_tokenObj, res)
 
@@ -132,7 +134,7 @@ module.exports = class Authorization {
         // register
         let _userCreated = await this.createUserFromGoogle(data)
 
-        _tokenObj = { _id: _userCreated._id, role: _userCreated.role }
+        _tokenObj = { _id: _userCreated._id, role: _userCreated.role, updatedAt: _userCreated.updatedAt }
 
         newData = {
           role: _userCreated.role,
@@ -144,7 +146,7 @@ module.exports = class Authorization {
           await _user.save()
         }
 
-        _tokenObj = { _id: _user._id, role: _user.role }
+        _tokenObj = { _id: _user._id, role: _user.role, updatedAt: _user.updatedAt }
 
         newData = {
           role: _user.role,
@@ -188,7 +190,7 @@ module.exports = class Authorization {
   }
 
   Logout = async (req, res) => {
-    res.clearCookie('create-company-token')
+    res.clearCookie('sessionId')
     res.status(200).json({
       authenticate: false,
     })
@@ -227,11 +229,13 @@ module.exports = class Authorization {
       await otpObj.save()
 
       // try to send mail
+
       // let mailParams = mailObj.replace('{otp}', otpObj.otp)
 
       // mailParams.email = _user.email
 
       // console.log(name, content, subject)
+
       let BASE_URL = process.env.NODE_ENV !== 'development' ? process.env.VITE_BASEHOST_PROD : 'http://localhost:3003'
       let mailParams = {
         email: _user.email,
@@ -258,7 +262,6 @@ module.exports = class Authorization {
 
       let _user = await OTP.findOne({ email: email })
 
-      
       console.log('ValidateOTP', email, otp, _user)
 
       if (!_user) throw { message: 'OTP Expired' }
@@ -326,7 +329,7 @@ module.exports = class Authorization {
     })
     var hour = 3600000
 
-    res.cookie('create-company-token', token, {
+    res.cookie('sessionId', token, {
       maxAge: 2 * 24 * hour,
       httpOnly: true,
     })

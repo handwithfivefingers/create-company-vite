@@ -4,6 +4,7 @@ const shortid = require('shortid')
 const path = require('path')
 const multer = require('multer')
 const { authFailedHandler, errHandler } = require('@response')
+const { User } = require('../model')
 
 // const cloudinary = require("cloudinary").v2;
 
@@ -52,34 +53,42 @@ const storage = multer.diskStorage({
 const upload = multer({ storage })
 
 const requireSignin = async (req, res, next) => {
-  let token = req.cookies['create-company-token']
+  try {
+    let token = req.cookies['sessionId']
 
-  if (!token) return res.status(401).json({ message: 'Authorization required' })
-  // if (!token) return authFailedHandler(res);
-  else {
-    try {
-      const decoded = await jwt.verify(token, process.env.SECRET)
-      if (decoded) {
-        const newToken = jwt.sign({ _id: decoded._id, role: decoded.role }, process.env.SECRET, {
-          expiresIn: process.env.EXPIRE_TIME,
-        })
-        req.role = decoded.role
-        req.id = decoded._id
+    if (!token) throw { message: 'Authorization required' }
 
-        var hour = 3600000
+    const decoded = await jwt.verify(token, process.env.SECRET)
 
-        res.cookie('create-company-token', newToken, {
-          maxAge: 2 * 24 * hour,
-          httpOnly: true,
-        })
-        next()
-      } else {
-        res.clearCookie()
-        authFailedHandler(res)
-      }
-    } catch (err) {
-      errHandler(err, res)
+    if (decoded) {
+      let { _id, role, updatedAt } = decoded
+
+      let _user = await User.findOne({ _id })
+
+      if (new Date(_user.updatedAt).getTime() !== new Date(updatedAt).getTime()) throw { message: 'Token Expired' }
+
+      const newToken = jwt.sign({ _id, role, updatedAt }, process.env.SECRET, {
+        expiresIn: process.env.EXPIRE_TIME,
+      })
+
+      req.role = decoded.role
+
+      req.id = decoded._id
+
+      var hour = 3600000
+
+      res.cookie('sessionId', newToken, {
+        maxAge: 2 * 24 * hour,
+        httpOnly: true,
+      })
+
+      next()
     }
+  } catch (err) {
+    // authFailedHandler(res)
+    res.clearCookie()
+    return authFailedHandler(res)
+    // return errHandler(err, res)
   }
 }
 
