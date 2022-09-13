@@ -17,7 +17,9 @@ module.exports = class GitAction {
     let chormium = cd + '/node_modules/puppeteer' + '/.local-chromium'
 
     try {
+      
       console.log(`Git action::: ${cd}`)
+
       exec(cd)
 
       exec(checkout)
@@ -33,12 +35,13 @@ module.exports = class GitAction {
       // check folder if success
 
       // replace name with build folder
+
     } catch (err) {
-      
+
       console.log('git error', err)
-      // remove build folder if error
+  
     } finally {
-      // console.log('command :::::::::: ' + restartPm2)
+      
       console.log(`Action::: ${restartPm2}`)
       exec(restartPm2)
     }

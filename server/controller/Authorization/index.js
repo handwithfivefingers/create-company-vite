@@ -253,7 +253,7 @@ module.exports = class Authorization {
   ValidateOTP = async (req, res) => {
     try {
       let { email, otp } = req.body
-      
+
       console.log('ValidateOTP', email, otp)
 
       if (!otp) throw { message: 'Invalid OTP' }
@@ -264,7 +264,7 @@ module.exports = class Authorization {
 
       let _userOTP = _user.otp
 
-      let isOTPValid = _userOTP === otp
+      let isOTPValid = String(_userOTP) === String(otp)
 
       if (!isOTPValid) throw { message: 'Invalid OTP' }
 
