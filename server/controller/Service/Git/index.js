@@ -6,7 +6,6 @@ const secret = 'Hdme195'
 const repo = '/usr/share/nginx/html/create-company-vite'
 
 module.exports = class GitAction {
-
   gitPull = async (req, res) => {
     res.end()
     let cd = 'cd ' + repo
@@ -18,6 +17,7 @@ module.exports = class GitAction {
     let chormium = cd + '/node_modules/puppeteer' + '/.local-chromium'
 
     try {
+      console.log(`Git action::: ${cd}`)
       exec(cd)
 
       exec(checkout)
@@ -26,20 +26,21 @@ module.exports = class GitAction {
 
       exec(installPackage)
 
+      console.log(`Action::: ${buildPackage}`)
+
       exec(buildPackage)
 
       // check folder if success
 
       // replace name with build folder
-
-      console.log('Done :::::::::: ')
     } catch (err) {
+      
       console.log('git error', err)
       // remove build folder if error
     } finally {
-      console.log('command :::::::::: ' + restartPm2)
+      // console.log('command :::::::::: ' + restartPm2)
+      console.log(`Action::: ${restartPm2}`)
       exec(restartPm2)
     }
   }
-  
 }
