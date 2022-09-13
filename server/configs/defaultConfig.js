@@ -18,11 +18,19 @@ env.config()
 
 const { NODE_ENV } = process.env
 
-const URL_PERMISSIONS = ['http://localhost:3000', 'http://localhost:3001', 'http://localhost:3002', 'http://localhost:3003', 'https://app.thanhlapcongtyonline.vn']
+const URL_PERMISSIONS = [
+  'http://localhost:3000',
+  'http://localhost:3001',
+  'http://localhost:3002',
+  'http://localhost:3003',
+  'https://app.thanhlapcongtyonline.vn',
+  'http://10.0.14.235:3003'
+]
 
 const corsOptions = {
   credentials: true,
   origin: URL_PERMISSIONS,
+  // methods: ['GET','POST','DELETE','UPDATE','PUT','PATCH']
 }
 
 module.exports = class ConfigApp {

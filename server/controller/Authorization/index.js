@@ -6,9 +6,11 @@ const MailService = require('@server/controller/user/Sendmail')
 const otpGenerator = require('otp-generator')
 
 const { OAuth2Client } = require('google-auth-library')
+const axios = require('axios')
 
 const { sendmailWithAttachments } = new MailService()
-const { GG_REFRESH_TOKEN: REFRESH_TOKEN, GG_REFRESH_URI: REFRESH_URI, GG_EMAIL_CLIENT_ID: CLIENT_ID, GG_EMAIL_CLIENT_SECRET: CLIENT_SECRET, MAIL_NAME, MAIL_PASSWORD } = process.env
+
+const { GG_EMAIL_CLIENT_ID: CLIENT_ID } = process.env
 
 const client = new OAuth2Client(CLIENT_ID)
 module.exports = class Authorization {
@@ -63,13 +65,15 @@ module.exports = class Authorization {
 
   LoginUser = async (req, res) => {
     try {
+      // let { credential } = req.body
+      let { type } = req.body
+
+      if (type === 'google') return this.LoginWithGoogle(req, res)
+
       const response = await User.findOne({ phone: req.body.phone })
 
       if (response) {
         const auth = await response.authenticate(req.body.password)
-
-        console.log(auth, typeof req.body.password)
-
         if (auth) {
           let _tokenObj = { _id: response._id, role: response.role }
 
@@ -97,7 +101,91 @@ module.exports = class Authorization {
     }
   }
 
-  LoginWithGoogle = async (req, res) => {}
+  LoginWithGoogle = async (req, res) => {
+    try {
+      let { clientId, credential, type } = req.body
+
+      if (type !== 'google') throw 'error type Login'
+
+      if (CLIENT_ID !== clientId) throw 'ClientID didnt match'
+
+      const urlGG = `https://oauth2.googleapis.com/tokeninfo`
+
+      let { data } = await axios.get(urlGG, {
+        params: {
+          id_token: credential,
+        },
+      })
+      // console.log(data)
+      if (!data) throw { message: 'Token invalid' }
+      if (!data.email) throw { message: 'User not valid' }
+
+      let _user = await User.findOne({
+        email: data.email,
+      })
+
+      let _tokenObj
+
+      let newData
+
+      if (!_user) {
+        // register
+        let _userCreated = await this.createUserFromGoogle(data)
+
+        _tokenObj = { _id: _userCreated._id, role: _userCreated.role }
+
+        newData = {
+          role: _userCreated.role,
+        }
+      } else {
+        // console.log('have user', _user)
+        if (!_user.google.sub || _user.google.sub !== data.sub) {
+          _user.google = { ...data }
+          await _user.save()
+        }
+
+        _tokenObj = { _id: _user._id, role: _user.role }
+
+        newData = {
+          role: _user.role,
+        }
+      }
+
+      await this.generateToken(_tokenObj, res)
+
+      return res.status(200).json({
+        data: newData,
+        authenticate: true,
+        callbackUrl: `/${newData.role}`,
+      })
+    } catch (error) {
+      console.log(error)
+      return errHandler(error, res)
+    }
+  }
+
+  createUserFromGoogle = async (user) => {
+    try {
+      var password = Math.random().toString(36).slice(-8)
+      const hash_password = await bcrypt.hash(password, 10)
+
+      let _userObj = new User({
+        phone: user.sub,
+        name: user.name,
+        email: user.email,
+        hash_password,
+        google: {
+          ...user,
+        },
+      })
+
+      await _userObj.save()
+
+      return _userObj
+    } catch (error) {
+      throw { message: 'Create user failed', error: error }
+    }
+  }
 
   Logout = async (req, res) => {
     res.clearCookie('create-company-token')
@@ -116,6 +204,7 @@ module.exports = class Authorization {
   ForgotPassword = async (req, res) => {
     try {
       let { email } = req.body
+      console.log('Forgot Password', email)
       // if (!email) throw { message: 'Email is required' }
 
       // await OTP.deleteMany({})
@@ -143,7 +232,7 @@ module.exports = class Authorization {
       // mailParams.email = _user.email
 
       // console.log(name, content, subject)
-      let BASE_URL = process.env.NODE_ENV !== 'development' ? process.env.VITE_BASEHOST_PROD : 'http://localhost:3003';
+      let BASE_URL = process.env.NODE_ENV !== 'development' ? process.env.VITE_BASEHOST_PROD : 'http://localhost:3003'
       let mailParams = {
         email: _user.email,
         content: content.replace('{name}', _user.name).replace('{otp}', otpObj.otp).replace('{link}', `${BASE_URL}/forgot-password?step=2&email=${_user.email}`),
@@ -164,6 +253,8 @@ module.exports = class Authorization {
   ValidateOTP = async (req, res) => {
     try {
       let { email, otp } = req.body
+      
+      console.log('ValidateOTP', email, otp)
 
       if (!otp) throw { message: 'Invalid OTP' }
 

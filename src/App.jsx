@@ -30,13 +30,6 @@ import 'moment/locale/vi'
 
 import locale from 'antd/es/date-picker/locale/vi_VN'
 
-// import { AnimatePresence } from 'framer-motion'
-
-import { motion, LazyMotion, domAnimation, AnimatePresence } from 'framer-motion'
-import AdminSidebar from '@/components/Admin/AdminSidebar'
-import UserHeader from '@/components/User/UserHeader'
-import UserSidebar from '@/components/User/UserSidebar'
-import styles from '@/components/HOC/styles.module.scss'
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -86,9 +79,6 @@ const RouterComponent = (props) => {
   if (!elementComp) return null
 
   return elementComp
-  // <LazyMotion features={domAnimation} strict>
-  //   <AnimatePresence mode="wait">{cloneElement(elementComp, { key: location.pathname })}</AnimatePresence>
-  // </LazyMotion>
 }
 
 function App() {

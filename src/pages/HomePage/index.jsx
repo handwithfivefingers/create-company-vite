@@ -42,7 +42,7 @@ export default function HomePage() {
   return (
     <Layout style={{ background: '#fff', minHeight: '100vh' }}>
       <CustomHeader />
-      <Content className={clsx(['site-layout', styles.  siteLayout])}>
+      <Content className={clsx(['site-layout', styles.siteLayout])}>
         <Suspense fallback={<Spin spinning={true} />}>
           <Outlet />
         </Suspense>

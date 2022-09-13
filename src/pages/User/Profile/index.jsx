@@ -7,6 +7,7 @@ import clsx from 'clsx'
 import { useOutletContext } from 'react-router-dom'
 import { useFetch } from '../../../helper/Hook'
 import { m } from 'framer-motion'
+import { useSelector } from 'react-redux'
 const UserProfile = (props) => {
   const [loading, setLoading] = useState(false)
   const { animateClass } = useOutletContext()
@@ -14,7 +15,8 @@ const UserProfile = (props) => {
   const passRef = useRef()
   const profileRef = useRef()
   const screen = useBreakpoint()
-
+  const authReducer = useSelector((state) => state.authReducer)
+  console.log(authReducer)
   const {
     data: profileData,
     refetch,
@@ -23,6 +25,7 @@ const UserProfile = (props) => {
   } = useFetch({
     cacheName: ['userProfile'],
     fn: () => fetchProfile(),
+    enabled: (authReducer.status && true) || false,
   })
 
   const fetchProfile = () => ProfileService.getProfile()
@@ -67,6 +70,14 @@ const UserProfile = (props) => {
     }
   }
 
+  useEffect(() => {
+    if (profileData) {
+      profileRef.current.setFieldsValue({
+        ...profileData,
+      })
+    }
+  }, [profileData])
+
   return (
     <m.div initial={{ opacity: 0 }} exit={{ opacity: 0 }} animate={{ opacity: 1 }}>
       <Row gutter={[16, 12]} className={animateClass ?? animateClass}>
@@ -95,7 +106,7 @@ const UserProfile = (props) => {
 
         <Col lg={16} sm={24} xs={24} md={12}>
           <Card title="Thông tin cá nhân">
-            <Form onFinish={onProfileChange} ref={profileRef} layout="vertical" initialValues={profileData}>
+            <Form onFinish={onProfileChange} ref={profileRef} layout="vertical">
               <Form.Item label="Name" name="name">
                 <Input />
               </Form.Item>

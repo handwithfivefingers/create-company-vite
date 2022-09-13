@@ -1,11 +1,12 @@
 import { Spin, Space } from 'antd'
-import React, { Suspense } from 'react'
+import React, { Suspense, useCallback } from 'react'
 import { Outlet } from 'react-router-dom'
 import WithAuth from '@/components/HOC/WithAuth'
 import { useEffect } from 'react'
 import ProfileService from '../../service/UserService/ProfileService'
 import { useFetch } from '../../helper/Hook'
 import { motion } from 'framer-motion'
+import { useSelector } from 'react-redux'
 const User = () => {
   return (
     <>
@@ -32,6 +33,8 @@ const User = () => {
 }
 
 const Tidio = () => {
+  const authReducer = useSelector((state) => state.authReducer)
+
   const {
     data: profileData,
     refetch,
@@ -40,10 +43,15 @@ const Tidio = () => {
   } = useFetch({
     cacheName: ['userProfile'],
     fn: () => fetchProfile(),
+    // refetchInterval: 5 * 1000,
+    // enabled: authReducer.status,
   })
+
   const fetchProfile = () => ProfileService.getProfile()
 
-  useEffect(() => {
+  useEffect(() => TidioScript(), [])
+
+  const TidioScript = () => {
     const PUBLIC_KEY = 'dsoujgdd2n9ranu8l3qkkbtrkx3mxgoj'
 
     let ready = false
@@ -59,7 +67,7 @@ const Tidio = () => {
         setTidioIdentify()
       }
     }
-  }, [])
+  }
 
   const setTidioIdentify = () => {
     if (profileData) {

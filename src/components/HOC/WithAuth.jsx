@@ -12,7 +12,7 @@ import React, { Children, cloneElement, memo } from 'react'
 const { Content, Footer } = Layout
 
 export default function WithAuth(Component, role) {
-  return memo(function Authenticated(props) {
+  const Authenticated = (props) => {
     if (!props.status) {
       return <Navigate to="/" />
     }
@@ -65,7 +65,9 @@ export default function WithAuth(Component, role) {
         </Layout>
       </Layout>
     )
-  })
+  }
+
+  return memo(Authenticated)
 }
 
 const Clone = (props) => {

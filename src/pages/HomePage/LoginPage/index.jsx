@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
-import LoginForm from '@/components/Form/Login'
-import RegisterForm from '@/components/Form/Register'
+import LoginForm from './Login'
+import RegisterForm from './Register'
 import { useNavigate, useLocation, useNavigationType } from 'react-router-dom'
 
 import { Tabs } from 'antd'
@@ -17,13 +17,14 @@ export default function LoginPage() {
   const { route } = useContext(RouterContext)
   const authReducer = useSelector((state) => state.authReducer)
   const navigate = useNavigate()
-  let location = useLocation()
   let type = useNavigationType()
 
   useEffect(() => {
     if (route.to && authReducer.status) {
       navigate(route.to)
     }
+
+    formRef.current.start()
   }, [])
 
   const onLogin = async (val) => {
@@ -31,8 +32,10 @@ export default function LoginPage() {
     dispatch(AuthAction.AuthLogin(val))
     setLoading(false)
   }
+
   const loginWithGoogle = async (val) => {
-    alert('Login with Google')
+    // alert('Login with Google')
+    await dispatch(AuthAction.AuthLogin(val))
   }
 
   const forgotPassword = async (val) => {
@@ -52,6 +55,7 @@ export default function LoginPage() {
       navigate(authReducer.role)
     }
   }
+
   return (
     <Tabs defaultActiveKey="1" centered className={styles.tabs}>
       <TabPane tab="Đăng nhập" key="1">

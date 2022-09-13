@@ -19,16 +19,12 @@ const { startSession } = require('mongoose')
 const urlReturn = process.env.NODE_ENV === 'development' ? 'http://localhost:3001/api/order/payment/url_return' : process.env.RETURN_URL
 
 module.exports = class PaymentService {
-
   testPayment = (req, res) => {
-
     let { createDate, orderId, amount, orderInfo } = req.body
 
     return this.paymentOrder(req, res, { createDate, orderId, amount, orderInfo })
-
   }
   paymentOrder = async (req, res, params) => {
-
     const session = await startSession()
 
     try {

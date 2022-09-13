@@ -3,14 +3,17 @@ import React, { useState, useRef } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import clsx from 'clsx'
 import styles from './styles.module.scss'
-import axios from '@/config/axios'
+// import axios from '@/config/axios'
+
+import AuthService from '@/service/AuthService'
 import { useEffect } from 'react'
 const { Text, Link } = Typography
 export default function ForgotPassword() {
-  const navigate = useNavigate()
-  let [params] = useSearchParams()
-  const formRef = useRef()
   const [loading, setLoading] = useState(false)
+  const formRef = useRef()
+  let [params] = useSearchParams()
+  const navigate = useNavigate()
+
   // 303274
   const validateMessages = {
     required: '${label} là bắt buộc!',
@@ -27,7 +30,7 @@ export default function ForgotPassword() {
 
   useEffect(() => {
     formRef.current.setFieldsValue({
-      email,
+      email: email,
     })
   }, [params])
 
@@ -47,7 +50,7 @@ export default function ForgotPassword() {
   const generateOtp = async (val) => {
     try {
       setLoading(true)
-      let res = await axios.post('/forgot-password', val)
+      let res = await AuthService.forgotPassword(val)
       if (res.status !== 200) throw { message: 'Something went wrong' }
       message.success(res.data?.data.message || res.data.message)
     } catch (err) {
@@ -61,7 +64,7 @@ export default function ForgotPassword() {
   const validateOTP = async (val) => {
     try {
       setLoading(true)
-      let res = await axios.post('/check-otp', val)
+      let res = await AuthService.checkOtp(val)
       if (res.status !== 200) throw { message: 'Something went wrong' }
 
       if (res.status === 200) {
@@ -82,7 +85,9 @@ export default function ForgotPassword() {
   const resetPassword = async (val) => {
     try {
       setLoading(true)
-      let res = await axios.post('/reset-password', val)
+
+      let res = await AuthService.resetPassword(val)
+
       if (res.status !== 200) throw { message: 'Something went wrong' }
       message.success(res.data?.data.message || res.data.message)
       navigate('/')
@@ -110,31 +115,24 @@ export default function ForgotPassword() {
           <Input />
         </Form.Item>
 
-        <Form.Item name={['otp']} label="Mã OTP" validateMessages={validateMessages} hidden={step !== '2'}>
+        <Form.Item name={['otp']} label="Mã OTP" hidden={step !== '2'}>
           <Input maxLength={6} />
         </Form.Item>
 
-        <Form.Item name={['password']} label="Mật khẩu mới" validateMessages={validateMessages} hidden={step !== '3'}>
-          <Input maxLength={6} />
+        <Form.Item name={['password']} label="Mật khẩu mới" hidden={step !== '3'}>
+          <Input.Password maxLength={6} />
         </Form.Item>
 
-        <Form.Item name={['confirm_password']} label="Xác nhận lại mật khẩu" validateMessages={validateMessages} hidden={step !== '3'}>
-          <Input maxLength={6} />
+        <Form.Item name={['confirm_password']} label="Xác nhận lại mật khẩu" hidden={step !== '3'}>
+          <Input.Password maxLength={6} />
         </Form.Item>
-
-        {/* <Form.Item name={['otp']}>
-          <Input className={styles.otp} maxLength={4} onChange={(v) => (v.target.value.length >= 4 ? v.target.blur() : '')} />
-          <div className={styles.fakeInp}></div>
-          <div className={styles.fakeInp}></div>
-          <div className={styles.fakeInp}></div>
-          <div className={styles.fakeInp}></div>
-        </Form.Item> */}
 
         <Text type="secondary" className={clsx(styles.text, 'ant-row ant-form-item')}>
           Mật khẩu sẽ được cấp mới và gửi qua email. Vui lòng check mail sau khi xác thực.
         </Text>
+
         <Form.Item>
-          <Button type="primary" htmlType="submit" loading={loading}>
+          <Button type="primary" htmlType="submit" loading={loading} block>
             Xác thực
           </Button>
         </Form.Item>

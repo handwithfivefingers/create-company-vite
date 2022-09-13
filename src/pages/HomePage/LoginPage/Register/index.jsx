@@ -19,11 +19,11 @@ const RegisterForm = forwardRef((props, ref) => {
             <Input />
           </Form.Item>
 
-          <Space style={{ display: 'flex', justifyContent: 'space-between' }}>
-            <Button type="primary" htmlType="submit">
+          <div style={{ display: 'flex', justifyContent: 'space-between', padding: '8px 0' }}>
+            <Button type="primary" htmlType="submit" block>
               Đăng kí
             </Button>
-          </Space>
+          </div>
         </Form>
       </Spin>
     </div>

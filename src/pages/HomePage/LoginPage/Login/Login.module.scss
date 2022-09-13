@@ -1,17 +1,19 @@
-.registerWrap {
+.loginWrap {
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
   // margin-top: 50px;
-  padding:12px 0;
+  padding: 12px 0;
+  // width: 350px;
+
   h1 {
     font-size: 32px;
     color: #333;
     position: relative;
     &:after {
       position: absolute;
-      content: "";
+      content: '';
       top: 50%;
       right: 0;
       width: 100px;
@@ -27,8 +29,15 @@
     background: #fff;
     border-radius: 8px;
     box-shadow: 0 15px 40px -20px #ccc;
-    max-width: 350px;
-    min-width: 300px;
-    width: calc(100% - 20px);
+    // max-width: 350px;
+    // min-width: 300px;
+    width: 350px;
+
+    // width: calc(100% - 20px);
+  }
+  .googleBtn {
+    iframe {
+      width: 100%;
+    }
   }
 }
