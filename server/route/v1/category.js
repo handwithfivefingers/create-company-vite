@@ -8,21 +8,24 @@ const CategoryAdmin = require('@controller/admin/Category')
 
 const { getCategories, updateCate } = new CategoryClass()
 
-const { createCategory, getCategory, hardDelete, updateCategory } = new CategoryAdmin()
+const { createCategory, getCategory, hardDelete, updateCategory, reforceCategoriesData } = new CategoryAdmin()
 //Get
 // router.get('/admin/category', requireSignin, upload.none(), getCategories)
 
 router.get('/category', requireSignin, upload.none(), getCategories)
 
-router.post('/admin/category/update/:id', requireSignin, upload.none(), updateCate)
-
-router.post('/admin/category', createCategory)
+// router.post('/admin/category/update/:id', requireSignin, upload.none(), updateCate)
 
 router.get('/admin/category', getCategory)
 
+router.post('/admin/category', createCategory)
+
 router.post('/admin/category/:_id', updateCategory)
 
-router.delete('/admin/category', hardDelete)
+router.delete('/admin/category/:_id', hardDelete)
+    
+
+router.post('/admin/force', reforceCategoriesData)
 
 module.exports = router
 

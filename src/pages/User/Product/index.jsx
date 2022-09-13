@@ -10,7 +10,6 @@ import { m } from 'framer-motion'
 const UserProductPage = (props) => {
   const [product, setProduct] = useState([])
 
-
   const { data, isLoading, status } = useFetch({
     cacheName: ['userOrder'],
     fn: () => CategoryService.getCategories(),
@@ -22,7 +21,7 @@ const UserProductPage = (props) => {
     }
   }, [data])
 
-
+  console.log(data)
 
   return (
     <m.div className={clsx([styles.cardgrid, 'container'])} initial={{ opacity: 0 }} exit={{ opacity: 0 }} animate={{ opacity: 1 }}>
@@ -46,7 +45,7 @@ const UserProductPage = (props) => {
                 ['--animate-duration']: `${(index + 2) / 10}s`,
                 ['--animate-delay']: `0.3s`,
               }}
-            />{' '}
+            />
           </Skeleton>
         )
       })}

@@ -40,6 +40,7 @@ const AdminProduct = (props) => {
     data: category,
     isLoading: categoryLoading,
     status: categoryStatus,
+    refetch: cateRefetch,
   } = useFetch({
     cacheName: ['adminProduct', 'category'],
     fn: () => AdminProductService.getCategory(),
@@ -233,84 +234,68 @@ const AdminProduct = (props) => {
 
   // Categories
   const onHandleCreateCategory = () => {
-    // console.log("create category");
-    // setChildModal({
-    //   visible: true,
-    //   width: '50%',
-    //   component: (
-    //     <CategoryForm
-    //       onFinishScreen={(output) => {
-    //         // getScreenData();
-    //         addCategory(output)
-    //         closeModal()
-    //       }}
-    //     />
-    //   ),
-    // })
     setChildModal({
       visible: true,
       width: '50%',
       component: (
         <NewCategory
           category={cateData}
-          onFinishScreen={(output) => {
-            // getScreenData();
-            // addCategory(output)
-            addNewCategory(output)
+          onFinishScreen={() => {
+            cateRefetch()
             closeModal()
           }}
         />
       ),
     })
   }
-  const addNewCategory = async (output) => {
-    console.log(output)
-  }
 
   const onHandleUpdateCate = (record) => {
-    if (record) {
-      setChildModal({
-        visible: true,
-        width: '50%',
-        component: (
-          <FormProduct
-            type="edit"
-            data={record}
-            onEventEdit={(output) => onUpdateCate(output)}
-            onFinishScreen={() => {
-              getCateData()
-              closeModal()
-            }}
-          />
-        ),
-      })
-    }
+    // if (record) {
+    //   setChildModal({
+    //     visible: true,
+    //     width: '50%',
+    //     component: (
+    //       <FormProduct
+    //         type="edit"
+    //         data={record}
+    //         onEventEdit={(output) => onUpdateCate(output)}
+    //         onFinishScreen={() => {
+    //           getCateData()
+    //           closeModal()
+    //         }}
+    //       />
+    //     ),
+    //   })
+    // }
+    setChildModal({
+      visible: true,
+      width: '50%',
+      component: (
+        <NewCategory
+          // type="edit"
+          data={record}
+          category={cateData}
+          // onEventEdit={(output) => onUpdateCate(output)}
+          onFinishScreen={() => {
+            cateRefetch()
+            closeModal()
+          }}
+        />
+      ),
+    })
   }
 
-  const onUpdateCate = async (data) => {
-    try {
-      setLoading(true)
-      await AdminProductService.updateCategories(data)
-    } catch (err) {
-      console.log(err)
-    } finally {
-      getCateData()
-      setLoading(false)
-    }
-  }
-
-  const addCategory = async (val) => {
-    try {
-      let res = await AdminProductService.createCategory(val)
-      if (res.data.status === 201) {
-        message.success(res.data.message)
-      }
-    } catch (err) {
-      console.log(err)
-    } finally {
-      getCateData()
-    }
-  }
+  // const onUpdateCate = async (data) => {
+  //   try {
+  //     setLoading(true)
+  //     await AdminProductService.updateCategories(data)
+  //   } catch (err) {
+  //     console.log(err)
+  //   } finally {
+  //     cateRefetch()
+  //     setLoading(false)
+  //   }
+  // }
 
   const onHandleAddCareerCategory = () => {
     setChildModal({
@@ -358,15 +343,17 @@ const AdminProduct = (props) => {
     })
   }
 
-  const updateCategories = async (val) => {
+  const deleteCate = async ({ _id }) => {
     try {
-      let res = await AdminProductService.updateCareerCategory(val)
-      // console.log(res)
-      message.success(res.data.message)
-    } catch (error) {
-      console.log(error)
+      let res = await AdminProductService.deleteCate(_id)
+      if (res.status === 200) {
+        message.success(res.data.message)
+      }
+    } catch (err) {
+      console.log(err)
+      message.error(res.response.data?.message || res.message)
     } finally {
-      careerCategoryRefetch()
+      cateRefetch()
     }
   }
 
@@ -442,6 +429,7 @@ const AdminProduct = (props) => {
                   return (
                     <Space>
                       <Button onClick={(e) => onHandleUpdateCate(record)} icon={<FormOutlined />} />
+                      <Button onClick={(e) => deleteCate(record)} icon={<MinusSquareOutlined />} />
                     </Space>
                   )
                 }}
@@ -511,11 +499,9 @@ const AdminProduct = (props) => {
             </Table>
           </TabPane>
         </Tabs>
-        {childModal.visible && (
-          <Drawer visible={childModal.visible} width={childModal.width} onClose={closeModal} destroyOnClose>
-            {childModal.component}
-          </Drawer>
-        )}
+        <Drawer visible={childModal.visible} width={childModal.width} onClose={closeModal} destroyOnClose>
+          {childModal.component}
+        </Drawer>
       </div>
     </>
   )

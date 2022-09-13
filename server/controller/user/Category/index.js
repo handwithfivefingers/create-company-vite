@@ -5,9 +5,9 @@ const { errHandler, successHandler } = require('@response')
 module.exports = class CategoryClass {
   getCategories = async (req, res) => {
     try {
-      let _career = await Category.find({})
-      let newCate = this.filterCaregories(_career)
-      return successHandler(newCate, res)
+      let _cate = await Category.find({ parentCategory: { $exists: false } })
+      // let newCate = this.filterCaregories(_career)
+      return successHandler(_cate, res)
     } catch (err) {
       console.log('getCategories error')
       return errHandler(err, res)
@@ -60,5 +60,4 @@ module.exports = class CategoryClass {
     }
     return data
   }
-
 }

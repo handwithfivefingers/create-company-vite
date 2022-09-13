@@ -6,19 +6,14 @@ const api_path = {
   editProducts: '/product/edit',
   deleteProducts: '/product',
   getCategories: '/admin/category',
-  updateCategories: '/admin/category/update',
-  createCategories: '/admin/category/create',
+  // updateCategories: '/admin/category/update',
+  // createCategories: '/admin/category/create',
 
-  getCareer: '/career',
-  createCareer: '/career',
-  updateCareer: '/career',
-  deleteCareer: '/career',
+  categories: '/admin/category',
 
-  getCareerCategory: '/career_cate',
-  createCareerCategory: '/career_cate',
-  getSingleCareerCategory: '/career_cate',
-  updateCareerCategory: '/career_cate',
-  deleteCareerCategory: '/career_cate',
+  career: '/career',
+
+  careerCate: '/career_cate',
 }
 
 const AdminProductService = {
@@ -34,43 +29,42 @@ const AdminProductService = {
   deleteProduct: (params) => {
     return axios.delete(`${api_path.deleteProducts}/${params._id}`, params)
   },
-  getCategory: () => {
-    return axios.get(`${api_path.getCategories}`)
-  },
-  updateCategories: (params) => {
-    return axios.post(`${api_path.updateCategories}/${params._id}`, params)
-  },
-  createCategory: (params) => {
-    return axios.post(`${api_path.createCategories}`, params)
-  },
+
+  getCategory: () => axios.get(api_path.categories),
+
+  updateCategories: ({ _id, ...form }) => axios.post(api_path.categories + '/' + _id, form),
+
+  createCategory: (params) => axios.post(api_path.categories, params),
+
+  deleteCate: (_id) => axios.delete(api_path.categories + '/' + _id),
+
   getCareer: () => {
-    return axios.get(api_path.getCareer)
+    return axios.get(api_path.career)
   },
   createCareer: (form) => {
-    return axios.post(api_path.createCareer, form)
+    return axios.post(api_path.career, form)
   },
-
   updateCareer: ({ id, ...form }) => {
-    return axios.post(api_path.updateCareer + '/' + id, form)
+    return axios.post(api_path.career + '/' + id, form)
+  },
+  deleteCareer: (id) => {
+    return axios.delete(`${api_path.career}/${id}`)
   },
 
-  deleteCareer: (id) => {
-    return axios.delete(`${api_path.deleteCareer}/${id}`)
-  },
   getCareerCategory: () => {
-    return axios.get(api_path.getCareerCategory)
+    return axios.get(api_path.careerCate)
   },
   createCareerCategory: (form) => {
-    return axios.post(api_path.createCareerCategory, form)
+    return axios.post(api_path.careerCate, form)
   },
   getSingleCareerCategory: (id) => {
-    return axios.get(api_path.getSingleCareerCategory + '/' + id)
+    return axios.get(api_path.careerCate + '/' + id)
   },
   updateCareerCategory: ({ id, ...form }) => {
-    return axios.post(api_path.updateCareerCategory + '/' + id, form)
+    return axios.post(api_path.careerCate + '/' + id, form)
   },
   deleteCareerCategory: (id) => {
-    return axios.delete(api_path.deleteCareerCategory + '/' + id)
+    return axios.delete(api_path.careerCate + '/' + id)
   },
 }
 
