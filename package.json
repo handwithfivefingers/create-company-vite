@@ -7,7 +7,7 @@
     "dev": "concurrently \"npm run dev-f\" \"nodemon --trace-deprecation App.js\" ",
     "dev-f": "vite --host",
     "dev-s": "nodemon --trace-deprecation App.js",
-    "build": "vite build",
+    "build": "node --max-old-space-size=8192 node_modules/vite/bin/vite build",
     "preview": "vite preview"
   },
   "_moduleAliases": {
