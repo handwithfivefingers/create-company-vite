@@ -254,11 +254,12 @@ module.exports = class Authorization {
     try {
       let { email, otp } = req.body
 
-      console.log('ValidateOTP', email, otp)
-
       if (!otp) throw { message: 'Invalid OTP' }
 
       let _user = await OTP.findOne({ email: email })
+
+      
+      console.log('ValidateOTP', email, otp, _user)
 
       if (!_user) throw { message: 'OTP Expired' }
 
