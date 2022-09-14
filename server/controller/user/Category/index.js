@@ -60,4 +60,5 @@ module.exports = class CategoryClass {
     }
     return data
   }
+
 }

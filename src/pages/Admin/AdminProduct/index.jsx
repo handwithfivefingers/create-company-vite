@@ -13,7 +13,8 @@ import CareerCategory from './CareerCategory'
 import CategoryForm from './CategoryForm'
 import FormProduct from './Product'
 import CareerForm from './CarrerForm'
-import { motion } from 'framer-motion'
+import NewCategory from './NewCategory'
+
 const { TabPane } = Tabs
 const AdminProduct = (props) => {
   const [data, setData] = useState([])
@@ -187,6 +188,7 @@ const AdminProduct = (props) => {
       .then((res) => console.log(res))
       .catch((err) => console.log(err))
   }
+
   const onCareerEdit = (record) => {
     setChildModal({
       visible: true,
@@ -203,6 +205,7 @@ const AdminProduct = (props) => {
       ),
     })
   }
+
   const updateCareer = async (val) => {
     try {
       let res = await AdminProductService.updateCareer(val)
@@ -214,6 +217,7 @@ const AdminProduct = (props) => {
       careerRefetch()
     }
   }
+
   const deleteCareer = async (record) => {
     try {
       let res = await AdminProductService.deleteCareer(record._id)
@@ -230,19 +234,37 @@ const AdminProduct = (props) => {
   // Categories
   const onHandleCreateCategory = () => {
     // console.log("create category");
+    // setChildModal({
+    //   visible: true,
+    //   width: '50%',
+    //   component: (
+    //     <CategoryForm
+    //       onFinishScreen={(output) => {
+    //         // getScreenData();
+    //         addCategory(output)
+    //         closeModal()
+    //       }}
+    //     />
+    //   ),
+    // })
     setChildModal({
       visible: true,
       width: '50%',
       component: (
-        <CategoryForm
+        <NewCategory
+          category={cateData}
           onFinishScreen={(output) => {
             // getScreenData();
-            addCategory(output)
+            // addCategory(output)
+            addNewCategory(output)
             closeModal()
           }}
         />
       ),
     })
+  }
+  const addNewCategory = async (output) => {
+    console.log(output)
   }
 
   const onHandleUpdateCate = (record) => {

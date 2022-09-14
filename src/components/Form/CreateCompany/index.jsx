@@ -54,11 +54,7 @@ const CreateCompany = forwardRef((props, formRef) => {
   const [select, setSelect] = useState()
 
   useEffect(() => {
-    onSetFields(
-      [...BASE_FORM, 'origin_person', 0, 'national'],
-      'Việt Nam',
-      formRef,
-    )
+    onSetFields([...BASE_FORM, 'origin_person', 0, 'national'], 'Việt Nam', formRef)
   }, [])
 
   const handleSelect = (v, opt, pathName) => {
@@ -66,7 +62,7 @@ const CreateCompany = forwardRef((props, formRef) => {
     onSetFields([pathName], { type, name, value }, formRef)
     // reset Field
     let originPerson = [...BASE_FORM, 'origin_person']
-    
+
     let legelRespon = [...BASE_FORM, 'legal_respon']
 
     onSetFields([pathName], { type, name, value }, formRef)
@@ -77,10 +73,7 @@ const CreateCompany = forwardRef((props, formRef) => {
   }
   const dropdownRender = (pathName) => {
     return (
-      <Select
-        placeholder="Bấm vào đây"
-        onChange={(v, opt) => handleSelect(v, opt, pathName)}
-      >
+      <Select placeholder="Bấm vào đây" onChange={(v, opt) => handleSelect(v, opt, pathName)}>
         {props.data?.map((item) => {
           return (
             <Select.Option key={item._id} value={item._id} {...item}>
@@ -95,14 +88,7 @@ const CreateCompany = forwardRef((props, formRef) => {
 
   const renderFormItem = (data) => {
     let html = null
-    const listForm = [
-      GiaTriGopVon,
-      ThanhVienGopVon,
-      NguoiDaiDienPhapLuat,
-      TenCongTy,
-      DiaChiTruSoChinh,
-      NgangNgheDangKi,
-    ]
+    const listForm = [GiaTriGopVon, ThanhVienGopVon, NguoiDaiDienPhapLuat, TenCongTy, DiaChiTruSoChinh, NgangNgheDangKi]
 
     const configs = {
       BASE_FORM: BASE_FORM,
@@ -134,13 +120,7 @@ const CreateCompany = forwardRef((props, formRef) => {
           ])}
         >
           <Col span={24}>
-            <Form.Item
-              name={['selectProduct']}
-              required
-              label="Chọn loại hình doanh nghiệp"
-              placeholder="Bấm vào đây"
-              className={animateClass}
-            >
+            <Form.Item name={['selectProduct']} required label="Chọn loại hình doanh nghiệp" placeholder="Bấm vào đây" className={animateClass}>
               {dropdownRender(['selectProduct'])}
             </Form.Item>
           </Col>

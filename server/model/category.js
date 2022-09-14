@@ -1,3 +1,5 @@
+const mongoose = require('mongoose')
+
 module.exports = {
   name: {
     type: String,
@@ -18,4 +20,8 @@ module.exports = {
     type: Number,
     required: true,
   },
-};
+  parentCategory: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Category',
+  },
+}

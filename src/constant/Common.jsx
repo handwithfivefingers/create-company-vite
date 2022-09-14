@@ -194,40 +194,53 @@ export const SELECT = {
   ],
 }
 
-
-
-
 export const CHANGE_INFO_SELECTION = [
   {
-    name: '',
-    value:'',
+    key: 'name',
+    value: '62257b0bca8648da6987e4f5',
+    children: 'Tên doanh nghiêp',
+    type: '3',
   },
   {
-    name: '',
-    value:'',
+    key: 'down_authorized_capital',
+    value: '62257e4dca8648da6987e53d',
+    children: 'Giảm vốn điều lệ',
+    type: '4',
   },
   {
-    name: '',
-    value:'',
+    key: 'up_authorized_capital',
+    value: '62257eccca8648da6987e54e',
+    children: 'Tăng vốn điều lệ',
+    type: '5',
   },
   {
-    name: '',
-    value:'',
+    key: 'company_career',
+    value: '622f575496766518c4fc8216',
+    children: 'Ngành nghề kinh doanh',
+    type: '7',
   },
   {
-    name: '',
-    value:'',
+    key: 'location',
+    value: '622f577b96766518c4fc8220',
+    children: 'Địa chỉ trụ sở chính',
+    type: '1',
   },
   {
-    name: '',
-    value:'',
+    key: 'transfer_contract',
+    value: '622f579b96766518c4fc822c',
+    children: 'Chủ sở hữu',
+    type: '6',
   },
   {
-    name: '',
-    value:'',
+    key: 'present_change',
+    value: '622f585c96766518c4fc823a',
+    children: 'Người đại diện theo ủy quyền của chủ sở hữu là tổ chức',
+    type: '8',
   },
   {
-    name: '',
-    value:'',
+    key: 'tax',
+    value: '622f5896cad47d00092d1010',
+    children: 'Nội dung đăng ký thuế',
+    type: '9',
   },
 ]
