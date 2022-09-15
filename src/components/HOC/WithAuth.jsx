@@ -52,8 +52,8 @@ export default function WithAuth(Component, role) {
         <Layout className={clsx(['site-layout', styles.siteLayout])}>
           <Content className={clsx(styles.mainContent)}>
             <UserHeader className="site-layout-background" />
-            <LazyMotion features={domAnimation} strict>
-              <AnimatePresence mode="wait">
+            <LazyMotion features={domAnimation}>
+              <AnimatePresence>
                 <Clone {...props}>
                   <Component {...props} />
                 </Clone>

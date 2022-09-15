@@ -1,6 +1,6 @@
 import { FormOutlined, MinusSquareOutlined, PlusSquareOutlined, DeleteOutlined, SearchOutlined, BarsOutlined, MoreOutlined } from '@ant-design/icons'
 
-import { Button, Drawer, message, Modal, Space, Table, Tabs } from 'antd'
+import { Button, Drawer, message, Modal, Space, Table, Tabs, Popconfirm } from 'antd'
 import React, { useEffect, useState } from 'react'
 
 import { number_format, makeid } from '@/helper/Common'
@@ -74,7 +74,7 @@ const AdminProduct = (props) => {
     if (productStatus === 'success' && product) {
       let _data = product.map((el) => ({
         ...el,
-        children: el.children.map((item) => ({
+        children: el?.children?.map((item) => ({
           ...item,
           _uuid: makeid(9),
         })),
@@ -89,18 +89,16 @@ const AdminProduct = (props) => {
     }
   }, [careerData])
 
-  const onHandleEdit = (record) => {
+  const onHandleEditProduct = (record) => {
     if (record) {
       setChildModal({
         visible: true,
         width: '50%',
         component: (
           <FormProduct
-            type="edit"
             data={record}
-            onEventEdit={(output) => onEventEdit(output)}
             onFinishScreen={() => {
-              getScreenData()
+              cateRefetch()
               closeModal()
             }}
           />
@@ -109,14 +107,12 @@ const AdminProduct = (props) => {
     }
   }
 
-  const onHandleAdd = () => {
+  const onHandleAddProduct = () => {
     setChildModal({
       visible: true,
       width: '50%',
       component: (
         <FormProduct
-          type="add"
-          onEventAdd={(output) => onEventAdd(output)}
           onFinishScreen={() => {
             getScreenData()
             closeModal()
@@ -124,25 +120,6 @@ const AdminProduct = (props) => {
         />
       ),
     })
-  }
-
-  const onEventEdit = (params) => {
-    AdminProductService.editProduct(params)
-      .then((res) => {
-        console.log(res)
-      })
-      .catch((err) => console.log(err))
-  }
-
-  const onEventAdd = async (params) => {
-    try {
-      await AdminProductService.createProduct(params)
-    } catch (err) {
-      console.log(err)
-    } finally {
-      setLoading(false)
-      getScreenData()
-    }
   }
 
   const onHandleDelete = (record) => {
@@ -249,33 +226,14 @@ const AdminProduct = (props) => {
     })
   }
 
-  const onHandleUpdateCate = (record) => {
-    // if (record) {
-    //   setChildModal({
-    //     visible: true,
-    //     width: '50%',
-    //     component: (
-    //       <FormProduct
-    //         type="edit"
-    //         data={record}
-    //         onEventEdit={(output) => onUpdateCate(output)}
-    //         onFinishScreen={() => {
-    //           getCateData()
-    //           closeModal()
-    //         }}
-    //       />
-    //     ),
-    //   })
-    // }
+  const onHandleUpdateCategory = (record) => {
     setChildModal({
       visible: true,
       width: '50%',
       component: (
         <NewCategory
-          // type="edit"
           data={record}
           category={cateData}
-          // onEventEdit={(output) => onUpdateCate(output)}
           onFinishScreen={() => {
             cateRefetch()
             closeModal()
@@ -285,18 +243,10 @@ const AdminProduct = (props) => {
     })
   }
 
-  // const onUpdateCate = async (data) => {
-  //   try {
-  //     setLoading(true)
-  //     await AdminProductService.updateCategories(data)
-  //   } catch (err) {
-  //     console.log(err)
-  //   } finally {
-  //     cateRefetch()
-  //     setLoading(false)
-  //   }
-  // }
-
+  /**
+   *
+   * @desc Open Modal CareerCategory to Create
+   */
   const onHandleAddCareerCategory = () => {
     setChildModal({
       visible: true,
@@ -304,8 +254,8 @@ const AdminProduct = (props) => {
       component: (
         <CareerCategory
           data={careerData}
-          onFinishScreen={(output) => {
-            addCareerCategory(output)
+          onFinishScreen={() => {
+            careerCategoryRefetch()
             closeModal()
           }}
         />
@@ -313,19 +263,12 @@ const AdminProduct = (props) => {
     })
   }
 
-  const addCareerCategory = async (val) => {
-    try {
-      let res = await AdminProductService.createCareerCategory(val)
-      message.success(res.data.message)
-    } catch (err) {
-      console.log(err)
-      message.error('Something went wrong')
-    } finally {
-      careerCategoryRefetch()
-    }
-  }
-
-  const onCareerCateEdit = (record) => {
+  /**
+   *
+   * @param {*} record
+   * @desc Open Modal CareerCategory to Edit
+   */
+  const onHandleUpdateCareerCategory = (record) => {
     setChildModal({
       visible: true,
       width: '50%',
@@ -334,8 +277,8 @@ const AdminProduct = (props) => {
           data={careerData}
           name={record.name}
           id={record._id}
-          onFinishScreen={(output) => {
-            updateCategories({ ...output, id: record._id })
+          onFinishScreen={() => {
+            careerCategoryRefetch()
             closeModal()
           }}
         />
@@ -343,7 +286,7 @@ const AdminProduct = (props) => {
     })
   }
 
-  const deleteCate = async ({ _id }) => {
+  const onHandleDeleteCategory = async ({ _id }) => {
     try {
       let res = await AdminProductService.deleteCate(_id)
       if (res.status === 200) {
@@ -382,7 +325,7 @@ const AdminProduct = (props) => {
 
     xhtml = (
       <div className={styles.extraAction}>
-        <Button type="dashed" onClick={onHandleAdd} icon={<PlusSquareOutlined />}>
+        <Button type="dashed" onClick={onHandleAddProduct} icon={<PlusSquareOutlined />}>
           Thêm sản phẩm
         </Button>
         <Button type="dashed" onClick={onHandleCreateCategory} icon={<PlusSquareOutlined />}>
@@ -428,8 +371,11 @@ const AdminProduct = (props) => {
                 render={(val, record, i) => {
                   return (
                     <Space>
-                      <Button onClick={(e) => onHandleUpdateCate(record)} icon={<FormOutlined />} />
-                      <Button onClick={(e) => deleteCate(record)} icon={<MinusSquareOutlined />} />
+                      <Button onClick={(e) => onHandleUpdateCategory(record)} icon={<FormOutlined />} />
+
+                      <Popconfirm placement="topRight" title={'Bạn có muốn xoá ?'} onConfirm={() => onHandleDeleteCategory(record)} okText="Yes" cancelText="No">
+                        <Button icon={<MinusSquareOutlined />} />
+                      </Popconfirm>
                     </Space>
                   )
                 }}
@@ -450,6 +396,12 @@ const AdminProduct = (props) => {
               size="small"
             >
               <Table.Column title="Tên sản phẩm" render={(val, record, i) => record?.name} />
+              <Table.Column
+                title="Danh mục"
+                render={(val, record, i) => {
+                  return record?.categories.map((item) => item.name)
+                }}
+              />
               <Table.Column title="Giá tiền" width={'25%'} render={(val, record, i) => `${number_format(record?.price)} VND`} />
               <Table.Column
                 title=""
@@ -457,7 +409,7 @@ const AdminProduct = (props) => {
                 render={(val, record, i) => {
                   return (
                     <Space>
-                      <Button onClick={(e) => onHandleEdit(record)} icon={<FormOutlined />} />
+                      <Button onClick={(e) => onHandleEditProduct(record)} icon={<FormOutlined />} />
                       <Button onClick={(e) => onHandleDelete(record)} icon={<MinusSquareOutlined />} />
                     </Space>
                   )
@@ -475,7 +427,7 @@ const AdminProduct = (props) => {
                 title=""
                 render={(val, record, i) => (
                   <Space>
-                    <Button onClick={(e) => onCareerCateEdit(record)} icon={<FormOutlined />} />
+                    <Button onClick={(e) => onHandleUpdateCareerCategory(record)} icon={<FormOutlined />} />
                     <Button onClick={(e) => onCareerCateDelete(record)} icon={<MinusSquareOutlined />} />
                   </Space>
                 )}

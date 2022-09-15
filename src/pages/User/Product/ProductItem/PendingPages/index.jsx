@@ -24,7 +24,7 @@ const PendingPages = forwardRef((props, ref) => {
         }
       >
         <TamHoanForm data={data} ref={ref} current={step} />
-        {/* {step === 2 ? renderPrewviewForm(ref) : ''} */}
+        
         {step === 2 && (
           <PreviewData
             ref={ref}
@@ -34,7 +34,11 @@ const PendingPages = forwardRef((props, ref) => {
           />
         )}
         <div className={'card-boxShadow flex flex__spacing-4'} style={{ position: 'sticky', bottom: 0 }}>
-          {step > 0 && <Button onClick={Prev} type="dashed">Quay lại</Button>}
+          {step > 0 && (
+            <Button onClick={Prev} type="dashed">
+              Quay lại
+            </Button>
+          )}
 
           {step < 2 && (
             <Button onClick={Next} type="primary">

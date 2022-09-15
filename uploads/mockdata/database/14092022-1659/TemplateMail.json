@@ -1,0 +1,65 @@
+[
+  {
+    "_id": "62342db9f3c14e39802960c5",
+    "name": "Đăng ký tài khoản thành công - [thanhlapcongtyonline.vn]",
+    "content": "<p>Xin chào {name},</p><p>Cảm ơn bạn đã đăng ký tài khoản tại <a target=\"_blank\" rel=\"noopener noreferrer nofollow\" href=\"http://thanhlapcongtyonline.vn\">thanhlapcongtyonline.vn</a>!</p><p>Tài khoản của bạn đã được tạo thành công.</p><p>Thông tin tài khoản:</p><p>- Tên đăng nhập: {phone}</p><p>- Mật khẩu: {password}</p><p>Quý khách cần hỗ trợ trực tiếp vui lòng điện thoại/zalo: 0915.704.883</p><p>Trân trọng cảm ơn.</p>",
+    "createdAt": "2022-03-18T06:59:05.687Z",
+    "updatedAt": "2022-09-09T22:22:59.840Z",
+    "__v": 0,
+    "subject": "Đăng ký tài khoản thành công - [thanhlapcongtyonline.vn]"
+  },
+  {
+    "_id": "6234359df3c14e39802960e2",
+    "name": "Sau khi có giấy phép - Dịch vụ Thành lập DN",
+    "content": "<p><strong>Kính gửi: Quý khách hàng,</strong></p><p><a target=\"_blank\" rel=\"noopener noreferrer nofollow\" href=\"http://thanhlapcongtyonline.vn\">thanhlapcongtyonline.vn</a> trân trọng thông báo Giấy phép của Quý khách đã có, nhân viên sẽ liên hệ giao đến quý khách.&nbsp;</p><p>Các việc cần làm sau khi thành lập công ty Quý khách vui lòng xem <a target=\"_blank\" rel=\"noopener noreferrer nofollow\" href=\"#\"><em>tại đây</em></a><em>.</em></p><p>Nhằm tri ân Quý khách đã sử dụng, giúp Quý khách tiết kiệm thời gian và chi phí,&nbsp; Web <a target=\"_blank\" rel=\"noopener noreferrer nofollow\" href=\"http://thanhlapcongtyonline.vn\">thanhlapcongtyonline.vn</a> trân trọng báo giá dịch vụ kê khai thuế cho công ty Quý khách trong 6 tháng kể từ ngày thành lập là 300.000 đồng/tháng tương ứng 1.800.000 đồng cho 6 tháng. Quý khách đồng ý vui lòng nhấn thanh toán <a target=\"_blank\" rel=\"noopener noreferrer nofollow\" href=\"#\"><em>tại đây</em></a> để thiết lập dịch vụ hai bên, phí chưa bao gồm chữ ký số (token) 1,2 triệu cho 3 năm sử dụng. Nếu đã sử dụng xin vui lòng bỏ qua.</p><p>Trong quá trình thực hiện Quý khách cần hổ trợ trực tiếp vui lòng điện thoại/zalo: 0915 704 883.</p><p>Trân trọng cảm ơn.</p>",
+    "createdAt": "2022-03-18T07:32:45.422Z",
+    "updatedAt": "2022-03-24T14:09:37.028Z",
+    "__v": 0,
+    "subject": "Thông báo đã có giấy phép - thanhlapcongtyonline.vn"
+  },
+  {
+    "_id": "6234363ef3c14e39802960ee",
+    "name": "Sau khi có giấy phép [KHÔNG phải Thành lập DN]",
+    "content": "<p><strong>Kính gửi: Quý khách hàng,</strong></p><p><a target=\"_blank\" rel=\"noopener noreferrer nofollow\" href=\"http://thanhlapcongtyonline.vn\">thanhlapcongtyonline.vn</a> trân trọng thông báo Giấy phép của Quý khách đã có, nhân viên sẽ liên hệ giao đến quý khách.&nbsp;</p><p>Nhằm tri ân Quý khách đã sử dụng, giúp Quý khách tiết kiệm thời gian và chi phí,&nbsp; Web <a target=\"_blank\" rel=\"noopener noreferrer nofollow\" href=\"http://thanhlapcongtyonline.vn\">thanhlapcongtyonline.vn</a> trân trọng báo giá dịch vụ kê khai thuế cho công ty Quý khách trong 6 tháng kể từ ngày thành lập là 300.000 đồng/tháng tương ứng 1.800.000 đồng cho 6 tháng. Quý khách đồng ý vui lòng nhấn thanh toán <a target=\"_blank\" rel=\"noopener noreferrer nofollow\" href=\"#\"><em>tại đây</em></a> để thiết lập dịch vụ hai bên, phí chưa bao gồm chữ ký số (token) 1,2 triệu cho 3 năm sử dụng. Nếu đã sử dụng xin vui lòng bỏ qua.</p><p>Trong quá trình thực hiện Quý khách cần hổ trợ trực tiếp vui lòng điện thoại/zalo: 0915 704 883.</p><p>Trân trọng cảm ơn.</p>",
+    "createdAt": "2022-03-18T07:35:26.445Z",
+    "updatedAt": "2022-03-24T14:09:23.450Z",
+    "__v": 0,
+    "subject": "Thông báo đã có giấy phép - thanhlapcongtyonline.vn"
+  },
+  {
+    "_id": "62343649f3c14e39802960f1",
+    "name": "Hẹn ngày có giấy phép - Dịch vụ Thành lập DN",
+    "content": "<p><strong>Kính gửi: Quý khách hàng,</strong></p><p><a target=\"_blank\" rel=\"noopener noreferrer nofollow\" href=\"http://thanhlapcongtyonline.vn\">thanhlapcongtyonline.vn</a> trân trọng thông báo hồ sơ Quý khách đã được Sở kế hoạch và Đầu tư TP.HCM tiếp nhận, ngày dự kiến có Giấy phép là ……</p><p>Các việc cần làm sau khi thành lập công ty Quý khách vui lòng xem <a target=\"_blank\" rel=\"noopener noreferrer nofollow\" href=\"#\"><em>tại đây</em></a><em>.</em></p><p>Nhằm tri ân Quý khách đã sử dụng, giúp Quý khách tiết kiệm thời gian và chi phí,&nbsp; Web <a target=\"_blank\" rel=\"noopener noreferrer nofollow\" href=\"http://thanhlapcongtyonline.vn\">thanhlapcongtyonline.vn</a> trân trọng báo giá dịch vụ kê khai thuế cho công ty Quý khách trong 6 tháng kể từ ngày thành lập là 300.000 đồng/tháng tương ứng 1.800.000 đồng cho 6 tháng. Quý khách đồng ý vui lòng nhấn thanh toán <a target=\"_blank\" rel=\"noopener noreferrer nofollow\" href=\"#\"><em>tại đây</em></a> để thiết lập dịch vụ hai bên, phí chưa bao gồm chữ ký số (token) 1,2 triệu cho 3 năm sử dụng.</p><p>Trong quá trình thực hiện Quý khách cần hổ trợ trực tiếp vui lòng điện thoại/zalo: 0915 704 883.</p><p>Trân trọng cảm ơn.</p>",
+    "createdAt": "2022-03-18T07:35:37.241Z",
+    "updatedAt": "2022-03-24T14:08:59.386Z",
+    "__v": 0,
+    "subject": "Thông báo ngày dự kiến có giấy phép - thanhlapcongtyonline.vn"
+  },
+  {
+    "_id": "627a83a3526be759d47092f4",
+    "name": "Bộ hồ sơ và hướng dẫn in ký - [thanhlapcongtyonline.vn]",
+    "content": "<p>Kính gởi: Quý khách hàng,</p><p>Cảm ơn quý khách hàng đã sử dụng dịch vụ tại <a target=\"_blank\" rel=\"noopener noreferrer nofollow\" href=\"http://thanhlapcongtyonline.vn\">thanhlapcongtyonline.vn</a>.</p><p><strong><em>Vui lòng thực hiện chính xác theo các bước sau:</em></strong></p><h4><strong>1. Đọc kĩ hướng dẫn in ký dưới đây:</strong></h4><ul><li><p>Đối với dịch vụ <strong>Thành lập mới công ty</strong>: <a target=\"_blank\" rel=\"noopener noreferrer nofollow\" href=\"https://thanhlapcongtyonline.vn/huong-dan-in-ky-thanh-lap-doanh-nghiep/\">xem tại đây</a>.</p></li><li><p>Đối với dịch vụ <strong>Thành lập mới chi nhánh / VPĐD / địa điểm kinh doanh</strong>: <a target=\"_blank\" rel=\"noopener noreferrer nofollow\" href=\"https://thanhlapcongtyonline.vn/huong-dan-in-ky-thanh-lap-moi-chi-nhanh-vpdd-dia-diem-kinh-doanh/\">xem tại đây</a>.&nbsp;</p></li><li><p>Đối với dịch vụ <strong>Thay đổi thông tin</strong>: <a target=\"_blank\" rel=\"noopener noreferrer nofollow\" href=\"https://thanhlapcongtyonline.vn/huong-dan-in-ky-thay-doi-thong-tin/\">xem tại đây</a>.</p></li><li><p>Đối với dịch vụ <strong>Tạm ngưng</strong>: <a target=\"_blank\" rel=\"noopener noreferrer nofollow\" href=\"https://thanhlapcongtyonline.vn/huong-dan-in-ky-tam-ngung/\">xem tại đây</a>.</p></li><li><p>Đối với dịch vụ <strong>Giải thể</strong>: <a target=\"_blank\" rel=\"noopener noreferrer nofollow\" href=\"https://thanhlapcongtyonline.vn/huong-dan-in-ky-giai-the/\">xem tại đây</a>.</p></li></ul><h4><strong>2. Tải toàn bộ hồ sơ và làm theo hướng dẫn</strong></h4><h4><strong>3. Chuyển hồ sơ về văn phòng của chúng tôi tại:</strong></h4><ul><li><p>Địa chỉ: Số 32 Lê Thánh Tôn, phường Bến Nghé, Quận 1, TP HCM;&nbsp;</p></li><li><p>Người nhận: Nguyễn Lương Tường Vy</p></li><li><p>Số điện thoại: 0917 410 318.</p></li></ul><p></p><p><strong><em>Trong quá trình thực hiện, Quý khách cần hỗ trợ trực tiếp vui lòng điện thoại/zalo: 0915.704.883</em></strong></p><p>Trân trọng cảm ơn.</p>",
+    "subject": "Bộ hồ sơ và hướng dẫn in ký - [thanhlapcongtyonline.vn]",
+    "createdAt": "2022-05-10T15:24:19.541Z",
+    "updatedAt": "2022-06-13T16:39:48.507Z",
+    "__v": 0
+  },
+  {
+    "_id": "62a771d017371073191579db",
+    "name": "Thanh toán thành công - [thanhlapcongtyonline.vn]",
+    "content": "<p>Chào {userName},<br>Chúc mừng Quý khách hàng đã thanh toán thành công.</p><p><strong>Thông tin đơn hàng</strong>:</p><ul><li><p>Mã đơn hàng: {orderName}</p></li><li><p>Sản phẩm: {productName}</p></li><li><p>Giá tiền: {price}</p></li></ul><p>Bộ hồ sơ sẽ được gửi đến email đăng ký nhanh nhất có thể, với tiêu đề \"<strong>Bộ hồ sơ và hướng dẫn in ký\"</strong>.</p><p>Trong trường hợp quá 10 phút mà chưa nhận được email, Quý khách hàng vui lòng kiểm tra email junk / spam.</p><p>Hoặc liên hệ với chúng tôi qua:</p><ul><li><p>Email: <a target=\"_blank\" rel=\"noopener noreferrer nofollow\" href=\"mailto:info@thanhlapcongtyonline.vn\">info@thanhlapcongtyonline.vn</a></p></li><li><p>Hotline:<a target=\"_blank\" rel=\"noopener noreferrer nofollow\" href=\"tel:0915704883\"> 0915.704.883</a></p></li></ul><p>để được hỗ trợ sớm nhất.</p><p>Xin cảm ơn.</p>",
+    "subject": "Thanh toán thành công - [thanhlapcongtyonline.vn]",
+    "createdAt": "2022-06-13T17:20:16.570Z",
+    "updatedAt": "2022-08-08T08:24:44.891Z",
+    "__v": 0
+  },
+  {
+    "_id": "631596c0fa5fe56f5e612067",
+    "name": "Đổi mật khẩu mới",
+    "content": "<p>Xin chào {name},</p><p><a target=\"_blank\" rel=\"noopener noreferrer nofollow\" href=\"http://thanhlapcongtyonline.vn\">thanhlapcongtyonline.vn</a> nhận được yêu cầu thay&nbsp;đổi&nbsp;mật&nbsp;khẩu&nbsp;của bạn.</p><p>Mã OTP của bạn là : {otp}</p><p> Xin vui lòng truy cập vào đường link dưới đây và đặt lại mật khẩu:</p><p>{link}</p><p>Xin cảm ơn.</p>",
+    "subject": "Yêu cầu đặt lại mật khẩu tài khoản [thanhlapcongtyonline.vn]",
+    "createdAt": "2022-09-05T06:27:12.330Z",
+    "updatedAt": "2022-09-11T05:22:04.376Z",
+    "__v": 0
+  }
+]

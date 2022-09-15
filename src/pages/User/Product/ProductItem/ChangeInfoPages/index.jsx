@@ -11,6 +11,7 @@ const PreviewData = lazy(() => {
 })
 
 const ChangeInfoPages = forwardRef((props, ref) => {
+  
   const { handleSaveChangeInfo, handlePurchaseChangeInfo, data, step, loading, onFinishScreen, Prev, Next, changeInforStep, editData } = props
 
   return (

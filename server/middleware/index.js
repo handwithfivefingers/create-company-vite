@@ -92,6 +92,19 @@ const requireSignin = async (req, res, next) => {
   }
 }
 
+const TrackingApi = async (req, res, next) => {
+  try {
+    // console.log(req)
+    let host = req.headers['host']
+    let remoteAddress = req.socket['remoteAddress']
+    // let originalUrl = req.socket['originalUrl']
+    console.log(host, req.originalUrl, remoteAddress)
+  } catch (err) {
+  } finally {
+    next()
+  }
+}
+
 const convertString = (str) => {
   return (
     str
@@ -106,4 +119,5 @@ module.exports = {
   upload,
   requireSignin,
   convertString,
+  TrackingApi,
 }

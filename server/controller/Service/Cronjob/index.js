@@ -3,12 +3,16 @@ const { Order, Setting } = require('@model')
 
 const MailService = require('@controller/user/Sendmail')
 
-const { cronMail } = new MailService()
-
 const { flattenObject, convertFile, removeListFiles } = require('@common/helper')
 const { uniqBy } = require('lodash')
 const { createLog } = require('@response')
 
+const path = require('path')
+const mongoose = require('mongoose')
+const fs = require('fs')
+const exec = require('child_process').execSync
+const moment = require('moment')
+const { cronMail } = new MailService()
 module.exports = class CronTab {
   constructor() {
     console.log('Cron loaded')
@@ -25,6 +29,25 @@ module.exports = class CronTab {
       scheduled: false,
     },
   )
+
+  backupDB = cron.schedule('0 0 12 * *', async () => {
+    let { Log, ...collection } = mongoose.models
+
+    let folderBackup = path.resolve(global.__basedir, 'uploads', 'mockdata', 'database')
+
+    let folderName = moment().format('DDMMYYYY-HHmm')
+
+    if (!fs.existsSync(`${folderBackup}/${folderName}`)) {
+      fs.mkdirSync(`${folderBackup}/${folderName}`)
+    }
+
+    for (let col in collection) {
+      let jsonData = await collection[col].find({})
+      fs.writeFile(`${folderBackup}/${folderName}/${col}.json`, JSON.stringify(jsonData, null, 2), 'utf8', () => {
+        console.log(`${col} stored successfully`)
+      })
+    }
+  })
 
   handleConvertFile = async (order) => {
     // handle Single File

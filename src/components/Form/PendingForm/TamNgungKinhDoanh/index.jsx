@@ -28,7 +28,7 @@ const TamNgungKinhDoanh = forwardRef(({ data, current, index }, ref) => {
 
     if (data?.type) {
       let { type } = data
-      if (type === '3') {
+      if (+type === 3) {
         let listForm = [
           {
             label: 'Tên Chủ tịch HĐQT',
@@ -76,7 +76,7 @@ const TamNgungKinhDoanh = forwardRef(({ data, current, index }, ref) => {
             </Form.Item>
           </>
         )
-      } else if (type === '2') {
+      } else if (+type === 2) {
         let listForm = [
           {
             label: PENDING_FORM.approve.fields.contribute_members.fields.name,

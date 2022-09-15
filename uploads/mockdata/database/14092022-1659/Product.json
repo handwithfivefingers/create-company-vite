@@ -1,0 +1,156 @@
+[
+  {
+    "parentId": [],
+    "categories": [
+      "6224bdfbc5533d9f6887e868"
+    ],
+    "_id": "6224eabf20139160bc9874b7",
+    "name": "Đại diện pháp luật",
+    "price": 500000,
+    "slug": "dai-dien-phap-luat",
+    "type": "2",
+    "__v": 0,
+    "createdAt": "2022-09-14T16:52:42.690Z",
+    "updatedAt": "2022-09-14T22:31:09.469Z"
+  },
+  {
+    "parentId": [],
+    "categories": [
+      "6224bdfbc5533d9f6887e868"
+    ],
+    "_id": "62257b0bca8648da6987e4f5",
+    "name": "Tên doanh nghiêp",
+    "price": 500000,
+    "slug": "ten-doanh-nghiep",
+    "type": "3",
+    "__v": 0,
+    "createdAt": "2022-09-14T16:52:42.690Z",
+    "updatedAt": "2022-09-14T22:52:32.392Z"
+  },
+  {
+    "parentId": [],
+    "categories": [
+      "6224bdfbc5533d9f6887e868"
+    ],
+    "_id": "62257e4dca8648da6987e53d",
+    "name": "Giảm vốn điều lệ",
+    "price": 500000,
+    "slug": "giam-von-dieu-le",
+    "type": "4",
+    "__v": 0,
+    "createdAt": "2022-09-14T16:52:42.690Z",
+    "updatedAt": "2022-09-14T22:52:38.284Z"
+  },
+  {
+    "parentId": [],
+    "categories": [
+      "6224bdfbc5533d9f6887e868"
+    ],
+    "_id": "62257eccca8648da6987e54e",
+    "name": "Tăng vốn điều lệ",
+    "price": 500000,
+    "slug": "thang-von-dieu-le",
+    "type": "5",
+    "__v": 0,
+    "createdAt": "2022-09-14T16:52:42.690Z",
+    "updatedAt": "2022-09-14T22:56:10.387Z"
+  },
+  {
+    "parentId": [],
+    "categories": [
+      "6224bdfbc5533d9f6887e868"
+    ],
+    "_id": "622f575496766518c4fc8216",
+    "name": "Ngành nghề kinh doanh",
+    "price": 500000,
+    "slug": "nganh-nghe-kinh-doanh",
+    "type": "7",
+    "__v": 0,
+    "createdAt": "2022-09-14T16:52:42.691Z",
+    "updatedAt": "2022-09-14T22:57:09.675Z"
+  },
+  {
+    "parentId": [],
+    "categories": [
+      "6224bdfbc5533d9f6887e868"
+    ],
+    "_id": "622f577b96766518c4fc8220",
+    "name": "Địa chỉ trụ sở chính",
+    "price": 500000,
+    "slug": "dia-chi-tru-so-chinh",
+    "type": "1",
+    "__v": 0,
+    "createdAt": "2022-09-14T16:52:42.691Z",
+    "updatedAt": "2022-09-14T22:57:50.235Z"
+  },
+  {
+    "parentId": [],
+    "categories": [
+      "6224bdfbc5533d9f6887e868"
+    ],
+    "_id": "622f579b96766518c4fc822c",
+    "name": "Chủ sở hữu",
+    "price": 500000,
+    "slug": "chu-so-huu",
+    "type": "6",
+    "__v": 0,
+    "createdAt": "2022-09-14T16:52:42.691Z",
+    "updatedAt": "2022-09-14T22:57:55.102Z"
+  },
+  {
+    "parentId": [],
+    "categories": [
+      "6224bdfbc5533d9f6887e868"
+    ],
+    "_id": "622f585c96766518c4fc823a",
+    "name": "Người đại diện theo ủy quyền của chủ sở hữu là tổ chức",
+    "price": 500000,
+    "slug": "nguoi-dai-dien-theo-uy-quyen-cua-chu-so-huu-la-to-chuc",
+    "type": "8",
+    "__v": 0,
+    "createdAt": "2022-09-14T16:52:42.691Z",
+    "updatedAt": "2022-09-14T22:57:58.446Z"
+  },
+  {
+    "parentId": [],
+    "categories": [
+      "6224bdfbc5533d9f6887e868"
+    ],
+    "_id": "622f5896cad47d00092d1010",
+    "name": "Nội dung đăng ký thuế",
+    "price": 500000,
+    "slug": "noi-dung-dang-ki-thue",
+    "type": "9",
+    "__v": 0,
+    "createdAt": "2022-09-14T16:52:42.691Z",
+    "updatedAt": "2022-09-14T22:58:02.214Z"
+  },
+  {
+    "parentId": [],
+    "categories": [
+      "6224be3cc5533d9f6887e871"
+    ],
+    "_id": "6268e6d6973cec53fcbb4080",
+    "name": "Đăng ký tạm ngưng kinh doanh",
+    "price": 500000,
+    "slug": "dang-ky-tam-ngung-kinh-doanh",
+    "type": "1",
+    "__v": 0,
+    "createdAt": "2022-09-14T16:52:42.691Z",
+    "updatedAt": "2022-09-14T22:58:07.870Z"
+  },
+  {
+    "parentId": [],
+    "categories": [
+      "6224be55c5533d9f6887e876"
+    ],
+    "_id": "626cbb696f336b31e807696d",
+    "name": "Giải thể",
+    "price": 500000,
+    "slug": "giai-the",
+    "type": "1",
+    "__v": 0,
+    "createdAt": "2022-09-14T16:52:42.691Z",
+    "updatedAt": "2022-09-14T22:58:11.204Z"
+  }
+]

@@ -57,6 +57,8 @@ const UserProductItem = (props) => {
     width: 0,
     component: null,
   })
+  
+  let params = useParams()
 
   const {
     data: productData,
@@ -65,18 +67,19 @@ const UserProductItem = (props) => {
     status,
     refetch,
   } = useFetch({
-    cacheName: ['userProduct'],
+    cacheName: ['userProduct', params],
     fn: () => ProductService.getDataBySlug(params),
     otherPath: true,
   })
 
+  // console.log('data', data)
+
   const navigate = useNavigate()
 
-  let params = useParams()
+  // useEffect(() => {
 
-  useEffect(() => {
-    refetch(['userProduct'])
-  }, [params])
+  //   refetch()
+  // }, [params])
 
   useEffect(() => {
     if (productData && status === 'success') {
@@ -95,6 +98,7 @@ const UserProductItem = (props) => {
   const setDataOutput = (output) => {
     console.log(output)
   }
+
   const renderFormByType = (type) => {
     switch (type) {
       case 1:
@@ -118,7 +122,7 @@ const UserProductItem = (props) => {
         // Thay đổi thông tin
         return (
           <ChangeInfoPages
-            data={data.data}
+            data={data}
             ref={formRef}
             onFinishScreen={(val) => handleChangeInforForm(val)}
             step={current}
@@ -328,7 +332,7 @@ const UserProductItem = (props) => {
   // Service
   const saveService = async (params) => {
     try {
-      const res = await ProductService.createCompany(params)
+      const res = await ProductService.createOrder(params)
       if (res.data.status === 200) {
         message.success(res.data.message)
         navigate('/user/san-pham')
@@ -346,7 +350,7 @@ const UserProductItem = (props) => {
     params.orderId = orderId
 
     try {
-      let res = await ProductService.createCompanyWithPayment(params)
+      let res = await ProductService.createOrderWithPayment(params)
       if (res.data.status === 200) {
         return (window.location.href = res.data.url)
       }

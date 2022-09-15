@@ -1,13 +1,9 @@
 import axios from '../../config/axios'
 
 const api_path = {
-  getProducts: '/product',
-  createProducts: '/product/create',
-  editProducts: '/product/edit',
-  deleteProducts: '/product',
-  getCategories: '/admin/category',
-  // updateCategories: '/admin/category/update',
-  // createCategories: '/admin/category/create',
+
+
+  products: '/admin/product',
 
   categories: '/admin/category',
 
@@ -18,16 +14,16 @@ const api_path = {
 
 const AdminProductService = {
   getProduct: () => {
-    return axios.get(api_path.getProducts)
+    return axios.get(api_path.products)
   },
-  editProduct: (params) => {
-    return axios.post(`${api_path.editProducts}/${params._id}`, params)
+  updateProduct: ({ _id, ...form }) => {
+    return axios.post(`${api_path.products}/${_id}`, form)
   },
   createProduct: (params) => {
-    return axios.post(api_path.createProducts, params)
+    return axios.post(api_path.products, params)
   },
-  deleteProduct: (params) => {
-    return axios.delete(`${api_path.deleteProducts}/${params._id}`, params)
+  deleteProduct: ({ _id, ...form }) => {
+    return axios.delete(`${api_path.products}/${params._id}`, form)
   },
 
   getCategory: () => axios.get(api_path.categories),

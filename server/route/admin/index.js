@@ -7,6 +7,8 @@ const MailRoute = require('./template')
 const FileRoute = require('./file')
 const SettingRoute = require('./setting')
 const UserRoute = require('./user')
+const ProductAdmin = require('./product')
+const CategoryAdmin = require('./category')
 
 module.exports = {
   LogRoute,
@@ -15,4 +17,6 @@ module.exports = {
   FileRoute,
   SettingRoute,
   UserRoute,
+  ProductAdmin,
+  CategoryAdmin,
 }

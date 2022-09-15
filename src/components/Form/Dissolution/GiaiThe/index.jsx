@@ -30,7 +30,7 @@ const GiaiThe = forwardRef((props, ref) => {
   const renderFormByType = useMemo(() => {
     let xhtml = null
 
-    if (type === '3') {
+    if (+type === 3) {
       let listForm = [
         {
           label: 'Tên Chủ tịch HĐQT',
@@ -71,7 +71,7 @@ const GiaiThe = forwardRef((props, ref) => {
           </Form.Item>
         </>
       )
-    } else if (type === '2') {
+    } else if (+type === 2) {
       let listForm = [
         {
           label: DISSOLUTION_FORM.approve.fields.contribute_members.fields.name,

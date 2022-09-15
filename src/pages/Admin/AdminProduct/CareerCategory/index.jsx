@@ -1,25 +1,30 @@
 import { Button, Card, Form, Input, Select } from 'antd'
 import React, { useEffect, useRef } from 'react'
-import AdminProductService from '../../../../service/AdminService/AdminProductService'
+import AdminProductService from '@/service/AdminService/AdminProductService'
 
 const CareerCategory = ({ data, onFinishScreen, id, name }) => {
   const formRef = useRef()
-
-  const onFinish = (val) => {
-    if (onFinishScreen) {
-      onFinishScreen(val)
-    }
-  }
-
-  // if (id) {
-  //   getScreenData(id)
-  // }
 
   useEffect(() => {
     if (id) {
       getScreenData(id)
     }
   }, [id])
+
+  const onFinish = async (val) => {
+    try {
+      if (id) {
+        await updateCareerCategory({ ...val, id })
+      } else {
+        await addCareerCategory(val)
+      }
+    } catch (error) {
+    } finally {
+      if (onFinishScreen) {
+        onFinishScreen(val)
+      }
+    }
+  }
 
   const getScreenData = async (id) => {
     try {
@@ -33,6 +38,26 @@ const CareerCategory = ({ data, onFinishScreen, id, name }) => {
     }
   }
 
+  const addCareerCategory = async (val) => {
+    try {
+      let res = await AdminProductService.createCareerCategory(val)
+      message.success(res.data.message)
+    } catch (err) {
+      console.log(err)
+      message.error('Something went wrong')
+    }
+  }
+
+  const updateCareerCategory = async (val) => {
+    try {
+      let res = await AdminProductService.updateCareerCategory(val)
+      message.success(res.data.message)
+    } catch (err) {
+      console.log(err)
+      message.error('Something went wrong')
+    }
+  }
+  
   return (
     <Card title="Danh mục ngành nghề" style={{ minWidth: '350px' }} bordered={false}>
       <Form onFinish={onFinish} ref={formRef} layout="vertical">

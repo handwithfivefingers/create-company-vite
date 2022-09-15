@@ -13,13 +13,11 @@ import TenDoanhNghiep from './TenDoanhNghiep'
 import ThongTinDangKyThue from './ThongTinDangKyThue'
 import CCInput from '../../CCInput'
 import { onSetFields } from '@/helper/Common'
-
+import ProductService from '../../../service/UserService/ProductService'
 const ChangeInforForm = forwardRef((props, ref) => {
   const [productSelect, setProductSelect] = useState('')
-
   const [selectType, setSelectType] = useState([])
-
-  console.log(props.edit)
+  const [data, setData] = useState([])
 
   useEffect(() => {
     initForm()
@@ -27,9 +25,9 @@ const ChangeInforForm = forwardRef((props, ref) => {
 
   const initForm = () => {
     if (props.edit) {
-      let { data, products } = props.edit;
+      let { data, products } = props.edit
 
-      let [opt] = products;
+      let [opt] = products
 
       handleSelectProduct({ type: opt.type, name: opt.name, value: opt._id }, 'selectProduct')
     }
@@ -69,9 +67,24 @@ const ChangeInforForm = forwardRef((props, ref) => {
   }
 
   const handleSelectProduct = ({ type, name, value }, pathName) => {
-    console.log('coming')
     setProductSelect(value)
     onSetFields([pathName], { type, name, value }, ref)
+    FetchProduct()
+  }
+
+  console.log(props.data)
+
+  const FetchProduct = async () => {
+    try {
+      let { parentId } = props.data
+
+      let res = await ProductService.getProduct({ _id: parentId })
+      let { data } = res.data
+      setData(data)
+      console.log(res)
+    } catch (err) {
+    } finally {
+    }
   }
 
   return (
@@ -85,7 +98,7 @@ const ChangeInforForm = forwardRef((props, ref) => {
         })}
       >
         <Select onSelect={(val, opt) => handleSelectProduct(opt, 'selectProduct')} placeholder="Bấm vào đây">
-          {props.data?.map((item) => {
+          {props.data?.data?.map((item) => {
             return (
               <Select.Option key={item._id} value={item._id} {...item}>
                 {item.name}
@@ -115,15 +128,23 @@ const ChangeInforForm = forwardRef((props, ref) => {
             return option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
           }}
         >
-          {productSelect &&
-            props.data?.map((item) => {
+          {/* {productSelect &&
+            data?.map((item) => {
               return (
                 item._id.includes(productSelect) &&
-                item.children.map((child) => (
+                item?.children?.map((child) => (
                   <Select.Option key={child._id} value={child._id} type={child.type}>
                     {child.name}
                   </Select.Option>
                 ))
+              )
+            })} */}
+          {productSelect &&
+            data?.map((item) => {
+              return (
+                <Select.Option key={item._id} value={item._id} type={item.type}>
+                  {item.name}
+                </Select.Option>
               )
             })}
         </Select>

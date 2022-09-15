@@ -40,37 +40,11 @@ const UserDashboard = () => {
   //   }
   //   pdfMake.createPdf(docDefinition).open()
   // }
+  // return null
   return (
     <m.div initial={{ opacity: 0 }} exit={{ opacity: 0 }} animate={{ opacity: 1 }}>
       <Row gutter={[0, 12]}>
-        {/* <Col span={16}>
-          <Card title="Changelog thanhlapcongtyonline.vn"></Card>
-        </Col>
-        <Col span={8}>
-          <Row gutter={[0, 12]}>
-            <Col span={24}>
-              <Card title="Đơn hàng đã thanh toán"></Card>
-            </Col>
-            <Col span={24}>
-              <Card title="Đơn hàng vừa tạo"></Card>
-            </Col>
-          </Row>
-        </Col> */}
-        {/* <button onClick={renderPDF}> genPDF</button> */}
-
-        <Col span={24}>
-          {/* <div className={styles.pages}>
-            <div className={clsx(styles.size__A4, styles.page)}>
-              <div className={styles.content}>
-                {[...Array(100)].map((item, i) => (
-                  <div>item{i}</div>
-                ))}
-              </div>
-            </div>
-            <div className={clsx(styles.size__A4, styles.page)}>hehe 1 </div>
-            <div className={clsx(styles.size__A4, styles.page)}>hehe 2</div>
-          </div> */}
-        </Col>
+        <Col span={24}></Col>
       </Row>
     </m.div>
   )

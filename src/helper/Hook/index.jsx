@@ -54,9 +54,11 @@ const useFetch = ({ cacheName, fn, path, otherPath, enabled = true, staleTime = 
       let res = await fn()
       let result
       result = path ? res.data?.[path] : res.data?.data
+      
       if (otherPath) {
-        result = { ...result, ...res.data }
+        result = { ...res.data }
       }
+
       return result
     },
     {

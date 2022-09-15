@@ -13,19 +13,11 @@ const path = require('path')
 const AppRouter = require('@route')
 
 const GitRouter = require('@route/v1/git')
-
 env.config()
 
 const { NODE_ENV } = process.env
 
-const URL_PERMISSIONS = [
-  'http://localhost:3000',
-  'http://localhost:3001',
-  'http://localhost:3002',
-  'http://localhost:3003',
-  'https://app.thanhlapcongtyonline.vn',
-  'http://10.0.14.235:3003'
-]
+const URL_PERMISSIONS = ['http://localhost:3000', 'http://localhost:3001', 'http://localhost:3002', 'http://localhost:3003', 'https://app.thanhlapcongtyonline.vn', 'http://10.0.14.235:3003']
 
 const corsOptions = {
   credentials: true,
@@ -49,7 +41,6 @@ module.exports = class ConfigApp {
 
   onLoadConfig = () => {
     this.app.use(express.json())
-
     this.app.use(cookieParser())
   }
 

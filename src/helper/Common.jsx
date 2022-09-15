@@ -1,6 +1,5 @@
 import { Skeleton, Col } from 'antd'
 import ProductCard from '../components/Products'
-import { BaseFieldText } from './../constant/Common'
 import moment from 'moment'
 /**
  *
@@ -10,7 +9,6 @@ import moment from 'moment'
  * @param {*} upper Boolean
  */
 const onSetFields = (pathName, val, ref, upper = false) => {
-  console.log(ref.current)
   ref.current?.setFields([
     {
       name: [...pathName],
@@ -63,42 +61,6 @@ const flattenObject = (obj) => {
     }
   })
   return _template
-}
-
-const getPageMargins = () => {
-  // return `@page { margin: 24px !important; }`;
-  return `@page {
-    padding:24px !important;
-    display:block;
-    box-sizing:border-box;
-    break-after: always !important;
-    page-break-after: always !important;
-    page-break-inside: avoid !important;
-  }
-  @media all {
-    .pagebreak {
-      display: none;
-    }
-  }
-
-  @media print {
-    .pagebreak {
-      page-break-before: always;
-    }
-    div {
-      display: grid;
-      page-break-inside: avoid;
-    }
-    .ant-typography {
-      display: grid;
-      page-break-inside: avoid;
-    }
-    h3 {
-      display: grid;
-      page-break-inside: avoid;
-    }
-  }
-  `
 }
 
 const setLink = (editor) => {
@@ -345,7 +307,6 @@ export {
   renderSkeleton,
   // renderField,
   flattenObject,
-  getPageMargins,
   setLink,
   checkMoment,
   log,

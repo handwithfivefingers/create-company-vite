@@ -24,7 +24,9 @@ const { connectDB } = new db()
 
 const { onInit } = new appConfig(app)
 
-const { task } = new Cronjob()
+const { task, backupDB } = new Cronjob()
+
+const { Order } = require('./server/model')
 
 initEnvLoaded()
 
@@ -33,10 +35,13 @@ onInit()
 // Cron running ;
 
 app.listen(RUNTIME_PORT, async () => {
-
   await connectDB()
 
   task.start()
+
+  backupDB.start()
+
+  // await Order.deleteMany()
 
   console.log(`Server is running ${RUNTIME_PORT}`)
 })

@@ -9,6 +9,7 @@ const slugify = require('slugify')
 const puppeteer = require('puppeteer')
 
 module.exports = class ProductManager {
+  
   createProduct = async (req, res) => {
     try {
       const obj = {
@@ -73,10 +74,17 @@ module.exports = class ProductManager {
 
   fetchProduct = async (req, res) => {
     try {
-      let _product = await Product.find({}).populate('categories', 'name').populate('parentId', 'name')
-      let newData = filterData(_product)
-      let lastData = filterCaregories(newData)
-      return successHandler(lastData, res)
+      let { _id } = req.query
+      let _cate = await Category.findOne({ _id }).select('_id')
+      let _product
+      if (_cate) {
+        _product = await Product.find({ categories: { $in: [_cate._id] } }).select('name type _id')
+      } else {
+        _product = await Product.find({})
+      }
+
+      console.log('coming fetchProduct')
+      return successHandler(_product, res)
     } catch (err) {
       console.log('fetchProduct error')
       return errHandler(err, res)
@@ -103,17 +111,15 @@ module.exports = class ProductManager {
     try {
       let _cate = await Category.findOne({ slug: req.params.slug })
 
-      let _product = await Product.find({
-        categories: {
-          $in: [_cate._id],
-        },
-      }).populate('categories')
+      let _id = _cate._id
 
-      let newData = filterData(_product)
+      let _listCate = await Category.find({ parentCategory: { $in: [_id] } })
 
-      let lastData = filterCaregories(newData)
-
-      return successHandler(lastData, res, _cate)
+      return res.status(200).json({
+        data: _listCate,
+        type: _cate.type,
+        parentId: _cate._id,
+      })
     } catch (err) {
       console.log('getProductBySlug error', err)
 

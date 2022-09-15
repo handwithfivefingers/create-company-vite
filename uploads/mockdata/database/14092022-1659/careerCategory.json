@@ -1,0 +1,314 @@
+[
+  {
+    "delete_flag": 1,
+    "_id": "6317be2959db171684d7c251",
+    "name": "abcde",
+    "createdAt": "2022-09-06T21:39:53.490Z",
+    "updatedAt": "2022-09-06T23:54:27.135Z",
+    "__v": 0
+  },
+  {
+    "delete_flag": 1,
+    "_id": "63190ab621ee9d06a0bffe1e",
+    "name": "abcdef",
+    "createdAt": "2022-09-07T21:18:46.455Z",
+    "updatedAt": "2022-09-07T21:21:38.369Z",
+    "__v": 0
+  },
+  {
+    "delete_flag": 1,
+    "_id": "63190b58493fb22a04484778",
+    "name": "dqwdqwd",
+    "createdAt": "2022-09-07T21:21:28.311Z",
+    "updatedAt": "2022-09-07T21:21:43.037Z",
+    "__v": 0
+  },
+  {
+    "delete_flag": 1,
+    "_id": "631852a7d44c496cedddd3cc",
+    "name": "123",
+    "createdAt": "2022-09-07T08:13:27.123Z",
+    "updatedAt": "2022-09-07T08:13:51.851Z",
+    "__v": 0
+  },
+  {
+    "delete_flag": 1,
+    "_id": "631857f8d44c496cedddd425",
+    "name": "testing 1",
+    "createdAt": "2022-09-07T08:36:08.912Z",
+    "updatedAt": "2022-09-07T08:36:37.431Z",
+    "__v": 0
+  },
+  {
+    "delete_flag": 0,
+    "_id": "63185c7ed44c496cedddd495",
+    "name": "Thương mại điện tử",
+    "createdAt": "2022-09-07T08:55:26.773Z",
+    "updatedAt": "2022-09-07T08:55:26.773Z",
+    "__v": 0
+  },
+  {
+    "delete_flag": 0,
+    "_id": "63185cbbd44c496cedddd49b",
+    "name": "Bất động sản",
+    "createdAt": "2022-09-07T08:56:27.873Z",
+    "updatedAt": "2022-09-07T08:56:27.873Z",
+    "__v": 0
+  },
+  {
+    "delete_flag": 0,
+    "_id": "63185cfcd44c496cedddd4a1",
+    "name": "Vận chuyển, giao nhận",
+    "createdAt": "2022-09-07T08:57:32.002Z",
+    "updatedAt": "2022-09-07T08:57:32.002Z",
+    "__v": 0
+  },
+  {
+    "delete_flag": 0,
+    "_id": "63185d3bd44c496cedddd4ac",
+    "name": "Công nghệ thông tin",
+    "createdAt": "2022-09-07T08:58:35.771Z",
+    "updatedAt": "2022-09-07T08:58:35.771Z",
+    "__v": 0
+  },
+  {
+    "delete_flag": 0,
+    "_id": "63185e08d44c496cedddd4c2",
+    "name": "Marketing",
+    "createdAt": "2022-09-07T09:02:00.924Z",
+    "updatedAt": "2022-09-07T09:02:00.924Z",
+    "__v": 0
+  },
+  {
+    "delete_flag": 0,
+    "_id": "63185e71d44c496cedddd4ce",
+    "name": "In ấn, quảng cáo",
+    "createdAt": "2022-09-07T09:03:45.263Z",
+    "updatedAt": "2022-09-07T09:03:45.263Z",
+    "__v": 0
+  },
+  {
+    "delete_flag": 1,
+    "_id": "63185ef3d44c496cedddd4e0",
+    "name": "Chăm sóc sức khoẻ",
+    "createdAt": "2022-09-07T09:05:55.340Z",
+    "updatedAt": "2022-09-07T09:08:44.791Z",
+    "__v": 0
+  },
+  {
+    "delete_flag": 0,
+    "_id": "63185f06d44c496cedddd4e6",
+    "name": "Ăn uống, F&B",
+    "createdAt": "2022-09-07T09:06:14.710Z",
+    "updatedAt": "2022-09-07T09:08:40.226Z",
+    "__v": 0
+  },
+  {
+    "delete_flag": 0,
+    "_id": "631860dcd44c496cedddd522",
+    "name": "Thời trang",
+    "createdAt": "2022-09-07T09:14:04.366Z",
+    "updatedAt": "2022-09-07T09:14:04.366Z",
+    "__v": 0
+  },
+  {
+    "delete_flag": 0,
+    "_id": "63186113d44c496cedddd528",
+    "name": "Nhiếp ảnh",
+    "createdAt": "2022-09-07T09:14:59.085Z",
+    "updatedAt": "2022-09-07T09:14:59.085Z",
+    "__v": 0
+  },
+  {
+    "delete_flag": 0,
+    "_id": "63186161d44c496cedddd536",
+    "name": "Nhà hàng khách sạn",
+    "createdAt": "2022-09-07T09:16:17.056Z",
+    "updatedAt": "2022-09-07T09:18:08.322Z",
+    "__v": 0
+  },
+  {
+    "delete_flag": 0,
+    "_id": "63186243d44c496cedddd557",
+    "name": "Mỹ phẩm",
+    "createdAt": "2022-09-07T09:20:03.985Z",
+    "updatedAt": "2022-09-07T09:20:03.985Z",
+    "__v": 0
+  },
+  {
+    "delete_flag": 0,
+    "_id": "631862c3d44c496cedddd56d",
+    "name": "Xuất nhập khẩu",
+    "createdAt": "2022-09-07T09:22:11.231Z",
+    "updatedAt": "2022-09-07T09:22:11.231Z",
+    "__v": 0
+  },
+  {
+    "delete_flag": 0,
+    "_id": "63186312d44c496cedddd573",
+    "name": "Dịch vụ tư vấn",
+    "createdAt": "2022-09-07T09:23:30.358Z",
+    "updatedAt": "2022-09-07T09:23:30.358Z",
+    "__v": 0
+  },
+  {
+    "delete_flag": 0,
+    "_id": "631863abd44c496cedddd584",
+    "name": "Nha khoa",
+    "createdAt": "2022-09-07T09:26:03.638Z",
+    "updatedAt": "2022-09-07T09:26:03.638Z",
+    "__v": 0
+  },
+  {
+    "delete_flag": 0,
+    "_id": "631863dbd44c496cedddd589",
+    "name": "Mầm non",
+    "createdAt": "2022-09-07T09:26:51.509Z",
+    "updatedAt": "2022-09-07T09:26:51.509Z",
+    "__v": 0
+  },
+  {
+    "delete_flag": 0,
+    "_id": "63186401d44c496cedddd58f",
+    "name": "May mặc",
+    "createdAt": "2022-09-07T09:27:29.345Z",
+    "updatedAt": "2022-09-07T09:27:29.345Z",
+    "__v": 0
+  },
+  {
+    "delete_flag": 0,
+    "_id": "631864bcd44c496cedddd5a2",
+    "name": "Thiết kế nội thất",
+    "createdAt": "2022-09-07T09:30:36.893Z",
+    "updatedAt": "2022-09-07T09:30:36.893Z",
+    "__v": 0
+  },
+  {
+    "delete_flag": 1,
+    "_id": "631b64c0a6d2012b4c4d282c",
+    "name": "test",
+    "createdAt": "2022-09-09T16:07:28.386Z",
+    "updatedAt": "2022-09-09T16:08:11.917Z",
+    "__v": 0
+  },
+  {
+    "delete_flag": 1,
+    "_id": "631b6510a6d2012b4c4d2840",
+    "name": "test2",
+    "createdAt": "2022-09-09T16:08:48.144Z",
+    "updatedAt": "2022-09-09T16:08:50.617Z",
+    "__v": 0
+  },
+  {
+    "delete_flag": 1,
+    "_id": "631c33975dccef2f933da69f",
+    "name": "testing 1",
+    "createdAt": "2022-09-10T06:49:59.250Z",
+    "updatedAt": "2022-09-10T06:50:03.312Z",
+    "__v": 0
+  },
+  {
+    "delete_flag": 0,
+    "_id": "631ffc85534b987b4d95eab5",
+    "name": "Kiến trúc, xây dựng",
+    "createdAt": "2022-09-13T03:44:05.279Z",
+    "updatedAt": "2022-09-13T03:44:05.279Z",
+    "__v": 0
+  },
+  {
+    "delete_flag": 0,
+    "_id": "63200238534b987b4d95eb18",
+    "name": "Giáo dục",
+    "createdAt": "2022-09-13T04:08:24.417Z",
+    "updatedAt": "2022-09-13T04:08:24.417Z",
+    "__v": 0
+  },
+  {
+    "delete_flag": 0,
+    "_id": "63200299534b987b4d95eb1f",
+    "name": "Dược phẩm",
+    "createdAt": "2022-09-13T04:10:01.973Z",
+    "updatedAt": "2022-09-13T04:10:01.973Z",
+    "__v": 0
+  },
+  {
+    "delete_flag": 0,
+    "_id": "632002d2534b987b4d95eb24",
+    "name": "Truyền thông, giải trí",
+    "createdAt": "2022-09-13T04:10:58.524Z",
+    "updatedAt": "2022-09-13T04:10:58.524Z",
+    "__v": 0
+  },
+  {
+    "delete_flag": 0,
+    "_id": "63200343534b987b4d95eb2b",
+    "name": "Nông sản",
+    "createdAt": "2022-09-13T04:12:51.165Z",
+    "updatedAt": "2022-09-13T04:12:51.165Z",
+    "__v": 0
+  },
+  {
+    "delete_flag": 0,
+    "_id": "6320035c534b987b4d95eb31",
+    "name": "Luật",
+    "createdAt": "2022-09-13T04:13:16.980Z",
+    "updatedAt": "2022-09-13T04:13:16.980Z",
+    "__v": 0
+  },
+  {
+    "delete_flag": 0,
+    "_id": "63200378534b987b4d95eb36",
+    "name": "Salon, cắt tóc",
+    "createdAt": "2022-09-13T04:13:44.225Z",
+    "updatedAt": "2022-09-13T04:13:44.225Z",
+    "__v": 0
+  },
+  {
+    "delete_flag": 0,
+    "_id": "632003fe534b987b4d95eb3d",
+    "name": "Sửa chữa oto",
+    "createdAt": "2022-09-13T04:15:58.453Z",
+    "updatedAt": "2022-09-13T04:15:58.453Z",
+    "__v": 0
+  },
+  {
+    "delete_flag": 0,
+    "_id": "6320046d534b987b4d95eb44",
+    "name": "Nhà hàng ăn uống",
+    "createdAt": "2022-09-13T04:17:49.288Z",
+    "updatedAt": "2022-09-13T04:17:49.288Z",
+    "__v": 0
+  },
+  {
+    "delete_flag": 0,
+    "_id": "6320048a534b987b4d95eb4a",
+    "name": "Thiết kế đồ hoạ",
+    "createdAt": "2022-09-13T04:18:18.830Z",
+    "updatedAt": "2022-09-13T04:18:18.830Z",
+    "__v": 0
+  },
+  {
+    "delete_flag": 0,
+    "_id": "632004d8534b987b4d95eb50",
+    "name": "Du lịch",
+    "createdAt": "2022-09-13T04:19:36.309Z",
+    "updatedAt": "2022-09-13T04:19:36.309Z",
+    "__v": 0
+  },
+  {
+    "delete_flag": 0,
+    "_id": "63200567534b987b4d95eb57",
+    "name": "Thẩm mỹ, spa",
+    "createdAt": "2022-09-13T04:21:59.792Z",
+    "updatedAt": "2022-09-13T04:21:59.792Z",
+    "__v": 0
+  },
+  {
+    "delete_flag": 0,
+    "_id": "6320061d534b987b4d95eb71",
+    "name": "Chăm sóc sức khoẻ",
+    "createdAt": "2022-09-13T04:25:01.168Z",
+    "updatedAt": "2022-09-13T04:25:01.168Z",
+    "__v": 0
+  }
+]
