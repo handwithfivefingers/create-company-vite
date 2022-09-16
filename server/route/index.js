@@ -12,16 +12,14 @@ const ServiceRoute = require('./v1/service')
 const UserRoute = require('./v1/user')
 const AdminRoute = require('./admin')
 
-const { TrackingApi } = require('@middleware')
 
 const { MailRoute, ...AdminRouter } = AdminRoute
 // Default User
-AppRouter.use('/', TrackingApi, AuthRoute, ProductRoute, CategoryRoute, CareerRoute, OrderRoute, ServiceRoute, UserRoute, CareerCategoryRoute, MailRoute)
+AppRouter.use('/', AuthRoute, ProductRoute, CategoryRoute, CareerRoute, OrderRoute, ServiceRoute, UserRoute, CareerCategoryRoute, MailRoute)
 
 // Admin
 AppRouter.use(
   '/admin',
-  TrackingApi,
   AdminRouter.SettingRoute,
   AdminRouter.LogRoute,
   AdminRouter.AdminOrderRoute,

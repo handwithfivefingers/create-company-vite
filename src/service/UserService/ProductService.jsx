@@ -5,6 +5,7 @@ const api_path = {
   createOrderWithPayment: '/order/create/payment',
   products: `/product`,
   checkCompany: '/product/company-search',
+  categories: '/category',
 }
 
 const ProductService = {
@@ -19,6 +20,7 @@ const ProductService = {
   getDataBySlug: (params) => {
     return axios.get(`${api_path.products}/${params.slug}`)
   },
+  getCategoryBySlug: (params) => axios.get(api_path.categories + '/' + params.slug),
 
   getProduct: (params) => {
     return axios.get(api_path.products, {

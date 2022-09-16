@@ -55,7 +55,8 @@
     "react-router-dom": "^6.3.0",
     "redux": "^4.2.0",
     "redux-thunk": "^2.4.1",
-    "sass": "^1.45.1"
+    "sass": "^1.45.1",
+    "vn-num2words": "^1.0.4"
   },
   "devDependencies": {
     "@tanstack/react-query-devtools": "^4.0.10",

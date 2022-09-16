@@ -7,12 +7,14 @@ const { upload, requireSignin } = require('@middleware')
 const CategoryClass = require('@controller/user/Category')
 // const CategoryAdmin = require('@controller/admin/Category')
 
-const { getCategories } = new CategoryClass()
+const { getCategories , getCategoriesBySlug} = new CategoryClass()
 
 // const { createCategory, getCategory, hardDelete, updateCategory, reforceCategoriesData } = new CategoryAdmin()
 //Get
 
 router.get('/category', requireSignin, upload.none(), getCategories)
+
+router.get('/category/:slug', requireSignin, upload.none(), getCategoriesBySlug)
 
 // router.get('/admin/category', getCategory)
 

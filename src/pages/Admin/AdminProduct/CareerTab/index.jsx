@@ -1,15 +1,10 @@
-import { Button, Drawer, Popconfirm, Space, Table } from 'antd'
-import { FormOutlined, MinusSquareOutlined, PlusSquareOutlined, DeleteOutlined, SearchOutlined, BarsOutlined, MoreOutlined } from '@ant-design/icons'
 import AdminProductService from '@/service/AdminService/AdminProductService'
+import { FormOutlined, MinusSquareOutlined } from '@ant-design/icons'
+import { Button, Drawer, Input, message, Popconfirm, Space, Table } from 'antd'
+import React, { forwardRef, useImperativeHandle, useState } from 'react'
 import { useFetch } from '../../../../helper/Hook'
-import React, { useEffect, useState } from 'react'
-import { number_format } from '../../../../helper/Common'
-import CareerCategory from '../CareerCategoryTab/CareerCategoryForm'
 import CareerForm from './CarrerForm'
-import { forwardRef } from 'react'
-import { useImperativeHandle } from 'react'
-import { useMemo } from 'react'
-
+import styles from './styles.module.scss'
 const CareerTab = forwardRef((props, ref) => {
   const [career, setCareer] = useState([])
   const [childModal, setChildModal] = useState({
@@ -17,12 +12,7 @@ const CareerTab = forwardRef((props, ref) => {
     width: 0,
     component: null,
   })
-  const {
-    data: careerData,
-    // isLoading: careerLoading,
-    // status: careerStatus,
-    refetch,
-  } = useFetch({
+  const { data: careerData, refetch } = useFetch({
     cacheName: ['adminProduct', 'career'],
     fn: () => AdminProductService.getCareer(),
   })
@@ -79,14 +69,6 @@ const CareerTab = forwardRef((props, ref) => {
     }
   }
 
-  const filterMemo = useMemo(() => {
-    return careerData?.map((item) => ({
-      text: item.name,
-      value: item._id,
-    }))
-  }, [careerData])
-
-  console.log('rendered')
   const closeModal = () => {
     setChildModal({
       ...childModal,
@@ -96,31 +78,50 @@ const CareerTab = forwardRef((props, ref) => {
 
   return (
     <>
-      <Table dataSource={careerData} rowKey={(record) => record._uuid || record._id} size="small" bordered>
+      <Table dataSource={careerData} rowKey={(record) => record._uuid || record._id} size="small" bordered scroll={{ x: 600 }}>
         <Table.Column
+          // width={250}
           title="Tên ngành"
-          render={(val, record, i) => record.name}
+          dataIndex={'name'}
           filterSearch
-          onFilter={(value, record) => record._id.indexOf(value) === 0}
-          filters={filterMemo}
-          filterDropdown={(filterProps) => {
-            console.log(filterProps)
-            return <div></div>
+          onFilter={(value, record) => record['name'].toString().toLowerCase().includes(value.toLowerCase())}
+          filterDropdown={({ confirm, clearFilters, filters, prefixCls, selectedKeys, setSelectedKeys, visible }) => {
+            return (
+              <div style={{ padding: 8 }}>
+                <Input.Search
+                  placeholder={`Search 'name'`}
+                  value={selectedKeys[0]}
+                  onPressEnter={(e) => {
+                    setSelectedKeys(e.target.value ? [e.target.value] : [])
+                    confirm()
+                  }}
+                  onSearch={(val) => {
+                    setSelectedKeys(val ? [val] : [])
+                    confirm()
+                  }}
+                  allowClear
+                  className={styles.inpSearch}
+                  enterButton 
+                />
+              </div>
+            )
           }}
+          render={(val, record, i) => record.name}
         />
-        <Table.Column title="Mã ngành" width={'25%'} render={(val, record, i) => record.code} />
+        <Table.Column title="Mã ngành" render={(val, record, i) => record.code} />
         <Table.Column
-          width="100px"
+          width={80}
           title=""
           render={(val, record, i) => (
             <Space>
               <Button onClick={(e) => onCareerEdit(record)} icon={<FormOutlined />} />
-              <Button onClick={(e) => deleteCareer(record)} icon={<MinusSquareOutlined />} />
+              <Popconfirm placement="topRight" title={'Bạn có muốn xoá ?'} onConfirm={() => deleteCareer(record)} okText="Yes" cancelText="No">
+                <Button icon={<MinusSquareOutlined />} />
+              </Popconfirm>
             </Space>
           )}
         />
       </Table>
-
       <Drawer visible={childModal.visible} width={childModal.width} onClose={closeModal} destroyOnClose>
         {childModal.component}
       </Drawer>

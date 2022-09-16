@@ -1,4 +1,4 @@
-import { Button, Drawer, Popconfirm, Space, Table, message } from 'antd'
+import { Button, Drawer, Popconfirm, Space, Table, message, Input } from 'antd'
 import { FormOutlined, MinusSquareOutlined, PlusSquareOutlined, DeleteOutlined, SearchOutlined, BarsOutlined, MoreOutlined } from '@ant-design/icons'
 import AdminProductService from '@/service/AdminService/AdminProductService'
 import { useFetch } from '../../../../helper/Hook'
@@ -6,6 +6,8 @@ import React, { useEffect, useState } from 'react'
 import CareerCategoryForm from './CareerCategoryForm'
 import { forwardRef } from 'react'
 import { useImperativeHandle } from 'react'
+import moment from 'moment'
+import styles from './styles.module.scss'
 
 const CareerCategoryTab = forwardRef((props, ref) => {
   const [data, setData] = useState([])
@@ -94,10 +96,48 @@ const CareerCategoryTab = forwardRef((props, ref) => {
   }
   return (
     <>
-      <Table dataSource={careerCategory} loading={careerCategoryLoading} rowKey={(record) => record._uuid || record._id || Math.random()} size="small" bordered>
+      <Table
+        dataSource={careerCategory}
+        loading={careerCategoryLoading}
+        rowKey={(record) => record._uuid || record._id || Math.random()}
+        size="small"
+        bordered
+        scroll={{ x: 768 }}
+      >
+        <Table.Column
+          width={250}
+          title="Tên"
+          render={(val, record, i) => record.name}
+          dataIndex={'name'}
+          filterSearch
+          onFilter={(value, record) => record['name'].toString().toLowerCase().includes(value.toLowerCase())}
+          filterDropdown={({ confirm, clearFilters, filters, prefixCls, selectedKeys, setSelectedKeys, visible }) => {
+            return (
+              <div style={{ padding: 8 }}>
+                <Input.Search
+                  placeholder={`Search 'name'`}
+                  value={selectedKeys[0]}
+                  onPressEnter={(e) => {
+                    setSelectedKeys(e.target.value ? [e.target.value] : [])
+                    confirm()
+                  }}
+                  onSearch={(val) => {
+                    setSelectedKeys(val ? [val] : [])
+                    confirm()
+                  }}
+                  allowClear
+                  enterButton
+                  className={styles.inpSearch}
+                />
+              </div>
+            )
+          }}
+        />
+
+        <Table.Column title="Ngày tạo" render={(val, record, i) => moment(record.createdAt).format('[Ngày] DD [Tháng] MM [Năm] YYYY')} />
+
         <Table.Column title="ID" render={(val, record, i) => record._id} />
-        <Table.Column title="Tên" render={(val, record, i) => record.name} />
-        <Table.Column title="Ngày tạo" render={(val, record, i) => record.createdAt} />
+
         <Table.Column
           width="100px"
           render={(val, record, i) => (

@@ -27,9 +27,8 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 
 import 'moment/locale/vi'
-
 import locale from 'antd/es/locale/vi_VN'
-
+import { default as VNnum2words } from '@/assets/js/convertNumber'
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -103,6 +102,8 @@ function App() {
     return <LoadingScreen />
   }
 
+  console.log(VNnum2words(50000000000000))
+  
   return (
     <div className="App">
       <QueryClientProvider client={queryClient}>

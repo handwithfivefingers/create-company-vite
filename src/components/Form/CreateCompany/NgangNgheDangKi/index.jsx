@@ -37,7 +37,7 @@ const NgangNgheDangKi = forwardRef((props, ref) => {
     refetch: cateRefetch,
   } = useFetch({
     cacheName: ['careerCate'],
-    fn: () => HomepageService.getCareerCategory(),
+    fn: () => GlobalService.getCareerCategory(),
   })
 
   useEffect(() => {
@@ -74,7 +74,7 @@ const NgangNgheDangKi = forwardRef((props, ref) => {
 
   const getSingleCate = async (_id) => {
     try {
-      let res = await HomepageService.getSingleCareerCategory(_id)
+      let res = await GlobalService.getSingleCareerCategory(_id)
       let { data } = res.data
       setCareerData(data)
     } catch (err) {

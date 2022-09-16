@@ -5,59 +5,45 @@ const { errHandler, successHandler } = require('@response')
 module.exports = class CategoryClass {
   getCategories = async (req, res) => {
     try {
-      let _cate = await Category.find({ parentCategory: { $exists: false } })
-      // let newCate = this.filterCaregories(_career)
+      // let { slug } = req.query
+
+      let searchParams = {
+        parentCategory: { $exists: false },
+        // slug: slug,
+      }
+
+      // for (let keys in searchParams) {
+      //   if (!searchParams[keys]) {
+      //     delete searchParams[keys]
+      //   }
+      // }
+
+      let _cate = await Category.find(searchParams)
+
       return successHandler(_cate, res)
     } catch (err) {
       console.log('getCategories error')
+
       return errHandler(err, res)
     }
   }
+  getCategoriesBySlug = async (req, res) => {
+    try {
+      let _cate = await Category.findOne({ slug: req.params.slug })
 
-  // updateCate = async (req, res) => {
-  //   try {
-  //     const { id } = req.params
-  //     const obj = {
-  //       name: req.body.name,
-  //       price: req.body.price,
-  //       type: req.body.type,
-  //     }
+      let _id = _cate._id
 
-  //     const cate = await Category.updateOne(
-  //       {
-  //         _id: id,
-  //       },
-  //       obj,
-  //       { new: true },
-  //     )
+      let _listCate = await Category.find({ parentCategory: { $in: [_id] } })
 
-  //     return successHandler(cate, res)
-  //   } catch (err) {
-  //     console.log('getCategories error')
-  //     return errHandler(err, res)
-  //   }
-  // }
+      return res.status(200).json({
+        data: _listCate,
+        type: _cate.type,
+        parentId: _cate._id,
+      })
+    } catch (err) {
+      console.log('getCategoriesBySlug error', err)
 
-  // filterCaregories = (categories, parentId = null) => {
-  //   let data = []
-  //   let category
-  //   if (parentId == null) {
-  //     category = categories.filter((cat) => cat.parentId == undefined)
-  //   } else {
-  //     category = categories.filter((cat) => cat.parentId == parentId)
-  //   }
-  //   // console.log(category)
-  //   for (let cate of category) {
-  //     data.push({
-  //       _id: cate._id,
-  //       name: cate.name,
-  //       price: cate.price,
-  //       slug: cate.slug,
-  //       parentId: cate.parentId,
-  //       type: cate.type,
-  //       children: this.filterCaregories(categories, cate._id),
-  //     })
-  //   }
-  //   return data
-  // }
+      return errHandler(err, res)
+    }
+  }
 }

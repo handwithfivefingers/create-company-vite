@@ -1,17 +1,10 @@
-import { Form, Input, Card, Button, message, Select, InputNumber, Cascader } from 'antd'
-import React, { useState, useEffect, useRef, memo } from 'react'
 import AdminProductService from '@/service/AdminService/AdminProductService'
-import { number_format } from '../../../../../helper/Common'
+import { Button, Card, Cascader, Form, Input, InputNumber, message } from 'antd'
+import React, { memo, useEffect, useRef } from 'react'
 import { useFetch } from '../../../../../helper/Hook'
 const FormProduct = (props) => {
-  const [loading, setLoading] = useState(false)
   const formRef = useRef()
-  const {
-    data: category,
-    isLoading: categoryLoading,
-    status: categoryStatus,
-    refetch: cateRefetch,
-  } = useFetch({
+  const { data: category } = useFetch({
     cacheName: ['adminProduct', 'category'],
     fn: () => AdminProductService.getCategory(),
   })
@@ -43,7 +36,6 @@ const FormProduct = (props) => {
   }
 
   const onUpdate = async (val) => {
-    console.log(val)
     try {
       let res = await AdminProductService.updateProduct({ ...val, _id: props?.data?._id })
 
@@ -52,6 +44,7 @@ const FormProduct = (props) => {
       }
     } catch (error) {
       console.log(error)
+      message.error(error.response?.data?.error.message || error.response?.data.message)
     }
   }
 
@@ -72,7 +65,7 @@ const FormProduct = (props) => {
   return (
     <Card title={props?.data ? 'Chỉnh sửa' : 'Thêm sản phẩm'} bordered={false}>
       <Form onFinish={onFinish} layout="vertical" ref={formRef}>
-        <Form.Item label="Danh mục" name={['categories']} required>
+        <Form.Item label="Danh mục" name={['categories']}>
           <Cascader fieldNames={{ label: 'name', value: '_id', children: 'children' }} options={category} changeOnSelect={true} placeholder="Please select" />
         </Form.Item>
 
@@ -93,7 +86,7 @@ const FormProduct = (props) => {
         </Form.Item>
 
         <Form.Item>
-          <Button loading={loading} htmlType="submit">
+          <Button htmlType="submit">
             Xác nhận
           </Button>
         </Form.Item>

@@ -8,7 +8,8 @@ const CareerForm = (props) => {
   const onFinish = async (val) => {
     try {
       if (props.data) {
-        await update(val)
+        // console.log(props.data)
+        await update({ ...val, id: props.data._id })
       } else {
         await addNew(val)
       }

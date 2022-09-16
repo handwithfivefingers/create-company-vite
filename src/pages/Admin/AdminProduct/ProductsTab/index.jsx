@@ -9,8 +9,6 @@ import { forwardRef } from 'react'
 import { useImperativeHandle } from 'react'
 
 const ProductsTab = forwardRef((props, ref) => {
-  const [data, setData] = useState([])
-
   const [childModal, setChildModal] = useState({
     visible: false,
     width: 0,
@@ -26,21 +24,6 @@ const ProductsTab = forwardRef((props, ref) => {
     cacheName: ['adminProduct', 'product'],
     fn: () => AdminProductService.getProduct(),
   })
-
-  console.log(product)
-
-  // useEffect(() => {
-  //   if (productStatus === 'success' && product) {
-  //     let _data = product.map((el) => ({
-  //       ...el,
-  //       children: el?.children?.map((item) => ({
-  //         ...item,
-  //         _uuid: makeid(9),
-  //       })),
-  //     }))
-  //     setData(_data)
-  //   }
-  // }, [product])
 
   useImperativeHandle(
     ref,
@@ -104,6 +87,7 @@ const ProductsTab = forwardRef((props, ref) => {
       visible: false,
     })
   }
+  
   return (
     <>
       <Table

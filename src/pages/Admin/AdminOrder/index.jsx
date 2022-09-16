@@ -195,28 +195,19 @@ const AdminOrder = () => {
     setSearchText(selectedKeys[0])
     setSearchedColumn([...dataIndex])
   }
-
   const getColumnSearchProps = (dataIndex) => ({
     filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
       <div style={{ padding: 8 }}>
-        <Space align="center" size={0}>
-          <Button
-            onClick={() => {
-              setSearchText('')
-              setSelectedKeys([])
-              handleSearch([], confirm, [])
-            }}
-            icon={<CloseOutlined />}
-          />
-          <Input.Search
-            ref={searchInput}
-            placeholder={`Tìm kiếm`}
-            value={selectedKeys[0]}
-            onChange={(e) => setSelectedKeys(e.target.value ? [e.target.value] : [])}
-            onSearch={() => handleSearch(selectedKeys, confirm, dataIndex)}
-            style={{ marginBottom: 0, display: 'block', width: 200 }}
-          />
-        </Space>
+        <Input.Search
+          placeholder={`Tìm kiếm`}
+          value={selectedKeys[0]}
+          onChange={(e) => setSelectedKeys(e.target.value ? [e.target.value] : [])}
+          onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
+          onSearch={() => handleSearch(selectedKeys, confirm, dataIndex)}
+          allowClear
+          className={styles.inpSearch}
+          enterButton
+        />
       </div>
     ),
     filterIcon: (filtered) => <SearchOutlined style={{ color: filtered ? '#1890ff' : undefined }} />,
@@ -225,11 +216,6 @@ const AdminOrder = () => {
       let label = record?.[name1]
       if (name2) label = label?.[name2]
       return label?.toString().toLowerCase().includes(value.toLowerCase())
-    },
-    onFilterDropdownVisibleChange: (visible) => {
-      if (visible) {
-        setTimeout(() => searchInput.current?.select(), 100)
-      }
     },
   })
 
@@ -283,7 +269,13 @@ const AdminOrder = () => {
           }}
         >
           <Table.Column title="Đơn hàng" width={210} render={(val, record, i) => record?._id} {...getColumnSearchProps(['_id'])} />
-          <Table.Column className={styles.inline} title="Người đăng kí" width="175px" render={(val, record, i) => record?.orderOwner?.email} {...getColumnSearchProps(['orderOwner', 'email'])} />
+          <Table.Column
+            className={styles.inline}
+            title="Người đăng kí"
+            width="175px"
+            render={(val, record, i) => record?.orderOwner?.email}
+            {...getColumnSearchProps(['orderOwner', 'email'])}
+          />
           <Table.Column title="Sản phẩm" render={renderProduct} />
           <Table.Column title="Dịch vụ" width={210} render={renderService} />
           <Table.Column title="Giá tiền" width={150} render={(val, record, i) => <>{number_format(record?.price)} VND</>} />

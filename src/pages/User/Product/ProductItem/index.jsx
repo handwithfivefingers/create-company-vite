@@ -57,7 +57,7 @@ const UserProductItem = (props) => {
     width: 0,
     component: null,
   })
-  
+
   let params = useParams()
 
   const {
@@ -68,10 +68,9 @@ const UserProductItem = (props) => {
     refetch,
   } = useFetch({
     cacheName: ['userProduct', params],
-    fn: () => ProductService.getDataBySlug(params),
+    fn: () => ProductService.getCategoryBySlug(params),
     otherPath: true,
   })
-
   // console.log('data', data)
 
   const navigate = useNavigate()

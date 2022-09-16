@@ -34,8 +34,6 @@ module.exports = class ProductAdmin {
         name: req.body.name,
       })
 
-      //   if (product) return errHandler(product, res)
-
       if (product) throw { message: 'Product already exists' }
 
       const _product = new Product(obj)
@@ -55,7 +53,7 @@ module.exports = class ProductAdmin {
 
       let { categories, name, price, type } = req.body
 
-      if (!categories) throw { message: 'No categories provided' }
+      // if (!categories) throw { message: 'No categories provided' }
 
       let _update = {
         name,
@@ -85,13 +83,10 @@ module.exports = class ProductAdmin {
       })
 
       return res.status(200).json({ message: 'Xóa sản phẩm thành công', status: 200 })
-
     } catch (err) {
-
       console.log('deleteProduct error')
 
       return errHandler(err, res)
-      
     }
   }
 

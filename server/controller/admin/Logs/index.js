@@ -10,7 +10,6 @@ module.exports = class Logs {
   constructor() {}
 
   getLogs = async (req, res) => {
-    // console.log('coming here')
     try {
       let _logs = await Log.find({}).sort('-createdAt')
       let errorPath = path.join(global.__basedir, 'uploads', 'logs', 'error.log')
