@@ -81,9 +81,7 @@ const GiamVonDieuLe = forwardRef((props, ref) => {
           name={[...BASE_FORM, "new_base_val", "char"]} />
         </Col>
 
-        <Col span={24}>
-          <CCInput label="Hình thức giảm vốn" name={[...BASE_FORM, "type"]} />
-        </Col>
+       
       </Row>
       {/* </Form> */}
     </Form.Item>

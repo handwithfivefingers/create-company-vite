@@ -54,7 +54,7 @@ const DiaChiTruSoChinh = forwardRef((props, ref) => {
         <CCInput name={[...BASE_FORM, "new_location", "city"]} label="Tỉnh/Thành phố" />
       </Form.Item>
 
-      <CCInput name={[...BASE_FORM, "phone"]} label="Điện thoại" />
+     
 
       {/* <CCInput
         type="select"
@@ -64,11 +64,7 @@ const DiaChiTruSoChinh = forwardRef((props, ref) => {
         placeholder="Bấm vào đây"
       /> */}
 
-      <CCInput 
-      name={[...BASE_FORM, "legal_person"]} 
-      label="Tên người đại diện pháp luật" 
-      placeholder="NGUYỄN VĂN A"
-      />
+      
       
       {/* </Form> */}
     </Form.Item>

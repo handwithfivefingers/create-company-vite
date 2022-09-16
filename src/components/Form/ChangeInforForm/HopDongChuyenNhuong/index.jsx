@@ -107,7 +107,7 @@ const HopDongChuyenNhuong = forwardRef((props, ref) => {
           <Col span={24}>
             <CCInput
               name={[...fieldName, "organization", "legal_representative"]}
-              label="Người đại diện theo pháp luật của công ty"
+              label="Họ và tên (người đại diện)"
             />
           </Col>
           {/** ???? */}

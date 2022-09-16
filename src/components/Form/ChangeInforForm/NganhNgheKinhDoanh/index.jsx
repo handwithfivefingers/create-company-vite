@@ -91,7 +91,7 @@ const NganhNgheKinhDoanh = forwardRef((props, ref) => {
         </Select>
       </Form.Item>
 
-      <Form.Item
+      {/* <Form.Item
         label="Sửa đổi chi tiết ngành, nghề kinh doanh sau"
         name={[...BASE_FORM, "detail_after"]}
         
@@ -111,9 +111,9 @@ const NganhNgheKinhDoanh = forwardRef((props, ref) => {
             </Select.Option>
           ))}
         </Select>
-      </Form.Item>
+      </Form.Item> */}
 
-      <CCInput 
+      {/* <CCInput 
       // label="Tên người Đại diện pháp luật" 
       label={
         <div
@@ -125,7 +125,7 @@ const NganhNgheKinhDoanh = forwardRef((props, ref) => {
       name={[...BASE_FORM, "legal_person"]} 
       placeholder="NGUYỄN VĂN A"
       />
-      
+       */}
     </Form.Item>
   );
 });
