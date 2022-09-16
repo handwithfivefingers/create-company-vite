@@ -68,6 +68,7 @@ const KinhDoanhLaiTruocThoiHan = forwardRef((props, ref) => {
         name={[...BASE_FORM, "time_range"]}
         label="Đăng ký tiếp tục kinh doanh kể từ ngày/tháng/năm"
         onChange={handleDateChange}
+        inputReadOnly={false}
       />
 
       <CCInput name={[...BASE_FORM, "reason"]} label="Lý do tiếp tục kinh doanh" />

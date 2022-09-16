@@ -11,12 +11,12 @@ const { fetchCareer, createCareer, editCareer, deleteCareer } = new CareerClass(
 router.get('/career', requireSignin, upload.none(), fetchCareer)
 
 //Post
-router.post('/career', requireSignin, upload.none(), createCareer)
+// router.post('/career', requireSignin, upload.none(), createCareer)
 
-//Edit
-router.post('/career/:id', requireSignin, upload.none(), editCareer)
+// //Edit
+// router.post('/career/:id', requireSignin, upload.none(), editCareer)
 
-//Delete
-router.delete('/career/:id', requireSignin, upload.none(), deleteCareer)
+// //Delete
+// router.delete('/career/:id', requireSignin, upload.none(), deleteCareer)
 
 module.exports = router

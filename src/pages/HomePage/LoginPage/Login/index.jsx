@@ -11,9 +11,9 @@ const LoginForm = forwardRef((props, ref) => {
 
   useImperativeHandle(ref, () => ({
     start: () => {
-      const CLIENT_ID = '216335889679-9d8fesnrk3nh8gp2sktnepq4d63mfgi9'
+      // const CLIENT_ID = '216335889679-9d8fesnrk3nh8gp2sktnepq4d63mfgi9'
       google.accounts.id.initialize({
-        client_id: `${CLIENT_ID}.apps.googleusercontent.com`,
+        client_id: import.meta.env.GG_EMAIL_CLIENT_ID,
         callback: async (response) => await handleCredentialResponse(response),
       })
       google.accounts.id.renderButton(ggRef.current, { theme: 'filled_blue', size: 'large', width: '308' })

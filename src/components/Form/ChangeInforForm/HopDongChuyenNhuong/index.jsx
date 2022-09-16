@@ -289,6 +289,7 @@ const HopDongChuyenNhuong = forwardRef((props, ref) => {
                   name={[...fieldName, "organization", "capital_contribution", "time_end"]}
                   label="Thời điểm hoàn thành việc chuyển nhượng (Chọn Ngày/ tháng/ năm)"
                   type="date"
+                  inputReadOnly={false}
                 />
               </Col>
             </>

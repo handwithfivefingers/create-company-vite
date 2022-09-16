@@ -1,10 +1,10 @@
-const { CareerCategory, Career } = require('@model')
-const { successHandler } = require('@response')
-const { errHandler } = require('@response')
-const mongoose = require('mongoose')
+const { Product, Category, Career, CareerCategory } = require('@model')
+const { errHandler, successHandler } = require('@response')
+const { default: slugify } = require('slugify')
+// Fetch data
+const { equals, default: mongoose } = require('mongoose')
 
-module.exports = class CareerCategoryClass {
-
+module.exports = class CareerCategoryAdmin {
   fetchCareer = async (req, res) => {
     try {
       let _cate = await CareerCategory.find({ delete_flag: { $ne: 1 } })

@@ -1,7 +1,7 @@
 import { Col, Form, Row, Select } from 'antd'
 import clsx from 'clsx'
 import React, { forwardRef, useEffect, useState } from 'react'
-import HomepageService from '@/service/GlobalService'
+import GlobalService from '@/service/GlobalService'
 import styles from '../CreateCompany.module.scss'
 import { useFetch } from '@/helper/Hook'
 import { useQuery } from '@tanstack/react-query'
@@ -13,14 +13,14 @@ const NgangNgheDangKi = forwardRef((props, ref) => {
 
   // const { data, isLoading, status, refetch } = useFetch({
   //   cacheName: ['careerData'],
-  //   fn: () => HomepageService.fetchCareer(),
+  //   fn: () => GlobalService.fetchCareer(),
   // })
   const [selfSelect, setSelfSelect] = useState(null)
   
   const { status, fetchStatus, data } = useQuery(
     ['career'],
     async () => {
-      let res = await HomepageService.fetchCareer()
+      let res = await GlobalService.fetchCareer()
       return res.data.data
     },
     {

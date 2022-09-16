@@ -1,8 +1,9 @@
 import { Button, Card, Form, Input, Select } from 'antd'
 import React, { useEffect, useRef } from 'react'
 import AdminProductService from '@/service/AdminService/AdminProductService'
+import { useFetch } from '../../../../../helper/Hook'
 
-const CareerCategory = ({ data, onFinishScreen, id, name }) => {
+const CareerCategoryForm = ({ data, onFinishScreen, id, name }) => {
   const formRef = useRef()
 
   useEffect(() => {
@@ -11,6 +12,7 @@ const CareerCategory = ({ data, onFinishScreen, id, name }) => {
     }
   }, [id])
 
+  console.log(data)
   const onFinish = async (val) => {
     try {
       if (id) {
@@ -57,7 +59,7 @@ const CareerCategory = ({ data, onFinishScreen, id, name }) => {
       message.error('Something went wrong')
     }
   }
-  
+
   return (
     <Card title="Danh mục ngành nghề" style={{ minWidth: '350px' }} bordered={false}>
       <Form onFinish={onFinish} ref={formRef} layout="vertical">
@@ -93,4 +95,4 @@ const CareerCategory = ({ data, onFinishScreen, id, name }) => {
   )
 }
 
-export default CareerCategory
+export default CareerCategoryForm

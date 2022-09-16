@@ -219,6 +219,7 @@ const Personal = forwardRef((props, ref) => {
         name={[...BASE_FORM, 'birth_day']}
         label="Ngày sinh"
         placeholder="Chọn ngày"
+        inputReadOnly={false}
       />
 
       <CCInput
@@ -255,6 +256,7 @@ const Personal = forwardRef((props, ref) => {
         name={[...BASE_FORM, 'doc_time_provide']}
         label="Ngày cấp"
         placeholder="Chọn ngày"
+        inputReadOnly={false}
       />
 
       <CCSelect.SelectDocProvide
@@ -375,6 +377,7 @@ const OriginalPerson = forwardRef((props, ref) => {
           />
         }
         placeholder="Chọn ngày"
+        inputReadOnly={false}
       />
 
       <Form.Item
@@ -426,6 +429,7 @@ const OriginalPerson = forwardRef((props, ref) => {
         name={[...BASE_FORM, 'birth_day']}
         label="Ngày sinh"
         placeholder="Chọn ngày"
+        inputReadOnly={false}
       />
 
       <CCInput
@@ -461,6 +465,7 @@ const OriginalPerson = forwardRef((props, ref) => {
         name={[...BASE_FORM, 'doc_time_provide']}
         label="Ngày cấp"
         placeholder="Chọn ngày"
+        inputReadOnly={false}
       />
 
       <CCSelect.SelectDocProvide

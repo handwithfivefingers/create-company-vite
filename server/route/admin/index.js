@@ -9,6 +9,8 @@ const SettingRoute = require('./setting')
 const UserRoute = require('./user')
 const ProductAdmin = require('./product')
 const CategoryAdmin = require('./category')
+const CareerCate = require('./careerCate')
+const CareerAdmin = require('./career')
 
 module.exports = {
   LogRoute,
@@ -19,4 +21,6 @@ module.exports = {
   UserRoute,
   ProductAdmin,
   CategoryAdmin,
+  CareerCate,
+  CareerAdmin,
 }

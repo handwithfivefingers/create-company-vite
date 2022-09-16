@@ -2,7 +2,7 @@ import { Form, Select } from "antd";
 import clsx from "clsx";
 import React, { forwardRef, useEffect, useState } from "react";
 import CCInput from "@/components/CCInput";
-import HomepageService from "@/service/GlobalService";
+import GlobalService from "@/service/GlobalService";
 import styles from "../DaiDienPhapLuat/styles.module.scss";
 
 const BASE_FORM = ["change_info", "company_career"];
@@ -16,7 +16,7 @@ const NganhNgheKinhDoanh = forwardRef((props, ref) => {
 
   const onFetchCareer = async () => {
     try {
-      const res = await HomepageService.fetchCareer();
+      const res = await GlobalService.fetchCareer();
       if (res) {
         setCareer(res.data.data);
       }

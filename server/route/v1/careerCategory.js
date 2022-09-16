@@ -10,12 +10,12 @@ const router = express.Router()
 
 router.get('/career_cate', upload.none(), fetchCareer)
 
-router.get('/career_cate/:id', upload.none(), fetchSingleCareerCate)
+// router.get('/career_cate/:id', upload.none(), fetchSingleCareerCate)
 
-router.post('/career_cate/:id', upload.none(), updateCareerCate)
+// router.post('/career_cate/:id', upload.none(), updateCareerCate)
 
-router.post('/career_cate', upload.none(), createCareer)
+// router.post('/career_cate', upload.none(), createCareer)
 
-router.delete('/career_cate/:id', upload.none(), deleteCareerCate)
+// router.delete('/career_cate/:id', upload.none(), deleteCareerCate)
 
 module.exports = router

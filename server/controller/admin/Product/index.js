@@ -1,6 +1,6 @@
 const { Product, Category } = require('@model')
 const { successHandler, errHandler } = require('@response')
-
+const slugify = require('slugify')
 module.exports = class ProductAdmin {
   getProduct = async (req, res) => {
     try {
@@ -22,7 +22,31 @@ module.exports = class ProductAdmin {
 
   createProduct = async (req, res) => {
     try {
-    } catch (error) {}
+      const obj = {
+        name: req.body.name.toString(),
+        price: Number(req.body.price),
+        slug: slugify(req.body.name),
+        categories: req.body.categories,
+        type: req.body.type,
+      }
+
+      let product = await Product.findOne({
+        name: req.body.name,
+      })
+
+      //   if (product) return errHandler(product, res)
+
+      if (product) throw { message: 'Product already exists' }
+
+      const _product = new Product(obj)
+
+      await _product.save()
+
+      return successHandler([], res)
+    } catch (err) {
+      console.log('createProduct error', err)
+      return errHandler(err, res)
+    }
   }
 
   updateProduct = async (req, res) => {
@@ -53,7 +77,22 @@ module.exports = class ProductAdmin {
 
   deleteProduct = async (req, res) => {
     try {
-    } catch (error) {}
+      const { _id } = req.params
+
+      // return;
+      await Product.findOneAndDelete({
+        _id,
+      })
+
+      return res.status(200).json({ message: 'Xóa sản phẩm thành công', status: 200 })
+
+    } catch (err) {
+
+      console.log('deleteProduct error')
+
+      return errHandler(err, res)
+      
+    }
   }
 
   filterProductCate = (cate) => {

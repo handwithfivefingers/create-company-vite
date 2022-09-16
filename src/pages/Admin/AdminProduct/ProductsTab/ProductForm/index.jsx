@@ -1,12 +1,20 @@
 import { Form, Input, Card, Button, message, Select, InputNumber, Cascader } from 'antd'
-import axios from '../../../../config/axios'
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect, useRef, memo } from 'react'
 import AdminProductService from '@/service/AdminService/AdminProductService'
-import { number_format } from '../../../../helper/Common'
+import { number_format } from '../../../../../helper/Common'
+import { useFetch } from '../../../../../helper/Hook'
 const FormProduct = (props) => {
   const [loading, setLoading] = useState(false)
-  const [cateData, setCateData] = useState([])
   const formRef = useRef()
+  const {
+    data: category,
+    isLoading: categoryLoading,
+    status: categoryStatus,
+    refetch: cateRefetch,
+  } = useFetch({
+    cacheName: ['adminProduct', 'category'],
+    fn: () => AdminProductService.getCategory(),
+  })
 
   useEffect(() => {
     formRef.current.setFieldsValue({
@@ -16,21 +24,7 @@ const FormProduct = (props) => {
       parentId: props?.data?.parentId?.map((item) => item._id) || [],
       categories: props?.data?.categories?.map((item) => item._id),
     })
-    getCateData()
   }, [props])
-
-  const getCateData = async () => {
-    try {
-      let res = await AdminProductService.getCategory()
-      if (res.data.status === 200) {
-        setCateData(data)
-      } else {
-        message.error(res.data.message)
-      }
-    } catch (err) {
-      console.log(err)
-    }
-  }
 
   const onFinish = async (val) => {
     try {
@@ -60,6 +54,7 @@ const FormProduct = (props) => {
       console.log(error)
     }
   }
+
   const onCreate = async (val) => {
     try {
       console.log(val)
@@ -78,7 +73,7 @@ const FormProduct = (props) => {
     <Card title={props?.data ? 'Chỉnh sửa' : 'Thêm sản phẩm'} bordered={false}>
       <Form onFinish={onFinish} layout="vertical" ref={formRef}>
         <Form.Item label="Danh mục" name={['categories']} required>
-          <Cascader fieldNames={{ label: 'name', value: '_id', children: 'children' }} options={cateData} changeOnSelect={true} placeholder="Please select" />
+          <Cascader fieldNames={{ label: 'name', value: '_id', children: 'children' }} options={category} changeOnSelect={true} placeholder="Please select" />
         </Form.Item>
 
         <Form.Item label="Tên sản phẩm" name={['name']} required>
@@ -86,7 +81,11 @@ const FormProduct = (props) => {
         </Form.Item>
 
         <Form.Item label="Giá tiền" name={['price']} required>
-          <InputNumber formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')} parser={(value) => value.replace(/\$\s?|(,*)/g, '')} style={{ width: '100%' }} />
+          <InputNumber
+            formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+            parser={(value) => value.replace(/\$\s?|(,*)/g, '')}
+            style={{ width: '100%' }}
+          />
         </Form.Item>
 
         <Form.Item label="Type" name={['type']}>
@@ -103,4 +102,4 @@ const FormProduct = (props) => {
   )
 }
 
-export default FormProduct
+export default memo(FormProduct)

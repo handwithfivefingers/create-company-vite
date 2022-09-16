@@ -16,7 +16,6 @@ const UserProfile = (props) => {
   const profileRef = useRef()
   const screen = useBreakpoint()
   const authReducer = useSelector((state) => state.authReducer)
-  console.log(authReducer)
   const {
     data: profileData,
     refetch,

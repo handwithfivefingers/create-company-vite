@@ -21,8 +21,6 @@ const UserProductPage = (props) => {
     }
   }, [data])
 
-  console.log(data)
-
   return (
     <m.div className={clsx([styles.cardgrid, 'container'])} initial={{ opacity: 0 }} exit={{ opacity: 0 }} animate={{ opacity: 1 }}>
       {product?.map((item, index) => {

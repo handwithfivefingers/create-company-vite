@@ -14,20 +14,23 @@ const AdminRoute = require('./admin')
 
 const { TrackingApi } = require('@middleware')
 
+const { MailRoute, ...AdminRouter } = AdminRoute
 // Default User
-AppRouter.use('/', TrackingApi, AuthRoute, ProductRoute, CategoryRoute, CareerRoute, OrderRoute, ServiceRoute, UserRoute, CareerCategoryRoute, AdminRoute.MailRoute)
+AppRouter.use('/', TrackingApi, AuthRoute, ProductRoute, CategoryRoute, CareerRoute, OrderRoute, ServiceRoute, UserRoute, CareerCategoryRoute, MailRoute)
 
 // Admin
 AppRouter.use(
   '/admin',
   TrackingApi,
-  AdminRoute.SettingRoute,
-  AdminRoute.LogRoute,
-  AdminRoute.AdminOrderRoute,
-  AdminRoute.FileRoute,
-  AdminRoute.UserRoute,
-  AdminRoute.ProductAdmin,
-  AdminRoute.CategoryAdmin,
+  AdminRouter.SettingRoute,
+  AdminRouter.LogRoute,
+  AdminRouter.AdminOrderRoute,
+  AdminRouter.FileRoute,
+  AdminRouter.UserRoute,
+  AdminRouter.ProductAdmin,
+  AdminRouter.CategoryAdmin,
+  AdminRouter.CareerCate,
+  AdminRouter.CareerAdmin,
 )
 
 module.exports = AppRouter

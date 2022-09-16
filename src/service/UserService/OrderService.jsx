@@ -3,7 +3,7 @@ import axios from '../../config/axios'
 const api_path = {
   getOrders: '/order',
   payment: '/payment',
- 
+  career: '/career',
 }
 
 const OrderService = {
@@ -13,7 +13,6 @@ const OrderService = {
   Payment: (params) => {
     return axios.post(api_path.payment, params)
   },
-
 }
 
 export default OrderService

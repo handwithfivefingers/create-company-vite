@@ -57,6 +57,7 @@ const NewCategory = (props) => {
     }
   }
 
+  console.log('category', category)
   return (
     <Card style={{ minWidth: '350px' }} title="Danh mục" bordered={false}>
       <Form
@@ -94,7 +95,7 @@ const NewCategory = (props) => {
 
         <Form.Item>
           <Space size="small" style={{ float: 'right' }}>
-            <Button type="primary" htmlType="submit">
+            <Button type="primary" htmlType="submit" loading={loading}>
               {data ? 'Cập nhật' : 'Tạo'}
             </Button>
             <Button type="outline">Hủy</Button>
