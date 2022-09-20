@@ -17,7 +17,9 @@ const UserProductPage = (props) => {
 
   useEffect(() => {
     if (data) {
-      setProduct(data)
+      let prod = data.sort((a, b) => a.type - b.type)
+
+      setProduct(prod)
     }
   }, [data])
 
