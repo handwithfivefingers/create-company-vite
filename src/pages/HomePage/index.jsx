@@ -10,12 +10,9 @@ import clsx from 'clsx'
 import Footer from '@/components/Footer'
 import styles from './styles.module.scss'
 
-const LoginPage = React.lazy(() => import('./LoginPage'))
-
 const { Content } = Layout
 
 export default function HomePage() {
-  const dispatch = useDispatch()
 
   const { route } = useContext(RouterContext)
 

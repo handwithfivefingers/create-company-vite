@@ -128,17 +128,7 @@ const ChangeInforForm = forwardRef((props, ref) => {
             return option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
           }}
         >
-          {/* {productSelect &&
-            data?.map((item) => {
-              return (
-                item._id.includes(productSelect) &&
-                item?.children?.map((child) => (
-                  <Select.Option key={child._id} value={child._id} type={child.type}>
-                    {child.name}
-                  </Select.Option>
-                ))
-              )
-            })} */}
+
           {productSelect &&
             data?.map((item) => {
               return (
@@ -155,14 +145,24 @@ const ChangeInforForm = forwardRef((props, ref) => {
           [styles.active]: props.current === 1,
         })}
       >
-        <CCInput label="Tên doanh nghiệp" name={['change_info', 'base_inform', 'company_name']} placeholder="CÔNG TY TNHH DỊCH VỤ TƯ VẤN WARREN B" />
+        <CCInput
+          label="Tên doanh nghiệp"
+          name={['change_info', 'base_inform', 'company_name']}
+          onChange={(e) => onSetFields(['change_info', 'base_inform', 'company_name'], e.target.value, ref, true)}
+          placeholder="CÔNG TY TNHH DỊCH VỤ TƯ VẤN WARREN B"
+        />
 
-        <CCInput label="Mã số doanh nghiệp hoặc Mã số thuế" name={['change_info', 'base_inform', 'mst']} placeholder="0316184427" />
+        <CCInput
+          label="Mã số doanh nghiệp hoặc Mã số thuế"
+          name={['change_info', 'base_inform', 'mst']}
+          placeholder="0316184427"
+        />
 
         <CCInput
           label={<div dangerouslySetInnerHTML={{ __html: '</>Người đại diện pháp luật <i>(nhập đầy đủ họ và tên)</i></>' }} />}
           name={['change_info', 'base_inform', 'org_person']}
           placeholder="NGUYỄN VĂN A"
+          onChange={(e) => onSetFields(['change_info', 'base_inform', 'org_person'], e.target.value, ref, true)}
         />
       </div>
     </Form>

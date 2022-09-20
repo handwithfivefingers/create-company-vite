@@ -19,13 +19,11 @@ const User = () => {
           </div>
         }
       >
-        {/* <div className="animate__animated animate__fadeIn"> */}
         <Outlet
           context={{
             animateClass: 'animate__animated animate__fadeIn animate__faster',
           }}
         />
-        {/* </div> */}
       </Suspense>
       <Tidio />
     </>

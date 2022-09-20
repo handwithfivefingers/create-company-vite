@@ -7,13 +7,13 @@ import { makeid } from '@/helper/Common'
 import { FcAssistant, FcQuestions } from 'react-icons/fc'
 
 import styles from './styles.module.scss'
+import moment from 'moment'
 
 const { useBreakpoint } = Grid
 const UserHeader = (props) => {
   const navigate = useNavigate()
-  const [time, setTime] = useState(new Date().toString('HH:mm'))
 
-  const timeRef = useRef(new Date().toString('HH:mm:ss'))
+  const timeRef = useRef(moment().format('HH:mm:ss'))
 
   const commonReducer = useSelector((state) => state.commonReducer)
 
@@ -21,7 +21,7 @@ const UserHeader = (props) => {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      timeRef.current.innerHTML = new Date().toString('HH:mm:ss')
+      timeRef.current.innerHTML = moment().format('HH:mm:ss')
     }, 1000)
     return () => clearInterval(interval)
   }, [])
@@ -42,7 +42,12 @@ const UserHeader = (props) => {
         >
           {screen.md && `Tài liệu hướng dẫn`}
         </Button>,
-        <Button type="text" icon={<FcAssistant />} style={{ alignItems: 'center', display: 'flex', gap: 4 }} onClick={() => window.open('https://thanhlapcongtyonline.vn/ho-tro/', '_blank')}>
+        <Button
+          type="text"
+          icon={<FcAssistant />}
+          style={{ alignItems: 'center', display: 'flex', gap: 4 }}
+          onClick={() => window.open('https://thanhlapcongtyonline.vn/ho-tro/', '_blank')}
+        >
           {screen.md && `Hỗ trợ`}
         </Button>,
         <ClockCircleOutlined key="clock-1" color="#6f3a3a" />,

@@ -59,9 +59,9 @@ export default defineConfig(({ command, mode }) => {
     // dev build
     return {
       ...configs,
-      optimizeDeps: {
-        force: true, // --> Force clear cache
-      },
+      // optimizeDeps: {
+      //   force: true, // --> Force clear cache
+      // },
     }
   } else {
     // command === 'build'
