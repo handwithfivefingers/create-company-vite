@@ -22,12 +22,16 @@
   display: grid;
   grid-template-rows: calc(100vh - 74px) 50px;
   .adminMainContent {
-    display: grid;
-    grid-template-rows: 72px calc(100vh - 122px - 24px - 40px) 50px;
-    :nth-child(2) {
-      @include scroll(6px, 6px, transparent);
-      overflow-x: hidden;
-      overflow-y: overlay;
+    > div {
+      > div {
+        display: grid;
+        grid-template-rows: 72px calc(100vh - 122px - 24px - 40px) 50px;
+        :nth-child(2) {
+          @include scroll(6px, 6px, transparent);
+          overflow-x: hidden;
+          overflow-y: overlay;
+        }
+      }
     }
   }
 }
@@ -45,10 +49,13 @@
   .mainContent {
     position: relative;
     display: grid;
-    row-gap: 12px;
-    overflow: hidden;
+    row-gap: 6px;
     grid-template-rows: 62px 1fr;
-    @include scroll(6px, 6px, transparent);
+    > :nth-child(2) {
+      > div {
+        @include scroll(6px, 6px, transparent);
+      }
+    }
   }
 }
 

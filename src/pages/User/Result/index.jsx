@@ -1,15 +1,9 @@
 import React from 'react'
 import { Result, Button } from 'antd'
-import {
-  useNavigate,
-  useSearchParams,
-  useNavigationType,
-  useOutletContext,
-} from 'react-router-dom'
+import { useNavigate, useSearchParams, useNavigationType, useOutletContext } from 'react-router-dom'
 
 export default function CCResult() {
   let [params] = useSearchParams()
-
   const { animateClass } = useOutletContext()
   let type = useNavigationType()
   let searchText = params.get('text')
@@ -26,14 +20,12 @@ export default function CCResult() {
       className={animateClass}
       status="success"
       title={searchText}
-      subTitle="Order number: 2017182818828182881 Cloud server configuration takes 1-5 minutes, please wait."
+      subTitle={`Mã đơn hàng: ${'2017182818828182881'} đã được thanh toán thành công, vui lòng kiểm tra email sau 1 - 5 phút.`}
       extra={[
         <Button type="primary" onClick={() => navigate('/user/order')}>
           Kiểm tra đơn hàng
         </Button>,
-        <Button onClick={() => navigate('/user/san-pham')}>
-          Về trang sản phẩm
-        </Button>,
+        <Button onClick={() => navigate('/user/san-pham')}>Về trang sản phẩm</Button>,
       ]}
     />
   )

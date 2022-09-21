@@ -15,7 +15,9 @@ const libre = require('libreoffice-convert')
 const qs = require('query-string')
 
 const crypto = require('crypto')
+
 const moment = require('moment')
+
 libre.convertAsync = require('util').promisify(libre.convert)
 
 expressions.filters.lower = function (input) {
@@ -33,6 +35,47 @@ expressions.filters.divideBy = function (input, num) {
   return input / num
 }
 
+expressions.filters.formatNumber = function (input, type) {
+  if (!input) return input
+
+  let val = input.toString()
+  val = val.split('').reverse() //
+  let len = Math.round(val.length / 3)
+  let output = []
+  for (let i = 0; i <= len; i++) {
+    let typeOutput = val.length > 3 ? type : ''
+    let Poutput = [...val.splice(0, 3), typeOutput]
+    output.push(...Poutput)
+  }
+
+  return output.reverse().join('')
+}
+
+expressions.filters.formatDate = function (input, type = null) {
+  if (!input) return input
+
+  let val = input.toString()
+
+  return moment(val).format(type ? type : '[ngày] DD [tháng] MM [năm] YYYY')
+}
+
+expressions.filters.where = function (input, query) {
+  return input.filter(function (item) {
+    return expressions.compile(query)(item)
+  })
+}
+
+expressions.filters.toFixed = function (input, precision) {
+  // In our example precision is the integer 2
+
+  // Make sure that if your input is undefined, your
+  // output will be undefined as well and will not
+  // throw an error
+  if (!input) return input
+
+  return input.toFixed(precision)
+}
+
 function nullGetter(tag, props) {
   if (props.tag === 'simple') {
     return 'undefined'
@@ -44,10 +87,7 @@ function nullGetter(tag, props) {
 }
 
 function angularParser(tag) {
-  tag = tag
-    .replace(/^\.$/, 'this')
-    .replace(/(’|‘)/g, "'")
-    .replace(/(“|”)/g, '"')
+  tag = tag.replace(/^\.$/, 'this').replace(/(’|‘)/g, "'").replace(/(“|”)/g, '"')
   const expr = expressions.compile(tag)
   // expr = expressions.compile(tag);
   return {
@@ -88,32 +128,18 @@ const applyContent = async (file = null, data = null) => {
 }
 
 const saveFileAsDocx = async (buffer, ext) => {
-  let filePath = path.join(
-    global.__basedir,
-    '/uploads',
-    `${shortid.generate()}-output${ext}`,
-  )
+  let filePath = path.join(global.__basedir, '/uploads', `${shortid.generate()}-output${ext}`)
   fs.writeFileSync(filePath, buffer)
   return filePath
 }
 
 const specialFields = ['company_main_career', 'company_opt_career']
 
-const dateFields = [
-  'doc_time_provide',
-  'birth_day',
-  'time_provide',
-  'start',
-  'end',
-]
+const dateFields = ['doc_time_provide', 'birth_day', 'time_provide', 'start', 'end']
 
 const objToKeys = (obj, baseObj, path = null) => {
-  const regex = /(?=.*\d[\s\S][-T:.Z])\w+/g
-
   Object.keys(obj).forEach((item) => {
     let isSpecial = specialFields.some((elmt) => elmt === item)
-
-    let isDate = dateFields.some((elmt) => elmt === item)
 
     // item => dissolution , uy_quyen, pending, .... 1st
 
@@ -129,20 +155,10 @@ const objToKeys = (obj, baseObj, path = null) => {
       // String || Number || Date
 
       if (typeof obj[item] !== 'object') {
-        // console.log("\x1b[32m", "fieldName");
-        // console.log(newPath);
-        // console.log("\x1b[36m", "data Display");
-        // console.log(obj[item]);
-
-        if (typeof obj[item] === 'string' && isDate) {
-          // Type DATE
-          baseObj[newPath] = dateConvert(obj[item]) // Date Time convert
-        } else {
-          // Type String || Number
-          baseObj[newPath] = obj[item] // create exist value for Number || String field
-        }
+        baseObj[newPath] = obj[item] // create exist value for Number || String field
       } else if (obj[item].length > 0) {
         // Handle with Array
+
         baseObj[newPath] = obj[item].map((elmt, i) => ({
           ...elmt,
           index: `${i + 1}`,
@@ -158,36 +174,31 @@ const objToKeys = (obj, baseObj, path = null) => {
   })
 }
 
-const dateConvert = (dateString) => {
-  // return Date.parse(dateString).toString(`dd/MM/yyyy`);
-  return moment(dateString).format(`DD/MM/YYYY`)
-}
-
 const flattenObject = (data) => {
   const _template = {}
+
   objToKeys(data, _template)
+
   const date = new Date()
+
   _template.date = date.getDate()
+
   _template.month = date.getMonth() + 1 // Month start at 0 -> 11
+
   _template.year = date.getFullYear()
+
   // handle Change Info Array;
-  console.log(_template)
+
   for (let props in _template) {
-    if (
-      props === 'change_info_transfer_contract_A_side_owner' &&
-      _template.change_info_transfer_contract_A_side_owner === 'personal'
-    ) {
+    if (props === 'change_info_transfer_contract_A_side_owner' && _template.change_info_transfer_contract_A_side_owner === 'personal') {
       let {
         change_info_transfer_contract_A_side_personal_name: name,
         change_info_transfer_contract_A_side_personal_birth_day: birth_day,
         change_info_transfer_contract_A_side_personal_doc_type: doc_type,
         change_info_transfer_contract_A_side_personal_doc_code: doc_code,
-        change_info_transfer_contract_A_side_personal_doc_time_provide:
-          doc_time_provide,
-        change_info_transfer_contract_A_side_personal_doc_place_provide:
-          doc_place_provide,
-        change_info_transfer_contract_A_side_personal_contact_address:
-          contact_address,
+        change_info_transfer_contract_A_side_personal_doc_time_provide: doc_time_provide,
+        change_info_transfer_contract_A_side_personal_doc_place_provide: doc_place_provide,
+        change_info_transfer_contract_A_side_personal_contact_address: contact_address,
       } = _template
       _template.A_type = [
         {
@@ -202,29 +213,33 @@ const flattenObject = (data) => {
       ]
     }
     if (props === 'create_company_approve_legal_respon') {
-      _template.legal_respon = _template[props].map((item) => ({
-        ...item,
-        birth_day: dateConvert(item.birth_day),
-        doc_time_provide: dateConvert(item.doc_time_provide),
-        title_type:
-          item.title === 'Chủ tịch công ty'
-            ? 1
-            : item.title === 'Giám đốc'
-            ? 2
-            : 3,
-      }))
+      _template.legal_respon = _template[props].map((item) => item)
 
       delete _template.create_company_approve_legal_respon
     }
-    if (props)
-      if (props === 'change_info_legal_representative_doc_place_provide') {
-        _template.lr_doc_place_provide = _template[props]
-      }
+
+    if (props === 'create_company_approve_origin_person') {
+      _template.organiz = _template[props]
+        .filter((item) => item.present_person !== 'personal')
+        .map((item, index) => ({
+          ...item,
+          index: index + 1,
+        }))
+
+      _template[props] = _template[props].map((item) => item)
+    }
+
+    if (props === 'change_info_legal_representative_doc_place_provide') {
+      _template.lr_doc_place_provide = _template[props]
+    }
+
     if (props === 'change_info_legal_representative_new_title') {
       _template.lr_new_title = _template[props]
     }
   }
-  // console.log(_template)
+
+  console.log(_template)
+
   return _template
 }
 
@@ -253,6 +268,7 @@ const removeListFiles = (attachments, path = null) => {
     console.log('removeListFiles error: ' + err)
   }
 }
+
 const sortObject = (obj) => {
   var sorted = {}
   var str = []
@@ -272,20 +288,13 @@ const sortObject = (obj) => {
 const getVpnParams = (req, params) => {
   let { createDate, orderId, amount, orderInfo } = params
 
-  var ipAddr =
-    req.headers['x-forwarded-for'] ||
-    req.connection.remoteAddress ||
-    req.socket.remoteAddress ||
-    req.connection.socket.remoteAddress
+  var ipAddr = req.headers['x-forwarded-for'] || req.connection.remoteAddress || req.socket.remoteAddress || req.connection.socket.remoteAddress
 
   var tmnCode = process.env.TMN_CODE_VPN
 
   var secretKey = process.env.SECRET_KEY_VPN
 
-  var returnUrl =
-    process.env.NODE_ENV === 'DEV'
-      ? 'http://localhost:3001/api/order/payment/url_return'
-      : process.env.RETURN_URL
+  var returnUrl = process.env.NODE_ENV === 'DEV' ? 'http://localhost:3001/api/order/payment/url_return' : process.env.RETURN_URL
 
   var orderType = req?.body?.orderType || 'billpayment'
 

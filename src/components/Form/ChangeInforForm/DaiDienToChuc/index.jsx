@@ -7,7 +7,7 @@ import styles from "../DaiDienPhapLuat/styles.module.scss";
 const DaiDienToChuc = forwardRef((props, ref) => {
   return (
     <Form.Item
-      label={<h4>Người đại diện theo ủy quyền của chủ sở hữu là tổ chức</h4>}
+      label={<h3>Người đại diện theo ủy quyền của chủ sở hữu là tổ chức</h3>}
       className={clsx(styles.current, {
         [styles.active]: props.current === props.index,
       })}

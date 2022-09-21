@@ -1,53 +1,80 @@
-import { Layout } from 'antd';
-import clsx from 'clsx';
-import { FcInfo } from 'react-icons/fc';
-import { Link, Navigate } from 'react-router-dom';
-import AdminSidebar from '@/components/Admin/AdminSidebar';
-import UserHeader from '@/components/User/UserHeader';
-import UserSidebar from '@/components/User/UserSidebar';
-import styles from './styles.module.scss';
-const { Content, Footer } = Layout;
+import { Layout } from 'antd'
+import clsx from 'clsx'
+import AdminSidebar from '@/components/Admin/AdminSidebar'
+import UserHeader from '@/components/User/UserHeader'
+import UserSidebar from '@/components/User/UserSidebar'
+import { AnimatePresence, domAnimation, LazyMotion, m, domMax } from 'framer-motion'
+import { FcInfo } from 'react-icons/fc'
+import { Link, Navigate, useLocation } from 'react-router-dom'
+import styles from './styles.module.scss'
+import React, { Children, cloneElement, memo } from 'react'
+
+const { Content, Footer } = Layout
 
 export default function WithAuth(Component, role) {
-	return function Authenticated(props) {
-		if (!props.status) {
-			return <Navigate to='/' />;
-		}
+  const Authenticated = (props) => {
+    if (!props.status) {
+      return <Navigate to="/" />
+    }
 
-		if (role === 'admin') {
-			return (
-				<Layout className={[styles.adminLayout]}>
-					<AdminSidebar />
-					<Layout className={clsx(['site-layout', styles.adminSiteLayout])}>
-						<Content className={clsx([styles.adminMainContent])}>
-							{/* <div className={`site-layout-background`}>
-							
-							</div> */}
-							<Component {...props} />
-						</Content>
-						<Footer style={{ textAlign: 'center' }} className={styles.footer}>
-							<div className={styles.footerLeft}>Truyen Mai ©2019</div>
+    if (role === 'admin') {
+      return (
+        <Layout className={[styles.adminLayout]}>
+          <AdminSidebar />
 
-							<Link className={styles.footerRight} to='/admin/about'>
-								<FcInfo />
-							</Link>
-						</Footer>
-					</Layout>
-				</Layout>
-			);
-		}
+          <Layout className={clsx(['site-layout', styles.adminSiteLayout])}>
+            <Content className={clsx([styles.adminMainContent])}>
+              <LazyMotion features={domAnimation} strict>
+                <AnimatePresence mode="wait">
+                  <Clone {...props}>
+                    <Component />
+                  </Clone>
+                </AnimatePresence>
+              </LazyMotion>
+            </Content>
 
-		return (
-			<Layout className={styles.mainLayout}>
-				<UserSidebar />
-				<Layout className={clsx(['site-layout', styles.siteLayout])}>
-					<Content className={clsx(styles.mainContent)}>
-						<UserHeader className='site-layout-background' />
-						<Component {...props} />
-					</Content>
-					<Footer style={{ textAlign: 'center' }}>©2019 Created by Truyenmai</Footer>
-				</Layout>
-			</Layout>
-		);
-	};
+            <Footer style={{ textAlign: 'center' }} className={styles.footer}>
+              {/* <div className={styles.footerLeft}>Truyen Mai ©2019</div> */}
+              <div className={styles.footerLeft}>{new Date().getFullYear()} © thanhlapcongtyonline.vn</div>
+
+              <Link className={styles.footerRight} to="/admin/about">
+                <FcInfo />
+              </Link>
+            </Footer>
+          </Layout>
+        </Layout>
+      )
+    }
+
+    return (
+      <Layout className={styles.mainLayout}>
+        <UserSidebar />
+        <Layout className={clsx(['site-layout', styles.siteLayout])}>
+          <Content className={clsx(styles.mainContent)}>
+            <UserHeader className="site-layout-background" />
+            <LazyMotion features={domAnimation}>
+              <AnimatePresence>
+                <Clone {...props}>
+                  <Component {...props} />
+                </Clone>
+              </AnimatePresence>
+            </LazyMotion>
+          </Content>
+          {/* <Footer style={{ textAlign: 'center' }}>©2019 Created by Truyenmai</Footer> */}
+          <Footer style={{ textAlign: 'center' }}>{new Date().getFullYear()} © thanhlapcongtyonline.vn</Footer>
+        </Layout>
+      </Layout>
+    )
+  }
+
+  return memo(Authenticated)
+}
+
+const Clone = (props) => {
+  let location = useLocation()
+  let { children, ...rest } = props
+
+  return Children.map(children, (child) => {
+    return cloneElement(child, { ...rest, ...child.props, key: location.pathname })
+  })
 }

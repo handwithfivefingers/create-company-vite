@@ -7,7 +7,7 @@ import { RiPlayList2Fill } from 'react-icons/ri';
 import { BiDownload } from 'react-icons/bi';
 import { useParams } from 'react-router-dom';
 
-const BASE_URL = process.env.NODE_ENV === 'production' ? '/public' : 'http://localhost:3001/public';
+const BASE_URL = import.meta.env.NODE_ENV === 'production' ? '/public' : 'http://localhost:3001/public';
 
 const PDFViewer = (props) => {
   const [visible, setVisible] = useState(false);

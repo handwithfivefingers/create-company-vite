@@ -10,15 +10,7 @@ const PreviewData = lazy(() => {
   return import('@/components/Form/PreviewData')
 })
 const PendingPages = forwardRef((props, ref) => {
-  const {
-    data,
-    loading,
-    Prev,
-    Next,
-    handleSavePending,
-    handlePurchasePending,
-    step,
-  } = props
+  const { data, loading, Prev, Next, handleSavePending, handlePurchasePending, step } = props
   // console.log(step)
   return (
     <Card className="card-boxShadow">
@@ -32,7 +24,7 @@ const PendingPages = forwardRef((props, ref) => {
         }
       >
         <TamHoanForm data={data} ref={ref} current={step} />
-        {/* {step === 2 ? renderPrewviewForm(ref) : ''} */}
+        
         {step === 2 && (
           <PreviewData
             ref={ref}
@@ -41,22 +33,24 @@ const PendingPages = forwardRef((props, ref) => {
             }}
           />
         )}
-        <div
-          className={'card-boxShadow'}
-          style={{ position: 'sticky', bottom: 0 }}
-        >
-          {step > 0 && <Button onClick={Prev}>Quay lại</Button>}
+        <div className={'card-boxShadow flex flex__spacing-4'} style={{ position: 'sticky', bottom: 0 }}>
+          {step > 0 && (
+            <Button onClick={Prev} type="dashed">
+              Quay lại
+            </Button>
+          )}
 
-          {step < 2 && <Button onClick={Next}>Tiếp tục</Button>}
+          {step < 2 && (
+            <Button onClick={Next} type="primary">
+              Tiếp tục
+            </Button>
+          )}
           {step === 2 && (
             <>
               <Button loading={loading} onClick={() => handleSavePending(ref)}>
                 Lưu lại
               </Button>
-              <Button
-                loading={loading}
-                onClick={() => handlePurchasePending(ref)}
-              >
+              <Button loading={loading} onClick={() => handlePurchasePending(ref)} type="primary">
                 Thanh toán
               </Button>
             </>

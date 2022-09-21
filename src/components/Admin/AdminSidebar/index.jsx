@@ -1,9 +1,4 @@
-import {
-  CaretLeftOutlined,
-  CaretRightOutlined,
-  PieChartOutlined,
-  TeamOutlined,
-} from '@ant-design/icons'
+import { CaretLeftOutlined, CaretRightOutlined, PieChartOutlined, TeamOutlined } from '@ant-design/icons'
 import { Layout, Menu, Button } from 'antd'
 // import { signOut } from "next-auth/react";
 import { memo, useEffect, useState } from 'react'
@@ -75,19 +70,10 @@ const AdminSidebar = () => {
         onCollapse={onCollapse}
         collapsedWidth={50}
         reverseArrow={true}
-        trigger={
-          <div className={styles.trigger}>
-            {!collapse ? <CaretLeftOutlined /> : <CaretRightOutlined />}
-          </div>
-        }
+        trigger={<div className={styles.trigger}>{!collapse ? <CaretLeftOutlined /> : <CaretRightOutlined />}</div>}
       >
         <div className="logo" style={{ height: 65 }} />
-        <Menu
-          theme="dark"
-          defaultSelectedKeys={[current]}
-          selectedKeys={[current]}
-          mode="inline"
-        >
+        <Menu theme="dark" defaultSelectedKeys={[current]} selectedKeys={[current]} mode="inline">
           <Menu.Item key={'/'} icon={<PieChartOutlined />}>
             <Link to={'/'}>Trang chủ</Link>
           </Menu.Item>
@@ -98,12 +84,8 @@ const AdminSidebar = () => {
 
           {renderSidebar(AdminRouter)}
 
-          <Menu.Item
-            key="/logout"
-            onClick={() => signOut()}
-            icon={<RiLogoutCircleLine />}
-          >
-            Đăng xuất
+          <Menu.Item key="/logout" onClick={() => signOut()} icon={<RiLogoutCircleLine />}>
+            <a>Đăng xuất</a>
           </Menu.Item>
         </Menu>
       </Sider>

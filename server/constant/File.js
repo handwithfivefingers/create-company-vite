@@ -129,7 +129,7 @@ const getCreateCompanyFiles = (type, key, opt = null) => {
       name: 'Phụ lục I-2 Đơn đề nghị đăng ký Công ty TNHH 1 thành viên',
       path: '/files/create_company/create_company_File_2_PhuLuc_I_2_GiayDeNghiDangKiMTV.docx',
     },
-    create_company_phu_luc_4: {
+    create_company_phu_luc_I_10: {
       name: 'Phụ lục I-10 Danh sách người đại diện',
       path: '/files/create_company/create_company_File_4_PhuLuc_I_10_DanhSachNguoiDaiDien.docx',
     },
@@ -180,7 +180,7 @@ const getCreateCompanyFiles = (type, key, opt = null) => {
             allFiles.create_company_dieuleB,
             allFiles.create_company_phu_luc_2,
             allFiles.create_company_uyquyen,
-            allFiles.create_company_phu_luc_4,
+            allFiles.create_company_phu_luc_I_10,
             allFiles.create_company_quyetdinh_nguoidaidienvon,
           ]
         } else if (opt === 'personal') {
@@ -197,7 +197,8 @@ const getCreateCompanyFiles = (type, key, opt = null) => {
             allFiles.create_company_2tv_phuluc_I_3_GDNDKCTTNHH2TV,
             allFiles.create_company_2tv_mau_dieu_le_CTTNHH2TVTLDNSD,
             // Quyết định người đại diện vốn
-            allFiles.create_company_phu_luc_4,
+            allFiles.create_company_quyetdinh_nguoidaidienvon,
+            allFiles.create_company_phu_luc_I_10,
             allFiles.create_company_uyquyen,
           ]
         } else if (opt === 'personal') {
@@ -205,7 +206,8 @@ const getCreateCompanyFiles = (type, key, opt = null) => {
             allFiles.create_company_2tv_phuluc_I_6_DSTVCTTNHH2TV,
             allFiles.create_company_2tv_phuluc_I_3_GDNDKCTTNHH2TV,
             allFiles.create_company_2tv_mau_dieu_le_CTTNHH2TVTLDNSD,
-
+            // Quyết định người đại diện vốn
+            allFiles.create_company_quyetdinh_nguoidaidienvon,
             allFiles.create_company_uyquyen,
           ]
         }
@@ -216,7 +218,8 @@ const getCreateCompanyFiles = (type, key, opt = null) => {
             allFiles.create_company_cp_phuluc_I_7_DSCDSLCTCP,
             allFiles.create_company_cp_mau_dieu_le_CTCPTLDNSD,
             // Quyết định người đại diện vốn
-            allFiles.create_company_phu_luc_4,
+            allFiles.create_company_quyetdinh_nguoidaidienvon,
+            allFiles.create_company_phu_luc_I_10,
             allFiles.create_company_uyquyen,
           ]
         } else if (opt === 'personal') {
@@ -224,7 +227,8 @@ const getCreateCompanyFiles = (type, key, opt = null) => {
             allFiles.create_company_cp_phuluc_I_4_GDNDKCTCP,
             allFiles.create_company_cp_phuluc_I_7_DSCDSLCTCP,
             allFiles.create_company_cp_mau_dieu_le_CTCPTLDNSD,
-
+            // Quyết định người đại diện vốn
+            allFiles.create_company_quyetdinh_nguoidaidienvon,
             allFiles.create_company_uyquyen,
           ]
         }

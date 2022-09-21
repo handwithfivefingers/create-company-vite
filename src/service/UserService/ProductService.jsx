@@ -1,22 +1,33 @@
 import axios from '@/config/axios'
 
 const api_path = {
-  create_company: '/order/create',
-  createCompanyWithPayment: '/order/create/payment',
-  getDataBySlug: `/product`,
+  createOrder: '/order/create',
+  createOrderWithPayment: '/order/create/payment',
+  products: `/product`,
   checkCompany: '/product/company-search',
+  categories: '/category',
 }
 
 const ProductService = {
-  createCompany: (form) => {
-    return axios.post(api_path.create_company, form)
+  createOrder: (form) => {
+    return axios.post(api_path.createOrder, form)
   },
-  createCompanyWithPayment: (form) => {
-    return axios.post(api_path.createCompanyWithPayment, form)
+
+  createOrderWithPayment: (form) => {
+    return axios.post(api_path.createOrderWithPayment, form)
   },
+
   getDataBySlug: (params) => {
-    return axios.get(`${api_path.getDataBySlug}/${params.slug}`)
+    return axios.get(`${api_path.products}/${params.slug}`)
   },
+  getCategoryBySlug: (params) => axios.get(api_path.categories + '/' + params.slug),
+
+  getProduct: (params) => {
+    return axios.get(api_path.products, {
+      params,
+    })
+  },
+
   checkCompany: (params) => {
     return axios.post(api_path.checkCompany, params)
   },

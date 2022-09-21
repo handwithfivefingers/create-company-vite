@@ -1,0 +1,13 @@
+[
+  {
+    "_id": "627930857c698a44cc28f5f5",
+    "mailRegister": "62342db9f3c14e39802960c5",
+    "userOwner": "61cda65dcc37529c5cb5ffdb",
+    "createdAt": "2022-05-09T15:17:25.843Z",
+    "updatedAt": "2022-09-11T05:14:31.176Z",
+    "__v": 0,
+    "mailPayment": "627a83a3526be759d47092f4",
+    "mailPaymentSuccess": "62a771d017371073191579db",
+    "mailForgotPass": "631596c0fa5fe56f5e612067"
+  }
+]

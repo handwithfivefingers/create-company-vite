@@ -91,6 +91,7 @@ const ChuTichHoiDongThanhVien = forwardRef((props, ref) => {
               type="date"
               name={[...BASE_FORM, 'per_main', 'birth_day']}
               label="Ngày sinh"
+              inputReadOnly={false}
             />
           </Col>
           <Col lg={12} md={12} sm={24} xs={24}>
@@ -120,6 +121,7 @@ const ChuTichHoiDongThanhVien = forwardRef((props, ref) => {
               type="date"
               name={[...BASE_FORM, 'per_main', 'doc_time_provide']}
               label="Ngày cấp"
+              inputReadOnly={false}
             />
           </Col>
 

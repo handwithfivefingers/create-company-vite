@@ -1,0 +1,20 @@
+.current {
+  display: none !important;
+}
+.active {
+  display: block !important;
+}
+
+.formHorizontal {
+  display: flex;
+}
+.groupInput {
+  :global {
+    .ant-form-item-control-input-content {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+      width: 100%;
+    }
+  }
+}

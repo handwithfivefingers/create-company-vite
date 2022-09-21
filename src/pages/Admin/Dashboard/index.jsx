@@ -8,6 +8,7 @@ import { GrStatusWarning } from 'react-icons/gr'
 import styles from './styles.module.scss'
 import { makeid } from '@/helper/Common'
 import { useQuery } from '@tanstack/react-query'
+import moment from 'moment'
 const { TabPane } = Tabs
 const AdminDashboard = () => {
   const [logs, setLogs] = useState([])
@@ -51,12 +52,6 @@ const AdminDashboard = () => {
       if (!res) return
       let { data } = res?.data
       let { _logs, output, error } = data
-      //   setLogs((state) => ({
-      //     ...state,
-      //     _logs,
-      //     output,
-      //     error,
-      //   }))
       logsRef.current = [
         {
           ...logsRef.current,
@@ -98,7 +93,7 @@ const AdminDashboard = () => {
     newData = [...newData, ...logs.output?.slice(length, length + 20)]
     setOutput(newData)
   }
-  console.log(tabIndex, outputRef)
+
   return (
     <Row gutter={[16, 12]}>
       <Col span={16}>
@@ -112,6 +107,7 @@ const AdminDashboard = () => {
             value={tabIndex}
           >
             <TabPane tab="Truy cập" key="1" value={1}>
+              {moment().format('[ngày] D [tháng] M [năm] y')}
               {/* <List
                 className={clsx([styles.list, 'demo-loadmore-list'])}
                 loading={loading}

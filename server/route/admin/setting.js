@@ -1,8 +1,11 @@
 const express = require('express')
 
-const { upload, requireSignin } = require('../../middleware/index')
+const { upload, requireSignin } = require('@middleware')
 
-const { settingTemplateMail, getSettingMail } = require('../../controller')
+const SettingClass = require('@controller/user/Setting');
+
+const { settingTemplateMail, getSettingMail } = new SettingClass()
+
 
 const router = express.Router()
 

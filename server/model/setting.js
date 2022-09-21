@@ -13,6 +13,10 @@ module.exports = {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'TemplateMail',
   },
+  mailForgotPass: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'TemplateMail',
+  },
   userOwner: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',

@@ -1,15 +1,10 @@
 import LoadingScreen from '@/components/LoadingScreen'
 
-import {
-  RouterProvider,
-  RouterContext,
-  BreakPointProvider,
-  BreakPointContext,
-} from '@/helper/Context'
+import { RouterProvider, RouterContext, BreakPointProvider, BreakPointContext } from '@/helper/Context'
 
-import { ConfigProvider } from 'antd'
+import { ConfigProvider, Layout } from 'antd'
 
-import { useContext, useEffect, useState } from 'react'
+import { useContext, useEffect, useState, cloneElement } from 'react'
 
 import { useDispatch, useSelector } from 'react-redux'
 
@@ -32,9 +27,8 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 
 import 'moment/locale/vi'
-
-import locale from 'antd/es/date-picker/locale/vi_VN'
-
+import locale from 'antd/es/locale/vi_VN'
+import { default as VNnum2words } from '@/assets/js/convertNumber'
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -48,7 +42,6 @@ ConfigProvider.config({
   theme: {
     primaryColor: '#cd2027',
   },
-  locale: locale,
 })
 
 moment.defaultFormat = 'DD/MM/YYYY'
@@ -58,15 +51,11 @@ moment.locale('vi')
 const RouterComponent = (props) => {
   let location = useLocation()
 
-  const Route = useRoutes(LAYOUT_ROUTER(props.auth)) // status, role
+  const elementComp = useRoutes(LAYOUT_ROUTER(props.auth)) // status, role
 
   const routeDetect = useDetectLocation(location)
 
   const { route, setRoute } = useContext(RouterContext)
-
-  const [displayLocation, setDisplayLocation] = useState(location)
-
-  const [transitionStage, setTransistionStage] = useState('fadeIn')
 
   const dispatch = useDispatch()
 
@@ -77,41 +66,17 @@ const RouterComponent = (props) => {
       setRoute(routeDetect)
     }
 
-    if (location !== displayLocation && pathname === '/') {
-      setTransistionStage('fadeOut')
-    }
-
     changeTitle(pathname)
   }, [location])
 
   const changeTitle = (pathname) => {
-    let item = UserRouter.find(
-      (item) =>
-        item.path.includes(pathname) ||
-        (pathname.includes('/user/san-pham/') &&
-          item.path === '/user/san-pham/'),
-    )
+    let item = UserRouter.find((item) => item.path.includes(pathname) || (pathname.includes('/user/san-pham/') && item.path === '/user/san-pham/'))
     item && dispatch(CommonAction.titleChange(item.title))
   }
-  console.log(route)
-  return (
-    <div
-      className={`${transitionStage}`}
-      onAnimationEnd={() => {
-        if (
-          transitionStage ===
-          'animate__animated animate__fadeOut animate__faster'
-        ) {
-          setTransistionStage(
-            'animate__animated animate__fadeIn animate__faster',
-          )
-          setDisplayLocation(location)
-        }
-      }}
-    >
-      {Route}
-    </div>
-  )
+  // return Route
+  if (!elementComp) return null
+
+  return elementComp
 }
 
 function App() {
@@ -137,18 +102,19 @@ function App() {
     return <LoadingScreen />
   }
 
+  console.log(VNnum2words(50000000000000))
+  
   return (
     <div className="App">
       <QueryClientProvider client={queryClient}>
-        <ConfigProvider>
-          <RouterProvider
-            value={{ route, setRoute: (val) => routerHistoryHandler(val) }}
-          >
+        <ConfigProvider locale={locale}>
+          <RouterProvider value={{ route, setRoute: (val) => routerHistoryHandler(val) }}>
             <BrowserRouter>
               <RouterComponent auth={auth} />
             </BrowserRouter>
           </RouterProvider>
         </ConfigProvider>
+
         <ReactQueryDevtools initialIsOpen={false} />
       </QueryClientProvider>
     </div>

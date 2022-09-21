@@ -27,19 +27,26 @@ const AdminHeader = (props) => {
       {Extra}
 
       {Extra && (
-        <Segmented
-          options={[
-            {
-              value: 1,
-              icon: <BarsOutlined />,
-            },
-            {
-              value: 2,
-              icon: <MoreOutlined />,
-            },
-          ]}
-          defaultValue={segment}
-          onChange={(value) => setSegment(value)}
+        <PageHeader
+          title={
+            <Segmented
+              options={[
+                {
+                  value: 1,
+                  icon: <BarsOutlined />,
+                },
+                {
+                  value: 2,
+                  icon: <MoreOutlined />,
+                },
+              ]}
+              defaultValue={segment}
+              onChange={(value) => setSegment(value)}
+            />
+          }
+          style={{
+            padding: '16px 0',
+          }}
         />
       )}
     </div>

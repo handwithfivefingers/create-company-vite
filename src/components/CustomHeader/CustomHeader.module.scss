@@ -10,6 +10,7 @@ $second: var(--dark);
   .container {
     display: flex;
     justify-content: center;
+    padding-top: 10px;
     .listItems {
       width: 100%;
       display: flex;

@@ -1,24 +1,25 @@
-import React, { useContext, useEffect, useRef, useState } from 'react'
-import LoginForm from '@/components/Form/Login'
-import RegisterForm from '@/components/Form/Register'
-import { useNavigate, useLocation, useNavigationType } from 'react-router-dom'
+import React, { useContext, useEffect, useRef, useState, Suspense, lazy } from 'react'
 
-import { Tabs } from 'antd'
+import { Outlet, useNavigate, useNavigationType } from 'react-router-dom'
 import AuthService from '@/service/AuthService'
-import { AuthAction } from '@/store/actions'
 import { useDispatch, useSelector } from 'react-redux'
 import { RouterContext } from '@/helper/Context'
+import { Layout, Spin } from 'antd'
+import CustomHeader from '@/components/CustomHeader'
+import clsx from 'clsx'
+import Footer from '@/components/Footer'
+import styles from './styles.module.scss'
 
-const { TabPane } = Tabs
+const { Content } = Layout
 
 export default function HomePage() {
-  const formRef = useRef()
-  const [loading, setLoading] = useState(false)
-  const dispatch = useDispatch()
+
   const { route } = useContext(RouterContext)
+
   const authReducer = useSelector((state) => state.authReducer)
+
   const navigate = useNavigate()
-  let location = useLocation()
+
   let type = useNavigationType()
 
   useEffect(() => {
@@ -27,43 +28,23 @@ export default function HomePage() {
     }
   }, [])
 
-  const onLogin = async (val) => {
-    setLoading(true)
-    dispatch(AuthAction.AuthLogin(val))
-    setLoading(false)
-  }
-  const loginWithGoogle = async (val) => {
-    alert('Login with Google')
-  }
-  const onRegister = async (val) => {
-    setLoading(true)
-    await dispatch(AuthAction.AuthRegister(val))
-    setLoading(false)
-  }
-
   if (authReducer.status) {
-    // console.log(navigate, location, type);
-    // navigate(-1 || authReducer.role);
-
     if (type !== 'POP') {
       navigate(-1)
     } else {
       navigate(authReducer.role)
     }
   }
+
   return (
-    <Tabs defaultActiveKey="1" centered>
-      <TabPane tab="Đăng nhập" key="1">
-        <LoginForm
-          ref={formRef}
-          onFinish={onLogin}
-          loading={loading}
-          loginWithGoogle={loginWithGoogle}
-        />
-      </TabPane>
-      <TabPane tab="Đăng kí" key="2">
-        <RegisterForm ref={formRef} onFinish={onRegister} loading={loading} />;
-      </TabPane>
-    </Tabs>
+    <Layout style={{ background: '#fff', minHeight: '100vh' }}>
+      <CustomHeader />
+      <Content className={clsx(['site-layout', styles.siteLayout])}>
+        <Suspense fallback={<Spin spinning={true} />}>
+          <Outlet />
+        </Suspense>
+      </Content>
+      <Footer />
+    </Layout>
   )
 }

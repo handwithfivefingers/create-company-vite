@@ -1,5 +1,5 @@
-const { User } = require('../../model');
-const { successHandler, errHandler } = require('../../response');
+const { User } = require('@model');
+const { successHandler, errHandler } = require('@response');
 const bcrypt = require('bcryptjs');
 
 const fetchProfile = async (req, res) => {

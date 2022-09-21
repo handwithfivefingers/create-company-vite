@@ -1,37 +1,45 @@
-import { Button, Form, Input, message, Spin } from "antd";
-import clsx from "clsx";
-import { useRouter } from "next/router";
-import React, { useState } from "react";
-import { RiArrowGoBackFill } from "react-icons/ri";
-import CCEditor from "../../../../components/Editor";
-import axios from "../../../../config/axios";
-import styles from "./styles.module.scss";
+import { useMutation } from '@tanstack/react-query'
+import { Button, Form, Input, message, Spin } from 'antd'
+import clsx from 'clsx'
+import { useRouter } from 'next/router'
+import React, { useState } from 'react'
+import { RiArrowGoBackFill } from 'react-icons/ri'
+import CCEditor from '../../../../components/Editor'
+import axios from '../../../../config/axios'
+import styles from './styles.module.scss'
 
 export default function EditMail() {
-  const [name, setName] = useState();
-  const [subject, setSubject] = useState();
-  const [content, setContent] = useState();
-  const [loading, setLoading] = useState(false);
 
-  const router = useRouter();
+
+  const mutation = useMutation()
+
+  const [name, setName] = useState()
+
+  const [subject, setSubject] = useState()
+
+  const [content, setContent] = useState()
+
+  const [loading, setLoading] = useState(false)
+
+  const router = useRouter()
+
+
 
   const handleSave = () => {
-    // console.log(name, content);
-    if (!name) return;
-    if (!content) return;
-
-    setLoading(true);
+    if (!name) return
+    if (!content) return
+    setLoading(true)
     axios
-      .post("/admin/template/create", { name, subject, content })
+      .post('/admin/template/create', { name, subject, content })
       .then((res) => {
         if (res.data.status === 201) {
-          message.success(res.data.message);
-        } else message.error(res.data.message);
+          message.success(res.data.message)
+        } else message.error(res.data.message)
       })
       .finally(() => {
-        setLoading(false);
-      });
-  };
+        setLoading(false)
+      })
+  }
 
   return (
     <div className={styles.mail}>
@@ -44,14 +52,18 @@ export default function EditMail() {
         </div>
       </div>
       <Form.Item>
-        <Input placeholder={"Tiêu đề"} onChange={(e) => setName(e.target.value)} />
+        <Input
+          placeholder={'Tiêu đề'}
+          onChange={(e) => setName(e.target.value)}
+        />
       </Form.Item>
 
       <Form.Item>
-        <Input placeholder={"Subject"} onChange={(e) => setSubject(e.target.value)} />
+        <Input
+          placeholder={'Subject'}
+          onChange={(e) => setSubject(e.target.value)}
+        />
       </Form.Item>
-      
-      {/* subject text */}
 
       <CCEditor content={content} onChange={(e) => setContent(e)} />
 
@@ -67,5 +79,5 @@ export default function EditMail() {
         <Spin spinning={loading} />
       </div>
     </div>
-  );
+  )
 }

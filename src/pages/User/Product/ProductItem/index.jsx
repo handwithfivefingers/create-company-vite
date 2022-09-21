@@ -1,16 +1,16 @@
 import CCSteps from '@/components/CCHeaderSteps'
-import {
-  CREATE_COMPANY_STEP,
-  DISSOLUTION_STEP,
-  PENDING_STEP,
-} from '@/constant/Step'
+import { CREATE_COMPANY_STEP, DISSOLUTION_STEP, PENDING_STEP } from '@/constant/Step'
 import ProductService from '@/service/UserService/ProductService'
 import { message, Modal, Spin, Form } from 'antd'
 import dateformat from 'dateformat'
+import moment from 'moment'
 import React, { lazy, useCallback, useEffect, useRef, useState } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useMemo } from 'react'
+import { useNavigate, useParams, useLocation } from 'react-router-dom'
 import { useFetch } from '../../../../helper/Hook'
 import styles from './styles.module.scss'
+import { m } from 'framer-motion'
+import { onSetFields } from '../../../../helper/Common'
 
 const CreateCompanyPages = lazy(() => {
   return import('./CreateCompanyPages')
@@ -29,6 +29,8 @@ const DissolutionPages = lazy(() => {
 })
 
 const UserProductItem = (props) => {
+  let location = useLocation()
+
   const formRef = useRef()
 
   const [current, setCurrent] = useState(0)
@@ -56,6 +58,8 @@ const UserProductItem = (props) => {
     component: null,
   })
 
+  let params = useParams()
+
   const {
     data: productData,
     isFetching,
@@ -63,18 +67,18 @@ const UserProductItem = (props) => {
     status,
     refetch,
   } = useFetch({
-    cacheName: ['userProduct'],
-    fn: () => ProductService.getDataBySlug(params),
+    cacheName: ['userProduct', params],
+    fn: () => ProductService.getCategoryBySlug(params),
     otherPath: true,
   })
+  // console.log('data', data)
 
   const navigate = useNavigate()
 
-  let params = useParams()
+  // useEffect(() => {
 
-  useEffect(() => {
-    refetch(['userProduct'])
-  }, [params])
+  //   refetch()
+  // }, [params])
 
   useEffect(() => {
     if (productData && status === 'success') {
@@ -93,6 +97,7 @@ const UserProductItem = (props) => {
   const setDataOutput = (output) => {
     console.log(output)
   }
+
   const renderFormByType = (type) => {
     switch (type) {
       case 1:
@@ -109,13 +114,14 @@ const UserProductItem = (props) => {
             handlePurchaseCreateCompany={handlePurchaseCreateCompany}
             Prev={Prev}
             Next={Next}
+            editData={location.state}
           />
         )
       case 2:
         // Thay đổi thông tin
         return (
           <ChangeInfoPages
-            data={data.data}
+            data={data}
             ref={formRef}
             onFinishScreen={(val) => handleChangeInforForm(val)}
             step={current}
@@ -125,6 +131,7 @@ const UserProductItem = (props) => {
             Prev={Prev}
             Next={Next}
             changeInforStep={changeInforStep}
+            editData={location.state}
           />
         )
       case 3:
@@ -139,6 +146,7 @@ const UserProductItem = (props) => {
             handlePurchasePending={handlePurchasePending}
             step={current}
             ref={formRef}
+            editData={location.state}
           />
         )
       case 4:
@@ -152,6 +160,7 @@ const UserProductItem = (props) => {
             Prev={Prev}
             Next={Next}
             ref={formRef}
+            editData={location.state}
           />
         )
       default:
@@ -159,18 +168,21 @@ const UserProductItem = (props) => {
     }
   }
 
-  const renderHeaderStep = (type) => {
-    let options = {
-      step: current,
-      data: null,
-      onFinishScreen: (index) => setCurrent(index),
-    }
+  const renderHeaderStep = () => {
+    // let { type } = data
+    if (data) {
+      let options = {
+        step: current,
+        data: null,
+        onFinishScreen: (index) => setCurrent(index),
+      }
 
-    if (type === 1) options.data = CREATE_COMPANY_STEP
-    else if (type === 2) options.data = changeInforStep
-    else if (type === 3) options.data = PENDING_STEP
-    else if (type === 4) options.data = DISSOLUTION_STEP
-    return <CCSteps {...options} />
+      if (data.type === 1) options.data = CREATE_COMPANY_STEP
+      else if (data.type === 2) options.data = changeInforStep
+      else if (data.type === 3) options.data = PENDING_STEP
+      else if (data.type === 4) options.data = DISSOLUTION_STEP
+      return <CCSteps {...options} />
+    }
   }
 
   const handleChangeInforForm = useCallback((val) => {
@@ -206,6 +218,7 @@ const UserProductItem = (props) => {
   const handlePurchaseChangeInfo = useCallback(
     (ref) => {
       const params = getParams(ref)
+
       return paymentService(params)
     },
     [data],
@@ -276,15 +289,14 @@ const UserProductItem = (props) => {
           ...value,
         },
       }
-      // console.log(params)
-      // return
       saveService(params)
     },
     [data],
   )
 
   const handleSaveChangeInfo = useCallback(
-    (value) => {
+    (ref) => {
+      let value = ref.current.getFieldsValue()
       const params = {
         track: {
           step: 1,
@@ -319,7 +331,7 @@ const UserProductItem = (props) => {
   // Service
   const saveService = async (params) => {
     try {
-      const res = await ProductService.createCompany(params)
+      const res = await ProductService.createOrder(params)
       if (res.data.status === 200) {
         message.success(res.data.message)
         navigate('/user/san-pham')
@@ -330,14 +342,14 @@ const UserProductItem = (props) => {
   }
 
   const paymentService = async (params) => {
-    const date = new Date()
-    var createDate = dateformat(date, 'yyyymmddHHmmss')
-    var orderId = dateformat(date, 'HHmmss')
+    let createDate = moment().format('YYYYMMDDHHmmss')
+    let orderId = moment().format('HHmmss')
 
     params.createDate = createDate
     params.orderId = orderId
+
     try {
-      let res = await ProductService.createCompanyWithPayment(params)
+      let res = await ProductService.createOrderWithPayment(params)
       if (res.data.status === 200) {
         return (window.location.href = res.data.url)
       }
@@ -347,13 +359,11 @@ const UserProductItem = (props) => {
   }
 
   return (
-    <div className={styles.mainContent}>
-      {data && renderHeaderStep(data?.type)}
+    <m.div className={styles.mainContent} initial={{ opacity: 0 }} exit={{ opacity: 0 }} animate={{ opacity: 1 }}>
+      {data && renderHeaderStep()}
 
       <div className={styles.formContent}>
-        <Spin spinning={isFetching}>
-          {data && renderFormByType(data?.type)}
-        </Spin>
+        <Spin spinning={isFetching}>{data && renderFormByType(data?.type)}</Spin>
       </div>
 
       <Modal
@@ -367,7 +377,7 @@ const UserProductItem = (props) => {
       >
         {childModal.component}
       </Modal>
-    </div>
+    </m.div>
   )
 }
 

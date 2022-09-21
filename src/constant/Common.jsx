@@ -130,7 +130,7 @@ export const SELECT = {
       name: 'Tổng giám đốc',
     },
   ],
-  TITLE_3: [
+  TITLE_1TV: [
     {
       value: 'Chủ tịch công ty',
       name: 'Chủ tịch công ty',
@@ -143,14 +143,34 @@ export const SELECT = {
       value: 'Giám đốc',
       name: 'Giám đốc',
     },
-    // {
-    //   value: 'Phó tổng giám đốc',
-    //   name: 'Phó tổng giám đốc',
-    // },
-    // {
-    //   value: 'Phó giám đốc',
-    //   name: 'Phó giám đốc',
-    // },
+  ],
+  TITLE_2TV: [
+    {
+      value: 'Chủ tịch hội đồng thành viên',
+      name: 'Chủ tịch hội đồng thành viên',
+    },
+    {
+      value: 'Tổng giám đốc',
+      name: 'Tổng giám đốc',
+    },
+    {
+      value: 'Giám đốc',
+      name: 'Giám đốc',
+    },
+  ],
+  TITLE_CP: [
+    {
+      value: 'Chủ tịch hội đồng quản trị',
+      name: 'Chủ tịch hội đồng quản trị',
+    },
+    {
+      value: 'Tổng giám đốc',
+      name: 'Tổng giám đốc',
+    },
+    {
+      value: 'Giám đốc',
+      name: 'Giám đốc',
+    },
   ],
   TITLE_2: [
     {
@@ -173,3 +193,54 @@ export const SELECT = {
     },
   ],
 }
+
+export const CHANGE_INFO_SELECTION = [
+  {
+    key: 'name',
+    value: '62257b0bca8648da6987e4f5',
+    children: 'Tên doanh nghiêp',
+    type: '3',
+  },
+  {
+    key: 'down_authorized_capital',
+    value: '62257e4dca8648da6987e53d',
+    children: 'Giảm vốn điều lệ',
+    type: '4',
+  },
+  {
+    key: 'up_authorized_capital',
+    value: '62257eccca8648da6987e54e',
+    children: 'Tăng vốn điều lệ',
+    type: '5',
+  },
+  {
+    key: 'company_career',
+    value: '622f575496766518c4fc8216',
+    children: 'Ngành nghề kinh doanh',
+    type: '7',
+  },
+  {
+    key: 'location',
+    value: '622f577b96766518c4fc8220',
+    children: 'Địa chỉ trụ sở chính',
+    type: '1',
+  },
+  {
+    key: 'transfer_contract',
+    value: '622f579b96766518c4fc822c',
+    children: 'Chủ sở hữu',
+    type: '6',
+  },
+  {
+    key: 'present_change',
+    value: '622f585c96766518c4fc823a',
+    children: 'Người đại diện theo ủy quyền của chủ sở hữu là tổ chức',
+    type: '8',
+  },
+  {
+    key: 'tax',
+    value: '622f5896cad47d00092d1010',
+    children: 'Nội dung đăng ký thuế',
+    type: '9',
+  },
+]

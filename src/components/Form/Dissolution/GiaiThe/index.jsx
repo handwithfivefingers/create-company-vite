@@ -1,21 +1,22 @@
-import { Form, InputNumber } from 'antd';
-import clsx from 'clsx';
-import React, { forwardRef, useEffect, useState } from 'react';
-import CCInput from '@/components/CCInput';
-import styles from '../styles.module.scss';
-import { useNavigate } from 'react-router-dom';
-import { DISSOLUTION_FORM } from '@/constant/FormConstant';
-import CCListForm from '@/components/CCListForm';
-const BASE_FORM = ['dissolution', 'approve'];
+import { Form, InputNumber } from 'antd'
+import clsx from 'clsx'
+import React, { forwardRef, useEffect, useMemo, useState } from 'react'
+import CCInput from '@/components/CCInput'
+import styles from './styles.module.scss'
+import { DISSOLUTION_FORM } from '@/constant/FormConstant'
+import CCListForm from '@/components/CCListForm'
+import CCSelect from '@/components/CCSelect'
+const BASE_FORM = ['dissolution', 'approve']
+
 const GiaiThe = forwardRef((props, ref) => {
-  const [type, setType] = useState('1');
-  let navigate = useNavigate();
+  const [type, setType] = useState('1')
+
   useEffect(() => {
-    let { selectProduct } = ref.current.getFieldsValue();
+    let { selectProduct } = ref.current.getFieldsValue()
     if (selectProduct?.type) {
-      setType(selectProduct?.type);
+      setType(selectProduct?.type)
     }
-  }, [props]);
+  }, [props])
 
   const setFields = (e, pathname) => {
     ref.current.setFields([
@@ -23,13 +24,13 @@ const GiaiThe = forwardRef((props, ref) => {
         name: Array.isArray(pathname) ? [...pathname] : [pathname],
         value: e.target.value.toUpperCase(),
       },
-    ]);
-  };
+    ])
+  }
 
-  const renderFormByType = (type) => {
-    let xhtml = null;
+  const renderFormByType = useMemo(() => {
+    let xhtml = null
 
-    if (type === '3') {
+    if (+type === 3) {
       let listForm = [
         {
           label: 'Tên Chủ tịch HĐQT',
@@ -45,7 +46,7 @@ const GiaiThe = forwardRef((props, ref) => {
             customLabel: 'Nhập tên thành viên HĐQT ',
           },
         },
-      ];
+      ]
       // BASE_FORM, listForm, listName, addBtn, formLength;
 
       xhtml = (
@@ -69,11 +70,11 @@ const GiaiThe = forwardRef((props, ref) => {
             />
           </Form.Item>
         </>
-      );
-    } else if (type === '2') {
+      )
+    } else if (+type === 2) {
       let listForm = [
         {
-          label: DISSOLUTION_FORM.approve.fields.contribute_members.name,
+          label: DISSOLUTION_FORM.approve.fields.contribute_members.fields.name,
           placeholder: 'NGUYỄN VĂN A',
           name: 'name',
           onChange: true,
@@ -87,7 +88,7 @@ const GiaiThe = forwardRef((props, ref) => {
           },
         },
         {
-          label: DISSOLUTION_FORM.approve.fields.contribute_members.capital,
+          label: DISSOLUTION_FORM.approve.fields.contribute_members.fields.capital,
           placeholder: '80,000,000',
           name: 'capital',
           options: {
@@ -98,7 +99,7 @@ const GiaiThe = forwardRef((props, ref) => {
           },
         },
         {
-          label: DISSOLUTION_FORM.approve.fields.contribute_members.capital_percent,
+          label: DISSOLUTION_FORM.approve.fields.contribute_members.fields.capital_percent,
           placeholder: '80',
           name: 'capital_percent',
           options: {
@@ -111,7 +112,7 @@ const GiaiThe = forwardRef((props, ref) => {
             length: 3,
           },
         },
-      ];
+      ]
       // BASE_FORM, listForm, listName, addBtn, formLength;
 
       xhtml = (
@@ -127,41 +128,51 @@ const GiaiThe = forwardRef((props, ref) => {
             ref={ref}
           />
         </>
-      );
+      )
     }
-    return xhtml;
-  };
+    return xhtml
+  }, [type])
 
   return (
     <Form.Item
       // label="Giải thể"
-      className={clsx(styles.current, {
+      className={clsx(styles.groupInput, styles.current, {
         [styles.active]: props.current === props.index,
       })}
     >
-      <CCInput
-        label="Nhập tên doanh nghiệp"
-        name={[...BASE_FORM, 'company_name']}
-        placeholder="CÔNG TY TNHH DỊCH VỤ TƯ VẤN WARREN B"
-        onChange={(e) => setFields(e, [...BASE_FORM, 'company_name'])}
-      />
+      <CCInput label="Nhập tên doanh nghiệp" name={[...BASE_FORM, 'company_name']} placeholder="CÔNG TY TNHH DỊCH VỤ TƯ VẤN WARREN B" onChange={(e) => setFields(e, [...BASE_FORM, 'company_name'])} />
 
       <CCInput label="Nhập mã số doanh nghiệp hoặc Mã số thuế" name={[...BASE_FORM, 'mst']} placeholder="0316184427" />
 
       <CCInput
         label={
-          <div dangerouslySetInnerHTML={{ __html: '</>Người đại diện pháp luật <i>(nhập đầy đủ họ và tên)</i></>' }} />
+          <div
+            dangerouslySetInnerHTML={{
+              __html: '</>Người đại diện pháp luật <i>(nhập đầy đủ họ và tên)</i></>',
+            }}
+          />
         }
         name={[...BASE_FORM, 'org_person']}
         placeholder="NGUYỄN VĂN A"
         onChange={(e) => setFields(e, [...BASE_FORM, 'org_person'])}
       />
 
-      <CCInput label="Địa chỉ trụ sở chính" name={[...BASE_FORM, 'location']} placeholder="Nhập địa chỉ trụ sở chính" />
+      <Form.Item
+        // label="Địa chỉ trụ sở chính"
+        label={
+          <div
+            dangerouslySetInnerHTML={{
+              __html: '<b>Địa chỉ trụ sở chính</b>',
+            }}
+          />
+        }
+      >
+        <CCSelect.SelectProvince ref={ref} name={[...BASE_FORM, 'location']} placeholder="Nhập địa chỉ trụ sở chính" label="Địa chỉ trụ sở chính" />
+      </Form.Item>
 
-      {renderFormByType(type)}
+      {renderFormByType}
     </Form.Item>
-  );
-});
+  )
+})
 
-export default GiaiThe;
+export default GiaiThe

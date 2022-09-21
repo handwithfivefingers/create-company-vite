@@ -1,107 +1,48 @@
-const express = require('express')
+require('module-alias/register')
 
-const env = require('dotenv')
+const express = require('express')
 
 const app = express()
 
-const path = require('path')
+const Cronjob = require('./server/controller/Service/Cronjob')
 
-const mongoose = require('mongoose')
+const db = require('./server/configs/db')
 
-const cors = require('cors')
+const appConfig = require('./server/configs/defaultConfig')
 
-const AppRouter = require('./server/route')
-
-const GitRouter = require('./server/route/git')
-
-const cookieParser = require('cookie-parser')
-
-const { task } = require('./server/controller/service/cronjob')
-const { off } = require('process')
-
-env.config()
-
-const { NODE_ENV, PORT, DEV_PORT } = process.env
-process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = 1 // Conflict ssl
-const RUNTIME_PORT = NODE_ENV === 'development' ? DEV_PORT || 3001 : PORT
-
-const mongoseOptions = {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-  useCreateIndex: true,
-}
-
-// DB
-const connectDB = async () => {
-  try {
-    const db = await mongoose.connect(process.env.DATABASE_URL, mongoseOptions)
-    if (db.connections) console.log('DB connected')
-  } catch (err) {
-    console.log('db error connection', err)
-  }
-}
-
-// middleware
-
-app.use(express.json())
-
-app.use(cookieParser())
-
-//config cors
-const corsOptions = {
-  credentials: true,
-  origin: [
-    'http://localhost:3000',
-    'http://localhost:3001',
-    'http://localhost:3002',
-    'http://localhost:3003',
-    'https://app.thanhlapcongtyonline.vn',
-  ],
-}
+const LoadEnv = require('./server/configs/loadENV')
 
 global.__basedir = __dirname
 
-// Routes middleware
+const { NODE_ENV, PORT, DEV_PORT } = process.env
 
-app.use(
-  '/public',
-  cors(corsOptions),
-  express.static(path.join(__dirname, 'uploads')),
-)
+const RUNTIME_PORT = NODE_ENV === 'development' ? DEV_PORT || 3001 : PORT
 
-app.use(express.static(path.join(__dirname, 'dist')))
+const { initEnvLoaded } = new LoadEnv()
 
-app.use('/git', GitRouter)
+const { connectDB } = new db()
 
-app.use('/api', cors(corsOptions), AppRouter)
+const { onInit } = new appConfig(app)
 
-app.use('/robots.txt', (req, res) => {
-  let robotFile = path.join(__dirname, 'uploads', 'robots.txt')
-  res.sendFile(robotFile)
-})
+const { task, backupDB } = new Cronjob()
 
-if (NODE_ENV !== 'development') {
-  app.get('/*', cors(corsOptions), (req, res) => {
-    res.sendFile(path.join(__dirname, 'dist', 'index.html'))
-  })
-}
+const { Order } = require('./server/model')
 
-// Handling 500
-app.use((err, req, res, next) => {
-  res.status(500).send({
-    error: err.stack,
-    message: 'Internal Server Error',
-  })
-})
+
+initEnvLoaded()
+
+onInit()
 
 // Cron running ;
 
 app.listen(RUNTIME_PORT, async () => {
   await connectDB()
 
-  if (process.env.NODE_ENV !== 'development') {
-    task.start()
-  }
+  task.start()
+
+  backupDB.start()
+
+  // await Order.deleteMany()
 
   console.log(`Server is running ${RUNTIME_PORT}`)
 })

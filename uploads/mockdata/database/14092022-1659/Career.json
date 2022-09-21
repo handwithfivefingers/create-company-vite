@@ -1,0 +1,4421 @@
+[
+  {
+    "category": [],
+    "_id": "6288f136f672a641003d4ca3",
+    "name": "Trồng cây mía",
+    "code": "0114",
+    "__v": 0,
+    "createdAt": "2022-05-21T14:03:34.713Z",
+    "updatedAt": "2022-09-09T16:08:50.672Z"
+  },
+  {
+    "category": [
+      null
+    ],
+    "_id": "6288f136f672a641003d4ca5",
+    "name": "Trồng cây lấy sợi",
+    "code": "0116",
+    "__v": 0,
+    "createdAt": "2022-05-21T14:03:34.713Z",
+    "updatedAt": "2022-09-10T06:50:03.393Z"
+  },
+  {
+    "category": [
+      null
+    ],
+    "_id": "6288f136f672a641003d4ca6",
+    "name": "Trồng cây có hạt chứa dầu",
+    "code": "0117",
+    "__v": 0,
+    "createdAt": "2022-05-21T14:03:34.713Z",
+    "updatedAt": "2022-09-06T23:47:23.842Z"
+  },
+  {
+    "category": [],
+    "_id": "6288f136f672a641003d4caa",
+    "name": "Trồng cây lấy quả chứa dầu",
+    "code": "0122",
+    "__v": 0,
+    "createdAt": "2022-05-21T14:03:34.714Z",
+    "updatedAt": "2022-09-10T06:50:03.393Z"
+  },
+  {
+    "category": [],
+    "_id": "6288f136f672a641003d4cac",
+    "name": "Trồng cây cao su",
+    "code": "0125",
+    "__v": 0,
+    "createdAt": "2022-05-21T14:03:34.714Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z"
+  },
+  {
+    "category": [],
+    "_id": "6288f136f672a641003d4cad",
+    "name": "Trồng cây cà phê",
+    "code": "0126",
+    "__v": 0,
+    "createdAt": "2022-05-21T14:03:34.714Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z"
+  },
+  {
+    "category": [],
+    "_id": "6288f136f672a641003d4cb1",
+    "name": "Nhân và chăm sóc cây giống hàng năm",
+    "code": "0131",
+    "__v": 0,
+    "createdAt": "2022-05-21T14:03:34.715Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z"
+  },
+  {
+    "category": [
+      "63200343534b987b4d95eb2b"
+    ],
+    "_id": "6288f136f672a641003d4cbc",
+    "name": "Hoạt động dịch vụ sau thu hoạch",
+    "code": "0163",
+    "__v": 0,
+    "createdAt": "2022-05-21T14:03:34.716Z",
+    "updatedAt": "2022-09-13T04:12:51.243Z"
+  },
+  {
+    "category": [],
+    "_id": "6288f136f672a641003d4cbe",
+    "name": "Săn bắt, đánh bẫy và hoạt động dịch vụ có liên quan",
+    "code": "0170",
+    "__v": 0,
+    "createdAt": "2022-05-21T14:03:34.716Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z"
+  },
+  {
+    "category": [],
+    "_id": "6288f136f672a641003d4cc0",
+    "name": "Khai thác gỗ",
+    "code": "0220",
+    "__v": 0,
+    "createdAt": "2022-05-21T14:03:34.716Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z"
+  },
+  {
+    "category": [],
+    "_id": "6288f136f672a641003d4cc4",
+    "name": "Khai thác thủy sản biển",
+    "code": "0311",
+    "__v": 0,
+    "createdAt": "2022-05-21T14:03:34.716Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z"
+  },
+  {
+    "category": [],
+    "_id": "6288f136f672a641003d4ccb",
+    "name": "Khai thác khí đốt tự nhiên",
+    "code": "0620",
+    "__v": 0,
+    "createdAt": "2022-05-21T14:03:34.717Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z"
+  },
+  {
+    "category": [],
+    "_id": "6288f136f672a641003d4cd2",
+    "name": "Khai thác và thu gom than bùn",
+    "code": "0892",
+    "__v": 0,
+    "createdAt": "2022-05-21T14:03:34.718Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z"
+  },
+  {
+    "category": [],
+    "_id": "6288f136f672a641003d4cd5",
+    "name": "Hoạt động dịch vụ hỗ trợ khai thác dầu thô và khí tự nhiên",
+    "code": "0910",
+    "__v": 0,
+    "createdAt": "2022-05-21T14:03:34.719Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z"
+  },
+  {
+    "category": [],
+    "_id": "6288f136f672a641003d4ca8",
+    "name": "Trồng cây hàng năm khác",
+    "code": "0119",
+    "__v": 0,
+    "createdAt": "2022-05-21T14:03:34.714Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z"
+  },
+  {
+    "category": [],
+    "_id": "6288f136f672a641003d4cab",
+    "name": "Trồng cây hồ tiêu",
+    "code": "0124",
+    "__v": 0,
+    "createdAt": "2022-05-21T14:03:34.714Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z"
+  },
+  {
+    "category": [],
+    "_id": "6288f136f672a641003d4caf",
+    "name": "Trồng cây gia vị, cây dược liệu, cây hương liệu lâu năm",
+    "code": "0128",
+    "__v": 0,
+    "createdAt": "2022-05-21T14:03:34.715Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z"
+  },
+  {
+    "category": [],
+    "_id": "6288f136f672a641003d4cb0",
+    "name": "Trồng cây lâu năm khác",
+    "code": "0129",
+    "__v": 0,
+    "createdAt": "2022-05-21T14:03:34.715Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z"
+  },
+  {
+    "category": [],
+    "_id": "6288f136f672a641003d4cb2",
+    "name": "Nhân và chăm sóc cây giống lâu năm",
+    "code": "0132",
+    "__v": 0,
+    "createdAt": "2022-05-21T14:03:34.715Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z"
+  },
+  {
+    "category": [],
+    "_id": "6288f136f672a641003d4cb5",
+    "name": "Chăn nuôi dê, cừu và sản xuất giống dê, cừu, hươu, nai",
+    "code": "0144",
+    "__v": 0,
+    "createdAt": "2022-05-21T14:03:34.715Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z"
+  },
+  {
+    "category": [],
+    "_id": "6288f136f672a641003d4cb7",
+    "name": "Chăn nuôi gia cầm",
+    "code": "0146",
+    "__v": 0,
+    "createdAt": "2022-05-21T14:03:34.715Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z"
+  },
+  {
+    "category": [],
+    "_id": "6288f136f672a641003d4cb9",
+    "name": "Trồng trọt, chăn nuôi hỗn hợp",
+    "code": "0150",
+    "__v": 0,
+    "createdAt": "2022-05-21T14:03:34.715Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z"
+  },
+  {
+    "category": [
+      "63200343534b987b4d95eb2b"
+    ],
+    "_id": "6288f136f672a641003d4cba",
+    "name": "Hoạt động dịch vụ trồng trọt",
+    "code": "0161",
+    "__v": 0,
+    "createdAt": "2022-05-21T14:03:34.716Z",
+    "updatedAt": "2022-09-13T04:12:51.243Z"
+  },
+  {
+    "category": [
+      "63200343534b987b4d95eb2b"
+    ],
+    "_id": "6288f136f672a641003d4cbb",
+    "name": "Hoạt động dịch vụ chăn nuôi",
+    "code": "0162",
+    "__v": 0,
+    "createdAt": "2022-05-21T14:03:34.716Z",
+    "updatedAt": "2022-09-13T04:12:51.243Z"
+  },
+  {
+    "category": [],
+    "_id": "6288f136f672a641003d4cbf",
+    "name": "Trồng rừng, chăm sóc rừng và ươm giống cây lâm nghiệp",
+    "code": "0210",
+    "__v": 0,
+    "createdAt": "2022-05-21T14:03:34.716Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z"
+  },
+  {
+    "category": [],
+    "_id": "6288f136f672a641003d4cc1",
+    "name": "Khai thác lâm sản khác trừ gỗ",
+    "code": "0231",
+    "__v": 0,
+    "createdAt": "2022-05-21T14:03:34.716Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z"
+  },
+  {
+    "category": [],
+    "_id": "6288f136f672a641003d4cca",
+    "name": "Khai thác dầu thô",
+    "code": "0610",
+    "__v": 0,
+    "createdAt": "2022-05-21T14:03:34.717Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z"
+  },
+  {
+    "category": [],
+    "_id": "6288f136f672a641003d4ccc",
+    "name": "Khai thác quặng sắt",
+    "code": "0710",
+    "__v": 0,
+    "createdAt": "2022-05-21T14:03:34.717Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z"
+  },
+  {
+    "category": [],
+    "_id": "6288f136f672a641003d4ccd",
+    "name": "Khai thác quặng uranium và quặng thorium",
+    "code": "0721",
+    "__v": 0,
+    "createdAt": "2022-05-21T14:03:34.718Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z"
+  },
+  {
+    "category": [],
+    "_id": "6288f136f672a641003d4cd0",
+    "name": "Khai thác đá, cát, sỏi, đất sét",
+    "code": "0810",
+    "__v": 0,
+    "createdAt": "2022-05-21T14:03:34.718Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z"
+  },
+  {
+    "category": [],
+    "_id": "6288f136f672a641003d4ca4",
+    "name": "Trồng cây thuốc lá, thuốc lào",
+    "code": "0115",
+    "__v": 0,
+    "createdAt": "2022-05-21T14:03:34.713Z",
+    "updatedAt": "2022-09-07T08:36:37.494Z"
+  },
+  {
+    "category": [],
+    "_id": "6288f136f672a641003d4ca0",
+    "name": "Trồng lúa",
+    "code": "0111",
+    "__v": 0,
+    "createdAt": "2022-05-21T14:03:34.712Z",
+    "updatedAt": "2022-09-08T18:37:04.081Z"
+  },
+  {
+    "category": [],
+    "_id": "6288f136f672a641003d4ca7",
+    "name": "Trồng rau, đậu các loại và trồng hoa",
+    "code": "0118",
+    "__v": 0,
+    "createdAt": "2022-05-21T14:03:34.714Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z"
+  },
+  {
+    "category": [],
+    "_id": "6288f136f672a641003d4ca9",
+    "name": "Trồng cây ăn quả",
+    "code": "0121",
+    "__v": 0,
+    "createdAt": "2022-05-21T14:03:34.714Z",
+    "updatedAt": "2022-09-07T21:21:43.082Z"
+  },
+  {
+    "category": [],
+    "_id": "6288f136f672a641003d4cb3",
+    "name": "Chăn nuôi trâu, bò và sản xuất giống trâu, bò",
+    "code": "0141",
+    "__v": 0,
+    "createdAt": "2022-05-21T14:03:34.715Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z"
+  },
+  {
+    "category": [],
+    "_id": "6288f136f672a641003d4cb4",
+    "name": "Chăn nuôi ngựa, lừa, la và sản xuất giống ngựa, lừa",
+    "code": "0142",
+    "__v": 0,
+    "createdAt": "2022-05-21T14:03:34.715Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z"
+  },
+  {
+    "category": [],
+    "_id": "6288f136f672a641003d4cbd",
+    "name": "Xử lý hạt giống để nhân giống",
+    "code": "0164",
+    "__v": 0,
+    "createdAt": "2022-05-21T14:03:34.716Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z"
+  },
+  {
+    "category": [],
+    "_id": "6288f136f672a641003d4cc2",
+    "name": "Thu nhặt lâm sản khác trừ gỗ",
+    "code": "0232",
+    "__v": 0,
+    "createdAt": "2022-05-21T14:03:34.716Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z"
+  },
+  {
+    "category": [],
+    "_id": "6288f136f672a641003d4ccf",
+    "name": "Khai thác quặng kim loại quý hiếm",
+    "code": "0730",
+    "__v": 0,
+    "createdAt": "2022-05-21T14:03:34.718Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z"
+  },
+  {
+    "category": [],
+    "_id": "6288f136f672a641003d4cd3",
+    "name": "Khai thác muối",
+    "code": "0893",
+    "__v": 0,
+    "createdAt": "2022-05-21T14:03:34.718Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z"
+  },
+  {
+    "category": [],
+    "_id": "6288f136f672a641003d4cd4",
+    "name": "Khai khoáng khác chưa được phân vào đâu",
+    "code": "0899",
+    "__v": 0,
+    "createdAt": "2022-05-21T14:03:34.718Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z"
+  },
+  {
+    "category": [],
+    "_id": "6288f136f672a641003d4cae",
+    "name": "Trồng cây chè",
+    "code": "0127",
+    "__v": 0,
+    "createdAt": "2022-05-21T14:03:34.714Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z"
+  },
+  {
+    "category": [],
+    "_id": "6288f136f672a641003d4cb6",
+    "name": "Chăn nuôi lợn và sản xuất giống lợn",
+    "code": "0145",
+    "__v": 0,
+    "createdAt": "2022-05-21T14:03:34.715Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z"
+  },
+  {
+    "category": [],
+    "_id": "6288f136f672a641003d4cb8",
+    "name": "Chăn nuôi khác",
+    "code": "0149",
+    "__v": 0,
+    "createdAt": "2022-05-21T14:03:34.715Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z"
+  },
+  {
+    "category": [],
+    "_id": "6288f136f672a641003d4cc3",
+    "name": "Hoạt động dịch vụ lâm nghiệp",
+    "code": "0240",
+    "__v": 0,
+    "createdAt": "2022-05-21T14:03:34.716Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z"
+  },
+  {
+    "category": [],
+    "_id": "6288f136f672a641003d4cc5",
+    "name": "Khai thác thủy sản nội địa",
+    "code": "0312",
+    "__v": 0,
+    "createdAt": "2022-05-21T14:03:34.716Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z"
+  },
+  {
+    "category": [],
+    "_id": "6288f136f672a641003d4cc6",
+    "name": "Nuôi trồng thủy sản biển",
+    "code": "0321",
+    "__v": 0,
+    "createdAt": "2022-05-21T14:03:34.716Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z"
+  },
+  {
+    "category": [],
+    "_id": "6288f136f672a641003d4cc7",
+    "name": "Nuôi trồng thủy sản nội địa",
+    "code": "0322",
+    "__v": 0,
+    "createdAt": "2022-05-21T14:03:34.717Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z"
+  },
+  {
+    "category": [],
+    "_id": "6288f136f672a641003d4cc8",
+    "name": "Khai thác và thu gom than cứng",
+    "code": "0510",
+    "__v": 0,
+    "createdAt": "2022-05-21T14:03:34.717Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z"
+  },
+  {
+    "category": [],
+    "_id": "6288f136f672a641003d4cc9",
+    "name": "Khai thác và thu gom than non",
+    "code": "0520",
+    "__v": 0,
+    "createdAt": "2022-05-21T14:03:34.717Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z"
+  },
+  {
+    "category": [],
+    "_id": "6288f136f672a641003d4cce",
+    "name": "Khai thác quặng kim loại khác không chứa sắt",
+    "code": "0722",
+    "__v": 0,
+    "createdAt": "2022-05-21T14:03:34.718Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z"
+  },
+  {
+    "category": [],
+    "_id": "6288f136f672a641003d4cd1",
+    "name": "Khai thác khoáng hoá chất và khoáng phân bón",
+    "code": "0891",
+    "__v": 0,
+    "createdAt": "2022-05-21T14:03:34.718Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z"
+  },
+  {
+    "category": [],
+    "_id": "6288f136f672a641003d4cd6",
+    "name": "Hoạt động dịch vụ hỗ trợ khai khoáng khác",
+    "code": "0990",
+    "__v": 0,
+    "createdAt": "2022-05-21T14:03:34.719Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z"
+  },
+  {
+    "category": [
+      "63200343534b987b4d95eb2b"
+    ],
+    "_id": "62be6a3c429428026e804014",
+    "name": "Chế biến, bảo quản thịt và các sản phẩm từ thịt",
+    "code": "1010",
+    "createdAt": "2022-07-01T03:30:04.224Z",
+    "updatedAt": "2022-09-13T04:12:51.243Z",
+    "__v": 0
+  },
+  {
+    "category": [
+      "63200343534b987b4d95eb2b"
+    ],
+    "_id": "62be6a55429428026e804017",
+    "name": "Chế biến, bảo quản thuỷ sản và các sản phẩm từ thuỷ sản",
+    "code": "1020",
+    "createdAt": "2022-07-01T03:30:29.359Z",
+    "updatedAt": "2022-09-13T04:12:51.243Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be6a66429428026e80401a",
+    "name": "Chế biến và bảo quản rau quả",
+    "code": "1030",
+    "createdAt": "2022-07-01T03:30:46.076Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be6a7a429428026e80401e",
+    "name": "Sản xuất dầu, mỡ động, thực vật",
+    "code": "1040",
+    "createdAt": "2022-07-01T03:31:06.943Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be6a88429428026e804021",
+    "name": "Chế biến sữa và các sản phẩm từ sữa",
+    "code": "1050",
+    "createdAt": "2022-07-01T03:31:20.570Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be6a9d429428026e804024",
+    "name": "Xay xát và sản xuất bột thô",
+    "code": "1061",
+    "createdAt": "2022-07-01T03:31:41.746Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [
+      "6320046d534b987b4d95eb44"
+    ],
+    "_id": "62be6aa6429428026e804027",
+    "name": "Sản xuất tinh bột và các sản phẩm từ tinh bột",
+    "code": "1062",
+    "createdAt": "2022-07-01T03:31:50.995Z",
+    "updatedAt": "2022-09-13T04:17:49.360Z",
+    "__v": 0
+  },
+  {
+    "category": [
+      "63185f06d44c496cedddd4e6"
+    ],
+    "_id": "62be6ab5429428026e80402b",
+    "name": "Sản xuất các loại bánh từ bột",
+    "code": "1071",
+    "createdAt": "2022-07-01T03:32:05.037Z",
+    "updatedAt": "2022-09-07T09:08:40.349Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be6abd429428026e80402e",
+    "name": "Sản xuất đường",
+    "code": "1072",
+    "createdAt": "2022-07-01T03:32:13.877Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be6ace429428026e804031",
+    "name": "Sản xuất ca cao, sôcôla và bánh kẹo",
+    "code": "1073",
+    "createdAt": "2022-07-01T03:32:30.161Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be6ae1429428026e804034",
+    "name": "Sản xuất mì ống, mỳ sợi và sản phẩm tương tự",
+    "code": "1074",
+    "createdAt": "2022-07-01T03:32:49.496Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [
+      "63185f06d44c496cedddd4e6",
+      "6320046d534b987b4d95eb44"
+    ],
+    "_id": "62be6af0429428026e804038",
+    "name": "Sản xuất món ăn, thức ăn chế biến sẵn",
+    "code": "1075",
+    "createdAt": "2022-07-01T03:33:04.927Z",
+    "updatedAt": "2022-09-13T04:17:49.360Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be6afe429428026e80403b",
+    "name": "Sản xuất chè",
+    "code": "1076",
+    "createdAt": "2022-07-01T03:33:18.092Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be6b0a429428026e80403e",
+    "name": "Sản xuất cà phê",
+    "code": "1077",
+    "createdAt": "2022-07-01T03:33:30.308Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [
+      "63185f06d44c496cedddd4e6",
+      "6320046d534b987b4d95eb44"
+    ],
+    "_id": "62be6b20429428026e804041",
+    "name": "Sản xuất thực phẩm khác chưa được phân vào đâu",
+    "code": "1079",
+    "createdAt": "2022-07-01T03:33:52.553Z",
+    "updatedAt": "2022-09-13T04:17:49.360Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be6b2b429428026e804045",
+    "name": "Sản xuất thức ăn gia súc, gia cầm và thuỷ sản",
+    "code": "1080",
+    "createdAt": "2022-07-01T03:34:03.488Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be6b3e429428026e804048",
+    "name": "Chưng, tinh cất và pha chế các loại rượu mạnh",
+    "code": "1101",
+    "createdAt": "2022-07-01T03:34:22.667Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be6b59429428026e80404b",
+    "name": "Sản xuất rượu vang",
+    "code": "1102",
+    "createdAt": "2022-07-01T03:34:49.186Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be6b6a429428026e80404f",
+    "name": "Sản xuất bia và mạch nha ủ men bia",
+    "code": "1103",
+    "createdAt": "2022-07-01T03:35:06.697Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be6b7c429428026e804052",
+    "name": "Sản xuất đồ uống không cồn, nước khoáng",
+    "code": "1104",
+    "createdAt": "2022-07-01T03:35:24.120Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be6b91429428026e804055",
+    "name": "Sản xuất sản phẩm thuốc lá",
+    "code": "1200",
+    "createdAt": "2022-07-01T03:35:45.262Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be6ba1429428026e804059",
+    "name": "Sản xuất sợi",
+    "code": "1311",
+    "createdAt": "2022-07-01T03:36:01.754Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be6bb1429428026e80405c",
+    "name": "Sản xuất vải dệt thoi",
+    "code": "1312",
+    "createdAt": "2022-07-01T03:36:17.082Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [
+      "63186401d44c496cedddd58f"
+    ],
+    "_id": "62be6bbd429428026e80405f",
+    "name": "Hoàn thiện sản phẩm dệt",
+    "code": "1313",
+    "createdAt": "2022-07-01T03:36:29.788Z",
+    "updatedAt": "2022-09-07T09:27:29.387Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be6bc9429428026e804062",
+    "name": "Sản xuất vải dệt kim, vải đan móc và vải không dệt khác",
+    "code": "1391",
+    "createdAt": "2022-07-01T03:36:41.965Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [
+      "631860dcd44c496cedddd522"
+    ],
+    "_id": "62be6bd6429428026e804065",
+    "name": "Sản xuất hàng dệt sẵn (trừ trang phục)",
+    "code": "1392",
+    "createdAt": "2022-07-01T03:36:54.989Z",
+    "updatedAt": "2022-09-07T09:14:04.410Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be6be4429428026e804069",
+    "name": "Sản xuất thảm, chăn, đệm",
+    "code": "1393",
+    "createdAt": "2022-07-01T03:37:08.355Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be6bf2429428026e80406c",
+    "name": "Sản xuất các loại dây bện và lưới",
+    "code": "1394",
+    "createdAt": "2022-07-01T03:37:22.837Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [
+      "631860dcd44c496cedddd522"
+    ],
+    "_id": "62be6bfb429428026e80406f",
+    "name": "Sản xuất các loại hàng dệt khác chưa được phân vào đâu",
+    "code": "1399",
+    "createdAt": "2022-07-01T03:37:31.363Z",
+    "updatedAt": "2022-09-07T09:14:04.410Z",
+    "__v": 0
+  },
+  {
+    "category": [
+      "631860dcd44c496cedddd522",
+      "63186401d44c496cedddd58f"
+    ],
+    "_id": "62be6c0e429428026e804072",
+    "name": "May trang phục (trừ trang phục từ da lông thú)",
+    "code": "1410",
+    "createdAt": "2022-07-01T03:37:50.230Z",
+    "updatedAt": "2022-09-07T09:27:29.387Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be6c1b429428026e804076",
+    "name": "Sản xuất sản phẩm từ da lông thú",
+    "code": "1420",
+    "createdAt": "2022-07-01T03:38:03.053Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [
+      "631860dcd44c496cedddd522"
+    ],
+    "_id": "62be6c26429428026e804079",
+    "name": "Sản xuất sản phẩm từ da lông thú",
+    "code": "1430",
+    "createdAt": "2022-07-01T03:38:14.736Z",
+    "updatedAt": "2022-09-07T09:14:04.410Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be6c30429428026e80407c",
+    "name": "Thuộc, sơ chế da; sơ chế và nhuộm da lông thú",
+    "code": "1511",
+    "createdAt": "2022-07-01T03:38:24.427Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [
+      "631860dcd44c496cedddd522"
+    ],
+    "_id": "62be6c41429428026e80407f",
+    "name": "Sản xuất vali, túi xách và các loại tương tự, sản xuất yên đệm",
+    "code": "1512",
+    "createdAt": "2022-07-01T03:38:41.355Z",
+    "updatedAt": "2022-09-07T09:14:04.410Z",
+    "__v": 0
+  },
+  {
+    "category": [
+      "631860dcd44c496cedddd522"
+    ],
+    "_id": "62be6c4c429428026e804082",
+    "name": "Sản xuất giày, dép",
+    "code": "1520",
+    "createdAt": "2022-07-01T03:38:52.988Z",
+    "updatedAt": "2022-09-07T09:14:04.410Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be6c59429428026e804086",
+    "name": "Cưa, xẻ, bào gỗ và bảo quản gỗ",
+    "code": "1610",
+    "createdAt": "2022-07-01T03:39:05.761Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be6c66429428026e804089",
+    "name": "Sản xuất gỗ dán, gỗ lạng, ván ép và ván mỏng khác",
+    "code": "1621",
+    "createdAt": "2022-07-01T03:39:18.529Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be6c77429428026e80408c",
+    "name": "Sản xuất đồ gỗ xây dựng",
+    "code": "1622",
+    "createdAt": "2022-07-01T03:39:35.392Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be6c81429428026e80408f",
+    "name": "Sản xuất bao bì bằng gỗ",
+    "code": "1623",
+    "createdAt": "2022-07-01T03:39:45.263Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be6c8d429428026e804092",
+    "name": "Sản xuất sản phẩm khác từ gỗ; sản xuất sản phẩm từ tre, nứa, rơm, rạ và vật liệu tết bện",
+    "code": "1629",
+    "createdAt": "2022-07-01T03:39:57.367Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be6c9d429428026e804096",
+    "name": "Sản xuất bột giấy, giấy và bìa",
+    "code": "1701",
+    "createdAt": "2022-07-01T03:40:13.845Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be6ca9429428026e804099",
+    "name": "Sản xuất giấy nhăn, bìa nhăn, bao bì từ giấy và bìa",
+    "code": "1702",
+    "createdAt": "2022-07-01T03:40:25.381Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be6cb7429428026e80409c",
+    "name": "Sản xuất các sản phẩm khác từ giấy và bìa chưa được phân vào đâu",
+    "code": "1709",
+    "createdAt": "2022-07-01T03:40:39.590Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [
+      "63185e71d44c496cedddd4ce"
+    ],
+    "_id": "62be6cc1429428026e80409f",
+    "name": "In ấn",
+    "code": "1811",
+    "createdAt": "2022-07-01T03:40:49.167Z",
+    "updatedAt": "2022-09-07T09:03:45.332Z",
+    "__v": 0
+  },
+  {
+    "category": [
+      "63185e71d44c496cedddd4ce"
+    ],
+    "_id": "62be6ccf429428026e8040a2",
+    "name": "Dịch vụ liên quan đến in",
+    "code": "1812",
+    "createdAt": "2022-07-01T03:41:03.010Z",
+    "updatedAt": "2022-09-07T09:03:45.332Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be6cdc429428026e8040a5",
+    "name": "Sao chép bản ghi các loại",
+    "code": "1820",
+    "createdAt": "2022-07-01T03:41:16.027Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be6cf3429428026e8040a8",
+    "name": "Sản xuất than cốc",
+    "code": "1910",
+    "createdAt": "2022-07-01T03:41:39.152Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be6cfd429428026e8040ab",
+    "name": "Sản xuất sản phẩm dầu mỏ tinh chế",
+    "code": "1920",
+    "createdAt": "2022-07-01T03:41:49.068Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be6d0c429428026e8040af",
+    "name": "Sản xuất hoá chất cơ bản",
+    "code": "2011",
+    "createdAt": "2022-07-01T03:42:04.089Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be6d15429428026e8040b2",
+    "name": "Sản xuất phân bón và hợp chất ni tơ",
+    "code": "2012",
+    "createdAt": "2022-07-01T03:42:13.138Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be6d1d429428026e8040b5",
+    "name": "Sản xuất plastic và cao su tổng hợp dạng nguyên sinh",
+    "code": "2013",
+    "createdAt": "2022-07-01T03:42:21.871Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be6d2a429428026e8040b8",
+    "name": "Sản xuất thuốc trừ sâu và sản phẩm hoá chất khác dùng trong nông nghiệp",
+    "code": "2021",
+    "createdAt": "2022-07-01T03:42:34.736Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be6d33429428026e8040bb",
+    "name": "Sản xuất sơn, véc ni và các chất sơn, quét tương tự; sản xuất mực in và ma tít",
+    "code": "2022",
+    "createdAt": "2022-07-01T03:42:43.240Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be6d3f429428026e8040be",
+    "name": "Sản xuất mỹ phẩm, xà phòng, chất tẩy rửa, làm bóng và chế phẩm vệ sinh",
+    "code": "2023",
+    "createdAt": "2022-07-01T03:42:55.060Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be6d4b429428026e8040c2",
+    "name": "Sản xuất sản phẩm hoá chất khác chưa được phân vào đâu",
+    "code": "2029",
+    "createdAt": "2022-07-01T03:43:07.397Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be6d54429428026e8040c5",
+    "name": "Sản xuất sợi nhân tạo",
+    "code": "2030",
+    "createdAt": "2022-07-01T03:43:16.701Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be6d60429428026e8040c8",
+    "name": "Sản xuất thuốc, hoá dược và dược liệu",
+    "code": "2100",
+    "createdAt": "2022-07-01T03:43:28.365Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be6d70429428026e8040cb",
+    "name": "Sản xuất săm, lốp cao su; đắp và tái chế lốp cao su",
+    "code": "2211",
+    "createdAt": "2022-07-01T03:43:44.584Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be6d7e429428026e8040ce",
+    "name": "Sản xuất sản phẩm khác từ cao su",
+    "code": "2219",
+    "createdAt": "2022-07-01T03:43:58.202Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be6d86429428026e8040d2",
+    "name": "Sản xuất sản phẩm từ plastic",
+    "code": "2220",
+    "createdAt": "2022-07-01T03:44:06.727Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be6dfd429428026e8040d7",
+    "name": "Sản xuất thủy tinh và sản phẩm từ thủy tinh",
+    "code": "2310",
+    "createdAt": "2022-07-01T03:46:05.894Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be6e0b429428026e8040da",
+    "name": "Sản xuất sản phẩm chịu lửa",
+    "code": "2391",
+    "createdAt": "2022-07-01T03:46:19.508Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be6e12429428026e8040dd",
+    "name": "Sản xuất vật liệu xây dựng từ đất sét",
+    "code": "2392",
+    "createdAt": "2022-07-01T03:46:26.881Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be6e19429428026e8040e0",
+    "name": "Sản xuất sản phẩm gốm sứ khác",
+    "code": "2393",
+    "createdAt": "2022-07-01T03:46:33.780Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be6e22429428026e8040e3",
+    "name": "Sản xuất xi măng, vôi và thạch cao",
+    "code": "2394",
+    "createdAt": "2022-07-01T03:46:42.286Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be6e2c429428026e8040e6",
+    "name": "Sản xuất bê tông và các sản phẩm từ bê tông, xi măng và thạch cao",
+    "code": "2395",
+    "createdAt": "2022-07-01T03:46:52.654Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be6e38429428026e8040ea",
+    "name": "Cắt tạo dáng và hoàn thiện đá",
+    "code": "2396",
+    "createdAt": "2022-07-01T03:47:04.610Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be6e41429428026e8040ed",
+    "name": "Sản xuất sản phẩm từ chất khoáng phi kim loại khác chưa được phân vào đâu",
+    "code": "2399",
+    "createdAt": "2022-07-01T03:47:13.534Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be6e4c429428026e8040f0",
+    "name": "Sản xuất sắt, thép, gang",
+    "code": "2410",
+    "createdAt": "2022-07-01T03:47:24.768Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be6e58429428026e8040f3",
+    "name": "Sản xuất kim loại quý và kim loại màu",
+    "code": "2420",
+    "createdAt": "2022-07-01T03:47:36.845Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be6e68429428026e8040f6",
+    "name": "Đúc sắt, thép",
+    "code": "2431",
+    "createdAt": "2022-07-01T03:47:52.881Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be6e78429428026e8040fa",
+    "name": "Đúc kim loại màu",
+    "code": "2432",
+    "createdAt": "2022-07-01T03:48:08.184Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be6e80429428026e8040fd",
+    "name": "Sản xuất các cấu kiện kim loại",
+    "code": "2511",
+    "createdAt": "2022-07-01T03:48:16.703Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be6e8a429428026e804100",
+    "name": "Sản xuất thùng, bể chứa và dụng cụ chứa đựng bằng kim loại",
+    "code": "2512",
+    "createdAt": "2022-07-01T03:48:26.708Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be6e92429428026e804103",
+    "name": "Sản xuất nồi hơi (trừ nồi hơi trung tâm)",
+    "code": "2513",
+    "createdAt": "2022-07-01T03:48:34.579Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be6e9c429428026e804106",
+    "name": "Sản xuất vũ khí và đạn dược",
+    "code": "2520",
+    "createdAt": "2022-07-01T03:48:44.019Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be6ea4429428026e804109",
+    "name": "Rèn, dập, ép và cán kim loại; luyện bột kim loại",
+    "code": "2591",
+    "createdAt": "2022-07-01T03:48:52.278Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be6eb1429428026e80410d",
+    "name": "Gia công cơ khí; xử lý và tráng phủ kim loại",
+    "code": "2592",
+    "createdAt": "2022-07-01T03:49:05.619Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be6eba429428026e804110",
+    "name": "Sản xuất dao kéo, dụng cụ cầm tay và đồ kim loại thông dụng",
+    "code": "2593",
+    "createdAt": "2022-07-01T03:49:14.206Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be6ec3429428026e804113",
+    "name": "Sản xuất sản phẩm khác bằng kim loại chưa được phân vào đâu",
+    "code": "2599",
+    "createdAt": "2022-07-01T03:49:23.019Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be6ecb429428026e804116",
+    "name": "Sản xuất linh kiện điện tử",
+    "code": "2610",
+    "createdAt": "2022-07-01T03:49:31.351Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be6ed3429428026e804119",
+    "name": "Sản xuất máy vi tính và thiết bị ngoại vi của máy vi tính",
+    "code": "2620",
+    "createdAt": "2022-07-01T03:49:39.183Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be6eda429428026e80411c",
+    "name": "Sản xuất thiết bị truyền thông",
+    "code": "2630",
+    "createdAt": "2022-07-01T03:49:46.695Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be6ee1429428026e80411f",
+    "name": "Sản xuất sản phẩm điện tử dân dụng",
+    "code": "2640",
+    "createdAt": "2022-07-01T03:49:53.993Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be6eea429428026e804123",
+    "name": "Sản xuất thiết bị đo lường, kiểm tra, định hướng và điều khiển",
+    "code": "2651",
+    "createdAt": "2022-07-01T03:50:02.442Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be6efa429428026e804126",
+    "name": "Sản xuất đồng hồ",
+    "code": "2652",
+    "createdAt": "2022-07-01T03:50:18.521Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be6f02429428026e804129",
+    "name": "Sản xuất thiết bị bức xạ, thiết bị điện tử trong y học, điện liệu pháp",
+    "code": "2660",
+    "createdAt": "2022-07-01T03:50:26.859Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be6f0d429428026e80412c",
+    "name": "Sản xuất thiết bị và dụng cụ quang học",
+    "code": "2670",
+    "createdAt": "2022-07-01T03:50:37.419Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be6f1c429428026e80412f",
+    "name": "Sản xuất băng, đĩa từ tính và quang học",
+    "code": "2680",
+    "createdAt": "2022-07-01T03:50:52.636Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be6f27429428026e804133",
+    "name": "Sản xuất mô tơ, máy phát, biến thế điện, thiết bị phân phối và điều khiển điện",
+    "code": "2710",
+    "createdAt": "2022-07-01T03:51:03.239Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be6f31429428026e804136",
+    "name": "Sản xuất pin và ắc quy",
+    "code": "2720",
+    "createdAt": "2022-07-01T03:51:13.991Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be6f38429428026e804139",
+    "name": "Sản xuất dây cáp, sợi cáp quang học",
+    "code": "2731",
+    "createdAt": "2022-07-01T03:51:20.912Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be6f48429428026e80413c",
+    "name": "Sản xuất dây, cáp điện và điện tử khác",
+    "code": "2732",
+    "createdAt": "2022-07-01T03:51:36.543Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be6f4f429428026e80413f",
+    "name": "Sản xuất thiết bị dây dẫn điện các loại",
+    "code": "2733",
+    "createdAt": "2022-07-01T03:51:43.081Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be6f56429428026e804142",
+    "name": "Sản xuất thiết bị điện chiếu sáng",
+    "code": "2740",
+    "createdAt": "2022-07-01T03:51:50.009Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be6f5d429428026e804145",
+    "name": "Sản xuất đồ điện dân dụng",
+    "code": "2750",
+    "createdAt": "2022-07-01T03:51:57.014Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be6f65429428026e804149",
+    "name": "Sản xuất thiết bị điện khác",
+    "code": "2790",
+    "createdAt": "2022-07-01T03:52:05.273Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be6f6e429428026e80414c",
+    "name": "Sản xuất động cơ, tua bin (trừ động cơ máy bay, ô tô, mô tô và xe máy)",
+    "code": "2811",
+    "createdAt": "2022-07-01T03:52:14.354Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be6f78429428026e80414f",
+    "name": "Sản xuất thiết bị sử dụng năng lượng chiết lưu",
+    "code": "2812",
+    "createdAt": "2022-07-01T03:52:24.892Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be6f81429428026e804152",
+    "name": "Sản xuất máy bơm, máy nén, vòi và van khác",
+    "code": "2813",
+    "createdAt": "2022-07-01T03:52:33.448Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be6f88429428026e804155",
+    "name": "Sản xuất bi, bánh răng, hộp số, các bộ phận điều khiển và truyền chuyển động",
+    "code": "2814",
+    "createdAt": "2022-07-01T03:52:40.919Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be6f91429428026e804158",
+    "name": "Sản xuất lò nướng, lò luyện và lò nung",
+    "code": "2815",
+    "createdAt": "2022-07-01T03:52:49.032Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be6f97429428026e80415b",
+    "name": "Sản xuất các thiết bị nâng, hạ và bốc xếp",
+    "code": "2816",
+    "createdAt": "2022-07-01T03:52:55.296Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be6f9e429428026e80415f",
+    "name": "Sản xuất máy móc và thiết bị văn phòng (trừ máy vi tính và thiết bị ngoại vi của máy vi tính)",
+    "code": "2817",
+    "createdAt": "2022-07-01T03:53:02.925Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be6fa5429428026e804162",
+    "name": "Sản xuất dụng cụ cầm tay chạy bằng mô tơ hoặc khí nén",
+    "code": "2818",
+    "createdAt": "2022-07-01T03:53:09.865Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be6fb0429428026e804165",
+    "name": "Sản xuất máy thông dụng khác",
+    "code": "2819",
+    "createdAt": "2022-07-01T03:53:20.588Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be6fb8429428026e804168",
+    "name": "Sản xuất máy nông nghiệp và lâm nghiệp",
+    "code": "2821",
+    "createdAt": "2022-07-01T03:53:28.275Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be6fbf429428026e80416b",
+    "name": "Sản xuất máy công cụ và máy tạo hình kim loại",
+    "code": "2822",
+    "createdAt": "2022-07-01T03:53:35.409Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be6fc7429428026e80416e",
+    "name": "Sản xuất máy luyện kim",
+    "code": "2823",
+    "createdAt": "2022-07-01T03:53:43.379Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be6fcd429428026e804171",
+    "name": "Sản xuất máy khai thác mỏ và xây dựng",
+    "code": "2824",
+    "createdAt": "2022-07-01T03:53:49.977Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be6fd6429428026e804174",
+    "name": "Sản xuất máy chế biến thực phẩm, đồ uống và thuốc lá",
+    "code": "2825",
+    "createdAt": "2022-07-01T03:53:58.227Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [
+      "63186401d44c496cedddd58f"
+    ],
+    "_id": "62be6fdd429428026e804178",
+    "name": "Sản xuất máy cho ngành dệt, may và da",
+    "code": "2826",
+    "createdAt": "2022-07-01T03:54:05.934Z",
+    "updatedAt": "2022-09-07T09:27:29.387Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be6fe5429428026e80417b",
+    "name": "Sản xuất máy chuyên dụng khác",
+    "code": "2829",
+    "createdAt": "2022-07-01T03:54:13.481Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be6ff0429428026e80417e",
+    "name": "Sản xuất ô tô và xe có động cơ khác",
+    "code": "2910",
+    "createdAt": "2022-07-01T03:54:24.871Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be6ffd429428026e804181",
+    "name": "Sản xuất thân xe ô tô và xe có động cơ khác, rơ moóc và bán rơ moóc",
+    "code": "2920",
+    "createdAt": "2022-07-01T03:54:37.196Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [
+      "632003fe534b987b4d95eb3d"
+    ],
+    "_id": "62be7004429428026e804184",
+    "name": "Sản xuất phụ tùng và bộ phận phụ trợ cho xe ô tô và xe có động cơ khác",
+    "code": "2930",
+    "createdAt": "2022-07-01T03:54:44.367Z",
+    "updatedAt": "2022-09-13T04:15:58.523Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be7013429428026e804187",
+    "name": "Đóng tàu và cấu kiện nổi",
+    "code": "3011",
+    "createdAt": "2022-07-01T03:54:59.211Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be701d429428026e80418b",
+    "name": "Đóng thuyền, xuồng thể thao và giải trí",
+    "code": "3012",
+    "createdAt": "2022-07-01T03:55:09.996Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be7025429428026e80418e",
+    "name": "Sản xuất đầu máy xe lửa, xe điện và toa xe",
+    "code": "3020",
+    "createdAt": "2022-07-01T03:55:17.026Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be702c429428026e804191",
+    "name": "Sản xuất máy bay, tàu vũ trụ và máy móc liên quan",
+    "code": "3030",
+    "createdAt": "2022-07-01T03:55:24.104Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be7039429428026e804194",
+    "name": "Sản xuất xe cơ giới chiến đấu dùng trong quân đội",
+    "code": "3040",
+    "createdAt": "2022-07-01T03:55:37.699Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be7044429428026e804197",
+    "name": "Sản xuất mô tô, xe máy",
+    "code": "3091",
+    "createdAt": "2022-07-01T03:55:48.439Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be704b429428026e80419a",
+    "name": "Sản xuất xe đạp và xe cho người khuyết tật",
+    "code": "3092",
+    "createdAt": "2022-07-01T03:55:55.901Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be7052429428026e80419e",
+    "name": "Sản xuất phương tiện và thiết bị vận tải khác chưa được phân vào đâu",
+    "code": "3099",
+    "createdAt": "2022-07-01T03:56:02.768Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be7059429428026e8041a1",
+    "name": "Sản xuất giường, tủ, bàn, ghế",
+    "code": "3100",
+    "createdAt": "2022-07-01T03:56:09.513Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be7061429428026e8041a4",
+    "name": "Sản xuất đồ kim hoàn và chi tiết liên quan",
+    "code": "3211",
+    "createdAt": "2022-07-01T03:56:17.347Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be706e429428026e8041a7",
+    "name": "Sản xuất đồ giả kim hoàn và chi tiết liên quan",
+    "code": "3212",
+    "createdAt": "2022-07-01T03:56:30.693Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be7075429428026e8041aa",
+    "name": "Sản xuất nhạc cụ",
+    "code": "3220",
+    "createdAt": "2022-07-01T03:56:37.918Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be707e429428026e8041ad",
+    "name": "Sản xuất dụng cụ thể dục, thể thao",
+    "code": "3230",
+    "createdAt": "2022-07-01T03:56:46.635Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be7086429428026e8041b0",
+    "name": "Sản xuất đồ chơi, trò chơi",
+    "code": "3240",
+    "createdAt": "2022-07-01T03:56:54.494Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be708d429428026e8041b4",
+    "name": "Sản xuất thiết bị, dụng cụ y tế, nha khoa, chỉnh hình và phục hồi chức năng",
+    "code": "3250",
+    "createdAt": "2022-07-01T03:57:01.680Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be7097429428026e8041b7",
+    "name": "Sản xuất khác chưa được phân vào đâu",
+    "code": "3290",
+    "createdAt": "2022-07-01T03:57:11.292Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be70a2429428026e8041ba",
+    "name": "Sửa chữa các sản phẩm kim loại đúc sẵn",
+    "code": "3311",
+    "createdAt": "2022-07-01T03:57:22.811Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be70bcb41538153bdd191d",
+    "name": "Sửa chữa thiết bị điện tử và quang học",
+    "code": "3313",
+    "createdAt": "2022-07-01T03:57:48.237Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [
+      "632003fe534b987b4d95eb3d"
+    ],
+    "_id": "62be70c3b41538153bdd1920",
+    "name": "Sửa chữa thiết bị điện",
+    "code": "3314",
+    "createdAt": "2022-07-01T03:57:55.295Z",
+    "updatedAt": "2022-09-13T04:15:58.523Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be70c9b41538153bdd1924",
+    "name": "Sửa chữa và bảo dưỡng phương tiện vận tải (trừ ô tô, mô tô, xe máy và xe có động cơ khác)",
+    "code": "3315",
+    "createdAt": "2022-07-01T03:58:01.739Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be70d1b41538153bdd1927",
+    "name": "Sửa chữa thiết bị khác",
+    "code": "3319",
+    "createdAt": "2022-07-01T03:58:09.136Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be70d9b41538153bdd192a",
+    "name": "Lắp đặt máy móc và thiết bị công nghiệp",
+    "code": "3320",
+    "createdAt": "2022-07-01T03:58:17.774Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be70e2b41538153bdd192d",
+    "name": "Sản xuất điện",
+    "code": "3511",
+    "createdAt": "2022-07-01T03:58:26.772Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be70e9b41538153bdd1930",
+    "name": "Truyền tải và phân phối điện",
+    "code": "3512",
+    "createdAt": "2022-07-01T03:58:33.986Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be70f2b41538153bdd1933",
+    "name": "Sản xuất khí đốt, phân phối nhiên liệu khí bằng đường ống",
+    "code": "3520",
+    "createdAt": "2022-07-01T03:58:42.320Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be70fab41538153bdd1936",
+    "name": "Sản xuất, phân phối hơi nước, nước nóng, điều hoà không khí và sản xuất nước đá",
+    "code": "3530",
+    "createdAt": "2022-07-01T03:58:50.157Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be7102b41538153bdd1939",
+    "name": "Khai thác, xử lý và cung cấp nước",
+    "code": "3600",
+    "createdAt": "2022-07-01T03:58:58.068Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be7108b41538153bdd193d",
+    "name": "Thoát nước và xử lý nước thải",
+    "code": "3700",
+    "createdAt": "2022-07-01T03:59:04.272Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be7116b41538153bdd1940",
+    "name": "Thu gom rác thải không độc hại",
+    "code": "3811",
+    "createdAt": "2022-07-01T03:59:18.280Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be711cb41538153bdd1943",
+    "name": "Thu gom rác thải độc hại",
+    "code": "3812",
+    "createdAt": "2022-07-01T03:59:24.923Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be7129b41538153bdd1946",
+    "name": "Xử lý và tiêu hủy rác thải không độc hại",
+    "code": "3821",
+    "createdAt": "2022-07-01T03:59:37.283Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be7134b41538153bdd1949",
+    "name": "Xử lý và tiêu hủy rác thải độc hại",
+    "code": "3822",
+    "createdAt": "2022-07-01T03:59:48.109Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be713eb41538153bdd194c",
+    "name": "Tái chế phế liệu",
+    "code": "3830",
+    "createdAt": "2022-07-01T03:59:58.294Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be7145b41538153bdd1950",
+    "name": "Xử lý ô nhiễm và hoạt động quản lý chất thải khác",
+    "code": "3900",
+    "createdAt": "2022-07-01T04:00:05.987Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be7152b41538153bdd1953",
+    "name": "Xây dựng nhà để ở",
+    "code": "4101",
+    "createdAt": "2022-07-01T04:00:18.134Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be7159b41538153bdd1956",
+    "name": "Xây dựng nhà không để ở",
+    "code": "4102",
+    "createdAt": "2022-07-01T04:00:25.674Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be7160b41538153bdd1959",
+    "name": "Xây dựng công trình đường sắt",
+    "code": "4211",
+    "createdAt": "2022-07-01T04:00:32.769Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be7169b41538153bdd195c",
+    "name": "Xây dựng công trình đường bộ",
+    "code": "4212",
+    "createdAt": "2022-07-01T04:00:41.390Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be7173b41538153bdd195f",
+    "name": "Xây dựng công trình điện",
+    "code": "4221",
+    "createdAt": "2022-07-01T04:00:51.703Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be717ab41538153bdd1962",
+    "name": "Xây dựng công trình cấp, thoát nước",
+    "code": "4222",
+    "createdAt": "2022-07-01T04:00:58.316Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be7188b41538153bdd1966",
+    "name": "Xây dựng công trình viễn thông, thông tin liên lạc",
+    "code": "4223",
+    "createdAt": "2022-07-01T04:01:12.016Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be718fb41538153bdd1969",
+    "name": "Xây dựng công trình công ích khác",
+    "code": "4229",
+    "createdAt": "2022-07-01T04:01:19.258Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be7198b41538153bdd196c",
+    "name": "Xây dựng công trình thủy",
+    "code": "4291",
+    "createdAt": "2022-07-01T04:01:28.627Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be71a1b41538153bdd196f",
+    "name": "Xây dựng công trình khai khoáng",
+    "code": "4292",
+    "createdAt": "2022-07-01T04:01:37.852Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be71a8b41538153bdd1972",
+    "name": "Xây dựng công trình chế biến, chế tạo",
+    "code": "4293",
+    "createdAt": "2022-07-01T04:01:44.240Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be71afb41538153bdd1975",
+    "name": "Xây dựng công trình kỹ thuật dân dụng khác",
+    "code": "4299",
+    "createdAt": "2022-07-01T04:01:51.336Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be71bab41538153bdd1979",
+    "name": "Phá dỡ",
+    "code": "4311",
+    "createdAt": "2022-07-01T04:02:02.452Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be71c8b41538153bdd197c",
+    "name": "Chuẩn bị mặt bằng",
+    "code": "4312",
+    "createdAt": "2022-07-01T04:02:16.662Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [
+      "632003fe534b987b4d95eb3d"
+    ],
+    "_id": "62be71d3b41538153bdd197f",
+    "name": "Lắp đặt hệ thống điện",
+    "code": "4321",
+    "createdAt": "2022-07-01T04:02:27.363Z",
+    "updatedAt": "2022-09-13T04:15:58.523Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be71dab41538153bdd1982",
+    "name": "Lắp đặt hệ thống cấp, thoát nước, hệ thống sưởi và điều hoà không khí",
+    "code": "4322",
+    "createdAt": "2022-07-01T04:02:34.711Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be71e5b41538153bdd1985",
+    "name": "Lắp đặt hệ thống xây dựng khác",
+    "code": "4329",
+    "createdAt": "2022-07-01T04:02:45.203Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [
+      "631864bcd44c496cedddd5a2"
+    ],
+    "_id": "62be71f0b41538153bdd1988",
+    "name": "Hoàn thiện công trình xây dựng",
+    "code": "4330",
+    "createdAt": "2022-07-01T04:02:56.761Z",
+    "updatedAt": "2022-09-07T09:30:36.935Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be71f8b41538153bdd198c",
+    "name": "Hoạt động xây dựng chuyên dụng khác",
+    "code": "4390",
+    "createdAt": "2022-07-01T04:03:04.754Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be71ffb41538153bdd198f",
+    "name": "Bán buôn ô tô và xe có động cơ khác",
+    "code": "4511",
+    "createdAt": "2022-07-01T04:03:11.932Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be7208b41538153bdd1992",
+    "name": "Bán lẻ ô tô con (loại 9 chỗ ngồi trở xuống)",
+    "code": "4512",
+    "createdAt": "2022-07-01T04:03:20.130Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be720fb41538153bdd1995",
+    "name": "Đại lý ô tô và xe có động cơ khác",
+    "code": "4513",
+    "createdAt": "2022-07-01T04:03:27.682Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [
+      "632003fe534b987b4d95eb3d"
+    ],
+    "_id": "62be7218b41538153bdd1998",
+    "name": "Bảo dưỡng, sửa chữa ô tô và xe có động cơ khác",
+    "code": "4520",
+    "createdAt": "2022-07-01T04:03:36.471Z",
+    "updatedAt": "2022-09-13T04:15:58.523Z",
+    "__v": 0
+  },
+  {
+    "category": [
+      "632003fe534b987b4d95eb3d"
+    ],
+    "_id": "62be7225b41538153bdd199b",
+    "name": "Bán phụ tùng và các bộ phận phụ trợ của ô tô và xe có động cơ khác",
+    "code": "4530",
+    "createdAt": "2022-07-01T04:03:49.738Z",
+    "updatedAt": "2022-09-13T04:15:58.523Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be722eb41538153bdd199e",
+    "name": "Bán mô tô, xe máy",
+    "code": "4541",
+    "createdAt": "2022-07-01T04:03:58.789Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be7236b41538153bdd19a2",
+    "name": "Bảo dưỡng và sửa chữa mô tô, xe máy",
+    "code": "4542",
+    "createdAt": "2022-07-01T04:04:06.752Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be723db41538153bdd19a5",
+    "name": "Bán phụ tùng và các bộ phận phụ trợ của mô tô, xe máy",
+    "code": "4543",
+    "createdAt": "2022-07-01T04:04:13.880Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [
+      "63185e08d44c496cedddd4c2"
+    ],
+    "_id": "62be7249b41538153bdd19a8",
+    "name": "Đại lý, môi giới, đấu giá hàng hóa",
+    "code": "4610",
+    "createdAt": "2022-07-01T04:04:25.106Z",
+    "updatedAt": "2022-09-07T09:02:00.967Z",
+    "__v": 0
+  },
+  {
+    "category": [
+      "63200343534b987b4d95eb2b",
+      "6320046d534b987b4d95eb44"
+    ],
+    "_id": "62be7250b41538153bdd19ab",
+    "name": "Bán buôn nông, lâm sản nguyên liệu (trừ gỗ, tre, nứa) và động vật sống",
+    "code": "4620",
+    "createdAt": "2022-07-01T04:04:32.653Z",
+    "updatedAt": "2022-09-13T04:17:49.360Z",
+    "__v": 0
+  },
+  {
+    "category": [
+      "63200343534b987b4d95eb2b",
+      "6320046d534b987b4d95eb44"
+    ],
+    "_id": "62be7257b41538153bdd19ae",
+    "name": "Bán buôn gạo, lúa mỳ, hạt ngũ cốc khác, bột mỳ",
+    "code": "4631",
+    "createdAt": "2022-07-01T04:04:39.984Z",
+    "updatedAt": "2022-09-13T04:17:49.360Z",
+    "__v": 0
+  },
+  {
+    "category": [
+      "63200299534b987b4d95eb1f",
+      "63200343534b987b4d95eb2b",
+      "6320046d534b987b4d95eb44",
+      "6320061d534b987b4d95eb71"
+    ],
+    "_id": "62be725fb41538153bdd19b1",
+    "name": "Bán buôn thực phẩm",
+    "code": "4632",
+    "createdAt": "2022-07-01T04:04:47.023Z",
+    "updatedAt": "2022-09-13T04:25:01.246Z",
+    "__v": 0
+  },
+  {
+    "category": [
+      "63200299534b987b4d95eb1f",
+      "6320046d534b987b4d95eb44",
+      "6320061d534b987b4d95eb71"
+    ],
+    "_id": "62be7266b41538153bdd19b4",
+    "name": "Bán buôn đồ uống",
+    "code": "4633",
+    "createdAt": "2022-07-01T04:04:54.123Z",
+    "updatedAt": "2022-09-13T04:25:01.246Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be726eb41538153bdd19b8",
+    "name": "Bán buôn sản phẩm thuốc lá, thuốc lào",
+    "code": "4634",
+    "createdAt": "2022-07-01T04:05:02.027Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [
+      "631860dcd44c496cedddd522",
+      "63186401d44c496cedddd58f",
+      "6320061d534b987b4d95eb71"
+    ],
+    "_id": "62be7275b41538153bdd19bb",
+    "name": "Bán buôn vải, hàng may mặc, giày dép",
+    "code": "4641",
+    "createdAt": "2022-07-01T04:05:09.233Z",
+    "updatedAt": "2022-09-13T04:25:01.246Z",
+    "__v": 0
+  },
+  {
+    "category": [
+      "631860dcd44c496cedddd522",
+      "631864bcd44c496cedddd5a2",
+      "6320046d534b987b4d95eb44"
+    ],
+    "_id": "62be727fb41538153bdd19be",
+    "name": "Bán buôn đồ dùng khác cho gia đình",
+    "code": "4649",
+    "createdAt": "2022-07-01T04:05:19.333Z",
+    "updatedAt": "2022-09-13T04:17:49.360Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be75a9b41538153bdd19d3",
+    "name": "Bán buôn máy vi tính, thiết bị ngoại vi và phần mềm",
+    "code": "4651",
+    "createdAt": "2022-07-01T04:18:49.876Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be75b1b41538153bdd19d6",
+    "name": "Bán buôn thiết bị và linh kiện điện tử, viễn thông",
+    "code": "4652",
+    "createdAt": "2022-07-01T04:18:57.632Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be75b8b41538153bdd19da",
+    "name": "Bán buôn máy móc, thiết bị và phụ tùng máy nông nghiệp",
+    "code": "4653",
+    "createdAt": "2022-07-01T04:19:04.812Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [
+      "631863abd44c496cedddd584",
+      "6320061d534b987b4d95eb71"
+    ],
+    "_id": "62be75c0b41538153bdd19dd",
+    "name": "Bán buôn máy móc, thiết bị và phụ tùng máy khác",
+    "code": "4659",
+    "createdAt": "2022-07-01T04:19:12.224Z",
+    "updatedAt": "2022-09-13T04:25:01.246Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be75c7b41538153bdd19e0",
+    "name": "Bán buôn nhiên liệu rắn, lỏng, khí và các sản phẩm liên quan",
+    "code": "4661",
+    "createdAt": "2022-07-01T04:19:19.307Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be75cdb41538153bdd19e3",
+    "name": "Bán buôn kim loại và quặng kim loại",
+    "code": "4662",
+    "createdAt": "2022-07-01T04:19:25.599Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [
+      "631864bcd44c496cedddd5a2"
+    ],
+    "_id": "62be75d8b41538153bdd19e6",
+    "name": "Bán buôn vật liệu, thiết bị lắp đặt khác trong xây dựng",
+    "code": "4663",
+    "createdAt": "2022-07-01T04:19:36.294Z",
+    "updatedAt": "2022-09-07T09:30:36.935Z",
+    "__v": 0
+  },
+  {
+    "category": [
+      "631860dcd44c496cedddd522"
+    ],
+    "_id": "62be75e0b41538153bdd19e9",
+    "name": "Bán buôn chuyên doanh khác chưa được phân vào đâu",
+    "code": "4669",
+    "createdAt": "2022-07-01T04:19:44.611Z",
+    "updatedAt": "2022-09-07T09:14:04.410Z",
+    "__v": 0
+  },
+  {
+    "category": [
+      "63185e08d44c496cedddd4c2",
+      "631864bcd44c496cedddd5a2"
+    ],
+    "_id": "62be75e8b41538153bdd19ec",
+    "name": "Bán buôn tổng hợp",
+    "code": "4690",
+    "createdAt": "2022-07-01T04:19:52.945Z",
+    "updatedAt": "2022-09-07T09:30:36.935Z",
+    "__v": 0
+  },
+  {
+    "category": [
+      "63200299534b987b4d95eb1f",
+      "6320046d534b987b4d95eb44"
+    ],
+    "_id": "62be75f3b41538153bdd19f0",
+    "name": "Bán lẻ lương thực, thực phẩm, đồ uống, thuốc lá, thuốc lào chiếm tỷ trọng lớn trong các cửa hàng kinh doanh tổng hợp",
+    "code": "4711",
+    "createdAt": "2022-07-01T04:20:03.313Z",
+    "updatedAt": "2022-09-13T04:17:49.360Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be760bb41538153bdd19f3",
+    "name": "Bán lẻ khác trong các cửa hàng kinh doanh tổng hợp",
+    "code": "4719",
+    "createdAt": "2022-07-01T04:20:27.573Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [
+      "6320046d534b987b4d95eb44"
+    ],
+    "_id": "62be7614b41538153bdd19f6",
+    "name": "Bán lẻ lương thực trong các cửa hàng chuyên doanh",
+    "code": "4721",
+    "createdAt": "2022-07-01T04:20:36.795Z",
+    "updatedAt": "2022-09-13T04:17:49.360Z",
+    "__v": 0
+  },
+  {
+    "category": [
+      "6320046d534b987b4d95eb44"
+    ],
+    "_id": "62be761cb41538153bdd19f9",
+    "name": "Bán lẻ thực phẩm trong các cửa hàng chuyên doanh",
+    "code": "4722",
+    "createdAt": "2022-07-01T04:20:44.701Z",
+    "updatedAt": "2022-09-13T04:17:49.360Z",
+    "__v": 0
+  },
+  {
+    "category": [
+      "6320046d534b987b4d95eb44"
+    ],
+    "_id": "62be7624b41538153bdd19fc",
+    "name": "Bán lẻ đồ uống trong các cửa hàng chuyên doanh",
+    "code": "4723",
+    "createdAt": "2022-07-01T04:20:52.773Z",
+    "updatedAt": "2022-09-13T04:17:49.360Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be762cb41538153bdd1a00",
+    "name": "Bán lẻ sản phẩm thuốc lá, thuốc lào trong các cửa hàng chuyên doanh",
+    "code": "4724",
+    "createdAt": "2022-07-01T04:21:00.529Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be7637b41538153bdd1a03",
+    "name": "Bán lẻ nhiên liệu động cơ trong các cửa hàng chuyên doanh",
+    "code": "4730",
+    "createdAt": "2022-07-01T04:21:11.000Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be763fb41538153bdd1a06",
+    "name": "Bán lẻ máy vi tính, thiết bị ngoại vi, phần mềm và thiết bị viễn thông trong các cửa hàng chuyên doanh",
+    "code": "4741",
+    "createdAt": "2022-07-01T04:21:19.709Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be7648b41538153bdd1a09",
+    "name": "Bán lẻ thiết bị nghe nhìn trong các cửa hàng chuyên doanh",
+    "code": "4742",
+    "createdAt": "2022-07-01T04:21:28.322Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be7653b41538153bdd1a0c",
+    "name": "Bán lẻ vải, len, sợi, chỉ khâu và hàng dệt khác trong các cửa hàng chuyên doanh",
+    "code": "4751",
+    "createdAt": "2022-07-01T04:21:39.352Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [
+      "631864bcd44c496cedddd5a2"
+    ],
+    "_id": "62be765ab41538153bdd1a0f",
+    "name": "Bán lẻ đồ ngũ kim, sơn, kính và thiết bị lắp đặt khác trong xây dựng trong các cửa hàng chuyên doanh",
+    "code": "4752",
+    "createdAt": "2022-07-01T04:21:46.835Z",
+    "updatedAt": "2022-09-07T09:30:36.935Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be7663b41538153bdd1a12",
+    "name": "Bán lẻ thảm, đệm, chăn, màn, rèm, vật liệu phủ tường và sàn trong các cửa hàng chuyên doanh",
+    "code": "4753",
+    "createdAt": "2022-07-01T04:21:55.750Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [
+      "631864bcd44c496cedddd5a2"
+    ],
+    "_id": "62be766bb41538153bdd1a16",
+    "name": "Bán lẻ đồ điện gia dụng, giường, tủ, bàn, ghế và đồ nội thất tương tự, đèn và bộ đèn điện, đồ dùng gia đình khác chưa được phân vào đâu trong các cửa hàng chuyên doanh",
+    "code": "4759",
+    "createdAt": "2022-07-01T04:22:03.408Z",
+    "updatedAt": "2022-09-07T09:30:36.935Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be7674b41538153bdd1a19",
+    "name": "Bán lẻ sách, báo, tạp chí văn phòng phẩm trong các cửa hàng chuyên doanh",
+    "code": "4761",
+    "createdAt": "2022-07-01T04:22:12.566Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be767bb41538153bdd1a1c",
+    "name": "Bán lẻ băng đĩa âm thanh, hình ảnh (kể cả băng, đĩa trắng) trong các cửa hàng chuyên doanh",
+    "code": "4762",
+    "createdAt": "2022-07-01T04:22:19.402Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [
+      "6320061d534b987b4d95eb71"
+    ],
+    "_id": "62be7681b41538153bdd1a1f",
+    "name": "Bán lẻ thiết bị, dụng cụ thể dục, thể thao trong các cửa hàng chuyên doanh",
+    "code": "4763",
+    "createdAt": "2022-07-01T04:22:25.764Z",
+    "updatedAt": "2022-09-13T04:25:01.246Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be7688b41538153bdd1a22",
+    "name": "Bán lẻ trò chơi, đồ chơi trong các cửa hàng chuyên doanh",
+    "code": "4764",
+    "createdAt": "2022-07-01T04:22:32.408Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [
+      "631860dcd44c496cedddd522"
+    ],
+    "_id": "62be7690b41538153bdd1a25",
+    "name": "Bán lẻ hàng may mặc, giày dép, hàng da và giả da trong các cửa hàng chuyên doanh",
+    "code": "4771",
+    "createdAt": "2022-07-01T04:22:40.807Z",
+    "updatedAt": "2022-09-07T09:14:04.410Z",
+    "__v": 0
+  },
+  {
+    "category": [
+      "63200299534b987b4d95eb1f",
+      "63200567534b987b4d95eb57",
+      "6320061d534b987b4d95eb71"
+    ],
+    "_id": "62be7697b41538153bdd1a28",
+    "name": "Bán lẻ thuốc, dụng cụ y tế, mỹ phẩm và vật phẩm vệ sinh trong các cửa hàng chuyên doanh",
+    "code": "4772",
+    "createdAt": "2022-07-01T04:22:47.144Z",
+    "updatedAt": "2022-09-13T04:25:01.246Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be76a4b41538153bdd1a2c",
+    "name": "Bán lẻ hàng hóa khác mới trong các cửa hàng chuyên doanh",
+    "code": "4773",
+    "createdAt": "2022-07-01T04:23:00.693Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be76acb41538153bdd1a2f",
+    "name": "Bán lẻ hàng hóa đã qua sử dụng trong các cửa hàng chuyên doanh",
+    "code": "4774",
+    "createdAt": "2022-07-01T04:23:08.502Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be76b7b41538153bdd1a32",
+    "name": "Bán lẻ lương thực, thực phẩm, đồ uống, thuốc lá, thuốc lào lưu động hoặc tại chợ",
+    "code": "4781",
+    "createdAt": "2022-07-01T04:23:19.660Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be76bfb41538153bdd1a35",
+    "name": "Bán lẻ hàng dệt, may sẵn, giày dép lưu động hoặc tại chợ",
+    "code": "4782",
+    "createdAt": "2022-07-01T04:23:27.072Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be76c6b41538153bdd1a38",
+    "name": "Bán lẻ thiết bị công nghệ thông tin liên lạc lưu động hoặc tại chợ",
+    "code": "4783",
+    "createdAt": "2022-07-01T04:23:34.618Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be76d6b41538153bdd1a3b",
+    "name": "Bán lẻ thiết bị gia đình khác lưu động hoặc tại chợ",
+    "code": "4784",
+    "createdAt": "2022-07-01T04:23:50.599Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be76deb41538153bdd1a3e",
+    "name": "Bán lẻ hàng văn hóa, giải trí lưu động hoặc tại chợ",
+    "code": "4785",
+    "createdAt": "2022-07-01T04:23:58.692Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be76e6b41538153bdd1a42",
+    "name": "Bán lẻ hàng hóa khác lưu động hoặc tại chợ",
+    "code": "4789",
+    "createdAt": "2022-07-01T04:24:06.493Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be76edb41538153bdd1a45",
+    "name": "Bán lẻ theo yêu cầu đặt hàng qua bưu điện hoặc internet",
+    "code": "4791",
+    "createdAt": "2022-07-01T04:24:13.113Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [
+      "631864bcd44c496cedddd5a2"
+    ],
+    "_id": "62be76f3b41538153bdd1a48",
+    "name": "Bán lẻ hình thức khác chưa được phân vào đâu",
+    "code": "4799",
+    "createdAt": "2022-07-01T04:24:19.990Z",
+    "updatedAt": "2022-09-07T09:30:36.935Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be76fbb41538153bdd1a4b",
+    "name": "Vận tải hành khách đường sắt",
+    "code": "4911",
+    "createdAt": "2022-07-01T04:24:27.951Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [
+      "63185cfcd44c496cedddd4a1"
+    ],
+    "_id": "62be7702b41538153bdd1a4e",
+    "name": "Vận tải hàng hóa đường sắt",
+    "code": "4912",
+    "createdAt": "2022-07-01T04:24:34.315Z",
+    "updatedAt": "2022-09-07T08:57:32.046Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be770cb41538153bdd1a51",
+    "name": "Vận tải hành khách bằng xe buýt trong nội thành",
+    "code": "4921",
+    "createdAt": "2022-07-01T04:24:44.382Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be7712b41538153bdd1a54",
+    "name": "Vận tải hành khách bằng xe buýt giữa nội thành và ngoại thành, liên tỉnh",
+    "code": "4922",
+    "createdAt": "2022-07-01T04:24:50.943Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be771ab41538153bdd1a57",
+    "name": "Vận tải hành khách bằng xe buýt loại khác",
+    "code": "4929",
+    "createdAt": "2022-07-01T04:24:58.552Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be7723b41538153bdd1a5b",
+    "name": "Vận tải hành khách đường bộ trong nội thành, ngoại thành (trừ vận tải bằng xe buýt)",
+    "code": "4931",
+    "createdAt": "2022-07-01T04:25:07.678Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [
+      "631862c3d44c496cedddd56d",
+      "632004d8534b987b4d95eb50"
+    ],
+    "_id": "62be772db41538153bdd1a5e",
+    "name": "Vận tải hành khách đường bộ khác",
+    "code": "4932",
+    "createdAt": "2022-07-01T04:25:17.084Z",
+    "updatedAt": "2022-09-13T04:19:36.388Z",
+    "__v": 0
+  },
+  {
+    "category": [
+      "63185cfcd44c496cedddd4a1",
+      "631862c3d44c496cedddd56d",
+      "6320046d534b987b4d95eb44"
+    ],
+    "_id": "62be7733b41538153bdd1a61",
+    "name": "Vận tải hàng hóa bằng đường bộ",
+    "code": "4933",
+    "createdAt": "2022-07-01T04:25:23.987Z",
+    "updatedAt": "2022-09-13T04:17:49.360Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be773cb41538153bdd1a64",
+    "name": "Vận tải đường ống",
+    "code": "4940",
+    "createdAt": "2022-07-01T04:25:32.448Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be7744b41538153bdd1a67",
+    "name": "Vận tải hành khách ven biển và viễn dương",
+    "code": "5011",
+    "createdAt": "2022-07-01T04:25:40.646Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be774bb41538153bdd1a6a",
+    "name": "Vận tải hàng hóa ven biển và viễn dương",
+    "code": "5012",
+    "createdAt": "2022-07-01T04:25:47.527Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be7752b41538153bdd1a6d",
+    "name": "Vận tải hành khách đường thủy nội địa",
+    "code": "5021",
+    "createdAt": "2022-07-01T04:25:54.749Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [
+      "631862c3d44c496cedddd56d"
+    ],
+    "_id": "62be7758b41538153bdd1a71",
+    "name": "Vận tải hàng hóa đường thủy nội địa",
+    "code": "5022",
+    "createdAt": "2022-07-01T04:26:00.456Z",
+    "updatedAt": "2022-09-07T09:22:11.274Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be7762b41538153bdd1a74",
+    "name": "Vận tải hành khách hàng không",
+    "code": "5110",
+    "createdAt": "2022-07-01T04:26:10.872Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be776db41538153bdd1a77",
+    "name": "Vận tải hàng hóa hàng không",
+    "code": "5120",
+    "createdAt": "2022-07-01T04:26:21.052Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [
+      "63185cfcd44c496cedddd4a1",
+      "631862c3d44c496cedddd56d"
+    ],
+    "_id": "62be7776b41538153bdd1a7a",
+    "name": "Kho bãi và lưu giữ hàng hóa",
+    "code": "5210",
+    "createdAt": "2022-07-01T04:26:30.389Z",
+    "updatedAt": "2022-09-07T09:22:11.274Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be777eb41538153bdd1a7d",
+    "name": "Hoạt động dịch vụ hỗ trợ trực tiếp cho vận tải đường sắt",
+    "code": "5221",
+    "createdAt": "2022-07-01T04:26:38.328Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be7784b41538153bdd1a80",
+    "name": "Hoạt động dịch vụ hỗ trợ trực tiếp cho vận tải đường thủy",
+    "code": "5222",
+    "createdAt": "2022-07-01T04:26:44.395Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be778bb41538153bdd1a83",
+    "name": "Hoạt động dịch vụ hỗ trợ trực tiếp cho vận tải hàng không",
+    "code": "5223",
+    "createdAt": "2022-07-01T04:26:51.227Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [
+      "631862c3d44c496cedddd56d"
+    ],
+    "_id": "62be7791b41538153bdd1a86",
+    "name": "Bốc xếp hàng hóa",
+    "code": "5224",
+    "createdAt": "2022-07-01T04:26:57.718Z",
+    "updatedAt": "2022-09-07T09:22:11.274Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be7797b41538153bdd1a8a",
+    "name": "Hoạt động dịch vụ hỗ trợ trực tiếp cho vận tải đường bộ",
+    "code": "5225",
+    "createdAt": "2022-07-01T04:27:03.465Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [
+      "63185cfcd44c496cedddd4a1",
+      "631862c3d44c496cedddd56d"
+    ],
+    "_id": "62be779db41538153bdd1a8d",
+    "name": "Hoạt động dịch vụ hỗ trợ khác liên quan đến vận tải",
+    "code": "5229",
+    "createdAt": "2022-07-01T04:27:09.904Z",
+    "updatedAt": "2022-09-07T09:22:11.274Z",
+    "__v": 0
+  },
+  {
+    "category": [
+      "63185cfcd44c496cedddd4a1"
+    ],
+    "_id": "62be77a5b41538153bdd1a90",
+    "name": "Bưu chính",
+    "code": "5310",
+    "createdAt": "2022-07-01T04:27:17.288Z",
+    "updatedAt": "2022-09-07T08:57:32.046Z",
+    "__v": 0
+  },
+  {
+    "category": [
+      "631862c3d44c496cedddd56d"
+    ],
+    "_id": "62be77afb41538153bdd1a93",
+    "name": "Chuyển phát",
+    "code": "5320",
+    "createdAt": "2022-07-01T04:27:27.921Z",
+    "updatedAt": "2022-09-07T09:22:11.274Z",
+    "__v": 0
+  },
+  {
+    "category": [
+      "63186161d44c496cedddd536",
+      "632004d8534b987b4d95eb50"
+    ],
+    "_id": "62be77bab41538153bdd1a96",
+    "name": "Dịch vụ lưu trú ngắn ngày",
+    "code": "5510",
+    "createdAt": "2022-07-01T04:27:38.882Z",
+    "updatedAt": "2022-09-13T04:19:36.388Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be77c2b41538153bdd1a99",
+    "name": "Cơ sở lưu trú khác",
+    "code": "5590",
+    "createdAt": "2022-07-01T04:27:46.744Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [
+      "63185f06d44c496cedddd4e6",
+      "63186161d44c496cedddd536",
+      "6320046d534b987b4d95eb44",
+      "632004d8534b987b4d95eb50"
+    ],
+    "_id": "62be77c8b41538153bdd1a9c",
+    "name": "Nhà hàng và các dịch vụ ăn uống phục vụ lưu động",
+    "code": "5610",
+    "createdAt": "2022-07-01T04:27:52.961Z",
+    "updatedAt": "2022-09-13T04:19:36.388Z",
+    "__v": 0
+  },
+  {
+    "category": [
+      "63186161d44c496cedddd536",
+      "6320046d534b987b4d95eb44",
+      "632004d8534b987b4d95eb50"
+    ],
+    "_id": "62be77d1b41538153bdd1aa0",
+    "name": "Cung cấp dịch vụ ăn uống theo hợp đồng không thường xuyên với khách hàng",
+    "code": "5621",
+    "createdAt": "2022-07-01T04:28:01.960Z",
+    "updatedAt": "2022-09-13T04:19:36.388Z",
+    "__v": 0
+  },
+  {
+    "category": [
+      "63185f06d44c496cedddd4e6",
+      "6320046d534b987b4d95eb44",
+      "632004d8534b987b4d95eb50"
+    ],
+    "_id": "62be77d9b41538153bdd1aa3",
+    "name": "Dịch vụ ăn uống khác",
+    "code": "5629",
+    "createdAt": "2022-07-01T04:28:09.002Z",
+    "updatedAt": "2022-09-13T04:19:36.388Z",
+    "__v": 0
+  },
+  {
+    "category": [
+      "63185f06d44c496cedddd4e6",
+      "63186161d44c496cedddd536",
+      "6320046d534b987b4d95eb44",
+      "632004d8534b987b4d95eb50"
+    ],
+    "_id": "62be77e2b41538153bdd1aa6",
+    "name": "Dịch vụ phục vụ đồ uống",
+    "code": "5630",
+    "createdAt": "2022-07-01T04:28:18.080Z",
+    "updatedAt": "2022-09-13T04:19:36.388Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be77e9b41538153bdd1aa9",
+    "name": "Xuất bản sách",
+    "code": "5811",
+    "createdAt": "2022-07-01T04:28:25.326Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be7801b41538153bdd1aac",
+    "name": "Xuất bản các danh mục chỉ dẫn và địa chỉ",
+    "code": "5812",
+    "createdAt": "2022-07-01T04:28:49.961Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be7809b41538153bdd1aaf",
+    "name": "Xuất bản báo, tạp chí và các ấn phẩm định kỳ",
+    "code": "5813",
+    "createdAt": "2022-07-01T04:28:57.278Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be780fb41538153bdd1ab3",
+    "name": "Hoạt động xuất bản khác",
+    "code": "5819",
+    "createdAt": "2022-07-01T04:29:03.742Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [
+      "63185c7ed44c496cedddd495",
+      "63185d3bd44c496cedddd4ac"
+    ],
+    "_id": "62be7817b41538153bdd1ab6",
+    "name": "Xuất bản phần mềm",
+    "code": "5820",
+    "createdAt": "2022-07-01T04:29:11.293Z",
+    "updatedAt": "2022-09-07T08:58:35.821Z",
+    "__v": 0
+  },
+  {
+    "category": [
+      "63185d3bd44c496cedddd4ac",
+      "632002d2534b987b4d95eb24"
+    ],
+    "_id": "62be7821b41538153bdd1ab9",
+    "name": "Hoạt động sản xuất phim điện ảnh, phim video và chương trình truyền hình",
+    "code": "5911",
+    "createdAt": "2022-07-01T04:29:21.982Z",
+    "updatedAt": "2022-09-13T04:10:58.602Z",
+    "__v": 0
+  },
+  {
+    "category": [
+      "632002d2534b987b4d95eb24"
+    ],
+    "_id": "62be7828b41538153bdd1abc",
+    "name": "Hoạt động hậu kỳ",
+    "code": "5912",
+    "createdAt": "2022-07-01T04:29:28.179Z",
+    "updatedAt": "2022-09-13T04:10:58.602Z",
+    "__v": 0
+  },
+  {
+    "category": [
+      "632002d2534b987b4d95eb24"
+    ],
+    "_id": "62be7830b41538153bdd1abf",
+    "name": "Hoạt động phát hành phim điện ảnh, phim video và chương trình truyền hình",
+    "code": "5913",
+    "createdAt": "2022-07-01T04:29:36.419Z",
+    "updatedAt": "2022-09-13T04:10:58.602Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be7840b41538153bdd1ac2",
+    "name": "Hoạt động chiếu phim",
+    "code": "5914",
+    "createdAt": "2022-07-01T04:29:52.580Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [
+      "632002d2534b987b4d95eb24"
+    ],
+    "_id": "62be7847b41538153bdd1ac5",
+    "name": "Hoạt động ghi âm và xuất bản âm nhạc",
+    "code": "5920",
+    "createdAt": "2022-07-01T04:29:59.345Z",
+    "updatedAt": "2022-09-13T04:10:58.602Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be784eb41538153bdd1ac9",
+    "name": "Hoạt động phát thanh",
+    "code": "6010",
+    "createdAt": "2022-07-01T04:30:06.556Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be7855b41538153bdd1acc",
+    "name": "Hoạt động truyền hình",
+    "code": "6021",
+    "createdAt": "2022-07-01T04:30:13.682Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be785bb41538153bdd1acf",
+    "name": "Chương trình cáp, vệ tinh và các chương trình thuê bao khác",
+    "code": "6022",
+    "createdAt": "2022-07-01T04:30:19.918Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be7864b41538153bdd1ad2",
+    "name": "Hoạt động viễn thông có dây",
+    "code": "6110",
+    "createdAt": "2022-07-01T04:30:28.161Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be786eb41538153bdd1ad5",
+    "name": "Hoạt động viễn thông không dây",
+    "code": "6120",
+    "createdAt": "2022-07-01T04:30:38.717Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be7876b41538153bdd1ad8",
+    "name": "Hoạt động viễn thông vệ tinh",
+    "code": "6130",
+    "createdAt": "2022-07-01T04:30:46.369Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be787cb41538153bdd1adb",
+    "name": "Hoạt động viễn thông khác",
+    "code": "6190",
+    "createdAt": "2022-07-01T04:30:52.889Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [
+      "63185c7ed44c496cedddd495"
+    ],
+    "_id": "62be788bb41538153bdd1adf",
+    "name": "Lập trình máy vi tính",
+    "code": "6201",
+    "createdAt": "2022-07-01T04:31:07.201Z",
+    "updatedAt": "2022-09-07T08:55:26.828Z",
+    "__v": 0
+  },
+  {
+    "category": [
+      "63185c7ed44c496cedddd495"
+    ],
+    "_id": "62be7896b41538153bdd1ae2",
+    "name": "Tư vấn máy vi tính và quản trị hệ thống máy vi tính",
+    "code": "6202",
+    "createdAt": "2022-07-01T04:31:18.365Z",
+    "updatedAt": "2022-09-07T08:55:26.828Z",
+    "__v": 0
+  },
+  {
+    "category": [
+      "63185c7ed44c496cedddd495"
+    ],
+    "_id": "62be78a0b41538153bdd1ae5",
+    "name": "Hoạt động dịch vụ công nghệ thông tin và dịch vụ khác liên quan đến máy vi tính",
+    "code": "6209",
+    "createdAt": "2022-07-01T04:31:28.572Z",
+    "updatedAt": "2022-09-07T08:55:26.828Z",
+    "__v": 0
+  },
+  {
+    "category": [
+      "63185c7ed44c496cedddd495",
+      "63185d3bd44c496cedddd4ac",
+      "63186312d44c496cedddd573"
+    ],
+    "_id": "62be78abb41538153bdd1ae8",
+    "name": "Xử lý dữ liệu, cho thuê và các hoạt động liên quan",
+    "code": "6311",
+    "createdAt": "2022-07-01T04:31:39.681Z",
+    "updatedAt": "2022-09-07T09:23:30.411Z",
+    "__v": 0
+  },
+  {
+    "category": [
+      "63185c7ed44c496cedddd495",
+      "63185e08d44c496cedddd4c2"
+    ],
+    "_id": "62be78b4b41538153bdd1aeb",
+    "name": "Cổng thông tin",
+    "code": "6312",
+    "createdAt": "2022-07-01T04:31:48.209Z",
+    "updatedAt": "2022-09-07T09:02:00.967Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be78beb41538153bdd1aee",
+    "name": "Hoạt động thông tấn",
+    "code": "6391",
+    "createdAt": "2022-07-01T04:31:58.777Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be78c9b41538153bdd1af2",
+    "name": "Dịch vụ thông tin khác chưa được phân vào đâu",
+    "code": "6399",
+    "createdAt": "2022-07-01T04:32:09.128Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be78d3b41538153bdd1af5",
+    "name": "Hoạt động ngân hàng trung ương",
+    "code": "6411",
+    "createdAt": "2022-07-01T04:32:19.491Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be78d8b41538153bdd1af8",
+    "name": "Hoạt động trung gian tiền tệ khác",
+    "code": "6419",
+    "createdAt": "2022-07-01T04:32:24.188Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be78dfb41538153bdd1afb",
+    "name": "Hoạt động công ty nắm giữ tài sản",
+    "code": "6420",
+    "createdAt": "2022-07-01T04:32:31.716Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be78e7b41538153bdd1afe",
+    "name": "Hoạt động quỹ tín thác, các quỹ và các tổ chức tài chính khác",
+    "code": "6430",
+    "createdAt": "2022-07-01T04:32:39.784Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be78efb41538153bdd1b01",
+    "name": "Hoạt động cho thuê tài chính",
+    "code": "6491",
+    "createdAt": "2022-07-01T04:32:47.396Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be78f7b41538153bdd1b04",
+    "name": "Hoạt động cấp tín dụng khác",
+    "code": "6492",
+    "createdAt": "2022-07-01T04:32:55.865Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be7904b41538153bdd1b08",
+    "name": "Hoạt động dịch vụ tài chính khác chưa được phân vào đâu (trừ bảo hiểm và bảo hiểm xã hội)",
+    "code": "6499",
+    "createdAt": "2022-07-01T04:33:08.325Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be790db41538153bdd1b0b",
+    "name": "Bảo hiểm nhân thọ",
+    "code": "6511",
+    "createdAt": "2022-07-01T04:33:17.042Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be7914b41538153bdd1b0e",
+    "name": "Bảo hiểm phi nhân thọ",
+    "code": "6512",
+    "createdAt": "2022-07-01T04:33:24.103Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be791bb41538153bdd1b11",
+    "name": "Bảo hiểm sức khỏe",
+    "code": "6513",
+    "createdAt": "2022-07-01T04:33:31.354Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be7923b41538153bdd1b14",
+    "name": "Tái bảo hiểm",
+    "code": "6520",
+    "createdAt": "2022-07-01T04:33:39.095Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be7929b41538153bdd1b17",
+    "name": "Bảo hiểm xã hội",
+    "code": "6530",
+    "createdAt": "2022-07-01T04:33:45.598Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be7934b41538153bdd1b1a",
+    "name": "Quản lý thị trường tài chính",
+    "code": "6611",
+    "createdAt": "2022-07-01T04:33:56.530Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be793ab41538153bdd1b1e",
+    "name": "Môi giới hợp đồng hàng hóa và chứng khoán",
+    "code": "6612",
+    "createdAt": "2022-07-01T04:34:02.511Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [
+      "63186312d44c496cedddd573"
+    ],
+    "_id": "62be7940b41538153bdd1b21",
+    "name": "Hoạt động hỗ trợ dịch vụ tài chính chưa được phân vào đâu",
+    "code": "6619",
+    "createdAt": "2022-07-01T04:34:08.748Z",
+    "updatedAt": "2022-09-07T09:23:30.411Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be7947b41538153bdd1b24",
+    "name": "Đánh giá rủi ro và thiệt hại",
+    "code": "6621",
+    "createdAt": "2022-07-01T04:34:15.057Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be794fb41538153bdd1b27",
+    "name": "Hoạt động của đại lý và môi giới bảo hiểm",
+    "code": "6622",
+    "createdAt": "2022-07-01T04:34:23.606Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be7956b41538153bdd1b2a",
+    "name": "Hoạt động hỗ trợ khác cho bảo hiểm và bảo hiểm xã hội",
+    "code": "6629",
+    "createdAt": "2022-07-01T04:34:30.457Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be795db41538153bdd1b2d",
+    "name": "Hoạt động quản lý quỹ",
+    "code": "6630",
+    "createdAt": "2022-07-01T04:34:37.203Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [
+      "63185cbbd44c496cedddd49b"
+    ],
+    "_id": "62be7964b41538153bdd1b30",
+    "name": "Kinh doanh bất động sản, quyền sử dụng đất thuộc chủ sở hữu, chủ sử dụng hoặc đi thuê",
+    "code": "6810",
+    "createdAt": "2022-07-01T04:34:44.117Z",
+    "updatedAt": "2022-09-07T08:56:27.933Z",
+    "__v": 0
+  },
+  {
+    "category": [
+      "63185cbbd44c496cedddd49b"
+    ],
+    "_id": "62be796bb41538153bdd1b33",
+    "name": "Tư vấn, môi giới, đấu giá bất động sản, đấu giá quyền sử dụng đất",
+    "code": "6820",
+    "createdAt": "2022-07-01T04:34:51.773Z",
+    "updatedAt": "2022-09-07T08:56:27.933Z",
+    "__v": 0
+  },
+  {
+    "category": [
+      "6320035c534b987b4d95eb31"
+    ],
+    "_id": "62be7974b41538153bdd1b36",
+    "name": "Hoạt động pháp luật",
+    "code": "6910",
+    "createdAt": "2022-07-01T04:35:00.575Z",
+    "updatedAt": "2022-09-13T04:13:17.049Z",
+    "__v": 0
+  },
+  {
+    "category": [
+      "6320035c534b987b4d95eb31"
+    ],
+    "_id": "62be797cb41538153bdd1b3a",
+    "name": "Hoạt động liên quan đến kế toán, kiểm toán và tư vấn về thuế",
+    "code": "6920",
+    "createdAt": "2022-07-01T04:35:08.370Z",
+    "updatedAt": "2022-09-13T04:13:17.049Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be7985b41538153bdd1b3d",
+    "name": "Hoạt động của trụ sở văn phòng",
+    "code": "7010",
+    "createdAt": "2022-07-01T04:35:17.129Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [
+      "63185cbbd44c496cedddd49b",
+      "63186312d44c496cedddd573"
+    ],
+    "_id": "62be798fb41538153bdd1b40",
+    "name": "Hoạt động tư vấn quản lý",
+    "code": "7020",
+    "createdAt": "2022-07-01T04:35:27.237Z",
+    "updatedAt": "2022-09-07T09:23:30.411Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be7995b41538153bdd1b43",
+    "name": "Nghiên cứu khoa học và phát triển công nghệ trong lĩnh vực khoa học tự nhiên",
+    "code": "7211",
+    "createdAt": "2022-07-01T04:35:33.970Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [
+      "632003fe534b987b4d95eb3d"
+    ],
+    "_id": "62be799db41538153bdd1b46",
+    "name": "Nghiên cứu khoa học và phát triển công nghệ trong lĩnh vực khoa học kỹ thuật và công nghệ",
+    "code": "7212",
+    "createdAt": "2022-07-01T04:35:41.231Z",
+    "updatedAt": "2022-09-13T04:15:58.523Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be79a4b41538153bdd1b49",
+    "name": "Nghiên cứu khoa học và phát triển công nghệ trong lĩnh vực khoa học y, dược",
+    "code": "7213",
+    "createdAt": "2022-07-01T04:35:48.127Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be79abb41538153bdd1b4c",
+    "name": "Nghiên cứu khoa học và phát triển công nghệ trong lĩnh vực khoa học nông nghiệp",
+    "code": "7214",
+    "createdAt": "2022-07-01T04:35:55.247Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be79b2b41538153bdd1b50",
+    "name": "Nghiên cứu khoa học và phát triển công nghệ trong lĩnh vực khoa học xã hội",
+    "code": "7221",
+    "createdAt": "2022-07-01T04:36:02.698Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be79c4b41538153bdd1b53",
+    "name": "Nghiên cứu khoa học và phát triển công nghệ trong lĩnh vực khoa học nhân văn",
+    "code": "7222",
+    "createdAt": "2022-07-01T04:36:21.000Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [
+      "63185e08d44c496cedddd4c2",
+      "63185e71d44c496cedddd4ce",
+      "632002d2534b987b4d95eb24",
+      "6320048a534b987b4d95eb4a"
+    ],
+    "_id": "62be79ccb41538153bdd1b56",
+    "name": "Quảng cáo",
+    "code": "7310",
+    "createdAt": "2022-07-01T04:36:28.567Z",
+    "updatedAt": "2022-09-13T04:18:18.899Z",
+    "__v": 0
+  },
+  {
+    "category": [
+      "6320048a534b987b4d95eb4a"
+    ],
+    "_id": "62be79d4b41538153bdd1b59",
+    "name": "Nghiên cứu thị trường và thăm dò dư luận",
+    "code": "7320",
+    "createdAt": "2022-07-01T04:36:36.201Z",
+    "updatedAt": "2022-09-13T04:18:18.899Z",
+    "__v": 0
+  },
+  {
+    "category": [
+      "63185e71d44c496cedddd4ce",
+      "63186113d44c496cedddd528",
+      "631864bcd44c496cedddd5a2",
+      "631ffc85534b987b4d95eab5",
+      "6320048a534b987b4d95eb4a"
+    ],
+    "_id": "62be79dfb41538153bdd1b5c",
+    "name": "Hoạt động thiết kế chuyên dụng",
+    "code": "7410",
+    "createdAt": "2022-07-01T04:36:47.598Z",
+    "updatedAt": "2022-09-13T04:18:18.899Z",
+    "__v": 0
+  },
+  {
+    "category": [
+      "63186113d44c496cedddd528",
+      "63186243d44c496cedddd557",
+      "632002d2534b987b4d95eb24"
+    ],
+    "_id": "62be79e7b41538153bdd1b5f",
+    "name": "Hoạt động nhiếp ảnh",
+    "code": "7420",
+    "createdAt": "2022-07-01T04:36:55.188Z",
+    "updatedAt": "2022-09-13T04:10:58.602Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be79efb41538153bdd1b63",
+    "name": "Hoạt động chuyên môn, khoa học và công nghệ khác chưa được phân vào đâu",
+    "code": "7490",
+    "createdAt": "2022-07-01T04:37:03.761Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be79f8b41538153bdd1b66",
+    "name": "Hoạt động thú y",
+    "code": "7500",
+    "createdAt": "2022-07-01T04:37:12.537Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be79ffb41538153bdd1b69",
+    "name": "Cho thuê xe có động cơ",
+    "code": "7710",
+    "createdAt": "2022-07-01T04:37:19.204Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [
+      "6320061d534b987b4d95eb71"
+    ],
+    "_id": "62be7a63b41538153bdd1b72",
+    "name": "Cho thuê thiết bị thể thao, vui chơi giải trí",
+    "code": "7721",
+    "createdAt": "2022-07-01T04:38:59.997Z",
+    "updatedAt": "2022-09-13T04:25:01.246Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be7a6ab41538153bdd1b76",
+    "name": "Cho thuê băng, đĩa video",
+    "code": "7722",
+    "createdAt": "2022-07-01T04:39:06.611Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be7a73b41538153bdd1b79",
+    "name": "Cho thuê đồ dùng cá nhân và gia đình khác",
+    "code": "7729",
+    "createdAt": "2022-07-01T04:39:15.229Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be7a7ab41538153bdd1b7c",
+    "name": "Cho thuê máy móc, thiết bị và đồ dùng hữu hình khác không kèm người điều khiển",
+    "code": "7730",
+    "createdAt": "2022-07-01T04:39:22.455Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be7a81b41538153bdd1b7f",
+    "name": "Cho thuê tài sản vô hình phi tài chính",
+    "code": "7740",
+    "createdAt": "2022-07-01T04:39:29.942Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be7a89b41538153bdd1b82",
+    "name": "Hoạt động của các trung tâm, đại lý tư vấn, giới thiệu và môi giới lao động, việc làm",
+    "code": "7810",
+    "createdAt": "2022-07-01T04:39:37.094Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be7a8fb41538153bdd1b85",
+    "name": "Cung ứng lao động tạm thời",
+    "code": "7820",
+    "createdAt": "2022-07-01T04:39:43.363Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be7a95b41538153bdd1b88",
+    "name": "Cung ứng và quản lý nguồn lao động",
+    "code": "7830",
+    "createdAt": "2022-07-01T04:39:49.985Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [
+      "63186161d44c496cedddd536",
+      "632004d8534b987b4d95eb50"
+    ],
+    "_id": "62be7a9fb41538153bdd1b8b",
+    "name": "Điều hành tua du lịch",
+    "code": "7912",
+    "createdAt": "2022-07-01T04:39:59.819Z",
+    "updatedAt": "2022-09-13T04:19:36.388Z",
+    "__v": 0
+  },
+  {
+    "category": [
+      "63186161d44c496cedddd536",
+      "632004d8534b987b4d95eb50"
+    ],
+    "_id": "62be7aa7b41538153bdd1b8f",
+    "name": "Dịch vụ đặt chỗ và các dịch vụ hỗ trợ liên quan đến quảng bá và tổ chức tua du lịch",
+    "code": "7990",
+    "createdAt": "2022-07-01T04:40:07.543Z",
+    "updatedAt": "2022-09-13T04:19:36.388Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be7aafb41538153bdd1b92",
+    "name": "Hoạt động bảo vệ tư nhân",
+    "code": "8010",
+    "createdAt": "2022-07-01T04:40:15.266Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be7abbb41538153bdd1b95",
+    "name": "Dịch vụ hệ thống bảo đảm an toàn",
+    "code": "8020",
+    "createdAt": "2022-07-01T04:40:27.438Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be7ac3b41538153bdd1b98",
+    "name": "Dịch vụ điều tra",
+    "code": "8030",
+    "createdAt": "2022-07-01T04:40:35.242Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be7acab41538153bdd1b9b",
+    "name": "Dịch vụ hỗ trợ tổng hợp",
+    "code": "8110",
+    "createdAt": "2022-07-01T04:40:42.191Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be7ad1b41538153bdd1b9e",
+    "name": "Vệ sinh chung nhà cửa",
+    "code": "8121",
+    "createdAt": "2022-07-01T04:40:49.109Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be7ad8b41538153bdd1ba1",
+    "name": "Vệ sinh công nghiệp và các công trình chuyên biệt",
+    "code": "8129",
+    "createdAt": "2022-07-01T04:40:56.387Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be7ae0b41538153bdd1ba5",
+    "name": "Dịch vụ chăm sóc và duy trì cảnh quan",
+    "code": "8130",
+    "createdAt": "2022-07-01T04:41:04.539Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [
+      "63186312d44c496cedddd573"
+    ],
+    "_id": "62be7ae8b41538153bdd1ba8",
+    "name": "Dịch vụ hành chính văn phòng tổng hợp",
+    "code": "8211",
+    "createdAt": "2022-07-01T04:41:12.106Z",
+    "updatedAt": "2022-09-07T09:23:30.411Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be7aefb41538153bdd1bab",
+    "name": "Photo, chuẩn bị tài liệu và các hoạt động hỗ trợ văn phòng đặc biệt khác",
+    "code": "8219",
+    "createdAt": "2022-07-01T04:41:19.395Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be7af7b41538153bdd1bae",
+    "name": "Hoạt động dịch vụ liên quan đến các cuộc gọi",
+    "code": "8220",
+    "createdAt": "2022-07-01T04:41:27.169Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [
+      "63186243d44c496cedddd557",
+      "63186312d44c496cedddd573",
+      "632004d8534b987b4d95eb50"
+    ],
+    "_id": "62be7affb41538153bdd1bb1",
+    "name": "Tổ chức giới thiệu và xúc tiến thương mại",
+    "code": "8230",
+    "createdAt": "2022-07-01T04:41:35.652Z",
+    "updatedAt": "2022-09-13T04:19:36.388Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be7b0ab41538153bdd1bb4",
+    "name": "Hoạt động dịch vụ hỗ trợ thanh toán, tín dụng",
+    "code": "8291",
+    "createdAt": "2022-07-01T04:41:46.945Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [
+      "6320046d534b987b4d95eb44"
+    ],
+    "_id": "62be7b11b41538153bdd1bb7",
+    "name": "Dịch vụ đóng gói",
+    "code": "8292",
+    "createdAt": "2022-07-01T04:41:53.759Z",
+    "updatedAt": "2022-09-13T04:17:49.360Z",
+    "__v": 0
+  },
+  {
+    "category": [
+      "63185e08d44c496cedddd4c2"
+    ],
+    "_id": "62be7b18b41538153bdd1bbb",
+    "name": "Hoạt động dịch vụ hỗ trợ kinh doanh khác còn lại chưa được phân vào đâu",
+    "code": "8299",
+    "createdAt": "2022-07-01T04:42:00.536Z",
+    "updatedAt": "2022-09-07T09:02:00.967Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be7b1fb41538153bdd1bbe",
+    "name": "Hoạt động của Đảng cộng sản, tổ chức chính trị - xã hội, hoạt động quản lý nhà nước nói chung và kinh tế tổng hợp",
+    "code": "8411",
+    "createdAt": "2022-07-01T04:42:07.052Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be7b25b41538153bdd1bc1",
+    "name": "Hoạt động quản lý nhà nước trong các lĩnh vực y tế, giáo dục, văn hóa và các dịch vụ xã hội khác (trừ bảo đảm xã hội bắt buộc)",
+    "code": "8412",
+    "createdAt": "2022-07-01T04:42:13.521Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be7b2cb41538153bdd1bc4",
+    "name": "Hoạt động quản lý nhà nước trong các lĩnh vực kinh tế chuyên ngành",
+    "code": "8413",
+    "createdAt": "2022-07-01T04:42:20.472Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be7b37b41538153bdd1bc7",
+    "name": "Hoạt động đối ngoại",
+    "code": "8421",
+    "createdAt": "2022-07-01T04:42:31.715Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be7b44b41538153bdd1bca",
+    "name": "Hoạt động quốc phòng",
+    "code": "8422",
+    "createdAt": "2022-07-01T04:42:44.067Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be7b4fb41538153bdd1bcd",
+    "name": "Hoạt động an ninh, trật tự an toàn xã hội",
+    "code": "8423",
+    "createdAt": "2022-07-01T04:42:55.122Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be7b56b41538153bdd1bd1",
+    "name": "Hoạt động bảo đảm xã hội bắt buộc",
+    "code": "8430",
+    "createdAt": "2022-07-01T04:43:02.701Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [
+      "631863dbd44c496cedddd589"
+    ],
+    "_id": "62be7b60b41538153bdd1bd4",
+    "name": "Giáo dục nhà trẻ",
+    "code": "8511",
+    "createdAt": "2022-07-01T04:43:12.216Z",
+    "updatedAt": "2022-09-07T09:26:51.551Z",
+    "__v": 0
+  },
+  {
+    "category": [
+      "631863dbd44c496cedddd589"
+    ],
+    "_id": "62be7b66b41538153bdd1bd7",
+    "name": "Giáo dục mẫu giáo",
+    "code": "8512",
+    "createdAt": "2022-07-01T04:43:18.821Z",
+    "updatedAt": "2022-09-07T09:26:51.551Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be7b6eb41538153bdd1bda",
+    "name": "Giáo dục tiểu học",
+    "code": "8521",
+    "createdAt": "2022-07-01T04:43:26.645Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be7b77b41538153bdd1bdd",
+    "name": "Giáo dục trung học cơ sở",
+    "code": "8522",
+    "createdAt": "2022-07-01T04:43:35.012Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be7b7db41538153bdd1be0",
+    "name": "Giáo dục trung học phổ thông",
+    "code": "8523",
+    "createdAt": "2022-07-01T04:43:41.621Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be7b86b41538153bdd1be3",
+    "name": "Đào tạo sơ cấp",
+    "code": "8531",
+    "createdAt": "2022-07-01T04:43:50.248Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be7b8fb41538153bdd1be6",
+    "name": "Đào tạo trung cấp",
+    "code": "8532",
+    "createdAt": "2022-07-01T04:43:59.197Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [
+      "63200238534b987b4d95eb18"
+    ],
+    "_id": "62be7b9ab41538153bdd1bea",
+    "name": "Đào tạo cao đẳng",
+    "code": "8533",
+    "createdAt": "2022-07-01T04:44:10.093Z",
+    "updatedAt": "2022-09-13T04:08:24.497Z",
+    "__v": 0
+  },
+  {
+    "category": [
+      "63200238534b987b4d95eb18"
+    ],
+    "_id": "62be7ba1b41538153bdd1bed",
+    "name": "Đào tạo đại học",
+    "code": "8541",
+    "createdAt": "2022-07-01T04:44:17.797Z",
+    "updatedAt": "2022-09-13T04:08:24.497Z",
+    "__v": 0
+  },
+  {
+    "category": [
+      "63200238534b987b4d95eb18"
+    ],
+    "_id": "62be7babb41538153bdd1bf0",
+    "name": "Đào tạo thạc sỹ",
+    "code": "8542",
+    "createdAt": "2022-07-01T04:44:27.264Z",
+    "updatedAt": "2022-09-13T04:08:24.497Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be7bb4b41538153bdd1bf3",
+    "name": "Đào tạo tiến sỹ",
+    "code": "8543",
+    "createdAt": "2022-07-01T04:44:36.756Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be7bbeb41538153bdd1bf6",
+    "name": "Giáo dục thể thao và giải trí",
+    "code": "8551",
+    "createdAt": "2022-07-01T04:44:46.318Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [
+      "631863dbd44c496cedddd589"
+    ],
+    "_id": "62be7bc5b41538153bdd1bf9",
+    "name": "Giáo dục văn hóa nghệ thuật",
+    "code": "8552",
+    "createdAt": "2022-07-01T04:44:53.067Z",
+    "updatedAt": "2022-09-07T09:26:51.551Z",
+    "__v": 0
+  },
+  {
+    "category": [
+      "631863dbd44c496cedddd589",
+      "63200238534b987b4d95eb18"
+    ],
+    "_id": "62be7bd1b41538153bdd1bfd",
+    "name": "Giáo dục khác chưa được phân vào đâu",
+    "code": "8559",
+    "createdAt": "2022-07-01T04:45:05.774Z",
+    "updatedAt": "2022-09-13T04:08:24.497Z",
+    "__v": 0
+  },
+  {
+    "category": [
+      "63200238534b987b4d95eb18"
+    ],
+    "_id": "62be7bdab41538153bdd1c00",
+    "name": "Dịch vụ hỗ trợ giáo dục",
+    "code": "8560",
+    "createdAt": "2022-07-01T04:45:14.075Z",
+    "updatedAt": "2022-09-13T04:08:24.497Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be7be8b41538153bdd1c03",
+    "name": "Hoạt động của các bệnh viện, trạm y tế",
+    "code": "8610",
+    "createdAt": "2022-07-01T04:45:28.386Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [
+      "63200299534b987b4d95eb1f"
+    ],
+    "_id": "62be7befb41538153bdd1c06",
+    "name": "Hoạt động y tế dự phòng",
+    "code": "8691",
+    "createdAt": "2022-07-01T04:45:35.909Z",
+    "updatedAt": "2022-09-13T04:10:02.052Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be7bf8b41538153bdd1c09",
+    "name": "Hoạt động của hệ thống cơ sở chỉnh hình, phục hồi chức năng",
+    "code": "8692",
+    "createdAt": "2022-07-01T04:45:44.111Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [
+      "63200299534b987b4d95eb1f",
+      "63200567534b987b4d95eb57"
+    ],
+    "_id": "62be7c01b41538153bdd1c0c",
+    "name": "Hoạt động y tế khác chưa được phân vào đâu",
+    "code": "8699",
+    "createdAt": "2022-07-01T04:45:53.990Z",
+    "updatedAt": "2022-09-13T04:21:59.856Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be7c10b41538153bdd1c10",
+    "name": "Hoạt động của các cơ sở nuôi dưỡng, điều dưỡng",
+    "code": "8710",
+    "createdAt": "2022-07-01T04:46:08.908Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be7c21b41538153bdd1c13",
+    "name": "Hoạt động chăm sóc sức khoẻ người bị thiểu năng, tâm thần và người nghiện",
+    "code": "8720",
+    "createdAt": "2022-07-01T04:46:25.966Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be7c2ab41538153bdd1c16",
+    "name": "Hoạt động chăm sóc sức khoẻ người có công, người già và người khuyết tật không có khả năng tự chăm sóc",
+    "code": "8730",
+    "createdAt": "2022-07-01T04:46:34.411Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be7c33b41538153bdd1c19",
+    "name": "Hoạt động chăm sóc tập trung khác",
+    "code": "8790",
+    "createdAt": "2022-07-01T04:46:43.035Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be7c3bb41538153bdd1c1c",
+    "name": "Hoạt động trợ giúp xã hội không tập trung đối với người có công, thương bệnh binh, người già và người khuyết tật",
+    "code": "8810",
+    "createdAt": "2022-07-01T04:46:51.865Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be7c45b41538153bdd1c20",
+    "name": "Hoạt động trợ giúp xã hội không tập trung khác",
+    "code": "8890",
+    "createdAt": "2022-07-01T04:47:01.248Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [
+      "632002d2534b987b4d95eb24"
+    ],
+    "_id": "62be7c4eb41538153bdd1c23",
+    "name": "Hoạt động sáng tác, nghệ thuật và giải trí",
+    "code": "9000",
+    "createdAt": "2022-07-01T04:47:10.171Z",
+    "updatedAt": "2022-09-13T04:10:58.602Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be7c55b41538153bdd1c26",
+    "name": "Hoạt động thư viện và lưu trữ",
+    "code": "9101",
+    "createdAt": "2022-07-01T04:47:17.793Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be7c5cb41538153bdd1c29",
+    "name": "Hoạt động bảo tồn, bảo tàng",
+    "code": "9102",
+    "createdAt": "2022-07-01T04:47:24.522Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be7c65b41538153bdd1c2c",
+    "name": "Hoạt động của các vườn bách thảo, bách thú và khu bảo tồn tự nhiên",
+    "code": "9103",
+    "createdAt": "2022-07-01T04:47:33.352Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be7c6db41538153bdd1c2f",
+    "name": "Hoạt động của các cơ sở thể thao",
+    "code": "9311",
+    "createdAt": "2022-07-01T04:47:41.217Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be7c7ab41538153bdd1c32",
+    "name": "Hoạt động của các câu lạc bộ thể thao",
+    "code": "9312",
+    "createdAt": "2022-07-01T04:47:54.765Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [
+      "6320061d534b987b4d95eb71"
+    ],
+    "_id": "62be7c82b41538153bdd1c36",
+    "name": "Hoạt động thể thao khác",
+    "code": "9319",
+    "createdAt": "2022-07-01T04:48:02.440Z",
+    "updatedAt": "2022-09-13T04:25:01.246Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be7c8bb41538153bdd1c39",
+    "name": "Hoạt động của các công viên vui chơi và công viên theo chủ đề",
+    "code": "9321",
+    "createdAt": "2022-07-01T04:48:11.015Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be7c95b41538153bdd1c3c",
+    "name": "Hoạt động vui chơi giải trí khác chưa được phân vào đâu",
+    "code": "9329",
+    "createdAt": "2022-07-01T04:48:21.516Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be7c9eb41538153bdd1c3f",
+    "name": "Hoạt động của các hiệp hội kinh doanh và nghiệp chủ",
+    "code": "9411",
+    "createdAt": "2022-07-01T04:48:30.737Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be7ca6b41538153bdd1c42",
+    "name": "Hoạt động của các hội nghề nghiệp",
+    "code": "9412",
+    "createdAt": "2022-07-01T04:48:38.602Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be7cb0b41538153bdd1c45",
+    "name": "Hoạt động của công đoàn",
+    "code": "9420",
+    "createdAt": "2022-07-01T04:48:48.436Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be7cb7b41538153bdd1c48",
+    "name": "Hoạt động của các tổ chức tôn giáo",
+    "code": "9491",
+    "createdAt": "2022-07-01T04:48:55.766Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be7e1cb41538153bdd1c51",
+    "name": "Hoạt động của các tổ chức khác chưa được phân vào đâu",
+    "code": "9499",
+    "createdAt": "2022-07-01T04:54:52.811Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be7e22b41538153bdd1c54",
+    "name": "Sửa chữa máy vi tính và thiết bị ngoại vi",
+    "code": "9511",
+    "createdAt": "2022-07-01T04:54:58.916Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be7e2cb41538153bdd1c58",
+    "name": "Sửa chữa thiết bị liên lạc",
+    "code": "9512",
+    "createdAt": "2022-07-01T04:55:08.232Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be7e36b41538153bdd1c5b",
+    "name": "Sửa chữa thiết bị nghe nhìn điện tử gia dụng",
+    "code": "9521",
+    "createdAt": "2022-07-01T04:55:18.231Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be7e3eb41538153bdd1c5e",
+    "name": "Sửa chữa thiết bị, đồ dùng gia đình",
+    "code": "9522",
+    "createdAt": "2022-07-01T04:55:26.035Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be7e45b41538153bdd1c61",
+    "name": "Sửa chữa giày, dép, hàng da và giả da",
+    "code": "9523",
+    "createdAt": "2022-07-01T04:55:33.230Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be7e4db41538153bdd1c64",
+    "name": "Sửa chữa giường, tủ, bàn, ghế và đồ nội thất tương tư",
+    "code": "9524",
+    "createdAt": "2022-07-01T04:55:41.619Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be7e56b41538153bdd1c67",
+    "name": "Sửa chữa xe đạp, đồng hồ, đồ dùng cá nhân và gia đình khác chưa được phân vào đâu",
+    "code": "9529",
+    "createdAt": "2022-07-01T04:55:50.619Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [
+      "63186161d44c496cedddd536",
+      "63200567534b987b4d95eb57",
+      "6320061d534b987b4d95eb71"
+    ],
+    "_id": "62be7e62b41538153bdd1c6b",
+    "name": "Dịch vụ tắm hơi, massage và các dịch vụ tăng cường sức khoẻ tương tự (trừ hoạt động thể thao)",
+    "code": "9610",
+    "createdAt": "2022-07-01T04:56:02.568Z",
+    "updatedAt": "2022-09-13T04:25:01.246Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be7e6bb41538153bdd1c6e",
+    "name": "Giặt là, làm sạch các sản phẩm dệt và lông thú",
+    "code": "9620",
+    "createdAt": "2022-07-01T04:56:11.741Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [
+      "63200378534b987b4d95eb36",
+      "63200567534b987b4d95eb57"
+    ],
+    "_id": "62be7e78b41538153bdd1c71",
+    "name": "Cắt tóc, làm đầu, gội đầu",
+    "code": "9631",
+    "createdAt": "2022-07-01T04:56:24.107Z",
+    "updatedAt": "2022-09-13T04:21:59.856Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be7e7fb41538153bdd1c74",
+    "name": "Hoạt động dịch vụ phục vụ tang lễ",
+    "code": "9632",
+    "createdAt": "2022-07-01T04:56:31.136Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be7e86b41538153bdd1c77",
+    "name": "Hoạt động dịch vụ phục vụ hôn lễ",
+    "code": "9633",
+    "createdAt": "2022-07-01T04:56:38.283Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [
+      "63200567534b987b4d95eb57"
+    ],
+    "_id": "62be7e8eb41538153bdd1c7a",
+    "name": "Hoạt động dịch vụ phục vụ cá nhân khác còn lại chưa được phân vào đâu",
+    "code": "9639",
+    "createdAt": "2022-07-01T04:56:46.710Z",
+    "updatedAt": "2022-09-13T04:21:59.856Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be7e96b41538153bdd1c7d",
+    "name": "Hoạt động làm thuê công việc gia đình trong các hộ gia đình",
+    "code": "9700",
+    "createdAt": "2022-07-01T04:56:54.982Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be7ea2b41538153bdd1c81",
+    "name": "Hoạt động sản xuất các sản phẩm vật chất tự tiêu dùng của hộ gia đình",
+    "code": "9810",
+    "createdAt": "2022-07-01T04:57:06.714Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be7ea9b41538153bdd1c84",
+    "name": "Hoạt động sản xuất các sản phẩm dịch vụ tự tiêu dùng của hộ gia đình",
+    "code": "9820",
+    "createdAt": "2022-07-01T04:57:13.112Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62be7eb0b41538153bdd1c87",
+    "name": "Hoạt động của các tổ chức và cơ quan quốc tế",
+    "code": "9900",
+    "createdAt": "2022-07-01T04:57:20.766Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [
+      "632003fe534b987b4d95eb3d"
+    ],
+    "_id": "62c66182616be82b07962beb",
+    "name": "Sửa chữa máy móc, thiết bị",
+    "code": "3312",
+    "createdAt": "2022-07-07T04:30:58.775Z",
+    "updatedAt": "2022-09-13T04:15:58.523Z",
+    "__v": 0
+  },
+  {
+    "category": [
+      "631864bcd44c496cedddd5a2",
+      "631ffc85534b987b4d95eab5"
+    ],
+    "_id": "62c67a0c616be82b07962c5c",
+    "name": "Hoạt động kiến trúc và tư vấn kỹ thuật có liên quan",
+    "code": "7110",
+    "createdAt": "2022-07-07T06:15:40.584Z",
+    "updatedAt": "2022-09-13T03:44:05.365Z",
+    "__v": 0
+  },
+  {
+    "category": [],
+    "_id": "62c67a16616be82b07962c5f",
+    "name": "Kiểm tra và phân tích kỹ thuật",
+    "code": "7120",
+    "createdAt": "2022-07-07T06:15:50.249Z",
+    "updatedAt": "2022-09-06T23:45:37.473Z",
+    "__v": 0
+  },
+  {
+    "category": [
+      "63186161d44c496cedddd536"
+    ],
+    "_id": "63186175d44c496cedddd53c",
+    "name": "Đại lý du lịch",
+    "code": "7911",
+    "createdAt": "2022-09-07T09:16:37.977Z",
+    "updatedAt": "2022-09-07T09:18:08.440Z",
+    "__v": 0
+  },
+  {
+    "category": [
+      "631863abd44c496cedddd584",
+      "63200567534b987b4d95eb57"
+    ],
+    "_id": "63186384d44c496cedddd57a",
+    "name": "Hoạt động của các phòng khám đa khoa, chuyên khoa và nha khoa",
+    "code": "8620",
+    "createdAt": "2022-09-07T09:25:24.347Z",
+    "updatedAt": "2022-09-13T04:21:59.856Z",
+    "__v": 0
+  }
+]

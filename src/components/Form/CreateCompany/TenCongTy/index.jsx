@@ -13,41 +13,23 @@ const popData = {
     <ul style={{ maxWidth: 600, listStyle: 'none' }}>
       <li>1.Tên riêng trùng với tên riêng của doanh nghiệp đã đăng ký.</li>
       <li>
-        2. Tên riêng chỉ khác với tên riêng của doanh nghiệp cùng loại đã đăng
-        ký:
+        2. Tên riêng chỉ khác với tên riêng của doanh nghiệp cùng loại đã đăng ký:
         <ol
           style={{
             listStyle: 'none',
-            // padding: "0 20px"
           }}
         >
-          <li>
-            a. Bởi một số tự nhiên, một số thứ tự hoặc một chữ cái trong bảng
-            chữ cái tiếng Việt, chữ F, J, Z, W được viết liền hoặc cách ngay sau
-            tên riêng của doanh nghiệp đó;
-          </li>
+          <li>a. Bởi một số tự nhiên, một số thứ tự hoặc một chữ cái trong bảng chữ cái tiếng Việt, chữ F, J, Z, W được viết liền hoặc cách ngay sau tên riêng của doanh nghiệp đó;</li>
           <li>b. Bởi một ký hiệu “&” hoặc “và”, “.”, “,”, “+”, “-”, “_”;</li>
-          <li>
-            c. Bởi từ “tân” ngay trước hoặc từ “mới” được viết liền hoặc cách
-            ngay sau hoặc trước tên riêng của doanh nghiệp đã đăng ký;
-          </li>
-          <li>
-            d. Bởi một cụm từ “miền Bắc”, “miền Nam”, “miền Trung”, “miền Tây”,
-            “miền Đông”;
-          </li>
+          <li>c. Bởi từ “tân” ngay trước hoặc từ “mới” được viết liền hoặc cách ngay sau hoặc trước tên riêng của doanh nghiệp đã đăng ký;</li>
+          <li>d. Bởi một cụm từ “miền Bắc”, “miền Nam”, “miền Trung”, “miền Tây”, “miền Đông”;</li>
         </ol>
       </li>
       <li>
-        3. Sử dụng tên cơ quan nhà nước, đơn vị lực lượng vũ trang nhân dân, tên
-        của tổ chức chính trị, tổ chức chính trị - xã hội, tổ chức chính trị xã
-        hội - nghề nghiệp, tổ chức xã hội, tổ chức xã hội - nghề nghiệp để làm
-        toàn bộ hoặc một phần tên riêng của doanh nghiệp, trừ trường hợp có sự
-        chấp thuận của cơ quan, đơn vị hoặc tổ chức đó.
+        3. Sử dụng tên cơ quan nhà nước, đơn vị lực lượng vũ trang nhân dân, tên của tổ chức chính trị, tổ chức chính trị - xã hội, tổ chức chính trị xã hội - nghề nghiệp, tổ chức xã hội, tổ chức xã
+        hội - nghề nghiệp để làm toàn bộ hoặc một phần tên riêng của doanh nghiệp, trừ trường hợp có sự chấp thuận của cơ quan, đơn vị hoặc tổ chức đó.
       </li>
-      <li>
-        4. Sử dụng từ ngữ, ký hiệu vi phạm truyền thống lịch sử, văn hóa, đạo
-        đức và thuần phong mỹ tục của dân tộc.
-      </li>
+      <li>4. Sử dụng từ ngữ, ký hiệu vi phạm truyền thống lịch sử, văn hóa, đạo đức và thuần phong mỹ tục của dân tộc.</li>
     </ul>
   ),
   title: 'Quy tắc đặt tên công ty',
@@ -61,6 +43,8 @@ const TenCongTy = forwardRef((props, ref) => {
   const [companyData, setCompanyData] = useState([])
 
   const [loading, setLoading] = useState(false)
+
+  const [feedback, setFeedback] = useState(false)
 
   const getCompanyByName = async (val) => {
     if (val.length <= 4) {
@@ -105,31 +89,16 @@ const TenCongTy = forwardRef((props, ref) => {
     >
       <Row gutter={[16, 12]}>
         <Col lg={12} md={12} sm={24} xs={24}>
-          <Collapse
-            bordered={false}
-            defaultActiveKey={[]}
-            expandIcon={({ isActive }) => (
-              <CaretRightOutlined rotate={isActive ? 90 : 0} />
-            )}
-            className="site-collapse-custom-collapse"
-            ghost
-          >
-            <Collapse.Panel
-              header={popData.title}
-              key="1"
-              className="site-collapse-custom-panel"
-            >
+          <Collapse bordered={false} defaultActiveKey={[]} expandIcon={({ isActive }) => <CaretRightOutlined rotate={isActive ? 90 : 0} />} className="site-collapse-custom-collapse" ghost>
+            <Collapse.Panel header={popData.title} key="1" className="site-collapse-custom-panel">
               {popData.content}
             </Collapse.Panel>
           </Collapse>
         </Col>
         <Col lg={12} md={12} sm={24} xs={24}>
-          <Form.Item
-            name={[...BASE_FORM, 'core', 'name']}
-            label="Tên công ty bằng Tiếng Việt"
-        
-          >
+          <Form.Item name={[...BASE_FORM, 'core', 'name']} label="Tên công ty bằng Tiếng Việt" hasFeedback validateStatus={loading ? 'validating' : companyData.length > 0 ? 'error' : 'success'}>
             <Input
+              size="small"
               onChange={(e) =>
                 inputChange({
                   value: e.target.value,
@@ -137,18 +106,17 @@ const TenCongTy = forwardRef((props, ref) => {
                   search: true,
                 })
               }
+              rule
             />
           </Form.Item>
           <div className="container" style={{ minHeight: 30 }}>
-            <Spin spinning={loading}>
-              {companyData && companyData?.length > 0 && (
-                <Card size="small" title="Công ty đã đăng kí">
-                  {companyData?.map((item) => {
-                    return <Alert key={item} message={item} type="error" />
-                  })}
-                </Card>
-              )}
-            </Spin>
+            {companyData && companyData?.length > 0 && (
+              <Card size="small" title="Công ty đã đăng kí">
+                {companyData?.map((item) => {
+                  return <Alert key={item} message={item} type="error" />
+                })}
+              </Card>
+            )}
           </div>
 
           <CCInput

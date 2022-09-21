@@ -7,8 +7,12 @@ const product = require('./product')
 const template = require('./template')
 const setting = require('./setting')
 const log = require('./log')
-const mongoose = require('mongoose')
+const careerCategory = require('./careerCategory')
+const otp = require('./otp')
+
 const bcrypt = require('bcryptjs')
+const mongoose = require('mongoose')
+
 const { Schema } = mongoose
 
 // // Step 1 : Create Schema
@@ -21,16 +25,18 @@ const careerSchema = new Schema({ ...career }, { timestamps: true })
 const productSchema = new Schema({ ...product }, { timestamps: true })
 const settingSchema = new Schema({ ...setting }, { timestamps: true })
 const logSchema = new Schema({ ...log }, { timestamps: true })
-const templateSchema = new Schema(
-  { ...template },
-  { timestamps: true, collation: { locale: 'en_US', strength: 1 } },
-)
+const careerCategorySchema = new Schema({ ...careerCategory }, { timestamps: true })
+
+const templateSchema = new Schema({ ...template }, { timestamps: true, collation: { locale: 'en_US', strength: 1 } })
+
+const otpSchema = new Schema({ ...otp }, { timestamps: true })
 
 // // Step 2 : Create Methods - Function
 
 userSchema.method({
   authenticate: async function (password) {
     // console.log(this);
+    console.log(password, this.hash_password)
     return await bcrypt.compare(password, this.hash_password)
   },
 })
@@ -38,8 +44,6 @@ userSchema.method({
 // // Step 3: Create Models
 
 const User = mongoose.model('User', userSchema)
-
-// const Company = mongoose.model("Company", companySchema);
 const Order = mongoose.model('Order', orderSchema)
 const Category = mongoose.model('Category', categorySchema)
 const Career = mongoose.model('Career', careerSchema)
@@ -47,6 +51,8 @@ const Product = mongoose.model('Product', productSchema)
 const TemplateMail = mongoose.model('TemplateMail', templateSchema)
 const Setting = mongoose.model('Setting', settingSchema)
 const Log = mongoose.model('Log', logSchema)
+const CareerCategory = mongoose.model('careerCategory', careerCategorySchema)
+const OTP = mongoose.model('OTP', otpSchema)
 
 // // Step 4 : Create Virtual Field - Reference
 
@@ -81,6 +87,7 @@ orderSchema.virtual('data.create_company.opt_career', {
 })
 
 orderSchema.set('toObject', { virtuals: true })
+
 orderSchema.set('toJSON', { virtuals: true })
 
 module.exports = {
@@ -92,4 +99,6 @@ module.exports = {
   Setting,
   Log,
   Product,
+  CareerCategory,
+  OTP,
 }

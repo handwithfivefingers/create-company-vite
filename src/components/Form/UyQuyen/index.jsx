@@ -36,6 +36,7 @@ const UyQuyen = forwardRef((props, ref) => {
         type="date"
         name={[...BASE_FORM, 'birth_day']}
         label={'Ngày tháng năm sinh'}
+        inputReadOnly={false}
       />
       <CCInput name={[...BASE_FORM, 'per_type']} label={'Dân tộc'} />
       <CCInput name={[...BASE_FORM, 'national']} label={'Quốc tịch'} />
@@ -47,6 +48,7 @@ const UyQuyen = forwardRef((props, ref) => {
         type="date"
         name={[...BASE_FORM, 'doc_time_provide']}
         label={'Cấp ngày'}
+        inputReadOnly={false}
       />
       <CCInput name={[...BASE_FORM, 'doc_place_provide']} label={'Nơi cấp'} />
       <CCInput

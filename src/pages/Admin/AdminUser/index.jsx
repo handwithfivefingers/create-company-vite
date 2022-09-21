@@ -87,39 +87,12 @@ const AdminUser = () => {
           scroll={{ x: 768 }}
           style={{ padding: 0 }}
         >
-          <Table.Column
-            title="Tên người dùng"
-            className={styles.inline}
-            width={'25%'}
-            render={(v, record, i) => record.name}
-          />
-          <Table.Column
-            className={styles.inline}
-            title="Email"
-            render={(v, record, i) => record.email}
-          />
-          <Table.Column
-            title="Số điện thoại"
-            width={'120px'}
-            className={styles.inline}
-            render={(v, record, i) => record.phone}
-          />
-          <Table.Column
-            title="Role"
-            width={'80px'}
-            render={(v, record, i) => record.role}
-          />
-          <Table.Column
-            title="Ngày khởi tạo"
-            render={(v, record, i) => record.createdAt.substring(0, 10)}
-          />
-          <Table.Column
-            title=""
-            width={'80px'}
-            render={(v, record, i) => (
-              <Button onClick={() => handleDelete(record)}>Xóa</Button>
-            )}
-          />
+          <Table.Column title="Tên người dùng" className={styles.inline} width={'25%'} render={(v, record, i) => record.name} />
+          <Table.Column className={styles.inline} title="Email" render={(v, record, i) => record.email} />
+          <Table.Column title="Số điện thoại" width={'120px'} className={styles.inline} render={(v, record, i) => record.phone} />
+          <Table.Column title="Role" width={'80px'} render={(v, record, i) => record.role} />
+          <Table.Column title="Ngày khởi tạo" render={(v, record, i) => record.createdAt.substring(0, 10)} />
+          <Table.Column title="" width={'80px'} render={(v, record, i) => <Button onClick={() => handleDelete(record)}>Xóa</Button>} />
         </Table>
       </div>
       <CCPagination {...pagiConfig} />

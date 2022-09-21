@@ -41,12 +41,12 @@ const DissolutionPages = forwardRef((props, ref) => {
           />
         )}
         <div
-          className={'card-boxShadow'}
+          className={'card-boxShadow flex flex__spacing-4'}
           style={{ position: 'sticky', bottom: 0 }}
         >
-          {step > 0 && <Button onClick={Prev}>Quay lại</Button>}
+          {step > 0 && <Button onClick={Prev} type="dashed">Quay lại</Button>}
 
-          {step < 2 && <Button onClick={Next}>Tiếp tục</Button>}
+          {step < 2 && <Button onClick={Next}  type="primary">Tiếp tục</Button>}
           {step === 2 && (
             <>
               <Button
@@ -58,6 +58,7 @@ const DissolutionPages = forwardRef((props, ref) => {
               <Button
                 loading={loading}
                 onClick={() => handlePurchaseDissolution(ref)}
+                type="primary"
               >
                 Thanh toán
               </Button>

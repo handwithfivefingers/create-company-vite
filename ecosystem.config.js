@@ -1,7 +1,7 @@
 module.exports = {
   apps: [
     {
-      name: 'TEST_CI_0.1',
+      name: 'TEST_CI_0.2',
       script: './App.js',
       watch: false,
       exec_mode: 'cluster',

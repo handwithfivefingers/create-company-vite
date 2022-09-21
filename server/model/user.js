@@ -34,4 +34,14 @@ module.exports = {
     enum: [0, 1],
     default: 0,
   },
+  google: {
+    sub: String,
+    hd: String,
+    email: String,
+    email_verified: String,
+    name: String,
+    picture: String,
+    given_name: String,
+    family_name: String,
+  },
 }

@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
-// const productSchema = new Schema({ ...product }, { timestamps: true });
+
+
 module.exports = {
   name: {
     type: String,

@@ -19,7 +19,7 @@ const TangVonDieuLe = forwardRef((props, ref) => {
 
   return (
     <Form.Item
-      label={<h4>Đăng ký thay đổi vốn điều lệ</h4>}
+      label={<h3>Đăng ký thay đổi vốn điều lệ</h3>}
       className={clsx(styles.current, {
         [styles.active]: props.current === props.index,
       })}
@@ -32,20 +32,54 @@ const TangVonDieuLe = forwardRef((props, ref) => {
           <CCInput label="Mã số doanh nghiệp/ mã số thuế" name={[...BASE_FORM, "mst"]} />
         </Col> */}
         <Col span={12}>
-          <CCInput label="Vốn điều lệ đã đăng ký (bằng số)" name={[...BASE_FORM, "base_val", "num"]} />
+          <CCInput 
+          //label="Vốn điều lệ đã đăng ký (bằng số)" 
+          label={
+            <div
+              dangerouslySetInnerHTML={{
+                __html: 'Vốn điều lệ đã đăng ký <i>(bằng số)</i>',
+              }}
+            />
+          }
+          name={[...BASE_FORM, "base_val", "num"]} />
         </Col>
         <Col span={12}>
-          <CCInput label="Vốn điều lệ đã đăng ký (bằng chữ)" name={[...BASE_FORM, "base_val", "char"]} />
+          <CCInput 
+          // label="Vốn điều lệ đã đăng ký (bằng chữ)" 
+          label={
+            <div
+              dangerouslySetInnerHTML={{
+                __html: 'Vốn điều lệ đã đăng ký <i>(bằng chữ)</i>',
+              }}
+            />
+          }
+          name={[...BASE_FORM, "base_val", "char"]} />
         </Col>
         <Col span={12}>
-          <CCInput label="Vốn điều lệ sau khi tăng (bằng số)" name={[...BASE_FORM, "new_base_val", "num"]} />
+          <CCInput 
+          // label="Vốn điều lệ sau khi tăng (bằng số)" 
+          label={
+            <div
+              dangerouslySetInnerHTML={{
+                __html: 'Vốn điều lệ sau khi tăng <i>(bằng số)</i>',
+              }}
+            />
+          }
+          name={[...BASE_FORM, "new_base_val", "num"]} />
         </Col>
         <Col span={12}>
-          <CCInput label="Vốn điều lệ sau khi tăng (bằng chữ)" name={[...BASE_FORM, "new_base_val", "char"]} />
+          <CCInput 
+          // label="Vốn điều lệ sau khi tăng (bằng chữ)" 
+          label={
+            <div
+              dangerouslySetInnerHTML={{
+                __html: 'Vốn điều lệ sau khi tăng <i>(bằng chữ)</i>',
+              }}
+            />
+          }
+          name={[...BASE_FORM, "new_base_val", "char"]} />
         </Col>
-        <Col span={24}>
-          <CCInput label="Hình thức tăng vốn" name={[...BASE_FORM, "type"]} />
-        </Col>
+        
       </Row>
     </Form.Item>
   );

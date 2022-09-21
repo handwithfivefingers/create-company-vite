@@ -106,8 +106,7 @@ const HOP_DONG_CHUYEN_NHUONG_FORM = {
         town: 'Xã/Phường/Thị Trấn',
         district: 'Quận/Huyện/Thị Xã/Thành phố thuộc tỉnh',
         city: 'Tỉnh/Thành phố',
-        contact_reg_address:
-          'Số nhà, ngách, hẻm, ngõ, đường phố/tổ/xóm/ấp/thôn',
+        contact_reg_address: 'Số nhà, ngách, hẻm, ngõ, đường phố/tổ/xóm/ấp/thôn',
         contact_town: 'Xã/Phường/Thị Trấn',
         contact_district: 'Quận/Huyện/Thị Xã/Thành phố thuộc tỉnh',
         contact_city: 'Tỉnh/Thành phố',
@@ -131,8 +130,7 @@ const HOP_DONG_CHUYEN_NHUONG_FORM = {
           will: 'Phần vốn góp bên A muốn chuyển nhượng',
           current_A_percent: 'Chiếm tỉ lệ',
           transfer_price: 'Giá chuyển nhượng',
-          time_end:
-            'Thời điểm hoàn thành việc chuyển nhượng (Chọn Ngày/ tháng/ năm)',
+          time_end: 'Thời điểm hoàn thành việc chuyển nhượng (Chọn Ngày/ tháng/ năm)',
         },
         company_model: 'Mô hình công ty',
       },
@@ -312,6 +310,7 @@ const CREATE_COMPANY_FORM = {
             },
           },
           organization: {
+            label: 'Tổ Chức',
             fields: {
               name: 'Tên tổ chức',
               mst: 'Mã số doanh nghiệp hoặc Mã số thuế',
@@ -403,18 +402,15 @@ const PENDING_FORM = {
     fields: {
       company_name: 'Tên doanh nghiệp (ghi bằng chữ in hoa)',
       mst: 'Mã số doanh nghiệp/Mã số thuế',
-      opt_code:
-        'Số Giấy chứng nhận đăng ký kinh doanh (chỉ kê khai nếu không có mã số doanh nghiệp/mã số thuế)',
+      opt_code: 'Số Giấy chứng nhận đăng ký kinh doanh (chỉ kê khai nếu không có mã số doanh nghiệp/mã số thuế)',
       time_provide: 'Ngày cấp',
 
       place_provide: 'Nơi cấp',
       obj: 'Đối tượng tạm ngưng',
 
       branch: {
-        branch_name:
-          'Tên chi nhánh/văn phòng đại diện/địa điểm kinh doanh (ghi bằng chữ in hoa)',
-        resp_office:
-          'Mã số thuế chi nhánh/văn phòng đại diện/địa điểm kinh doanh',
+        branch_name: 'Tên chi nhánh/văn phòng đại diện/địa điểm kinh doanh (ghi bằng chữ in hoa)',
+        resp_office: 'Mã số thuế chi nhánh/văn phòng đại diện/địa điểm kinh doanh',
         branch_name_opt: 'Tên chi nhánh',
         branch_mst_opt: 'Mã số chi nhánh/Mã số thuế của chi nhánh',
       },
@@ -437,19 +433,29 @@ const PENDING_FORM = {
       place_provide: 'Nơi cấp',
       // opt_code: 'Số Giấy chứng nhận đăng ký kinh doanh (chỉ kê khai nếu không có mã số doanh nghiệp/mã số thuế)',
       obj: 'Đối tượng tạm ngưng',
-      location: 'Địa chỉ trụ sở chính',
+      location: {
+        label: 'Địa chỉ trụ sở chính',
+        fields: {
+          address: 'Số nhà, ngách, hẻm, ngõ, đường phố/tổ/xóm/ấp/thôn',
+          city: 'Tỉnh/Thành phố',
+          district: 'Quận/Huyện/Thị xã/Thành phố thuộc tỉnh',
+          town: 'Xã/Phường/Thị trấn',
+        },
+      },
       main_legal: 'Người đại diện pháp luật',
-      branch_name:
-        'Tên chi nhánh hoặc văn phòng đại diện hoặc địa điểm kinh doanh',
+      branch_name: 'Tên chi nhánh hoặc văn phòng đại diện hoặc địa điểm kinh doanh',
       resp_office: 'Mã số chi nhánh hoặc Mã số thuế của chi nhánh',
 
       list_president: {
         president: 'Tên thành viên',
       },
       contribute_members: {
-        name: 'Họ và Tên',
-        capital: 'Vốn góp',
-        capital_percent: 'Chiếm % vốn điều lệ',
+        label: 'Hội đồng thành viên',
+        fields: {
+          name: 'Họ và Tên',
+          capital: 'Vốn góp',
+          capital_percent: 'Chiếm % vốn điều lệ',
+        },
       },
       branch: {
         time_range: {
@@ -474,15 +480,30 @@ const DISSOLUTION_FORM = {
       company_name: 'Tên doanh nghiệp',
       mst: 'Mã số doanh nghiệp hoặc Mã số thuế',
       org_person: 'Người đại diện pháp luật',
-      location: 'Địa chỉ trụ sở chính',
+      location: {
+        label: 'Địa chỉ trụ sở chính',
+        fields: {
+          address: 'Số nhà, ngách, hẻm, ngõ, đường phố/tổ/xóm/ấp/thôn',
+          city: 'Tỉnh/Thành phố',
+          district: 'Quận/Huyện/Thị xã/Thành phố thuộc tỉnh',
+          town: 'Xã/Phường/Thị trấn',
+        },
+      },
       list_president: {
-        president: 'Họ và Tên',
+        label: 'Hội đồng quản trị',
+        fields: {
+          president: 'Họ và Tên',
+        },
       },
       contribute_members: {
-        name: 'Họ và Tên',
-        capital: 'Vốn góp',
-        capital_percent: 'Chiếm % vốn điều lệ',
+        label: 'Hội đồng thành viên',
+        fields: {
+          name: 'Họ và Tên',
+          capital: 'Vốn góp',
+          capital_percent: 'Chiếm % vốn điều lệ',
+        },
       },
+      total_capital: 'Tổng vốn điều lệ',
     },
     // Giải thể
   },

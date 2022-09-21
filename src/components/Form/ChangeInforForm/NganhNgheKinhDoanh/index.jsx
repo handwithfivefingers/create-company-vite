@@ -2,7 +2,7 @@ import { Form, Select } from "antd";
 import clsx from "clsx";
 import React, { forwardRef, useEffect, useState } from "react";
 import CCInput from "@/components/CCInput";
-import HomepageService from "@/service/GlobalService";
+import GlobalService from "@/service/GlobalService";
 import styles from "../DaiDienPhapLuat/styles.module.scss";
 
 const BASE_FORM = ["change_info", "company_career"];
@@ -16,7 +16,7 @@ const NganhNgheKinhDoanh = forwardRef((props, ref) => {
 
   const onFetchCareer = async () => {
     try {
-      const res = await HomepageService.fetchCareer();
+      const res = await GlobalService.fetchCareer();
       if (res) {
         setCareer(res.data.data);
       }
@@ -37,7 +37,7 @@ const NganhNgheKinhDoanh = forwardRef((props, ref) => {
   };
   return (
     <Form.Item
-      label={<h4>Thông báo thay đổi ngành, nghề kinh doanh</h4>}
+      label={<h3>Thông báo thay đổi ngành, nghề kinh doanh</h3>}
       // bordered={false}
       className={clsx(styles.current, {
         [styles.active]: props.current === props.index,
@@ -91,7 +91,7 @@ const NganhNgheKinhDoanh = forwardRef((props, ref) => {
         </Select>
       </Form.Item>
 
-      <Form.Item
+      {/* <Form.Item
         label="Sửa đổi chi tiết ngành, nghề kinh doanh sau"
         name={[...BASE_FORM, "detail_after"]}
         
@@ -111,9 +111,9 @@ const NganhNgheKinhDoanh = forwardRef((props, ref) => {
             </Select.Option>
           ))}
         </Select>
-      </Form.Item>
+      </Form.Item> */}
 
-      <CCInput 
+      {/* <CCInput 
       // label="Tên người Đại diện pháp luật" 
       label={
         <div
@@ -125,7 +125,7 @@ const NganhNgheKinhDoanh = forwardRef((props, ref) => {
       name={[...BASE_FORM, "legal_person"]} 
       placeholder="NGUYỄN VĂN A"
       />
-      
+       */}
     </Form.Item>
   );
 });
