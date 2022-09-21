@@ -241,7 +241,6 @@ const Personal = forwardRef((props, ref) => {
         type="select"
         name={[...BASE_FORM, 'doc_type']}
         label="Loại giấy tờ"
-        // defaultValue="Chứng minh nhân dân"
         options={SELECT.DOC_TYPE}
       />
 
