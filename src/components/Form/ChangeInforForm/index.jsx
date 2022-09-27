@@ -26,9 +26,7 @@ const ChangeInforForm = forwardRef((props, ref) => {
   const initForm = () => {
     if (props.edit) {
       let { data, products } = props.edit
-
       let [opt] = products
-
       handleSelectProduct({ type: opt.type, name: opt.name, value: opt._id }, 'selectProduct')
     }
   }
@@ -36,30 +34,29 @@ const ChangeInforForm = forwardRef((props, ref) => {
   const checkType = (type, i, ref) => {
     switch (type) {
       case '2':
-        return <DaiDienPhapLuat key={[type, i]} current={props.current} index={i + 2} ref={ref} />
+        return <DaiDienPhapLuat key={[type, i]} current={props.current} index={i + 2} ref={ref} {...props.data} />
       case '3':
-        return <TenDoanhNghiep key={[type, i]} current={props.current} index={i + 2} ref={ref} />
+        return <TenDoanhNghiep key={[type, i]} current={props.current} index={i + 2} ref={ref} {...props.data} />
       case '4':
-        return <GiamVonDieuLe key={[type, i]} current={props.current} index={i + 2} ref={ref} />
+        return <GiamVonDieuLe key={[type, i]} current={props.current} index={i + 2} ref={ref} {...props.data} />
       case '5':
-        return <TangVonDieuLe key={[type, i]} current={props.current} index={i + 2} ref={ref} />
+        return <TangVonDieuLe key={[type, i]} current={props.current} index={i + 2} ref={ref} {...props.data} />
       case '7':
-        return <NganhNgheKinhDoanh key={[type, i]} current={props.current} index={i + 2} ref={ref} />
+        return <NganhNgheKinhDoanh key={[type, i]} current={props.current} index={i + 2} ref={ref} {...props.data} />
       case '1':
-        return <DiaChiTruSoChinh key={[type, i]} current={props.current} index={i + 2} ref={ref} />
+        return <DiaChiTruSoChinh key={[type, i]} current={props.current} index={i + 2} ref={ref} {...props.data} />
       case '6':
-        return <HopDongChuyenNhuong key={[type, i]} current={props.current} index={i + 2} ref={ref} />
+        return <HopDongChuyenNhuong key={[type, i]} current={props.current} index={i + 2} ref={ref} {...props.data} />
       case '8':
-        return <DaiDienToChuc key={[type, i]} current={props.current} index={i + 2} ref={ref} />
+        return <DaiDienToChuc key={[type, i]} current={props.current} index={i + 2} ref={ref} {...props.data} />
       case '9':
-        return <ThongTinDangKyThue key={[type, i]} current={props.current} index={i + 2} ref={ref} />
+        return <ThongTinDangKyThue key={[type, i]} current={props.current} index={i + 2} ref={ref} {...props.data} />
       default:
         return null
     }
   }
 
   const handleOnChange = (val, opt) => {
-    console.log(opt)
     setSelectType(opt)
     if (props.onFinishScreen) {
       props.onFinishScreen(opt)
@@ -69,12 +66,10 @@ const ChangeInforForm = forwardRef((props, ref) => {
   const handleSelectProduct = ({ type, name, value }, pathName) => {
     setProductSelect(value)
     onSetFields([pathName], { type, name, value }, ref)
-    FetchProduct()
+    fetchProduct()
   }
 
-  console.log(props.data)
-
-  const FetchProduct = async () => {
+  const fetchProduct = async () => {
     try {
       let { parentId } = props.data
 
@@ -128,7 +123,6 @@ const ChangeInforForm = forwardRef((props, ref) => {
             return option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
           }}
         >
-
           {productSelect &&
             data?.map((item) => {
               return (
@@ -152,11 +146,7 @@ const ChangeInforForm = forwardRef((props, ref) => {
           placeholder="CÔNG TY TNHH DỊCH VỤ TƯ VẤN WARREN B"
         />
 
-        <CCInput
-          label="Mã số doanh nghiệp hoặc Mã số thuế"
-          name={['change_info', 'base_inform', 'mst']}
-          placeholder="0316184427"
-        />
+        <CCInput label="Mã số doanh nghiệp hoặc Mã số thuế" name={['change_info', 'base_inform', 'mst']} placeholder="0316184427" />
 
         <CCInput
           label={<div dangerouslySetInnerHTML={{ __html: '</>Người đại diện pháp luật <i>(nhập đầy đủ họ và tên)</i></>' }} />}

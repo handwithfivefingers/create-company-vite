@@ -41,16 +41,13 @@ module.exports = class ConfigApp {
   }
 
   onInit = () => {
-    this.onLoadConfig()
-    this.onLoadUploadConfigs()
-    this.onLoadRouter()
-    this.onLoadSourceHTML()
-    this.onHandlerError()
+    this.onLoadConfig().onLoadUploadConfigs().onLoadRouter().onLoadSourceHTML().onHandlerError()
   }
 
   onLoadConfig = () => {
     this.app.use(express.json())
     this.app.use(cookieParser())
+    return this
   }
 
   onLoadUploadConfigs = () => {
@@ -60,11 +57,12 @@ module.exports = class ConfigApp {
       let robotFile = path.join(global.__basedir, 'uploads', 'robots.txt')
       res.sendFile(robotFile)
     })
+    return this
   }
   onLoadRouter = () => {
     this.app.use('/git', GitRouter)
-
     this.app.use('/api', cors(corsOptions), TrackingApi, AppRouter)
+    return this
   }
 
   onLoadSourceHTML = () => {
@@ -75,6 +73,8 @@ module.exports = class ConfigApp {
         res.sendFile(path.join(global.__basedir, 'dist', 'index.html'))
       })
     }
+
+    return this
   }
   onHandlerError = () => {
     this.app.use((err, req, res, next) => {
@@ -83,5 +83,6 @@ module.exports = class ConfigApp {
         message: 'Internal Server Error',
       })
     })
+    return this
   }
 }

@@ -4,14 +4,14 @@ import styles from './styles.module.scss'
 import CCSelect from '@/components/CCSelect'
 import { onSetFields } from '@/helper/Common'
 
-const CCAddress = forwardRef(({ BASE_FORM }, ref) => {
+const CCAddress = forwardRef(({ name }, ref) => {
   const [radio, setRadio] = useState(null)
   const onRadioChange = (e) => {
     setRadio(e.target.value)
 
     if (e.target.value === 1) {
-      let val = ref.current.getFieldValue([...BASE_FORM, 'current'])
-      onSetFields([...BASE_FORM, 'contact'], val, ref)
+      let val = ref.current.getFieldValue([...name, 'current'])
+      onSetFields([...name, 'contact'], val, ref)
     }
   }
   return (
@@ -26,7 +26,7 @@ const CCAddress = forwardRef(({ BASE_FORM }, ref) => {
           />
         }
       >
-        <CCSelect.SelectProvince ref={ref} name={[...BASE_FORM, 'current']} label="Nơi đăng kí hộ khẩu thường trú" />
+        <CCSelect.SelectProvince ref={ref} name={[...name, 'current']} label="Nơi đăng kí hộ khẩu thường trú" />
       </Form.Item>
 
       <Form.Item
@@ -55,7 +55,7 @@ const CCAddress = forwardRef(({ BASE_FORM }, ref) => {
               display: radio && radio === 2 ? 'block' : 'none',
             }}
           >
-            <CCSelect.SelectProvince ref={ref} name={[...BASE_FORM, 'contact']} label="Nơi ở hiện tại" />
+            <CCSelect.SelectProvince ref={ref} name={[...name, 'contact']} label="Nơi ở hiện tại" />
           </div>
         }
       </Form.Item>
