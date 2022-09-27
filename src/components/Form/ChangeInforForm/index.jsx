@@ -83,7 +83,7 @@ const ChangeInforForm = forwardRef((props, ref) => {
   }
 
   return (
-    <Form ref={ref} layout="vertical" name="change_info">
+    <Form ref={ref} layout="vertical">
       <Form.Item
         name="selectProduct"
         label="Chọn loại hình doanh nghiệp"
