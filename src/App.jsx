@@ -102,8 +102,6 @@ function App() {
     return <LoadingScreen />
   }
 
-  console.log(VNnum2words(50000000000000))
-  
   return (
     <div className="App">
       <QueryClientProvider client={queryClient}>

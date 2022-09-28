@@ -14,6 +14,7 @@ import ThongTinDangKyThue from './ThongTinDangKyThue'
 import CCInput from '../../CCInput'
 import { onSetFields } from '@/helper/Common'
 import ProductService from '../../../service/UserService/ProductService'
+import BaseInformation from './BaseInformation'
 const ChangeInforForm = forwardRef((props, ref) => {
   const [productSelect, setProductSelect] = useState('')
   const [selectType, setSelectType] = useState([])
@@ -47,10 +48,10 @@ const ChangeInforForm = forwardRef((props, ref) => {
         return <DiaChiTruSoChinh key={[type, i]} current={props.current} index={i + 2} ref={ref} {...props.data} />
       case '6':
         return <HopDongChuyenNhuong key={[type, i]} current={props.current} index={i + 2} ref={ref} {...props.data} />
-      case '8':
-        return <DaiDienToChuc key={[type, i]} current={props.current} index={i + 2} ref={ref} {...props.data} />
-      case '9':
-        return <ThongTinDangKyThue key={[type, i]} current={props.current} index={i + 2} ref={ref} {...props.data} />
+      // case '8':
+      //   return <DaiDienToChuc key={[type, i]} current={props.current} index={i + 2} ref={ref} {...props.data} />
+      // case '9':
+      //   return <ThongTinDangKyThue key={[type, i]} current={props.current} index={i + 2} ref={ref} {...props.data} />
       default:
         return null
     }
@@ -134,7 +135,7 @@ const ChangeInforForm = forwardRef((props, ref) => {
         </Select>
       </Form.Item>
       {selectType?.map((item, i) => checkType(item.type, i, ref))}
-      <div
+      {/* <div
         className={clsx(styles.current, {
           [styles.active]: props.current === 1,
         })}
@@ -154,7 +155,8 @@ const ChangeInforForm = forwardRef((props, ref) => {
           placeholder="NGUYỄN VĂN A"
           onChange={(e) => onSetFields(['change_info', 'base_inform', 'org_person'], e.target.value, ref, true)}
         />
-      </div>
+      </div> */}
+      <BaseInformation current={props.current} index={1} ref={ref} {...props.data} />
     </Form>
   )
 })
