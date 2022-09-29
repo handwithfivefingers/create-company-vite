@@ -119,7 +119,11 @@ const PreviewData = forwardRef((props, ref) => {
             )
           } else {
             if (itemKeys !== 'Vốn điều lệ (bằng số)' && moment(dataKeys, 'DD-MM-YYYY', true).isValid()) {
-              return itemKeys && <Paragraph className={clsx(styles.margin_0, styles.padding_4)}>{`${itemKeys} : ${moment(dataKeys).format('DD/MM/YYYY')}`}</Paragraph>
+              return (
+                itemKeys && (
+                  <Paragraph className={clsx(styles.margin_0, styles.padding_4)}>{`${itemKeys} : ${moment(dataKeys).format('DD/MM/YYYY')}`}</Paragraph>
+                )
+              )
             } else {
               return (
                 itemKeys && (
@@ -192,6 +196,8 @@ const PreviewData = forwardRef((props, ref) => {
 
     try {
       if (data) {
+        console.table(data)
+
         let { selectProduct, selectChildProduct, ...rest } = data
 
         let productType = Object.keys(rest) // get keys Product

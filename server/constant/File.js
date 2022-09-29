@@ -68,29 +68,15 @@ const getPendingFiles = (type, key) => {
   switch (type) {
     case '1':
       return {
-        approve: [
-          allFiles.pending_uyquyen,
-          allFiles.pending_quyetdinh,
-          allFiles.pending_a_b,
-        ],
+        approve: [allFiles.pending_uyquyen, allFiles.pending_quyetdinh, allFiles.pending_a_b],
       }?.[key]
     case '2':
       return {
-        approve: [
-          allFiles.pending_uyquyen,
-          allFiles.pending_quyetdinh_twoPerson,
-          allFiles.pending_a_b,
-          allFiles.pending_bienban_twoPerson,
-        ],
+        approve: [allFiles.pending_uyquyen, allFiles.pending_quyetdinh_twoPerson, allFiles.pending_a_b, allFiles.pending_bienban_twoPerson],
       }?.[key]
     case '3':
       return {
-        approve: [
-          allFiles.pending_uyquyen,
-          allFiles.pending_quyetdinh_cp,
-          allFiles.pending_a_b,
-          allFiles.pending_bienban_cp,
-        ],
+        approve: [allFiles.pending_uyquyen, allFiles.pending_quyetdinh_cp, allFiles.pending_a_b, allFiles.pending_bienban_cp],
       }?.[key]
     // case này tạm bỏ
     // case 'cancel':
@@ -184,11 +170,7 @@ const getCreateCompanyFiles = (type, key, opt = null) => {
             allFiles.create_company_quyetdinh_nguoidaidienvon,
           ]
         } else if (opt === 'personal') {
-          return [
-            allFiles.create_company_dieuleA,
-            allFiles.create_company_phu_luc_2,
-            allFiles.create_company_uyquyen,
-          ]
+          return [allFiles.create_company_dieuleA, allFiles.create_company_phu_luc_2, allFiles.create_company_uyquyen]
         }
       } else if (type === '2') {
         if (opt === 'organization') {
@@ -267,82 +249,123 @@ const getChangeInfoFiles = (type, key) => {
       path: '/files/change_info/change_info_File_3_PhuLuc_II_4_ChuSoHuu.docx',
     },
     change_info_uyquyen: {
-      // ??
       name: 'Ủy quyền',
       path: '/files/change_info/change_info_uyquyen.docx',
+    },
+
+    // 2tv
+    change_info_2tv_quyetdinh_thaydoi_HDTV: {
+      name: 'Quyết định thay đổi HDTV',
+      path: '/files/change_info/2tv/change_info_File_quyetdinh_thaydoi_hdtv.docx',
+    },
+    change_info_2tv_bienbanhop_HDTV: {
+      name: 'Biên bản họp thay đổi HDTV',
+      path: '/files/change_info/2tv/change_info_File_bienbanhop_hdtv.docx',
+    },
+
+    change_info_2tv_phuluc_I_6: {
+      name: 'Phụ lục I - 6',
+      path: '/files/change_info/2tv/change_info_File_Phuluc_I_6.docx',
+    },
+
+    // cp
+
+    change_info_cp_quyetdinh_thaydoi_HDCD: {
+      name: 'Quyết định thay đổi HDTV',
+      path: '/files/change_info/cp/change_info_File_quyetdinh_thaydoi_hdcd.docx',
+    },
+
+    change_info_cp_bienbanhop_HDCD: {
+      name: 'Biên bản họp thay đổi HDTV',
+      path: '/files/change_info/cp/change_info_File_bienban_hdcd.docx',
     },
   }
 
   let changeInfoFile = {
-    legal_representative: [
-      allFiles.change_info_quyetdinh,
-      allFiles.change_info_phu_luc_4,
-      allFiles.change_info_uyquyen,
-    ],
+    legal_representative: [allFiles.change_info_quyetdinh, allFiles.change_info_phu_luc_4, allFiles.change_info_uyquyen],
 
     // Người đại diện theo ủy quyền của chủ sở hữu là tổ chức: "Phụ lục II-1","File_3_UyQuyen.doc",
-    present_change: [
-      allFiles.change_info_phu_luc_4,
-      allFiles.change_info_uyquyen,
-    ],
+    present_change: [allFiles.change_info_phu_luc_4, allFiles.change_info_uyquyen],
 
     // Địa chỉ trụ sở chính: "Quyết định thay đổi", "Phụ lục II-1","File_3_UyQuyen.doc",
-    location: [
-      allFiles.change_info_quyetdinh,
-      allFiles.change_info_phu_luc_4,
-      allFiles.change_info_uyquyen,
-    ],
+    location: [allFiles.change_info_quyetdinh, allFiles.change_info_phu_luc_4, allFiles.change_info_uyquyen],
 
     // Giảm vốn điều lệ: "Quyết định thay đổi", "Phụ lục II-1","File_3_UyQuyen.doc",
-    down_authorized_capital: [
-      allFiles.change_info_quyetdinh,
-      allFiles.change_info_phu_luc_2_4,
-      allFiles.change_info_uyquyen,
-    ],
+    down_authorized_capital: [allFiles.change_info_quyetdinh, allFiles.change_info_phu_luc_2_4, allFiles.change_info_uyquyen],
 
     // Chủ sở hữu: "Hợp đồng chuyển nhượng", "Phụ lục II-4","File_3_UyQuyen.doc",
-    transfer_contract: [
-      allFiles.change_info_hop_dong_chuyen_nhuong,
-      allFiles.change_info_phu_luc_2_4,
-      allFiles.change_info_uyquyen,
-    ],
+    transfer_contract: [allFiles.change_info_hop_dong_chuyen_nhuong, allFiles.change_info_phu_luc_2_4, allFiles.change_info_uyquyen],
 
     // Ngành nghề kinh doanh:"Quyết định thay đổi", "Phụ lục II-1","File_3_UyQuyen.doc",
-    company_career: [
-      allFiles.change_info_quyetdinh,
-      allFiles.change_info_phu_luc_4,
-      allFiles.change_info_uyquyen,
-    ],
+    company_career: [allFiles.change_info_quyetdinh, allFiles.change_info_phu_luc_4, allFiles.change_info_uyquyen],
 
     // Tăng vốn điều lệ:"Quyết định thay đổi", "Phụ lục II-1","File_3_UyQuyen.doc",
-    up_authorized_capital: [
-      allFiles.change_info_quyetdinh,
-      allFiles.change_info_phu_luc_4,
-      allFiles.change_info_uyquyen,
-    ],
+    up_authorized_capital: [allFiles.change_info_quyetdinh, allFiles.change_info_phu_luc_4, allFiles.change_info_uyquyen],
 
     // Tên doanh nghiệp:"Quyết định thay đổi", "Phụ lục II-1","File_3_UyQuyen.doc",
-    name: [
-      allFiles.change_info_quyetdinh,
-      allFiles.change_info_phu_luc_4,
-      allFiles.change_info_uyquyen,
-    ],
+    name: [allFiles.change_info_quyetdinh, allFiles.change_info_phu_luc_4, allFiles.change_info_uyquyen],
 
     // Nội dung đăng ký thuế: "Phụ lục II-1","File_3_UyQuyen.doc",
     tax: [allFiles.change_info_phu_luc_4, allFiles.change_info_uyquyen],
+  }
+  
+  let changeInfoFile2TV = {
+    legal_representative: [allFiles.change_info_2tv_quyetdinh_thaydoi_HDTV, allFiles.change_info_phu_luc_4, allFiles.change_info_2tv_bienbanhop_HDTV],
+
+    // present_change: [allFiles.change_info_phu_luc_4, allFiles.change_info_uyquyen],
+
+    location: [allFiles.change_info_2tv_quyetdinh_thaydoi_HDTV, allFiles.change_info_2tv_bienbanhop_HDTV, allFiles.change_info_phu_luc_4],
+
+    down_authorized_capital: [
+      allFiles.change_info_2tv_quyetdinh_thaydoi_HDTV,
+      allFiles.change_info_2tv_bienbanhop_HDTV,
+      allFiles.change_info_phu_luc_2_4,
+      allFiles.change_info_2tv_phuluc_I_6,
+    ],
+
+    up_authorized_capital: [
+      allFiles.change_info_2tv_quyetdinh_thaydoi_HDTV,
+      allFiles.change_info_2tv_bienbanhop_HDTV,
+      allFiles.change_info_phu_luc_4,
+      allFiles.change_info_2tv_phuluc_I_6,
+    ],
+
+    transfer_contract: [allFiles.change_info_hop_dong_chuyen_nhuong, allFiles.change_info_phu_luc_2_4, allFiles.change_info_uyquyen],
+
+    company_career: [allFiles.change_info_2tv_quyetdinh_thaydoi_HDTV, allFiles.change_info_phu_luc_4, allFiles.change_info_2tv_bienbanhop_HDTV],
+
+    name: [allFiles.change_info_2tv_quyetdinh_thaydoi_HDTV, allFiles.change_info_2tv_bienbanhop_HDTV, allFiles.change_info_phu_luc_4],
+
+    // tax: [allFiles.change_info_phu_luc_4, allFiles.change_info_uyquyen],
+  }
+
+  let changeInfoFileCp = {
+    legal_representative: [allFiles.change_info_cp_quyetdinh_thaydoi_HDCD, allFiles.change_info_phu_luc_4, allFiles.change_info_cp_bienbanhop_HDCD],
+
+    // present_change: [allFiles.change_info_phu_luc_4, allFiles.change_info_cp_bienbanhop_HDCD],
+
+    location: [allFiles.change_info_cp_quyetdinh_thaydoi_HDCD, allFiles.change_info_phu_luc_4, allFiles.change_info_cp_bienbanhop_HDCD],
+
+    down_authorized_capital: [allFiles.change_info_cp_quyetdinh_thaydoi_HDCD, allFiles.change_info_phu_luc_2_4, allFiles.change_info_cp_bienbanhop_HDCD],
+
+    // transfer_contract: [allFiles.change_info_hop_dong_chuyen_nhuong, allFiles.change_info_phu_luc_2_4, allFiles.change_info_cp_bienbanhop_HDCD],
+
+    company_career: [allFiles.change_info_cp_quyetdinh_thaydoi_HDCD, allFiles.change_info_phu_luc_4, allFiles.change_info_cp_bienbanhop_HDCD],
+
+    up_authorized_capital: [allFiles.change_info_cp_quyetdinh_thaydoi_HDCD, allFiles.change_info_phu_luc_4, allFiles.change_info_cp_bienbanhop_HDCD],
+
+    name: [allFiles.change_info_cp_quyetdinh_thaydoi_HDCD, allFiles.change_info_phu_luc_4, allFiles.change_info_cp_bienbanhop_HDCD],
+
+    // tax: [allFiles.change_info_phu_luc_4, allFiles.change_info_cp_bienbanhop_HDCD],
   }
 
   switch (type) {
     case '1':
       return changeInfoFile?.[key]
     case '2':
-      return {
-        ...changeInfoFile,
-      }?.[key]
+      return changeInfoFile2TV?.[key]
     case '3':
-      return {
-        ...changeInfoFile,
-      }?.[key]
+      return changeInfoFileCp?.[key]
     default:
       return null
   }
@@ -394,31 +417,17 @@ const getDissolutionFiles = (type, key) => {
   switch (type) {
     case '1':
       return {
-        approve: [
-          allFiles.dissolution_1,
-          allFiles.dissolution_Phuluc,
-          allFiles.dissolution_uy_quyen,
-        ],
+        approve: [allFiles.dissolution_1, allFiles.dissolution_Phuluc, allFiles.dissolution_uy_quyen],
         cancel: [allFiles.dissolution_B, allFiles.dissolution_uy_quyen],
       }?.[key]
     case '2':
       return {
-        approve: [
-          allFiles.dissolution_Phuluc,
-          allFiles.dissolution_uy_quyen,
-          allFiles.dissolution_bienban_twoPerson,
-          allFiles.dissolution_quyetdinh_twoPerson,
-        ],
+        approve: [allFiles.dissolution_Phuluc, allFiles.dissolution_uy_quyen, allFiles.dissolution_bienban_twoPerson, allFiles.dissolution_quyetdinh_twoPerson],
         cancel: null,
       }?.[key]
     case '3':
       return {
-        approve: [
-          allFiles.dissolution_Phuluc,
-          allFiles.dissolution_uy_quyen,
-          allFiles.dissolution_bienban_cp,
-          allFiles.dissolution_quyetdinh_cp,
-        ],
+        approve: [allFiles.dissolution_Phuluc, allFiles.dissolution_uy_quyen, allFiles.dissolution_bienban_cp, allFiles.dissolution_quyetdinh_cp],
         cancel: null,
       }?.[key]
     default:
@@ -429,36 +438,26 @@ const getDissolutionFiles = (type, key) => {
 exports.getListFiles = (pathName) =>
   ({
     create_company: {
-      approve: (type, props, keys, opt) =>
-        getFileByPathName(type, props, keys, opt),
+      approve: (type, props, keys, opt) => getFileByPathName(type, props, keys, opt),
     },
     change_info: {
-      legal_representative: (type, props, keys, opt) =>
-        getFileByPathName(type, props, keys, opt),
+      legal_representative: (type, props, keys, opt) => getFileByPathName(type, props, keys, opt),
 
-      present_change: (type, props, keys, opt) =>
-        getFileByPathName(type, props, keys, opt),
+      present_change: (type, props, keys, opt) => getFileByPathName(type, props, keys, opt),
 
-      location: (type, props, keys, opt) =>
-        getFileByPathName(type, props, keys, opt),
+      location: (type, props, keys, opt) => getFileByPathName(type, props, keys, opt),
 
-      down_authorized_capital: (type, props, keys, opt) =>
-        getFileByPathName(type, props, keys, opt),
+      down_authorized_capital: (type, props, keys, opt) => getFileByPathName(type, props, keys, opt),
 
-      transfer_contract: (type, props, keys, opt) =>
-        getFileByPathName(type, props, keys, opt),
+      transfer_contract: (type, props, keys, opt) => getFileByPathName(type, props, keys, opt),
 
-      company_career: (type, props, keys, opt) =>
-        getFileByPathName(type, props, keys, opt),
+      company_career: (type, props, keys, opt) => getFileByPathName(type, props, keys, opt),
 
-      up_authorized_capital: (type, props, keys, opt) =>
-        getFileByPathName(type, props, keys, opt),
+      up_authorized_capital: (type, props, keys, opt) => getFileByPathName(type, props, keys, opt),
 
-      name: (type, props, keys, opt) =>
-        getFileByPathName(type, props, keys, opt),
+      name: (type, props, keys, opt) => getFileByPathName(type, props, keys, opt),
 
-      tax: (type, props, keys, opt) =>
-        getFileByPathName(type, props, keys, opt),
+      tax: (type, props, keys, opt) => getFileByPathName(type, props, keys, opt),
     },
 
     pending: {

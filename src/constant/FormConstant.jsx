@@ -310,6 +310,14 @@ const CHANGE_INFO_FORM = {
       mst: 'Mã số doanh nghiệp/ mã số thuế',
       time_provide: 'Ngày cấp',
       place_provide: 'Nơi cấp',
+      contribute_members: {
+        label: 'Hội đồng thành viên',
+        fields: {
+          name: 'Họ và Tên',
+          capital: 'Vốn góp',
+          capital_percent: 'Chiếm % vốn điều lệ',
+        },
+      },
     },
   },
 
@@ -470,32 +478,32 @@ const CREATE_COMPANY_FORM = {
 }
 
 const PENDING_FORM = {
-  cancel: {
-    title: 'Kinh doanh lại trước thời hạn',
-    fields: {
-      company_name: 'Tên doanh nghiệp (ghi bằng chữ in hoa)',
-      mst: 'Mã số doanh nghiệp/Mã số thuế',
-      opt_code: 'Số Giấy chứng nhận đăng ký kinh doanh (chỉ kê khai nếu không có mã số doanh nghiệp/mã số thuế)',
-      time_provide: 'Ngày cấp',
+  // cancel: {
+  //   title: 'Kinh doanh lại trước thời hạn',
+  //   fields: {
+  //     company_name: 'Tên doanh nghiệp (ghi bằng chữ in hoa)',
+  //     mst: 'Mã số doanh nghiệp/Mã số thuế',
+  //     opt_code: 'Số Giấy chứng nhận đăng ký kinh doanh (chỉ kê khai nếu không có mã số doanh nghiệp/mã số thuế)',
+  //     time_provide: 'Ngày cấp',
 
-      place_provide: 'Nơi cấp',
-      obj: 'Đối tượng tạm ngưng',
+  //     place_provide: 'Nơi cấp',
+  //     obj: 'Đối tượng tạm ngưng',
 
-      branch: {
-        branch_name: 'Tên chi nhánh/văn phòng đại diện/địa điểm kinh doanh (ghi bằng chữ in hoa)',
-        resp_office: 'Mã số thuế chi nhánh/văn phòng đại diện/địa điểm kinh doanh',
-        branch_name_opt: 'Tên chi nhánh',
-        branch_mst_opt: 'Mã số chi nhánh/Mã số thuế của chi nhánh',
-      },
-      time_range: {
-        start: 'Thời gian đăng ký tạm ngưng từ',
-        end: 'Thời gian đăng ký tạm ngưng đến',
-      },
-      reason: 'Lý do tạm ngưng',
-      org_person: 'Tên người đại diện pháp luật/người đứng đầu chi nhánh',
-    },
-    // Kinh doanh lại trước thời hạn
-  },
+  //     branch: {
+  //       branch_name: 'Tên chi nhánh/văn phòng đại diện/địa điểm kinh doanh (ghi bằng chữ in hoa)',
+  //       resp_office: 'Mã số thuế chi nhánh/văn phòng đại diện/địa điểm kinh doanh',
+  //       branch_name_opt: 'Tên chi nhánh',
+  //       branch_mst_opt: 'Mã số chi nhánh/Mã số thuế của chi nhánh',
+  //     },
+  //     time_range: {
+  //       start: 'Thời gian đăng ký tạm ngưng từ',
+  //       end: 'Thời gian đăng ký tạm ngưng đến',
+  //     },
+  //     reason: 'Lý do tạm ngưng',
+  //     org_person: 'Tên người đại diện pháp luật/người đứng đầu chi nhánh',
+  //   },
+  //   // Kinh doanh lại trước thời hạn
+  // },
   approve: {
     // Tạm ngưng kinh doanh
     title: 'Tạm ngưng kinh doanh',
@@ -504,7 +512,6 @@ const PENDING_FORM = {
       mst: 'Mã số doanh nghiệp hoặc Mã số thuế',
       time_provide: 'Ngày cấp',
       place_provide: 'Nơi cấp',
-      // opt_code: 'Số Giấy chứng nhận đăng ký kinh doanh (chỉ kê khai nếu không có mã số doanh nghiệp/mã số thuế)',
       obj: 'Đối tượng tạm ngưng',
       location: {
         label: 'Địa chỉ trụ sở chính',

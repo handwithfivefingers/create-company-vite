@@ -46,13 +46,10 @@ const HopDongChuyenNhuong = forwardRef((props, ref) => {
           </Col>
 
           <Col lg={12} md={12} sm={24} xs={24}>
-            {/* <CCInput name={[...fieldName, 'personal', 'doc_place_provide']} label="Nơi cấp" /> */}
-
             <CCSelect.SelectDocProvide ref={ref} name={[...fieldName, 'personal', 'doc_place_provide']} label="Nơi cấp" placeholder="Bấm vào đây" />
           </Col>
 
           <Col lg={12} md={12} sm={24} xs={24}>
-            {/* <CCInput name={[...fieldName, 'personal', 'contact_address']} label="Địa chỉ liên lạc" /> */}
             <CCSelect.SelectProvince ref={ref} name={[...fieldName, 'personal', 'address', 'contact']} />
           </Col>
         </Row>
@@ -152,16 +149,7 @@ const HopDongChuyenNhuong = forwardRef((props, ref) => {
           </Col>
           <Col span={24}>
             <Form.Item label="Địa chỉ trụ sở chính">
-              {/* <CCInput name={[...fieldName, 'organization', 'company_address', 'street']} label="Số nhà, ngách, hẻm, ngõ, đường phố/tổ/xóm/ấp/thôn" />
-
-              <CCInput name={[...fieldName, 'organization', 'company_address', 'town']} label="Xã/Phường/Thị trấn" />
-
-              <CCInput name={[...fieldName, 'organization', 'company_address', 'district']} label="Quận/Huyện/Thị xã/Thành phố thuộc tỉnh" />
-
-              <CCInput name={[...fieldName, 'organization', 'company_address', 'city']} label="Tỉnh/Thành phố" /> */}
-
               <CCSelect.SelectProvince ref={ref} name={[...fieldName, 'organization', 'company_address', 'current']} />
-
             </Form.Item>
           </Col>
 
@@ -178,9 +166,8 @@ const HopDongChuyenNhuong = forwardRef((props, ref) => {
           <Col span={24}>
             <Form.Item label="Bên A hiện đang sở hữu phần vốn góp là">
               <Form.Item name={[...fieldName, 'organization', 'capital_contribution', 'current_value']}>
-                <InputNumber style={{width:'100%'}}/>
+                <InputNumber style={{ width: '100%' }} />
               </Form.Item>
-
 
               <CCInput
                 type="select"

@@ -11,7 +11,7 @@ import CCSelect from '@/components/CCSelect'
 
 const BASE_FORM = ['pending', 'approve']
 
-const TamNgungKinhDoanh = forwardRef(({ data, current, index }, ref) => {
+const TamNgungKinhDoanh = forwardRef(({ type, current, index }, ref) => {
   const [objective, setObjective] = useState('')
 
   const handleChange = (e, pathname) => {
@@ -26,8 +26,7 @@ const TamNgungKinhDoanh = forwardRef(({ data, current, index }, ref) => {
   const renderFormByType = useMemo(() => {
     let xhtml = null
 
-    if (data?.type) {
-      let { type } = data
+    if (type) {
       if (+type === 3) {
         let listForm = [
           {
@@ -150,7 +149,7 @@ const TamNgungKinhDoanh = forwardRef(({ data, current, index }, ref) => {
     }
 
     return xhtml
-  }, [data])
+  }, [type])
 
   return (
     <Form.Item
