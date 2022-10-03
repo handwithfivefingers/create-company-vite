@@ -26,7 +26,6 @@ const { onInit } = new appConfig(app)
 
 const { task, backupDB } = new Cronjob()
 
-const { Order } = require('./server/model')
 
 
 initEnvLoaded()

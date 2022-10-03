@@ -1,17 +1,16 @@
-import React, { forwardRef, useCallback, useEffect, useState, useMemo } from 'react'
-import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons'
-import { Button, Col, Form, Row, Space, InputNumber } from 'antd'
-import { SELECT } from '@/constant/Common'
-import { PENDING_FORM } from '@/constant/FormConstant'
 import CCInput from '@/components/CCInput'
-import clsx from 'clsx'
-import styles from './styles.module.scss'
 import CCListForm from '@/components/CCListForm'
 import CCSelect from '@/components/CCSelect'
+import { SELECT } from '@/constant/Common'
+import { PENDING_FORM } from '@/constant/FormConstant'
+import { Col, Form, InputNumber, Row } from 'antd'
+import clsx from 'clsx'
+import React, { forwardRef, useMemo, useState } from 'react'
+import styles from './styles.module.scss'
 
 const BASE_FORM = ['pending', 'approve']
 
-const TamNgungKinhDoanh = forwardRef(({ data, current, index }, ref) => {
+const TamNgungKinhDoanh = forwardRef(({ type, current, index }, ref) => {
   const [objective, setObjective] = useState('')
 
   const handleChange = (e, pathname) => {
@@ -26,14 +25,13 @@ const TamNgungKinhDoanh = forwardRef(({ data, current, index }, ref) => {
   const renderFormByType = useMemo(() => {
     let xhtml = null
 
-    if (data?.type) {
-      let { type } = data
+    if (type) {
       if (+type === 3) {
         let listForm = [
           {
             label: 'Tên Chủ tịch HĐQT',
             placeholder: 'NGUYỄN VĂN A',
-            name: 'president',
+            name: ['president'],
             onChange: true,
             options: {
               toUpperCase: true,
@@ -52,8 +50,6 @@ const TamNgungKinhDoanh = forwardRef(({ data, current, index }, ref) => {
           <>
             <Form.Item label={PENDING_FORM.approve.fields.location.label}>
               <CCSelect.SelectProvince ref={ref} label={'Địa chỉ trụ sở chính'} name={[...BASE_FORM, 'location']} placeholder="Địa chỉ trụ sở chính" />
-
-              {/* <CCInput label={PENDING_FORM.approve.fields.location.label} name={[...BASE_FORM, 'location']} placeholder="Địa chỉ trụ sở chính" /> */}
             </Form.Item>
 
             <CCListForm
@@ -81,7 +77,7 @@ const TamNgungKinhDoanh = forwardRef(({ data, current, index }, ref) => {
           {
             label: PENDING_FORM.approve.fields.contribute_members.fields.name,
             placeholder: 'NGUYỄN VĂN A',
-            name: 'name',
+            name: ['name'],
             onChange: true,
             options: {
               toUpperCase: true,
@@ -95,7 +91,7 @@ const TamNgungKinhDoanh = forwardRef(({ data, current, index }, ref) => {
           {
             label: PENDING_FORM.approve.fields.contribute_members.fields.capital,
             placeholder: '80,000,000',
-            name: 'capital',
+            name: ['capital'],
             options: {
               column: 12,
               layout: 'horizontal',
@@ -106,7 +102,7 @@ const TamNgungKinhDoanh = forwardRef(({ data, current, index }, ref) => {
           {
             label: PENDING_FORM.approve.fields.contribute_members.fields.capital_percent,
             placeholder: '80',
-            name: 'capital_percent',
+            name: ['capital_percent'],
             options: {
               column: 12,
               layout: 'horizontal',
@@ -150,7 +146,7 @@ const TamNgungKinhDoanh = forwardRef(({ data, current, index }, ref) => {
     }
 
     return xhtml
-  }, [data])
+  }, [type])
 
   return (
     <Form.Item

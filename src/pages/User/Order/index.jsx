@@ -95,7 +95,7 @@ const UserOrder = () => {
       if (props === 'pending') {
         url = 'tam-ngung'
       } else if (props === 'change_info') {
-        url = 'thay-djoi-thong-tin'
+        url = 'thay-doi-thong-tin'
       } else if (props === 'dissolution') {
         url = 'giai-the'
       } else if (props === 'create_company') {
@@ -105,6 +105,8 @@ const UserOrder = () => {
 
     navigate(`/user/san-pham/${url}`, { state: { ...record } })
   }
+
+
   const renderService = (val, record, i) => {
     if (record?.data?.create_company) {
       return (
@@ -208,7 +210,7 @@ const UserOrder = () => {
         />
       </Table>
 
-      <Modal visible={modal.visible} footer={null} bodyStyle={null} width={modal.width} onCancel={() => closeModal()}>
+      <Modal open={modal.visible} footer={null} bodyStyle={null} width={modal.width} onCancel={() => closeModal()}>
         {modal.component}
       </Modal>
     </m.div>

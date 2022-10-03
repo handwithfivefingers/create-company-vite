@@ -56,7 +56,7 @@ const TemplateMail = (props) => {
           message.success(res.data.message)
         } else message.error(res.data.message)
       }
-      if (props.type === 2) {
+      else if (props.type === 2) {
         let res = await AdminMailService.editTemplate({
           _id: props.data._id,
           ...params,

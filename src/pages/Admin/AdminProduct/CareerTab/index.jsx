@@ -1,18 +1,25 @@
 import AdminProductService from '@/service/AdminService/AdminProductService'
 import { FormOutlined, MinusSquareOutlined } from '@ant-design/icons'
 import { Button, Drawer, Input, message, Popconfirm, Space, Table } from 'antd'
-import React, { forwardRef, useImperativeHandle, useState } from 'react'
+import React, { forwardRef, useImperativeHandle, useState, useEffect } from 'react'
 import { useFetch } from '../../../../helper/Hook'
 import CareerForm from './CarrerForm'
 import styles from './styles.module.scss'
+import CCPagination from '@/components/CCPagination'
 const CareerTab = forwardRef((props, ref) => {
-  const [career, setCareer] = useState([])
+  const [data, setData] = useState([])
+  const [current, setCurrent] = useState(1)
+
   const [childModal, setChildModal] = useState({
     visible: false,
     width: 0,
     component: null,
   })
-  const { data: careerData, refetch } = useFetch({
+  const {
+    data: careerData,
+    status,
+    refetch,
+  } = useFetch({
     cacheName: ['adminProduct', 'career'],
     fn: () => AdminProductService.getCareer(),
   })
@@ -24,6 +31,17 @@ const CareerTab = forwardRef((props, ref) => {
     }),
     [],
   )
+
+  useEffect(() => {
+    if (status === 'success' && careerData) {
+      setData((state) => {
+        let { data } = careerData
+
+        let sliceData = data?.slice((current - 1) * pagiConfigs.pageSize, (current - 1) * pagiConfigs.pageSize + pagiConfigs.pageSize)
+        return sliceData
+      })
+    }
+  }, [current])
 
   const handleAddCareer = () => {
     setChildModal({
@@ -76,11 +94,17 @@ const CareerTab = forwardRef((props, ref) => {
     })
   }
 
+  const pagiConfigs = {
+    current: current,
+    total: careerData?.count,
+    showSizeChanger: false,
+    pageSize: 10,
+    onChange: (current, pageSize) => setCurrent(current),
+  }
   return (
-    <>
-      <Table dataSource={careerData} rowKey={(record) => record._uuid || record._id} size="small" bordered scroll={{ x: 600 }}>
+    <div className={styles.tableWrapper}>
+      <Table dataSource={data} rowKey={(record) => record._uuid || record._id} size="small" bordered scroll={{ x: 600 }} pagination={false}>
         <Table.Column
-          // width={250}
           title="Tên ngành"
           dataIndex={'name'}
           filterSearch
@@ -101,7 +125,7 @@ const CareerTab = forwardRef((props, ref) => {
                   }}
                   allowClear
                   className={styles.inpSearch}
-                  enterButton 
+                  enterButton
                 />
               </div>
             )
@@ -122,10 +146,12 @@ const CareerTab = forwardRef((props, ref) => {
           )}
         />
       </Table>
-      <Drawer visible={childModal.visible} width={childModal.width} onClose={closeModal} destroyOnClose>
+
+      <CCPagination {...pagiConfigs} className={styles.pagi} />
+      <Drawer open={childModal.visible} width={childModal.width} onClose={closeModal} destroyOnClose>
         {childModal.component}
       </Drawer>
-    </>
+    </div>
   )
 })
 export default CareerTab

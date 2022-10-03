@@ -17,28 +17,101 @@ const UY_QUYEN = {
 const DAI_DIEN_PHAP_LUAT_FORM = {
   title: 'Đăng ký thay đổi người đại diện theo pháp luật',
   fields: {
-    company_name: 'Tên doanh nghiệp',
-    mst: 'Mã số doanh nghiệp/ mã số thuế',
-    old_name: 'Tên người đại diện pháp luật cũ',
-    old_title: 'Chức danh',
-    new_name: 'Họ và tên',
-    gender: 'Giới tính',
-    new_title: 'Chức danh',
-    birth_day: 'Ngày sinh',
-    per_type: 'Dân tộc',
-    national: 'Quốc tịch',
-    doc_type: 'Loại giấy tờ pháp lý',
-    doc_code: 'Số CMND/ CCCD/ Hộ chiếu',
-    doc_time_provide: 'Ngày cấp',
-    doc_place_provide: 'Nơi cấp',
-    reg_address: 'Số nhà, ngách, hẻm, ngõ, đường phố/tổ/xóm/ấp/thôn',
-    town: 'Xã/Phường/Thị Trấn',
-    district: 'Quận/Huyện/Thị Xã/Thành phố thuộc tỉnh',
-    city: 'Tỉnh/Thành phố',
-    contact_reg_address: 'Số nhà, ngách, hẻm, ngõ, đường phố/tổ/xóm/ấp/thôn',
-    contact_town: 'Xã/Phường/Thị Trấn',
-    contact_district: 'Quận/Huyện/Thị Xã/Thành phố thuộc tỉnh',
-    contact_city: 'Tỉnh/Thành phố',
+    exclude: {
+      label: 'Bỏ bớt người đại diện',
+      fields: {
+        name: 'Họ và tên',
+        title: 'Chức danh',
+      },
+    },
+    includes: {
+      label: 'Thêm mới người đại diện',
+      fields: {
+        name: 'Họ và tên',
+        gender: 'Giới tính',
+        title: 'Chức danh',
+        birth_day: 'Ngày sinh',
+        per_type: 'Dân tộc',
+        national: 'Quốc tịch',
+        doc_type: 'Loại giấy tờ pháp lý',
+        doc_code: 'Số CMND/ CCCD/ Hộ chiếu',
+        doc_time_provide: 'Ngày cấp',
+        doc_place_provide: 'Nơi cấp',
+        contact: {
+          label: 'Địa chỉ thường trú',
+          fields: {
+            address: 'Số nhà, ngách, hẻm, ngõ, đường phố/tổ/xóm/ấp/thôn',
+            city: 'Tỉnh/Thành phố',
+            district: 'Quận/Huyện/Thị xã/Thành phố thuộc tỉnh',
+            town: 'Xã/Phường/Thị trấn',
+          },
+        },
+        current: {
+          label: 'Địa chỉ hiện tại',
+          fields: {
+            address: 'Số nhà, ngách, hẻm, ngõ, đường phố/tổ/xóm/ấp/thôn',
+            city: 'Tỉnh/Thành phố',
+            district: 'Quận/Huyện/Thị xã/Thành phố thuộc tỉnh',
+            town: 'Xã/Phường/Thị trấn',
+          },
+        },
+      },
+    },
+    after_change: {
+      label: 'Danh sách người đại diện pháp luật sau khi thay đổi',
+      fields: {
+        name: 'Họ và tên',
+        gender: 'Giới tính',
+        title: 'Chức danh',
+        birth_day: 'Ngày sinh',
+        per_type: 'Dân tộc',
+        national: 'Quốc tịch',
+        doc_type: 'Loại giấy tờ pháp lý',
+        doc_code: 'Số CMND/ CCCD/ Hộ chiếu',
+        doc_time_provide: 'Ngày cấp',
+        doc_place_provide: 'Nơi cấp',
+        contact: {
+          label: 'Địa chỉ thường trú',
+          fields: {
+            address: 'Số nhà, ngách, hẻm, ngõ, đường phố/tổ/xóm/ấp/thôn',
+            city: 'Tỉnh/Thành phố',
+            district: 'Quận/Huyện/Thị xã/Thành phố thuộc tỉnh',
+            town: 'Xã/Phường/Thị trấn',
+          },
+        },
+        current: {
+          label: 'Địa chỉ hiện tại',
+          fields: {
+            address: 'Số nhà, ngách, hẻm, ngõ, đường phố/tổ/xóm/ấp/thôn',
+            city: 'Tỉnh/Thành phố',
+            district: 'Quận/Huyện/Thị xã/Thành phố thuộc tỉnh',
+            town: 'Xã/Phường/Thị trấn',
+          },
+        },
+      },
+    },
+    // company_name: 'Tên doanh nghiệp',
+    // mst: 'Mã số doanh nghiệp/ mã số thuế',
+    // old_name: 'Tên người đại diện pháp luật cũ',
+    // old_title: 'Chức danh',
+    // new_name: 'Họ và tên',
+    // gender: 'Giới tính',
+    // new_title: 'Chức danh',
+    // birth_day: 'Ngày sinh',
+    // per_type: 'Dân tộc',
+    // national: 'Quốc tịch',
+    // doc_type: 'Loại giấy tờ pháp lý',
+    // doc_code: 'Số CMND/ CCCD/ Hộ chiếu',
+    // doc_time_provide: 'Ngày cấp',
+    // doc_place_provide: 'Nơi cấp',
+    // reg_address: 'Số nhà, ngách, hẻm, ngõ, đường phố/tổ/xóm/ấp/thôn',
+    // town: 'Xã/Phường/Thị Trấn',
+    // district: 'Quận/Huyện/Thị Xã/Thành phố thuộc tỉnh',
+    // city: 'Tỉnh/Thành phố',
+    // contact_reg_address: 'Số nhà, ngách, hẻm, ngõ, đường phố/tổ/xóm/ấp/thôn',
+    // contact_town: 'Xã/Phường/Thị Trấn',
+    // contact_district: 'Quận/Huyện/Thị Xã/Thành phố thuộc tỉnh',
+    // contact_city: 'Tỉnh/Thành phố',
   },
 }
 
@@ -122,17 +195,61 @@ const HOP_DONG_CHUYEN_NHUONG_FORM = {
           district: 'Quận/Huyện/Thị xã/Thành phố thuộc tỉnh',
           city: 'Tỉnh/Thành phố',
         },
+
         legal_representative: 'Người đại diện theo pháp luật của công ty',
+
         legal_title: 'Chức danh',
-        capital_contribution: {
-          current_value: 'Vốn sở hữu',
-          type: 'Loại chuyển nhượng',
-          will: 'Phần vốn góp bên A muốn chuyển nhượng',
-          current_A_percent: 'Chiếm tỉ lệ',
-          transfer_price: 'Giá chuyển nhượng',
-          time_end: 'Thời điểm hoàn thành việc chuyển nhượng (Chọn Ngày/ tháng/ năm)',
-        },
+
         company_model: 'Mô hình công ty',
+
+        capital_contribution: {
+          label: 'Phần vốn góp',
+          fields: {
+            capital_current: {
+              label: 'Vốn góp',
+              field: {
+                num: 'Bằng số',
+                char: 'Bằng chữ',
+                percent: 'Chiếm % vốn điều lệ',
+              },
+            },
+            capital_current: {
+              label: 'Vốn góp',
+              field: {
+                num: 'Bằng số',
+                char: 'Bằng chữ',
+                percent: 'Chiếm % vốn điều lệ',
+              },
+            },
+          },
+
+          // A_side: {
+          //   label: 'Phần vốn góp Bên bán sở hữu',
+          //   fields: {
+          //     capital_current: {
+          //       label: 'Vốn góp',
+          //       field: {
+          //         num: 'Bằng số',
+          //         char: 'Bằng chữ',
+          //         percent: 'Chiếm % vốn điều lệ',
+          //       },
+          //     },
+          //   },
+          // },
+          // B_side: {
+          //   label: 'Phần vốn góp Bên bán chuyển nhượng',
+          //   fields: {
+          //     capital_current: {
+          //       label: 'Vốn góp',
+          //       field: {
+          //         num: 'Bằng số',
+          //         char: 'Bằng chữ',
+          //         percent: 'Chiếm % vốn điều lệ',
+          //       },
+          //     },
+          //   },
+          // },
+        },
       },
     },
   },
@@ -237,6 +354,14 @@ const CHANGE_INFO_FORM = {
       mst: 'Mã số doanh nghiệp/ mã số thuế',
       time_provide: 'Ngày cấp',
       place_provide: 'Nơi cấp',
+      contribute_members: {
+        label: 'Hội đồng thành viên',
+        fields: {
+          name: 'Họ và Tên',
+          capital: 'Vốn góp',
+          capital_percent: 'Chiếm % vốn điều lệ',
+        },
+      },
     },
   },
 
@@ -397,32 +522,32 @@ const CREATE_COMPANY_FORM = {
 }
 
 const PENDING_FORM = {
-  cancel: {
-    title: 'Kinh doanh lại trước thời hạn',
-    fields: {
-      company_name: 'Tên doanh nghiệp (ghi bằng chữ in hoa)',
-      mst: 'Mã số doanh nghiệp/Mã số thuế',
-      opt_code: 'Số Giấy chứng nhận đăng ký kinh doanh (chỉ kê khai nếu không có mã số doanh nghiệp/mã số thuế)',
-      time_provide: 'Ngày cấp',
+  // cancel: {
+  //   title: 'Kinh doanh lại trước thời hạn',
+  //   fields: {
+  //     company_name: 'Tên doanh nghiệp (ghi bằng chữ in hoa)',
+  //     mst: 'Mã số doanh nghiệp/Mã số thuế',
+  //     opt_code: 'Số Giấy chứng nhận đăng ký kinh doanh (chỉ kê khai nếu không có mã số doanh nghiệp/mã số thuế)',
+  //     time_provide: 'Ngày cấp',
 
-      place_provide: 'Nơi cấp',
-      obj: 'Đối tượng tạm ngưng',
+  //     place_provide: 'Nơi cấp',
+  //     obj: 'Đối tượng tạm ngưng',
 
-      branch: {
-        branch_name: 'Tên chi nhánh/văn phòng đại diện/địa điểm kinh doanh (ghi bằng chữ in hoa)',
-        resp_office: 'Mã số thuế chi nhánh/văn phòng đại diện/địa điểm kinh doanh',
-        branch_name_opt: 'Tên chi nhánh',
-        branch_mst_opt: 'Mã số chi nhánh/Mã số thuế của chi nhánh',
-      },
-      time_range: {
-        start: 'Thời gian đăng ký tạm ngưng từ',
-        end: 'Thời gian đăng ký tạm ngưng đến',
-      },
-      reason: 'Lý do tạm ngưng',
-      org_person: 'Tên người đại diện pháp luật/người đứng đầu chi nhánh',
-    },
-    // Kinh doanh lại trước thời hạn
-  },
+  //     branch: {
+  //       branch_name: 'Tên chi nhánh/văn phòng đại diện/địa điểm kinh doanh (ghi bằng chữ in hoa)',
+  //       resp_office: 'Mã số thuế chi nhánh/văn phòng đại diện/địa điểm kinh doanh',
+  //       branch_name_opt: 'Tên chi nhánh',
+  //       branch_mst_opt: 'Mã số chi nhánh/Mã số thuế của chi nhánh',
+  //     },
+  //     time_range: {
+  //       start: 'Thời gian đăng ký tạm ngưng từ',
+  //       end: 'Thời gian đăng ký tạm ngưng đến',
+  //     },
+  //     reason: 'Lý do tạm ngưng',
+  //     org_person: 'Tên người đại diện pháp luật/người đứng đầu chi nhánh',
+  //   },
+  //   // Kinh doanh lại trước thời hạn
+  // },
   approve: {
     // Tạm ngưng kinh doanh
     title: 'Tạm ngưng kinh doanh',
@@ -431,7 +556,6 @@ const PENDING_FORM = {
       mst: 'Mã số doanh nghiệp hoặc Mã số thuế',
       time_provide: 'Ngày cấp',
       place_provide: 'Nơi cấp',
-      // opt_code: 'Số Giấy chứng nhận đăng ký kinh doanh (chỉ kê khai nếu không có mã số doanh nghiệp/mã số thuế)',
       obj: 'Đối tượng tạm ngưng',
       location: {
         label: 'Địa chỉ trụ sở chính',

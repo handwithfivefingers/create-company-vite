@@ -1,20 +1,11 @@
-import React from 'react';
-import { Pagination } from 'antd';
-import styles from './styles.module.scss';
+import React from 'react'
+import { Pagination } from 'antd'
+import styles from './styles.module.scss'
+import clsx from 'clsx'
 export default function CCPagination(props) {
-  // props : total
-
-  //   current: data.current_page,
-  //   pageSize: 10,
-  //   total: data.count,
-  //   onChange: (page, pageSize) => {
-  //     fetchOrders(page);
-  //   },
-  //   showSizeChanger: false,
-
   return (
     <Pagination
-      className={styles.pagi}
+      className={clsx([styles.pagi, props.className])}
       size="small"
       total={props?.total}
       current={props?.current}
@@ -22,5 +13,5 @@ export default function CCPagination(props) {
       onChange={props?.onChange}
       showSizeChanger={props?.showSizeChanger}
     />
-  );
+  )
 }

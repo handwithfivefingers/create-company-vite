@@ -1,71 +1,49 @@
-import React from 'react';
-import WebViewer, { getInstance } from '@pdftron/webviewer';
-import { Button, Card, Drawer, Form, Input, List, message, Modal, Space, Typography, Radio } from 'antd';
-import { useEffect, useRef, useState } from 'react';
-import ReactDOMServer from 'react-dom/server';
-import { RiPlayList2Fill } from 'react-icons/ri';
-import { BiDownload } from 'react-icons/bi';
-import { useParams } from 'react-router-dom';
+import React from 'react'
+import WebViewer, { getInstance } from '@pdftron/webviewer'
+import { Button, Card, Drawer, Form, Input, List, message, Modal, Space, Typography, Radio } from 'antd'
+import { useEffect, useRef, useState } from 'react'
+import ReactDOMServer from 'react-dom/server'
+import { RiPlayList2Fill } from 'react-icons/ri'
+import { BiDownload } from 'react-icons/bi'
+import { useParams } from 'react-router-dom'
 
-const BASE_URL = import.meta.env.NODE_ENV === 'production' ? '/public' : 'http://localhost:3001/public';
+const BASE_URL = import.meta.env.NODE_ENV === 'production' ? '/public' : 'http://localhost:3001/public'
 
 const PDFViewer = (props) => {
-  const [visible, setVisible] = useState(false);
+  const [visible, setVisible] = useState(false)
 
-  const [initialDoc, setInitialDoc] = useState(null);
+  const [initialDoc, setInitialDoc] = useState(null)
 
-  const [filePath, setFilePath] = useState('');
+  const [filePath, setFilePath] = useState('')
 
   const [childModal, setChildModal] = useState({
     visible: false,
     component: null,
     width: 0,
-  });
+  })
 
-  const refViewer = useRef();
+  const refViewer = useRef()
 
   // const insRef = useRef();
   // const listfiles = props?.data?.files;
 
   useEffect(() => {
     return () => {
-      let instance = getInstance();
+      let instance = getInstance()
       if (instance) {
         // console.log(instance);
-        instance?.dispose();
+        instance?.dispose()
       }
-    };
-  }, []);
+    }
+  }, [])
 
   useEffect(() => {
-    let instance = getInstance();
-    if (!instance) renderPDF(refViewer, initialDoc, props?.data?.files);
-    else updateFiles();
-  }, [initialDoc, props]);
-
-  const showDrawer = () => {
-    setVisible(true);
-  };
-
-  const onClose = () => {
-    setVisible(false);
-  };
-
-  const filledJson = async (val) => {
-    // console.log(val);
-    const insRef = getInstance();
-    const { documentViewer } = insRef?.Core;
-    const doc = documentViewer.getDocument();
-    await doc.documentCompletePromise();
-    documentViewer.updateView();
-    await doc.applyTemplateValues(val);
-  };
+    let instance = getInstance()
+    if (!instance) renderPDF(refViewer, initialDoc, props?.data?.files)
+    else updateFiles()
+  }, [initialDoc, props])
 
   const handleCheckFile = async (files) => {
-    // console.log("handle check file");
-    // console.log('handle check file', files);
-    // console.log(files);
-
     Modal.confirm({
       closable: true,
       content: (
@@ -77,8 +55,8 @@ const PDFViewer = (props) => {
             renderItem={(item) => (
               <List.Item
                 onClick={(e) => {
-                  setInitialDoc(`${BASE_URL}${item.path}`);
-                  Modal.destroyAll();
+                  setInitialDoc(`${BASE_URL}${item.path}`)
+                  Modal.destroyAll()
                 }}
               >
                 <List.Item.Meta
@@ -96,55 +74,46 @@ const PDFViewer = (props) => {
         </Radio.Group>
       ),
       footer: null,
-    });
-  };
+    })
+  }
 
   const handlePluginPDFTron = (instance) => {
-    const {
-      setHeaderItems,
-      enableElements,
-      disableElements,
-      enableFeatures,
-      disableFeatures,
-      setTheme,
-      Feature,
-      Theme,
-    } = instance.UI;
+    const { setHeaderItems, enableElements, disableElements, enableFeatures, disableFeatures, setTheme, Feature, Theme } = instance.UI
 
     if (NodeList && !NodeList.prototype.forEach) {
-      NodeList.prototype.forEach = Array.prototype.forEach;
+      NodeList.prototype.forEach = Array.prototype.forEach
     }
 
     if (HTMLCollection && !HTMLCollection.prototype.forEach) {
-      HTMLCollection.prototype.forEach = Array.prototype.forEach;
+      HTMLCollection.prototype.forEach = Array.prototype.forEach
     }
 
-    instance.UI?.disableElements(['ribbons']); //
-    instance.UI?.disableElements(['viewControlsButton']); //
+    instance.UI?.disableElements(['ribbons']) //
+    instance.UI?.disableElements(['viewControlsButton']) //
     // instance.UI?.disableElements(["searchButton"]);
-    instance.UI?.disableElements(['panToolButton']); //
-    instance.UI?.disableElements(['pageNavOverlay']); //
+    instance.UI?.disableElements(['panToolButton']) //
+    instance.UI?.disableElements(['pageNavOverlay']) //
 
-    instance.UI?.disableFeatures(Feature.Download); //
-    instance.UI?.disableFeatures(Feature.TextSelection); //
+    instance.UI?.disableFeatures(Feature.Download) //
+    instance.UI?.disableFeatures(Feature.TextSelection) //
     // instance.UI?.disableFeatures(Feature.Annotations);
-    instance.UI?.disableFeatures(Feature.NotesPanel); //
-    instance.UI?.disableFeatures(Feature.FilePicker); //
+    instance.UI?.disableFeatures(Feature.NotesPanel) //
+    instance.UI?.disableFeatures(Feature.FilePicker) //
     // instance.UI?.disableFeatures([Feature.Print]);
-  };
+  }
 
   const handleDownloadfile = async (documentViewer, annotationManager) => {
-    const insRef = getInstance();
-    insRef.UI.setPrintQuality(2);
-    insRef.UI.useEmbeddedPrint(true);
-    insRef.UI.print();
-  };
+    const insRef = getInstance()
+    insRef.UI.setPrintQuality(2)
+    insRef.UI.useEmbeddedPrint(true)
+    insRef.UI.print()
+  }
 
   const renderPDF = async (ref, initialDoc = null, listDoc = null) => {
     // console.log('renderPDF');
     // console.log(props);
     try {
-      let files = props.data.files;
+      let files = props.data.files
 
       if (!ref?.current?.hasChildNodes()) {
         let params = {
@@ -154,15 +123,15 @@ const PDFViewer = (props) => {
           // showLocalFilePicker: true,
           fullAPI: true,
           // loadAsPDF: true,
-        };
+        }
 
-        let instance = await WebViewer(params, ref.current);
+        let instance = await WebViewer(params, ref.current)
 
         if (instance) {
           // insRef.current = instance; // Set ins to handle when re-render
           //Add new Button
           // console.log(files);
-          const { documentViewer, annotationManager, PDFNet } = instance.Core;
+          const { documentViewer, annotationManager, PDFNet } = instance.Core
           const newButton = [
             {
               type: 'actionButton',
@@ -180,22 +149,22 @@ const PDFViewer = (props) => {
               hidden: ['mobile'],
               onClick: () => handleDownloadfile(documentViewer, annotationManager),
             },
-          ];
+          ]
 
           instance.setHeaderItems(function (header) {
-            let currentHeader = header.headers[header.headerGroup];
-            header.update([...currentHeader, ...newButton]);
-          });
+            let currentHeader = header.headers[header.headerGroup]
+            header.update([...currentHeader, ...newButton])
+          })
 
-          const iframeDoc = instance.UI.iframeWindow.document;
-          const btn = iframeDoc.querySelectorAll('.list-btn');
+          const iframeDoc = instance.UI.iframeWindow.document
+          const btn = iframeDoc.querySelectorAll('.list-btn')
           btn.forEach((item, i) => {
             if (i === 1) {
-              item.innerHTML = ReactDOMServer.renderToString(<BiDownload style={{ fontSize: '16px' }} />);
+              item.innerHTML = ReactDOMServer.renderToString(<BiDownload style={{ fontSize: '16px' }} />)
             } else {
-              item.innerHTML = ReactDOMServer.renderToString(<RiPlayList2Fill style={{ fontSize: '16px' }} />);
+              item.innerHTML = ReactDOMServer.renderToString(<RiPlayList2Fill style={{ fontSize: '16px' }} />)
             }
-          });
+          })
           documentViewer.addEventListener('documentLoaded', async () => {
             // await PDFNet.initialize();
             // const doc = documentViewer.getDocument();
@@ -207,27 +176,27 @@ const PDFViewer = (props) => {
             // await PDFNet.runWithCleanup(async () => console.log('Running main function...'));
 
             // Refresh the cache with the newly updated document
-            documentViewer.refreshAll();
+            documentViewer.refreshAll()
             // Update viewer with new document
-            documentViewer.updateView();
-          });
+            documentViewer.updateView()
+          })
           // Handle Plugin
-          handlePluginPDFTron(instance); //
+          handlePluginPDFTron(instance) //
         }
       }
     } catch (err) {
       // console.error('Error rendering PDF', err);
     }
-  };
+  }
   const updateFiles = () => {
-    const insRef = getInstance();
+    const insRef = getInstance()
     if (insRef) {
-      insRef.UI.loadDocument(initialDoc);
+      insRef.UI.loadDocument(initialDoc)
     }
-  };
+  }
   // console.log('viewer', props?.data?.files);
 
-  return <div className="webviewer" ref={refViewer} style={{ height: 'calc(100vh - 100px)' }} />;
-};
+  return <div className="webviewer" ref={refViewer} style={{ height: 'calc(100vh - 100px)' }} />
+}
 
-export default PDFViewer;
+export default PDFViewer

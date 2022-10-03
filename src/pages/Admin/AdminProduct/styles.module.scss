@@ -7,3 +7,15 @@
     align-items: center;
   }
 }
+
+.tabsPanel {
+  display: flex;
+  :nth-child(2) {
+    > div {
+      height: 100%;
+      > div {
+        height: 100%;
+      }
+    }
+  }
+}

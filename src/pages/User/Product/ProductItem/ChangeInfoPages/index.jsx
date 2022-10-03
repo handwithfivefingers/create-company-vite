@@ -1,5 +1,6 @@
 import React, { forwardRef, Suspense, lazy } from 'react'
 import { Card, Space, Spin, Button } from 'antd'
+import { useCallback } from 'react'
 // import PreviewData from '../../../../../components/Form/PreviewData'
 
 const ChangeInforForm = lazy(() => {
@@ -11,7 +12,34 @@ const PreviewData = lazy(() => {
 })
 
 const ChangeInfoPages = forwardRef((props, ref) => {
-  const { handleSaveChangeInfo, handlePurchaseChangeInfo, data, step, loading, onFinishScreen, Prev, Next, changeInforStep, editData } = props
+  const { saveService, paymentService, data, step, loading, onFinishScreen, Prev, Next, changeInforStep, editData } = props
+
+  const handleSaveChangeInfo = useCallback(
+    (ref) => {
+      let value = ref.current.getFieldsValue()
+      const params = {
+        track: {
+          step: 1,
+          status: 'progress',
+        },
+        payment: 0,
+        data: {
+          ...value,
+        },
+      }
+      return saveService(params)
+    },
+    [data],
+  )
+
+  const handlePurchaseChangeInfo = useCallback(
+    (ref) => {
+      const params = getParams(ref)
+
+      return paymentService(params)
+    },
+    [data],
+  )
 
   return (
     <Card className="card-boxShadow">

@@ -2,31 +2,17 @@ import CCSteps from '@/components/CCHeaderSteps'
 import { CREATE_COMPANY_STEP, DISSOLUTION_STEP, PENDING_STEP } from '@/constant/Step'
 import ProductService from '@/service/UserService/ProductService'
 import { message, Modal, Spin, Form } from 'antd'
-import dateformat from 'dateformat'
 import moment from 'moment'
 import React, { lazy, useCallback, useEffect, useRef, useState } from 'react'
-import { useMemo } from 'react'
 import { useNavigate, useParams, useLocation } from 'react-router-dom'
 import { useFetch } from '../../../../helper/Hook'
 import styles from './styles.module.scss'
 import { m } from 'framer-motion'
-import { onSetFields } from '../../../../helper/Common'
 
-const CreateCompanyPages = lazy(() => {
-  return import('./CreateCompanyPages')
-})
-
-const ChangeInfoPages = lazy(() => {
-  return import('./ChangeInfoPages')
-})
-
-const PendingPages = lazy(() => {
-  return import('./PendingPages')
-})
-
-const DissolutionPages = lazy(() => {
-  return import('./DissolutionPages')
-})
+const CreateCompanyPages = lazy(() => import('./CreateCompanyPages'))
+const ChangeInfoPages = lazy(() => import('./ChangeInfoPages'))
+const PendingPages = lazy(() => import('./PendingPages'))
+const DissolutionPages = lazy(() => import('./DissolutionPages'))
 
 const UserProductItem = (props) => {
   let location = useLocation()
@@ -71,18 +57,14 @@ const UserProductItem = (props) => {
     fn: () => ProductService.getCategoryBySlug(params),
     otherPath: true,
   })
-  // console.log('data', data)
 
   const navigate = useNavigate()
 
-  // useEffect(() => {
-
-  //   refetch()
-  // }, [params])
-
   useEffect(() => {
     if (productData && status === 'success') {
-      setData(productData)
+      // let sortData = productData.sort((a, b) => b.type - a.type)
+      // console.log(productData)
+      setData({ ...productData, data: productData.data.sort((a, b) => a.type - b.type) })
     }
   }, [productData])
 
@@ -126,12 +108,12 @@ const UserProductItem = (props) => {
             onFinishScreen={(val) => handleChangeInforForm(val)}
             step={current}
             loading={isLoading}
-            handleSaveChangeInfo={handleSaveChangeInfo}
-            handlePurchaseChangeInfo={handlePurchaseChangeInfo}
             Prev={Prev}
             Next={Next}
             changeInforStep={changeInforStep}
             editData={location.state}
+            saveService={saveService}
+            paymentService={paymentService}
           />
         )
       case 3:
@@ -215,14 +197,14 @@ const UserProductItem = (props) => {
     })
   }, [])
 
-  const handlePurchaseChangeInfo = useCallback(
-    (ref) => {
-      const params = getParams(ref)
+  // const handlePurchaseChangeInfo = useCallback(
+  //   (ref) => {
+  //     const params = getParams(ref)
 
-      return paymentService(params)
-    },
-    [data],
-  )
+  //     return paymentService(params)
+  //   },
+  //   [data],
+  // )
 
   const handlePurchaseCreateCompany = useCallback(
     (ref) => {
@@ -294,23 +276,23 @@ const UserProductItem = (props) => {
     [data],
   )
 
-  const handleSaveChangeInfo = useCallback(
-    (ref) => {
-      let value = ref.current.getFieldsValue()
-      const params = {
-        track: {
-          step: 1,
-          status: 'progress',
-        },
-        payment: 0,
-        data: {
-          ...value,
-        },
-      }
-      return saveService(params)
-    },
-    [data],
-  )
+  // const handleSaveChangeInfo = useCallback(
+  //   (ref) => {
+  //     let value = ref.current.getFieldsValue()
+  //     const params = {
+  //       track: {
+  //         step: 1,
+  //         status: 'progress',
+  //       },
+  //       payment: 0,
+  //       data: {
+  //         ...value,
+  //       },
+  //     }
+  //     return saveService(params)
+  //   },
+  //   [data],
+  // )
 
   const handleSavePending = useCallback(
     (ref) => {
@@ -367,7 +349,7 @@ const UserProductItem = (props) => {
       </div>
 
       <Modal
-        visible={childModal.visible}
+        open={childModal.visible}
         width={childModal.width}
         footer={null}
         bodyStyle={{

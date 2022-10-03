@@ -101,9 +101,6 @@ function App() {
   if (authReducer.authenticating && !authReducer.status) {
     return <LoadingScreen />
   }
-
-  console.log(VNnum2words(50000000000000))
-  
   return (
     <div className="App">
       <QueryClientProvider client={queryClient}>
@@ -114,7 +111,6 @@ function App() {
             </BrowserRouter>
           </RouterProvider>
         </ConfigProvider>
-
         <ReactQueryDevtools initialIsOpen={false} />
       </QueryClientProvider>
     </div>

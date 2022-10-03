@@ -17,7 +17,7 @@ const CareerTab = React.lazy(async () => await import('./CareerTab'))
 
 const { TabPane } = Tabs
 const AdminProduct = (props) => {
-  const [activeTabs, setActiveTabs] = useState('1')
+  const [activeTabs, setActiveTabs] = useState(1)
   const productRef = useRef()
 
   const [childModal, setChildModal] = useState({
@@ -115,36 +115,40 @@ const AdminProduct = (props) => {
 
     return xhtml
   }
-
+  const items = [
+    {
+      label: 'Danh mục',
+      key: 1,
+      children: <CategoryTab ref={productRef} />,
+    },
+    {
+      label: 'Sản phẩm',
+      key: 2,
+      children: <ProductsTab ref={productRef} />,
+    },
+    {
+      label: 'Danh mục Ngành nghề',
+      key: 3,
+      children: <CareerCategoryTab ref={productRef} />,
+    },
+    {
+      label: 'Ngành nghề',
+      key: 4,
+      children: <CareerTab ref={productRef} />,
+    },
+  ]
   return (
     <>
       <AdminHeader title="Quản lý sản phẩm" extra={renderExtra()} />
 
-      <div style={{ padding: 8, background: '#fff' }}>
-        <Tabs activeKey={activeTabs} onChange={(key) => setActiveTabs(key)} destroyInactiveTabPane>
-          <TabPane tab="Danh mục" key={1}>
-            <Suspense fallback={'Wait a sec'}>
-              <CategoryTab ref={productRef} />
-            </Suspense>
-          </TabPane>
-          <TabPane tab="Sản phẩm" key={2}>
-            <Suspense fallback={'Wait a sec'}>
-              <ProductsTab ref={productRef} />
-            </Suspense>
-          </TabPane>
-          <TabPane tab="Danh mục Ngành nghề" key={3}>
-            <Suspense fallback={'Wait a sec'}>
-              <CareerCategoryTab ref={productRef} />
-            </Suspense>
-          </TabPane>
-          <TabPane tab="Ngành nghề" key={4}>
-            <Suspense fallback={'Wait a sec'}>
-              <CareerTab ref={productRef} />
-            </Suspense>
-          </TabPane>
-        </Tabs>
-      
-      </div>
+      <Tabs
+        className={styles.tabsPanel}
+        defaultActiveKey={1}
+        activeKey={activeTabs}
+        onChange={(key) => setActiveTabs(key)}
+        destroyInactiveTabPane
+        items={items}
+      />
     </>
   )
 }

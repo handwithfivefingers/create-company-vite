@@ -1,27 +1,16 @@
 import CCInput from '@/components/CCInput'
 import GlobalService from '@/service/GlobalService'
 import { Col, Form, Input, Row, Select } from 'antd'
-import React, { forwardRef, memo, useEffect, useState } from 'react'
+import React, { forwardRef, useEffect, useState } from 'react'
 import { onSetFields } from '@/helper/Common'
-import { ProvinceAction } from '@/store/actions'
-import { useDispatch, useSelector } from 'react-redux'
 import { useFetch } from '@/helper/Hook'
 const { Option } = Select
 
 const SelectProvince = forwardRef((props, ref) => {
-  // const { province: city } = useSelector((state) => state.provinceReducer)
-
-  const {
-    data: city,
-    isLoading,
-    status,
-    refetch,
-  } = useFetch({
+  const { data: city } = useFetch({
     cacheName: ['careerData', 'province'],
     fn: () => GlobalService.getProvince(),
   })
-
-  const dispatch = useDispatch()
 
   const [params, setParams] = useState({
     code: null,
@@ -34,10 +23,6 @@ const SelectProvince = forwardRef((props, ref) => {
 
   const name = props?.name
 
-  // useEffect(() => {
-  //   !city.length && dispatch(ProvinceAction.getProvinceAction())
-  // }, [])
-
   useEffect(() => {
     getScreenData(params)
   }, [params])
@@ -47,7 +32,9 @@ const SelectProvince = forwardRef((props, ref) => {
       let { pathName, value } = props?.data
       onSetFields([...pathName], value, ref)
     } else {
-      let val = ref.current.getFieldValue([...name])
+      console.log(name, ref.current)
+
+      let val = ref?.current?.getFieldValue([...name])
       onSetFields([...name], val, ref)
     }
   }, [])

@@ -7,7 +7,7 @@ import { number_format } from '../../../../helper/Common'
 import FormProduct from './ProductForm'
 import { forwardRef } from 'react'
 import { useImperativeHandle } from 'react'
-
+import styles from './styles.module.scss'
 const ProductsTab = forwardRef((props, ref) => {
   const [childModal, setChildModal] = useState({
     visible: false,
@@ -87,9 +87,9 @@ const ProductsTab = forwardRef((props, ref) => {
       visible: false,
     })
   }
-  
+
   return (
-    <>
+    <div className={styles.tableWrapper}>
       <Table
         loading={{
           spinning: productLoading,
@@ -102,11 +102,11 @@ const ProductsTab = forwardRef((props, ref) => {
         rowKey={(record) => record._id}
         size="small"
       >
-        <Table.Column title="Tên sản phẩm" render={(val, { name }, i) => name} />
+        <Table.Column width={300} title="Tên sản phẩm" render={(val, { name }, i) => <span className="inline">{name}</span>} />
 
-        <Table.Column title="Danh mục" render={(val, { categories }, i) => categories?.map(({ name }) => name)} />
+        <Table.Column title="Danh mục" width={250} render={(val, { categories }, i) => categories?.map(({ name }) => <span className="inline">{name}</span>)} />
 
-        <Table.Column title="Giá tiền" width={'25%'} render={(val, { price }, i) => `${number_format(price)} VND`} />
+        <Table.Column title="Giá tiền" render={(val, { price }, i) => <span className="inline">{`${number_format(price)} VND`}</span>} />
 
         <Table.Column
           title=""
@@ -124,10 +124,10 @@ const ProductsTab = forwardRef((props, ref) => {
         />
       </Table>
 
-      <Drawer visible={childModal.visible} width={childModal.width} onClose={closeModal} destroyOnClose>
+      <Drawer open={childModal.visible} width={childModal.width} onClose={closeModal} destroyOnClose>
         {childModal.component}
       </Drawer>
-    </>
+    </div>
   )
 })
 export default memo(ProductsTab)

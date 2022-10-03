@@ -1,22 +1,31 @@
-import { Col, Form, Row } from "antd";
-import clsx from "clsx";
-import React, { forwardRef, useEffect } from "react";
-import CCInput from "@/components/CCInput";
-import styles from "../DaiDienPhapLuat/styles.module.scss";
+import { Col, Form, Row, InputNumber } from 'antd'
+import clsx from 'clsx'
+import React, { forwardRef, useEffect } from 'react'
+import CCInput from '@/components/CCInput'
+import styles from '../DaiDienPhapLuat/styles.module.scss'
+import { onSetFields, htmlContent, numToWord } from '@/helper/Common'
 
-const BASE_FORM = ["change_info", "down_authorized_capital"];
+const BASE_FORM = ['change_info', 'down_authorized_capital']
 const GiamVonDieuLe = forwardRef((props, ref) => {
   useEffect(() => {
     if (ref) {
-      ref.current.setFieldsValue({
-        change_info: {
-          down_authorized_capital: {
-            type: "Hoàn trả vốn góp",
-          },
-        },
-      });
+      onSetFields(['change_info', 'down_authorized_capital', 'type'], 'Tăng vốn góp', ref)
     }
-  }, [ref]);
+  }, [ref])
+
+  let timer
+
+  const handleInpChange = (e, pathName) => {
+    let numInp = ref.current.getFieldValue([...pathName, 'num'])
+
+    if (timer) clearTimeout(timer)
+    timer = setTimeout(() => {
+      let transform = numToWord(numInp)
+      let upperLetter = transform.charAt(0).toUpperCase() + transform.slice(1)
+
+      onSetFields([...pathName, 'char'], upperLetter, ref)
+    }, 1000)
+  }
 
   return (
     <Form.Item
@@ -26,66 +35,35 @@ const GiamVonDieuLe = forwardRef((props, ref) => {
       })}
     >
       <Row gutter={[16, 0]}>
-        {/* <Col span={24}>
-          <CCInput label="Tên doanh nghiệp" name={["change_info", "down_authorized_capital", "company_name"]} />
-        </Col>
-        <Col span={24}>
-          <CCInput label="Mã số doanh nghiệp/ mã số thuế" name={["change_info", "down_authorized_capital", "mst"]} />
-        </Col> */}
         <Col span={12}>
-          <CCInput 
-          // label="Vốn điều lệ đã đăng ký (bằng số)" 
-          label={
-            <div
-              dangerouslySetInnerHTML={{
-                __html: 'Vốn điều lệ đã đăng ký <i>(bằng số)</i>',
-              }}
+          <Form.Item name={[...BASE_FORM, 'base_val', 'num']} label={htmlContent('Vốn điều lệ đã đăng ký <i>(bằng số)</i>')}>
+            <InputNumber
+              formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+              style={{ width: '100%' }}
+              onChange={(e) => handleInpChange(e, [...BASE_FORM, 'base_val'])}
+              stringMode
             />
-          }
-          name={[...BASE_FORM, "base_val", "num"]} />
+          </Form.Item>
         </Col>
         <Col span={12}>
-          <CCInput 
-          // label="Vốn điều lệ đã đăng ký (bằng chữ)" 
-          label={
-            <div
-              dangerouslySetInnerHTML={{
-                __html: 'Vốn điều lệ đã đăng ký <i>(bằng chữ)</i>',
-              }}
-            />
-          }
-          name={[...BASE_FORM, "base_val", "char"]} />
+          <CCInput label={htmlContent('Vốn điều lệ đã đăng ký <i>(bằng chữ)</i>')} name={[...BASE_FORM, 'base_val', 'char']} />
         </Col>
         <Col span={12}>
-          <CCInput 
-          // label="Vốn điều lệ sau khi giảm (bằng số)" 
-          label={
-            <div
-              dangerouslySetInnerHTML={{
-                __html: 'Vốn điều lệ sau khi giảm <i>(bằng số)</i>',
-              }}
+          <Form.Item name={[...BASE_FORM, 'new_base_val', 'num']} label={htmlContent('Vốn điều lệ sau khi giảm <i>(bằng số)</i>')}>
+            <InputNumber
+              formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+              style={{ width: '100%' }}
+              onChange={(e) => handleInpChange(e, [...BASE_FORM, 'new_base_val'])}
+              stringMode
             />
-          }
-          name={[...BASE_FORM, "new_base_val", "num"]} />
+          </Form.Item>
         </Col>
         <Col span={12}>
-          <CCInput 
-          //label="Vốn điều lệ sau khi giảm (bằng chữ)" 
-          label={
-            <div
-              dangerouslySetInnerHTML={{
-                __html: 'Vốn điều lệ sau khi giảm <i>(bằng chữ)</i>',
-              }}
-            />
-          }
-          name={[...BASE_FORM, "new_base_val", "char"]} />
+          <CCInput label={htmlContent('Vốn điều lệ sau khi giảm <i>(bằng chữ)</i>')} name={[...BASE_FORM, 'new_base_val', 'char']} />
         </Col>
-
-       
       </Row>
-      {/* </Form> */}
     </Form.Item>
-  );
-});
+  )
+})
 
-export default GiamVonDieuLe;
+export default GiamVonDieuLe
