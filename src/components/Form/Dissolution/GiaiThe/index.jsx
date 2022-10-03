@@ -1,11 +1,11 @@
+import CCInput from '@/components/CCInput'
+import CCListForm from '@/components/CCListForm'
+import CCSelect from '@/components/CCSelect'
+import { DISSOLUTION_FORM } from '@/constant/FormConstant'
 import { Form, InputNumber } from 'antd'
 import clsx from 'clsx'
 import React, { forwardRef, useEffect, useMemo, useState } from 'react'
-import CCInput from '@/components/CCInput'
 import styles from './styles.module.scss'
-import { DISSOLUTION_FORM } from '@/constant/FormConstant'
-import CCListForm from '@/components/CCListForm'
-import CCSelect from '@/components/CCSelect'
 const BASE_FORM = ['dissolution', 'approve']
 
 const GiaiThe = forwardRef((props, ref) => {

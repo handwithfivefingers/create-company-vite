@@ -1,13 +1,12 @@
-import React, { forwardRef, useCallback, useEffect, useState, useMemo } from 'react'
-import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons'
-import { Button, Col, Form, Row, Space, InputNumber } from 'antd'
-import { SELECT } from '@/constant/Common'
-import { PENDING_FORM } from '@/constant/FormConstant'
 import CCInput from '@/components/CCInput'
-import clsx from 'clsx'
-import styles from './styles.module.scss'
 import CCListForm from '@/components/CCListForm'
 import CCSelect from '@/components/CCSelect'
+import { SELECT } from '@/constant/Common'
+import { PENDING_FORM } from '@/constant/FormConstant'
+import { Col, Form, InputNumber, Row } from 'antd'
+import clsx from 'clsx'
+import React, { forwardRef, useMemo, useState } from 'react'
+import styles from './styles.module.scss'
 
 const BASE_FORM = ['pending', 'approve']
 
