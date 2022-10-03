@@ -27,7 +27,10 @@ module.exports = class CareerAdmin {
   fetchCareer = async (req, res) => {
     try {
       let _career = await Career.find().select('-__v -createdAt -updatedAt')
-      return successHandler(_career, res)
+
+      const count = await Career.find({}).countDocuments()
+
+      return successHandler({ data: _career, count }, res)
     } catch (err) {
       console.log('fetch error', err)
       return errHandler(err, res)

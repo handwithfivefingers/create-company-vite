@@ -35,7 +35,7 @@ const GiaiThe = forwardRef((props, ref) => {
         {
           label: 'Tên Chủ tịch HĐQT',
           placeholder: 'NGUYỄN VĂN A',
-          name: 'president',
+          name: ['president'],
           onChange: true,
           options: {
             toUpperCase: true,
@@ -76,7 +76,7 @@ const GiaiThe = forwardRef((props, ref) => {
         {
           label: DISSOLUTION_FORM.approve.fields.contribute_members.fields.name,
           placeholder: 'NGUYỄN VĂN A',
-          name: 'name',
+          name: ['name'],
           onChange: true,
           options: {
             toUpperCase: true,
@@ -90,7 +90,7 @@ const GiaiThe = forwardRef((props, ref) => {
         {
           label: DISSOLUTION_FORM.approve.fields.contribute_members.fields.capital,
           placeholder: '80,000,000',
-          name: 'capital',
+          name: ['capital'],
           options: {
             column: 12,
             layout: 'horizontal',
@@ -101,7 +101,7 @@ const GiaiThe = forwardRef((props, ref) => {
         {
           label: DISSOLUTION_FORM.approve.fields.contribute_members.fields.capital_percent,
           placeholder: '80',
-          name: 'capital_percent',
+          name: ['capital_percent'],
           options: {
             column: 12,
             layout: 'horizontal',

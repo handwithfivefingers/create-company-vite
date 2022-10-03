@@ -3,7 +3,7 @@ $second: var(--dark);
 .headerMenu {
   background-color: transparent;
   width: 100%;
-  height: 60px;
+  height: 68px;
   position: relative;
   z-index: 10;
   transition: 0.3s;
@@ -30,7 +30,6 @@ $second: var(--dark);
           color: var(--light);
         }
       }
-    
     }
     .user {
       span {
@@ -53,11 +52,14 @@ $second: var(--dark);
 .active {
   background: #fff;
   position: fixed;
-  top: -51px;
+  // top: -51px;
+  // top: -30px;
+  top: 0;
   left: 0;
   right: 0;
   max-width: 100%;
-  transform: translateY(50px);
+  // transform: translateY(50px);
+  transform: translateY(0px);
   box-shadow: 0 10px 20px -20px #333;
   border-radius: 0 0 5px 5px;
   .container {

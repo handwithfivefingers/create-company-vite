@@ -62,7 +62,9 @@ const UserProductItem = (props) => {
 
   useEffect(() => {
     if (productData && status === 'success') {
-      setData(productData)
+      // let sortData = productData.sort((a, b) => b.type - a.type)
+      // console.log(productData)
+      setData({ ...productData, data: productData.data.sort((a, b) => a.type - b.type) })
     }
   }, [productData])
 
@@ -106,9 +108,6 @@ const UserProductItem = (props) => {
             onFinishScreen={(val) => handleChangeInforForm(val)}
             step={current}
             loading={isLoading}
-            // handleSaveChangeInfo={handleSaveChangeInfo}
-
-            // handlePurchaseChangeInfo={handlePurchaseChangeInfo}
             Prev={Prev}
             Next={Next}
             changeInforStep={changeInforStep}
@@ -350,7 +349,7 @@ const UserProductItem = (props) => {
       </div>
 
       <Modal
-        visible={childModal.visible}
+        open={childModal.visible}
         width={childModal.width}
         footer={null}
         bodyStyle={{

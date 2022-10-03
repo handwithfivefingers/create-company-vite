@@ -66,15 +66,15 @@ const getPendingFiles = (type, key) => {
   }
 
   switch (type) {
-    case '1':
+    case 1:
       return {
         approve: [allFiles.pending_uyquyen, allFiles.pending_quyetdinh, allFiles.pending_a_b],
       }?.[key]
-    case '2':
+    case 2:
       return {
         approve: [allFiles.pending_uyquyen, allFiles.pending_quyetdinh_twoPerson, allFiles.pending_a_b, allFiles.pending_bienban_twoPerson],
       }?.[key]
-    case '3':
+    case 3:
       return {
         approve: [allFiles.pending_uyquyen, allFiles.pending_quyetdinh_cp, allFiles.pending_a_b, allFiles.pending_bienban_cp],
       }?.[key]
@@ -160,7 +160,7 @@ const getCreateCompanyFiles = (type, key, opt = null) => {
 
   switch (key) {
     case 'approve':
-      if (type === '1') {
+      if (type === 1) {
         if (opt === 'organization') {
           return [
             allFiles.create_company_dieuleB,
@@ -172,7 +172,7 @@ const getCreateCompanyFiles = (type, key, opt = null) => {
         } else if (opt === 'personal') {
           return [allFiles.create_company_dieuleA, allFiles.create_company_phu_luc_2, allFiles.create_company_uyquyen]
         }
-      } else if (type === '2') {
+      } else if (type === 2) {
         if (opt === 'organization') {
           return [
             allFiles.create_company_2tv_phuluc_I_6_DSTVCTTNHH2TV,
@@ -193,7 +193,7 @@ const getCreateCompanyFiles = (type, key, opt = null) => {
             allFiles.create_company_uyquyen,
           ]
         }
-      } else if (type === '3') {
+      } else if (type === 3) {
         if (opt === 'organization') {
           return [
             allFiles.create_company_cp_phuluc_I_4_GDNDKCTCP,
@@ -308,7 +308,7 @@ const getChangeInfoFiles = (type, key) => {
     // Nội dung đăng ký thuế: "Phụ lục II-1","File_3_UyQuyen.doc",
     tax: [allFiles.change_info_phu_luc_4, allFiles.change_info_uyquyen],
   }
-  
+
   let changeInfoFile2TV = {
     legal_representative: [allFiles.change_info_2tv_quyetdinh_thaydoi_HDTV, allFiles.change_info_phu_luc_4, allFiles.change_info_2tv_bienbanhop_HDTV],
 
@@ -348,7 +348,7 @@ const getChangeInfoFiles = (type, key) => {
 
     down_authorized_capital: [allFiles.change_info_cp_quyetdinh_thaydoi_HDCD, allFiles.change_info_phu_luc_2_4, allFiles.change_info_cp_bienbanhop_HDCD],
 
-    // transfer_contract: [allFiles.change_info_hop_dong_chuyen_nhuong, allFiles.change_info_phu_luc_2_4, allFiles.change_info_cp_bienbanhop_HDCD],
+    transfer_contract: [allFiles.change_info_hop_dong_chuyen_nhuong, allFiles.change_info_phu_luc_2_4, allFiles.change_info_cp_bienbanhop_HDCD],
 
     company_career: [allFiles.change_info_cp_quyetdinh_thaydoi_HDCD, allFiles.change_info_phu_luc_4, allFiles.change_info_cp_bienbanhop_HDCD],
 
@@ -358,13 +358,14 @@ const getChangeInfoFiles = (type, key) => {
 
     // tax: [allFiles.change_info_phu_luc_4, allFiles.change_info_cp_bienbanhop_HDCD],
   }
+  console.log('coming file', type, key, changeInfoFileCp?.[key])
 
   switch (type) {
-    case '1':
+    case 1:
       return changeInfoFile?.[key]
-    case '2':
+    case 2:
       return changeInfoFile2TV?.[key]
-    case '3':
+    case 3:
       return changeInfoFileCp?.[key]
     default:
       return null
@@ -415,17 +416,17 @@ const getDissolutionFiles = (type, key) => {
   }
 
   switch (type) {
-    case '1':
+    case 1:
       return {
         approve: [allFiles.dissolution_1, allFiles.dissolution_Phuluc, allFiles.dissolution_uy_quyen],
         cancel: [allFiles.dissolution_B, allFiles.dissolution_uy_quyen],
       }?.[key]
-    case '2':
+    case 2:
       return {
         approve: [allFiles.dissolution_Phuluc, allFiles.dissolution_uy_quyen, allFiles.dissolution_bienban_twoPerson, allFiles.dissolution_quyetdinh_twoPerson],
         cancel: null,
       }?.[key]
-    case '3':
+    case 3:
       return {
         approve: [allFiles.dissolution_Phuluc, allFiles.dissolution_uy_quyen, allFiles.dissolution_bienban_cp, allFiles.dissolution_quyetdinh_cp],
         cancel: null,

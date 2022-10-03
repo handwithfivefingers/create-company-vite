@@ -195,17 +195,61 @@ const HOP_DONG_CHUYEN_NHUONG_FORM = {
           district: 'Quận/Huyện/Thị xã/Thành phố thuộc tỉnh',
           city: 'Tỉnh/Thành phố',
         },
+
         legal_representative: 'Người đại diện theo pháp luật của công ty',
+
         legal_title: 'Chức danh',
-        capital_contribution: {
-          current_value: 'Vốn sở hữu',
-          type: 'Loại chuyển nhượng',
-          will: 'Phần vốn góp bên A muốn chuyển nhượng',
-          current_A_percent: 'Chiếm tỉ lệ',
-          transfer_price: 'Giá chuyển nhượng',
-          time_end: 'Thời điểm hoàn thành việc chuyển nhượng (Chọn Ngày/ tháng/ năm)',
-        },
+
         company_model: 'Mô hình công ty',
+
+        capital_contribution: {
+          label: 'Phần vốn góp',
+          fields: {
+            capital_current: {
+              label: 'Vốn góp',
+              field: {
+                num: 'Bằng số',
+                char: 'Bằng chữ',
+                percent: 'Chiếm % vốn điều lệ',
+              },
+            },
+            capital_current: {
+              label: 'Vốn góp',
+              field: {
+                num: 'Bằng số',
+                char: 'Bằng chữ',
+                percent: 'Chiếm % vốn điều lệ',
+              },
+            },
+          },
+
+          // A_side: {
+          //   label: 'Phần vốn góp Bên bán sở hữu',
+          //   fields: {
+          //     capital_current: {
+          //       label: 'Vốn góp',
+          //       field: {
+          //         num: 'Bằng số',
+          //         char: 'Bằng chữ',
+          //         percent: 'Chiếm % vốn điều lệ',
+          //       },
+          //     },
+          //   },
+          // },
+          // B_side: {
+          //   label: 'Phần vốn góp Bên bán chuyển nhượng',
+          //   fields: {
+          //     capital_current: {
+          //       label: 'Vốn góp',
+          //       field: {
+          //         num: 'Bằng số',
+          //         char: 'Bằng chữ',
+          //         percent: 'Chiếm % vốn điều lệ',
+          //       },
+          //     },
+          //   },
+          // },
+        },
       },
     },
   },

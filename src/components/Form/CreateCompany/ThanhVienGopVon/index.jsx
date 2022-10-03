@@ -13,11 +13,7 @@ const ThanhVienGopVon = forwardRef(({ data, ...props }, ref) => {
   const [listForm, setListForm] = useState([{}])
 
   useEffect(() => {
-    onSetFields(
-      [...BASE_FORM, 'origin_person', 0, 'doc_type'],
-      'Chứng minh nhân dân',
-      ref,
-    )
+    onSetFields([...BASE_FORM, 'origin_person', 0, 'doc_type'], 'Chứng minh nhân dân', ref)
   }, [])
 
   useEffect(() => {
@@ -51,23 +47,9 @@ const ThanhVienGopVon = forwardRef(({ data, ...props }, ref) => {
     let xhtml = null
 
     if (present?.[index] === 'personal') {
-      xhtml = (
-        <Personal
-          type={data?.type}
-          ref={ref}
-          BASE_FORM={[...BASE_FORM, 'origin_person', index]}
-          onSetFields={onSetFields}
-        />
-      )
+      xhtml = <Personal type={data?.type} ref={ref} BASE_FORM={[...BASE_FORM, 'origin_person', index]} onSetFields={onSetFields} />
     } else if (present?.[index] === 'organization') {
-      xhtml = (
-        <OriginalPerson
-          type={data?.type}
-          ref={ref}
-          onSetFields={onSetFields}
-          BASE_FORM={[...BASE_FORM, 'origin_person', index]}
-        />
-      )
+      xhtml = <OriginalPerson type={data?.type} ref={ref} onSetFields={onSetFields} BASE_FORM={[...BASE_FORM, 'origin_person', index]} />
     }
     return xhtml
   }
@@ -137,33 +119,20 @@ const ThanhVienGopVon = forwardRef(({ data, ...props }, ref) => {
               <Form.Item
                 label={
                   <div className={styles.label}>
-                    <div className={styles.title}>
-                      Thành viên góp vốn {data?.type !== '1' && ` thứ ${i + 1}`}
-                    </div>
+                    <div className={styles.title}>Thành viên góp vốn {data?.type !== '1' && ` thứ ${i + 1}`}</div>
                     <Button
                       type="text"
                       shape="circle"
                       danger
-                      icon={
-                        <MinusCircleOutlined onClick={() => removeItem(i)} />
-                      }
+                      icon={<MinusCircleOutlined onClick={() => removeItem(i)} />}
                       style={{
-                        display:
-                          (data?.type == 2 && listForm.length > 2) ||
-                          (data?.type == 3 && listForm.length > 3)
-                            ? 'block'
-                            : 'none',
+                        display: (data?.type == 2 && listForm.length > 2) || (data?.type == 3 && listForm.length > 3) ? 'block' : 'none',
                       }}
                     />
                   </div>
                 }
               >
-                <PresentPerson
-                  BASE_FORM={BASE_FORM}
-                  index={i}
-                  setListForm={handleSetListForm}
-                  ref={ref}
-                />
+                <PresentPerson BASE_FORM={BASE_FORM} index={i} setListForm={handleSetListForm} ref={ref} />
 
                 {renderPresentPerson(i)}
               </Form.Item>
@@ -190,18 +159,8 @@ const Personal = forwardRef((props, ref) => {
   return (
     <div className={styles.groupInput}>
       {type && type !== '1' && (
-        <Form.Item
-          name={[...BASE_FORM, 'capital']}
-          label="Số tiền góp vốn"
-          placeholder="Số tiền góp vốn"
-        >
-          <InputNumber
-            formatter={(value) =>
-              `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
-            }
-            min={0}
-            style={{ width: '100%' }}
-          />
+        <Form.Item name={[...BASE_FORM, 'capital']} label="Số tiền góp vốn" placeholder="Số tiền góp vốn">
+          <InputNumber formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')} min={0} style={{ width: '100%' }} />
         </Form.Item>
       )}
 
@@ -209,61 +168,22 @@ const Personal = forwardRef((props, ref) => {
         name={[...BASE_FORM, 'name']}
         label="Họ và Tên"
         placeholder="NGUYỄN VĂN A"
-        onChange={(e) =>
-          onSetFields([...BASE_FORM, 'name'], e.target.value, ref, true)
-        }
+        onChange={(e) => onSetFields([...BASE_FORM, 'name'], e.target.value, ref, true)}
       />
 
-      <CCInput
-        type="date"
-        name={[...BASE_FORM, 'birth_day']}
-        label="Ngày sinh"
-        placeholder="Chọn ngày"
-        inputReadOnly={false}
-      />
+      <CCInput type="date" name={[...BASE_FORM, 'birth_day']} label="Ngày sinh" placeholder="Chọn ngày" inputReadOnly={false} />
 
-      <CCInput
-        type="select"
-        name={[...BASE_FORM, 'gender']}
-        label="Giới tính"
-        options={SELECT.GENDER}
-        placeholder="Bấm vào đây"
-      />
+      <CCInput type="select" name={[...BASE_FORM, 'gender']} label="Giới tính" options={SELECT.GENDER} placeholder="Bấm vào đây" />
 
-      <CCSelect.SelectPersonType
-        ref={ref}
-        name={[...BASE_FORM, 'per_type']}
-        label="Dân tộc"
-        placeholder="Bấm vào đây"
-      />
+      <CCSelect.SelectPersonType ref={ref} name={[...BASE_FORM, 'per_type']} label="Dân tộc" placeholder="Bấm vào đây" />
 
-      <CCInput
-        type="select"
-        name={[...BASE_FORM, 'doc_type']}
-        label="Loại giấy tờ"
-        options={SELECT.DOC_TYPE}
-      />
+      <CCInput type="select" name={[...BASE_FORM, 'doc_type']} label="Loại giấy tờ" options={SELECT.DOC_TYPE} />
 
-      <CCInput
-        label={'Số CMND / CCCD / Hộ chiếu'}
-        name={[...BASE_FORM, 'doc_code']}
-        placeholder="0010829446357"
-      />
+      <CCInput label={'Số CMND / CCCD / Hộ chiếu'} name={[...BASE_FORM, 'doc_code']} placeholder="0010829446357" />
 
-      <CCInput
-        type="date"
-        name={[...BASE_FORM, 'doc_time_provide']}
-        label="Ngày cấp"
-        placeholder="Chọn ngày"
-        inputReadOnly={false}
-      />
+      <CCInput type="date" name={[...BASE_FORM, 'doc_time_provide']} label="Ngày cấp" placeholder="Chọn ngày" inputReadOnly={false} />
 
-      <CCSelect.SelectDocProvide
-        ref={ref}
-        name={[...BASE_FORM, 'doc_place_provide']}
-        label="Nơi cấp"
-        placeholder="Bấm vào đây"
-      />
+      <CCSelect.SelectDocProvide ref={ref} name={[...BASE_FORM, 'doc_place_provide']} label="Nơi cấp" placeholder="Bấm vào đây" />
 
       <Form.Item
         label={
@@ -303,11 +223,7 @@ const Personal = forwardRef((props, ref) => {
               display: radio && radio === 2 ? 'block' : 'none',
             }}
           >
-            <CCSelect.SelectProvince
-              ref={ref}
-              name={[...BASE_FORM, 'contact']}
-              label="Nơi cấp"
-            />
+            <CCSelect.SelectProvince ref={ref} name={[...BASE_FORM, 'contact']} label="Nơi cấp" />
           </div>
         }
       </Form.Item>
@@ -332,18 +248,8 @@ const OriginalPerson = forwardRef((props, ref) => {
     <div className={styles.groupInput}>
       {/* START Nhập thông tin của tổ chức */}
       {type && type !== '1' && (
-        <Form.Item
-          name={[...BASE_FORM, 'capital']}
-          label="Số tiền góp vốn"
-          placeholder="Số tiền góp vốn"
-        >
-          <InputNumber
-            formatter={(value) =>
-              `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
-            }
-            min={0}
-            style={{ width: '100%' }}
-          />
+        <Form.Item name={[...BASE_FORM, 'capital']} label="Số tiền góp vốn" placeholder="Số tiền góp vốn">
+          <InputNumber formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')} min={0} style={{ width: '100%' }} />
         </Form.Item>
       )}
 
@@ -351,20 +257,9 @@ const OriginalPerson = forwardRef((props, ref) => {
         label="Tên tổ chức"
         name={[...BASE_FORM, 'organization', 'name']}
         placeholder="CÔNG TY TNHH DỊCH VỤ TƯ VẤN WARREN B"
-        onChange={(e) =>
-          onSetFields(
-            [...BASE_FORM, 'organization', 'name'],
-            e.target.value,
-            ref,
-            true,
-          )
-        }
+        onChange={(e) => onSetFields([...BASE_FORM, 'organization', 'name'], e.target.value, ref, true)}
       />
-      <CCInput
-        label="Mã số DN hoặc Mã số thuế"
-        name={[...BASE_FORM, 'organization', 'mst']}
-        placeholder="0316184427"
-      />
+      <CCInput label="Mã số DN hoặc Mã số thuế" name={[...BASE_FORM, 'organization', 'mst']} placeholder="0316184427" />
       <CCInput
         type="date"
         name={[...BASE_FORM, 'organization', 'doc_time_provide']}
@@ -389,10 +284,7 @@ const OriginalPerson = forwardRef((props, ref) => {
         }
         className={styles.newLine}
       >
-        <CCSelect.SelectProvince
-          ref={ref}
-          name={[...BASE_FORM, 'organization', 'doc_place_provide']}
-        />
+        <CCSelect.SelectProvince ref={ref} name={[...BASE_FORM, 'organization', 'doc_place_provide']} />
       </Form.Item>
 
       <CCInput
@@ -405,9 +297,7 @@ const OriginalPerson = forwardRef((props, ref) => {
           />
         }
         placeholder="NGUYỄN VĂN A"
-        onChange={(e) =>
-          onSetFields([...BASE_FORM, 'name'], e.target.value, ref, true)
-        }
+        onChange={(e) => onSetFields([...BASE_FORM, 'name'], e.target.value, ref, true)}
       />
       <CCSelect.SelectTitle
         ref={ref}
@@ -423,56 +313,19 @@ const OriginalPerson = forwardRef((props, ref) => {
         options={SELECT.TITLE_2}
       />
 
-      <CCInput
-        type="date"
-        name={[...BASE_FORM, 'birth_day']}
-        label="Ngày sinh"
-        placeholder="Chọn ngày"
-        inputReadOnly={false}
-      />
+      <CCInput type="date" name={[...BASE_FORM, 'birth_day']} label="Ngày sinh" placeholder="Chọn ngày" inputReadOnly={false} />
 
-      <CCInput
-        type="select"
-        name={[...BASE_FORM, 'gender']}
-        label="Giới tính"
-        options={SELECT.GENDER}
-        placeholder="Bấm vào đây"
-      />
+      <CCInput type="select" name={[...BASE_FORM, 'gender']} label="Giới tính" options={SELECT.GENDER} placeholder="Bấm vào đây" />
 
-      <CCSelect.SelectPersonType
-        ref={ref}
-        name={[...BASE_FORM, 'per_type']}
-        label="Dân tộc"
-        placeholder="Bấm vào đây"
-      />
+      <CCSelect.SelectPersonType ref={ref} name={[...BASE_FORM, 'per_type']} label="Dân tộc" placeholder="Bấm vào đây" />
 
-      <CCInput
-        type="select"
-        name={[...BASE_FORM, 'doc_type']}
-        label="Loại giấy tờ"
-        options={SELECT.DOC_TYPE}
-      />
+      <CCInput type="select" name={[...BASE_FORM, 'doc_type']} label="Loại giấy tờ" options={SELECT.DOC_TYPE} />
 
-      <CCInput
-        label={'Số CMND / CCCD / Hộ chiếu'}
-        name={[...BASE_FORM, 'doc_code']}
-        placeholder="0316184427"
-      />
+      <CCInput label={'Số CMND / CCCD / Hộ chiếu'} name={[...BASE_FORM, 'doc_code']} placeholder="0316184427" />
 
-      <CCInput
-        type="date"
-        name={[...BASE_FORM, 'doc_time_provide']}
-        label="Ngày cấp"
-        placeholder="Chọn ngày"
-        inputReadOnly={false}
-      />
+      <CCInput type="date" name={[...BASE_FORM, 'doc_time_provide']} label="Ngày cấp" placeholder="Chọn ngày" inputReadOnly={false} />
 
-      <CCSelect.SelectDocProvide
-        ref={ref}
-        name={[...BASE_FORM, 'doc_place_provide']}
-        label="Nơi cấp"
-        placeholder="Bấm vào đây"
-      />
+      <CCSelect.SelectDocProvide ref={ref} name={[...BASE_FORM, 'doc_place_provide']} label="Nơi cấp" placeholder="Bấm vào đây" />
 
       <Form.Item
         className={styles.newLine}
@@ -484,11 +337,7 @@ const OriginalPerson = forwardRef((props, ref) => {
           />
         }
       >
-        <CCSelect.SelectProvince
-          ref={ref}
-          name={[...BASE_FORM, 'current']}
-          label="Nơi đăng kí hộ khẩu thường trú"
-        />
+        <CCSelect.SelectProvince ref={ref} name={[...BASE_FORM, 'current']} label="Nơi đăng kí hộ khẩu thường trú" />
       </Form.Item>
 
       <Form.Item
@@ -517,11 +366,7 @@ const OriginalPerson = forwardRef((props, ref) => {
               display: radio && radio === 2 ? 'block' : 'none',
             }}
           >
-            <CCSelect.SelectProvince
-              ref={ref}
-              name={[...BASE_FORM, 'contact']}
-              label="Nơi ở hiện tại"
-            />
+            <CCSelect.SelectProvince ref={ref} name={[...BASE_FORM, 'contact']} label="Nơi ở hiện tại" />
           </div>
         }
       </Form.Item>

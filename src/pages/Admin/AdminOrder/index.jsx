@@ -4,7 +4,7 @@ import axios from '@/config/axios'
 import { makeid, number_format } from '@/helper/Common'
 import AdminOrderService from '@/service/AdminService/AdminOrderService'
 import { DeleteOutlined, FormOutlined, SearchOutlined, CloseOutlined } from '@ant-design/icons'
-import { Button, Form, Input, message, Modal, Space, Table, Tag, Tooltip } from 'antd'
+import { Button, Form, Input, message, Modal, Popconfirm, Space, Table, Tag, Tooltip } from 'antd'
 import moment from 'moment'
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
@@ -51,16 +51,6 @@ const AdminOrder = () => {
     }
   }, [current, data])
 
-  const onHandleDelete = (record) => {
-    Modal.confirm({
-      title: 'Xác thực',
-      content: 'Bạn có muốn xóa ?',
-      async onOk() {
-        return await handleDeleteOrder(record._id)
-      },
-    })
-  }
-
   const handleDeleteOrder = async (id) => {
     try {
       let res = await AdminOrderService.deleteOrder(id)
@@ -72,8 +62,7 @@ const AdminOrder = () => {
     } catch (err) {
       console.log(err)
     } finally {
-      let { current_page } = data
-      fetchOrders(current_page)
+      refetch()
     }
   }
 
@@ -136,7 +125,9 @@ const AdminOrder = () => {
             <FormOutlined />
           </Link>
         </Button>
-        <Button onClick={() => onHandleDelete(record)} icon={<DeleteOutlined />} />
+        <Popconfirm placement="topRight" title={'Bạn có muốn xoá ?'} onConfirm={() => handleDeleteOrder(record._id)} okText="Yes" cancelText="No">
+          <Button icon={<DeleteOutlined />} />
+        </Popconfirm>
       </Space>
     )
     return xhtml
@@ -177,17 +168,31 @@ const AdminOrder = () => {
   }
 
   const renderProduct = (val, record, i) => {
-    return (
-      <div key={[val, i]} style={{ display: 'flex', justifyContent: 'flex-start' }}>
-        <Space wrap size={[8, 16]} align="start">
-          {record?.products.map((item) => (
-            <Tag color="#108ee9" key={makeid(9)}>
-              {item.name}
-            </Tag>
-          ))}
-        </Space>
-      </div>
-    )
+    if (record?.data?.create_company) {
+      return (
+        <Tag color="#108ee9" key={[Math.random(), Math.random().toFixed(Math.random() * 10)]}>
+          Thành lập doanh nghiệp
+        </Tag>
+      )
+    } else if (record?.data?.change_info) {
+      return (
+        <Tag color="#108ee9" key={[Math.random(), Math.random().toFixed(Math.random() * 10)]}>
+          Thay đổi thông tin
+        </Tag>
+      )
+    } else if (record?.data?.pending) {
+      return (
+        <Tag color="#108ee9" key={[Math.random(), Math.random().toFixed(Math.random() * 10)]}>
+          Tạm hoãn
+        </Tag>
+      )
+    } else if (record?.data?.dissolution) {
+      return (
+        <Tag color="#108ee9" key={[Math.random(), Math.random().toFixed(Math.random() * 10)]}>
+          Giải thể
+        </Tag>
+      )
+    }
   }
 
   const handleSearch = (selectedKeys = null, confirm, dataIndex = null) => {
@@ -262,7 +267,7 @@ const AdminOrder = () => {
           className="table"
           pagination={false}
           rowKey={(record) => record._id || makeid(9)}
-          scroll={{ x: true }}
+          scroll={{ x: 1350 }}
           sticky={{
             offsetScroll: 8,
             offsetHeader: -8,
@@ -289,7 +294,7 @@ const AdminOrder = () => {
       <CCPagination {...pagiConfigs} />
 
       {childModal.visible && (
-        <Modal footer={null} onCancel={() => onClose()} visible={childModal.visible} width={childModal.width}>
+        <Modal footer={null} onCancel={() => onClose()} open={childModal.visible} width={childModal.width}>
           {childModal.component}
         </Modal>
       )}

@@ -121,7 +121,7 @@ const CategoryTab = forwardRef((props, ref) => {
           }}
         />
       </Table>
-      <Drawer visible={childModal.visible} width={childModal.width} onClose={closeModal} destroyOnClose>
+      <Drawer open={childModal.visible} width={childModal.width} onClose={closeModal} destroyOnClose>
         {childModal.component}
       </Drawer>
     </>

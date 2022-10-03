@@ -3,3 +3,17 @@
     height: unset !important;
   }
 }
+
+.tableWrapper {
+  height: 100%;
+  background-color: #fff;
+  padding: 8px;
+  display: grid;
+  grid-template-rows: 1fr 60px;
+  > div {
+    overflow: auto;
+  }
+  .pagi {
+    align-items: center;
+  }
+}

@@ -8,9 +8,12 @@ import { forwardRef } from 'react'
 import { useImperativeHandle } from 'react'
 import moment from 'moment'
 import styles from './styles.module.scss'
+import CCPagination from '@/components/CCPagination'
 
 const CareerCategoryTab = forwardRef((props, ref) => {
   const [data, setData] = useState([])
+
+  const [current, setCurrent] = useState(1)
   const [childModal, setChildModal] = useState({
     visible: false,
     width: 0,
@@ -20,7 +23,7 @@ const CareerCategoryTab = forwardRef((props, ref) => {
   const {
     data: careerCategory,
     isLoading: careerCategoryLoading,
-    status: careerCategoryStatus,
+    status,
     refetch: careerCategoryRefetch,
   } = useFetch({
     cacheName: ['adminProduct', 'careerCategory'],
@@ -31,6 +34,17 @@ const CareerCategoryTab = forwardRef((props, ref) => {
     cacheName: ['adminProduct', 'career'],
     fn: () => AdminProductService.getCareer(),
   })
+
+  useEffect(() => {
+    if (status === 'success' && careerCategory) {
+      setData(() => {
+        let { data } = careerCategory
+
+        let sliceData = data?.slice((current - 1) * pagiConfigs.pageSize, (current - 1) * pagiConfigs.pageSize + pagiConfigs.pageSize)
+        return sliceData
+      })
+    }
+  }, [current])
 
   useImperativeHandle(
     ref,
@@ -94,15 +108,26 @@ const CareerCategoryTab = forwardRef((props, ref) => {
       visible: false,
     })
   }
+
+  const pagiConfigs = {
+    current: current,
+    total: careerCategory?.count,
+    showSizeChanger: false,
+    pageSize: 10,
+    onChange: (current, pageSize) => setCurrent(current),
+  }
+  console.log(careerCategoryLoading)
+
   return (
-    <>
+    <div className={styles.tableWrapper}>
       <Table
-        dataSource={careerCategory}
+        dataSource={data}
         loading={careerCategoryLoading}
         rowKey={(record) => record._uuid || record._id || Math.random()}
         size="small"
         bordered
         scroll={{ x: 768 }}
+        pagination={false}
       >
         <Table.Column
           width={250}
@@ -150,11 +175,11 @@ const CareerCategoryTab = forwardRef((props, ref) => {
           )}
         />
       </Table>
-
-      <Drawer visible={childModal.visible} width={childModal.width} onClose={closeModal} destroyOnClose>
+      <CCPagination {...pagiConfigs} className={styles.pagi} />
+      <Drawer open={childModal.visible} width={childModal.width} onClose={closeModal} destroyOnClose>
         {childModal.component}
       </Drawer>
-    </>
+    </div>
   )
 })
 

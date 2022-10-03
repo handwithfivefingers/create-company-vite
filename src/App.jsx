@@ -101,7 +101,6 @@ function App() {
   if (authReducer.authenticating && !authReducer.status) {
     return <LoadingScreen />
   }
-
   return (
     <div className="App">
       <QueryClientProvider client={queryClient}>
@@ -112,7 +111,6 @@ function App() {
             </BrowserRouter>
           </RouterProvider>
         </ConfigProvider>
-
         <ReactQueryDevtools initialIsOpen={false} />
       </QueryClientProvider>
     </div>

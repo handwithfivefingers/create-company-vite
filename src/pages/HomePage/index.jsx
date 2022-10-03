@@ -13,7 +13,6 @@ import styles from './styles.module.scss'
 const { Content } = Layout
 
 export default function HomePage() {
-
   const { route } = useContext(RouterContext)
 
   const authReducer = useSelector((state) => state.authReducer)

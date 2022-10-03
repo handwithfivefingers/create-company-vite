@@ -9,42 +9,8 @@ import { useNavigate, useLocation } from 'react-router-dom'
 import React, { useEffect, useState } from 'react'
 import Logo from '@/assets/img/Logo.png'
 import styles from './CustomHeader.module.scss'
-const MobileMenu = (props) => {
-  const [visible, setVisible] = useState(false)
-  const [size, setSize] = useState()
-
-  let navigate = useNavigate()
-
-  const showDefaultDrawer = () => {
-    setSize('default')
-    setVisible(true)
-  }
-  const signOut = () => {
-    console.log('signout')
-  }
-  const onClose = () => {
-    setVisible(false)
-  }
-
-  return (
-    <div className={clsx([styles.mobileMenu, 'container'])} style={{ display: 'flex', alignItems: 'center', height: '100%' }}>
-      <Button
-        type="text"
-        onClick={showDefaultDrawer}
-        style={{
-          color: props.path === '/' ? '' : 'var(--text3)',
-        }}
-      >
-        <MenuOutlined />
-      </Button>
-    </div>
-  )
-}
 
 const DesktopMenu = (props) => {
-  const signOut = () => {
-    console.log('signout')
-  }
   return (
     <div className={clsx([styles.container, 'container'])}>
       <Link to={'/'}>
@@ -55,9 +21,7 @@ const DesktopMenu = (props) => {
 }
 const CustomHeader = (props) => {
   const [permis, setPermis] = useState(false)
-  const [top, setTop] = useState()
   const [path, setPath] = useState()
-  const screens = useBreakpoint()
   let location = useLocation()
   const { auth } = props
 
@@ -73,30 +37,9 @@ const CustomHeader = (props) => {
     setPath(location.pathname)
   }, [location])
 
-  useEffect(() => {
-    let onScroll = () => {
-      let x = window.scrollY
-      setTop(x)
-    }
-    window.addEventListener('scroll', onScroll)
-    return () => window.removeEventListener('scroll', onScroll)
-  }, [top])
-
   return (
     <>
-      <div
-        className={clsx({
-          [styles.scrollHeader]: top > 60 ? true : false,
-        })}
-      />
-      <nav
-        className={clsx([
-          styles.headerMenu,
-          {
-            [styles.active]: top > 60 ? true : false,
-          },
-        ])}
-      >
+      <nav className={clsx([styles.headerMenu])}>
         <DesktopMenu permis={permis} path={path} auth={auth} />
       </nav>
     </>

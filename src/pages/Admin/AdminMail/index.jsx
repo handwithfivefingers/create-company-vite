@@ -181,7 +181,11 @@ function ListTemplateMail(props) {
         >
           <Table.Column width={'20%'} title="Mẫu Email" dataIndex="name" render={(val, record, i) => val} />
           <Table.Column width={'20%'} title="Subject" dataIndex="subject" render={(val, record, i) => val} />
-          <Table.Column title="Nội dung Email" width={'50%'} render={(val, record, i) => <div className={styles.tableContent}>{parser(record?.content || '')}</div>} />
+          <Table.Column
+            title="Nội dung Email"
+            width={'50%'}
+            render={(val, record, i) => <div className={styles.tableContent}>{parser(record?.content || '')}</div>}
+          />
 
           <Table.Column
             width={'80px'}
@@ -199,7 +203,7 @@ function ListTemplateMail(props) {
           />
         </Table>
 
-        <Drawer title={drawer.title} width={720} onClose={onClose} visible={drawer.visible}>
+        <Drawer title={drawer.title} width={720} onClose={onClose} open={drawer.visible}>
           {drawer.component}
         </Drawer>
       </div>

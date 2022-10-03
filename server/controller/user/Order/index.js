@@ -2,7 +2,7 @@ const shortid = require('shortid')
 const qs = require('query-string')
 const crypto = require('crypto')
 const { errHandler, successHandler, permisHandler, existHandler } = require('@response')
-const { Product, Order } = require('@model')
+const { Product, Order, Category } = require('@model')
 
 const { ResponseCode } = require('@common/ResponseCode')
 const { getListFiles } = require('@constant/File')
@@ -49,7 +49,7 @@ module.exports = class OrderUser {
       const { track, payment, data, categories } = req.body
 
       const { selectProduct, ...rest } = data
-      console.log(selectProduct)
+
       if (!selectProduct) throw 'Product not found'
 
       let { files, result, msg } = this.findKeysByObject(rest, selectProduct?.type)
@@ -230,7 +230,9 @@ module.exports = class OrderUser {
   calcPrice = async (productId) => {
     if (!productId) return null
 
-    let _prod = await Product.findOne({ _id: productId }).select('price')
+    let _prod = await Category.findOne({ _id: productId }).select('price')
+
+    console.log('productId', _prod)
 
     if (!_prod) return null
 
