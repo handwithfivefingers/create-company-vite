@@ -9,7 +9,7 @@ import styles from './styles.module.scss'
 const BASE_FORM = ['dissolution', 'approve']
 
 const GiaiThe = forwardRef((props, ref) => {
-  const [type, setType] = useState('1')
+  const [type, setType] = useState(1)
 
   useEffect(() => {
     let { selectProduct } = ref.current.getFieldsValue()
