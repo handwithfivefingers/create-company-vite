@@ -76,6 +76,8 @@ const TenCongTy = forwardRef((props, ref) => {
       }, 700)
     }
   }
+
+  
   return (
     <Form.Item
       label={<h2>Tên công ty </h2>}
