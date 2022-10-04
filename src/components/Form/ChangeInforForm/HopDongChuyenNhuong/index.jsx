@@ -102,7 +102,7 @@ const HopDongChuyenNhuong = forwardRef((props, ref) => {
 
     if (condition === 'personal') {
       xhtml = (
-        <Row>
+        <Row gutter={[12, 0]}>
           <Col lg={12} md={12} sm={24} xs={24}>
             <CCInput
               name={[...fieldName, 'personal', 'name']}
@@ -151,7 +151,7 @@ const HopDongChuyenNhuong = forwardRef((props, ref) => {
       // Người đại diện theo pháp luật của công ty:
       // Chức danh:
       xhtml = (
-        <Row>
+        <Row gutter={[12, 0]}>
           <Col lg={12} md={12} sm={24} xs={24}>
             <CCInput
               name={[...fieldName, 'organization', 'company_name']}
@@ -160,9 +160,15 @@ const HopDongChuyenNhuong = forwardRef((props, ref) => {
               onChange={(e) => onSetFields([...fieldName, 'organization', 'company_name'], e.target.value, ref, true)}
             />
           </Col>
+
           <Col lg={12} md={12} sm={24} xs={24}>
             <CCInput name={[...fieldName, 'organization', 'mst']} label="Mã số doanh nghiệp hoặc Mã số thuế" placeholder="0316184427" />
           </Col>
+
+          <Col lg={12} md={12} sm={24} xs={24}>
+            <CCInput name={[...fieldName, 'organization', 'mst_provide']} label="Ngày cấp (ngày đăng ký lần đầu)" type="date" />
+          </Col>
+
           <Col span={24}>
             <Form.Item label="Địa chỉ trụ sở chính">
               <CCSelect.SelectProvince ref={ref} name={[...fieldName, 'organization', 'company_address', 'current']} />
@@ -174,6 +180,14 @@ const HopDongChuyenNhuong = forwardRef((props, ref) => {
               name={[...fieldName, 'organization', 'legal_representative']}
               label="Họ và tên (người đại diện)"
               onChange={(e) => onSetFields([...fieldName, 'organization', 'legal_representative'], e.target.value, ref, true)}
+            />
+
+            <CCSelect.SelectTitle
+              ref={ref}
+              name={[...fieldName, 'organization', 'title']}
+              label="Chức danh"
+              placeholder="Bấm vào đây"
+              options={SELECT.TITLE_2}
             />
           </Col>
         </Row>
@@ -188,7 +202,7 @@ const HopDongChuyenNhuong = forwardRef((props, ref) => {
     if (condition === 'personal') {
       xhtml = // chủ sở hữu là cá nhân
         (
-          <Row gutter={[12]}>
+          <Row gutter={[12, 0]}>
             <Col lg={12} md={12} sm={24} xs={24}>
               <CCInput
                 name={[...fieldName, 'personal', 'name']}
@@ -236,7 +250,7 @@ const HopDongChuyenNhuong = forwardRef((props, ref) => {
     } else {
       // Trường hợp chủ sở hữu là tổ chức:
       xhtml = (
-        <Row>
+        <Row gutter={[12,0 ]}>
           <Col lg={12} md={12} sm={24} xs={24}>
             <CCInput
               name={[...fieldName, 'organization', 'company_name']}

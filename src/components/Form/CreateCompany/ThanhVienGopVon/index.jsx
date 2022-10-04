@@ -18,10 +18,10 @@ const ThanhVienGopVon = forwardRef(({ data, ...props }, ref) => {
 
   useEffect(() => {
     let value = [...listForm] // default is 1
-    if (data?.type == '2' && value.length < 2) {
+    if (data?.type == 2 && value.length < 2) {
       value.push({}) // -> 2
       setListForm(value)
-    } else if (data?.type === '3' && value.length < 3) {
+    } else if (data?.type === 3 && value.length < 3) {
       value.push({}, {}) // -> 3
       setListForm(value)
     }
@@ -30,10 +30,10 @@ const ThanhVienGopVon = forwardRef(({ data, ...props }, ref) => {
   useEffect(() => {
     if (data?.type) {
       switch (data?.type) {
-        case '2':
+        case 2:
           setListForm([{}, {}])
           break
-        case '3':
+        case 3:
           setListForm([{}, {}, {}])
           break
         default:
@@ -105,7 +105,7 @@ const ThanhVienGopVon = forwardRef(({ data, ...props }, ref) => {
       ])}
     >
       <Row gutter={[16, 12]}>
-        {listForm.length < 10 && data?.type !== '1' && (
+        {listForm.length < 10 && data?.type !== 1 && (
           <Col span={24} style={{ position: 'sticky', top: '0', zIndex: 1 }}>
             <Button onClick={addItem} icon={<PlusOutlined />} type="primary">
               Thêm thành viên góp vốn
@@ -119,7 +119,7 @@ const ThanhVienGopVon = forwardRef(({ data, ...props }, ref) => {
               <Form.Item
                 label={
                   <div className={styles.label}>
-                    <div className={styles.title}>Thành viên góp vốn {data?.type !== '1' && ` thứ ${i + 1}`}</div>
+                    <div className={styles.title}>Thành viên góp vốn {data?.type !== 1 && ` thứ ${i + 1}`}</div>
                     <Button
                       type="text"
                       shape="circle"
@@ -158,7 +158,7 @@ const Personal = forwardRef((props, ref) => {
   }
   return (
     <div className={styles.groupInput}>
-      {type && type !== '1' && (
+      {type && type !== 1 && (
         <Form.Item name={[...BASE_FORM, 'capital']} label="Số tiền góp vốn" placeholder="Số tiền góp vốn">
           <InputNumber formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')} min={0} style={{ width: '100%' }} />
         </Form.Item>
@@ -247,7 +247,7 @@ const OriginalPerson = forwardRef((props, ref) => {
   return (
     <div className={styles.groupInput}>
       {/* START Nhập thông tin của tổ chức */}
-      {type && type !== '1' && (
+      {type && type !== 1 && (
         <Form.Item name={[...BASE_FORM, 'capital']} label="Số tiền góp vốn" placeholder="Số tiền góp vốn">
           <InputNumber formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')} min={0} style={{ width: '100%' }} />
         </Form.Item>
