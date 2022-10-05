@@ -42,7 +42,8 @@ const HopDongChuyenNhuong = forwardRef((props, ref) => {
       xhtml = (
         <Row gutter={[4, 16]}>
           <Col span={12}>
-            <Form.Item label="Phần vốn góp Bên bán hiện đang sở hữu là">
+            {/* <Form.Item label="Phần vốn góp Bên bán hiện đang sở hữu là"> */}
+            <Form.Item label={htmlContent('<b>Phần vốn góp Bên bán hiện đang sở hữu là</b>')}>
               <Row gutter={[4, 16]}>
                 <Col span={12}>
                   <Form.Item name={[...fieldName, 'capital_current', 'num']} label="Bằng số">
@@ -66,7 +67,8 @@ const HopDongChuyenNhuong = forwardRef((props, ref) => {
             </Form.Item>
           </Col>
           <Col span={12}>
-            <Form.Item label="Phần vốn góp Bên bán chuyển nhượng là">
+            {/* <Form.Item label="Phần vốn góp Bên bán chuyển nhượng là"> */}
+            <Form.Item label={htmlContent('<b>Phần vốn góp Bên bán chuyển nhượng là</b>')}>
               <Row gutter={[4, 16]}>
                 <Col span={12}>
                   <Form.Item name={[...fieldName, 'capital_transfer', 'num']} label="Bằng số">
@@ -277,14 +279,21 @@ const HopDongChuyenNhuong = forwardRef((props, ref) => {
           <Col span={24}>
             <CCInput type="select" name={[...fieldName, 'organization', 'company_model']} label="Mô hình công ty" options={SELECT.COMPANY_MODEL} />
           </Col>
-          <Col span={24}>
+          <Col span={12}>
             <CCInput
               name={[...fieldName, 'organization', 'legal_representative']}
-              label="Người đại diện theo pháp luật của công ty"
+              // label="Họ và tên (Đại diện pháp luật)"
+              label={
+                <div
+                  dangerouslySetInnerHTML={{
+                    __html: '</>Họ và tên <i>(Đại diện pháp luật)</i></>',
+                  }}
+                />
+              }
               onChange={(e) => onSetFields([...fieldName, 'organization', 'legal_representative'], e.target.value, ref, true)}
             />
           </Col>
-          <Col span={24}>
+          <Col span={12}>
             <CCSelect.SelectTitle
               ref={ref}
               name={[...fieldName, 'organization', 'legal_title']}

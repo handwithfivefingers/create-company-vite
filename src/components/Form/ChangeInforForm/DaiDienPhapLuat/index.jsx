@@ -40,13 +40,14 @@ const DaiDienPhapLuat = forwardRef((props, ref) => {
   }
   return (
     <Form.Item
-      label={<h4>Đăng ký thay đổi người đại diện theo pháp luật</h4>}
+      label={<h3>Đăng ký thay đổi người đại diện theo pháp luật</h3>}
       className={clsx(styles.current, {
         [styles.active]: props.current === props.index,
       })}
     >
-      <Form.Item label="Bỏ bớt hoặc thêm mới người đại diện">
-        <Select onSelect={handleSelectPeopleType}>
+      {/* </Form.Item><Form.Item label="Bỏ bớt hoặc thêm mới người đại diện"> */}
+      <Form.Item label={htmlContent('<b>Bỏ bớt hoặc thêm mới người đại diện</b>')}>
+        <Select onSelect={handleSelectPeopleType} placeholder='Bấm vào đây'>
           <Select.Option value={1}>Bỏ bớt người đại diện</Select.Option>
           <Select.Option value={2}>Thêm mới người đại diện</Select.Option>
         </Select>
@@ -58,7 +59,8 @@ const DaiDienPhapLuat = forwardRef((props, ref) => {
 
       <Divider />
 
-      <Form.Item label="Danh sách người đại diện pháp luật sau khi thay đổi">
+      {/* <Form.Item label="Danh sách người đại diện pháp luật sau khi thay đổi"> */}
+      <Form.Item label={htmlContent('<b>Danh sách người đại diện pháp luật sau khi thay đổi</b>')}>
         <Button onClick={addNewLegal}>Thêm người đại diện</Button>
         <Row gutter={[12]}>
           {listLegal.map((item, i) => {
@@ -111,7 +113,7 @@ const PeopleExclude = forwardRef((props, ref) => {
   return (
     <>
       <Button onClick={addItem} type="primary">
-        Thêm mới
+        Thêm mới thông tin
       </Button>
       <Row gutter={[12]}>
         {formExclude?.map((item, index) => {
