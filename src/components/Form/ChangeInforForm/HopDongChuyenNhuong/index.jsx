@@ -311,6 +311,7 @@ const HopDongChuyenNhuong = forwardRef((props, ref) => {
               placeholder="Bấm vào đây"
               options={SELECT.TITLE_2}
             />
+            
           </Col>
           <Col span={24}>{renderFormByType([...fieldName, 'organization', 'capital_contribution'])}</Col>
         </Row>
