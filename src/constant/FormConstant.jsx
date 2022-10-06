@@ -346,51 +346,53 @@ const THAY_DOI_THONG_TIN_DANG_KI_THUE_FORM = {
   },
 }
 
-const CHANGE_INFO_FORM = {
-  base_inform: {
-    title: 'Thông tin doanh nghiệp',
-    fields: {
-      company_name: 'Tên doanh nghiệp',
-      mst: 'Mã số doanh nghiệp/ mã số thuế',
-      time_provide: 'Ngày cấp',
-      place_provide: 'Nơi cấp',
-      contribute_members: {
-        label: 'Hội đồng thành viên',
-        fields: {
-          name: 'Họ và Tên',
-          capital: 'Vốn góp',
-          capital_percent: 'Chiếm % vốn điều lệ',
-        },
+const BASE_INFORMATION_FORM = {
+  title: 'Thông tin doanh nghiệp',
+  fields: {
+    company_name: 'Tên doanh nghiệp',
+    mst: 'Mã số doanh nghiệp/ mã số thuế',
+    time_provide: 'Ngày cấp',
+    place_provide: 'Nơi cấp',
+    contribute_members: {
+      label: 'Hội đồng thành viên',
+      fields: {
+        name: 'Họ và Tên',
+        capital: 'Vốn góp',
+        capital_percent: 'Chiếm % vốn điều lệ',
       },
     },
   },
+}
+const CHANGE_INFO_FORM = {
+  // Thông tin cơ bản
+  base_inform: BASE_INFORMATION_FORM,
 
   // Đăng ký thay đổi người đại diện theo pháp luật
-  legal_representative: { ...DAI_DIEN_PHAP_LUAT_FORM },
+  legal_representative: DAI_DIEN_PHAP_LUAT_FORM,
 
   // Người đại diện theo ủy quyền của chủ sở hữu là tổ chức
-  present_change: { ...CHU_SO_HUU_FORM },
+  present_change: CHU_SO_HUU_FORM,
 
   // Đăng ký thay đổi địa chỉ trụ sở chính
-  location: { ...DIA_CHI_TRU_SO_CHINH_FORM },
+  location: DIA_CHI_TRU_SO_CHINH_FORM,
 
   // Giảm vốn điều lệ
-  down_authorized_capital: { ...GIAM_VON_DIEU_LE_FORM },
+  down_authorized_capital: GIAM_VON_DIEU_LE_FORM,
 
   // Tăng vốn điều lệ
-  up_authorized_capital: { ...TANG_VON_DIEU_LE_FORM },
+  up_authorized_capital: TANG_VON_DIEU_LE_FORM,
 
   // Hợp đồng chuyển nhượng
-  transfer_contract: { ...HOP_DONG_CHUYEN_NHUONG_FORM },
+  transfer_contract: HOP_DONG_CHUYEN_NHUONG_FORM,
 
   // Thay đổi ngành nghề kinh doanh
-  company_career: { ...THAY_DOI_NGANH_NGHE_FORM },
+  company_career: THAY_DOI_NGANH_NGHE_FORM,
 
   // Thay đổi tên doanh nghiệp
-  name: { ...THAY_DOI_TEN_DOANH_NGHIEP_FORM },
+  name: THAY_DOI_TEN_DOANH_NGHIEP_FORM,
 
   // Thay đổi thông tin đăng kí thuế
-  tax: { ...THAY_DOI_THONG_TIN_DANG_KI_THUE_FORM },
+  tax: THAY_DOI_THONG_TIN_DANG_KI_THUE_FORM,
 }
 
 const CREATE_COMPANY_FORM = {
