@@ -207,7 +207,7 @@ const HopDongChuyenNhuong = forwardRef((props, ref) => {
   }
 
   const renderFormOwnerB = (condition, fieldName) => {
-    let xhtml = null
+    let xhtml = null;
 
     if (condition === 'personal') {
       xhtml = // chủ sở hữu là cá nhân
@@ -255,12 +255,14 @@ const HopDongChuyenNhuong = forwardRef((props, ref) => {
             <Col lg={12} md={12} sm={24} xs={24}>
               <CCAddress name={[...fieldName, 'personal']} ref={ref} />
             </Col>
+
+            <Col span={24}>{renderFormByType([...fieldName, 'organization', 'capital_contribution'])}</Col>
           </Row>
         )
     } else {
       // Trường hợp chủ sở hữu là tổ chức:
       xhtml = (
-        <Row gutter={[12,0 ]}>
+        <Row gutter={[12, 0]}>
           <Col lg={12} md={12} sm={24} xs={24}>
             <CCInput
               name={[...fieldName, 'organization', 'company_name']}
@@ -310,11 +312,11 @@ const HopDongChuyenNhuong = forwardRef((props, ref) => {
               options={SELECT.TITLE_2}
             />
           </Col>
-
           <Col span={24}>{renderFormByType([...fieldName, 'organization', 'capital_contribution'])}</Col>
         </Row>
       )
     }
+
     return xhtml
   }
 
