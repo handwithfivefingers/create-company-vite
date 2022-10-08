@@ -210,7 +210,7 @@ const UserOrder = () => {
         />
       </Table>
 
-      <Modal open={modal.visible} footer={null} bodyStyle={null} width={modal.width} onCancel={() => closeModal()}>
+      <Modal visible={modal.visible} footer={null} bodyStyle={null} width={modal.width} onCancel={() => closeModal()}>
         {modal.component}
       </Modal>
     </m.div>

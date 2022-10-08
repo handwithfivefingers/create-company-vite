@@ -17,6 +17,7 @@ const qs = require('query-string')
 const crypto = require('crypto')
 
 const moment = require('moment')
+const { log } = require('console')
 
 libre.convertAsync = require('util').promisify(libre.convert)
 
@@ -127,15 +128,17 @@ const applyContent = async (file = null, data = null) => {
   })
 }
 
-const saveFileAsDocx = async (buffer, ext) => {
-  let filePath = path.join(global.__basedir, '/uploads', `${shortid.generate()}-output${ext}`)
+const saveFileAsDocx = async (buffer, ext, fileName) => {
+  let nameTrim = fileName.replace(/\s/g, '')
+
+  let name = convertString(nameTrim)
+
+  let filePath = path.join(global.__basedir, '/uploads', `${shortid.generate()}-${name}${ext}`)
   fs.writeFileSync(filePath, buffer)
   return filePath
 }
 
 const specialFields = ['company_main_career', 'company_opt_career']
-
-const dateFields = ['doc_time_provide', 'birth_day', 'time_provide', 'start', 'end']
 
 const objToKeys = (obj, baseObj, path = null) => {
   Object.keys(obj).forEach((item) => {
@@ -190,28 +193,6 @@ const flattenObject = (data) => {
   // handle Change Info Array;
 
   for (let props in _template) {
-    if (props === 'change_info_transfer_contract_A_side_owner' && _template.change_info_transfer_contract_A_side_owner === 'personal') {
-      let {
-        change_info_transfer_contract_A_side_personal_name: name,
-        change_info_transfer_contract_A_side_personal_birth_day: birth_day,
-        change_info_transfer_contract_A_side_personal_doc_type: doc_type,
-        change_info_transfer_contract_A_side_personal_doc_code: doc_code,
-        change_info_transfer_contract_A_side_personal_doc_time_provide: doc_time_provide,
-        change_info_transfer_contract_A_side_personal_doc_place_provide: doc_place_provide,
-        change_info_transfer_contract_A_side_personal_contact_address: contact_address,
-      } = _template
-      _template.A_type = [
-        {
-          name,
-          birth_day,
-          doc_type,
-          doc_code,
-          doc_time_provide,
-          doc_place_provide,
-          contact_address,
-        },
-      ]
-    }
     if (props === 'create_company_approve_legal_respon') {
       _template.legal_respon = _template[props].map((item) => item)
 
@@ -228,14 +209,6 @@ const flattenObject = (data) => {
 
       _template[props] = _template[props].map((item) => item)
     }
-
-    if (props === 'change_info_legal_representative_doc_place_provide') {
-      _template.lr_doc_place_provide = _template[props]
-    }
-
-    if (props === 'change_info_legal_representative_new_title') {
-      _template.lr_new_title = _template[props]
-    }
   }
 
   console.log(_template)
@@ -250,7 +223,7 @@ const convertFile = async (file, data) => {
 
   let pdfBuf = await libre.convertAsync(buffer, ext, undefined)
   console.log('converting')
-  let pdfFile = await saveFileAsDocx(pdfBuf, ext) // docx input
+  let pdfFile = await saveFileAsDocx(pdfBuf, ext, file.name) // docx input
   console.log('saving file')
   return pdfFile
 }
@@ -393,6 +366,16 @@ const handleCheckChildren = (child, data) => {
       return item
     }
   })
+}
+
+const convertString = (str) => {
+  return (
+    str
+      ?.normalize('NFD')
+      ?.replace(/[\u0300-\u036f]/g, '')
+      .replace(/đ/g, 'd')
+      .replace(/Đ/g, 'D') || str
+  )
 }
 
 module.exports = {

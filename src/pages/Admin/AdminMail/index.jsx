@@ -203,7 +203,7 @@ function ListTemplateMail(props) {
           />
         </Table>
 
-        <Drawer title={drawer.title} width={720} onClose={onClose} open={drawer.visible}>
+        <Drawer title={drawer.title} width={720} onClose={onClose} visible={drawer.visible}>
           {drawer.component}
         </Drawer>
       </div>

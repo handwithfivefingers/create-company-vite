@@ -290,7 +290,7 @@ const UserEditDrawer = ({ onClose, visible, data, filledJson }) => {
     console.log(val);
   };
   return (
-    <Drawer title="Edit Information" placement="right" onClose={onClose} open={visible}>
+    <Drawer title="Edit Information" placement="right" onClose={onClose} visible={visible}>
       {
         <Card className="card-boxShadow" title="Loại hình doanh nghiệp">
           <Form ref={formRef} onFinish={filledJson}>
