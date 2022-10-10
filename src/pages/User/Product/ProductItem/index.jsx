@@ -1,7 +1,7 @@
 import CCSteps from '@/components/CCHeaderSteps'
 import { CREATE_COMPANY_STEP, DISSOLUTION_STEP, PENDING_STEP } from '@/constant/Step'
 import ProductService from '@/service/UserService/ProductService'
-import { message, Modal, Spin, Form } from 'antd'
+import { message, Spin, Form } from 'antd'
 import moment from 'moment'
 import React, { lazy, useCallback, useEffect, useRef, useState } from 'react'
 import { useNavigate, useParams, useLocation } from 'react-router-dom'
@@ -37,12 +37,6 @@ const UserProductItem = (props) => {
       desc: 'Xem lại',
     },
   ])
-
-  const [childModal, setChildModal] = useState({
-    visible: false,
-    width: 0,
-    component: null,
-  })
 
   let params = useParams()
 
@@ -188,13 +182,6 @@ const UserProductItem = (props) => {
       desc: 'Xem lại',
     })
     setChangeInforStep(data)
-  }, [])
-
-  const closeModal = useCallback(() => {
-    setChildModal({
-      ...childModal,
-      visible: false,
-    })
   }, [])
 
   // const handlePurchaseChangeInfo = useCallback(
@@ -347,18 +334,6 @@ const UserProductItem = (props) => {
       <div className={styles.formContent}>
         <Spin spinning={isFetching}>{data && renderFormByType(data?.type)}</Spin>
       </div>
-
-      <Modal
-        open={childModal.visible}
-        width={childModal.width}
-        footer={null}
-        bodyStyle={{
-          background: '#eee',
-        }}
-        onCancel={closeModal}
-      >
-        {childModal.component}
-      </Modal>
     </m.div>
   )
 }

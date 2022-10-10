@@ -9,7 +9,6 @@ const slugify = require('slugify')
 const puppeteer = require('puppeteer')
 
 module.exports = class ProductManager {
-  
   createProduct = async (req, res) => {
     try {
       const obj = {
@@ -74,19 +73,38 @@ module.exports = class ProductManager {
 
   fetchProduct = async (req, res) => {
     try {
-      let { _id } = req.query
+      let { _id, _pId } = req.query
+
       let _cate = await Category.findOne({ _id }).select('_id')
-      let _product
+
+      let data = []
+      let _product = []
+
       if (_cate) {
-        _product = await Product.find({ categories: { $in: [_cate._id] } }).select('name type _id')
+        _product = await Product.find({ categories: { $in: [_cate._id] } }).select('name type _id categories')
       } else {
         _product = await Product.find({})
       }
 
-      console.log('coming fetchProduct')
-      return successHandler(_product, res)
+      for (let i = 0; i < _product.length; i++) {
+        const element = _product[i]
+        let { _id, type, name, categories } = element
+
+        if (categories.length > 1) {
+          // -> Only child
+          if (categories.includes(_pId)) {
+            data = [...data, { _id, type, name }]
+          }
+        } else {
+          data = [...data, { _id, type, name }]
+        }
+      }
+
+      //  filter Products base on _pId and categories.length > 1
+
+      return successHandler(data, res)
     } catch (err) {
-      console.log('fetchProduct error')
+      console.log('ProductManager fetchProduct error', err)
       return errHandler(err, res)
     }
   }
@@ -190,4 +208,6 @@ module.exports = class ProductManager {
 
     return text
   }
+
+  
 }

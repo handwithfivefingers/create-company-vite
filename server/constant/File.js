@@ -282,7 +282,7 @@ const getChangeInfoFiles = (type, key) => {
   }
 
   let changeInfoFile = {
-    legal_representative: [allFiles.change_info_quyetdinh, allFiles.change_info_phu_luc_4, allFiles.change_info_uyquyen],
+    legal_representative: [allFiles.change_info_quyetdinh, allFiles.change_info_phu_luc_2, allFiles.change_info_uyquyen],
 
     // Người đại diện theo ủy quyền của chủ sở hữu là tổ chức: "Phụ lục II-1","File_3_UyQuyen.doc",
     present_change: [allFiles.change_info_phu_luc_4, allFiles.change_info_uyquyen],
@@ -291,7 +291,7 @@ const getChangeInfoFiles = (type, key) => {
     location: [allFiles.change_info_quyetdinh, allFiles.change_info_phu_luc_4, allFiles.change_info_uyquyen],
 
     // Giảm vốn điều lệ: "Quyết định thay đổi", "Phụ lục II-1","File_3_UyQuyen.doc",
-    down_authorized_capital: [allFiles.change_info_quyetdinh, allFiles.change_info_phu_luc_2_4, allFiles.change_info_uyquyen],
+    down_authorized_capital: [allFiles.change_info_quyetdinh, allFiles.change_info_phu_luc_4, allFiles.change_info_uyquyen],
 
     // Chủ sở hữu: "Hợp đồng chuyển nhượng", "Phụ lục II-4","File_3_UyQuyen.doc",
     transfer_contract: [allFiles.change_info_hop_dong_chuyen_nhuong, allFiles.change_info_phu_luc_2_4, allFiles.change_info_uyquyen],
@@ -310,17 +310,28 @@ const getChangeInfoFiles = (type, key) => {
   }
 
   let changeInfoFile2TV = {
-    legal_representative: [allFiles.change_info_2tv_quyetdinh_thaydoi_HDTV, allFiles.change_info_phu_luc_4, allFiles.change_info_2tv_bienbanhop_HDTV],
+    legal_representative: [
+      allFiles.change_info_2tv_quyetdinh_thaydoi_HDTV,
+      allFiles.change_info_phu_luc_2,
+      allFiles.change_info_2tv_bienbanhop_HDTV,
+      allFiles.change_info_uyquyen,
+    ],
 
     // present_change: [allFiles.change_info_phu_luc_4, allFiles.change_info_uyquyen],
 
-    location: [allFiles.change_info_2tv_quyetdinh_thaydoi_HDTV, allFiles.change_info_2tv_bienbanhop_HDTV, allFiles.change_info_phu_luc_4],
+    location: [
+      allFiles.change_info_2tv_quyetdinh_thaydoi_HDTV,
+      allFiles.change_info_2tv_bienbanhop_HDTV,
+      allFiles.change_info_phu_luc_4,
+      allFiles.change_info_uyquyen,
+    ],
 
     down_authorized_capital: [
       allFiles.change_info_2tv_quyetdinh_thaydoi_HDTV,
       allFiles.change_info_2tv_bienbanhop_HDTV,
-      allFiles.change_info_phu_luc_2_4,
+      allFiles.change_info_phu_luc_4,
       allFiles.change_info_2tv_phuluc_I_6,
+      allFiles.change_info_uyquyen,
     ],
 
     up_authorized_capital: [
@@ -328,33 +339,79 @@ const getChangeInfoFiles = (type, key) => {
       allFiles.change_info_2tv_bienbanhop_HDTV,
       allFiles.change_info_phu_luc_4,
       allFiles.change_info_2tv_phuluc_I_6,
+      allFiles.change_info_uyquyen,
     ],
 
     transfer_contract: [allFiles.change_info_hop_dong_chuyen_nhuong, allFiles.change_info_phu_luc_2_4, allFiles.change_info_uyquyen],
 
-    company_career: [allFiles.change_info_2tv_quyetdinh_thaydoi_HDTV, allFiles.change_info_phu_luc_4, allFiles.change_info_2tv_bienbanhop_HDTV],
+    company_career: [
+      allFiles.change_info_2tv_quyetdinh_thaydoi_HDTV,
+      allFiles.change_info_phu_luc_4,
+      allFiles.change_info_2tv_bienbanhop_HDTV,
+      allFiles.change_info_uyquyen,
+    ],
 
-    name: [allFiles.change_info_2tv_quyetdinh_thaydoi_HDTV, allFiles.change_info_2tv_bienbanhop_HDTV, allFiles.change_info_phu_luc_4],
+    name: [
+      allFiles.change_info_2tv_quyetdinh_thaydoi_HDTV,
+      allFiles.change_info_2tv_bienbanhop_HDTV,
+      allFiles.change_info_phu_luc_4,
+      allFiles.change_info_uyquyen,
+    ],
 
     // tax: [allFiles.change_info_phu_luc_4, allFiles.change_info_uyquyen],
   }
 
   let changeInfoFileCp = {
-    legal_representative: [allFiles.change_info_cp_quyetdinh_thaydoi_HDCD, allFiles.change_info_phu_luc_4, allFiles.change_info_cp_bienbanhop_HDCD],
+    legal_representative: [
+      allFiles.change_info_cp_quyetdinh_thaydoi_HDCD,
+      allFiles.change_info_phu_luc_4,
+      allFiles.change_info_cp_bienbanhop_HDCD,
+      allFiles.change_info_uyquyen,
+    ],
 
     // present_change: [allFiles.change_info_phu_luc_4, allFiles.change_info_cp_bienbanhop_HDCD],
 
-    location: [allFiles.change_info_cp_quyetdinh_thaydoi_HDCD, allFiles.change_info_phu_luc_4, allFiles.change_info_cp_bienbanhop_HDCD],
+    location: [
+      allFiles.change_info_cp_quyetdinh_thaydoi_HDCD,
+      allFiles.change_info_phu_luc_4,
+      allFiles.change_info_cp_bienbanhop_HDCD,
+      allFiles.change_info_uyquyen,
+    ],
 
-    down_authorized_capital: [allFiles.change_info_cp_quyetdinh_thaydoi_HDCD, allFiles.change_info_phu_luc_2_4, allFiles.change_info_cp_bienbanhop_HDCD],
+    down_authorized_capital: [
+      allFiles.change_info_cp_quyetdinh_thaydoi_HDCD,
+      allFiles.change_info_phu_luc_2_4,
+      allFiles.change_info_cp_bienbanhop_HDCD,
+      allFiles.change_info_uyquyen,
+    ],
 
-    transfer_contract: [allFiles.change_info_hop_dong_chuyen_nhuong, allFiles.change_info_phu_luc_2_4, allFiles.change_info_cp_bienbanhop_HDCD],
+    transfer_contract: [
+      allFiles.change_info_hop_dong_chuyen_nhuong,
+      allFiles.change_info_phu_luc_2_4,
+      allFiles.change_info_cp_bienbanhop_HDCD,
+      allFiles.change_info_uyquyen,
+    ],
 
-    company_career: [allFiles.change_info_cp_quyetdinh_thaydoi_HDCD, allFiles.change_info_phu_luc_4, allFiles.change_info_cp_bienbanhop_HDCD],
+    company_career: [
+      allFiles.change_info_cp_quyetdinh_thaydoi_HDCD,
+      allFiles.change_info_phu_luc_4,
+      allFiles.change_info_cp_bienbanhop_HDCD,
+      allFiles.change_info_uyquyen,
+    ],
 
-    up_authorized_capital: [allFiles.change_info_cp_quyetdinh_thaydoi_HDCD, allFiles.change_info_phu_luc_4, allFiles.change_info_cp_bienbanhop_HDCD],
+    up_authorized_capital: [
+      allFiles.change_info_cp_quyetdinh_thaydoi_HDCD,
+      allFiles.change_info_phu_luc_4,
+      allFiles.change_info_cp_bienbanhop_HDCD,
+      allFiles.change_info_uyquyen,
+    ],
 
-    name: [allFiles.change_info_cp_quyetdinh_thaydoi_HDCD, allFiles.change_info_phu_luc_4, allFiles.change_info_cp_bienbanhop_HDCD],
+    name: [
+      allFiles.change_info_cp_quyetdinh_thaydoi_HDCD,
+      allFiles.change_info_phu_luc_4,
+      allFiles.change_info_cp_bienbanhop_HDCD,
+      allFiles.change_info_uyquyen,
+    ],
 
     // tax: [allFiles.change_info_phu_luc_4, allFiles.change_info_cp_bienbanhop_HDCD],
   }

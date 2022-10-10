@@ -1,23 +1,19 @@
-import { FormOutlined, MinusSquareOutlined, PlusSquareOutlined, DeleteOutlined, SearchOutlined, BarsOutlined, MoreOutlined } from '@ant-design/icons'
+import { PlusSquareOutlined } from '@ant-design/icons'
 
-import { Button, Drawer, message, Modal, Space, Table, Tabs, Popconfirm } from 'antd'
-import React, { useEffect, useState, useRef, Suspense } from 'react'
+import { Button, Tabs } from 'antd'
+import React, { useRef, useState } from 'react'
 
-import { number_format, makeid } from '@/helper/Common'
-import AdminProductService from '@/service/AdminService/AdminProductService'
-import CCPagination from '@/components/CCPagination'
-import styles from './styles.module.scss'
 import AdminHeader from '../../../components/Admin/AdminHeader'
-import { useFetch } from '../../../helper/Hook'
+import styles from './styles.module.scss'
 
-const CategoryTab = React.lazy(async () => await import('./CategoryTab'))
-const ProductsTab = React.lazy(async () => await import('./ProductsTab'))
-const CareerCategoryTab = React.lazy(async () => await import('./CareerCategoryTab'))
-const CareerTab = React.lazy(async () => await import('./CareerTab'))
+import CareerCategoryTab from './CareerCategoryTab'
+import CareerTab from './CareerTab'
+import CategoryTab from './CategoryTab'
+import ProductsTab from './ProductsTab'
 
 const { TabPane } = Tabs
 const AdminProduct = (props) => {
-  const [activeTabs, setActiveTabs] = useState(1)
+  const [activeTabs, setActiveTabs] = useState('1')
   const productRef = useRef()
 
   const [childModal, setChildModal] = useState({
@@ -45,10 +41,6 @@ const AdminProduct = (props) => {
     }
   }
 
-  /**
-   *
-   * @desc Open Modal CareerCategory to Create
-   */
   const onHandleAddCareerCategory = () => {
     try {
       return productRef.current.addCareerCategory()
@@ -143,12 +135,30 @@ const AdminProduct = (props) => {
 
       <Tabs
         className={styles.tabsPanel}
-        defaultActiveKey={1}
+        // defaultActiveKey={1}
         activeKey={activeTabs}
         onChange={(key) => setActiveTabs(key)}
-        destroyInactiveTabPane
-        items={items}
-      />
+        // destroyInactiveTabPane
+        // items={items}
+      >
+        {/* {items.map((item) => (
+          <Tabs.TabPane label={item.label} key={item.key}>
+            {item.children}
+          </Tabs.TabPane>
+        ))} */}
+        <Tabs.TabPane tab={'Danh mục'} key={1}>
+          <CategoryTab ref={productRef} />
+        </Tabs.TabPane>
+        <Tabs.TabPane tab={'Sản phẩm'} key={2}>
+          <ProductsTab ref={productRef} />
+        </Tabs.TabPane>
+        <Tabs.TabPane tab={'Danh mục Ngành nghề'} key={3}>
+          <CareerCategoryTab ref={productRef} />
+        </Tabs.TabPane>
+        <Tabs.TabPane tab={'Ngành nghề'} key={4}>
+          <CareerTab ref={productRef} />
+        </Tabs.TabPane>
+      </Tabs>
     </>
   )
 }

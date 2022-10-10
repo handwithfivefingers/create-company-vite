@@ -68,15 +68,15 @@ const ChangeInforForm = forwardRef((props, ref) => {
     setProductSelect({ type, name, value })
 
     onSetFields([pathName], { type, name, value }, ref)
-
-    fetchProduct()
+    console.log(value)
+    fetchProduct(value)
   }
 
-  const fetchProduct = async () => {
+  const fetchProduct = async (_id) => {
     try {
       let { parentId } = props.data
-
-      let res = await ProductService.getProduct({ _id: parentId })
+      // _pId : Product id
+      let res = await ProductService.getProduct({ _id: parentId, _pId: _id })
       let { data } = res.data
       setData(data)
       console.log(res)
