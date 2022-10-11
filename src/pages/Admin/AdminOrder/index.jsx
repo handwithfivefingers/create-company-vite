@@ -294,7 +294,7 @@ const AdminOrder = () => {
       <CCPagination {...pagiConfigs} />
 
       {childModal.visible && (
-        <Modal footer={null} onCancel={() => onClose()} open={childModal.visible} width={childModal.width}>
+        <Modal footer={null} onCancel={() => onClose()} visible={childModal.visible} width={childModal.width}>
           {childModal.component}
         </Modal>
       )}

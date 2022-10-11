@@ -10,6 +10,7 @@ lerna-debug.log*
 /node_modules
 /uploads/logs
 /uploads/*.pdf
+/uploads/mockdata/database/**
 
 dist
 dist-ssr

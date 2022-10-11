@@ -52,7 +52,8 @@ module.exports = class FileTemplate {
 
         mailParams.filesPath = attachments
 
-        await sendmailWithAttachments(req, res, mailParams)
+
+        // await sendmailWithAttachments(req, res, mailParams)
 
         return res.status(200).json({ message: 'ok' })
       }

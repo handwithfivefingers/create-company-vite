@@ -9,9 +9,17 @@ const { removeListFiles } = require('@common/helper')
 // *Useful for getting environment vairables
 dotenv.config()
 
-const { GG_REFRESH_TOKEN: REFRESH_TOKEN, GG_REFRESH_URI: REFRESH_URI, GG_EMAIL_CLIENT_ID: CLIENT_ID, GG_EMAIL_CLIENT_SECRET: CLIENT_SECRET, MAIL_NAME, MAIL_PASSWORD } = process.env
+const {
+  GG_REFRESH_TOKEN: REFRESH_TOKEN,
+  GG_REFRESH_URI: REFRESH_URI,
+  GG_EMAIL_CLIENT_ID: CLIENT_ID,
+  GG_EMAIL_CLIENT_SECRET: CLIENT_SECRET,
+  MAIL_NAME,
+  MAIL_PASSWORD,
+} = process.env
 
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0'
+
 module.exports = class MailService {
   oAuth2Client
   mailConfig = {}
@@ -30,7 +38,6 @@ module.exports = class MailService {
         refreshToken: REFRESH_TOKEN,
       },
     }
-    // transporter = nodeMailer.createTransport()
   }
 
   createTransport = async () => {
@@ -45,35 +52,49 @@ module.exports = class MailService {
 
   sendmailWithAttachments = async (req, res, { type = 'attachments', ...rest }) => {
     try {
-      if (type == 'attachments') {
-        let params = {
-          adminEmail: MAIL_NAME,
-          ...req.body,
-        }
+      let params = {
+        adminEmail: MAIL_NAME,
+      }
 
-        return this.withAttachments(req, res, params)
-      } else if (type == 'path') {
-        let params = { adminEmail: MAIL_NAME, ...rest }
+      switch (type) {
+        case 'attachments':
+          params = { ...params, ...req.body }
+          return this.withAttachments(req, res, params)
+        case 'path':
+          params = { ...params, ...rest }
 
-        return this.withFilesPath(params)
-      } else if (type == 'any') {
-        let params = {
-          adminEmail: MAIL_NAME,
-          email: rest.email,
-          subject: rest.subject,
-          content: rest.content,
-          redirect: rest?.redirect,
-          ...rest,
-        }
+          return this.withFilesPath(params)
 
-        return this.sendMail(req, res, params)
+        default:
+          params = {
+            ...params,
+            email: rest.email,
+            subject: rest.subject,
+            content: rest.content,
+            ...rest,
+          }
+
+          return this.sendMail(req, res, params)
       }
     } catch (err) {
-      console.log('error 1', err)
+      console.log('sendmailWithAttachments error ', err)
       throw err
     }
 
     // validate file
+  }
+
+  sendMailService = async (params) => {
+    try {
+
+
+      
+    }
+
+    catch(error) {
+      console.log('sendMailService error ', err)
+      throw err
+    }
   }
 
   cronMail = async ({ ...rest }) => {
@@ -85,35 +106,24 @@ module.exports = class MailService {
       }
       await this.withFilesPath(params)
     } catch (err) {
-      console.log('cron failed', err)
+      console.log('cronMail error', err)
     }
   }
 
-  withAttachments = async (req, res, { adminEmail, email, subject, content, redirect }) => {
-    let attachments
-
+  withAttachments = async (req, res, { adminEmail, email, subject, content }) => {
     try {
-      let validFiles = req.files.some((item) => item.mimetype !== 'application/pdf')
-
-      if (validFiles) {
-        await req.files.map((file) => removeFile(file.path))
-      }
-
-      if (!validFiles) {
-        attachments = req.files.map((file) => {
-          return { filename: file.originalname, path: file.path }
-        })
-      }
-
       //sending
+      let attachments = validateFile(req.files) || []
 
-      await this.createTransport().sendMail({
+      let params = {
         from: adminEmail, // sender address
         attachments,
         to: email,
         subject: subject, // Subject line
         html: content, // html body,
-      })
+      }
+
+      await this.sendMailOnly(params)
     } catch (err) {
       throw err
     } finally {
@@ -121,18 +131,15 @@ module.exports = class MailService {
     }
   }
 
-  sendMail = async (req, res, { adminEmail, email, subject, content, redirect, ...rest }) => {
+  sendMail = async (req, res, { adminEmail, email, subject, content, ...rest }) => {
     try {
-      // console.log("send");
-      let transport = await this.createTransport()
-
-      return await transport.sendMail({
+      let params = {
         from: adminEmail, // sender address
         to: email,
         subject: subject, // Subject line
         html: content, // html body,
-      })
-      
+      }
+      await this.sendMailOnly(params)
     } catch (err) {
       console.log('sendMail failed')
       throw err
@@ -140,20 +147,22 @@ module.exports = class MailService {
   }
 
   withFilesPath = async (params) => {
-    let { adminEmail, email, subject, content, filesPath, redirect, removeFiles, ...rest } = params
+    let { adminEmail, email, subject, content, filesPath, removeFiles, ...rest } = params
 
     let attachments = this.convertPath(filesPath)
 
     try {
-      return await this.createTransport().sendMail({
+      let params = {
         from: adminEmail, // sender address
         to: email,
         attachments,
         subject: subject, // Subject line
         html: content, // html body,
-      })
+      }
+
+      await this.sendMailOnly(params)
     } catch (err) {
-      console.log('send mail failed ', err)
+      console.log('withFilesPath failed ', err)
 
       for (let attach of attachments) {
         if (fs.existsSync(attach.pdfFile)) {
@@ -168,11 +177,46 @@ module.exports = class MailService {
     }
   }
 
+  validateFile = async (files) => {
+    try {
+      let attachments = []
+
+      let isPDF = files.some((item) => item.mimetype === 'application/pdf')
+
+      if (!isPDF) {
+        await files.map(({ path }) => removeFile(path))
+      } else {
+        attachments = files.map(({ originalname, path }) => {
+          return { filename: originalname, path: path }
+        })
+      }
+
+      return attachments
+    } catch (err) {
+      console.log('validateFile error', err)
+      throw err
+    }
+  }
+
   convertPath = (filesPath) => {
-    let result = filesPath.map((file) => {
-      let ext = file.pdfFile.split('.')[file.pdfFile.split('.').length - 1]
-      return { path: file.pdfFile, filename: `${file.name}.${ext}` }
+    let result = filesPath.map(({ pdfFile, name }) => {
+      let fileSplit = pdfFile.split('.')
+
+      let ext = fileSplit[fileSplit.length - 1]
+
+      return { path: pdfFile, filename: `${name}.${ext}` }
     })
+
     return result
+  }
+
+  sendMailOnly = async (params) => {
+    try {
+      let transport = await this.createTransport()
+      return transport.sendMail({ ...params })
+    } catch (err) {
+      console.log('sendMailOnly error', err)
+      throw err
+    }
   }
 }

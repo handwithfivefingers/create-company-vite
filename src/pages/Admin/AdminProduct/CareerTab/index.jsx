@@ -148,7 +148,7 @@ const CareerTab = forwardRef((props, ref) => {
       </Table>
 
       <CCPagination {...pagiConfigs} className={styles.pagi} />
-      <Drawer open={childModal.visible} width={childModal.width} onClose={closeModal} destroyOnClose>
+      <Drawer visible={childModal.visible} width={childModal.width} onClose={closeModal} destroyOnClose>
         {childModal.component}
       </Drawer>
     </div>
