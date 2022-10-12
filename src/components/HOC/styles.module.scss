@@ -16,6 +16,9 @@
       }
     }
   }
+  @media (max-width: 767px) {
+    padding: 0;
+  }
 }
 
 .adminSiteLayout {
@@ -41,11 +44,17 @@
   padding: 12px;
   min-height: 100vh;
   overflow-x: hidden;
+  @media (max-width: 767px) {
+    padding: 0;
+  }
 }
 
 .siteLayout {
   width: calc(100vw - 236px);
   height: calc(100vh - 24px);
+  @media (max-width: 767px) {
+    height: calc(100vh);
+  }
   .mainContent {
     position: relative;
     display: grid;

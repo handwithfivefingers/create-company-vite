@@ -1,9 +1,9 @@
 // @import 'antd/dist/antd.css';
-@import "antd/dist/antd.variable.min.css";
-@import "./gridsystem.scss";
-@import "./define";
-@import "./custom";
-@import "./utility";
+@import 'antd/dist/antd.variable.min.css';
+@import './gridsystem.scss';
+@import './define';
+@import './custom';
+@import './utility';
 // @import url('https://fonts.googleapis.com/css2?family=Baloo+Bhaina+2:wght@400;500;600;700&display=swap');
 
 * {
@@ -13,7 +13,7 @@
 body {
   box-sizing: border-box;
   font-size: 16px;
-  font-family: "Be Vietnam Pro", "Outfit", "Noto Sans", sans-serif;
+  font-family: 'Be Vietnam Pro', 'Outfit', 'Noto Sans', sans-serif;
 }
 h1,
 h2,
@@ -21,7 +21,7 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: "Alata", sans-serif;
+  font-family: 'Alata', sans-serif;
 }
 .section-1 {
   overflow: hidden;
@@ -95,11 +95,13 @@ section {
 
 .ant-layout-sider {
   height: calc(100vh - 24px);
+  @media (max-width: 767px) {
+    height: calc(100vh);
+  }
 }
 .ant-layout-sider-trigger {
   bottom: 12px;
 }
-
 
 .fadeIn {
   animation: 0.5s fadeIn forwards;

@@ -36,6 +36,7 @@ module.exports = class OrderAdmin {
 
       let _order = await Order.find({ delete_flag: { $ne: 1 } })
         .populate('main_career', ['name', 'code'])
+        .populate('categories', 'name type')
         .populate('products', 'name')
         .populate({
           path: 'orderOwner',
