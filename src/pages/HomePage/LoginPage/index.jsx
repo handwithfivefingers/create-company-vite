@@ -29,7 +29,7 @@ export default function LoginPage() {
 
   useEffect(() => {
     console.log('start ??');
-    formRef.current.start()
+    formRef.current?.start()
   }, [tab])
 
   const onLogin = async (val) => {

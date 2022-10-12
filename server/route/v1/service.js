@@ -26,14 +26,14 @@ const router = express.Router()
 
 router.post('/sendmail', upload.array('attachments', 5), sendmailWithAttachments)
 
-router.post('/payment', requireSignin, upload.none(), testPayment)
+router.post('/payment', requireSignin, testPayment)
 
-router.get('/return_vnp', requireSignin, upload.none(), getUrlReturn)
+router.get('/return_vnp', requireSignin, getUrlReturn)
 
 router.post('/service/order', checkingOrder)
 
-router.get('/service/province', getProvince)
+router.get('/service/province', requireSignin, getProvince)
 
-router.post('/service/search', search)
+router.post('/service/search', requireSignin, search)
 
 module.exports = router
