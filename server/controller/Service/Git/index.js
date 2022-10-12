@@ -7,18 +7,19 @@ const repo = '/usr/share/nginx/html/create-company-vite'
 
 module.exports = class GitAction {
   gitPull = async (req, res) => {
+    let cd = 'cd ' + repo
+    let checkout = 'git checkout -- .'
+    let pullCode = 'git pull'
+    let installPackage = 'npm install'
+    let buildPackage = 'npm run build'
+    let restartPm2 = 'pm2 reload ecosystem.config.js'
+    let chormium = cd + '/node_modules/puppeteer' + '/.local-chromium'
+
     try {
       if (req.body.action !== 'closed') {
         return res.end()
       } else {
         res.end()
-        let cd = 'cd ' + repo
-        let checkout = 'git checkout -- .'
-        let pullCode = 'git pull'
-        let installPackage = 'npm install'
-        let buildPackage = 'npm run build'
-        let restartPm2 = 'pm2 reload ecosystem.config.js'
-        let chormium = cd + '/node_modules/puppeteer' + '/.local-chromium'
 
         console.log(`Git action::: ${cd}`)
 

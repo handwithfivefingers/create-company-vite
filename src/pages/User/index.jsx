@@ -1,11 +1,10 @@
 import { Spin, Space } from 'antd'
-import React, { Suspense, useCallback } from 'react'
+import React, { Suspense, useCallback, useState } from 'react'
 import { Outlet } from 'react-router-dom'
 import WithAuth from '@/components/HOC/WithAuth'
 import { useEffect } from 'react'
 import ProfileService from '../../service/UserService/ProfileService'
 import { useFetch } from '../../helper/Hook'
-import { motion } from 'framer-motion'
 import { useSelector } from 'react-redux'
 const User = () => {
   return (
@@ -32,7 +31,7 @@ const User = () => {
 
 const Tidio = () => {
   const authReducer = useSelector((state) => state.authReducer)
-
+  const [ready, setReady] = useState(false)
   const {
     data: profileData,
     refetch,
@@ -41,8 +40,6 @@ const Tidio = () => {
   } = useFetch({
     cacheName: ['userProfile'],
     fn: () => fetchProfile(),
-    // refetchInterval: 5 * 1000,
-    // enabled: authReducer.status,
   })
 
   const fetchProfile = () => ProfileService.getProfile()
@@ -50,19 +47,19 @@ const Tidio = () => {
   useEffect(() => TidioScript(), [])
 
   const TidioScript = () => {
-    const PUBLIC_KEY = 'dsoujgdd2n9ranu8l3qkkbtrkx3mxgoj'
+    if (!window.tidioChatApi) {
+      const PUBLIC_KEY = 'dsoujgdd2n9ranu8l3qkkbtrkx3mxgoj'
 
-    let ready = false
+      let tidioScript = document.createElement('script')
 
-    let tidioScript = document.createElement('script')
+      tidioScript.src = `//code.tidio.co/${PUBLIC_KEY}.js`
 
-    tidioScript.src = `//code.tidio.co/${PUBLIC_KEY}.js`
-
-    document.body.appendChild(tidioScript)
-    tidioScript.onload = tidioScript.onreadystatechange = function () {
-      if (!ready && (!this.readyState || this.readyState == 'complete')) {
-        ready = true
-        setTidioIdentify()
+      document.body.appendChild(tidioScript)
+      tidioScript.onload = tidioScript.onreadystatechange = function () {
+        if (!ready && (!this.readyState || this.readyState == 'complete')) {
+          setReady(true)
+          setTidioIdentify()
+        }
       }
     }
   }
