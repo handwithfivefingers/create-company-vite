@@ -106,7 +106,6 @@ const UserOrder = () => {
     navigate(`/user/san-pham/${url}`, { state: { ...record } })
   }
 
-
   const renderService = (val, record, i) => {
     if (record?.data?.create_company) {
       return (
@@ -134,6 +133,8 @@ const UserOrder = () => {
       )
     }
   }
+
+
   return (
     <m.div className={clsx(['cc-scroll', animateClass])} initial={{ opacity: 0 }} exit={{ opacity: 0 }} animate={{ opacity: 1 }}>
       <Table
@@ -194,16 +195,14 @@ const UserOrder = () => {
           width={88}
           render={(v, record, i) => (
             <div className={styles.btnGroup}>
-              <Tooltip title="Chỉnh sửa" color={'blue'}>
-                <Button size="large" type="primary" shape="circle" onClick={() => onEditOrder(record)}>
+              <Tooltip title="Chỉnh sửa" color={'blue'} placement="left">
+                <Button className={styles.btn} onClick={() => onEditOrder(record)}>
                   <FormOutlined />
                 </Button>
               </Tooltip>
 
-              <Tooltip title="Thanh toán" color={'blue'}>
-                <Button size="large" type="primary" shape="circle" disabled={record.payment} onClick={() => handlePurchase(record)}>
-                  <MdCreditCard />
-                </Button>
+              <Tooltip title="Thanh toán" color={'blue'} placement="left">
+                <Button className={styles.btn} type="primary" disabled={record.payment} onClick={() => handlePurchase(record)} icon={<MdCreditCard />} />
               </Tooltip>
             </div>
           )}

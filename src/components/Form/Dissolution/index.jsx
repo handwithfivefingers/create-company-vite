@@ -23,14 +23,14 @@ const Dissolution = forwardRef((props, ref) => {
   return (
     <Form ref={ref} layout="vertical">
       <Form.Item
-        name="selectProduct"
+        name="category"
         label="Chọn loại hình doanh nghiệp"
         required
         className={clsx(styles.current, {
           [styles.active]: props.current === 0,
         })}
       >
-        <Select onSelect={(val, opt) => handleChange(val, opt, 'selectProduct')} placeholder="Bấm vào đây">
+        <Select onSelect={(val, opt) => handleChange(val, opt, 'category')} placeholder="Bấm vào đây">
           {props.data?.map(({ _id, name, type }) => {
             return (
               <Select.Option key={_id} value={_id} type={type}>

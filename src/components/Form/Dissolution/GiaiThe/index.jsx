@@ -12,9 +12,9 @@ const GiaiThe = forwardRef((props, ref) => {
   const [type, setType] = useState(1)
 
   useEffect(() => {
-    let { selectProduct } = ref.current.getFieldsValue()
-    if (selectProduct?.type) {
-      setType(selectProduct?.type)
+    let { category } = ref.current.getFieldsValue()
+    if (category?.type) {
+      setType(category?.type)
     }
   }, [props])
 
@@ -140,7 +140,12 @@ const GiaiThe = forwardRef((props, ref) => {
         [styles.active]: props.current === props.index,
       })}
     >
-      <CCInput label="Nhập tên doanh nghiệp" name={[...BASE_FORM, 'company_name']} placeholder="CÔNG TY TNHH DỊCH VỤ TƯ VẤN WARREN B" onChange={(e) => setFields(e, [...BASE_FORM, 'company_name'])} />
+      <CCInput
+        label="Nhập tên doanh nghiệp"
+        name={[...BASE_FORM, 'company_name']}
+        placeholder="CÔNG TY TNHH DỊCH VỤ TƯ VẤN WARREN B"
+        onChange={(e) => setFields(e, [...BASE_FORM, 'company_name'])}
+      />
 
       <CCInput label="Nhập mã số doanh nghiệp hoặc Mã số thuế" name={[...BASE_FORM, 'mst']} placeholder="0316184427" />
 

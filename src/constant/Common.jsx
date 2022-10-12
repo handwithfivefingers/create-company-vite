@@ -14,7 +14,7 @@ export const FormControl = [
 ]
 
 export const FormFieldText = {
-  selectProduct: 'Loại hình doanh nghiệp',
+  category: 'Loại hình doanh nghiệp',
   base_val: {
     char: 'Vốn điều lệ (bằng chữ)',
     num: 'Vốn điều lệ (bằng số)',

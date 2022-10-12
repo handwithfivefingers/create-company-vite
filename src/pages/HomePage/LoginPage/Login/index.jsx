@@ -5,22 +5,28 @@ import { useEffect, useImperativeHandle } from 'react'
 import { FcGoogle, FcUnlock } from 'react-icons/fc'
 import AuthService from '../../../../service/AuthService'
 import styles from './Login.module.scss'
-let ready = false
+
 const LoginForm = forwardRef((props, ref) => {
   const ggRef = useRef()
 
-  useImperativeHandle(ref, () => ({
-    start: () => {
-      if (google) {
-        google.accounts.id.initialize({
-          client_id: import.meta.env.GG_EMAIL_CLIENT_ID,
-          callback: async (response) => await handleCredentialResponse(response),
-        })
-        google.accounts.id.renderButton(ggRef.current, { theme: 'filled_blue', size: 'large', width: '308' })
-        google.accounts.id.prompt() // also display the One Tap dialog
-      }
-    },
-  }))
+  useEffect(() => {
+    if (props.ggScript) {
+      handleScriptLoaded()
+    }
+  }, [props.ggScript])
+
+  const handleScriptLoaded = () => {
+    try {
+      props.ggScript.accounts.id.initialize({
+        client_id: import.meta.env.GG_EMAIL_CLIENT_ID,
+        callback: async (response) => await handleCredentialResponse(response),
+      })
+      props.ggScript.accounts.id.renderButton(ggRef.current, { theme: 'filled_blue', size: 'large', width: '308' })
+      props.ggScript.accounts.id.prompt() // also display the One Tap dialog
+    } catch (error) {
+      console.log('handleScriptLoaded error: ' + error)
+    }
+  }
 
   const handleCredentialResponse = async (response) => {
     if (props.loginWithGoogle) {

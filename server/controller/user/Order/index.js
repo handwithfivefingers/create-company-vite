@@ -19,7 +19,11 @@ module.exports = class OrderUser {
 
   getOrdersFromUser = async (req, res) => {
     try {
-      let _order = await Order.find({ orderOwner: req.id }).populate('products', 'name type').populate('orderOwner', 'name').sort('-createdAt')
+      let _order = await Order.find({ orderOwner: req.id })
+        .populate('categories', 'name type')
+        .populate('products', 'name')
+        .populate('orderOwner', 'name')
+        .sort('-createdAt')
       return successHandler(_order, res)
     } catch (err) {
       console.log('getOrdersFromUser error')
@@ -46,19 +50,19 @@ module.exports = class OrderUser {
 
   createOrders = async (req, res) => {
     try {
-      const { track, payment, data, categories } = req.body
+      const { track, payment, data } = req.body
 
-      const { selectProduct, ...rest } = data
+      const { category, products, ...rest } = data
 
-      if (!selectProduct) throw 'Product not found'
+      if (!category) throw 'Categories not found'
 
-      let { files, result, msg } = this.findKeysByObject(rest, selectProduct?.type)
+      let { files, result, msg } = this.findKeysByObject(rest, category?.type)
 
-      if (!result) throw msg
+      if (!result) throw { message: msg }
 
-      let price = await this.calcPrice(selectProduct._id || selectProduct.value)
+      let price = await this.calcPrice(category._id || category.value)
 
-      if (!price) throw 'Product not found'
+      if (!price) throw 'Cant find price for category'
 
       if (!files) throw 'Something was wrong when generate file, please try again'
 
@@ -66,10 +70,10 @@ module.exports = class OrderUser {
         track,
         payment,
         data,
-        categories,
         orderOwner: req.id,
         name: shortid.generate(),
-        products: selectProduct._id || selectProduct.value,
+        categories: category._id || category.value,
+        products,
         files,
         price,
       }
@@ -77,6 +81,11 @@ module.exports = class OrderUser {
       newData.slug = newData.name + '-' + shortid.generate()
 
       let _save = new Order({ ...newData })
+
+      // return res.status(200).json({
+      //   data: { ...req.body },
+      //   generateData: _save,
+      // })
 
       let _obj = await _save.save()
 
@@ -95,15 +104,15 @@ module.exports = class OrderUser {
       if (exist) return existHandler(res)
 
       //  khai báo
-      const { track, payment, data, categories } = req.body
+      const { track, payment, data } = req.body
 
-      const { selectProduct, ...rest } = data
+      const { category, products, ...rest } = data
 
-      if (!selectProduct) throw 'Product not found'
+      if (!category) throw 'Product not found'
 
-      let price = await this.calcPrice(selectProduct._id || selectProduct.value)
+      let price = await this.calcPrice(category._id || category.value)
 
-      let { files, result, msg } = this.findKeysByObject(rest, selectProduct?.type)
+      let { files, result, msg } = this.findKeysByObject(rest, category?.type)
 
       if (!price) throw 'Product not found'
 
@@ -113,10 +122,10 @@ module.exports = class OrderUser {
         track,
         payment,
         data,
-        categories,
         orderOwner: req.id,
         name: shortid.generate(),
-        products: selectProduct._id || selectProduct.value,
+        categories: category._id || category.value,
+        products,
         price,
         files,
       }
@@ -227,16 +236,16 @@ module.exports = class OrderUser {
 
   // common
 
-  calcPrice = async (productId) => {
-    if (!productId) return null
+  calcPrice = async (cateID) => {
+    if (!cateID) return null
 
-    let _prod = await Category.findOne({ _id: productId }).select('price')
+    let _cate = await Category.findOne({ _id: cateID }).select('price')
 
-    console.log('productId', _prod)
+    console.log('cateID', _cate)
 
-    if (!_prod) return null
+    if (!_cate) return null
 
-    return _prod.price
+    return _cate.price
   }
 
   findKeysByObject = (obj, type = null) => {

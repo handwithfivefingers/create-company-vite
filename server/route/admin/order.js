@@ -16,4 +16,7 @@ router.get('/order', requireSignin, OrderAdminRouter.getAllOrder)
 
 router.post('/order/delete/:id', requireSignin, OrderAdminRouter.deleteOrder)
 
+router.post('/order/delete_all', requireSignin, OrderAdminRouter.reforceDelete)
+
+
 module.exports = router

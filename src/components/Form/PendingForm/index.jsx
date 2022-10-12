@@ -26,14 +26,14 @@ const TamHoanForm = forwardRef((props, ref) => {
   return (
     <Form ref={ref} layout="vertical">
       <Form.Item
-        name="selectProduct"
+        name="category"
         label="Chọn loại hình doanh nghiệp"
         required
         className={clsx(styles.current, {
           [styles.active]: props.current === 0,
         })}
       >
-        <Select onSelect={(val, opt) => handleChange(opt, 'selectProduct')} placeholder="Bấm vào đây">
+        <Select onSelect={(val, opt) => handleChange(opt, 'category')} placeholder="Bấm vào đây">
           {props.data?.map((item) => {
             return (
               <Select.Option key={item._id} value={item._id} {...item}>
