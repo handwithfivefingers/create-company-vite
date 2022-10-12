@@ -198,7 +198,7 @@ const PreviewData = forwardRef((props, ref) => {
       if (data) {
         console.table(data)
 
-        let { selectProduct, selectChildProduct, ...rest } = data
+        let { category, selectChildProduct, ...rest } = data
 
         let productType = Object.keys(rest) // get keys Product
 

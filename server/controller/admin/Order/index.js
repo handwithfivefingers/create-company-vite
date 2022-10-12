@@ -64,4 +64,21 @@ module.exports = class OrderAdmin {
       return errHandler(err, res)
     }
   }
+
+  reforceDelete = async (req, res) => {
+    try {
+      // return res.status(200).json({})
+      await Order.deleteMany({})
+
+      // await Category.insertMany(this.data)
+
+      // let data = await Category.find({})
+
+      return res.status(200).json({ message: 'delete done' })
+    } catch (err) {
+      console.log(err)
+      return errHandler(err, res)
+    } finally {
+    }
+  }
 }

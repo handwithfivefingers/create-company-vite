@@ -8,29 +8,43 @@ import { AuthAction } from '@/store/actions'
 import { useDispatch, useSelector } from 'react-redux'
 import { RouterContext } from '@/helper/Context'
 import styles from './styles.module.scss'
+import { forwardRef } from 'react'
 const { TabPane } = Tabs
 
 export default function LoginPage() {
   const formRef = useRef()
+
   const [loading, setLoading] = useState(false)
-  const dispatch = useDispatch()
-  const { route } = useContext(RouterContext)
-  const authReducer = useSelector((state) => state.authReducer)
-  const navigate = useNavigate()
+
   const [tab, setTab] = useState(1)
+
+  const [ggScript, setGGScript] = useState()
+
+  const [ready, setReady] = useState(false)
+
+  const { route } = useContext(RouterContext)
+
+  const authReducer = useSelector((state) => state.authReducer)
+
+  const navigate = useNavigate()
+
+  const dispatch = useDispatch()
 
   let type = useNavigationType()
 
   useEffect(() => {
+    loadingScript()
+
     if (route.to && authReducer.status) {
       navigate(route.to)
     }
   }, [])
 
   useEffect(() => {
-    console.log('start ??');
-    formRef.current?.start()
-  }, [tab])
+    if (window?.google) {
+      setGGScript(window.google)
+    }
+  }, [ready])
 
   const onLogin = async (val) => {
     setLoading(true)
@@ -39,7 +53,6 @@ export default function LoginPage() {
   }
 
   const loginWithGoogle = async (val) => {
-    // alert('Login with Google')
     await dispatch(AuthAction.AuthLogin(val))
   }
 
@@ -61,18 +74,32 @@ export default function LoginPage() {
     }
   }
 
-  // const handleTabChange = async (tab) => {
-  //   formRef.current.start()
-  // }
+  const loadingScript = () => {
+    if (!window?.google) {
+      let ggScript = document.createElement('script')
+
+      ggScript.src = `//accounts.google.com/gsi/client`
+
+      document.body.appendChild(ggScript)
+
+      ggScript.onload = ggScript.onreadystatechange = function () {
+        if (!ready && (!this.readyState || this.readyState == 'complete')) {
+          setReady(true)
+        }
+      }
+    }
+  }
 
   return (
-    <Tabs defaultActiveKey="1" centered className={styles.tabs} onChange={(tab) => setTab(tab)}>
-      <TabPane tab="Đăng nhập" key="1">
-        <LoginForm ref={formRef} onFinish={onLogin} loading={loading} loginWithGoogle={loginWithGoogle} forgotPassword={forgotPassword} />
-      </TabPane>
-      <TabPane tab="Đăng kí" key="2">
-        <RegisterForm ref={formRef} onFinish={onRegister} loading={loading} loginWithGoogle={loginWithGoogle} />
-      </TabPane>
-    </Tabs>
+    <>
+      <Tabs defaultActiveKey="1" centered className={styles.tabs} onChange={(tab) => setTab(tab)} destroyInactiveTabPane={false}>
+        <TabPane tab="Đăng nhập" key="1">
+          <LoginForm ref={formRef} onFinish={onLogin} loading={loading} loginWithGoogle={loginWithGoogle} ggScript={ggScript} forgotPassword={forgotPassword} />
+        </TabPane>
+        <TabPane tab="Đăng kí" key="2">
+          <RegisterForm ref={formRef} onFinish={onRegister} loading={loading} loginWithGoogle={loginWithGoogle} ggScript={ggScript} />
+        </TabPane>
+      </Tabs>
+    </>
   )
 }

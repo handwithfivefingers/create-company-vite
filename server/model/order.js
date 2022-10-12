@@ -35,6 +35,7 @@ module.exports = {
       ref: 'Product',
     },
   ],
+
   data: {
     create_company: {
       type: Object,

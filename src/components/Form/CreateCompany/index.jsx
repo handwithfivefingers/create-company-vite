@@ -66,11 +66,14 @@ const CreateCompany = forwardRef((props, formRef) => {
     let legelRespon = [...BASE_FORM, 'legal_respon']
 
     onSetFields([pathName], { type, name, value }, formRef)
+
     onSetFields([originPerson], undefined, formRef)
+
     onSetFields([legelRespon], undefined, formRef)
 
     setSelect({ type, name, value })
   }
+
   const dropdownRender = (pathName) => {
     return (
       <Select placeholder="Bấm vào đây" onChange={(v, opt) => handleSelect(v, opt, pathName)}>
@@ -105,12 +108,7 @@ const CreateCompany = forwardRef((props, formRef) => {
 
   return (
     <>
-      <Form
-        layout="vertical"
-        ref={formRef}
-        // onFieldsChange={handleFieldsChange}
-        autoComplete="off"
-      >
+      <Form layout="vertical" ref={formRef} autoComplete="off">
         <Row
           className={clsx([
             styles.hide,
@@ -120,11 +118,12 @@ const CreateCompany = forwardRef((props, formRef) => {
           ])}
         >
           <Col span={24}>
-            <Form.Item name={['selectProduct']} required label="Chọn loại hình doanh nghiệp" placeholder="Bấm vào đây" className={animateClass}>
-              {dropdownRender(['selectProduct'])}
+            <Form.Item name={['category']} required label="Chọn loại hình doanh nghiệp" placeholder="Bấm vào đây" className={animateClass}>
+              {dropdownRender(['category'])}
             </Form.Item>
           </Col>
         </Row>
+        
         <Suspense
           fallback={
             <div className="container spin-suspense">

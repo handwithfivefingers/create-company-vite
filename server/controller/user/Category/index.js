@@ -5,18 +5,9 @@ const { errHandler, successHandler } = require('@response')
 module.exports = class CategoryClass {
   getCategories = async (req, res) => {
     try {
-      // let { slug } = req.query
-
       let searchParams = {
         parentCategory: { $exists: false },
-        // slug: slug,
       }
-
-      // for (let keys in searchParams) {
-      //   if (!searchParams[keys]) {
-      //     delete searchParams[keys]
-      //   }
-      // }
 
       let _cate = await Category.find(searchParams)
 

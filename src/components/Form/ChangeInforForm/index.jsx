@@ -28,7 +28,7 @@ const ChangeInforForm = forwardRef((props, ref) => {
     if (props.edit) {
       let { data, products } = props.edit
       let [opt] = products
-      handleSelectProduct({ type: opt.type, name: opt.name, value: opt._id }, 'selectProduct')
+      handleSelectCate({ type: opt.type, name: opt.name, value: opt._id }, 'category')
     }
   }
 
@@ -64,7 +64,7 @@ const ChangeInforForm = forwardRef((props, ref) => {
     }
   }
 
-  const handleSelectProduct = ({ type, name, value }, pathName) => {
+  const handleSelectCate = ({ type, name, value }, pathName) => {
     setProductSelect({ type, name, value })
 
     onSetFields([pathName], { type, name, value }, ref)
@@ -88,14 +88,14 @@ const ChangeInforForm = forwardRef((props, ref) => {
   return (
     <Form ref={ref} layout="vertical">
       <Form.Item
-        name="selectProduct"
+        name="category"
         label="Chọn loại hình doanh nghiệp"
         required
         className={clsx(styles.current, {
           [styles.active]: props.current === 0,
         })}
       >
-        <Select onSelect={(val, opt) => handleSelectProduct(opt, 'selectProduct')} placeholder="Bấm vào đây">
+        <Select onSelect={(val, opt) => handleSelectCate(opt, 'category')} placeholder="Bấm vào đây">
           {props.data?.data?.map((item) => {
             return (
               <Select.Option key={item._id} value={item._id} {...item}>
@@ -106,7 +106,7 @@ const ChangeInforForm = forwardRef((props, ref) => {
         </Select>
       </Form.Item>
       <Form.Item
-        name={['selectChildProduct']}
+        name={['products']}
         label="Chọn thông tin thay đổi"
         required
         className={clsx(styles.current, {
