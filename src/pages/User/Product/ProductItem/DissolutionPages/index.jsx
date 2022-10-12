@@ -9,15 +9,7 @@ const PreviewData = lazy(() => {
   return import('@/components/Form/PreviewData')
 })
 const DissolutionPages = forwardRef((props, ref) => {
-  const {
-    handleSaveDissolution,
-    handlePurchaseDissolution,
-    data,
-    step,
-    loading,
-    Prev,
-    Next,
-  } = props
+  const { handleSaveDissolution, handlePurchaseDissolution, data, step, loading, Prev, Next } = props
 
   return (
     <Card className="card-boxShadow">
@@ -40,29 +32,27 @@ const DissolutionPages = forwardRef((props, ref) => {
             }}
           />
         )}
-        <div
-          className={'card-boxShadow flex flex__spacing-4'}
-          style={{ position: 'sticky', bottom: 0 }}
-        >
-          {step > 0 && <Button onClick={Prev} type="dashed">Quay lại</Button>}
-
-          {step < 2 && <Button onClick={Next}  type="primary">Tiếp tục</Button>}
-          {step === 2 && (
+        <div className={'card-boxShadow flex flex__spacing-4'} style={{ position: 'sticky', bottom: 0 }}>
+          {step > 0 && (
             <>
-              <Button
-                loading={loading}
-                onClick={() => handleSaveDissolution(ref)}
-              >
+              <Button onClick={Prev} type="dashed">
+                Quay lại
+              </Button>{' '}
+              <Button loading={loading} onClick={() => handleSaveDissolution(ref)}>
                 Lưu lại
               </Button>
-              <Button
-                loading={loading}
-                onClick={() => handlePurchaseDissolution(ref)}
-                type="primary"
-              >
-                Thanh toán
-              </Button>
             </>
+          )}
+
+          {step < 2 && (
+            <Button onClick={Next} type="primary">
+              Tiếp tục
+            </Button>
+          )}
+          {step === 2 && (
+            <Button loading={loading} onClick={() => handlePurchaseDissolution(ref)} type="primary">
+              Thanh toán
+            </Button>
           )}
         </div>
       </Suspense>

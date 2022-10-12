@@ -8,13 +8,14 @@ const RegisterForm = forwardRef((props, ref) => {
 
   useImperativeHandle(ref, () => ({
     start: () => {
-      // const CLIENT_ID = '216335889679-9d8fesnrk3nh8gp2sktnepq4d63mfgi9'
-      google.accounts.id.initialize({
-        client_id: import.meta.env.GG_EMAIL_CLIENT_ID,
-        callback: async (response) => await handleCredentialResponse(response),
-      })
-      google.accounts.id.renderButton(ggRef.current, { theme: 'filled_blue', size: 'large', width: '308', text: 'signup_with' })
-      google.accounts.id.prompt() // also display the One Tap dialog
+      if (google) {
+        google.accounts.id.initialize({
+          client_id: import.meta.env.GG_EMAIL_CLIENT_ID,
+          callback: async (response) => await handleCredentialResponse(response),
+        })
+        google.accounts.id.renderButton(ggRef.current, { theme: 'filled_blue', size: 'large', width: '308', text: 'signup_with' })
+        google.accounts.id.prompt() // also display the One Tap dialog
+      }
     },
   }))
 
@@ -40,11 +41,11 @@ const RegisterForm = forwardRef((props, ref) => {
           </Form.Item>
 
           <div style={{ display: 'flex', justifyContent: 'space-between', padding: '8px 0', flexDirection: 'column', gap: 8 }}>
-            <div ref={ggRef} />
-
             <Button type="primary" htmlType="submit" block>
               Đăng kí
             </Button>
+
+            <div ref={ggRef} />
           </div>
         </Form>
       </Spin>

@@ -63,9 +63,15 @@ const ChangeInfoPages = forwardRef((props, ref) => {
         )}
         <div className={'card-boxShadow flex flex__spacing-4'} style={{ position: 'sticky', bottom: 0 }}>
           {step > 0 && (
-            <Button onClick={Prev} type="dashed">
-              Quay lại
-            </Button>
+            <>
+              <Button loading={loading} onClick={() => handleSaveChangeInfo(ref)}>
+                Lưu lại
+              </Button>
+              
+              <Button onClick={Prev} type="dashed">
+                Quay lại
+              </Button>
+            </>
           )}
 
           {step < changeInforStep?.length - 1 && (
@@ -76,9 +82,6 @@ const ChangeInfoPages = forwardRef((props, ref) => {
 
           {step === changeInforStep?.length - 1 && (
             <>
-              <Button loading={loading} onClick={() => handleSaveChangeInfo(ref)}>
-                Lưu lại
-              </Button>
               <Button loading={loading} onClick={() => handlePurchaseChangeInfo(ref)} type="primary">
                 Thanh toán
               </Button>

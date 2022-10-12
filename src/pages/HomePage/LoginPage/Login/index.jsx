@@ -11,13 +11,14 @@ const LoginForm = forwardRef((props, ref) => {
 
   useImperativeHandle(ref, () => ({
     start: () => {
-      // const CLIENT_ID = '216335889679-9d8fesnrk3nh8gp2sktnepq4d63mfgi9'
-      google.accounts.id.initialize({
-        client_id: import.meta.env.GG_EMAIL_CLIENT_ID,
-        callback: async (response) => await handleCredentialResponse(response),
-      })
-      google.accounts.id.renderButton(ggRef.current, { theme: 'filled_blue', size: 'large', width: '308' })
-      google.accounts.id.prompt() // also display the One Tap dialog
+      if (google) {
+        google.accounts.id.initialize({
+          client_id: import.meta.env.GG_EMAIL_CLIENT_ID,
+          callback: async (response) => await handleCredentialResponse(response),
+        })
+        google.accounts.id.renderButton(ggRef.current, { theme: 'filled_blue', size: 'large', width: '308' })
+        google.accounts.id.prompt() // also display the One Tap dialog
+      }
     },
   }))
 
@@ -39,11 +40,11 @@ const LoginForm = forwardRef((props, ref) => {
           </Form.Item>
           <Form.Item>
             <div style={{ display: 'flex', justifyContent: 'center', padding: '8px 0', flexDirection: 'column', gap: 12 }}>
-              <div ref={ggRef} className={styles.googleBtn} />
-
               <Button type="primary" htmlType="submit" block>
                 Đăng nhập
               </Button>
+
+              <div ref={ggRef} className={styles.googleBtn} />
 
               <Button type="link" onClick={props?.forgotPassword}>
                 Quên mật khẩu

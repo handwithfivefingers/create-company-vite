@@ -12,7 +12,6 @@ const ServiceRoute = require('./v1/service')
 const UserRoute = require('./v1/user')
 const AdminRoute = require('./admin')
 
-
 const { MailRoute, ...AdminRouter } = AdminRoute
 // Default User
 AppRouter.use('/', AuthRoute, ProductRoute, CategoryRoute, CareerRoute, OrderRoute, ServiceRoute, UserRoute, CareerCategoryRoute, MailRoute)
