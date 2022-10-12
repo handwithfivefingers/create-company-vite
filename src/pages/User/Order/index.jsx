@@ -132,8 +132,16 @@ const UserOrder = () => {
         </Tag>
       )
     }
+    // if (record?.products) {
+    //   return record?.products.map((item) => {
+    //     return (
+    //       <Tag color="#108ee9" key={[Math.random(), Math.random().toFixed(Math.random() * 10), item?._id]}>
+    //         {item?.name}
+    //       </Tag>
+    //     )
+    //   })
+    // }
   }
-
 
   return (
     <m.div className={clsx(['cc-scroll', animateClass])} initial={{ opacity: 0 }} exit={{ opacity: 0 }} animate={{ opacity: 1 }}>
