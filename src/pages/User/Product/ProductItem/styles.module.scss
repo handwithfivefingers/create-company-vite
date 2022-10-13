@@ -5,10 +5,12 @@
   padding: 0 0 10px 0;
   display: grid;
   grid-template-rows: 86px 1fr;
-  row-gap:12px;
+  row-gap: 12px;
   .formContent {
     @include scroll(6px, 6px, transparent);
     overflow: overlay;
-    // height: calc(100vh - 72px - 24px - 38px -);
+  }
+  @media (max-width: 767px) {
+    grid-template-rows: 62px 1fr;
   }
 }
