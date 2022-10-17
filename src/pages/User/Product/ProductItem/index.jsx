@@ -54,10 +54,9 @@ const UserProductItem = (props) => {
 
   const navigate = useNavigate()
 
+
   useEffect(() => {
     if (productData && status === 'success') {
-      // let sortData = productData.sort((a, b) => b.type - a.type)
-      // console.log(productData)
       setData({ ...productData, data: productData.data.sort((a, b) => a.type - b.type) })
     }
   }, [productData])

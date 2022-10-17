@@ -20,7 +20,7 @@ module.exports = class OrderUser {
   getOrdersFromUser = async (req, res) => {
     try {
       let _order = await Order.find({ orderOwner: req.id })
-        .populate('categories', 'name type')
+        .populate('category', 'name type')
         .populate('products', 'name')
         .populate('orderOwner', 'name')
         .sort('-createdAt')
@@ -72,7 +72,7 @@ module.exports = class OrderUser {
         data,
         orderOwner: req.id,
         name: shortid.generate(),
-        categories: category._id || category.value,
+        category: category._id || category.value,
         products,
         files,
         price,
@@ -124,7 +124,7 @@ module.exports = class OrderUser {
         data,
         orderOwner: req.id,
         name: shortid.generate(),
-        categories: category._id || category.value,
+        category: category._id || category.value,
         products,
         price,
         files,

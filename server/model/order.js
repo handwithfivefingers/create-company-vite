@@ -59,7 +59,7 @@ module.exports = {
   orderCreated: {
     type: Number,
   },
-  categories: {
+  category: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Category',
   },

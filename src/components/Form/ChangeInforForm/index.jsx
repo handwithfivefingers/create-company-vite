@@ -16,13 +16,38 @@ import { onSetFields } from '@/helper/Common'
 import ProductService from '../../../service/UserService/ProductService'
 import BaseInformation from './BaseInformation'
 const ChangeInforForm = forwardRef((props, ref) => {
+  
   const [productSelect, setProductSelect] = useState('')
+
   const [selectType, setSelectType] = useState([])
+
   const [data, setData] = useState([])
+
+  let location = useLocation()
 
   useEffect(() => {
     initForm()
   }, [])
+
+
+  useEffect(() => {
+    if (location?.state) {
+      let { state } = location
+      let _data = {
+        ...state.data,
+        category: {
+          ...state.category,
+          key: state.category._id,
+          value: state.category._id,
+        },
+        products: state.products,
+      }
+
+      formRef.current?.setFieldsValue({
+        ..._data,
+      })
+    }
+  }, [location])
 
   const initForm = () => {
     if (props.edit) {

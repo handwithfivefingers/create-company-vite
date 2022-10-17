@@ -12,7 +12,9 @@ module.exports = class OrderAdmin {
     try {
       if (req.role !== 'admin') return permisHandler(res)
 
-      const _order = await Order.findById(id).populate('products', 'name type').populate('data.create_company.main_career', ['name', 'code'])
+      const _order = await Order.findById(id)
+      .populate('products', 'name type')
+      .populate('data.create_company.main_career', ['name', 'code'])
 
       return successHandler(_order, res)
     } catch (err) {
@@ -36,7 +38,7 @@ module.exports = class OrderAdmin {
 
       let _order = await Order.find({ delete_flag: { $ne: 1 } })
         .populate('main_career', ['name', 'code'])
-        .populate('categories', 'name type')
+        .populate('category', 'name type')
         .populate('products', 'name')
         .populate({
           path: 'orderOwner',

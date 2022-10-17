@@ -3,6 +3,7 @@ import clsx from 'clsx'
 import React, { forwardRef, lazy, useEffect, useState, Suspense } from 'react'
 import { onSetFields } from '@/helper/Common'
 import styles from './CreateCompany.module.scss'
+import { useLocation } from 'react-router-dom'
 
 const DiaChiTruSoChinh = lazy(() => {
   return import(`./DiaChiTruSoChinh`).then(({ default: Component }) => {
@@ -19,6 +20,7 @@ const GiaTriGopVon = lazy(() => {
     }
   })
 })
+
 const NgangNgheDangKi = lazy(() => {
   return import(`./NgangNgheDangKi`).then(({ default: Component }) => {
     return {
@@ -26,6 +28,7 @@ const NgangNgheDangKi = lazy(() => {
     }
   })
 })
+
 const NguoiDaiDienPhapLuat = lazy(() => {
   return import(`./NguoiDaiDienPhapLuat`).then(({ default: Component }) => {
     return {
@@ -33,6 +36,7 @@ const NguoiDaiDienPhapLuat = lazy(() => {
     }
   })
 })
+
 const TenCongTy = lazy(() => {
   return import(`./TenCongTy`).then(({ default: Component }) => {
     return {
@@ -40,6 +44,7 @@ const TenCongTy = lazy(() => {
     }
   })
 })
+
 const ThanhVienGopVon = lazy(() => {
   return import(`./ThanhVienGopVon`).then(({ default: Component }) => {
     return {
@@ -50,15 +55,42 @@ const ThanhVienGopVon = lazy(() => {
 
 const BASE_FORM = ['create_company', 'approve']
 
+const animateClass = 'animate__animated animate__fadeIn animate__faster'
+
 const CreateCompany = forwardRef((props, formRef) => {
   const [select, setSelect] = useState()
 
+  // useEffect(() => {
+  //   onSetFields([...BASE_FORM, 'origin_person', 0, 'national'], 'Việt Nam', formRef)
+  // }, [])
+
+  // useEffect(() => {
+
+  // }, [])
+  let location = useLocation()
+
   useEffect(() => {
-    onSetFields([...BASE_FORM, 'origin_person', 0, 'national'], 'Việt Nam', formRef)
-  }, [])
+    if (location?.state) {
+      let { state } = location
+      let _data = {
+        ...state.data,
+        category: {
+          ...state.category,
+          key: state.category._id,
+          value: state.category._id,
+        },
+        products: state.products,
+      }
+
+      formRef.current?.setFieldsValue({
+        ..._data,
+      })
+    }
+  }, [location])
 
   const handleSelect = (v, opt, pathName) => {
     let { type, name, value } = opt
+
     onSetFields([pathName], { type, name, value }, formRef)
     // reset Field
     let originPerson = [...BASE_FORM, 'origin_person']
@@ -87,7 +119,6 @@ const CreateCompany = forwardRef((props, formRef) => {
       </Select>
     )
   }
-  const animateClass = 'animate__animated animate__fadeIn animate__faster'
 
   const renderFormItem = (data) => {
     let html = null
@@ -123,7 +154,7 @@ const CreateCompany = forwardRef((props, formRef) => {
             </Form.Item>
           </Col>
         </Row>
-        
+
         <Suspense
           fallback={
             <div className="container spin-suspense">
