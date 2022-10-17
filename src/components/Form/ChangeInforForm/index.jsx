@@ -15,6 +15,7 @@ import CCInput from '../../CCInput'
 import { onSetFields } from '@/helper/Common'
 import ProductService from '../../../service/UserService/ProductService'
 import BaseInformation from './BaseInformation'
+import { useLocation } from 'react-router-dom'
 const ChangeInforForm = forwardRef((props, ref) => {
   
   const [productSelect, setProductSelect] = useState('')

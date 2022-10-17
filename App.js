@@ -33,7 +33,6 @@ onInit()
 // Cron running ;
 
 app.listen(RUNTIME_PORT, async () => {
-  console.log('helloworld')
 
   await connectDB()
 
