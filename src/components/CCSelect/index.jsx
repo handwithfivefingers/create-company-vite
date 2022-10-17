@@ -32,7 +32,6 @@ const SelectProvince = forwardRef((props, ref) => {
       let { pathName, value } = props?.data
       onSetFields([...pathName], value, ref)
     } else {
-      console.log(name, ref.current)
 
       let val = ref?.current?.getFieldValue([...name])
       onSetFields([...name], val, ref)

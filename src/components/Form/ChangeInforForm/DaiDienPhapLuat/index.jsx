@@ -9,7 +9,7 @@ import CCAddress from '../../../CCAddress'
 import CCSelect from '../../../CCSelect'
 import { onSetFields, htmlContent } from '@/helper/Common'
 import styles from './styles.module.scss'
-import _ from 'lodash'
+import _, { isEqual } from 'lodash'
 
 const BASE_FORM = ['change_info', 'legal_representative']
 
@@ -47,7 +47,7 @@ const DaiDienPhapLuat = forwardRef((props, ref) => {
     >
       {/* </Form.Item><Form.Item label="Bỏ bớt hoặc thêm mới người đại diện"> */}
       <Form.Item label={htmlContent('<b>Bỏ bớt hoặc thêm mới người đại diện</b>')}>
-        <Select onSelect={handleSelectPeopleType} placeholder='Bấm vào đây'>
+        <Select onSelect={handleSelectPeopleType} placeholder="Bấm vào đây">
           <Select.Option value={1}>Bỏ bớt người đại diện</Select.Option>
           <Select.Option value={2}>Thêm mới người đại diện</Select.Option>
         </Select>
@@ -417,26 +417,46 @@ const FormListPersonType = forwardRef((props, ref) => {
           <CCSelect.SelectProvince ref={ref} name={[...BASE_FORM, 'after_change', i, 'current']} />
         </Form.Item>
 
-        <Form.Item label={htmlContent('<b>Nơi ở hiện tại</b>')}>
-          <Radio.Group onChange={(e) => onRadioChange(e, i)} value={radio[i]}>
-            <Space direction="vertical">
-              <Radio value={1}>Giống với địa chỉ thường trú</Radio>
-              <Radio value={2}>Khác</Radio>
-            </Space>
-          </Radio.Group>
+        <Form.Item
+          label={htmlContent('<b>Nơi ở hiện tại</b>')}
+          shouldUpdate={() => {
+            let canChange = radio[i] === 1
+            if (canChange) {
+              let dataCopy = ref.current.getFieldValue([...BASE_FORM, 'after_change', i, 'current'])
+              let currentData = ref.current.getFieldValue([...BASE_FORM, 'after_change', i, 'contact'])
 
-          {
-            <div
-              style={{
-                padding: '8px 0',
-                opacity: radio[i] && radio[i] === 2 ? '1' : '0',
-                visibility: radio[i] && radio[i] === 2 ? 'visible' : 'hidden',
-                display: radio[i] && radio[i] === 2 ? 'block' : 'none',
-              }}
-            >
-              <CCSelect.SelectProvince ref={ref} name={[...BASE_FORM, 'after_change', i, 'contact']} label="Nơi ở hiện tại" />
-            </div>
-          }
+              if (!isEqual(dataCopy, currentData)) {
+                onSetFields([...BASE_FORM, 'after_change', i, 'contact'], dataCopy, ref)
+              }
+            }
+            return !canChange
+          }}
+        >
+          {() => {
+            return (
+              <>
+                <Radio.Group onChange={(e) => onRadioChange(e, i)} value={radio[i]}>
+                  <Space direction="vertical">
+                    <Radio value={1}>Giống với địa chỉ thường trú</Radio>
+                    <Radio value={2}>Khác</Radio>
+                  </Space>
+                </Radio.Group>
+
+                {
+                  <div
+                    style={{
+                      padding: '8px 0',
+                      opacity: radio[i] && radio[i] === 2 ? '1' : '0',
+                      visibility: radio[i] && radio[i] === 2 ? 'visible' : 'hidden',
+                      display: radio[i] && radio[i] === 2 ? 'block' : 'none',
+                    }}
+                  >
+                    <CCSelect.SelectProvince ref={ref} name={[...BASE_FORM, 'after_change', i, 'contact']} label="Nơi ở hiện tại" />
+                  </div>
+                }
+              </>
+            )
+          }}
         </Form.Item>
       </div>
     </Form.Item>

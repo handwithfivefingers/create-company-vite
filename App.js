@@ -26,8 +26,6 @@ const { onInit } = new appConfig(app)
 
 const { task, backupDB } = new Cronjob()
 
-
-
 initEnvLoaded()
 
 onInit()
@@ -35,6 +33,8 @@ onInit()
 // Cron running ;
 
 app.listen(RUNTIME_PORT, async () => {
+  console.log('helloworld')
+
   await connectDB()
 
   task.start()
