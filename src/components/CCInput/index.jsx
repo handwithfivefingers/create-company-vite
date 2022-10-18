@@ -127,6 +127,7 @@ const InputSelect = ({ name, label, optional, handleOptions, ...props }) => {
         placeholder={props?.placeholder}
         autoComplete="off"
         value={props?.value}
+        title={props?.name}
       >
         {optional?.map((item, i) => {
           return (

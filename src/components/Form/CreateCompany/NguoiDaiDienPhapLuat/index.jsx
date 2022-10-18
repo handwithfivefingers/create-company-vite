@@ -38,7 +38,6 @@ const NguoiDaiDienPhapLuat = forwardRef(({ data, ...props }, ref) => {
 
   const addItem = () => {
     setListForm([...listForm, listField])
-
     return scrollIntoField()
   }
 
@@ -275,7 +274,6 @@ const FormListPersonType = forwardRef((props, ref) => {
         <CCSelect.SelectDocProvide name={[...BASE_FORM, 'legal_respon', i, 'doc_place_provide']} label="Nơi cấp" ref={ref} />
 
         <Form.Item
-          // label="Nơi đăng kí hộ khẩu thường trú"
           label={
             <div
               dangerouslySetInnerHTML={{
@@ -287,8 +285,14 @@ const FormListPersonType = forwardRef((props, ref) => {
           <CCSelect.SelectProvince ref={ref} name={[...BASE_FORM, 'legal_respon', i, 'current']} />
         </Form.Item>
 
-        <Form.Item
-          // label="Nơi ở hiện tại"
+        <CCSelect.RadioAddress
+          ref={ref}
+          prevField={[...BASE_FORM, 'legal_respon', i, 'current']}
+          nextField={[...BASE_FORM, 'legal_respon', i, 'contact']}
+          label={'<b>Nơi ở hiện tại</b>'}
+        />
+
+        {/* <Form.Item
           label={
             <div
               dangerouslySetInnerHTML={{
@@ -316,44 +320,6 @@ const FormListPersonType = forwardRef((props, ref) => {
               <CCSelect.SelectProvince ref={ref} name={[...BASE_FORM, 'legal_respon', i, 'contact']} label="Nơi ở hiện tại" />
             </div>
           }
-        </Form.Item>
-
-        {/* <Form.Item label={<h4>Loại giấy tờ pháp lý </h4>}>
-          <Row gutter={[16, 12]}>
-            <Col lg={24} md={24} sm={24} xs={24}>
-              <CCInput
-                type="select"
-                name={[...BASE_FORM, 'legal_respon', i, 'doc_type']}
-                label="Loại giấy tờ"
-                options={SELECT.DOC_TYPE}
-                placeholder="Bấm vào đây"
-              />
-            </Col>
-            <Col lg={24} md={24} sm={24} xs={24}>
-              <CCInput
-                name={[...BASE_FORM, 'legal_respon', i, 'doc_code']}
-                label="Số CMND / CCCD / Hộ chiếu"
-                placeholder="0316184427"
-              />
-            </Col>
-
-            <Col lg={24} md={24} sm={24} xs={24}>
-              <CCInput
-                type="date"
-                name={[...BASE_FORM, 'legal_respon', i, 'doc_time_provide']}
-                label="Ngày cấp"
-                placeholder="Chọn ngày"
-              />
-            </Col>
-
-            <Col lg={24} md={24} sm={24} xs={24}>
-              <CCSelect.SelectDocProvide
-                name={[...BASE_FORM, 'legal_respon', i, 'doc_place_provide']}
-                label="Nơi cấp"
-                ref={ref}
-              />
-            </Col>
-          </Row>
         </Form.Item> */}
       </div>
     </Form.Item>

@@ -7,13 +7,24 @@ import { SELECT } from '@/constant/Common'
 import CCSelect from '../../../CCSelect'
 import { onSetFields } from '@/helper/Common'
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons'
+import { isEqual } from 'lodash'
 const ThanhVienGopVon = forwardRef(({ data, ...props }, ref) => {
   const [present, setPresent] = useState({})
+
   const { current, BASE_FORM } = props
+
   const [listForm, setListForm] = useState([{}])
 
   useEffect(() => {
-    onSetFields([...BASE_FORM, 'origin_person', 0, 'doc_type'], 'Chứng minh nhân dân', ref)
+    // onSetFields([...BASE_FORM, 'origin_person', 0, 'doc_type'], 'Chứng minh nhân dân', ref)
+
+    let origin_person = ref.current.getFieldValue([...BASE_FORM, 'origin_person'])
+
+    console.log(origin_person)
+
+    if (origin_person?.length) {
+      loadOriginPersonalData(origin_person)
+    }
   }, [])
 
   useEffect(() => {
@@ -43,12 +54,19 @@ const ThanhVienGopVon = forwardRef(({ data, ...props }, ref) => {
     }
   }, [data])
 
-  const renderPresentPerson = (index) => {
-    let xhtml = null
+  const loadOriginPersonalData = (originData) => {
+    setListForm(originData)
+    // set current data
+  }
 
-    if (present?.[index] === 'personal') {
+  const renderPresentPerson = (index) => {
+    // console.log('renderPresentPerson', index)
+    let xhtml = null
+    let presentPerson = ref.current?.getFieldValue([...BASE_FORM, 'origin_person', index, 'present_person'])
+    console.log(presentPerson)
+    if (presentPerson === 'personal') {
       xhtml = <Personal type={data?.type} ref={ref} BASE_FORM={[...BASE_FORM, 'origin_person', index]} onSetFields={onSetFields} />
-    } else if (present?.[index] === 'organization') {
+    } else if (presentPerson === 'organization') {
       xhtml = <OriginalPerson type={data?.type} ref={ref} onSetFields={onSetFields} BASE_FORM={[...BASE_FORM, 'origin_person', index]} />
     }
     return xhtml
@@ -90,10 +108,6 @@ const ThanhVienGopVon = forwardRef(({ data, ...props }, ref) => {
     }
   }
 
-  const handleSetListForm = ({ index, val }) => {
-    setPresent((state) => ({ ...state, [index]: val }))
-  }
-
   return (
     <Form.Item
       className={clsx([
@@ -132,8 +146,7 @@ const ThanhVienGopVon = forwardRef(({ data, ...props }, ref) => {
                   </div>
                 }
               >
-                <PresentPerson BASE_FORM={BASE_FORM} index={i} setListForm={handleSetListForm} ref={ref} />
-
+                <PresentPerson BASE_FORM={BASE_FORM} index={i} ref={ref} />
                 {renderPresentPerson(i)}
               </Form.Item>
             </Col>
@@ -149,6 +162,21 @@ const Personal = forwardRef((props, ref) => {
 
   const [radio, setRadio] = useState(null)
 
+  useEffect(() => {
+    let fieldCopy = [...BASE_FORM, 'current']
+    let fieldCurrent = [...BASE_FORM, 'contact']
+
+    let dataCopy = ref.current.getFieldValue(fieldCopy)
+    let currentData = ref.current.getFieldValue(fieldCurrent)
+
+    if (isEqual(dataCopy, currentData) && currentData) {
+      setRadio(1)
+    } else if (!currentData) {
+      setRadio(null)
+    } else {
+      setRadio(0)
+    }
+  }, [])
   const onRadioChange = (e) => {
     setRadio(e.target.value)
     if (e.target.value === 1) {
@@ -197,7 +225,7 @@ const Personal = forwardRef((props, ref) => {
       >
         <CCSelect.SelectProvince ref={ref} name={[...BASE_FORM, 'current']} />
       </Form.Item>
-      <Form.Item
+      {/* <Form.Item
         label={
           <div
             dangerouslySetInnerHTML={{
@@ -226,7 +254,59 @@ const Personal = forwardRef((props, ref) => {
             <CCSelect.SelectProvince ref={ref} name={[...BASE_FORM, 'contact']} label="Nơi cấp" />
           </div>
         }
-      </Form.Item>
+      </Form.Item> */}
+
+      <CCSelect.RadioAddress prevField={[...BASE_FORM, 'current']} nextField={[...BASE_FORM, 'contact']} ref={ref} bodyStyle={styles} />
+
+      {/* <Form.Item
+        label={
+          <div
+            dangerouslySetInnerHTML={{
+              __html: '</><b>Địa chỉ liên lạc <i>(ĐDPL)</i><b></>',
+            }}
+          />
+        }
+        className={styles.newLine}
+        shouldUpdate={() => {
+          let canChange = radio === 1
+          let fieldCopy = [...BASE_FORM, 'current']
+          let fieldCurrent = [...BASE_FORM, 'contact']
+          if (canChange) {
+            let dataCopy = ref.current.getFieldValue(fieldCopy)
+            let currentData = ref.current.getFieldValue(fieldCurrent)
+
+            if (!isEqual(dataCopy, currentData)) {
+              onSetFields(fieldCurrent, dataCopy, ref)
+            }
+          }
+          return !canChange
+        }}
+      >
+        {() => {
+          return (
+            <>
+              <Radio.Group onChange={onRadioChange} value={radio}>
+                <Space direction="vertical">
+                  <Radio value={1}>Giống với địa chỉ thường trú</Radio>
+                  <Radio value={2}>Khác</Radio>
+                </Space>
+              </Radio.Group>
+              {
+                <div
+                  style={{
+                    padding: '8px 0',
+                    opacity: radio && radio === 2 ? '1' : '0',
+                    visibility: radio && radio === 2 ? 'visible' : 'hidden',
+                    display: radio && radio === 2 ? 'block' : 'none',
+                  }}
+                >
+                  <CCSelect.SelectProvince ref={ref} name={[...BASE_FORM, 'contact']} />
+                </div>
+              }
+            </>
+          )
+        }}
+      </Form.Item> */}
     </div>
   )
 })
@@ -234,15 +314,32 @@ const Personal = forwardRef((props, ref) => {
 const OriginalPerson = forwardRef((props, ref) => {
   const { BASE_FORM, onSetFields, type } = props
 
-  const [radio, setRadio] = useState(null)
-  const onRadioChange = (e) => {
-    setRadio(e.target.value)
+  // const [radio, setRadio] = useState(null)
 
-    if (e.target.value === 1) {
-      let val = ref.current.getFieldValue([...BASE_FORM, 'current'])
-      onSetFields([...BASE_FORM, 'contact'], val, ref)
-    }
-  }
+  // useEffect(() => {
+  //   let fieldCopy = [...BASE_FORM, 'current']
+  //   let fieldCurrent = [...BASE_FORM, 'contact']
+
+  //   let dataCopy = ref.current.getFieldValue(fieldCopy)
+  //   let currentData = ref.current.getFieldValue(fieldCurrent)
+
+  //   if (isEqual(dataCopy, currentData) && currentData) {
+  //     setRadio(1)
+  //   } else if (!currentData) {
+  //     setRadio(null)
+  //   } else {
+  //     setRadio(0)
+  //   }
+  // }, [])
+
+  // const onRadioChange = (e) => {
+  //   setRadio(e.target.value)
+
+  //   if (e.target.value === 1) {
+  //     let val = ref.current.getFieldValue([...BASE_FORM, 'current'])
+  //     onSetFields([...BASE_FORM, 'contact'], val, ref)
+  //   }
+  // }
 
   return (
     <div className={styles.groupInput}>
@@ -337,10 +434,10 @@ const OriginalPerson = forwardRef((props, ref) => {
           />
         }
       >
-        <CCSelect.SelectProvince ref={ref} name={[...BASE_FORM, 'current']} label="Nơi đăng kí hộ khẩu thường trú" />
+        <CCSelect.SelectProvince ref={ref} name={[...BASE_FORM, 'current']} />
       </Form.Item>
-
-      <Form.Item
+      <CCSelect.RadioAddress prevField={[...BASE_FORM, 'current']} nextField={[...BASE_FORM, 'contact']} ref={ref} bodyStyle={styles} />
+      {/* <Form.Item
         label={
           <div
             dangerouslySetInnerHTML={{
@@ -349,45 +446,58 @@ const OriginalPerson = forwardRef((props, ref) => {
           />
         }
         className={styles.newLine}
-      >
-        <Radio.Group onChange={onRadioChange} value={radio}>
-          <Space direction="vertical">
-            <Radio value={1}>Giống với địa chỉ thường trú</Radio>
-            <Radio value={2}>Khác</Radio>
-          </Space>
-        </Radio.Group>
+        shouldUpdate={() => {
+          let canChange = radio === 1
+          let fieldCopy = [...BASE_FORM, 'current']
+          let fieldCurrent = [...BASE_FORM, 'contact']
+          if (canChange) {
+            let dataCopy = ref.current.getFieldValue(fieldCopy)
+            let currentData = ref.current.getFieldValue(fieldCurrent)
 
-        {
-          <div
-            style={{
-              padding: '8px 0',
-              opacity: radio && radio === 2 ? '1' : '0',
-              visibility: radio && radio === 2 ? 'visible' : 'hidden',
-              display: radio && radio === 2 ? 'block' : 'none',
-            }}
-          >
-            <CCSelect.SelectProvince ref={ref} name={[...BASE_FORM, 'contact']} label="Nơi ở hiện tại" />
-          </div>
-        }
-      </Form.Item>
+            if (!isEqual(dataCopy, currentData)) {
+              onSetFields(fieldCurrent, dataCopy, ref)
+            }
+          }
+          return !canChange
+        }}
+      >
+        {() => {
+          return (
+            <>
+              <Radio.Group onChange={onRadioChange} value={radio}>
+                <Space direction="vertical">
+                  <Radio value={1}>Giống với địa chỉ thường trú</Radio>
+                  <Radio value={2}>Khác</Radio>
+                </Space>
+              </Radio.Group>
+              {
+                <div
+                  style={{
+                    padding: '8px 0',
+                    opacity: radio && radio === 2 ? '1' : '0',
+                    visibility: radio && radio === 2 ? 'visible' : 'hidden',
+                    display: radio && radio === 2 ? 'block' : 'none',
+                  }}
+                >
+                  <CCSelect.SelectProvince ref={ref} name={[...BASE_FORM, 'contact']} />
+                </div>
+              }
+            </>
+          )
+        }}
+      </Form.Item> */}
     </div>
   )
 })
 
 const PresentPerson = forwardRef((props, ref) => {
-  const { BASE_FORM, index, setListForm } = props
-
-  const handleSelectPresentPerson = (val, opt) => {
-    setListForm({ index, val })
-  }
+  const { BASE_FORM, index } = props
 
   return (
     <CCInput
       display={'none'}
       type="select"
       name={[...BASE_FORM, 'origin_person', index, 'present_person']}
-      onSelect={handleSelectPresentPerson}
-      defaultActiveFirstOption
       placeholder="Bấm vào đây"
       options={[
         {

@@ -1,9 +1,13 @@
 import CCInput from '@/components/CCInput'
 import GlobalService from '@/service/GlobalService'
-import { Col, Form, Input, Row, Select } from 'antd'
+import { Col, Form, Input, Radio, Row, Select, Space } from 'antd'
 import React, { forwardRef, useEffect, useState } from 'react'
-import { onSetFields } from '@/helper/Common'
+import { onSetFields, htmlContent } from '@/helper/Common'
 import { useFetch } from '@/helper/Hook'
+import { isEqual } from 'lodash'
+
+import styles from './styles.module.scss'
+
 const { Option } = Select
 
 const SelectProvince = forwardRef((props, ref) => {
@@ -32,7 +36,6 @@ const SelectProvince = forwardRef((props, ref) => {
       let { pathName, value } = props?.data
       onSetFields([...pathName], value, ref)
     } else {
-
       let val = ref?.current?.getFieldValue([...name])
       onSetFields([...name], val, ref)
     }
@@ -294,11 +297,84 @@ const SelectDocProvide = forwardRef((props, ref) => {
   )
 })
 
+const RadioAddress = forwardRef((props, ref) => {
+  const { prevField, nextField } = props
+
+  const [radio, setRadio] = useState(null)
+
+  useEffect(() => {
+    let prevData = ref.current.getFieldValue(prevField)
+    let nextData = ref.current.getFieldValue(nextField)
+
+    if (isEqual(prevData, nextData) && nextData) {
+      setRadio(1)
+    } else if (!nextData) {
+      setRadio(null)
+    } else {
+      setRadio(0)
+    }
+  }, [])
+
+  const onRadioChange = (e) => {
+    setRadio(e.target.value)
+
+    if (e.target.value === 1) {
+      let val = ref.current.getFieldValue(prevField)
+
+      onSetFields(nextField, val, ref)
+    }
+  }
+  return (
+    <Form.Item
+      label={htmlContent(props?.label || '<b>Địa chỉ liên lạc <i>(ĐDPL)</i><b>')}
+      className={styles.newLine}
+      shouldUpdate={() => {
+        let canChange = radio === 1
+        if (canChange) {
+          let prevData = ref.current.getFieldValue(prevField)
+          let nextData = ref.current.getFieldValue(nextField)
+
+          if (!isEqual(prevData, nextData)) {
+            onSetFields(nextField, prevData, ref)
+          }
+        }
+        return !canChange
+      }}
+    >
+      {() => {
+        return (
+          <>
+            <Radio.Group onChange={onRadioChange} value={radio}>
+              <Space direction="vertical">
+                <Radio value={1}>Giống với địa chỉ thường trú</Radio>
+                <Radio value={2}>Khác</Radio>
+              </Space>
+            </Radio.Group>
+            {
+              <div
+                style={{
+                  padding: '8px 0',
+                  opacity: radio && radio === 2 ? '1' : '0',
+                  visibility: radio && radio === 2 ? 'visible' : 'hidden',
+                  display: radio && radio === 2 ? 'block' : 'none',
+                }}
+              >
+                <CCSelect.SelectProvince ref={ref} name={nextField} />
+              </div>
+            }
+          </>
+        )
+      }}
+    </Form.Item>
+  )
+})
+
 const CCSelect = {
   SelectProvince,
   SelectPersonType,
   SelectDocProvide,
   SelectTitle,
+  RadioAddress,
 }
 
 export default CCSelect

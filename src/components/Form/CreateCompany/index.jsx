@@ -137,6 +137,7 @@ const CreateCompany = forwardRef((props, formRef) => {
     return html
   }
 
+  console.log(location.state?.data)
   return (
     <>
       <Form layout="vertical" ref={formRef} autoComplete="off">
