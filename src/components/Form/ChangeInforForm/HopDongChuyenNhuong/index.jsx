@@ -207,7 +207,7 @@ const HopDongChuyenNhuong = forwardRef((props, ref) => {
   }
 
   const renderFormOwnerB = (condition, fieldName) => {
-    let xhtml = null;
+    let xhtml = null
 
     if (condition === 'personal') {
       xhtml = // chủ sở hữu là cá nhân
@@ -311,7 +311,6 @@ const HopDongChuyenNhuong = forwardRef((props, ref) => {
               placeholder="Bấm vào đây"
               options={SELECT.TITLE_2}
             />
-            
           </Col>
           <Col span={24}>{renderFormByType([...fieldName, 'organization', 'capital_contribution'])}</Col>
         </Row>
@@ -333,7 +332,10 @@ const HopDongChuyenNhuong = forwardRef((props, ref) => {
           type="select"
           label="Chủ sở hữu"
           name={[...BASE_FORM, 'A_side', 'owner']}
-          onChange={(e) => setSohuuA(e)}
+          onChange={(e) => {
+            setSohuuA(e)
+            console.log(ref.current.getFieldsValue())
+          }}
           options={SELECT.OWNER}
           placeholder="Bấm vào đây"
         />

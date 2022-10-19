@@ -24,7 +24,7 @@ const TangVonDieuLe = forwardRef((props, ref) => {
       let upperLetter = transform.charAt(0).toUpperCase() + transform.slice(1)
 
       onSetFields([...pathName, 'char'], upperLetter, ref)
-    }, 1000)
+    }, 500)
   }
 
   return (
