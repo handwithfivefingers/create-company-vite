@@ -171,6 +171,11 @@ const HopDongChuyenNhuong = forwardRef((props, ref) => {
             <CCInput name={[...fieldName, 'organization', 'mst_provide']} label="Ngày cấp (ngày đăng ký lần đầu)" type="date" />
           </Col>
 
+          <Col lg={12} md={12} sm={24} xs={24}>
+            {/* <CCInput name={[...fieldName, 'organization', 'place_provide']} label="Nơi cấp" /> */}
+            <CCSelect.SelectDocProvide ref={ref} name={[...fieldName, 'organization', 'place_provide']} label="Nơi cấp" placeholder="Bấm vào đây" />
+          </Col>
+
           <Col span={24}>
             <Form.Item label="Địa chỉ trụ sở chính">
               <CCSelect.SelectProvince ref={ref} name={[...fieldName, 'organization', 'company_address', 'current']} />

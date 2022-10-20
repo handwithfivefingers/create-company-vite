@@ -157,6 +157,17 @@ const BaseInformation = forwardRef((props, ref) => {
       />
 
       <CCInput label="Mã số doanh nghiệp hoặc Mã số thuế" name={['change_info', 'base_inform', 'mst']} placeholder="0316184427" />
+      
+      <Row gutter={[12, 0]}>
+      <Col lg={12} md={12} sm={24} xs={24}>
+            <CCInput name={['change_info', 'base_inform', 'mst_provide']} label="Ngày cấp" type="date" />
+      </Col>
+
+      <Col lg={12} md={12} sm={24} xs={24}>
+          {/* <CCInput name={[...fieldName, 'organization', 'place_provide']} label="Nơi cấp" /> */}
+          <CCSelect.SelectDocProvide ref={ref} name={['change_info', 'base_inform', 'place_provide']} label="Nơi cấp" placeholder="Bấm vào đây" />
+      </Col>
+      </Row>
 
       <CCInput
         label={htmlContent('</>Người đại diện pháp luật <i>(nhập đầy đủ họ và tên)</i></>')}
