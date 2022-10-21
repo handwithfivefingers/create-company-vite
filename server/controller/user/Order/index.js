@@ -7,7 +7,7 @@ const { Product, Order, Category } = require('@model')
 const { ResponseCode } = require('@common/ResponseCode')
 const { getListFiles } = require('@constant/File')
 const { getVpnParams, sortObject } = require('@common/helper')
-const { uniqBy } = require('lodash')
+const { uniqBy, rest } = require('lodash')
 
 const MailService = require('@server/controller/user/Sendmail')
 const { sendmailWithAttachments } = new MailService()
@@ -93,6 +93,26 @@ module.exports = class OrderUser {
     } catch (err) {
       console.log('createOrders error', err)
       return errHandler(err, res)
+    }
+  }
+
+  updateOrder = async (req, res) => {
+    try {
+      let _id = req.params._id
+      let { data } = req.body
+
+      let { category, products } = data
+
+      let _updateObject = {
+        category: category._id || category.value,
+        products: products.map((item) => item.value),
+        data,
+      }
+      await Order.updateOne({ _id }, _updateObject, { new: true })
+
+      return successHandler({ message: 'Updated Success' }, res)
+    } catch (error) {
+      console.log('updateOrder error', error)
     }
   }
 

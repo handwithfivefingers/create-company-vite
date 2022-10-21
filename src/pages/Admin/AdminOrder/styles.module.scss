@@ -13,6 +13,7 @@
 
 .inline {
   @extend .inline;
+  display: table-cell;
   text-overflow: ellipsis;
   white-space: nowrap;
 }

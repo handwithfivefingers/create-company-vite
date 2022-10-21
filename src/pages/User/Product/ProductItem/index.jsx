@@ -54,7 +54,6 @@ const UserProductItem = (props) => {
 
   const navigate = useNavigate()
 
-
   useEffect(() => {
     if (productData && status === 'success') {
       setData({ ...productData, data: productData.data.sort((a, b) => a.type - b.type) })
@@ -297,10 +296,15 @@ const UserProductItem = (props) => {
   )
 
   // Service
-  const saveService = async (params) => {
+  const saveService = async ({ _id, ...params }) => {
     try {
-      const res = await ProductService.createOrder(params)
-      if (res.data.status === 200) {
+      let res
+      if (_id) {
+        res = await ProductService.updateOrder(_id, params)
+      } else {
+        res = await ProductService.createOrder(params)
+      }
+      if (res.status === 200) {
         message.success(res.data.message)
         navigate('/user/san-pham')
       }

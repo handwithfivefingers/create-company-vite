@@ -1,6 +1,6 @@
 import { Button, Col, Form, InputNumber, Row, Space } from 'antd'
 import clsx from 'clsx'
-import React, { forwardRef, useState, useMemo } from 'react'
+import React, { forwardRef, useState, useMemo, useEffect } from 'react'
 import CCInput from '@/components/CCInput'
 import { SELECT } from '@/constant/Common'
 import styles from '../DaiDienPhapLuat/styles.module.scss'
@@ -8,6 +8,7 @@ import CCAddress from '../../../CCAddress'
 import { onSetFields, htmlContent, numToWord } from '@/helper/Common'
 import CCSelect from '../../../CCSelect'
 import CCListForm from '@/components/CCListForm'
+import { useLocation } from 'react-router-dom'
 /**
  * @description Bên bán -> A
  * @description Bên mua -> B
@@ -16,9 +17,27 @@ const BASE_FORM = ['change_info', 'transfer_contract']
 const HopDongChuyenNhuong = forwardRef((props, ref) => {
   const [sohuuA, setSohuuA] = useState()
   const [sohuuB, setSohuuB] = useState()
+
   const [type, setType] = useState('')
+  const location = useLocation()
 
   let timer
+
+  useEffect(() => {
+    if (location.state) {
+      let { state } = location
+
+      let value = ref.current.getFieldValue(BASE_FORM)
+      // console.log(value)
+      let { A_side, B_side } = value
+      if (A_side) {
+        setSohuuA(A_side?.owner)
+      }
+      if (B_side) {
+        setSohuuB(B_side?.owner)
+      }
+    }
+  }, [location])
 
   const onInputChange = (e, pathName) => {
     let numInp = ref.current.getFieldValue([...pathName, 'num'])
@@ -35,69 +54,66 @@ const HopDongChuyenNhuong = forwardRef((props, ref) => {
     }, 1000)
   }
 
-  const renderFormByType = useMemo(
-    () => (fieldName) => {
-      let xhtml = null
+  const renderFormByType = (fieldName) => {
+    let xhtml = null
 
-      xhtml = (
-        <Row gutter={[4, 16]}>
-          <Col span={12}>
-            {/* <Form.Item label="Phần vốn góp Bên bán hiện đang sở hữu là"> */}
-            <Form.Item label={htmlContent('<b>Phần vốn góp Bên bán hiện đang sở hữu là</b>')}>
-              <Row gutter={[4, 16]}>
-                <Col span={12}>
-                  <Form.Item name={[...fieldName, 'capital_current', 'num']} label="Bằng số">
-                    <InputNumber
-                      formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                      style={{ width: '100%' }}
-                      onChange={(e) => onInputChange(e, [...fieldName, 'capital_current'])}
-                      stringMode
-                    />
-                  </Form.Item>
-                </Col>
-                <Col span={12}>
-                  <CCInput name={[...fieldName, 'capital_current', 'char']} label="Bằng chữ" />
-                </Col>
-                <Col span={12}>
-                  <Form.Item label="Chiếm % vốn điều lệ" name={[...fieldName, 'capital_current', 'percent']}>
-                    <InputNumber style={{ width: '100%' }} placeholder="Bấm vào đây" max={100} min={0} stringMode formatter={(v) => `${v.replace('%', '')}%`} />
-                  </Form.Item>
-                </Col>
-              </Row>
-            </Form.Item>
-          </Col>
-          <Col span={12}>
-            {/* <Form.Item label="Phần vốn góp Bên bán chuyển nhượng là"> */}
-            <Form.Item label={htmlContent('<b>Phần vốn góp Bên bán chuyển nhượng là</b>')}>
-              <Row gutter={[4, 16]}>
-                <Col span={12}>
-                  <Form.Item name={[...fieldName, 'capital_transfer', 'num']} label="Bằng số">
-                    <InputNumber
-                      formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                      style={{ width: '100%' }}
-                      onChange={(e) => onInputChange(e, [...fieldName, 'capital_transfer'])}
-                      stringMode
-                    />
-                  </Form.Item>
-                </Col>
-                <Col span={12}>
-                  <CCInput name={[...fieldName, 'capital_transfer', 'char']} label="Bằng chữ" />
-                </Col>
-                <Col span={12}>
-                  <Form.Item label="Chiếm % vốn điều lệ" name={[...fieldName, 'capital_transfer', 'percent']}>
-                    <InputNumber style={{ width: '100%' }} placeholder="Bấm vào đây" max={100} min={0} stringMode formatter={(v) => `${v.replace('%', '')}%`} />
-                  </Form.Item>
-                </Col>
-              </Row>
-            </Form.Item>
-          </Col>
-        </Row>
-      )
+    xhtml = (
+      <Row gutter={[4, 16]}>
+        <Col span={12}>
+          {/* <Form.Item label="Phần vốn góp Bên bán hiện đang sở hữu là"> */}
+          <Form.Item label={htmlContent('<b>Phần vốn góp Bên bán hiện đang sở hữu là</b>')}>
+            <Row gutter={[4, 16]}>
+              <Col span={12}>
+                <Form.Item name={[...fieldName, 'capital_current', 'num']} label="Bằng số">
+                  <InputNumber
+                    formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                    style={{ width: '100%' }}
+                    onChange={(e) => onInputChange(e, [...fieldName, 'capital_current'])}
+                    stringMode
+                  />
+                </Form.Item>
+              </Col>
+              <Col span={12}>
+                <CCInput name={[...fieldName, 'capital_current', 'char']} label="Bằng chữ" />
+              </Col>
+              <Col span={12}>
+                <Form.Item label="Chiếm % vốn điều lệ" name={[...fieldName, 'capital_current', 'percent']}>
+                  <InputNumber style={{ width: '100%' }} placeholder="Bấm vào đây" max={100} min={0} stringMode formatter={(v) => `${v.replace('%', '')}%`} />
+                </Form.Item>
+              </Col>
+            </Row>
+          </Form.Item>
+        </Col>
+        <Col span={12}>
+          {/* <Form.Item label="Phần vốn góp Bên bán chuyển nhượng là"> */}
+          <Form.Item label={htmlContent('<b>Phần vốn góp Bên bán chuyển nhượng là</b>')}>
+            <Row gutter={[4, 16]}>
+              <Col span={12}>
+                <Form.Item name={[...fieldName, 'capital_transfer', 'num']} label="Bằng số">
+                  <InputNumber
+                    formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                    style={{ width: '100%' }}
+                    onChange={(e) => onInputChange(e, [...fieldName, 'capital_transfer'])}
+                    stringMode
+                  />
+                </Form.Item>
+              </Col>
+              <Col span={12}>
+                <CCInput name={[...fieldName, 'capital_transfer', 'char']} label="Bằng chữ" />
+              </Col>
+              <Col span={12}>
+                <Form.Item label="Chiếm % vốn điều lệ" name={[...fieldName, 'capital_transfer', 'percent']}>
+                  <InputNumber style={{ width: '100%' }} placeholder="Bấm vào đây" max={100} min={0} stringMode formatter={(v) => `${v.replace('%', '')}%`} />
+                </Form.Item>
+              </Col>
+            </Row>
+          </Form.Item>
+        </Col>
+      </Row>
+    )
 
-      return xhtml
-    },
-    [],
-  )
+    return xhtml
+  }
 
   const renderFormOnwerA = (condition, fieldName) => {
     let xhtml = null
@@ -108,7 +124,7 @@ const HopDongChuyenNhuong = forwardRef((props, ref) => {
           <Col lg={12} md={12} sm={24} xs={24}>
             <CCInput
               name={[...fieldName, 'personal', 'name']}
-              label="Họ và tênaa"
+              label="Họ và tên"
               placeholder="NGUYỄN VĂN A"
               onChange={(e) => onSetFields([...fieldName, 'personal', 'name'], e.target.value, ref, true)}
             />
@@ -138,20 +154,14 @@ const HopDongChuyenNhuong = forwardRef((props, ref) => {
           <Col lg={12} md={12} sm={24} xs={24}>
             <CCSelect.SelectDocProvide ref={ref} name={[...fieldName, 'personal', 'doc_place_provide']} label="Nơi cấp" placeholder="Bấm vào đây" />
           </Col>
-          
+
           <Col lg={12} md={12} sm={24} xs={24}>
-          <CCAddress name={[...fieldName, 'personal']} ref={ref} />
+            <CCAddress name={[...fieldName, 'personal']} ref={ref} />
           </Col>
         </Row>
       )
     } else {
-      // Chủ sở hữu là tổ chức
-      // Trường hợp chủ sở hữu là tổ chức:
-      // Tên doanh nghiệp
-      // Mã số doanh nghiệp
-      // Địa chỉ trụ sở chính
-      // Người đại diện theo pháp luật của công ty:
-      // Chức danh:
+
       xhtml = (
         <Row gutter={[12, 0]}>
           <Col lg={12} md={12} sm={24} xs={24}>
@@ -256,7 +266,7 @@ const HopDongChuyenNhuong = forwardRef((props, ref) => {
             <Col lg={12} md={12} sm={24} xs={24}>
               <CCSelect.SelectDocProvide ref={ref} name={[...fieldName, 'personal', 'doc_place_provide']} label="Nơi cấp" placeholder="Bấm vào đây" />
             </Col>
-          
+
             <Col lg={12} md={12} sm={24} xs={24}>
               <CCAddress name={[...fieldName, 'personal']} ref={ref} />
             </Col>

@@ -213,7 +213,7 @@ const HOP_DONG_CHUYEN_NHUONG_FORM = {
                 percent: 'Chiếm % vốn điều lệ',
               },
             },
-            capital_current: {
+            capital_contribution: {
               label: 'Vốn góp',
               field: {
                 num: 'Bằng số',
@@ -222,33 +222,6 @@ const HOP_DONG_CHUYEN_NHUONG_FORM = {
               },
             },
           },
-
-          // A_side: {
-          //   label: 'Phần vốn góp Bên bán sở hữu',
-          //   fields: {
-          //     capital_current: {
-          //       label: 'Vốn góp',
-          //       field: {
-          //         num: 'Bằng số',
-          //         char: 'Bằng chữ',
-          //         percent: 'Chiếm % vốn điều lệ',
-          //       },
-          //     },
-          //   },
-          // },
-          // B_side: {
-          //   label: 'Phần vốn góp Bên bán chuyển nhượng',
-          //   fields: {
-          //     capital_current: {
-          //       label: 'Vốn góp',
-          //       field: {
-          //         num: 'Bằng số',
-          //         char: 'Bằng chữ',
-          //         percent: 'Chiếm % vốn điều lệ',
-          //       },
-          //     },
-          //   },
-          // },
         },
       },
     },
