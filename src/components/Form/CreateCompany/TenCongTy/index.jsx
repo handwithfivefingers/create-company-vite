@@ -44,8 +44,6 @@ const TenCongTy = forwardRef((props, ref) => {
 
   const [loading, setLoading] = useState(false)
 
-  const [feedback, setFeedback] = useState(false)
-
   const getCompanyByName = async (val) => {
     if (val.length <= 4) {
       setCompanyData([])

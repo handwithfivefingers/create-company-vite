@@ -1,9 +1,9 @@
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons'
-import { Button, Col, Form, Row, Space, Radio } from 'antd'
+import { Button, Col, Form, Row, Space, Radio, Select } from 'antd'
 import React, { forwardRef, useState, useEffect } from 'react'
 import CCInput from '@/components/CCInput'
 import { SELECT } from '@/constant/Common'
-import { onSetFields } from '@/helper/Common'
+import { onSetFields, htmlContent } from '@/helper/Common'
 import clsx from 'clsx'
 import styles from '../CreateCompany.module.scss'
 import CCSelect from '../../../CCSelect'
@@ -14,9 +14,9 @@ const NguoiDaiDienPhapLuat = forwardRef(({ data, ...props }, ref) => {
 
   const [listForm, setListForm] = useState([])
 
-  const [radio, setRadio] = useState([null, null, null])
-
   const [present, setPresent] = useState([null, null, null])
+
+  const [_render, setRender] = useState(false)
 
   const listField = {
     name: '',
@@ -36,9 +36,12 @@ const NguoiDaiDienPhapLuat = forwardRef(({ data, ...props }, ref) => {
     addItem()
   }, [])
 
+  // useEffect(() => {
+  //   setRender(!_render)
+  // }, [current])
+
   const addItem = () => {
     setListForm([...listForm, listField])
-
     return scrollIntoField()
   }
 
@@ -70,14 +73,13 @@ const NguoiDaiDienPhapLuat = forwardRef(({ data, ...props }, ref) => {
 
         {listForm.map((item, i) => {
           return (
-            <Col lg={8} md={12} sm={24} xs={24} key={i}>
+            <Col lg={8} md={12} sm={24} xs={24} key={[item, i]}>
               <PeronalType
                 index={i}
                 ref={ref}
                 BASE_FORM={BASE_FORM}
                 handleForm={{ state: listForm, setState: setListForm }}
                 presentState={{ state: present, setState: setPresent }}
-                radioState={{ state: radio, setState: setRadio }}
                 type={data?.type}
               />
             </Col>
@@ -89,29 +91,9 @@ const NguoiDaiDienPhapLuat = forwardRef(({ data, ...props }, ref) => {
 })
 
 const PeronalType = forwardRef((props, ref) => {
-  const { index, handleForm, BASE_FORM, presentState, radioState } = props
+  const { index, handleForm, BASE_FORM, presentState } = props
 
   const { state: present, setState: setPresent } = presentState
-
-  const { state: radio, setState: setRadio } = radioState
-
-  const onRadioChange = (e, index) => {
-    let { value } = e.target
-
-    let radioArray = radio
-
-    radioArray[index] = value
-
-    setRadio([...radioArray])
-
-    if (value === 1) {
-      let field = [...BASE_FORM, 'legal_respon']
-
-      let val = ref.current.getFieldValue([...field, index, 'current'])
-
-      onSetFields([...field, index, 'contact'], val, ref)
-    }
-  }
 
   const getPersonType = () => {
     let pathName = [...BASE_FORM, 'origin_person']
@@ -149,65 +131,47 @@ const PeronalType = forwardRef((props, ref) => {
 
     let originPerson = ref?.current?.getFieldValue(originPathName)
 
-    if (!originPerson) {
-    } else {
-      if (_.isEqual(originPerson?.current, originPerson?.contact)) {
-        // setting display radio
-        let event = {
-          target: {
-            value: 1,
-          },
-        }
-        onRadioChange(event, index)
-      } else {
-        let event = {
-          target: {
-            value: null,
-          },
-        }
-        onRadioChange(event, index)
-      }
+    if (originPerson) {
       onSetFields(legalPathName, originPerson, ref)
     }
   }
 
+  useEffect(() => {
+    let value = ref.current.getFieldValue([...BASE_FORM, 'legal_respon', index, 'name'])
+    let options = getPersonType()
+
+    let valIndex = options.findIndex((item) => item.name === value)
+
+    if (valIndex !== -1) {
+      onSetFields([...BASE_FORM, 'legal_respon', index, 'select_person'], options[valIndex].value, ref)
+    }
+  }, [])
+
   return (
     <>
-      <CCInput
-        type="select"
-        onChange={(e) => handleSelectPersonType(e, index)}
-        placeholder="Bấm vào đây"
-        options={getPersonType}
-        value={present[index]}
-        label={
-          <div
-            dangerouslySetInnerHTML={{
-              __html: '</><b>Chọn người đại diện</>',
-            }}
-          />
-        }
-        required
-      />
+      <Form.Item name={[...BASE_FORM, 'legal_respon', index, 'select_person']} label={htmlContent('<b>Chọn người đại diện</b>')}>
+        {getPersonType() && (
+          <Select onChange={(e) => handleSelectPersonType(e, index)} placeholder="Bấm vào đây" autoComplete="off" value={present[index]}>
+            {getPersonType()?.map((item, i) => {
+              return (
+                <Select.Option value={item.value} key={item.key ? item.key : [name, i, item.value]}>
+                  {item.name}
+                </Select.Option>
+              )
+            })}
+          </Select>
+        )}
+      </Form.Item>
 
-      <FormListPersonType
-        ref={ref}
-        listFormState={handleForm}
-        presentState={presentState}
-        radioState={{ state: radio, setState: onRadioChange }}
-        BASE_FORM={BASE_FORM}
-        i={index}
-        type={props?.type}
-      />
+      <FormListPersonType ref={ref} listFormState={handleForm} presentState={presentState} BASE_FORM={BASE_FORM} i={index} type={props?.type} />
     </>
   )
 })
 
 const FormListPersonType = forwardRef((props, ref) => {
-  const { i, presentState, radioState, listFormState, BASE_FORM, type } = props
+  const { i, presentState, listFormState, BASE_FORM, type } = props
 
   const { state, setState } = listFormState
-
-  const { state: radio, setState: onRadioChange } = radioState
 
   const { state: present, setState: setPresent } = presentState
 
@@ -275,7 +239,6 @@ const FormListPersonType = forwardRef((props, ref) => {
         <CCSelect.SelectDocProvide name={[...BASE_FORM, 'legal_respon', i, 'doc_place_provide']} label="Nơi cấp" ref={ref} />
 
         <Form.Item
-          // label="Nơi đăng kí hộ khẩu thường trú"
           label={
             <div
               dangerouslySetInnerHTML={{
@@ -287,74 +250,12 @@ const FormListPersonType = forwardRef((props, ref) => {
           <CCSelect.SelectProvince ref={ref} name={[...BASE_FORM, 'legal_respon', i, 'current']} />
         </Form.Item>
 
-        <Form.Item
-          // label="Nơi ở hiện tại"
-          label={
-            <div
-              dangerouslySetInnerHTML={{
-                __html: '</><b>Nơi ở hiện tại</b></>',
-              }}
-            />
-          }
-        >
-          <Radio.Group onChange={(e) => onRadioChange(e, i)} value={radio[i]}>
-            <Space direction="vertical">
-              <Radio value={1}>Giống với địa chỉ thường trú</Radio>
-              <Radio value={2}>Khác</Radio>
-            </Space>
-          </Radio.Group>
-
-          {
-            <div
-              style={{
-                padding: '8px 0',
-                opacity: radio[i] && radio[i] === 2 ? '1' : '0',
-                visibility: radio[i] && radio[i] === 2 ? 'visible' : 'hidden',
-                display: radio[i] && radio[i] === 2 ? 'block' : 'none',
-              }}
-            >
-              <CCSelect.SelectProvince ref={ref} name={[...BASE_FORM, 'legal_respon', i, 'contact']} label="Nơi ở hiện tại" />
-            </div>
-          }
-        </Form.Item>
-
-        {/* <Form.Item label={<h4>Loại giấy tờ pháp lý </h4>}>
-          <Row gutter={[16, 12]}>
-            <Col lg={24} md={24} sm={24} xs={24}>
-              <CCInput
-                type="select"
-                name={[...BASE_FORM, 'legal_respon', i, 'doc_type']}
-                label="Loại giấy tờ"
-                options={SELECT.DOC_TYPE}
-                placeholder="Bấm vào đây"
-              />
-            </Col>
-            <Col lg={24} md={24} sm={24} xs={24}>
-              <CCInput
-                name={[...BASE_FORM, 'legal_respon', i, 'doc_code']}
-                label="Số CMND / CCCD / Hộ chiếu"
-                placeholder="0316184427"
-              />
-            </Col>
-
-            <Col lg={24} md={24} sm={24} xs={24}>
-              <CCInput
-                type="date"
-                name={[...BASE_FORM, 'legal_respon', i, 'doc_time_provide']}
-                label="Ngày cấp"
-                placeholder="Chọn ngày"
-              />
-            </Col>
-
-            <Col lg={24} md={24} sm={24} xs={24}>
-              <CCSelect.SelectDocProvide
-                name={[...BASE_FORM, 'legal_respon', i, 'doc_place_provide']}
-                label="Nơi cấp"
-                ref={ref}
-              />
-            </Col>
-          </Row>
-        </Form.Item> */}
+        <CCSelect.RadioAddress
+          ref={ref}
+          prevField={[...BASE_FORM, 'legal_respon', i, 'current']}
+          nextField={[...BASE_FORM, 'legal_respon', i, 'contact']}
+          label={'<b>Nơi ở hiện tại</b>'}
+        />
       </div>
     </Form.Item>
   )

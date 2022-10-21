@@ -56,7 +56,7 @@ const HopDongChuyenNhuong = forwardRef((props, ref) => {
                   </Form.Item>
                 </Col>
                 <Col span={12}>
-                  <CCInput name={[...fieldName, 'capital_current', 'char']} placeholder="Bấm vào đây" label="Bằng chữ" />
+                  <CCInput name={[...fieldName, 'capital_current', 'char']} label="Bằng chữ" />
                 </Col>
                 <Col span={12}>
                   <Form.Item label="Chiếm % vốn điều lệ" name={[...fieldName, 'capital_current', 'percent']}>
@@ -81,7 +81,7 @@ const HopDongChuyenNhuong = forwardRef((props, ref) => {
                   </Form.Item>
                 </Col>
                 <Col span={12}>
-                  <CCInput name={[...fieldName, 'capital_transfer', 'char']} placeholder="Bấm vào đây" label="Bằng chữ" />
+                  <CCInput name={[...fieldName, 'capital_transfer', 'char']} label="Bằng chữ" />
                 </Col>
                 <Col span={12}>
                   <Form.Item label="Chiếm % vốn điều lệ" name={[...fieldName, 'capital_transfer', 'percent']}>
@@ -108,7 +108,7 @@ const HopDongChuyenNhuong = forwardRef((props, ref) => {
           <Col lg={12} md={12} sm={24} xs={24}>
             <CCInput
               name={[...fieldName, 'personal', 'name']}
-              label="Họ và tên"
+              label="Họ và tênaa"
               placeholder="NGUYỄN VĂN A"
               onChange={(e) => onSetFields([...fieldName, 'personal', 'name'], e.target.value, ref, true)}
             />
@@ -138,9 +138,9 @@ const HopDongChuyenNhuong = forwardRef((props, ref) => {
           <Col lg={12} md={12} sm={24} xs={24}>
             <CCSelect.SelectDocProvide ref={ref} name={[...fieldName, 'personal', 'doc_place_provide']} label="Nơi cấp" placeholder="Bấm vào đây" />
           </Col>
-
+          
           <Col lg={12} md={12} sm={24} xs={24}>
-            <CCSelect.SelectProvince ref={ref} name={[...fieldName, 'personal', 'address', 'contact']} />
+          <CCAddress name={[...fieldName, 'personal']} ref={ref} />
           </Col>
         </Row>
       )
@@ -169,6 +169,11 @@ const HopDongChuyenNhuong = forwardRef((props, ref) => {
 
           <Col lg={12} md={12} sm={24} xs={24}>
             <CCInput name={[...fieldName, 'organization', 'mst_provide']} label="Ngày cấp (ngày đăng ký lần đầu)" type="date" />
+          </Col>
+
+          <Col lg={12} md={12} sm={24} xs={24}>
+            {/* <CCInput name={[...fieldName, 'organization', 'place_provide']} label="Nơi cấp" /> */}
+            <CCSelect.SelectDocProvide ref={ref} name={[...fieldName, 'organization', 'place_provide']} label="Nơi cấp" placeholder="Bấm vào đây" />
           </Col>
 
           <Col span={24}>
@@ -207,7 +212,7 @@ const HopDongChuyenNhuong = forwardRef((props, ref) => {
   }
 
   const renderFormOwnerB = (condition, fieldName) => {
-    let xhtml = null;
+    let xhtml = null
 
     if (condition === 'personal') {
       xhtml = // chủ sở hữu là cá nhân
@@ -216,8 +221,8 @@ const HopDongChuyenNhuong = forwardRef((props, ref) => {
             <Col lg={12} md={12} sm={24} xs={24}>
               <CCInput
                 name={[...fieldName, 'personal', 'name']}
-                label="Họ và tên"
-                placeholder="NGUYỄN VĂN A"
+                label="Họ và tênss"
+                placeholder="NGUYỄN VĂN B"
                 onChange={(e) => onSetFields([...fieldName, 'personal', 'name'], e.target.value, ref, true)}
               />
             </Col>
@@ -251,7 +256,7 @@ const HopDongChuyenNhuong = forwardRef((props, ref) => {
             <Col lg={12} md={12} sm={24} xs={24}>
               <CCSelect.SelectDocProvide ref={ref} name={[...fieldName, 'personal', 'doc_place_provide']} label="Nơi cấp" placeholder="Bấm vào đây" />
             </Col>
-
+          
             <Col lg={12} md={12} sm={24} xs={24}>
               <CCAddress name={[...fieldName, 'personal']} ref={ref} />
             </Col>
@@ -311,7 +316,6 @@ const HopDongChuyenNhuong = forwardRef((props, ref) => {
               placeholder="Bấm vào đây"
               options={SELECT.TITLE_2}
             />
-            
           </Col>
           <Col span={24}>{renderFormByType([...fieldName, 'organization', 'capital_contribution'])}</Col>
         </Row>
@@ -328,12 +332,15 @@ const HopDongChuyenNhuong = forwardRef((props, ref) => {
         [styles.active]: props.current === props.index,
       })}
     >
-      <Form.Item label={htmlContent('<b>Thông tin bên bán</b>')}>
+      <Form.Item label={htmlContent('<b>THÔNG TIN BÊN BÁN</b>')}>
         <CCInput
           type="select"
           label="Chủ sở hữu"
           name={[...BASE_FORM, 'A_side', 'owner']}
-          onChange={(e) => setSohuuA(e)}
+          onChange={(e) => {
+            setSohuuA(e)
+            console.log(ref.current.getFieldsValue())
+          }}
           options={SELECT.OWNER}
           placeholder="Bấm vào đây"
         />
@@ -341,7 +348,7 @@ const HopDongChuyenNhuong = forwardRef((props, ref) => {
         {sohuuA && renderFormOnwerA(sohuuA, [...BASE_FORM, 'A_side'])}
       </Form.Item>
 
-      <Form.Item label={htmlContent('<b>Thông tin bên mua</b>')}>
+      <Form.Item label={htmlContent('<b>THÔNG TIN BÊN MUA</b>')}>
         <CCInput
           type="select"
           label="Chủ sở hữu"

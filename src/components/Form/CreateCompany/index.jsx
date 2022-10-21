@@ -4,7 +4,12 @@ import React, { forwardRef, lazy, useEffect, useState, Suspense } from 'react'
 import { onSetFields } from '@/helper/Common'
 import styles from './CreateCompany.module.scss'
 import { useLocation } from 'react-router-dom'
-
+// import ThanhVienGopVon from './ThanhVienGopVon'
+// import DiaChiTruSoChinh from './DiaChiTruSoChinh'
+// import GiaTriGopVon from './GiaTriGopVon'
+// import NgangNgheDangKi from './NgangNgheDangKi'
+// import NguoiDaiDienPhapLuat from './NguoiDaiDienPhapLuat'
+// import TenCongTy from './TenCongTy'
 const DiaChiTruSoChinh = lazy(() => {
   return import(`./DiaChiTruSoChinh`).then(({ default: Component }) => {
     return {
@@ -45,7 +50,7 @@ const TenCongTy = lazy(() => {
   })
 })
 
-const ThanhVienGopVon = lazy(() => {
+const ThanhVienGopVon = lazy(async () => {
   return import(`./ThanhVienGopVon`).then(({ default: Component }) => {
     return {
       default: forwardRef((props, ref) => <Component ref={ref} {...props} />),
@@ -60,13 +65,6 @@ const animateClass = 'animate__animated animate__fadeIn animate__faster'
 const CreateCompany = forwardRef((props, formRef) => {
   const [select, setSelect] = useState()
 
-  // useEffect(() => {
-  //   onSetFields([...BASE_FORM, 'origin_person', 0, 'national'], 'Việt Nam', formRef)
-  // }, [])
-
-  // useEffect(() => {
-
-  // }, [])
   let location = useLocation()
 
   useEffect(() => {
@@ -133,6 +131,17 @@ const CreateCompany = forwardRef((props, formRef) => {
     }
 
     html = listForm.map((Component) => <Component {...configs} />)
+
+    // html = (
+    //   <>
+    //     <GiaTriGopVon ref={formRef} BASE_FORM={BASE_FORM} current={props.step} className={animateClass} data={data} />
+    //     <ThanhVienGopVon ref={formRef} BASE_FORM={BASE_FORM} current={props.step} className={animateClass} data={data} />
+    //     <NguoiDaiDienPhapLuat ref={formRef} BASE_FORM={BASE_FORM} current={props.step} className={animateClass} data={data} />
+    //     <TenCongTy ref={formRef} BASE_FORM={BASE_FORM} current={props.step} className={animateClass} data={data} />
+    //     <DiaChiTruSoChinh ref={formRef} BASE_FORM={BASE_FORM} current={props.step} className={animateClass} data={data} />
+    //     <NgangNgheDangKi ref={formRef} BASE_FORM={BASE_FORM} current={props.step} className={animateClass} data={data} />
+    //   </>
+    // )
 
     return html
   }

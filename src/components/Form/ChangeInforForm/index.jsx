@@ -15,8 +15,8 @@ import CCInput from '../../CCInput'
 import { onSetFields } from '@/helper/Common'
 import ProductService from '../../../service/UserService/ProductService'
 import BaseInformation from './BaseInformation'
+import { useLocation } from 'react-router-dom'
 const ChangeInforForm = forwardRef((props, ref) => {
-  
   const [productSelect, setProductSelect] = useState('')
 
   const [selectType, setSelectType] = useState([])
@@ -28,7 +28,6 @@ const ChangeInforForm = forwardRef((props, ref) => {
   useEffect(() => {
     initForm()
   }, [])
-
 
   useEffect(() => {
     if (location?.state) {
