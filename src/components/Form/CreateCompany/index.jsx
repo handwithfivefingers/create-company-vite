@@ -69,22 +69,50 @@ const CreateCompany = forwardRef((props, formRef) => {
 
   useEffect(() => {
     if (location?.state) {
-      let { state } = location
-      let _data = {
-        ...state.data,
-        category: {
-          ...state.category,
-          key: state.category._id,
-          value: state.category._id,
-        },
-        products: state.products,
-      }
-
-      formRef.current?.setFieldsValue({
-        ..._data,
-      })
+      initDataforEditing()
     }
   }, [location])
+
+  const initDataforEditing = () => {
+    let { state } = location
+    // let _data = {
+    //   ...state.data,
+    //   category: {
+    //     ...state.category,
+    //     key: state.category._id,
+    //     value: state.category._id,
+    //   },
+    //   products: state.products,
+    // }
+    let _data = {}
+    let cate = {}
+
+    let { category, products, data } = state
+
+    if (!category) return
+
+    _data.category = {
+      type: category.type,
+      value: category._id,
+      name: category.name,
+    }
+
+    if (products) _data.products = products
+
+    if (data) {
+      let { create_company } = data
+
+      if (create_company) {
+        let { approve } = create_company
+
+        console.log(approve)
+      }
+    }
+
+    formRef.current?.setFieldsValue({
+      ..._data,
+    })
+  }
 
   const handleSelect = (v, opt, pathName) => {
     let { type, name, value } = opt

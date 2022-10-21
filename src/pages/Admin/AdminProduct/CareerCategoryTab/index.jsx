@@ -14,6 +14,7 @@ const CareerCategoryTab = forwardRef((props, ref) => {
   const [data, setData] = useState([])
 
   const [current, setCurrent] = useState(1)
+
   const [childModal, setChildModal] = useState({
     visible: false,
     width: 0,
@@ -37,14 +38,13 @@ const CareerCategoryTab = forwardRef((props, ref) => {
 
   useEffect(() => {
     if (status === 'success' && careerCategory) {
-      setData(() => {
+      setData((state) => {
         let { data } = careerCategory
-
-        let sliceData = data?.slice((current - 1) * pagiConfigs.pageSize, (current - 1) * pagiConfigs.pageSize + pagiConfigs.pageSize)
+        let sliceData = careerCategory?.data?.slice((current - 1) * 10, (current - 1) * 10 + 10)
         return sliceData
       })
     }
-  }, [current])
+  }, [current, props])
 
   useImperativeHandle(
     ref,
@@ -111,23 +111,31 @@ const CareerCategoryTab = forwardRef((props, ref) => {
 
   const pagiConfigs = {
     current: current,
-    total: careerCategory?.count,
     showSizeChanger: false,
     pageSize: 10,
-    onChange: (current, pageSize) => setCurrent(current),
+    total: careerCategory?.count,
+    onChange: (current) => setCurrent(current),
   }
-  console.log(careerCategoryLoading)
+
 
   return (
     <div className={styles.tableWrapper}>
       <Table
-        dataSource={data}
+        dataSource={careerCategory?.data}
         loading={careerCategoryLoading}
         rowKey={(record) => record._uuid || record._id || Math.random()}
         size="small"
         bordered
         scroll={{ x: 768 }}
         pagination={false}
+        // pagination={{
+        //   current: current,
+        //   // total: careerCategory?.count,
+        //   showSizeChanger: false,
+        //   pageSize: 10,
+        //   onChange: (current) => setCurrent(current),
+        //   position: ['topRight', 'bottomRight']
+        // }}
       >
         <Table.Column
           width={250}

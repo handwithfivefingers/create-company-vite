@@ -281,9 +281,9 @@ const AdminOrder = () => {
             render={(val, record, i) => <span>{record?.orderOwner?.email}</span>}
             {...getColumnSearchProps(['orderOwner', 'email'])}
           />
-          <Table.Column title="Sản phẩm"  render={renderProduct} />
+          <Table.Column title="Sản phẩm" render={renderProduct} />
           <Table.Column title="Dịch vụ" width={210} render={renderService} />
-          <Table.Column title="Giá tiền" width={150} render={(val, record, i) => <>{number_format(record?.price)} VND</>} />
+          <Table.Column className={styles.inline} title="Giá tiền" width="175px" render={(val, record, i) => <>{number_format(record?.price)} VND</>} />
           {/* <Table.Column title="Tiến độ" width={75} render={(val, record, i) => renderProgress(record)} /> */}
           <Table.Column title="Thanh toán" width={150} render={(val, record, i) => renderTag(record)} />
           <Table.Column title="Ngày tạo" width={150} render={(val, record, i) => renderDate(record)} />

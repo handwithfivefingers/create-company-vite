@@ -9,7 +9,7 @@ module.exports = class CareerCategoryAdmin {
     try {
       let _cate = await CareerCategory.find({ delete_flag: { $ne: 1 } })
 
-      const count = await CareerCategory.find({}).countDocuments()
+      const count = await CareerCategory.find({ delete_flag: { $ne: 1 } }).countDocuments()
 
       return successHandler({ data: _cate, count }, res)
     } catch (err) {
