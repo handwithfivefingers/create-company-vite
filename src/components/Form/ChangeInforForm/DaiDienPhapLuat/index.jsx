@@ -1,4 +1,4 @@
-import { Button, Form, Select, Row, Col, message, Divider, Radio, Space } from 'antd'
+import { Button, Form, Select, Row, Col, message, Divider, Radio, Space, Card } from 'antd'
 import clsx from 'clsx'
 import React, { forwardRef, useEffect, useState } from 'react'
 import CCInput from '@/components/CCInput'
@@ -14,30 +14,29 @@ import _, { isEqual } from 'lodash'
 const BASE_FORM = ['change_info', 'legal_representative']
 
 const DaiDienPhapLuat = forwardRef((props, ref) => {
-  const [legalType, setLegalType] = useState()
-
   const [radio, setRadio] = useState([null, null, null])
 
   const [present, setPresent] = useState([null, null, null])
 
   const [listLegal, setListLegal] = useState([])
 
+  const [listIncludesOrExclude, setListIncludesOrExclude] = useState([])
+
   let listForm = {}
 
   const addNewLegal = () => {
     let val = JSON.parse(JSON.stringify(listLegal))
+
     setListLegal([...val, listForm])
+
+    let value = ref.current.getFieldValue(BASE_FORM)
+    console.log(value)
   }
 
-  const handleSelectPeopleType = (value) => {
-    setLegalType(value)
-
-    let includes = [...BASE_FORM, 'includes']
-    let exclude = [...BASE_FORM, 'exclude']
-
-    onSetFields(includes, null, ref)
-    onSetFields(exclude, null, ref)
+  const handleIncludesOrExludesPeople = () => {
+    setListIncludesOrExclude([...listIncludesOrExclude, {}])
   }
+
   return (
     <Form.Item
       label={<h3>Đăng ký thay đổi người đại diện theo pháp luật</h3>}
@@ -45,21 +44,21 @@ const DaiDienPhapLuat = forwardRef((props, ref) => {
         [styles.active]: props.current === props.index,
       })}
     >
-      {/* </Form.Item><Form.Item label="Bỏ bớt hoặc thêm mới người đại diện"> */}
       <Form.Item label={htmlContent('<b>Bỏ bớt hoặc thêm mới người đại diện</b>')}>
-        <Select onSelect={handleSelectPeopleType} placeholder="Bấm vào đây">
-          <Select.Option value={1}>Bỏ bớt người đại diện</Select.Option>
-          <Select.Option value={2}>Thêm mới người đại diện</Select.Option>
-        </Select>
+        <Row gutter={[12, 12]}>
+          <Col span={24}>
+            <Button type="primary" onClick={handleIncludesOrExludesPeople}>
+              Thêm mới
+            </Button>
+          </Col>
+          {listIncludesOrExclude?.map((item, index) => (
+            <PeoppleWrapper {...props} BASE_FORM={BASE_FORM} ref={ref} index={index} />
+          ))}
+        </Row>
       </Form.Item>
-
-      {legalType === 1 && <PeopleExclude {...props} BASE_FORM={BASE_FORM} ref={ref} />}
-
-      {legalType === 2 && <PeopleIncludes {...props} BASE_FORM={BASE_FORM} ref={ref} />}
 
       <Divider />
 
-      {/* <Form.Item label="Danh sách người đại diện pháp luật sau khi thay đổi"> */}
       <Form.Item label={htmlContent('<b>Danh sách người đại diện pháp luật sau khi thay đổi</b>')}>
         <Button onClick={addNewLegal}>Thêm người đại diện</Button>
         <Row gutter={[12]}>
@@ -84,157 +83,117 @@ const DaiDienPhapLuat = forwardRef((props, ref) => {
   )
 })
 
-const PeopleExclude = forwardRef((props, ref) => {
-  const { type, BASE_FORM } = props
+const PERSON_TYPE = {
+  ADD: 'includes',
+  REMOVE: 'exludes',
+}
+const PeoppleWrapper = forwardRef((props, ref) => {
+  const { BASE_FORM, index, type } = props
 
-  const [formExclude, setFormExclude] = useState([])
+  const [legalType, setLegalType] = useState()
 
-  const formExcludeField = {
-    name: '',
-    title: '',
+  const handleSelectPeopleType = (value) => {
+    setLegalType(value)
+    onSetFields([...BASE_FORM, 'in_out', index, 'type'], value, ref)
   }
 
-  const addItem = () => {
-    setFormExclude([...formExclude, formExcludeField])
-  }
+  const renderFormByType = () => {
+    let html = null
 
-  const removeItem = (index) => {
-    let val = ref.current.getFieldsValue().change_info?.legal_representative?.exclude
+    if (legalType === PERSON_TYPE.REMOVE) {
+      html = (
+        <Card className={'box__shadow m-tb-5'}>
+          <CCInput
+            label="Họ và tên"
+            name={[...BASE_FORM, 'in_out', index, 'name']}
+            onChange={(e) => onSetFields([...BASE_FORM, 'in_out', index, 'name'], e.target.value, ref, true)}
+          />
+          <CCSelect.SelectTitle
+            name={[...BASE_FORM, 'in_out', index, 'title']}
+            label="Chức danh"
+            placeholder="Bấm vào đây"
+            options={+type === 1 ? SELECT.TITLE_1TV : +type === 2 ? SELECT.TITLE_2TV : +type === 3 ? SELECT.TITLE_CP : ''}
+            ref={ref}
+          />
+        </Card>
+      )
+    } else if (legalType === PERSON_TYPE.ADD) {
+      html = (
+        <Card className={'box__shadow m-tb-5'}>
+          <CCInput
+            label="Họ và tên"
+            name={[...BASE_FORM, 'in_out', index, 'name']}
+            onChange={(e) => onSetFields([...BASE_FORM, 'in_out', index, 'name'], e.target.value, ref, true)}
+          />
+          <CCInput type="select" name={[...BASE_FORM, 'in_out', index, 'gender']} label="Giới tính" options={SELECT.GENDER} />
+          <CCInput type="select" name={[...BASE_FORM, 'in_out', index, 'title']} label="Chức danh" options={SELECT.TITLE} />
+          <CCInput name={[...BASE_FORM, 'in_out', index, 'birth_day']} label="Sinh ngày" type="date" />
+          <CCSelect.SelectPersonType ref={ref} name={[...BASE_FORM, 'in_out', index, 'per_type']} label="Dân tộc" placeholder="Bấm vào đây" />
+          <CCInput type="select" name={[...BASE_FORM, 'in_out', index, 'doc_type']} label="Loại giấy tờ pháp lý" options={SELECT.DOC_TYPE} />
+          <CCInput name={[...BASE_FORM, 'in_out', index, 'doc_code']} label="Số CMND/ CCCD/ Hộ chiếu" />
+          <CCInput name={[...BASE_FORM, 'in_out', index, 'doc_time_provide']} label="Ngày cấp" type="date" />
+          <CCSelect.SelectDocProvide ref={ref} name={[...BASE_FORM, 'in_out', index, 'doc_place_provide']} label="Nơi cấp" placeholder="Bấm vào đây" />
+          <CCAddress name={[...BASE_FORM, 'in_out', index]} ref={ref} />
+        </Card>
+      )
+    }
 
-    if (!val) return message.error('Something went wrong')
-
-    val = [...val?.slice(0, index), ...val?.slice(index + 1)]
-
-    onSetFields([...BASE_FORM, 'exclude'], val, ref)
-
-    setFormExclude(val)
+    return html
   }
 
   return (
-    <>
-      <Button onClick={addItem} type="primary">
-        Thêm mới thông tin
-      </Button>
-      <Row gutter={[12]}>
-        {formExclude?.map((item, index) => {
-          return (
-            <Col span={8}>
-              <Form.Item
-                label={
-                  <div className={styles.label}>
-                    <Button
-                      type="text"
-                      shape="circle"
-                      danger
-                      icon={<MinusCircleOutlined onClick={() => removeItem(index)} />}
-                      style={{
-                        display: formExclude.length > 1 ? 'block' : 'none',
-                      }}
-                    />
-                  </div>
-                }
-              >
-                <CCInput
-                  label="Họ và tên"
-                  name={[...BASE_FORM, 'exclude', index, 'name']}
-                  onChange={(e) => onSetFields([...BASE_FORM, 'exclude', index, 'name'], e.target.value, ref, true)}
-                />
-                <CCSelect.SelectTitle
-                  name={[...BASE_FORM, 'exclude', index, 'title']}
-                  label="Chức danh"
-                  placeholder="Bấm vào đây"
-                  options={+type === 1 ? SELECT.TITLE_1TV : +type === 2 ? SELECT.TITLE_2TV : +type === 3 ? SELECT.TITLE_CP : ''}
-                  ref={ref}
-                />
-              </Form.Item>
-            </Col>
-          )
-        })}
-      </Row>
-    </>
+    <Col span={12}>
+      <Select onSelect={handleSelectPeopleType} placeholder="Bấm vào đây" name={[...BASE_FORM, 'in_out', index, 'type']}>
+        <Select.Option value={PERSON_TYPE.REMOVE}>Bỏ bớt người đại diện</Select.Option>
+        <Select.Option value={PERSON_TYPE.ADD}>Thêm mới người đại diện</Select.Option>
+      </Select>
+
+      {renderFormByType()}
+    </Col>
+  )
+})
+
+const PeopleExclude = forwardRef((props, ref) => {
+  const { type, BASE_FORM, index } = props
+
+  return (
+    <Card className={'box__shadow m-tb-5'}>
+      <CCInput
+        label="Họ và tên"
+        name={[...BASE_FORM, 'in_out', index, 'name']}
+        onChange={(e) => onSetFields([...BASE_FORM, 'in_out', index, 'name'], e.target.value, ref, true)}
+      />
+      <CCSelect.SelectTitle
+        name={[...BASE_FORM, 'in_out', index, 'title']}
+        label="Chức danh"
+        placeholder="Bấm vào đây"
+        options={+type === 1 ? SELECT.TITLE_1TV : +type === 2 ? SELECT.TITLE_2TV : +type === 3 ? SELECT.TITLE_CP : ''}
+        ref={ref}
+      />
+    </Card>
   )
 })
 
 const PeopleIncludes = forwardRef((props, ref) => {
-  const { type, BASE_FORM } = props
-
-  const [formIncludes, setFormIncludes] = useState([])
-
-  const formIncludesField = {
-    name: '',
-    gender: '',
-    title: '',
-    birth_day: '',
-    per_type: '',
-    national: '',
-    doc_type: '',
-    doc_code: '',
-    doc_time_provide: '',
-    doc_place_provide: '',
-    contact: '',
-    current: '',
-  }
-
-  const addItem = () => {
-    setFormIncludes([...formIncludes, formIncludesField])
-  }
-
-  const removeItem = (index) => {
-    let val = ref.current.getFieldsValue().change_info?.legal_representative?.includes
-
-    if (!val) return message.error('Something went wrong')
-
-    val = [...val?.slice(0, index), ...val?.slice(index + 1)]
-
-    onSetFields([...BASE_FORM, 'includes'], val, ref)
-
-    setFormIncludes(val)
-  }
+  const { BASE_FORM, index } = props
 
   return (
-    <>
-      <Button onClick={addItem} type="primary">
-        Thêm mới
-      </Button>
-      <Row gutter={[12]}>
-        {formIncludes?.map((item, index) => {
-          return (
-            <Col span={8}>
-              <Form.Item
-                label={
-                  <div className={styles.label}>
-                    <Button
-                      type="text"
-                      shape="circle"
-                      danger
-                      icon={<MinusCircleOutlined onClick={() => removeItem(index)} />}
-                      style={{
-                        display: formIncludes.length > 1 ? 'block' : 'none',
-                      }}
-                    />
-                  </div>
-                }
-              >
-                <CCInput
-                  label="Họ và tên"
-                  name={[...BASE_FORM, 'includes', index, 'name']}
-                  onChange={(e) => onSetFields([...BASE_FORM, 'includes', index, 'name'], e.target.value, ref, true)}
-                />
-                <CCInput type="select" name={[...BASE_FORM, 'includes', index, 'gender']} label="Giới tính" options={SELECT.GENDER} />
-                <CCInput type="select" name={[...BASE_FORM, 'includes', index, 'title']} label="Chức danh" options={SELECT.TITLE} />
-                <CCInput name={[...BASE_FORM, 'includes', index, 'birth_day']} label="Sinh ngày" type="date" />
-                <CCSelect.SelectPersonType ref={ref} name={[...BASE_FORM, 'includes', index, 'per_type']} label="Dân tộc" placeholder="Bấm vào đây" />
-                <CCInput type="select" name={[...BASE_FORM, 'includes', index, 'doc_type']} label="Loại giấy tờ pháp lý" options={SELECT.DOC_TYPE} />
-                <CCInput name={[...BASE_FORM, 'includes', index, 'doc_code']} label="Số CMND/ CCCD/ Hộ chiếu" />
-                <CCInput name={[...BASE_FORM, 'includes', index, 'doc_time_provide']} label="Ngày cấp" type="date" />
-                <CCSelect.SelectDocProvide ref={ref} name={[...BASE_FORM, 'includes', index, 'doc_place_provide']} label="Nơi cấp" placeholder="Bấm vào đây" />
-                <CCAddress name={[...BASE_FORM, 'includes', index]} ref={ref} />
-              </Form.Item>
-            </Col>
-          )
-        })}
-      </Row>
-    </>
+    <Card className={'box__shadow m-tb-5'}>
+      <CCInput
+        label="Họ và tên"
+        name={[...BASE_FORM, 'in_out', index, 'name']}
+        onChange={(e) => onSetFields([...BASE_FORM, 'in_out', index, 'name'], e.target.value, ref, true)}
+      />
+      <CCInput type="select" name={[...BASE_FORM, 'in_out', index, 'gender']} label="Giới tính" options={SELECT.GENDER} />
+      <CCInput type="select" name={[...BASE_FORM, 'in_out', index, 'title']} label="Chức danh" options={SELECT.TITLE} />
+      <CCInput name={[...BASE_FORM, 'in_out', index, 'birth_day']} label="Sinh ngày" type="date" />
+      <CCSelect.SelectPersonType ref={ref} name={[...BASE_FORM, 'in_out', index, 'per_type']} label="Dân tộc" placeholder="Bấm vào đây" />
+      <CCInput type="select" name={[...BASE_FORM, 'in_out', index, 'doc_type']} label="Loại giấy tờ pháp lý" options={SELECT.DOC_TYPE} />
+      <CCInput name={[...BASE_FORM, 'in_out', index, 'doc_code']} label="Số CMND/ CCCD/ Hộ chiếu" />
+      <CCInput name={[...BASE_FORM, 'in_out', index, 'doc_time_provide']} label="Ngày cấp" type="date" />
+      <CCSelect.SelectDocProvide ref={ref} name={[...BASE_FORM, 'in_out', index, 'doc_place_provide']} label="Nơi cấp" placeholder="Bấm vào đây" />
+      <CCAddress name={[...BASE_FORM, 'in_out', index]} ref={ref} />
+    </Card>
   )
 })
 
@@ -243,7 +202,7 @@ const PeronalType = forwardRef((props, ref) => {
 
   const { state: present, setState: setPresent } = presentState
 
-  const { state: radio, setState: setRadio } = radioState
+  // const { state: radio, setState: setRadio } = radioState
 
   const onRadioChange = (e, index) => {
     let { value } = e.target
@@ -264,12 +223,14 @@ const PeronalType = forwardRef((props, ref) => {
   }
 
   const getPersonType = () => {
-    let pathName = [...BASE_FORM, 'includes']
+    let pathName = [...BASE_FORM, 'in_out']
 
     let originPerson = ref?.current?.getFieldValue(pathName)
 
+    let listUser = originPerson?.filter((item) => item.type === PERSON_TYPE.ADD) || []
+
     let options =
-      originPerson?.map(({ name, organization }, index) => ({
+      listUser?.map(({ name, organization }, index) => ({
         name: name || '...',
         value: index,
       })) || []
@@ -294,32 +255,40 @@ const PeronalType = forwardRef((props, ref) => {
 
     setPresent(data)
 
-    let originPathName = [...BASE_FORM, 'includes', val]
+    // let originUser = ref?.current?.getFieldValue([...BASE_FORM], 'in_out')
+
+    let originPathName = [...BASE_FORM, 'in_out', val]
 
     let legalPathName = [...BASE_FORM, 'after_change', index]
 
     let originPerson = ref?.current?.getFieldValue(originPathName)
 
-    if (!originPerson) {
-    } else {
-      if (_.isEqual(originPerson?.current, originPerson?.contact)) {
-        // setting display radio
-        let event = {
-          target: {
-            value: 1,
-          },
-        }
-        onRadioChange(event, index)
-      } else {
-        let event = {
-          target: {
-            value: null,
-          },
-        }
-        onRadioChange(event, index)
-      }
+    if (originPerson) {
       onSetFields(legalPathName, originPerson, ref)
     }
+
+    // let originPerson = ref?.current?.getFieldValue(originPathName)
+
+    // if (!originPerson) {
+    // } else {
+    //   if (_.isEqual(originPerson?.current, originPerson?.contact)) {
+    //     // setting display radio
+    //     let event = {
+    //       target: {
+    //         value: 1,
+    //       },
+    //     }
+    //     onRadioChange(event, index)
+    //   } else {
+    //     let event = {
+    //       target: {
+    //         value: null,
+    //       },
+    //     }
+    //     onRadioChange(event, index)
+    //   }
+    //   onSetFields(legalPathName, originPerson, ref)
+    // }
   }
 
   return (
@@ -338,7 +307,7 @@ const PeronalType = forwardRef((props, ref) => {
         ref={ref}
         listFormState={handleForm}
         presentState={presentState}
-        radioState={{ state: radio, setState: onRadioChange }}
+        // radioState={{ state: radio, setState: onRadioChange }}
         BASE_FORM={BASE_FORM}
         i={index}
         type={props?.type}
@@ -348,11 +317,9 @@ const PeronalType = forwardRef((props, ref) => {
 })
 
 const FormListPersonType = forwardRef((props, ref) => {
-  const { i, presentState, radioState, listFormState, BASE_FORM, type } = props
+  const { i, presentState, listFormState, BASE_FORM } = props
 
   const { state, setState } = listFormState
-
-  const { state: radio, setState: onRadioChange } = radioState
 
   const { state: present, setState: setPresent } = presentState
 
@@ -417,47 +384,12 @@ const FormListPersonType = forwardRef((props, ref) => {
           <CCSelect.SelectProvince ref={ref} name={[...BASE_FORM, 'after_change', i, 'current']} />
         </Form.Item>
 
-        <Form.Item
-          label={htmlContent('<b>Nơi ở hiện tại</b>')}
-          shouldUpdate={() => {
-            let canChange = radio[i] === 1
-            if (canChange) {
-              let dataCopy = ref.current.getFieldValue([...BASE_FORM, 'after_change', i, 'current'])
-              let currentData = ref.current.getFieldValue([...BASE_FORM, 'after_change', i, 'contact'])
-
-              if (!isEqual(dataCopy, currentData)) {
-                onSetFields([...BASE_FORM, 'after_change', i, 'contact'], dataCopy, ref)
-              }
-            }
-            return !canChange
-          }}
-        >
-          {() => {
-            return (
-              <>
-                <Radio.Group onChange={(e) => onRadioChange(e, i)} value={radio[i]}>
-                  <Space direction="vertical">
-                    <Radio value={1}>Giống với địa chỉ thường trú</Radio>
-                    <Radio value={2}>Khác</Radio>
-                  </Space>
-                </Radio.Group>
-
-                {
-                  <div
-                    style={{
-                      padding: '8px 0',
-                      opacity: radio[i] && radio[i] === 2 ? '1' : '0',
-                      visibility: radio[i] && radio[i] === 2 ? 'visible' : 'hidden',
-                      display: radio[i] && radio[i] === 2 ? 'block' : 'none',
-                    }}
-                  >
-                    <CCSelect.SelectProvince ref={ref} name={[...BASE_FORM, 'after_change', i, 'contact']} label="Nơi ở hiện tại" />
-                  </div>
-                }
-              </>
-            )
-          }}
-        </Form.Item>
+        <CCSelect.RadioAddress
+          ref={ref}
+          prevField={[...BASE_FORM, 'after_change', i, 'current']}
+          nextField={[...BASE_FORM, 'after_change', i, 'contact']}
+          label="<b>Nơi ở hiện tại</b>"
+        />
       </div>
     </Form.Item>
   )

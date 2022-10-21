@@ -56,13 +56,6 @@ const ThanhVienGopVon = lazy(async () => {
       default: forwardRef((props, ref) => <Component ref={ref} {...props} />),
     }
   })
-  // let Comp = await import(`./ThanhVienGopVon`)
-
-  // let component = {
-  //   default: forwardRef((props, ref) => <Comp.default ref={ref} {...props} />),
-  // }
-
-  // return component
 })
 
 const BASE_FORM = ['create_company', 'approve']
@@ -72,13 +65,6 @@ const animateClass = 'animate__animated animate__fadeIn animate__faster'
 const CreateCompany = forwardRef((props, formRef) => {
   const [select, setSelect] = useState()
 
-  // useEffect(() => {
-  //   onSetFields([...BASE_FORM, 'origin_person', 0, 'national'], 'Việt Nam', formRef)
-  // }, [])
-
-  // useEffect(() => {
-
-  // }, [])
   let location = useLocation()
 
   useEffect(() => {
