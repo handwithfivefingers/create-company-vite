@@ -5,7 +5,7 @@ const router = express.Router()
 
 const OrderUser = require('@controller/user/Order')
 
-const { getOrdersFromUser, createOrders, orderWithPayment, getUrlReturn } = new OrderUser()
+const { getOrdersFromUser, createOrders, orderWithPayment, getUrlReturn, updateOrder } = new OrderUser()
 
 // USER
 
@@ -14,6 +14,9 @@ router.get('/order', requireSignin, upload.none(), getOrdersFromUser)
 
 //create order
 router.post('/order/create', requireSignin, upload.none(), createOrders)
+
+//create order
+router.post('/order/:_id', requireSignin, upload.none(), updateOrder)
 
 //create and payment
 

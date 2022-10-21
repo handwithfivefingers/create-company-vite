@@ -16,6 +16,7 @@ import { onSetFields } from '@/helper/Common'
 import ProductService from '../../../service/UserService/ProductService'
 import BaseInformation from './BaseInformation'
 import { useLocation } from 'react-router-dom'
+import moment from 'moment'
 const ChangeInforForm = forwardRef((props, ref) => {
   const [productSelect, setProductSelect] = useState('')
 
@@ -26,34 +27,167 @@ const ChangeInforForm = forwardRef((props, ref) => {
   let location = useLocation()
 
   useEffect(() => {
-    initForm()
-  }, [])
-
-  useEffect(() => {
     if (location?.state) {
-      let { state } = location
-      let _data = {
-        ...state.data,
-        category: {
-          ...state.category,
-          key: state.category._id,
-          value: state.category._id,
-        },
-        products: state.products,
-      }
-
-      formRef.current?.setFieldsValue({
-        ..._data,
-      })
+      initDataforEditing()
     }
   }, [location])
 
-  const initForm = () => {
-    if (props.edit) {
-      let { data, products } = props.edit
-      let [opt] = products
-      handleSelectCate({ type: opt.type, name: opt.name, value: opt._id }, 'category')
+  useEffect(() => {
+    if (data && productSelect) {
+      let listMatch = []
+      let productsList = ref.current.getFieldValue(['products'])
+
+      for (let i = 0; i < data.length; i++) {
+        let item = data[i]
+        let isMatch = productsList?.some((prod) => prod._id === item._id)
+        if (isMatch) listMatch.push(item)
+      }
+
+      listMatch = listMatch.map((item) => ({
+        children: item.name,
+        key: item._id,
+        type: item.type,
+        value: item._id,
+      }))
+
+      ref.current?.setFieldsValue({
+        products: listMatch,
+      })
+
+      handleOnChange(null, listMatch)
     }
+  }, [data])
+
+  const initDataforEditing = () => {
+    let _data = {}
+    let cate = {}
+    let { state } = location
+
+    let { category, products, data } = state
+
+    if (!category) return
+
+    if (products) _data.products = products
+
+    if (data) {
+      
+      let { change_info } = state.data
+
+      cate = {
+        type: category.type,
+        value: category._id,
+        name: category.name,
+      }
+      _data.category = cate
+
+      if (change_info) {
+
+        let { legal_representative, transfer_contract, ...restInfo } = change_info
+
+        if (legal_representative) {
+          let { in_out, after_change, ...restLegal } = legal_representative
+
+          if (in_out) {
+            in_out = in_out.map((item) => {
+              return {
+                ...item,
+                birth_day: moment(item.birth_day, 'YYYY-MM-DD'),
+                doc_time_provide: moment(item.doc_time_provide, 'YYYY-MM-DD'),
+              }
+            })
+          }
+
+          if (after_change) {
+            after_change = after_change.map((item) => {
+              return {
+                ...item,
+                birth_day: moment(item.birth_day, 'YYYY-MM-DD'),
+                doc_time_provide: moment(item.doc_time_provide, 'YYYY-MM-DD'),
+              }
+            })
+          }
+
+          legal_representative = {
+            ...restLegal,
+            in_out,
+            after_change,
+          }
+        }
+
+        if (transfer_contract) {
+          let { A_side, B_side } = transfer_contract
+
+          if (A_side) {
+            let { personal, organization } = A_side
+
+            if (personal) {
+              personal = {
+                ...personal,
+                birth_day: moment(personal?.birth_day, 'YYYY-MM-DD'),
+                doc_time_provide: moment(personal?.doc_time_provide, 'YYYY-MM-DD'),
+              }
+            }
+
+            if (organization) {
+              organization = {
+                ...organization,
+              }
+            }
+
+            A_side = {
+              ...A_side,
+              personal,
+              organization,
+            }
+          }
+
+          if (B_side) {
+            let { personal, organization } = B_side
+            if (personal) {
+              personal = {
+                ...personal,
+                birth_day: moment(personal?.birth_day, 'YYYY-MM-DD'),
+                doc_time_provide: moment(personal?.doc_time_provide, 'YYYY-MM-DD'),
+              }
+            }
+            if (organization) {
+              organization = {
+                ...organization,
+                time_provide: moment(organization.time_provide, 'YYYY-MM-DD'),
+              }
+            }
+
+            B_side = {
+              ...B_side,
+              personal,
+              organization,
+            }
+          }
+          transfer_contract = {
+            ...transfer_contract,
+            A_side,
+            B_side,
+          }
+        }
+
+        change_info = {
+          ...restInfo,
+          legal_representative,
+          transfer_contract,
+        }
+        _data.change_info = change_info
+      }
+    }
+
+    ref.current?.setFieldsValue({
+      ..._data,
+    })
+
+    setProductSelect(cate)
+
+    onSetFields(['category'], cate, ref)
+
+    fetchProduct(cate.value)
   }
 
   const checkType = (type, i, ref) => {
@@ -92,18 +226,21 @@ const ChangeInforForm = forwardRef((props, ref) => {
     setProductSelect({ type, name, value })
 
     onSetFields([pathName], { type, name, value }, ref)
-    console.log(value)
+
     fetchProduct(value)
   }
 
   const fetchProduct = async (_id) => {
+    let res
+
     try {
       let { parentId } = props.data
-      // _pId : Product id
-      let res = await ProductService.getProduct({ _id: parentId, _pId: _id })
+
+      res = await ProductService.getProduct({ _id: parentId, _pId: _id })
+
       let { data } = res.data
+
       setData(data)
-      console.log(res)
     } catch (err) {
     } finally {
     }
@@ -160,6 +297,7 @@ const ChangeInforForm = forwardRef((props, ref) => {
             })}
         </Select>
       </Form.Item>
+
       {selectType?.map((item, i) => checkType(item.type, i, ref))}
 
       <BaseInformation current={props.current} index={1} ref={ref} type={productSelect?.type} />

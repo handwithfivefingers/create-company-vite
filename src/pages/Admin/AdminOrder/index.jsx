@@ -262,29 +262,29 @@ const AdminOrder = () => {
             tip: 'Loading...',
             delay: 100,
           }}
-          size="small"
+          // size="small"
           bordered
           className="table"
           pagination={false}
           rowKey={(record) => record._id || makeid(9)}
           scroll={{ x: 1350 }}
-          sticky={{
-            offsetScroll: 8,
-            offsetHeader: -8,
-          }}
+          // sticky={{
+          //   offsetScroll: 8,
+          //   offsetHeader: -8,
+          // }}
         >
           <Table.Column title="Đơn hàng" width={210} render={(val, record, i) => record?._id} {...getColumnSearchProps(['_id'])} />
           <Table.Column
             className={styles.inline}
             title="Người đăng kí"
             width="175px"
-            render={(val, record, i) => record?.orderOwner?.email}
+            render={(val, record, i) => <span>{record?.orderOwner?.email}</span>}
             {...getColumnSearchProps(['orderOwner', 'email'])}
           />
           <Table.Column title="Sản phẩm" render={renderProduct} />
           <Table.Column title="Dịch vụ" width={210} render={renderService} />
-          <Table.Column title="Giá tiền" width={150} render={(val, record, i) => <>{number_format(record?.price)} VND</>} />
-          <Table.Column title="Tiến độ" width={75} render={(val, record, i) => renderProgress(record)} />
+          <Table.Column className={styles.inline} title="Giá tiền" width="175px" render={(val, record, i) => <>{number_format(record?.price)} VND</>} />
+          {/* <Table.Column title="Tiến độ" width={75} render={(val, record, i) => renderProgress(record)} /> */}
           <Table.Column title="Thanh toán" width={150} render={(val, record, i) => renderTag(record)} />
           <Table.Column title="Ngày tạo" width={150} render={(val, record, i) => renderDate(record)} />
           <Table.Column title="Thao tác" width={104} render={(val, record, i) => renderAction(record)} />

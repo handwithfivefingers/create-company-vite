@@ -1,6 +1,7 @@
 import React, { forwardRef, Suspense, lazy } from 'react'
 import { Card, Space, Spin, Button } from 'antd'
 import { useCallback } from 'react'
+import { useLocation } from 'react-router-dom'
 // import PreviewData from '../../../../../components/Form/PreviewData'
 
 const ChangeInforForm = lazy(() => {
@@ -12,6 +13,7 @@ const PreviewData = lazy(() => {
 })
 
 const ChangeInfoPages = forwardRef((props, ref) => {
+  const location = useLocation()
   const { saveService, paymentService, data, step, loading, onFinishScreen, Prev, Next, changeInforStep, editData } = props
 
   const handleSaveChangeInfo = useCallback(
@@ -26,6 +28,9 @@ const ChangeInfoPages = forwardRef((props, ref) => {
         data: {
           ...value,
         },
+      }
+      if (location.state?._id) {
+        params._id = location.state._id
       }
       return saveService(params)
     },
@@ -67,7 +72,7 @@ const ChangeInfoPages = forwardRef((props, ref) => {
               <Button loading={loading} onClick={() => handleSaveChangeInfo(ref)}>
                 Lưu lại
               </Button>
-              
+
               <Button onClick={Prev} type="dashed">
                 Quay lại
               </Button>
