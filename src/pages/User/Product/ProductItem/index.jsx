@@ -84,7 +84,7 @@ const UserProductItem = (props) => {
             step={current}
             setStep={(e) => setCurrent(e)}
             loading={isLoading}
-            handleSave={handleSave}
+            saveService={saveService}
             handlePurchaseCreateCompany={handlePurchaseCreateCompany}
             Prev={Prev}
             Next={Next}
@@ -116,17 +116,18 @@ const UserProductItem = (props) => {
             loading={isLoading}
             Prev={Prev}
             Next={Next}
-            handleSavePending={handleSavePending}
             handlePurchasePending={handlePurchasePending}
             step={current}
             ref={formRef}
+            saveService={saveService}
             editData={location.state}
           />
         )
       case 4:
         return (
           <DissolutionPages
-            handleSaveDissolution={handleSaveDissolution}
+            // handleSaveDissolution={handleSaveDissolution}
+            saveService={saveService}
             handlePurchaseDissolution={handlePurchaseDissolution}
             data={data.data}
             step={current}
@@ -182,15 +183,6 @@ const UserProductItem = (props) => {
     setChangeInforStep(data)
   }, [])
 
-  // const handlePurchaseChangeInfo = useCallback(
-  //   (ref) => {
-  //     const params = getParams(ref)
-
-  //     return paymentService(params)
-  //   },
-  //   [data],
-  // )
-
   const handlePurchaseCreateCompany = useCallback(
     (ref) => {
       let val = ref.current.getFieldsValue()
@@ -243,41 +235,6 @@ const UserProductItem = (props) => {
   /**
    * @value {Object}
    */
-  const handleSave = useCallback(
-    async (ref) => {
-      let value = ref.current.getFieldsValue()
-      let params = {
-        track: {
-          step: 1,
-          status: 'progress',
-        },
-        payment: 0,
-        data: {
-          ...value,
-        },
-      }
-      saveService(params)
-    },
-    [data],
-  )
-
-  // const handleSaveChangeInfo = useCallback(
-  //   (ref) => {
-  //     let value = ref.current.getFieldsValue()
-  //     const params = {
-  //       track: {
-  //         step: 1,
-  //         status: 'progress',
-  //       },
-  //       payment: 0,
-  //       data: {
-  //         ...value,
-  //       },
-  //     }
-  //     return saveService(params)
-  //   },
-  //   [data],
-  // )
 
   const handleSavePending = useCallback(
     (ref) => {
@@ -310,6 +267,7 @@ const UserProductItem = (props) => {
       }
     } catch (error) {
       console.log(error)
+      message.error(`Something was wrong when saving`, error)
     }
   }
 

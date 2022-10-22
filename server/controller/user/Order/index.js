@@ -50,7 +50,7 @@ module.exports = class OrderUser {
 
   createOrders = async (req, res) => {
     try {
-      const { track, payment, data } = req.body
+      const { payment, data } = req.body
 
       const { category, products, ...rest } = data
 
@@ -67,7 +67,6 @@ module.exports = class OrderUser {
       if (!files) throw 'Something was wrong when generate file, please try again'
 
       let newData = {
-        track,
         payment,
         data,
         orderOwner: req.id,
@@ -105,7 +104,7 @@ module.exports = class OrderUser {
 
       let _updateObject = {
         category: category._id || category.value,
-        products: products.map((item) => item.value),
+        products: products?.map((item) => item.value),
         data,
       }
       await Order.updateOne({ _id }, _updateObject, { new: true })
@@ -139,8 +138,8 @@ module.exports = class OrderUser {
       if (!result) throw msg
 
       var newData = {
-        track,
-        payment,
+        // track,
+        // payment,
         data,
         orderOwner: req.id,
         name: shortid.generate(),
