@@ -1,5 +1,6 @@
-import React, { forwardRef, Suspense, lazy } from 'react'
+import React, { forwardRef, Suspense, lazy, useCallback } from 'react'
 import { Card, Space, Spin, Button } from 'antd'
+import { useLocation } from 'react-router-dom'
 
 const TamHoanForm = lazy(() => {
   // console.log('lazy TamHoanForm')
@@ -10,8 +11,25 @@ const PreviewData = lazy(() => {
   return import('@/components/Form/PreviewData')
 })
 const PendingPages = forwardRef((props, ref) => {
-  const { data, loading, Prev, Next, handleSavePending, handlePurchasePending, step } = props
-  // console.log(step)
+  const { data, loading, Prev, Next, saveService, handlePurchasePending, step } = props
+  const location = useLocation()
+
+  const handleSavePending = useCallback(
+    (ref) => {
+      let value = ref.current.getFieldsValue()
+      const params = {
+        data: {
+          ...value,
+        },
+      }
+      if (location.state?._id) {
+        params._id = location.state._id
+      }
+      return saveService(params)
+    },
+    [data],
+  )
+
   return (
     <Card className="card-boxShadow">
       <Suspense

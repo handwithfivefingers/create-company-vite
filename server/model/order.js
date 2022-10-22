@@ -16,11 +16,9 @@ module.exports = {
   track: {
     step: {
       type: Number,
-      required: true,
     },
     status: {
       type: String,
-      required: true,
     },
   },
   payment: {

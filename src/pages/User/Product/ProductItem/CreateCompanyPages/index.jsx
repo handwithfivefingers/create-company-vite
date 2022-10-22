@@ -1,6 +1,7 @@
-import React, { forwardRef, Suspense, lazy } from 'react'
+import React, { forwardRef, Suspense, lazy, useCallback } from 'react'
 import { Card, Space, Spin, Button } from 'antd'
 import CreateCompany from '@/components/Form/CreateCompany'
+import { useLocation } from 'react-router-dom'
 // const CreateCompany = lazy(() => {
 //   return import('@/components/Form/CreateCompany')
 // })
@@ -9,15 +10,23 @@ const PreviewData = lazy(() => {
 })
 
 const CreateCompanyPages = forwardRef((props, ref) => {
-  const { setStep, handleSave, handlePurchaseCreateCompany, data, step, loading, onFinishScreen, Prev, Next } = props
-
-  const saveCreateCompany = () => {
-    // console
-    let value = ref.current.getFieldsValue()
-    console.log('saveCreateCompany', value)
-
-    // handleSave()
-  }
+  const { setStep, saveService, handlePurchaseCreateCompany, data, step, loading, onFinishScreen, Prev, Next } = props
+  const location = useLocation()
+  const saveCreateCompany = useCallback(
+    (ref) => {
+      let value = ref.current.getFieldsValue()
+      const params = {
+        data: {
+          ...value,
+        },
+      }
+      if (location.state?._id) {
+        params._id = location.state._id
+      }
+      return saveService(params)
+    },
+    [data],
+  )
 
   return (
     <Card className="card-boxShadow">
@@ -48,7 +57,7 @@ const CreateCompanyPages = forwardRef((props, ref) => {
               <Button onClick={Prev} type="dashed">
                 Quay lại
               </Button>{' '}
-              <Button loading={loading} onClick={() => handleSave(ref)}>
+              <Button loading={loading} onClick={() => saveCreateCompany(ref)}>
                 Lưu lại
               </Button>
             </>

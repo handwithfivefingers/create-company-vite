@@ -1,5 +1,6 @@
-import React, { forwardRef, Suspense, lazy } from 'react'
+import React, { forwardRef, Suspense, lazy, useCallback } from 'react'
 import { Card, Space, Spin, Button } from 'antd'
+import { useLocation } from 'react-router-dom'
 
 const Dissolution = lazy(() => {
   // console.log('lazy CreateCompany')
@@ -9,8 +10,26 @@ const PreviewData = lazy(() => {
   return import('@/components/Form/PreviewData')
 })
 const DissolutionPages = forwardRef((props, ref) => {
-  const { handleSaveDissolution, handlePurchaseDissolution, data, step, loading, Prev, Next } = props
+  
+  const { saveService, handlePurchaseDissolution, data, step, loading, Prev, Next } = props
 
+  const location = useLocation()
+
+  const handleSaveDissolution = useCallback(
+    (ref) => {
+      let value = ref.current.getFieldsValue()
+      const params = {
+        data: {
+          ...value,
+        },
+      }
+      if (location.state?._id) {
+        params._id = location.state._id
+      }
+      return saveService(params)
+    },
+    [data],
+  )
   return (
     <Card className="card-boxShadow">
       <Suspense
@@ -23,7 +42,7 @@ const DissolutionPages = forwardRef((props, ref) => {
         }
       >
         <Dissolution data={data} ref={ref} current={step} />
-        {/* {step === 2 ? renderPrewviewForm(ref) : ''} */}
+
         {step === 2 && (
           <PreviewData
             ref={ref}

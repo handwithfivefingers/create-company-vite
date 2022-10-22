@@ -10,7 +10,7 @@ const router = express.Router()
 
 router.get('/career_cate', upload.none(), fetchCareer)
 
-// router.get('/career_cate/:id', upload.none(), fetchSingleCareerCate)
+router.get('/career_cate/:id', upload.none(), fetchSingleCareerCate)
 
 // router.post('/career_cate/:id', upload.none(), updateCareerCate)
 

@@ -4,12 +4,7 @@ import React, { forwardRef, lazy, useEffect, useState, Suspense } from 'react'
 import { onSetFields } from '@/helper/Common'
 import styles from './CreateCompany.module.scss'
 import { useLocation } from 'react-router-dom'
-// import ThanhVienGopVon from './ThanhVienGopVon'
-// import DiaChiTruSoChinh from './DiaChiTruSoChinh'
-// import GiaTriGopVon from './GiaTriGopVon'
-// import NgangNgheDangKi from './NgangNgheDangKi'
-// import NguoiDaiDienPhapLuat from './NguoiDaiDienPhapLuat'
-// import TenCongTy from './TenCongTy'
+import moment from 'moment'
 const DiaChiTruSoChinh = lazy(() => {
   return import(`./DiaChiTruSoChinh`).then(({ default: Component }) => {
     return {
@@ -85,9 +80,8 @@ const CreateCompany = forwardRef((props, formRef) => {
     //   products: state.products,
     // }
     let _data = {}
-    let cate = {}
 
-    let { category, products, data } = state
+    let { category, data } = state
 
     if (!category) return
 
@@ -97,18 +91,48 @@ const CreateCompany = forwardRef((props, formRef) => {
       name: category.name,
     }
 
-    if (products) _data.products = products
-
     if (data) {
-      let { create_company } = data
+      let approve = data?.create_company?.approve
 
-      if (create_company) {
-        let { approve } = create_company
-
-        console.log(approve)
+      if (approve) {
+        let { origin_person, legal_respon } = approve
+        if (origin_person) {
+          origin_person = origin_person.map(({ birth_day, doc_time_provide, organization, ...item }) => {
+            let obj = {
+              ...item,
+              birth_day: moment(birth_day, 'YYYY-MM-DD'),
+              doc_time_provide: moment(doc_time_provide, 'YYYY-MM-DD'),
+            }
+            if (organization) {
+              obj.organization = {
+                ...organization,
+                doc_time_provide: moment(organization.doc_time_provide, 'YYYY-MM-DD'),
+              }
+            }
+            return obj
+          })
+        }
+        if (legal_respon) {
+          legal_respon = legal_respon.map(({ birth_day, doc_time_provide, ...item }) => {
+            return {
+              ...item,
+              birth_day: moment(birth_day, 'YYYY-MM-DD'),
+              doc_time_provide: moment(doc_time_provide, 'YYYY-MM-DD'),
+            }
+          })
+        }
+        approve = {
+          ...approve,
+          origin_person,
+          legal_respon,
+        }
+      }
+      _data.create_company = {
+        approve,
       }
     }
 
+    console.log(_data)
     formRef.current?.setFieldsValue({
       ..._data,
     })

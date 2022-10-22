@@ -1,5 +1,5 @@
 import React, { forwardRef, useState, useEffect, useRef, useMemo } from 'react'
-import { Form, Row, Col, InputNumber, Radio, Space, Button } from 'antd'
+import { Form, Row, Col, InputNumber, Radio, Space, Button, DatePicker } from 'antd'
 import CCInput from '@/components/CCInput'
 import clsx from 'clsx'
 import styles from './styles.module.scss'
@@ -64,9 +64,9 @@ const ThanhVienGopVon = forwardRef(({ data, ...props }, ref) => {
       let presentPerson = ref.current?.getFieldValue([...BASE_FORM, 'origin_person', index, 'present_person'])
       console.log(presentPerson)
       if (presentPerson === 'personal') {
-        xhtml = <Personal type={data?.type} ref={ref} BASE_FORM={[...BASE_FORM, 'origin_person', index]} onSetFields={onSetFields} />
+        xhtml = <Personal type={data?.type} ref={ref} BASE_FORM={[...BASE_FORM, 'origin_person', index]} />
       } else if (presentPerson === 'organization') {
-        xhtml = <OriginalPerson type={data?.type} ref={ref} onSetFields={onSetFields} BASE_FORM={[...BASE_FORM, 'origin_person', index]} />
+        xhtml = <OriginalPerson type={data?.type} ref={ref} BASE_FORM={[...BASE_FORM, 'origin_person', index]} />
       }
       return xhtml
     },
@@ -164,7 +164,7 @@ const ThanhVienGopVon = forwardRef(({ data, ...props }, ref) => {
 })
 
 const Personal = forwardRef((props, ref) => {
-  const { BASE_FORM, onSetFields, type } = props
+  const { BASE_FORM, type } = props
 
   return (
     <div className={styles.groupInput}>
@@ -205,7 +205,7 @@ const Personal = forwardRef((props, ref) => {
 })
 
 const OriginalPerson = forwardRef((props, ref) => {
-  const { BASE_FORM, onSetFields, type } = props
+  const { BASE_FORM, type } = props
 
   return (
     <div className={styles.groupInput}>
