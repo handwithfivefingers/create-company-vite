@@ -65,6 +65,12 @@ export default defineConfig(({ command, mode }) => {
     }
   } else {
     // command === 'build'
-    return configs
+
+    return {
+      ...configs,
+      optimizeDeps: {
+        force: true, // --> Force clear cache
+      },
+    }
   }
 })
