@@ -10,6 +10,7 @@ import clsx from 'clsx'
 import DissolutionPreview from './DissolutionPreview'
 import PendingPreview from './PendingPreview'
 import ChangeInfoPreview from './ChangeInfoPreview'
+import CreateCompanyPreview from './CreateCompanyPreview'
 
 const { Paragraph, Text } = Typography
 const PreviewData = forwardRef((props, ref) => {
@@ -220,15 +221,17 @@ const PreviewData = forwardRef((props, ref) => {
 
           case 'create_company':
 
-            let listProductItem = rest[productType] // dynamic Data
+            // let listProductItem = rest[productType] // dynamic Data
 
-            let listLabel = NEWLABEL(productType) // Constant
+            // let listLabel = NEWLABEL(productType) // Constant
 
-            let list = getFieldsInfo(listLabel, listProductItem, productType)
-            if (list.length) {
-              let newList = renderBaseForm(list)
-              xhtml = newList
-            }
+            // let list = getFieldsInfo(listLabel, listProductItem, productType)
+
+            // if (list.length) {
+            //   let newList = renderBaseForm(list)
+            //   xhtml = newList
+            // }
+            xhtml = <CreateCompanyPreview data={rest[productType]}/>
             break
           // let listProductItem = rest[productType] // dynamic Data
 

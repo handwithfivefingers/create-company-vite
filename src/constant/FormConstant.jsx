@@ -478,6 +478,7 @@ const CREATE_COMPANY_FORM = {
           },
         },
       },
+      
       company_main_career: {
         label: 'Ngành nghề chính',
         fields: {
@@ -485,6 +486,7 @@ const CREATE_COMPANY_FORM = {
           code: 'Mã ngành',
         },
       },
+
       company_opt_career: {
         label: 'Ngành nghề phụ',
         fields: {

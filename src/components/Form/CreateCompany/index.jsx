@@ -70,15 +70,7 @@ const CreateCompany = forwardRef((props, formRef) => {
 
   const initDataforEditing = () => {
     let { state } = location
-    // let _data = {
-    //   ...state.data,
-    //   category: {
-    //     ...state.category,
-    //     key: state.category._id,
-    //     value: state.category._id,
-    //   },
-    //   products: state.products,
-    // }
+
     let _data = {}
 
     let { category, data } = state

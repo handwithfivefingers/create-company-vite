@@ -7,6 +7,9 @@ const COMMON_TEXT = {
   company_name: 'Tên doanh nghiệp',
   mst: 'Mã số doanh nghiệp hoặc Mã số thuế',
 
+  num: 'Vốn điều lệ (bằng số)',
+  char: 'Vốn điều lệ (bằng chữ)',
+
   legal_respon: 'Người đại diện pháp luật',
   total_capital: 'Tổng số vốn điều lệ',
 
@@ -19,8 +22,7 @@ const COMMON_TEXT = {
   doc_code: 'Số CMND/ CCCD/ Hộ chiếu',
   doc_time_provide: 'Ngày cấp',
   doc_place_provide: 'Nơi cấp',
-  mst_provide: 'Ngày cấp (ngày đăng ký lần đầu)'
-
+  mst_provide: 'Ngày cấp (ngày đăng ký lần đầu)',
 }
 
 export default COMMON_TEXT
