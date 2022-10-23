@@ -19,6 +19,7 @@ const COMMON_TEXT = {
   doc_code: 'Số CMND/ CCCD/ Hộ chiếu',
   doc_time_provide: 'Ngày cấp',
   doc_place_provide: 'Nơi cấp',
+  mst_provide: 'Ngày cấp (ngày đăng ký lần đầu)'
 
 }
 
