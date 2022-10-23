@@ -7,7 +7,7 @@ import { DeleteOutlined, FormOutlined, SearchOutlined, CloseOutlined } from '@an
 import { Button, Form, Input, message, Modal, Popconfirm, Space, Table, Tag, Tooltip } from 'antd'
 import moment from 'moment'
 import React, { useCallback, useEffect, useRef, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import AdminHeader from '../../../components/Admin/AdminHeader'
 import styles from './styles.module.scss'
 import { useFetch } from '../../../helper/Hook'
@@ -27,6 +27,7 @@ const AdminOrder = () => {
 
   const searchInput = useRef(null)
 
+  const navigate = useNavigate()
   const { data, isLoading, status, refetch } = useFetch({
     cacheName: ['adminOrder'],
     fn: () => AdminOrderService.getOrder(),
@@ -125,6 +126,11 @@ const AdminOrder = () => {
             <FormOutlined />
           </Link>
         </Button>
+        <Button type="primary" onClick={() => handleEditRecord(record)}>
+          {/* <Link to={`/product/order/${record?._id}`}> */}
+          <FormOutlined />
+          {/* </Link> */}
+        </Button>
         <Popconfirm placement="topRight" title={'Bạn có muốn xoá ?'} onConfirm={() => handleDeleteOrder(record._id)} okText="Yes" cancelText="No">
           <Button icon={<DeleteOutlined />} />
         </Popconfirm>
@@ -132,7 +138,23 @@ const AdminOrder = () => {
     )
     return xhtml
   }
+  const handleEditRecord = (record) => {
+    let { data } = record
+    let url = null
+    for (let props in data) {
+      if (props === 'pending') {
+        url = 'tam-ngung'
+      } else if (props === 'change_info') {
+        url = 'thay-doi-thong-tin'
+      } else if (props === 'dissolution') {
+        url = 'giai-the'
+      } else if (props === 'create_company') {
+        url = 'thanh-lap-doanh-nghiep'
+      }
+    }
 
+    navigate(`/user/san-pham/${url}`, { state: { ...record } })
+  }
   const renderDate = (record) => {
     let result = moment(record.createdAt).format('HH:mm DD-MM-YYYY ')
     return <span style={{ display: 'block', width: 120 }}>{result}</span>

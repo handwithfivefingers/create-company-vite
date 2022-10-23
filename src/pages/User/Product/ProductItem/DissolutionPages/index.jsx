@@ -10,7 +10,6 @@ const PreviewData = lazy(() => {
   return import('@/components/Form/PreviewData')
 })
 const DissolutionPages = forwardRef((props, ref) => {
-  
   const { saveService, handlePurchaseDissolution, data, step, loading, Prev, Next } = props
 
   const location = useLocation()
@@ -41,16 +40,19 @@ const DissolutionPages = forwardRef((props, ref) => {
           </div>
         }
       >
+
         <Dissolution data={data} ref={ref} current={step} />
 
         {step === 2 && (
           <PreviewData
+            key={['preview', 'dissolution']}
             ref={ref}
             onFinishScreen={() => {
               closeModal()
             }}
           />
         )}
+        
         <div className={'card-boxShadow flex flex__spacing-4'} style={{ position: 'sticky', bottom: 0 }}>
           {step > 0 && (
             <>

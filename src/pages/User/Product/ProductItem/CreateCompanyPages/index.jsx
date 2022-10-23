@@ -44,6 +44,7 @@ const CreateCompanyPages = forwardRef((props, ref) => {
         {/* {step === 7 ? renderPrewviewForm(ref) : ''} */}
         {step === 7 && (
           <PreviewData
+            key={['preview', 'create_company']}
             ref={ref}
             onFinishScreen={() => {
               closeModal()

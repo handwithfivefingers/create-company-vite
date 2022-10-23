@@ -1,15 +1,64 @@
 import { Form, Select } from 'antd'
 import clsx from 'clsx'
-import { forwardRef, useState } from 'react'
+import { forwardRef, useState, useEffect } from 'react'
+import { useLocation } from 'react-router-dom'
 import styles from './styles.module.scss'
 import TamNgungKinhDoanh from './TamNgungKinhDoanh'
+import moment from 'moment'
 const TamHoanForm = forwardRef((props, ref) => {
   const [selectType, setSelectType] = useState({
     type: 1,
     value: '',
     name: '',
   })
+  const location = useLocation()
+  useEffect(() => {
+    if (location.state) {
+      initDataforEditing()
+    }
+  }, [location])
+  const initDataforEditing = () => {
+    let { state } = location
 
+    let _data = {}
+
+    let { category, data } = state
+
+    if (!category) return
+
+    _data.category = {
+      type: category.type,
+      value: category._id,
+      name: category.name,
+    }
+
+    if (data) {
+      let approve = data?.pending?.approve
+
+      if (approve) {
+        let { time_range } = approve
+        if (time_range) {
+          time_range.start = moment(time_range.start, 'YYYY-MM-DD')
+          time_range.end = moment(time_range.end, 'YYYY-MM-DD')
+        }
+
+        approve = {
+          ...approve,
+          time_range,
+        }
+      }
+      _data.pending = {
+        approve,
+      }
+    }
+
+    console.log(_data)
+    setSelectType(_data.category)
+
+    ref.current?.setFieldsValue({
+      ..._data,
+    })
+  }
   const handleChange = ({ type, value, name }, pathName) => {
     setSelectType({ type, value, name })
     ref.current.setFields([
@@ -22,7 +71,7 @@ const TamHoanForm = forwardRef((props, ref) => {
       props.onFinishScreen({ type, value, name })
     }
   }
-  console.log(selectType)
+
   return (
     <Form ref={ref} layout="vertical">
       <Form.Item

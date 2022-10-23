@@ -45,6 +45,7 @@ const PendingPages = forwardRef((props, ref) => {
 
         {step === 2 && (
           <PreviewData
+            key={['preview', 'pending']}
             ref={ref}
             onFinishScreen={() => {
               closeModal()
