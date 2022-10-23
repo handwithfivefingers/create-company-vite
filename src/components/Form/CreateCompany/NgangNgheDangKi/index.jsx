@@ -11,12 +11,8 @@ const NgangNgheDangKi = forwardRef((props, ref) => {
 
   const [careerData, setCareerData] = useState([])
 
-  // const { data, isLoading, status, refetch } = useFetch({
-  //   cacheName: ['careerData'],
-  //   fn: () => GlobalService.fetchCareer(),
-  // })
   const [selfSelect, setSelfSelect] = useState(null)
-  
+
   const { status, fetchStatus, data } = useQuery(
     ['career'],
     async () => {

@@ -161,7 +161,6 @@ const HopDongChuyenNhuong = forwardRef((props, ref) => {
         </Row>
       )
     } else {
-
       xhtml = (
         <Row gutter={[12, 0]}>
           <Col lg={12} md={12} sm={24} xs={24}>
@@ -182,7 +181,6 @@ const HopDongChuyenNhuong = forwardRef((props, ref) => {
           </Col>
 
           <Col lg={12} md={12} sm={24} xs={24}>
-            {/* <CCInput name={[...fieldName, 'organization', 'place_provide']} label="Nơi cấp" /> */}
             <CCSelect.SelectDocProvide ref={ref} name={[...fieldName, 'organization', 'place_provide']} label="Nơi cấp" placeholder="Bấm vào đây" />
           </Col>
 
@@ -195,14 +193,7 @@ const HopDongChuyenNhuong = forwardRef((props, ref) => {
           <Col span={12}>
             <CCInput
               name={[...fieldName, 'organization', 'legal_representative']}
-              // label="Họ và tên (người đại diện)"
-              label={
-                <div
-                  dangerouslySetInnerHTML={{
-                    __html: '</>Họ và tên <i>(Đại diện pháp luật)</i></>',
-                  }}
-                />
-              }
+              label={htmlContent('Họ và tên <i>(Đại diện pháp luật)</i>')}
               onChange={(e) => onSetFields([...fieldName, 'organization', 'legal_representative'], e.target.value, ref, true)}
             />
           </Col>
@@ -231,7 +222,7 @@ const HopDongChuyenNhuong = forwardRef((props, ref) => {
             <Col lg={12} md={12} sm={24} xs={24}>
               <CCInput
                 name={[...fieldName, 'personal', 'name']}
-                label="Họ và tênss"
+                label="Họ và tên"
                 placeholder="NGUYỄN VĂN B"
                 onChange={(e) => onSetFields([...fieldName, 'personal', 'name'], e.target.value, ref, true)}
               />
@@ -292,7 +283,6 @@ const HopDongChuyenNhuong = forwardRef((props, ref) => {
             <CCInput name={[...fieldName, 'organization', 'time_provide']} label="Ngày cấp" type="date" />
           </Col>
           <Col lg={12} md={12} sm={24} xs={24}>
-            {/* <CCInput name={[...fieldName, 'organization', 'place_provide']} label="Nơi cấp" /> */}
             <CCSelect.SelectDocProvide ref={ref} name={[...fieldName, 'organization', 'place_provide']} label="Nơi cấp" placeholder="Bấm vào đây" />
           </Col>
           <Col span={24}>
@@ -307,14 +297,7 @@ const HopDongChuyenNhuong = forwardRef((props, ref) => {
           <Col span={12}>
             <CCInput
               name={[...fieldName, 'organization', 'legal_representative']}
-              // label="Họ và tên (Đại diện pháp luật)"
-              label={
-                <div
-                  dangerouslySetInnerHTML={{
-                    __html: '</>Họ và tên <i>(Đại diện pháp luật)</i></>',
-                  }}
-                />
-              }
+              label={htmlContent('>Họ và tên <i>(Đại diện pháp luật)</i>')}
               onChange={(e) => onSetFields([...fieldName, 'organization', 'legal_representative'], e.target.value, ref, true)}
             />
           </Col>

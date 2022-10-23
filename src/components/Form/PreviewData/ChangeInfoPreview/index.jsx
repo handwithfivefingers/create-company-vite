@@ -27,6 +27,204 @@ export default function ChangeInfoPreview(props) {
 
   console.log(data)
 
+  const renderASide = () => {
+    let html = null
+
+    if (transfer_contract?.A_side && transfer_contract?.A_side?.owner === 'personal') {
+      const currentLabel = transfer_contract?.A_side?.personal
+
+      html = (
+        <>
+          <Form.Item label={<Text type="secondary">{t['name']}</Text>}>{currentLabel?.name}</Form.Item>
+          <Form.Item label={<Text type="secondary">{t['birth_day']}</Text>}>{moment(currentLabel?.birth_day).format('DD/MM/YYYY')}</Form.Item>
+          <Form.Item label={<Text type="secondary">{t['doc_type']}</Text>}>{currentLabel?.doc_type}</Form.Item>
+          <Form.Item label={<Text type="secondary">{t['doc_code']}</Text>}>{currentLabel?.doc_code}</Form.Item>
+          <Form.Item label={<Text type="secondary">{t['doc_time_provide']}</Text>}>{moment(currentLabel?.doc_time_provide).format('DD/MM/YYYY')}</Form.Item>
+          <Form.Item label={<Text type="secondary">{t['doc_place_provide']}</Text>}>{currentLabel?.doc_place_provide}</Form.Item>
+
+          {currentLabel?.current && (
+            <>
+              <Form.Item label={'Địa chỉ thường trú (ĐDPL)'}></Form.Item>
+              <div style={{ paddingLeft: 20 }}>
+                <Form.Item label={<Text type="secondary">{t['city']}</Text>}>{currentLabel?.current?.city}</Form.Item>
+                <Form.Item label={<Text type="secondary">{t['district']}</Text>}>{currentLabel?.current?.district}</Form.Item>
+                <Form.Item label={<Text type="secondary">{t['town']}</Text>}>{currentLabel?.current?.town}</Form.Item>
+                <Form.Item label={<Text type="secondary">{t['address']}</Text>}>{currentLabel?.current?.address}</Form.Item>
+              </div>
+            </>
+          )}
+
+          {currentLabel?.contact && (
+            <>
+              <Form.Item label={'Địa chỉ liên lạc'}></Form.Item>
+              <div style={{ paddingLeft: 20 }}>
+                <Form.Item label={<Text type="secondary">{t['city']}</Text>}>{currentLabel?.contact?.city}</Form.Item>
+                <Form.Item label={<Text type="secondary">{t['district']}</Text>}>{currentLabel?.contact?.district}</Form.Item>
+                <Form.Item label={<Text type="secondary">{t['town']}</Text>}>{currentLabel?.contact?.town}</Form.Item>
+                <Form.Item label={<Text type="secondary">{t['address']}</Text>}>{currentLabel?.contact?.address}</Form.Item>
+              </div>
+            </>
+          )}
+        </>
+      )
+    } else if (transfer_contract?.A_side && transfer_contract?.A_side?.owner === 'organization') {
+      const currentLabel = transfer_contract?.A_side?.organization
+      html = (
+        <>
+          <Form.Item label={<Text type="secondary">{t['company_name']}</Text>}>{currentLabel?.company_name}</Form.Item>
+          <Form.Item label={<Text type="secondary">{t['mst']}</Text>}>{moment(currentLabel?.mst).format('DD/MM/YYYY')}</Form.Item>
+          <Form.Item label={<Text type="secondary">{t['mst_provide']}</Text>}>{currentLabel?.mst_provide}</Form.Item>
+          <Form.Item label={<Text type="secondary">{t['doc_place_provide']}</Text>}>{currentLabel?.place_provide}</Form.Item>
+
+          {currentLabel?.company_address && (
+            <>
+              <Form.Item label={'Địa chỉ thường trú (ĐDPL)'}></Form.Item>
+              <div style={{ paddingLeft: 20 }}>
+                <Form.Item label={<Text type="secondary">{t['city']}</Text>}>{currentLabel?.company_address?.current?.city}</Form.Item>
+                <Form.Item label={<Text type="secondary">{t['district']}</Text>}>{currentLabel?.company_address?.current?.district}</Form.Item>
+                <Form.Item label={<Text type="secondary">{t['town']}</Text>}>{currentLabel?.company_address?.current?.town}</Form.Item>
+                <Form.Item label={<Text type="secondary">{t['address']}</Text>}>{currentLabel?.company_address?.current?.address}</Form.Item>
+              </div>
+            </>
+          )}
+          <Form.Item
+            label={
+              <Text type="secondary">
+                Họ và tên <i>(Đại diện pháp luật)</i>
+              </Text>
+            }
+          >
+            {currentLabel?.legal_representative}
+          </Form.Item>
+
+          <Form.Item label={<Text type="secondary">{t['title']}</Text>}>{currentLabel?.title}</Form.Item>
+        </>
+      )
+    }
+
+    return html
+  }
+
+  const renderBSide = () => {
+    let html = null
+
+    if (transfer_contract?.B_side && transfer_contract?.B_side?.owner === 'personal') {
+      // const currentLabel = transfer_contract?.B_side?.personal
+      const Bside = transfer_contract?.B_side
+      const currentLabel = Bside?.personal
+      html = (
+        <>
+          <Form.Item label={<Text type="secondary">{t['name']}</Text>}>{currentLabel?.name}</Form.Item>
+          <Form.Item label={<Text type="secondary">{t['gender']}</Text>}>{currentLabel?.gender}</Form.Item>
+          <Form.Item label={<Text type="secondary">{t['birth_day']}</Text>}>{moment(currentLabel?.birth_day).format('DD/MM/YYYY')}</Form.Item>
+          <Form.Item label={<Text type="secondary">{t['per_type']}</Text>}>{currentLabel?.per_type}</Form.Item>
+          <Form.Item label={<Text type="secondary">{t['doc_type']}</Text>}>{currentLabel?.doc_type}</Form.Item>
+          <Form.Item label={<Text type="secondary">{t['doc_code']}</Text>}>{currentLabel?.doc_code}</Form.Item>
+          <Form.Item label={<Text type="secondary">{t['doc_time_provide']}</Text>}>{moment(currentLabel?.doc_time_provide).format('DD/MM/YYYY')}</Form.Item>
+          <Form.Item label={<Text type="secondary">{t['doc_place_provide']}</Text>}>{currentLabel?.doc_place_provide}</Form.Item>
+
+          {currentLabel?.current && (
+            <>
+              <Form.Item label={'Địa chỉ thường trú (ĐDPL)'}></Form.Item>
+              <div style={{ paddingLeft: 20 }}>
+                <Form.Item label={<Text type="secondary">{t['city']}</Text>}>{currentLabel?.current?.city}</Form.Item>
+                <Form.Item label={<Text type="secondary">{t['district']}</Text>}>{currentLabel?.current?.district}</Form.Item>
+                <Form.Item label={<Text type="secondary">{t['town']}</Text>}>{currentLabel?.current?.town}</Form.Item>
+                <Form.Item label={<Text type="secondary">{t['address']}</Text>}>{currentLabel?.current?.address}</Form.Item>
+              </div>
+            </>
+          )}
+
+          {currentLabel?.contact && (
+            <>
+              <Form.Item label={'Địa chỉ liên lạc'}></Form.Item>
+              <div style={{ paddingLeft: 20 }}>
+                <Form.Item label={<Text type="secondary">{t['city']}</Text>}>{currentLabel?.contact?.city}</Form.Item>
+                <Form.Item label={<Text type="secondary">{t['district']}</Text>}>{currentLabel?.contact?.district}</Form.Item>
+                <Form.Item label={<Text type="secondary">{t['town']}</Text>}>{currentLabel?.contact?.town}</Form.Item>
+                <Form.Item label={<Text type="secondary">{t['address']}</Text>}>{currentLabel?.contact?.address}</Form.Item>
+              </div>
+            </>
+          )}
+
+          <Col span={24}>
+            <Row gutter={[12, 12]}>
+              <Col lg={12} md={24}>
+                <Card title="Phần vốn góp Bên bán hiện đang sở hữu là" size="small" className="box__shadow">
+                  <Form.Item label={<Text type="secondary">Bằng số</Text>}>{Bside?.organization?.capital_contribution?.capital_current?.num}</Form.Item>
+                  <Form.Item label={<Text type="secondary">Bằng chữ</Text>}>{Bside?.organization?.capital_contribution?.capital_current?.char}</Form.Item>
+                  <Form.Item label={<Text type="secondary">Chiếm % vốn điều lệ</Text>}>
+                    {Bside?.organization?.capital_contribution?.capital_current?.percent}%
+                  </Form.Item>
+                </Card>
+              </Col>
+              <Col lg={12} md={24}>
+                <Card title="Phần vốn góp Bên bán chuyển nhượng là" size="small" className="box__shadow">
+                  <Form.Item label={<Text type="secondary">Bằng số</Text>}>{Bside?.organization?.capital_contribution?.capital_transfer?.num}</Form.Item>
+                  <Form.Item label={<Text type="secondary">Bằng chữ</Text>}>{Bside?.organization?.capital_contribution?.capital_transfer?.char}</Form.Item>
+                  <Form.Item label={<Text type="secondary">Chiếm % vốn điều lệ</Text>}>
+                    {Bside?.organization?.capital_contribution?.capital_transfer?.percent}%
+                  </Form.Item>
+                </Card>
+              </Col>
+            </Row>
+          </Col>
+        </>
+      )
+    } else if (transfer_contract?.B_side && transfer_contract?.B_side?.owner === 'organization') {
+      const currentLabel = transfer_contract?.B_side?.organization
+      html = (
+        <>
+          <Form.Item label={<Text type="secondary">{t['company_name']}</Text>}>{currentLabel?.company_name}</Form.Item>
+          <Form.Item label={<Text type="secondary">{t['mst']}</Text>}>{currentLabel?.mst}</Form.Item>
+
+          <Form.Item label={<Text type="secondary">{t['doc_time_provide']}</Text>}>{moment(currentLabel?.time_provide).format('DD/MM/YYYY')}</Form.Item>
+          <Form.Item label={<Text type="secondary">{t['doc_place_provide']}</Text>}>{currentLabel?.place_provide}</Form.Item>
+
+          {currentLabel?.company_address && (
+            <>
+              <Form.Item label={'Địa chỉ thường trú (ĐDPL)'}></Form.Item>
+              <div style={{ paddingLeft: 20 }}>
+                <Form.Item label={<Text type="secondary">{t['city']}</Text>}>{currentLabel?.company_address?.current?.city}</Form.Item>
+                <Form.Item label={<Text type="secondary">{t['district']}</Text>}>{currentLabel?.company_address?.current?.district}</Form.Item>
+                <Form.Item label={<Text type="secondary">{t['town']}</Text>}>{currentLabel?.company_address?.current?.town}</Form.Item>
+                <Form.Item label={<Text type="secondary">{t['address']}</Text>}>{currentLabel?.company_address?.current?.address}</Form.Item>
+              </div>
+            </>
+          )}
+
+          <Form.Item label={<Text type="secondary">Họ và tên (Đại diện pháp luật)</Text>}>{currentLabel?.legal_representative}</Form.Item>
+
+          <Form.Item label={<Text type="secondary">{t['title']}</Text>}>{currentLabel?.legal_title}</Form.Item>
+          <Col span={24}>
+            <Row gutter={[12, 12]}>
+              <Col lg={12} md={24}>
+                <Card title="Phần vốn góp Bên bán hiện đang sở hữu là" size="small" className="box__shadow">
+                  <Form.Item label={<Text type="secondary">Bằng số</Text>}>{currentLabel?.capital_contribution?.capital_current?.num}</Form.Item>
+                  <Form.Item label={<Text type="secondary">Bằng chữ</Text>}>{currentLabel?.capital_contribution?.capital_current?.char}</Form.Item>
+                  <Form.Item label={<Text type="secondary">Chiếm % vốn điều lệ</Text>}>
+                    {currentLabel?.capital_contribution?.capital_current?.percent}%
+                  </Form.Item>
+                </Card>
+              </Col>
+              <Col lg={12} md={24}>
+                <Card title="Phần vốn góp Bên bán chuyển nhượng là" size="small" className="box__shadow">
+                  <Form.Item label={<Text type="secondary">Bằng số</Text>}>{currentLabel?.capital_contribution?.capital_transfer?.num}</Form.Item>
+                  <Form.Item label={<Text type="secondary">Bằng chữ</Text>}>{currentLabel?.capital_contribution?.capital_transfer?.char}</Form.Item>
+                  <Form.Item label={<Text type="secondary">Chiếm % vốn điều lệ</Text>}>
+                    {currentLabel?.capital_contribution?.capital_transfer?.percent}%
+                  </Form.Item>
+                </Card>
+              </Col>
+            </Row>
+          </Col>
+        </>
+      )
+    }
+
+    return html
+  }
+
   return (
     <Row gutter={0}>
       <Col span={24}>
@@ -109,7 +307,9 @@ export default function ChangeInfoPreview(props) {
                         <Form.Item label={<Text type="secondary">{t['per_type']}</Text>}>{item?.per_type}</Form.Item>
                         <Form.Item label={<Text type="secondary">{t['doc_type']}</Text>}>{item?.doc_type}</Form.Item>
                         <Form.Item label={<Text type="secondary">{t['doc_code']}</Text>}>{item?.doc_code}</Form.Item>
-                        <Form.Item label={<Text type="secondary">{t['doc_time_provide']}</Text>}>{moment(item?.doc_time_provide).format('DD/MM/YYYY')}</Form.Item>
+                        <Form.Item label={<Text type="secondary">{t['doc_time_provide']}</Text>}>
+                          {moment(item?.doc_time_provide).format('DD/MM/YYYY')}
+                        </Form.Item>
                         <Form.Item label={<Text type="secondary">{t['doc_place_provide']}</Text>}>{item?.doc_place_provide}</Form.Item>
 
                         {item?.current && (
@@ -251,113 +451,10 @@ export default function ChangeInfoPreview(props) {
         )}
         {transfer_contract && (
           <Card title="Đăng ký thay đổi hợp đồng chuyển nhượng phần góp vốn" className="box__shadow" size="small" style={{ margin: '0 0 20px 0' }}>
-            {transfer_contract?.A_side && transfer_contract?.A_side?.owner === 'personal' && (
-              <>
-                <Form.Item label={<Text type="secondary">{t['name']}</Text>}>{transfer_contract?.A_side?.personal?.name}</Form.Item>
-                <Form.Item label={<Text type="secondary">{t['birth_day']}</Text>}>
-                  {moment(transfer_contract?.A_side?.personal?.birth_day).format('DD/MM/YYYY')}
-                </Form.Item>
-                <Form.Item label={<Text type="secondary">{t['doc_type']}</Text>}>{transfer_contract?.A_side?.personal?.doc_type}</Form.Item>
-                <Form.Item label={<Text type="secondary">{t['doc_code']}</Text>}>{transfer_contract?.A_side?.personal?.doc_code}</Form.Item>
-                <Form.Item label={<Text type="secondary">{t['doc_time_provide']}</Text>}>
-                  {moment(transfer_contract?.A_side?.personal?.doc_time_provide).format('DD/MM/YYYY')}
-                </Form.Item>
-                <Form.Item label={<Text type="secondary">{t['doc_place_provide']}</Text>}>{transfer_contract?.A_side?.personal?.doc_place_provide}</Form.Item>
+            {renderASide()}
 
-                {transfer_contract?.A_side?.personal?.current && (
-                  <>
-                    <Form.Item label={'Địa chỉ thường trú (ĐDPL)'}></Form.Item>
-                    <div style={{ paddingLeft: 20 }}>
-                      <Form.Item label={<Text type="secondary">{t['city']}</Text>}>{transfer_contract?.A_side?.personal?.current?.city}</Form.Item>
-                      <Form.Item label={<Text type="secondary">{t['district']}</Text>}>{transfer_contract?.A_side?.personal?.current?.district}</Form.Item>
-                      <Form.Item label={<Text type="secondary">{t['town']}</Text>}>{transfer_contract?.A_side?.personal?.current?.town}</Form.Item>
-                      <Form.Item label={<Text type="secondary">{t['address']}</Text>}>{transfer_contract?.A_side?.personal?.current?.address}</Form.Item>
-                    </div>
-                  </>
-                )}
-
-                {transfer_contract?.A_side?.personal?.contact && (
-                  <>
-                    <Form.Item label={'Địa chỉ liên lạc'}></Form.Item>
-                    <div style={{ paddingLeft: 20 }}>
-                      <Form.Item label={<Text type="secondary">{t['city']}</Text>}>{transfer_contract?.A_side?.personal?.contact?.city}</Form.Item>
-                      <Form.Item label={<Text type="secondary">{t['district']}</Text>}>{transfer_contract?.A_side?.personal?.contact?.district}</Form.Item>
-                      <Form.Item label={<Text type="secondary">{t['town']}</Text>}>{transfer_contract?.A_side?.personal?.contact?.town}</Form.Item>
-                      <Form.Item label={<Text type="secondary">{t['address']}</Text>}>{transfer_contract?.A_side?.personal?.contact?.address}</Form.Item>
-                    </div>
-                  </>
-                )}
-              </>
-            )}
-
+            {renderBSide()}
             {/* B_side */}
-            {transfer_contract?.B_side && transfer_contract?.B_side?.owner === 'organization' && (
-              <>
-                <Form.Item label={<Text type="secondary">{t['company_name']}</Text>}>{transfer_contract?.B_side?.organization?.company_name}</Form.Item>
-                <Form.Item label={<Text type="secondary">{t['mst']}</Text>}>{transfer_contract?.B_side?.organization?.mst}</Form.Item>
-
-                <Form.Item label={<Text type="secondary">{t['doc_time_provide']}</Text>}>
-                  {moment(transfer_contract?.B_side?.organization?.time_provide).format('DD/MM/YYYY')}
-                </Form.Item>
-                <Form.Item label={<Text type="secondary">{t['doc_place_provide']}</Text>}>{transfer_contract?.B_side?.organization?.place_provide}</Form.Item>
-
-                {transfer_contract?.B_side?.organization?.company_address && (
-                  <>
-                    <Form.Item label={'Địa chỉ thường trú (ĐDPL)'}></Form.Item>
-                    <div style={{ paddingLeft: 20 }}>
-                      <Form.Item label={<Text type="secondary">{t['city']}</Text>}>
-                        {transfer_contract?.B_side?.organization?.company_address?.current?.city}
-                      </Form.Item>
-                      <Form.Item label={<Text type="secondary">{t['district']}</Text>}>
-                        {transfer_contract?.B_side?.organization?.company_address?.current?.district}
-                      </Form.Item>
-                      <Form.Item label={<Text type="secondary">{t['town']}</Text>}>
-                        {transfer_contract?.B_side?.organization?.company_address?.current?.town}
-                      </Form.Item>
-                      <Form.Item label={<Text type="secondary">{t['address']}</Text>}>
-                        {transfer_contract?.B_side?.organization?.company_address?.current?.address}
-                      </Form.Item>
-                    </div>
-                  </>
-                )}
-
-                <Form.Item label={<Text type="secondary">Họ và tên (Đại diện pháp luật)</Text>}>
-                  {transfer_contract?.B_side?.organization?.legal_representative}
-                </Form.Item>
-
-                <Form.Item label={<Text type="secondary">{t['title']}</Text>}>{transfer_contract?.B_side?.organization?.legal_title}</Form.Item>
-                <Col span={24}>
-                  <Row gutter={[12, 12]}>
-                    <Col lg={12} md={24}>
-                      <Card title="Phần vốn góp Bên bán hiện đang sở hữu là" size="small" className="box__shadow">
-                        <Form.Item label={<Text type="secondary">Bằng số</Text>}>
-                          {transfer_contract?.B_side?.organization?.capital_contribution?.capital_current?.num}
-                        </Form.Item>
-                        <Form.Item label={<Text type="secondary">Bằng chữ</Text>}>
-                          {transfer_contract?.B_side?.organization?.capital_contribution?.capital_current?.char}
-                        </Form.Item>
-                        <Form.Item label={<Text type="secondary">Chiếm % vốn điều lệ</Text>}>
-                          {transfer_contract?.B_side?.organization?.capital_contribution?.capital_current?.percent}%
-                        </Form.Item>
-                      </Card>
-                    </Col>
-                    <Col lg={12} md={24}>
-                      <Card title="Phần vốn góp Bên bán chuyển nhượng là" size="small" className="box__shadow">
-                        <Form.Item label={<Text type="secondary">Bằng số</Text>}>
-                          {transfer_contract?.B_side?.organization?.capital_contribution?.capital_transfer?.num}
-                        </Form.Item>
-                        <Form.Item label={<Text type="secondary">Bằng chữ</Text>}>
-                          {transfer_contract?.B_side?.organization?.capital_contribution?.capital_transfer?.char}
-                        </Form.Item>
-                        <Form.Item label={<Text type="secondary">Chiếm % vốn điều lệ</Text>}>
-                          {transfer_contract?.B_side?.organization?.capital_contribution?.capital_transfer?.percent}%
-                        </Form.Item>
-                      </Card>
-                    </Col>
-                  </Row>
-                </Col>
-              </>
-            )}
           </Card>
         )}
         {company_career && (

@@ -8,6 +8,8 @@ import CCSelect from '../../../CCSelect'
 import { onSetFields, htmlContent } from '@/helper/Common'
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons'
 import { isEqual } from 'lodash'
+import { useLocation } from 'react-router-dom'
+
 const ThanhVienGopVon = forwardRef(({ data, ...props }, ref) => {
   const [present, setPresent] = useState({})
 
@@ -17,15 +19,7 @@ const ThanhVienGopVon = forwardRef(({ data, ...props }, ref) => {
 
   const [_render, setRender] = useState(false)
 
-  // useEffect(() => {
-  //   // onSetFields([...BASE_FORM, 'origin_person', 0, 'doc_type'], 'Chứng minh nhân dân', ref)
-
-  //   let origin_person = ref.current.getFieldValue([...BASE_FORM, 'origin_person'])
-
-  //   if (origin_person?.length) {
-  //     loadOriginPersonalData(origin_person)
-  //   }
-  // }, [])
+  const location = useLocation()
 
   useEffect(() => {
     let value = [...listForm] // default is 1
@@ -54,9 +48,14 @@ const ThanhVienGopVon = forwardRef(({ data, ...props }, ref) => {
     }
   }, [data])
 
-  const loadOriginPersonalData = (originData) => {
-    setListForm(originData)
-  }
+  useEffect(() => {
+    if (location.state) {
+      let orginPerson = ref.current.getFieldValue([...BASE_FORM, 'origin_person'])
+      if (orginPerson?.length) {
+        setListForm(orginPerson)
+      }
+    }
+  }, [props.current, location])
 
   const renderPresentPerson = useMemo(
     () => (index) => {
