@@ -1,11 +1,44 @@
 import { Form, Select } from 'antd'
 import clsx from 'clsx'
-import { forwardRef, useState } from 'react'
+import { forwardRef, useState, useEffect } from 'react'
+import { useLocation } from 'react-router-dom'
 import GiaiThe from './GiaiThe'
 import styles from './styles.module.scss'
 
 const Dissolution = forwardRef((props, ref) => {
   const [selectType, setSelectType] = useState()
+
+  const location = useLocation()
+
+  useEffect(() => {
+    if (location.state) {
+      initDataforEditing()
+    }
+  }, [location])
+
+  const initDataforEditing = () => {
+    let { state } = location
+
+    let { category, data } = state
+
+    let _data = {
+      ...data
+    }
+
+    if (!category) return
+
+    _data.category = {
+      type: category.type,
+      value: category._id,
+      name: category.name,
+    }
+
+    setSelectType(_data.category)
+
+    ref.current?.setFieldsValue({
+      ..._data,
+    })
+  }
 
   const handleChange = (val, opt, pathName) => {
     setSelectType(opt)

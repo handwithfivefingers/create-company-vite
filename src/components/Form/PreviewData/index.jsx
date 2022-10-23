@@ -7,6 +7,9 @@ import { Form, Descriptions, Divider, Typography, Col, Row } from 'antd'
 import _ from 'lodash'
 import styles from './styles.module.scss'
 import clsx from 'clsx'
+import DissolutionPreview from './DissolutionPreview'
+import PendingPreview from './PendingPreview'
+import ChangeInfoPreview from './ChangeInfoPreview'
 
 const { Paragraph, Text } = Typography
 const PreviewData = forwardRef((props, ref) => {
@@ -196,21 +199,46 @@ const PreviewData = forwardRef((props, ref) => {
 
     try {
       if (data) {
-        console.table(data)
+        // console.table(data)
 
-        let { category, selectChildProduct, ...rest } = data
+        let { category, products, ...rest } = data
 
-        let productType = Object.keys(rest) // get keys Product
+        let [productType] = Object.keys(rest) // get keys Product
 
-        let listProductItem = rest[productType] // dynamic Data
+        switch (productType) {
+          case 'dissolution':
+            xhtml = <DissolutionPreview data={rest[productType]} />
+            break
 
-        let listLabel = NEWLABEL(productType) // Constant
+          case 'pending':
+            xhtml = <PendingPreview data={rest[productType]} />
+            break
 
-        let list = getFieldsInfo(listLabel, listProductItem, productType)
-        if (list.length) {
-          let newList = renderBaseForm(list)
+          case 'change_info':
+            xhtml = <ChangeInfoPreview data={rest[productType]} />
+            break
 
-          xhtml = newList
+          case 'create_company':
+
+            let listProductItem = rest[productType] // dynamic Data
+
+            let listLabel = NEWLABEL(productType) // Constant
+
+            let list = getFieldsInfo(listLabel, listProductItem, productType)
+            if (list.length) {
+              let newList = renderBaseForm(list)
+              xhtml = newList
+            }
+            break
+          // let listProductItem = rest[productType] // dynamic Data
+
+          // let listLabel = NEWLABEL(productType) // Constant
+
+          // let list = getFieldsInfo(listLabel, listProductItem, productType)
+          // if (list.length) {
+          //   let newList = renderBaseForm(list)
+
+          //   xhtml = newList
         }
       }
     } catch (error) {

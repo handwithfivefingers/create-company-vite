@@ -60,6 +60,7 @@ const ChangeInfoPages = forwardRef((props, ref) => {
         <ChangeInforForm data={data} ref={ref} current={step} onFinishScreen={onFinishScreen} edit={editData} />
         {step === changeInforStep?.length - 1 && (
           <PreviewData
+            key={['preview', 'change_info']}
             ref={ref}
             onFinishScreen={() => {
               closeModal()
