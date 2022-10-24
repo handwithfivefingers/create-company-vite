@@ -19,7 +19,7 @@ export default function WithAuth(Component, role) {
 
     if (role === 'admin') {
       return (
-        <Layout className={[styles.adminLayout]}>
+        <Layout className={[styles.adminLayout]} theme="light">
           <AdminSidebar />
 
           <Layout className={clsx(['site-layout', styles.adminSiteLayout])}>

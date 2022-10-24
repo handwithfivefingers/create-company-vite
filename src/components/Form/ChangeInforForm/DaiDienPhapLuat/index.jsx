@@ -31,7 +31,7 @@ const DaiDienPhapLuat = forwardRef((props, ref) => {
   const location = useLocation()
 
   let listForm = {}
-  
+
   useEffect(() => {
     if (!location.state) return
 
@@ -39,6 +39,9 @@ const DaiDienPhapLuat = forwardRef((props, ref) => {
 
     if (legalValue?.in_out) {
       handleIncludesOrExludesPeople(legalValue.in_out)
+    }
+    if (legalValue?.after_change) {
+      setListLegal(legalValue?.after_change)
     }
   }, [location])
 
@@ -117,7 +120,6 @@ const PeoppleWrapper = forwardRef((props, ref) => {
     let typeIndex = ref.current.getFieldValue([...BASE_FORM, 'in_out', i, 'type'])
 
     setLegalType(typeIndex)
-
   }, [location, props])
 
   const handleSelectPeopleType = (value) => {
@@ -195,6 +197,27 @@ const PeronalType = forwardRef((props, ref) => {
 
   const { state: present, setState: setPresent } = presentState
 
+  const location = useLocation()
+
+  useEffect(() => {
+    let value = ref.current.getFieldValue([...BASE_FORM, 'after_change', index, 'name'])
+
+    let options = getPersonType()
+
+    let valIndex = options.findIndex((item) => item.name === value)
+    // setPresent
+    let _dataPresent = [...present]
+
+    _dataPresent[index] = valIndex
+
+    console.log(_dataPresent)
+
+    setPresent(_dataPresent)
+    if (valIndex !== -1) {
+      onSetFields([...BASE_FORM, 'after_change', index, 'select_person'], options[valIndex].value, ref)
+    }
+  }, [location])
+
   const getPersonType = () => {
     let pathName = [...BASE_FORM, 'in_out']
 
@@ -228,29 +251,30 @@ const PeronalType = forwardRef((props, ref) => {
 
     setPresent(data)
 
-    let originPathName = [...BASE_FORM, 'in_out', val]
+    // let originPathName = [...BASE_FORM, 'in_out', val]
 
     let legalPathName = [...BASE_FORM, 'after_change', index]
 
-    let originPerson = ref?.current?.getFieldValue(originPathName)
+    let listOriginPerson = ref?.current?.getFieldValue([...BASE_FORM, 'in_out'])
+    let originPerson
+    if (listOriginPerson?.length) {
+      originPerson = listOriginPerson.filter((item) => item.type !== PERSON_TYPE.REMOVE)
+    }
 
     if (originPerson) {
-      onSetFields(legalPathName, originPerson, ref)
+      onSetFields(legalPathName, originPerson?.[val], ref)
     }
   }
 
   return (
     <>
-      <CCInput
-        type="select"
-        onChange={(e) => handleSelectPersonType(e, index)}
-        placeholder="Bấm vào đây"
-        options={getPersonType}
-        value={present[index]}
-        label={htmlContent('<b>Chọn người đại diện</b>')}
-        required
-      />
-
+      <Form.Item name={[...BASE_FORM, 'after_change', index, 'select_person']} label={htmlContent('<b>Chọn người đại diện</b>')}>
+        <Select onSelect={(e) => handleSelectPersonType(e, index)} placeholder="Bấm vào đây" required>
+          {getPersonType()?.map((item) => {
+            return <Select.Option value={item.value}>{item.name}</Select.Option>
+          })}
+        </Select>
+      </Form.Item>
       <FormListPersonType ref={ref} listFormState={handleForm} presentState={presentState} BASE_FORM={BASE_FORM} i={index} type={props?.type} />
     </>
   )
@@ -262,6 +286,10 @@ const FormListPersonType = forwardRef((props, ref) => {
   const { state, setState } = listFormState
 
   const { state: present, setState: setPresent } = presentState
+  
+  const watchField = Form.useWatch(['change_info', 'legal_representative', 'after_change'], ref.current)
+
+
 
   const removeItem = (index) => {
     let val = ref.current.getFieldValue([...BASE_FORM, 'after_change'])
@@ -280,6 +308,7 @@ const FormListPersonType = forwardRef((props, ref) => {
 
     setState(val)
   }
+
   return (
     <Form.Item
       label={
@@ -297,7 +326,7 @@ const FormListPersonType = forwardRef((props, ref) => {
         </div>
       }
     >
-      <div style={{ display: +present[i] != -1 ? 'none' : 'block' }}>
+      <div style={{ display: +watchField?.[i]?.select_person != -1 ? 'none' : 'block' }}>
         <CCInput
           label="Họ và tên"
           name={[...BASE_FORM, 'after_change', i, 'name']}

@@ -267,7 +267,7 @@ const getVpnParams = (req, params) => {
 
   var secretKey = process.env.SECRET_KEY_VPN
 
-  var returnUrl = process.env.NODE_ENV === 'DEV' ? 'http://localhost:3001/api/order/payment/url_return' : process.env.RETURN_URL
+  var returnUrl = process.env.NODE_ENV === 'development' ? 'http://localhost:3001/api/order/payment/url_return' : process.env.RETURN_URL
 
   var orderType = req?.body?.orderType || 'billpayment'
 

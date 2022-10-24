@@ -40,7 +40,7 @@ module.exports = class PaymentService {
       // Start Transaction
       session.startTransaction()
 
-      await Order.findOneAndUpdate({ _id: orderInfo }, _update, { session, new: true })
+      await Order.updateOne({ _id: orderInfo }, _update, { session, new: true })
 
       let vnp_Params = getVpnParams(req, params)
 
@@ -66,6 +66,7 @@ module.exports = class PaymentService {
 
   getUrlReturn = async (req, res) => {
     console.log(req.query, ' Get URL Return')
+
     var vnp_Params = req.query
 
     var secureHash = vnp_Params['vnp_SecureHash']
@@ -86,7 +87,7 @@ module.exports = class PaymentService {
 
     var signed = hmac.update(new Buffer.from(signData, 'utf-8')).digest('hex')
 
-    let url = process.env.NODE_ENV === 'development' ? `http://localhost:3000/user/order?` : `https://app.thanhlapcongtyonline.vn/user/order?`
+    const url = process.env.NODE_ENV === 'development' ? `http://localhost:3001/user/order?` : `https://app.thanhlapcongtyonline.vn/user/order?`
 
     if (secureHash === signed) {
       //Kiem tra xem du lieu trong db co hop le hay khong va thong bao ket qua
@@ -94,6 +95,7 @@ module.exports = class PaymentService {
       const query = qs.stringify({
         code,
         text: ResponseCode[code],
+        orderId: vnp_Params['vnp_OrderInfo'],
       })
 
       if (code === '00') {

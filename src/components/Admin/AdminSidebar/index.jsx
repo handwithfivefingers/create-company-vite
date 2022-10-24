@@ -8,6 +8,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { AdminRouter } from '@/constant/Route'
 import { AuthAction } from '@/store/actions'
 import styles from './styles.module.scss'
+import clsx from 'clsx'
 const { Sider } = Layout
 
 const AdminSidebar = () => {
@@ -111,10 +112,11 @@ const AdminSidebar = () => {
         reverseArrow={true}
         breakpoint={'md'}
         trigger={<div className={styles.trigger}>{!collapse ? <CaretLeftOutlined /> : <CaretRightOutlined />}</div>}
+        className={clsx([styles.sidebar, 'box__shadow'])}
       >
         <div className="logo" style={{ height: 65 }} />
 
-        <Menu items={ListMenu} theme="dark" defaultSelectedKeys={[current]} selectedKeys={[current]} mode="inline" />
+        <Menu items={ListMenu} theme="light" defaultSelectedKeys={[current]} selectedKeys={[current]} mode="inline" />
       </Sider>
     </>
   )

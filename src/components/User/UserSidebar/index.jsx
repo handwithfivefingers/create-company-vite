@@ -6,6 +6,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { AuthAction, CommonAction } from '@/store/actions'
 import { UserRouter } from '../../../constant/Route'
 import styles from './styles.module.scss'
+import clsx from 'clsx'
 
 const { Sider } = Layout
 
@@ -15,7 +16,7 @@ const UserSidebar = (props) => {
   const { role } = useSelector((state) => state?.authReducer)
 
   let location = useLocation()
-  
+
   let navigate = useNavigate()
 
   const dispatch = useDispatch()
@@ -56,10 +57,10 @@ const UserSidebar = (props) => {
         breakpoint={'md'}
         reverseArrow={true}
         trigger={<div className={styles.trigger}>{!collapsed ? <CaretLeftOutlined /> : <CaretRightOutlined />}</div>}
-        className={styles.sidebar}
+        className={clsx([styles.sidebar, 'box__shadow'])}
       >
         <div className="logo" style={{ height: 64 }} />
-        <Menu theme="dark" mode="inline" defaultSelectedKeys={[current]} selectedKeys={[current]}>
+        <Menu theme="light" mode="inline" defaultSelectedKeys={[current]} selectedKeys={[current]}>
           <Menu.Item key={'/'} icon={<PieChartOutlined />}>
             <Link to={`/${role}`}>Trang chủ</Link>
           </Menu.Item>

@@ -70,7 +70,6 @@ const ChangeInforForm = forwardRef((props, ref) => {
     if (products) _data.products = products
 
     if (data) {
-      
       let { change_info } = state.data
 
       cate = {
@@ -81,7 +80,6 @@ const ChangeInforForm = forwardRef((props, ref) => {
       _data.category = cate
 
       if (change_info) {
-
         let { legal_representative, transfer_contract, ...restInfo } = change_info
 
         if (legal_representative) {
@@ -183,6 +181,8 @@ const ChangeInforForm = forwardRef((props, ref) => {
       ..._data,
     })
 
+    console.log(_data)
+
     setProductSelect(cate)
 
     onSetFields(['category'], cate, ref)
@@ -247,9 +247,9 @@ const ChangeInforForm = forwardRef((props, ref) => {
   }
 
   return (
-    <Form ref={ref} layout="vertical">
+    <Form ref={ref} layout="vertical" name="change_info">
       <Form.Item
-        name="category"
+        name={['category']}
         label="Chọn loại hình doanh nghiệp"
         required
         className={clsx(styles.current, {
