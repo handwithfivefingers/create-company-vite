@@ -12,6 +12,17 @@ const BASE_FORM = ['change_info', 'name']
 const popData = {
   content: (
     <ul style={{ maxWidth: 600, listStyle: 'none' }}>
+      <h4><b>Cách đặt tên công ty</b></h4>
+      <li>Tên công ty bao gồm hai thành tố “Loại hình công ty” và “tên riêng” cấu thành theo thứ tự sau: Loại hình công ty + Tên riêng.
+      </li>
+      <li>Ví dụ:
+        
+      <ol>- Tên tiếng Việt: CÔNG TY TNHH FAMILY HOME;</ol>
+      <ol> - Tên tiếng Anh: FAMILY HOME COMPANY LIMITED;</ol>
+      <ol> - Tên viết tắt: FAMILY HOME CO.,LTD.</ol>
+    
+      </li>
+      <h4><b>4 điều cấm trong đặt tên công ty</b></h4>
       <li>1.Tên riêng trùng với tên riêng của doanh nghiệp đã đăng ký.</li>
       <li>
         2. Tên riêng chỉ khác với tên riêng của doanh nghiệp cùng loại đã đăng ký:
@@ -83,22 +94,9 @@ const TenDoanhNghiep = forwardRef((props, ref) => {
         [styles.active]: props.current === props.index,
       })}
     >
-      <Form.Item label={htmlContent('<b>Thay đổi tên công ty thành</b>')}>
+      <Form.Item label={htmlContent('<b>THAY ĐỔI TÊN DOANH NGHIỆP THÀNH</b>')}>
         <Row>
-          <Col lg={12} md={12} sm={24} xs={24}>
-            <Collapse
-              bordered={false}
-              defaultActiveKey={[]}
-              expandIcon={({ isActive }) => <CaretRightOutlined rotate={isActive ? 90 : 0} />}
-              className="site-collapse-custom-collapse"
-              ghost
-            >
-              <Collapse.Panel header={popData.title} key="1" className="site-collapse-custom-panel">
-                {popData.content}
-              </Collapse.Panel>
-            </Collapse>
-          </Col>
-          <Col lg={12} md={12} sm={24} xs={24}>
+                <Col lg={12} md={12} sm={24} xs={24}>
             <Form.Item
               name={[...BASE_FORM, 'name_vi']}
               label="Tên công ty bằng Tiếng Việt"
@@ -138,6 +136,20 @@ const TenDoanhNghiep = forwardRef((props, ref) => {
               onChange={(e) => onSetFields([...BASE_FORM, 'name_etc'], e.target.value, ref, true)}
             />
           </Col>
+          <Col lg={12} md={12} sm={24} xs={24}>
+            <Collapse
+              bordered={false}
+              defaultActiveKey={[]}
+              expandIcon={({ isActive }) => <CaretRightOutlined rotate={isActive ? 90 : 0} />}
+              className="site-collapse-custom-collapse"
+              ghost
+            >
+              <Collapse.Panel header={popData.title} key="1" className="site-collapse-custom-panel">
+                {popData.content}
+              </Collapse.Panel>
+            </Collapse>
+          </Col>
+    
         </Row>
       </Form.Item>
     </Form.Item>
