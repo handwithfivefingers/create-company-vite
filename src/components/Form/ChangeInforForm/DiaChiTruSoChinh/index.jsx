@@ -20,11 +20,11 @@ const DiaChiTruSoChinh = forwardRef((props, ref) => {
         [styles.active]: props.current === props.index,
       })}
     >
-      <Form.Item label={htmlContent('<b>Địa chỉ trụ sở hiện tại</b>')}>
+      <Form.Item label={htmlContent('<b><u>ĐỊA CHỈ TRỤ SỞ HIỆN TẠI<u></b>')}>
         <CCSelect.SelectProvince ref={ref} label={'Địa chỉ trụ sở chính'} name={[...BASE_FORM, 'old']} placeholder="Địa chỉ trụ sở chính" />
       </Form.Item>
 
-      <Form.Item label={htmlContent('<b>Địa chỉ trụ sở sau khi thay đổi</b>')}>
+      <Form.Item label={htmlContent('<b><u>ĐỊA CHỈ TRỤ SỞ SAU KHI THAY ĐỔI</u></b>')}>
         <CCSelect.SelectProvince ref={ref} label={'Địa chỉ trụ sở chính'} name={[...BASE_FORM, 'new_location']} placeholder="Địa chỉ trụ sở chính" />
       </Form.Item>
     </Form.Item>

@@ -63,16 +63,16 @@ const DaiDienPhapLuat = forwardRef((props, ref) => {
   }
   return (
     <Form.Item
-      label={<h3>Đăng ký thay đổi người đại diện theo pháp luật</h3>}
+      label={<h3>Thay đổi người đại diện</h3>}
       className={clsx(styles.current, {
         [styles.active]: props.current === props.index,
       })}
     >
-      <Form.Item label={htmlContent('<b>Bỏ bớt hoặc thêm mới người đại diện</b>')}>
+      <Form.Item label={htmlContent('<b>BỎ BỚT HOẶC THÊM MỚI NGƯỜI ĐẠI DIỆN</b>')}>
         <Row gutter={[12, 12]}>
           <Col span={24}>
             <Button type="primary" onClick={() => handleIncludesOrExludesPeople()}>
-              Thêm mới
+              Thêm mới thông tin
             </Button>
           </Col>
           {listIncludesOrExclude && listIncludesOrExclude?.map((item, i) => <PeoppleWrapper {...props} BASE_FORM={BASE_FORM} ref={ref} i={i} />)}
@@ -81,7 +81,7 @@ const DaiDienPhapLuat = forwardRef((props, ref) => {
 
       <Divider />
 
-      <Form.Item label={htmlContent('<b>Danh sách người đại diện pháp luật sau khi thay đổi</b>')}>
+      <Form.Item label={htmlContent('<b>DANH SÁCH NGƯỜI ĐẠI DIỆN SAU KHI THAY ĐỔI</b>')}>
         <Button onClick={addNewLegal}>Thêm người đại diện</Button>
         <Row gutter={[12]}>
           {listLegal.map((item, i) => {
