@@ -70,7 +70,6 @@ const AdminSidebar = () => {
       let obj = {}
 
       if (item.submenu) {
- 
         return (obj.children = getOtherSidebar(item.submenu))
       }
       return (obj = {
@@ -79,7 +78,6 @@ const AdminSidebar = () => {
         icon: item?.icon || <PieChartOutlined />,
         key: item.path,
       })
-    
     })
 
     return result
@@ -111,10 +109,11 @@ const AdminSidebar = () => {
         onCollapse={onCollapse}
         collapsedWidth={50}
         reverseArrow={true}
+        breakpoint={'md'}
         trigger={<div className={styles.trigger}>{!collapse ? <CaretLeftOutlined /> : <CaretRightOutlined />}</div>}
       >
         <div className="logo" style={{ height: 65 }} />
-      
+
         <Menu items={ListMenu} theme="dark" defaultSelectedKeys={[current]} selectedKeys={[current]} mode="inline" />
       </Sider>
     </>

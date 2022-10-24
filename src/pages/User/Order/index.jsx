@@ -132,15 +132,7 @@ const UserOrder = () => {
         </Tag>
       )
     }
-    // if (record?.products) {
-    //   return record?.products.map((item) => {
-    //     return (
-    //       <Tag color="#108ee9" key={[Math.random(), Math.random().toFixed(Math.random() * 10), item?._id]}>
-    //         {item?.name}
-    //       </Tag>
-    //     )
-    //   })
-    // }
+
   }
 
   return (

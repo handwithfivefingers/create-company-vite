@@ -20,6 +20,9 @@ module.exports = {
     type: Number,
     required: true,
   },
+  desc: {
+    type: String,
+  },
   parentCategory: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Category',

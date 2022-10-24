@@ -15,7 +15,9 @@ const UserSidebar = (props) => {
   const { role } = useSelector((state) => state?.authReducer)
 
   let location = useLocation()
+  
   let navigate = useNavigate()
+
   const dispatch = useDispatch()
 
   const onCollapse = (type) => {

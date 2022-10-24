@@ -57,7 +57,6 @@ const NewCategory = (props) => {
     }
   }
 
-  console.log('category', category)
   return (
     <Card style={{ minWidth: '350px' }} title="Danh mục" bordered={false}>
       <Form
@@ -89,10 +88,13 @@ const NewCategory = (props) => {
           <InputNumber style={{ width: '100%' }} />
         </Form.Item>
 
-        <Form.Item name="price" label="Giá tiền">
-          <Input />
+        <Form.Item name={'price'} label="Giá tiền" placeholder="Giá tiền">
+          <InputNumber formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')} min={0} style={{ width: '100%' }} />
         </Form.Item>
 
+        <Form.Item name="desc" label="Mô tả">
+          <Input.TextArea rows={4} placeholder="Nội dung" showCount style={{ resize: 'none' }} />
+        </Form.Item>
         <Form.Item>
           <Space size="small" style={{ float: 'right' }}>
             <Button type="primary" htmlType="submit" loading={loading}>

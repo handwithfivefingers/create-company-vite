@@ -7,13 +7,14 @@ const { equals, default: mongoose } = require('mongoose')
 module.exports = class CategoryAdmin {
   createCategory = async (req, res) => {
     try {
-      let { name, parentCategory, type, price, slug } = req.body
+      let { name, parentCategory, type, price, desc } = req.body
       let cateObj = {
         name,
         price,
         slug: slugify(req.body.name),
         type,
-        parentCategory,
+        desc,
+        parentCategory: parentCategory || [],
       }
 
       const _cateObj = new Category(cateObj)
@@ -44,16 +45,7 @@ module.exports = class CategoryAdmin {
     try {
       let { _id } = req.params
 
-      let { name, type, price, parentCategory } = req.body
-
-      let _update = {
-        name,
-        type,
-        price,
-        parentCategory,
-      }
-
-      await Category.updateOne({ _id }, _update, { new: true })
+      await Category.updateOne({ _id }, { ...req.body }, { new: true })
 
       return successHandler('Updated successfully', res)
     } catch (error) {
