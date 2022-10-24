@@ -9,6 +9,8 @@ const COMMON_TEXT = {
 
   num: 'Vốn điều lệ (bằng số)',
   char: 'Vốn điều lệ (bằng chữ)',
+  
+  capital_percent: 'Chiếm % vốn điều lệ',
 
   legal_respon: 'Người đại diện pháp luật',
   total_capital: 'Tổng số vốn điều lệ',
