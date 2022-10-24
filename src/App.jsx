@@ -60,17 +60,22 @@ const RouterComponent = (props) => {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    let { pathname } = location
-
     if (route !== routeDetect) {
       setRoute(routeDetect)
     }
-
-    changeTitle(pathname)
-  }, [location])
+    changeTitle(routeDetect?.to)
+  }, [routeDetect])
 
   const changeTitle = (pathname) => {
-    let item = UserRouter.find((item) => item.path.includes(pathname) || (pathname.includes('/user/san-pham/') && item.path === '/user/san-pham/'))
+    let path = pathname.split('/').reverse()
+
+    let item
+    for (let i = 0; i <= path.length; i++) {
+      let currentPath = path[i]
+
+      item = UserRouter.find((route) => route.path.includes(currentPath))
+      if (item) break
+    }
     item && dispatch(CommonAction.titleChange(item.title))
   }
   // return Route
@@ -111,7 +116,7 @@ function App() {
             </BrowserRouter>
           </RouterProvider>
         </ConfigProvider>
-        <ReactQueryDevtools initialIsOpen={false} />
+        {/* <ReactQueryDevtools /> */}
       </QueryClientProvider>
     </div>
   )

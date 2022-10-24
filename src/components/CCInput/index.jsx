@@ -95,7 +95,14 @@ const InputPassword = (props) => {
 
   return (
     <Form.Item value={props?.value} name={props.name} label={props?.label || ' '} key={props?.key}>
-      <InputNumber onChange={props?.onChange} style={props.style} formatter={props?.formatter} placeholder={props?.placeholder} {...rest} autoComplete="off" />
+      <InputNumber
+        onChange={props?.onChange}
+        style={{ ...props.style, width: '100%' }}
+        formatter={props?.formatter}
+        placeholder={props?.placeholder}
+        {...rest}
+        autoComplete="off"
+      />
     </Form.Item>
   )
 }

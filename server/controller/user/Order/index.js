@@ -198,9 +198,11 @@ module.exports = class OrderUser {
       if (secureHash === signed) {
         //Kiem tra xem du lieu trong db co hop le hay khong va thong bao ket qua
         let code = vnp_Params['vnp_ResponseCode']
+        console.log(vnp_Params['vnp_OrderInfo']);
         const query = qs.stringify({
           code,
           text: ResponseCode[code],
+          orderId: vnp_Params['vnp_OrderInfo'],
         })
 
         if (code === '00') {

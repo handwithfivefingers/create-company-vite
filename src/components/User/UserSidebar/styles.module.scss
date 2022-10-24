@@ -1,9 +1,15 @@
 .trigger {
   bottom: 12px;
-  // background:#Fff;
-  // span {
-  //   svg {
-  //     color: var(--ant-primary-color);
-  //   }
-  // }
+  background-color: #fff !important;
+  border-radius: 4px;
+
+  span {
+    color: var(--dark);
+  }
+}
+
+.sidebar {
+  background-color: #fff !important;
+  background: #fff;
+  border-radius: 4px;
 }

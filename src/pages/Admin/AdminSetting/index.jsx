@@ -3,7 +3,7 @@ import CCInput from '@/components/CCInput'
 import { onSetFields } from '@/helper/Common'
 import AdminMailService from '@/service/AdminService/AdminMailService'
 import AdminSettingService from '@/service/AdminService/AdminSettingService'
-import { Button, Form, message, Tabs } from 'antd'
+import { Button, Form, message, Tabs, Row, Col } from 'antd'
 import React, { forwardRef, useEffect, useRef, useState } from 'react'
 import styles from './styles.module.scss'
 const { TabPane } = Tabs
@@ -12,12 +12,19 @@ const ChangePassword = forwardRef((props, ref) => {
   return (
     <Form onFinish={props?.passwordSubmit} ref={ref} layout="vertical">
       <Form.Item label={<h3>Đổi mật khẩu</h3>}>
-        <CCInput type="password" name="old_password" label="Mật khẩu hiện tại" placeholder="********" />
-        <CCInput type="password" name="new_password" label="Mật khẩu mới" placeholder="********" />
-        <CCInput type="password" name="confirm_password" label="Xác nhận mật khẩu mới" placeholder="********" />
+        <Row gutter={[12, 16]}>
+          <Col span={8}>
+            <CCInput type="password" name="old_password" label="Mật khẩu hiện tại" placeholder="********" />
+            <CCInput type="password" name="new_password" label="Mật khẩu mới" placeholder="********" />
+            <CCInput type="password" name="confirm_password" label="Xác nhận mật khẩu mới" placeholder="********" />
+          </Col>
+          <Col span={16}>
+            
+          </Col>
+        </Row>
 
         <Form.Item>
-          <Button htmlType="submit" loading={props?.loading}>
+          <Button htmlType="submit" loading={props?.loading} type="primary">
             Xác nhận
           </Button>
         </Form.Item>

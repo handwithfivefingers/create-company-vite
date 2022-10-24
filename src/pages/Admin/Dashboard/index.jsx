@@ -60,11 +60,8 @@ const AdminDashboard = () => {
           error,
         },
       ]
-      //   setData(_logs)
       dataRef.current = _logs
 
-      // setOutput(output.slice(0, 20))
-      console.log(output)
       outputRef.current = output.slice(0, 20)
     } catch (err) {
       console.log(err)
@@ -72,10 +69,7 @@ const AdminDashboard = () => {
   }
 
   const onScroll = (e, type) => {
-    if (
-      e.currentTarget.scrollHeight - e.currentTarget.scrollTop ===
-      containerHeight
-    ) {
+    if (e.currentTarget.scrollHeight - e.currentTarget.scrollTop === containerHeight) {
       if (type === 1) appendData()
       else if (type === 2) appendOutputData()
     }
@@ -95,9 +89,9 @@ const AdminDashboard = () => {
   }
 
   return (
-    <Row gutter={[16, 12]}>
+    <Row>
       <Col span={16}>
-        <Card title="Logs hệ thống">
+        <Card title="Logs hệ thống" className="box__shadow" >
           <Tabs
             defaultActiveKey="1"
             destroyInactiveTabPane
@@ -166,13 +160,7 @@ const AdminDashboard = () => {
             </TabPane>
             <TabPane tab="Hệ thống" key="2" value={2}>
               <List loading={isLoading}>
-                <VirtualList
-                  data={outputRef.current}
-                  height={containerHeight}
-                  itemHeight={50}
-                  itemKey="Hệ thống"
-                  onScroll={(e) => onScroll(e, 2)}
-                >
+                <VirtualList data={outputRef.current} height={containerHeight} itemHeight={50} itemKey="Hệ thống" onScroll={(e) => onScroll(e, 2)}>
                   {(item, i) => (
                     <List.Item key={i}>
                       <List.Item.Meta
@@ -213,13 +201,13 @@ const AdminDashboard = () => {
           </Tabs>
         </Card>
       </Col>
-      <Col span={8}>
-        <Row gutter={[16, 12]}>
+      <Col span={8} style={{ paddingLeft: 12 }}>
+        <Row gutter={[0, 12]}>
           <Col span={24}>
-            <Card title="Đơn hàng đã thanh toán"></Card>
+            <Card className="box__shadow" title="Đơn hàng đã thanh toán"></Card>
           </Col>
           <Col span={24}>
-            <Card title="Đơn hàng vừa tạo"></Card>
+            <Card className="box__shadow"  title="Đơn hàng vừa tạo"></Card>
           </Col>
         </Row>
       </Col>
