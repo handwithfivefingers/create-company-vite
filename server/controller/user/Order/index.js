@@ -2,7 +2,7 @@ const shortid = require('shortid')
 const qs = require('query-string')
 const crypto = require('crypto')
 const { errHandler, successHandler, permisHandler, existHandler } = require('@response')
-const { Product, Order, Category } = require('@model')
+const { Order, Category, Setting } = require('@model')
 
 const { ResponseCode } = require('@common/ResponseCode')
 const { getListFiles } = require('@constant/File')
@@ -193,7 +193,7 @@ module.exports = class OrderUser {
 
       var signed = hmac.update(new Buffer.from(signData, 'utf-8')).digest('hex')
 
-      let url = process.env.NODE_ENV === 'development' ? `http://localhost:3003/user/result?` : `https://app.thanhlapcongtyonline.vn/user/result?`
+      const url = process.env.NODE_ENV === 'development' ? `http://localhost:3003/user/result?` : `https://app.thanhlapcongtyonline.vn/user/result?`
 
       if (secureHash === signed) {
         //Kiem tra xem du lieu trong db co hop le hay khong va thong bao ket qua
