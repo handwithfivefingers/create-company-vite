@@ -39,6 +39,7 @@ const UserProductPage = (props) => {
             <CardCategory
               key={item._id}
               data={item}
+              loading={isLoading}
               className="animate__animated animate__fadeInUp animate__faster"
               customStyles={{
                 ['--animate-duration']: `${(index + 2) / 10}s`,

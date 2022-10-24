@@ -6,6 +6,7 @@ import { useFetch } from '../../../../helper/Hook'
 import React, { useEffect, useState } from 'react'
 import { forwardRef } from 'react'
 import { useImperativeHandle } from 'react'
+import { number_format } from '../../../../helper/Common'
 
 const CategoryTab = forwardRef((props, ref) => {
   const [cateData, setCateData] = useState([])
@@ -103,7 +104,13 @@ const CategoryTab = forwardRef((props, ref) => {
         rowKey={(record) => record._id}
       >
         <Table.Column title="Danh mục" render={(val, record, index) => record.name} />
-        <Table.Column title="Giá" width={'25%'} render={(val, record, index) => record.price} />
+        <Table.Column
+          title="Giá"
+          width={'25%'}
+          render={(val, record, index) => {
+            return `${number_format(record.price)} VND`
+          }}
+        />
         <Table.Column title="Loại" width="100px" render={(val, record, index) => record.type} />
         <Table.Column
           title=""

@@ -70,7 +70,7 @@ const ProductsTab = forwardRef((props, ref) => {
     try {
       let res = await AdminProductService.deleteProduct(record)
 
-      if (res.data.status === 200) {
+      if (res.status === 200) {
         message.success(res.data.message)
       }
     } catch (err) {
