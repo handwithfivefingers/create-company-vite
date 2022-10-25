@@ -10,13 +10,12 @@ import { memo } from 'react'
 
 const localUrl = `${import.meta.env.VITE_BASEHOST_DEV}/public`
 
-const BASE_URL = import.meta.env.NODE_ENV === 'development' ? localUrl : '/public'
+const BASE_URL = import.meta.env.MODE === 'development' ? localUrl : '/public'
 
 const PDFViewer = (props) => {
   const [initialDoc, setInitialDoc] = useState(null)
 
   const refViewer = useRef()
-
   useEffect(() => {
     return () => {
       let instance = getInstance()
@@ -152,7 +151,7 @@ const PDFViewer = (props) => {
         }
       }
     } catch (err) {
-      console.error('Error rendering PDF', err);
+      console.error('Error rendering PDF', err)
     }
   }
 
@@ -199,7 +198,6 @@ const PDFViewer = (props) => {
       insRef.UI.loadDocument(initialDoc)
     }
   }
-
 
   return <div className="webviewer" ref={refViewer} style={{ height: 'calc(100vh - 100px)' }} />
 }
