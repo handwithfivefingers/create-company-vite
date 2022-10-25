@@ -1,18 +1,24 @@
 import { Card, Col, Row, Tabs } from 'antd'
 import React from 'react'
-import { m } from 'framer-motion'
 import styles from './styles.module.scss'
 import clsx from 'clsx'
-
+import { useNavigate, useLocation } from 'react-router-dom'
+import { useEffect } from 'react'
 
 const UserDashboard = () => {
- 
+  const navigate = useNavigate()
+  const location = useLocation()
+
+  useEffect(() => {
+    navigate('/user/san-pham')
+  }, [location])
+
   return (
-    <m.div initial={{ opacity: 0 }} exit={{ opacity: 0 }} animate={{ opacity: 1 }}>
+    <div>
       <Row gutter={[0, 12]}>
         <Col span={24}></Col>
       </Row>
-    </m.div>
+    </div>
   )
 }
 

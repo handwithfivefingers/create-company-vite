@@ -3,8 +3,8 @@ import Tracking from '@/components/Tracking'
 import axios from '@/config/axios'
 import { makeid, number_format } from '@/helper/Common'
 import AdminOrderService from '@/service/AdminService/AdminOrderService'
-import { DeleteOutlined, FormOutlined, SearchOutlined, CloseOutlined } from '@ant-design/icons'
-import { Button, Form, Input, message, Modal, Popconfirm, Space, Table, Tag, Tooltip } from 'antd'
+import { DeleteOutlined, FormOutlined, SearchOutlined, EyeOutlined } from '@ant-design/icons'
+import { Button, Form, Input, message, Modal, Popconfirm, Space, Table, Tag, Tooltip, Row } from 'antd'
 import moment from 'moment'
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
@@ -46,7 +46,10 @@ const AdminOrder = () => {
       setOrderData((state) => {
         let { _order } = data
 
-        let sliceData = _order?.slice((current - 1) * pagiConfigs.pageSize, (current - 1) * pagiConfigs.pageSize + pagiConfigs.pageSize)
+        let sliceData = _order?.slice(
+          (current - 1) * pagiConfigs.pageSize,
+          (current - 1) * pagiConfigs.pageSize + pagiConfigs.pageSize,
+        )
         return sliceData
       })
     }
@@ -121,17 +124,22 @@ const AdminOrder = () => {
 
     xhtml = (
       <Space>
-        <Button type="primary">
-          <Link to={`/admin/order/${record?._id}`}>
-            <FormOutlined />
-          </Link>
-        </Button>
-        <Button type="primary" onClick={() => handleEditRecord(record)}>
-          {/* <Link to={`/product/order/${record?._id}`}> */}
-          <FormOutlined />
-          {/* </Link> */}
-        </Button>
-        <Popconfirm placement="topRight" title={'Bạn có muốn xoá ?'} onConfirm={() => handleDeleteOrder(record._id)} okText="Yes" cancelText="No">
+        <Button
+          type="primary"
+          icon={
+            <Link to={`/admin/order/${record?._id}`}>
+              <EyeOutlined />
+            </Link>
+          }
+        />
+        <Button type="primary" onClick={() => handleEditRecord(record)} icon={<FormOutlined />} />
+        <Popconfirm
+          placement="topRight"
+          title={'Bạn có muốn xoá ?'}
+          onConfirm={() => handleDeleteOrder(record._id)}
+          okText="Yes"
+          cancelText="No"
+        >
           <Button icon={<DeleteOutlined />} />
         </Popconfirm>
       </Space>
@@ -247,31 +255,19 @@ const AdminOrder = () => {
   })
 
   const renderService = (val, record, i) => {
-    if (record?.data?.create_company) {
-      return (
-        <Tag color="#108ee9" key={makeid(9)}>
-          Thành lập doanh nghiệp
-        </Tag>
-      )
-    } else if (record?.data?.change_info) {
-      return (
-        <Tag color="#108ee9" key={makeid(9)}>
-          Thay đổi thông tin
-        </Tag>
-      )
-    } else if (record?.data?.pending) {
-      return (
-        <Tag color="#108ee9" key={makeid(9)}>
-          Tạm hoãn
-        </Tag>
-      )
-    } else if (record?.data?.dissolution) {
-      return (
-        <Tag color="#108ee9" key={makeid(9)}>
-          Giải thể
-        </Tag>
+    let html = []
+    if (record?.products) {
+      html = (
+        <Row gutter={[12, 4]}>
+          {record.products.map((item) => (
+            <Tag color="#108ee9" key={makeid(9)}>
+              {item.name}
+            </Tag>
+          ))}
+        </Row>
       )
     }
+    return html
   }
   return (
     <>
@@ -290,12 +286,13 @@ const AdminOrder = () => {
           pagination={false}
           rowKey={(record) => record._id || makeid(9)}
           scroll={{ x: 1350 }}
-          // sticky={{
-          //   offsetScroll: 8,
-          //   offsetHeader: -8,
-          // }}
         >
-          <Table.Column title="Đơn hàng" width={210} render={(val, record, i) => record?._id} {...getColumnSearchProps(['_id'])} />
+          <Table.Column
+            title="Đơn hàng"
+            width={210}
+            render={(val, record, i) => record?._id}
+            {...getColumnSearchProps(['_id'])}
+          />
           <Table.Column
             className={styles.inline}
             title="Người đăng kí"
@@ -305,7 +302,12 @@ const AdminOrder = () => {
           />
           <Table.Column title="Sản phẩm" render={renderProduct} />
           <Table.Column title="Dịch vụ" width={210} render={renderService} />
-          <Table.Column className={styles.inline} title="Giá tiền" width="175px" render={(val, record, i) => <>{number_format(record?.price)} VND</>} />
+          <Table.Column
+            className={styles.inline}
+            title="Giá tiền"
+            width="175px"
+            render={(val, record, i) => <>{number_format(record?.price)} VND</>}
+          />
           {/* <Table.Column title="Tiến độ" width={75} render={(val, record, i) => renderProgress(record)} /> */}
           <Table.Column title="Thanh toán" width={150} render={(val, record, i) => renderTag(record)} />
           <Table.Column title="Ngày tạo" width={150} render={(val, record, i) => renderDate(record)} />

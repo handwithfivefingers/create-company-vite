@@ -61,8 +61,13 @@ const UserSidebar = (props) => {
       >
         <div className="logo" style={{ height: 64 }} />
         <Menu theme="light" mode="inline" defaultSelectedKeys={[current]} selectedKeys={[current]}>
-          <Menu.Item key={'/'} icon={<PieChartOutlined />}>
-            <Link to={`/${role}`}>Trang chủ</Link>
+          <Menu.Item
+            key={'/'}
+            icon={<PieChartOutlined />}
+            onClick={() => window.open('https://thanhlapcongtyonline.vn/', '_blank')}
+          >
+            {/* <Link to={`/${role}`}>Trang chủ</Link> */}
+            <a>Trang chủ</a>   
           </Menu.Item>
 
           {renderSidebar(UserRouter)}

@@ -2,46 +2,43 @@ import React, { forwardRef, Suspense, lazy } from 'react'
 import { Card, Space, Spin, Button } from 'antd'
 import { useCallback } from 'react'
 import { useLocation } from 'react-router-dom'
-// import PreviewData from '../../../../../components/Form/PreviewData'
 
-const ChangeInforForm = lazy(() => {
-  return import('@/components/Form/ChangeInforForm')
-})
+const ChangeInforForm = lazy(() => import('@/components/Form/ChangeInforForm'))
 
-const PreviewData = lazy(() => {
-  return import('@/components/Form/PreviewData')
-})
+const PreviewData = lazy(() => import('@/components/Form/PreviewData'))
 
 const ChangeInfoPages = forwardRef((props, ref) => {
   const location = useLocation()
-  const { saveService, paymentService, data, step, loading, onFinishScreen, Prev, Next, changeInforStep, editData } = props
+
+  const { saveService, paymentService, data, step, loading, onFinishScreen, Prev, Next, changeInforStep, editData } =
+    props
+  const getParams = (ref) => {
+    let value = ref.current.getFieldsValue()
+    const params = {
+      data: {
+        ...value,
+      },
+    }
+    if (location.state?._id) {
+      params._id = location.state._id
+    }
+    return params
+  }
 
   const handleSaveChangeInfo = useCallback(
     (ref) => {
-      let value = ref.current.getFieldsValue()
-      const params = {
-        track: {
-          step: 1,
-          status: 'progress',
-        },
-        payment: 0,
-        data: {
-          ...value,
-        },
-      }
-      if (location.state?._id) {
-        params._id = location.state._id
-      }
+      const params = getParams(ref)
+
       return saveService(params)
     },
     [data],
   )
 
-  const handlePurchaseChangeInfo = useCallback(
+  const handlePayment = useCallback(
     (ref) => {
       const params = getParams(ref)
 
-      return paymentService(params)
+      return paymentService(params, ref)
     },
     [data],
   )
@@ -58,15 +55,9 @@ const ChangeInfoPages = forwardRef((props, ref) => {
         }
       >
         <ChangeInforForm data={data} ref={ref} current={step} onFinishScreen={onFinishScreen} edit={editData} />
-        {step === changeInforStep?.length - 1 && (
-          <PreviewData
-            key={['preview', 'change_info']}
-            ref={ref}
-            onFinishScreen={() => {
-              closeModal()
-            }}
-          />
-        )}
+
+        {step === changeInforStep?.length - 1 && <PreviewData key={['preview', 'change_info']} ref={ref} />}
+
         <div className={'card-boxShadow flex flex__spacing-4'} style={{ position: 'sticky', bottom: 0 }}>
           {step > 0 && (
             <>
@@ -88,7 +79,7 @@ const ChangeInfoPages = forwardRef((props, ref) => {
 
           {step === changeInforStep?.length - 1 && (
             <>
-              <Button loading={loading} onClick={() => handlePurchaseChangeInfo(ref)} type="primary">
+              <Button loading={loading} onClick={() => handlePayment(ref)} type="primary">
                 Thanh toán
               </Button>
             </>

@@ -2,17 +2,14 @@ import React, { forwardRef, Suspense, lazy, useCallback } from 'react'
 import { Card, Space, Spin, Button } from 'antd'
 import CreateCompany from '@/components/Form/CreateCompany'
 import { useLocation } from 'react-router-dom'
-// const CreateCompany = lazy(() => {
-//   return import('@/components/Form/CreateCompany')
-// })
-const PreviewData = lazy(() => {
-  return import('@/components/Form/PreviewData')
-})
+
+const PreviewData = lazy(() => import('@/components/Form/PreviewData'))
 
 const CreateCompanyPages = forwardRef((props, ref) => {
-  const { setStep, saveService, handlePurchaseCreateCompany, data, step, loading, onFinishScreen, Prev, Next } = props
+  const { setStep, saveService, paymentService, data, step, loading, onFinishScreen, Prev, Next } = props
   const location = useLocation()
-  const saveCreateCompany = useCallback(
+
+  const getParams = useCallback(
     (ref) => {
       let value = ref.current.getFieldsValue()
       const params = {
@@ -23,7 +20,22 @@ const CreateCompanyPages = forwardRef((props, ref) => {
       if (location.state?._id) {
         params._id = location.state._id
       }
+      return params
+    },
+    [data],
+  )
+
+  const saveCreateCompany = useCallback(
+    (ref) => {
+      const params = getParams(ref)
       return saveService(params)
+    },
+    [data],
+  )
+  const handlePayment = useCallback(
+    (ref) => {
+      const params = getParams(ref)
+      return paymentService(params, ref)
     },
     [data],
   )
@@ -41,46 +53,36 @@ const CreateCompanyPages = forwardRef((props, ref) => {
       >
         <CreateCompany data={data} ref={ref} onFinishScreen={onFinishScreen} step={step} setStep={setStep} />
 
-        {/* {step === 7 ? renderPrewviewForm(ref) : ''} */}
-        {step === 7 && (
-          <PreviewData
-            key={['preview', 'create_company']}
-            ref={ref}
-            onFinishScreen={() => {
-              closeModal()
-            }}
-          />
-        )}
+        {step === 7 && <PreviewData key={['preview', 'create_company']} ref={ref} />}
 
         <div className={'card-boxShadow flex flex__spacing-4'} style={{ position: 'sticky', bottom: 0 }}>
-          {step > 0 ? (
+          {step > 0 && (
             <>
               <Button onClick={Prev} type="dashed">
                 Quay lại
-              </Button>{' '}
-              <Button loading={loading} onClick={() => saveCreateCompany(ref)}>
-                Lưu lại
               </Button>
+              {/* <Button loading={loading} onClick={() => saveCreateCompany(ref)}>
+                Lưu lại
+              </Button> */}
             </>
-          ) : (
-            ''
           )}
-
-          {step < 7 ? (
+          <Button loading={loading} onClick={() => saveCreateCompany(ref)}>
+            Lưu lại
+          </Button>
+          {step < 7 && (
             <Button onClick={Next} type="primary">
               Tiếp tục
             </Button>
-          ) : (
-            ''
           )}
 
-          {step === 7 && (
-            <>
-              <Button loading={loading} onClick={() => handlePurchaseCreateCompany(ref)} type="primary">
-                Thanh toán
-              </Button>
-            </>
-          )}
+          {/* {step === 7 && (
+            <Button loading={loading} onClick={() => handlePayment(ref)} type="primary">
+              Thanh toán
+            </Button>
+          )} */}
+          <Button loading={loading} onClick={() => handlePayment(ref)} type="primary">
+            Thanh toán
+          </Button>
         </div>
       </Suspense>
     </Card>

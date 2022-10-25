@@ -1,6 +1,13 @@
 import React, { Suspense, lazy } from 'react'
 import { Layout, Spin } from 'antd'
-import { RiBankLine, RiBarChartFill, RiChatPollLine, RiAdminFill, RiBriefcase4Fill, RiMailSettingsFill } from 'react-icons/ri'
+import {
+  RiBankLine,
+  RiBarChartFill,
+  RiChatPollLine,
+  RiAdminFill,
+  RiBriefcase4Fill,
+  RiMailSettingsFill,
+} from 'react-icons/ri'
 import { BiHomeAlt } from 'react-icons/bi'
 import { FcInfo } from 'react-icons/fc'
 import { Navigate } from 'react-router-dom'
@@ -73,11 +80,11 @@ export const AdminRouter = [
 ]
 
 export const UserRouter = [
-  {
-    path: '/user',
-    title: 'Dashboard',
-    icon: <RiBankLine />,
-  },
+  // {
+  //   path: '/user',
+  //   title: 'Dashboard',
+  //   icon: <RiBankLine />,
+  // },
   {
     path: '/user/san-pham',
     title: 'Sản phẩm',
@@ -185,11 +192,11 @@ export const LAYOUT_ROUTER = ({ status, role }) => [
     element: <User status={status} />,
     children: status ? (
       [
-        {
-          index: true,
-          icon: <RiBarChartFill />,
-          element: <UserDashboard />,
-        },
+        // {
+        //   index: true,
+        //   icon: <RiBarChartFill />,
+        //   element: <UserDashboard />,
+        // },
         {
           path: 'san-pham',
           title: 'Sản phẩm',
