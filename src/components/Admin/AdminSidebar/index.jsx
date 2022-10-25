@@ -90,7 +90,7 @@ const AdminSidebar = () => {
       icon: <PieChartOutlined />,
     },
     {
-      label: <Link to={'/user'}>End User</Link>,
+      label: <Link to={'/user/san-pham'}>End User</Link>,
       key: '/end-user',
       icon: <TeamOutlined />,
     },

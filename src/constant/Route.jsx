@@ -176,7 +176,6 @@ export const LAYOUT_ROUTER = ({ status, role }) => [
             icon: <FcInfo />,
             element: <AdminAbout />,
           },
-
           {
             path: '*',
             element: <Error />,

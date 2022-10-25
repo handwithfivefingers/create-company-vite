@@ -70,7 +70,8 @@ export default function LoginPage() {
     if (type !== 'POP') {
       navigate(-1)
     } else {
-      navigate(authReducer.role)
+      
+      navigate(authReducer.role !== 'admin' ? 'user/san-pham' : authReducer.role)
     }
   }
 
