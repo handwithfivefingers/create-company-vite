@@ -6,24 +6,16 @@ import ReactDOMServer from 'react-dom/server'
 import { RiPlayList2Fill } from 'react-icons/ri'
 import { BiDownload } from 'react-icons/bi'
 import { useParams } from 'react-router-dom'
+import { memo } from 'react'
 
-const BASE_URL = import.meta.env.NODE_ENV === 'production' ? '/public' : 'http://localhost:3001/public'
+const localUrl = `${import.meta.env.VITE_BASEHOST_DEV}/public`
+
+const BASE_URL = import.meta.env.MODE === 'development' ? localUrl : '/public'
 
 const PDFViewer = (props) => {
-  const [visible, setVisible] = useState(false)
-
   const [initialDoc, setInitialDoc] = useState(null)
 
-  const [filePath, setFilePath] = useState('')
-
-  const [childModal, setChildModal] = useState({
-    visible: false,
-    component: null,
-    width: 0,
-  })
-
   const refViewer = useRef()
-
   useEffect(() => {
     return () => {
       let instance = getInstance()
@@ -114,8 +106,6 @@ const PDFViewer = (props) => {
   }
 
   const renderPDF = async (ref, initialDoc = null, listDoc = null) => {
-    // console.log('renderPDF');
-    // console.log(props);
     try {
       let files = props.data.files
 
@@ -132,9 +122,6 @@ const PDFViewer = (props) => {
         let instance = await WebViewer(params, ref.current)
 
         if (instance) {
-          // insRef.current = instance; // Set ins to handle when re-render
-          //Add new Button
-          // console.log(files);
           const { documentViewer, annotationManager, PDFNet } = instance.Core
 
           createButton({
@@ -164,7 +151,7 @@ const PDFViewer = (props) => {
         }
       }
     } catch (err) {
-      // console.error('Error rendering PDF', err);
+      console.error('Error rendering PDF', err)
     }
   }
 
@@ -211,9 +198,8 @@ const PDFViewer = (props) => {
       insRef.UI.loadDocument(initialDoc)
     }
   }
-  // console.log('viewer', props?.data?.files);
 
   return <div className="webviewer" ref={refViewer} style={{ height: 'calc(100vh - 100px)' }} />
 }
 
-export default PDFViewer
+export default memo(PDFViewer)
