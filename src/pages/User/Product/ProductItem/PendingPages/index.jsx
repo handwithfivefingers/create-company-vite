@@ -3,7 +3,6 @@ import { Card, Space, Spin, Button } from 'antd'
 import { useLocation } from 'react-router-dom'
 
 const TamHoanForm = lazy(() => {
-  // console.log('lazy TamHoanForm')
   return import('@/components/Form/PendingForm')
 })
 
@@ -11,7 +10,7 @@ const PreviewData = lazy(() => {
   return import('@/components/Form/PreviewData')
 })
 const PendingPages = forwardRef((props, ref) => {
-  const { data, loading, Prev, Next, saveService, handlePurchasePending, step } = props
+  const { data, loading, Prev, Next, saveService, paymentService, step } = props
   const location = useLocation()
 
   const handleSavePending = useCallback(
@@ -26,6 +25,22 @@ const PendingPages = forwardRef((props, ref) => {
         params._id = location.state._id
       }
       return saveService(params)
+    },
+    [data],
+  )
+
+  const handlePurchasePending = useCallback(
+    (ref) => {
+      let value = ref.current.getFieldsValue()
+      const params = {
+        data: {
+          ...value,
+        },
+      }
+      if (location.state?._id) {
+        params._id = location.state._id
+      }
+      return paymentService(params, ref)
     },
     [data],
   )

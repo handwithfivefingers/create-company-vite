@@ -4,7 +4,7 @@ import React, { forwardRef } from 'react'
 import CCInput from '@/components/CCInput'
 import { SELECT } from '@/constant/Common'
 import styles from '../CreateCompany.module.scss'
-import onSetFields from '@/helper/Commmon';
+import onSetFields from '@/helper/Commmon'
 const ChuTichHoiDongThanhVien = forwardRef((props, ref) => {
   const { BASE_FORM, current } = props
 
@@ -12,8 +12,7 @@ const ChuTichHoiDongThanhVien = forwardRef((props, ref) => {
     let { create_company } = ref.current.getFieldsValue()
     let { origin_person } = create_company.approve
     if (origin_person) {
-      let { name, gender, birth_day, per_type, reg_address, current_address } =
-        origin_person
+      let { name, gender, birth_day, per_type, reg_address, current_address } = origin_person
 
       ref.current.setFieldsValue({
         ...create_company,
@@ -73,10 +72,7 @@ const ChuTichHoiDongThanhVien = forwardRef((props, ref) => {
         </div>
         <Row gutter={[16, 12]}>
           <Col span={24}>
-            <CCInput
-              name={[...BASE_FORM, 'per_main', 'name']}
-              label="Họ và tên"
-            />
+            <CCInput name={[...BASE_FORM, 'per_main', 'name']} label="Họ và tên" />
           </Col>
           <Col lg={12} md={12} sm={24} xs={24}>
             <CCInput
@@ -95,10 +91,7 @@ const ChuTichHoiDongThanhVien = forwardRef((props, ref) => {
             />
           </Col>
           <Col lg={12} md={12} sm={24} xs={24}>
-            <CCInput
-              name={[...BASE_FORM, 'per_main', 'per_type']}
-              label="Dân tộc"
-            />
+            <CCInput name={[...BASE_FORM, 'per_main', 'per_type']} label="Dân tộc" />
           </Col>
 
           <Col lg={12} md={12} sm={24} xs={24}>
@@ -110,10 +103,7 @@ const ChuTichHoiDongThanhVien = forwardRef((props, ref) => {
             />
           </Col>
           <Col lg={12} md={12} sm={24} xs={24}>
-            <CCInput
-              name={[...BASE_FORM, 'per_main', 'doc_code']}
-              label="Số giấy tờ pháp lý"
-            />
+            <CCInput name={[...BASE_FORM, 'per_main', 'doc_code']} label="Số giấy tờ pháp lý" />
           </Col>
 
           <Col lg={12} md={12} sm={24} xs={24}>
@@ -126,23 +116,14 @@ const ChuTichHoiDongThanhVien = forwardRef((props, ref) => {
           </Col>
 
           <Col lg={12} md={12} sm={24} xs={24}>
-            <CCInput
-              name={[...BASE_FORM, 'per_main', 'doc_place_provide']}
-              label="Nơi cấp"
-            />
+            <CCInput name={[...BASE_FORM, 'per_main', 'doc_place_provide']} label="Nơi cấp" />
           </Col>
 
           <Col lg={12} md={12} sm={24} xs={24}>
-            <CCInput
-              name={[...BASE_FORM, 'per_main', 'reg_address']}
-              label="Nơi đăng kí hộ khẩu thường trú"
-            />
+            <CCInput name={[...BASE_FORM, 'per_main', 'reg_address']} label="Nơi đăng kí hộ khẩu thường trú" />
           </Col>
           <Col lg={12} md={12} sm={24} xs={24}>
-            <CCInput
-              name={[...BASE_FORM, 'per_main', 'current_address']}
-              label="Chỗ ở hiện tại"
-            />
+            <CCInput name={[...BASE_FORM, 'per_main', 'current_address']} label="Chỗ ở hiện tại" />
           </Col>
         </Row>
       </Form.Item>

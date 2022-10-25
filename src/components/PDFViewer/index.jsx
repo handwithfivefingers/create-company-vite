@@ -24,14 +24,10 @@ const PDFViewer = (props) => {
 
   const refViewer = useRef()
 
-  // const insRef = useRef();
-  // const listfiles = props?.data?.files;
-
   useEffect(() => {
     return () => {
       let instance = getInstance()
       if (instance) {
-        // console.log(instance);
         instance?.dispose()
       }
     }
@@ -46,6 +42,7 @@ const PDFViewer = (props) => {
   const handleCheckFile = async (files) => {
     Modal.confirm({
       closable: true,
+      icon: '',
       content: (
         <Radio.Group buttonStyle="solid" style={{ width: '100%' }}>
           <List
@@ -60,8 +57,6 @@ const PDFViewer = (props) => {
                 }}
               >
                 <List.Item.Meta
-                  // avatar={<Avatar src={item.avatar} />}
-                  // title={<a href={item.href}>{item.title}</a>}
                   description={
                     <Radio.Button value={item.path} className="inline">
                       [Files] {item.name}
@@ -78,7 +73,16 @@ const PDFViewer = (props) => {
   }
 
   const handlePluginPDFTron = (instance) => {
-    const { setHeaderItems, enableElements, disableElements, enableFeatures, disableFeatures, setTheme, Feature, Theme } = instance.UI
+    const {
+      setHeaderItems,
+      enableElements,
+      disableElements,
+      enableFeatures,
+      disableFeatures,
+      setTheme,
+      Feature,
+      Theme,
+    } = instance.UI
 
     if (NodeList && !NodeList.prototype.forEach) {
       NodeList.prototype.forEach = Array.prototype.forEach
@@ -132,39 +136,14 @@ const PDFViewer = (props) => {
           //Add new Button
           // console.log(files);
           const { documentViewer, annotationManager, PDFNet } = instance.Core
-          const newButton = [
-            {
-              type: 'actionButton',
-              toolName: 'actionButton',
-              dataElement: 'actionButton',
-              className: 'list-btn',
-              hidden: ['mobile'],
-              onClick: () => handleCheckFile(files),
-            },
-            {
-              type: 'actionButton',
-              toolName: 'actionButton',
-              dataElement: 'actionButton',
-              className: 'list-btn',
-              hidden: ['mobile'],
-              onClick: () => handleDownloadfile(documentViewer, annotationManager),
-            },
-          ]
 
-          instance.setHeaderItems(function (header) {
-            let currentHeader = header.headers[header.headerGroup]
-            header.update([...currentHeader, ...newButton])
+          createButton({
+            instance,
+            documentViewer,
+            annotationManager,
+            files,
           })
 
-          const iframeDoc = instance.UI.iframeWindow.document
-          const btn = iframeDoc.querySelectorAll('.list-btn')
-          btn.forEach((item, i) => {
-            if (i === 1) {
-              item.innerHTML = ReactDOMServer.renderToString(<BiDownload style={{ fontSize: '16px' }} />)
-            } else {
-              item.innerHTML = ReactDOMServer.renderToString(<RiPlayList2Fill style={{ fontSize: '16px' }} />)
-            }
-          })
           documentViewer.addEventListener('documentLoaded', async () => {
             // await PDFNet.initialize();
             // const doc = documentViewer.getDocument();
@@ -187,6 +166,44 @@ const PDFViewer = (props) => {
     } catch (err) {
       // console.error('Error rendering PDF', err);
     }
+  }
+
+  const createButton = ({ documentViewer, annotationManager, instance, files }) => {
+    const newButton = [
+      {
+        type: 'actionButton',
+        toolName: 'actionButton',
+        dataElement: 'actionButton',
+        className: 'list-btn',
+        hidden: ['mobile'],
+        onClick: () => handleCheckFile(files),
+      },
+      {
+        type: 'actionButton',
+        toolName: 'actionButton',
+        dataElement: 'actionButton',
+        className: 'list-btn',
+        hidden: ['mobile'],
+        onClick: () => handleDownloadfile(documentViewer, annotationManager),
+      },
+    ]
+
+    instance.setHeaderItems(function (header) {
+      let currentHeader = header.headers[header.headerGroup]
+      header.update([...currentHeader, ...newButton])
+    })
+
+    const iframeDoc = instance.UI.iframeWindow.document
+
+    const btn = iframeDoc.querySelectorAll('.list-btn')
+
+    btn.forEach((item, i) => {
+      if (i === 1) {
+        item.innerHTML = ReactDOMServer.renderToString(<BiDownload style={{ fontSize: '16px' }} />)
+      } else {
+        item.innerHTML = ReactDOMServer.renderToString(<RiPlayList2Fill style={{ fontSize: '16px' }} />)
+      }
+    })
   }
   const updateFiles = () => {
     const insRef = getInstance()

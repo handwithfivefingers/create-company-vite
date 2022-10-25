@@ -2,17 +2,12 @@ import React, { forwardRef, Suspense, lazy, useCallback } from 'react'
 import { Card, Space, Spin, Button } from 'antd'
 import { useLocation } from 'react-router-dom'
 
-const Dissolution = lazy(() => {
-  // console.log('lazy CreateCompany')
-  return import('@/components/Form/Dissolution')
-})
-const PreviewData = lazy(() => {
-  return import('@/components/Form/PreviewData')
-})
-const DissolutionPages = forwardRef((props, ref) => {
-  const { saveService, handlePurchaseDissolution, data, step, loading, Prev, Next } = props
+const Dissolution = lazy(() => import('@/components/Form/Dissolution'))
 
-  const location = useLocation()
+const PreviewData = lazy(() => import('@/components/Form/PreviewData'))
+
+const DissolutionPages = forwardRef((props, ref) => {
+  const { saveService, paymentService, data, step, loading, Prev, Next } = props
 
   const handleSaveDissolution = useCallback(
     (ref) => {
@@ -29,6 +24,22 @@ const DissolutionPages = forwardRef((props, ref) => {
     },
     [data],
   )
+
+  const handlePurchaseDissolution = useCallback(
+    (ref) => {
+      let value = ref.current.getFieldsValue()
+      const params = {
+        data: {
+          ...value,
+        },
+      }
+      if (location.state?._id) {
+        params._id = location.state._id
+      }
+      return paymentService(params, ref)
+    },
+    [data],
+  )
   return (
     <Card className="card-boxShadow">
       <Suspense
@@ -40,25 +51,16 @@ const DissolutionPages = forwardRef((props, ref) => {
           </div>
         }
       >
-
         <Dissolution data={data} ref={ref} current={step} />
 
-        {step === 2 && (
-          <PreviewData
-            key={['preview', 'dissolution']}
-            ref={ref}
-            onFinishScreen={() => {
-              closeModal()
-            }}
-          />
-        )}
-        
+        {step === 2 && <PreviewData key={['preview', 'dissolution']} ref={ref} />}
+
         <div className={'card-boxShadow flex flex__spacing-4'} style={{ position: 'sticky', bottom: 0 }}>
           {step > 0 && (
             <>
               <Button onClick={Prev} type="dashed">
                 Quay lại
-              </Button>{' '}
+              </Button>
               <Button loading={loading} onClick={() => handleSaveDissolution(ref)}>
                 Lưu lại
               </Button>

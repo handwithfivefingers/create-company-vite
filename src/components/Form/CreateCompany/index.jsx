@@ -5,6 +5,7 @@ import { onSetFields } from '@/helper/Common'
 import styles from './CreateCompany.module.scss'
 import { useLocation } from 'react-router-dom'
 import moment from 'moment'
+import { VALIDATE_MESSAGE } from '@/constant/InputValidate'
 const DiaChiTruSoChinh = lazy(() => {
   return import(`./DiaChiTruSoChinh`).then(({ default: Component }) => {
     return {
@@ -176,23 +177,12 @@ const CreateCompany = forwardRef((props, formRef) => {
 
     html = listForm.map((Component) => <Component {...configs} />)
 
-    // html = (
-    //   <>
-    //     <GiaTriGopVon ref={formRef} BASE_FORM={BASE_FORM} current={props.step} className={animateClass} data={data} />
-    //     <ThanhVienGopVon ref={formRef} BASE_FORM={BASE_FORM} current={props.step} className={animateClass} data={data} />
-    //     <NguoiDaiDienPhapLuat ref={formRef} BASE_FORM={BASE_FORM} current={props.step} className={animateClass} data={data} />
-    //     <TenCongTy ref={formRef} BASE_FORM={BASE_FORM} current={props.step} className={animateClass} data={data} />
-    //     <DiaChiTruSoChinh ref={formRef} BASE_FORM={BASE_FORM} current={props.step} className={animateClass} data={data} />
-    //     <NgangNgheDangKi ref={formRef} BASE_FORM={BASE_FORM} current={props.step} className={animateClass} data={data} />
-    //   </>
-    // )
-
     return html
   }
 
   return (
     <>
-      <Form layout="vertical" ref={formRef} autoComplete="off">
+      <Form layout="vertical" ref={formRef} autoComplete="off" validateMessages={VALIDATE_MESSAGE}>
         <Row
           className={clsx([
             styles.hide,
@@ -202,7 +192,18 @@ const CreateCompany = forwardRef((props, formRef) => {
           ])}
         >
           <Col span={24}>
-            <Form.Item name={['category']} required label="Chọn loại hình doanh nghiệp" placeholder="Bấm vào đây" className={animateClass}>
+            <Form.Item
+              name={['category']}
+              label="Chọn loại hình doanh nghiệp"
+              placeholder="Bấm vào đây"
+              className={animateClass}
+              required
+              rules={[
+                {
+                  required: true,
+                },
+              ]}
+            >
               {dropdownRender(['category'])}
             </Form.Item>
           </Col>

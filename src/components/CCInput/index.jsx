@@ -33,11 +33,18 @@ const CCInput = forwardRef((props, ref) => {
           disabled={props?.disabled}
           autoComplete="off"
           value={props?.value}
+          {...props}
         />
       )
     case 'number':
       return (
-        <Form.Item value={props?.value} name={props.name} label={props?.label || ' '} key={props?.key}>
+        <Form.Item
+          value={props?.value}
+          name={props.name}
+          label={props?.label || ' '}
+          key={props?.key}
+          rules={[{ required: rest?.required }]}
+        >
           <InputNumber
             onChange={props?.onChange}
             style={props.style}
@@ -84,6 +91,7 @@ const CCInput = forwardRef((props, ref) => {
             disabled={props?.disabled}
             autoComplete="off"
             value={props?.value}
+            {...props}
           />
         )
       }
@@ -94,7 +102,14 @@ const InputPassword = (props) => {
   const { name, label, value, onChange, style, placeholder, ...rest } = props
 
   return (
-    <Form.Item value={props?.value} name={props.name} label={props?.label || ' '} key={props?.key}>
+    <Form.Item
+      value={props?.value}
+      name={props.name}
+      label={props?.label || ' '}
+      key={props?.key}
+      rules={[{ required: rest?.required }]}
+      required={rest?.required}
+    >
       <InputNumber
         onChange={props?.onChange}
         style={{ ...props.style, width: '100%' }}
@@ -108,7 +123,14 @@ const InputPassword = (props) => {
 }
 const InputText = ({ value, name, label, style, ...rest }) => {
   return (
-    <Form.Item value={value} name={name} label={label && rest?.display !== 'none' ? label || ' ' : ''} key={rest?.key}>
+    <Form.Item
+      value={value}
+      name={name}
+      label={label && rest?.display !== 'none' ? label || ' ' : ''}
+      key={rest?.key}
+      rules={[{ required: rest?.required }]}
+      required={rest?.required}
+    >
       <Input
         onChange={rest?.onChange}
         style={style}
@@ -123,7 +145,12 @@ const InputText = ({ value, name, label, style, ...rest }) => {
 
 const InputSelect = ({ name, label, optional, handleOptions, ...props }) => {
   return (
-    <Form.Item name={name} label={label && props?.display !== 'none' ? label || ' ' : ''}>
+    <Form.Item
+      name={name}
+      label={label && props?.display !== 'none' ? label || ' ' : ''}
+      rules={[{ required: props?.required }]}
+      required={props?.required}
+    >
       <Select
         onSelect={props?.onSelect}
         onChange={props?.onChange}
@@ -154,13 +181,18 @@ const InputDate = (props) => {
     return (
       <div className={styles.formHorizontal}>
         <div className={styles.formTitle}>{props?.label || ' '}</div>
-        <Form.Item name={props.name} key={props?.key} layout={props?.layout}>
+        <Form.Item
+          name={props.name}
+          key={props?.key}
+          layout={props?.layout}
+          rules={[{ required: props?.required }]}
+          required={props?.required}
+        >
           <DatePicker
             style={{ ...props.style, width: '100%' }}
             format="DD/MM/YYYY"
             placeholder={props?.placeholder}
             autoComplete={props?.autocomplete || 'off'}
-            inputReadOnly={props?.inputReadOnly || false}
             onChange={props?.onChange}
             {...rest}
           />
@@ -169,7 +201,13 @@ const InputDate = (props) => {
     )
   } else {
     return (
-      <Form.Item name={props.name} label={props?.label || ' '} key={props?.key}>
+      <Form.Item
+        name={props.name}
+        label={props?.label || ' '}
+        key={props?.key}
+        rules={[{ required: props?.required }]}
+        required={props?.required}
+      >
         <DatePicker
           style={{ ...props.style, width: '100%' }}
           format="DD/MM/YYYY"
@@ -191,7 +229,13 @@ const InputDateRange = (props) => {
         <RangePicker inputReadOnly format="MM/DD/YYYY" />
       </Form.Item>
 
-      <Form.Item name={makeid(9)} label={props?.label || ' '} key={props?.key}>
+      <Form.Item
+        name={makeid(9)}
+        label={props?.label || ' '}
+        key={props?.key}
+        rules={[{ required: props?.required }]}
+        required={props?.required}
+      >
         <RangePicker
           inputReadOnly={props?.inputReadOnly || true}
           onChange={props?.onChange}

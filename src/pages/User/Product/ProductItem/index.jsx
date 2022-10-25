@@ -1,13 +1,13 @@
 import CCSteps from '@/components/CCHeaderSteps'
 import { CREATE_COMPANY_STEP, DISSOLUTION_STEP, PENDING_STEP } from '@/constant/Step'
 import ProductService from '@/service/UserService/ProductService'
-import { message, Spin, Form } from 'antd'
+import { message, Spin, Form, notification, List } from 'antd'
 import moment from 'moment'
 import React, { lazy, useCallback, useEffect, useRef, useState } from 'react'
 import { useNavigate, useParams, useLocation } from 'react-router-dom'
 import { useFetch } from '../../../../helper/Hook'
 import styles from './styles.module.scss'
-import { m } from 'framer-motion'
+import { FileExcelOutlined } from '@ant-design/icons'
 
 const CreateCompanyPages = lazy(() => import('./CreateCompanyPages'))
 const ChangeInfoPages = lazy(() => import('./ChangeInfoPages'))
@@ -73,71 +73,34 @@ const UserProductItem = (props) => {
   }
 
   const renderFormByType = (type) => {
+    const configs = {
+      ref: formRef,
+      step: current,
+      setStep: setCurrent,
+      loading: isLoading,
+      Prev,
+      Next,
+      paymentService,
+      saveService,
+      onFinishScreen: setDataOutput,
+      data: data.data,
+    }
     switch (type) {
       case 1:
         // Thành lập doanh nghiệp
-        return (
-          <CreateCompanyPages
-            data={data.data}
-            ref={formRef}
-            onFinishScreen={(output) => setDataOutput(output)}
-            step={current}
-            setStep={(e) => setCurrent(e)}
-            loading={isLoading}
-            saveService={saveService}
-            handlePurchaseCreateCompany={handlePurchaseCreateCompany}
-            Prev={Prev}
-            Next={Next}
-            editData={location.state}
-          />
-        )
+        return <CreateCompanyPages {...configs} />
       case 2:
         // Thay đổi thông tin
-        return (
-          <ChangeInfoPages
-            data={data}
-            ref={formRef}
-            onFinishScreen={(val) => handleChangeInforForm(val)}
-            step={current}
-            loading={isLoading}
-            Prev={Prev}
-            Next={Next}
-            changeInforStep={changeInforStep}
-            editData={location.state}
-            saveService={saveService}
-            paymentService={paymentService}
-          />
-        )
+        configs.changeInforStep = changeInforStep
+        configs.onFinishScreen = handleChangeInforForm
+        configs.data = data
+
+        return <ChangeInfoPages {...configs} />
       case 3:
         // Tạm hoãn
-        return (
-          <PendingPages
-            data={data.data}
-            loading={isLoading}
-            Prev={Prev}
-            Next={Next}
-            handlePurchasePending={handlePurchasePending}
-            step={current}
-            ref={formRef}
-            saveService={saveService}
-            editData={location.state}
-          />
-        )
+        return <PendingPages {...configs} />
       case 4:
-        return (
-          <DissolutionPages
-            // handleSaveDissolution={handleSaveDissolution}
-            saveService={saveService}
-            handlePurchaseDissolution={handlePurchaseDissolution}
-            data={data.data}
-            step={current}
-            loading={isLoading}
-            Prev={Prev}
-            Next={Next}
-            ref={formRef}
-            editData={location.state}
-          />
-        )
+        return <DissolutionPages {...configs} />
       default:
         return null
     }
@@ -183,74 +146,9 @@ const UserProductItem = (props) => {
     setChangeInforStep(data)
   }, [])
 
-  const handlePurchaseCreateCompany = useCallback(
-    (ref) => {
-      let val = ref.current.getFieldsValue()
-      let params = {
-        track: {
-          step: 1,
-          status: 'progress',
-        },
-        payment: 0,
-        data: {
-          ...val,
-        },
-      }
-      return paymentService(params)
-    },
-    [data],
-  )
-
-  const handlePurchasePending = useCallback(
-    (ref) => {
-      const params = getParams(ref)
-      return paymentService(params)
-    },
-    [data],
-  )
-
-  const handlePurchaseDissolution = useCallback(
-    (ref) => {
-      const params = getParams(ref)
-      return paymentService(params)
-    },
-    [data],
-  )
-
-  const getParams = (ref = null) => {
-    let result = {}
-    let val = ref?.current.getFieldsValue()
-    result = {
-      track: {
-        step: 1,
-        status: 'progress',
-      },
-      payment: 0,
-      data: {
-        ...val,
-      },
-    }
-    return result
-  }
   /**
    * @value {Object}
    */
-
-  const handleSavePending = useCallback(
-    (ref) => {
-      const params = getParams(ref)
-      return saveService(params)
-    },
-    [data],
-  )
-
-  const handleSaveDissolution = useCallback(
-    (ref) => {
-      const params = getParams(ref)
-      return saveService(params)
-    },
-    [data],
-  )
 
   // Service
   const saveService = async ({ _id, ...params }) => {
@@ -266,36 +164,66 @@ const UserProductItem = (props) => {
         navigate('/user/san-pham')
       }
     } catch (error) {
-      console.log(error)
-      message.error(`Something was wrong when saving`, error)
+      console.log('saveService', error)
+      message.error({
+        content: error.response?.data?.error || error.message || `Đã có lỗi xảy ra, vui lòng thử lại sau`,
+        duration: 3,
+      })
     }
   }
 
-  const paymentService = async (params) => {
-    let createDate = moment().format('YYYYMMDDHHmmss')
-    let orderId = moment().format('HHmmss')
-
-    params.createDate = createDate
-    params.orderId = orderId
+  const paymentService = async (params, ref) => {
+    if (!ref.current) return
 
     try {
+      await ref.current?.validateFields()
+    } catch (error) {
+      console.log(error)
+      return openNotification(error?.errorFields)
+    }
+
+    try {
+      let createDate = moment().format('YYYYMMDDHHmmss')
+      let orderId = moment().format('HHmmss')
+
+      params.createDate = createDate
+      params.orderId = orderId
+
       let res = await ProductService.createOrderWithPayment(params)
       if (res.data.status === 200) {
         return (window.location.href = res.data.url)
       }
     } catch (err) {
-      console.log(err)
+      console.log('paymentService', err)
+
+      message.error({
+        content: error.response?.data?.error || error.message || `Đã có lỗi xảy ra, vui lòng thử lại sau`,
+        duration: 3,
+      })
     }
   }
 
-  return (
-    <m.div className={styles.mainContent} initial={{ opacity: 0 }} exit={{ opacity: 0 }} animate={{ opacity: 1 }}>
-      {data && renderHeaderStep()}
+  const openNotification = (errorList) => {
+    notification.open({
+      message: ``,
+      icon: <FileExcelOutlined style={{ color: 'var(--light)' }} />,
+      description: (
+        <List size="small" dataSource={errorList} renderItem={(item) => <List.Item>{item.errors}</List.Item>} />
+      ),
 
+      style: {
+        width: 400,
+      },
+    })
+  }
+
+  return (
+    <div className={styles.mainContent}>
+      {data && renderHeaderStep()}
       <div className={styles.formContent}>
         <Spin spinning={isFetching}>{data && renderFormByType(data?.type)}</Spin>
       </div>
-    </m.div>
+    </div>
   )
 }
 

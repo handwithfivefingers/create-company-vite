@@ -7,7 +7,6 @@ import { numToWord } from '@/helper/Common'
 import styles from './styles.module.scss'
 
 const GiaTriGopVon = forwardRef((props, ref) => {
-  
   const { current, BASE_FORM } = props
 
   const checkInputValidation = (e) => {
@@ -54,7 +53,12 @@ const GiaTriGopVon = forwardRef((props, ref) => {
       ])}
     >
       <Col lg={12} md={12} sm={24} xs={24}>
-        <Form.Item name={[...BASE_FORM, 'base_val', 'num']} label={FormFieldText['base_val']['num']}>
+        <Form.Item
+          name={[...BASE_FORM, 'base_val', 'num']}
+          label={FormFieldText['base_val']['num']}
+          required
+          rules={[{ required: true }]}
+        >
           <InputNumber
             formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
             style={{ width: '100%' }}
@@ -65,7 +69,13 @@ const GiaTriGopVon = forwardRef((props, ref) => {
       </Col>
 
       <Col lg={12} md={12} sm={24} xs={24}>
-        <CCInput type="text" name={[...BASE_FORM, 'base_val', 'char']} label={FormFieldText['base_val']['char']} onChange={(e) => checkInputValidation(e)} />
+        <CCInput
+          type="text"
+          name={[...BASE_FORM, 'base_val', 'char']}
+          label={'Vốn điều lệ (bằng chữ)'}
+          onChange={(e) => checkInputValidation(e)}
+          required
+        />
       </Col>
     </Row>
   )

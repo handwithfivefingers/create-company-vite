@@ -4,12 +4,10 @@ import CardCategory from '../../../components/CardCategory'
 import CategoryService from '../../../service/UserService/CategoriesService'
 import clsx from 'clsx'
 import styles from './styles.module.scss'
-import { useLocation, useOutletContext } from 'react-router-dom'
 import { useFetch } from '../../../helper/Hook'
-import { m } from 'framer-motion'
+
 const UserProductPage = (props) => {
   const [product, setProduct] = useState([])
-
   const { data, isLoading, status } = useFetch({
     cacheName: ['userOrder'],
     fn: () => CategoryService.getCategories(),
@@ -23,7 +21,7 @@ const UserProductPage = (props) => {
   }, [data])
 
   return (
-    <m.div className={clsx([styles.cardgrid, 'container'])} initial={{ opacity: 0 }} exit={{ opacity: 0 }} animate={{ opacity: 1 }}>
+    <div className={clsx([styles.cardgrid, 'container'])}>
       {product?.map((item, index) => {
         return (
           <Skeleton
@@ -49,7 +47,7 @@ const UserProductPage = (props) => {
           </Skeleton>
         )
       })}
-    </m.div>
+    </div>
   )
 }
 

@@ -80,7 +80,14 @@ const ChangeInforForm = forwardRef((props, ref) => {
       _data.category = cate
 
       if (change_info) {
-        let { legal_representative, transfer_contract, ...restInfo } = change_info
+        let { legal_representative, transfer_contract, base_inform, ...restInfo } = change_info
+       
+        if (base_inform) {
+          let { mst_provide } = base_inform
+          if (mst_provide) {
+            base_inform = moment(base_inform?.mst_provide, 'YYYY-MM-DD')
+          }
+        }
 
         if (legal_representative) {
           let { in_out, after_change, ...restLegal } = legal_representative
@@ -193,19 +200,82 @@ const ChangeInforForm = forwardRef((props, ref) => {
   const checkType = (type, i, ref) => {
     switch (type) {
       case '2':
-        return <DaiDienPhapLuat key={[type, i]} current={props.current} index={i + 2} ref={ref} {...props.data} type={productSelect?.type} />
+        return (
+          <DaiDienPhapLuat
+            key={[type, i]}
+            current={props.current}
+            index={i + 2}
+            ref={ref}
+            {...props.data}
+            type={productSelect?.type}
+          />
+        )
       case '3':
-        return <TenDoanhNghiep key={[type, i]} current={props.current} index={i + 2} ref={ref} {...props.data} type={productSelect?.type} />
+        return (
+          <TenDoanhNghiep
+            key={[type, i]}
+            current={props.current}
+            index={i + 2}
+            ref={ref}
+            {...props.data}
+            type={productSelect?.type}
+          />
+        )
       case '4':
-        return <GiamVonDieuLe key={[type, i]} current={props.current} index={i + 2} ref={ref} {...props.data} type={productSelect?.type} />
+        return (
+          <GiamVonDieuLe
+            key={[type, i]}
+            current={props.current}
+            index={i + 2}
+            ref={ref}
+            {...props.data}
+            type={productSelect?.type}
+          />
+        )
       case '5':
-        return <TangVonDieuLe key={[type, i]} current={props.current} index={i + 2} ref={ref} {...props.data} type={productSelect?.type} />
+        return (
+          <TangVonDieuLe
+            key={[type, i]}
+            current={props.current}
+            index={i + 2}
+            ref={ref}
+            {...props.data}
+            type={productSelect?.type}
+          />
+        )
       case '7':
-        return <NganhNgheKinhDoanh key={[type, i]} current={props.current} index={i + 2} ref={ref} {...props.data} type={productSelect?.type} />
+        return (
+          <NganhNgheKinhDoanh
+            key={[type, i]}
+            current={props.current}
+            index={i + 2}
+            ref={ref}
+            {...props.data}
+            type={productSelect?.type}
+          />
+        )
       case '1':
-        return <DiaChiTruSoChinh key={[type, i]} current={props.current} index={i + 2} ref={ref} {...props.data} type={productSelect?.type} />
+        return (
+          <DiaChiTruSoChinh
+            key={[type, i]}
+            current={props.current}
+            index={i + 2}
+            ref={ref}
+            {...props.data}
+            type={productSelect?.type}
+          />
+        )
       case '6':
-        return <HopDongChuyenNhuong key={[type, i]} current={props.current} index={i + 2} ref={ref} {...props.data} type={productSelect?.type} />
+        return (
+          <HopDongChuyenNhuong
+            key={[type, i]}
+            current={props.current}
+            index={i + 2}
+            ref={ref}
+            {...props.data}
+            type={productSelect?.type}
+          />
+        )
       // case '8':
       //   return <DaiDienToChuc key={[type, i]} current={props.current} index={i + 2} ref={ref} {...props.data} />
       // case '9':
