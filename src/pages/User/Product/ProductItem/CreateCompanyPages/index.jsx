@@ -61,28 +61,23 @@ const CreateCompanyPages = forwardRef((props, ref) => {
               <Button onClick={Prev} type="dashed">
                 Quay lại
               </Button>
-              {/* <Button loading={loading} onClick={() => saveCreateCompany(ref)}>
+              <Button loading={loading} onClick={() => saveCreateCompany(ref)}>
                 Lưu lại
-              </Button> */}
+              </Button>
             </>
           )}
-          <Button loading={loading} onClick={() => saveCreateCompany(ref)}>
-            Lưu lại
-          </Button>
+       
           {step < 7 && (
             <Button onClick={Next} type="primary">
               Tiếp tục
             </Button>
           )}
 
-          {/* {step === 7 && (
+          {step === 7 && (
             <Button loading={loading} onClick={() => handlePayment(ref)} type="primary">
               Thanh toán
             </Button>
-          )} */}
-          <Button loading={loading} onClick={() => handlePayment(ref)} type="primary">
-            Thanh toán
-          </Button>
+          )}
         </div>
       </Suspense>
     </Card>
