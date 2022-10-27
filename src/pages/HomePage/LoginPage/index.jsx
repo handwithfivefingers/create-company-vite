@@ -68,10 +68,20 @@ export default function LoginPage() {
 
   if (authReducer.status) {
     if (type !== 'POP') {
-      navigate(-1)
+      let lastRoute = route.listHistory[route.listHistory.length - 1]
+      console.log('lastRoute', lastRoute, route)
+
+      if (lastRoute?.to !== '' || lastRoute?.to !== '/' || lastRoute?.to !== '/user') {
+        navigate(-1)
+      } else {
+        navigate('/user/san-pham')
+      }
     } else {
-      
-      navigate(authReducer.role !== 'admin' ? 'user/san-pham' : authReducer.role)
+      if (authReducer.role === 'user') {
+        navigate('/user/san-pham')
+      } else {
+        navigate(authReducer.role)
+      }
     }
   }
 
@@ -93,12 +103,31 @@ export default function LoginPage() {
 
   return (
     <>
-      <Tabs defaultActiveKey="1" centered className={styles.tabs} onChange={(tab) => setTab(tab)} destroyInactiveTabPane={false}>
+      <Tabs
+        defaultActiveKey="1"
+        centered
+        className={styles.tabs}
+        onChange={(tab) => setTab(tab)}
+        destroyInactiveTabPane={false}
+      >
         <TabPane tab="Đăng nhập" key="1">
-          <LoginForm ref={formRef} onFinish={onLogin} loading={loading} loginWithGoogle={loginWithGoogle} ggScript={ggScript} forgotPassword={forgotPassword} />
+          <LoginForm
+            ref={formRef}
+            onFinish={onLogin}
+            loading={loading}
+            loginWithGoogle={loginWithGoogle}
+            ggScript={ggScript}
+            forgotPassword={forgotPassword}
+          />
         </TabPane>
         <TabPane tab="Đăng kí" key="2">
-          <RegisterForm ref={formRef} onFinish={onRegister} loading={loading} loginWithGoogle={loginWithGoogle} ggScript={ggScript} />
+          <RegisterForm
+            ref={formRef}
+            onFinish={onRegister}
+            loading={loading}
+            loginWithGoogle={loginWithGoogle}
+            ggScript={ggScript}
+          />
         </TabPane>
       </Tabs>
     </>

@@ -66,8 +66,7 @@ const UserSidebar = (props) => {
             icon={<PieChartOutlined />}
             onClick={() => window.open('https://thanhlapcongtyonline.vn/', '_blank')}
           >
-            {/* <Link to={`/${role}`}>Trang chủ</Link> */}
-            <a>Trang chủ</a>   
+            <a>Trang chủ</a>
           </Menu.Item>
 
           {renderSidebar(UserRouter)}
