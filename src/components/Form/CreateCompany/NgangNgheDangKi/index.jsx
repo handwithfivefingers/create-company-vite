@@ -94,7 +94,7 @@ const NgangNgheDangKi = forwardRef((props, ref) => {
       <Row gutter={[16, 12]}>
         <Col span={24}>
           <Form.Item label="Vui lòng chọn">
-            <Select placeholder="Bấm vào đây" onSelect={handleSelfSelectCareer}>
+            <Select placeholder="Bấm vào đây" onChange={handleSelfSelectCareer}>
               <Select.Option value={1}>Tự chọn ngành nghề</Select.Option>
               <Select.Option value={2}>Chọn theo lĩnh vực đề xuất</Select.Option>
             </Select>
@@ -108,7 +108,7 @@ const NgangNgheDangKi = forwardRef((props, ref) => {
                 allowClear
                 optionFilterProp="children"
                 filterOption={(input, option) => option.children.join('').toLowerCase().indexOf(input.toLowerCase()) >= 0}
-                onSelect={handleCareerCateSelected}
+                onChange={handleCareerCateSelected}
                 placeholder="Gõ nhóm ngành liên quan"
               >
                 {careerCate?.map(({ name, _id }) => {

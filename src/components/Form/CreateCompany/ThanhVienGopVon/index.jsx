@@ -362,7 +362,7 @@ const PresentPerson = forwardRef((props, ref) => {
       display={'none'}
       type="select"
       name={[...BASE_FORM, 'origin_person', index, 'present_person']}
-      onSelect={props.presentSelect}
+      onChange={props.presentSelect}
       placeholder="Bấm vào đây"
       options={[
         {

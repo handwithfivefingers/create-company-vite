@@ -326,7 +326,7 @@ const ChangeInforForm = forwardRef((props, ref) => {
           [styles.active]: props.current === 0,
         })}
       >
-        <Select onSelect={(val, opt) => handleSelectCate(opt, 'category')} placeholder="Bấm vào đây">
+        <Select onChange={(val, opt) => handleSelectCate(opt, 'category')} placeholder="Bấm vào đây">
           {props.data?.data?.map((item) => {
             return (
               <Select.Option key={item._id} value={item._id} {...item}>
