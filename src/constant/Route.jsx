@@ -191,11 +191,11 @@ export const LAYOUT_ROUTER = ({ status, role }) => [
     element: <User status={status} />,
     children: status ? (
       [
-        // {
-        //   index: true,
-        //   icon: <RiBarChartFill />,
-        //   element: <UserDashboard />,
-        // },
+        {
+          index: true,
+          icon: <RiBarChartFill />,
+          element: <Navigate to="/user/san-pham" />,
+        },
         {
           path: 'san-pham',
           title: 'Sản phẩm',
