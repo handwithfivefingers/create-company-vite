@@ -82,100 +82,100 @@ const ChangeInforForm = forwardRef((props, ref) => {
       if (change_info) {
         let { legal_representative, transfer_contract, base_inform, ...restInfo } = change_info
 
-        // if (base_inform) {
-        //   let { mst_provide } = base_inform
-        //   if (mst_provide) {
-        //     base_inform = moment(base_inform?.mst_provide, 'YYYY-MM-DD')
-        //   }
-        // }
+        if (base_inform) {
+          let { mst_provide } = base_inform
+          if (mst_provide) {
+            base_inform = moment(base_inform?.mst_provide, 'YYYY-MM-DD')
+          }
+        }
 
-        // if (legal_representative) {
-        //   let { in_out, after_change, ...restLegal } = legal_representative
+        if (legal_representative) {
+          let { in_out, after_change, ...restLegal } = legal_representative
 
-        //   if (in_out) {
-        //     in_out = in_out.map((item) => {
-        //       return {
-        //         ...item,
-        //         birth_day: moment(item.birth_day, 'YYYY-MM-DD'),
-        //         doc_time_provide: moment(item.doc_time_provide, 'YYYY-MM-DD'),
-        //       }
-        //     })
-        //   }
+          if (in_out) {
+            in_out = in_out.map((item) => {
+              return {
+                ...item,
+                birth_day: moment(item.birth_day, 'YYYY-MM-DD'),
+                doc_time_provide: moment(item.doc_time_provide, 'YYYY-MM-DD'),
+              }
+            })
+          }
 
-        //   if (after_change) {
-        //     after_change = after_change.map((item) => {
-        //       return {
-        //         ...item,
-        //         birth_day: moment(item.birth_day, 'YYYY-MM-DD'),
-        //         doc_time_provide: moment(item.doc_time_provide, 'YYYY-MM-DD'),
-        //       }
-        //     })
-        //   }
+          if (after_change) {
+            after_change = after_change.map((item) => {
+              return {
+                ...item,
+                birth_day: moment(item.birth_day, 'YYYY-MM-DD'),
+                doc_time_provide: moment(item.doc_time_provide, 'YYYY-MM-DD'),
+              }
+            })
+          }
 
-        //   legal_representative = {
-        //     ...restLegal,
-        //     in_out,
-        //     after_change,
-        //   }
-        // }
+          legal_representative = {
+            ...restLegal,
+            in_out,
+            after_change,
+          }
+        }
 
-        // if (transfer_contract) {
-        //   let { A_side, B_side } = transfer_contract
+        if (transfer_contract) {
+          let { A_side, B_side } = transfer_contract
 
-        //   if (A_side) {
-        //     let { personal, organization } = A_side
+          if (A_side) {
+            let { personal, organization } = A_side
 
-        //     if (personal) {
-        //       personal = {
-        //         ...personal,
-        //         birth_day: moment(personal?.birth_day, 'YYYY-MM-DD'),
-        //         doc_time_provide: moment(personal?.doc_time_provide, 'YYYY-MM-DD'),
-        //       }
-        //     }
+            if (personal) {
+              personal = {
+                ...personal,
+                birth_day: moment(personal?.birth_day, 'YYYY-MM-DD'),
+                doc_time_provide: moment(personal?.doc_time_provide, 'YYYY-MM-DD'),
+              }
+            }
 
-        //     if (organization) {
-        //       organization = {
-        //         ...organization,
-        //         mst_provide: moment(organization?.mst_provide, 'YYYY-MM-DD'),
-        //       }
-        //     }
+            if (organization) {
+              organization = {
+                ...organization,
+                mst_provide: moment(organization?.mst_provide, 'YYYY-MM-DD'),
+              }
+            }
 
-        //     A_side = {
-        //       ...A_side,
-        //       personal,
-        //       organization,
-        //     }
-        //   }
+            A_side = {
+              ...A_side,
+              personal,
+              organization,
+            }
+          }
 
-        //   if (B_side) {
-        //     let { personal, organization } = B_side
-        //     if (personal) {
-        //       personal = {
-        //         ...personal,
-        //         birth_day: moment(personal?.birth_day, 'YYYY-MM-DD'),
-        //         doc_time_provide: moment(personal?.doc_time_provide, 'YYYY-MM-DD'),
-        //       }
-        //     }
-        //     if (organization) {
-        //       organization = {
-        //         ...organization,
-        //         time_provide: moment(organization?.time_provide, 'YYYY-MM-DD'),
-        //         // time_provide: ,
-        //       }
-        //     }
+          if (B_side) {
+            let { personal, organization } = B_side
+            if (personal) {
+              personal = {
+                ...personal,
+                birth_day: moment(personal?.birth_day, 'YYYY-MM-DD'),
+                doc_time_provide: moment(personal?.doc_time_provide, 'YYYY-MM-DD'),
+              }
+            }
+            if (organization) {
+              organization = {
+                ...organization,
+                time_provide: moment(organization?.time_provide, 'YYYY-MM-DD'),
+                // time_provide: ,
+              }
+            }
 
-        //     B_side = {
-        //       ...B_side,
-        //       personal,
-        //       organization,
-        //     }
-        //   }
-        //   transfer_contract = {
-        //     ...transfer_contract,
-        //     A_side,
-        //     B_side,
-        //   }
-        // }
+            B_side = {
+              ...B_side,
+              personal,
+              organization,
+            }
+          }
+          transfer_contract = {
+            ...transfer_contract,
+            A_side,
+            B_side,
+          }
+        }
 
         change_info = {
           ...restInfo,
