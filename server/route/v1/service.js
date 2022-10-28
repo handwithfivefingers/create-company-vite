@@ -14,7 +14,7 @@ const PuppeteerController = require('@controller/Service/Puppeteer')
 
 const { checkingOrder } = new FileTemplateService()
 
-const { testPayment, getUrlReturn } = new PaymentService()
+const { testPayment, getUrlReturn, getIPNUrl } = new PaymentService()
 
 const { getProvince } = new Province()
 
@@ -30,7 +30,11 @@ router.post('/payment', requireSignin, testPayment)
 
 router.get('/return_vnp', requireSignin, getUrlReturn)
 
+// router.get('/return_vnp', requireSignin, getUrlReturn)
+
 router.post('/service/order', checkingOrder)
+
+router.get('/service/payment/ipn_url', getIPNUrl)
 
 router.get('/service/province', requireSignin, getProvince)
 

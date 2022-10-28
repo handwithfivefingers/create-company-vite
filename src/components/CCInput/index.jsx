@@ -213,7 +213,6 @@ const InputDate = (props) => {
           format="DD/MM/YYYY"
           placeholder={props?.placeholder}
           autoComplete={props?.autocomplete || 'off'}
-          inputReadOnly={props?.inputReadOnly || true}
           onChange={props?.onChange}
           {...rest}
         />

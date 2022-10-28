@@ -4,8 +4,11 @@ const { upload, requireSignin } = require('@middleware')
 const router = express.Router()
 
 const OrderUser = require('@controller/user/Order')
+const PaymentService = require('@controller/Service/Payment')
 
-const { getOrdersFromUser, createOrders, orderWithPayment, getUrlReturn, updateOrder } = new OrderUser()
+const { getOrdersFromUser, createOrders, orderWithPayment, updateOrder } = new OrderUser()
+
+const { getUrlReturn } = new PaymentService()
 
 // USER
 

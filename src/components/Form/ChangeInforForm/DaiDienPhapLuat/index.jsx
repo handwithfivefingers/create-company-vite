@@ -75,7 +75,10 @@ const DaiDienPhapLuat = forwardRef((props, ref) => {
               Thêm mới thông tin
             </Button>
           </Col>
-          {listIncludesOrExclude && listIncludesOrExclude?.map((item, i) => <PeoppleWrapper {...props} BASE_FORM={BASE_FORM} ref={ref} i={i} />)}
+          {listIncludesOrExclude &&
+            listIncludesOrExclude?.map((item, i) => (
+              <PeoppleWrapper {...props} BASE_FORM={BASE_FORM} ref={ref} i={i} />
+            ))}
         </Row>
       </Form.Item>
 
@@ -141,7 +144,9 @@ const PeoppleWrapper = forwardRef((props, ref) => {
             name={[...BASE_FORM, 'in_out', i, 'title']}
             label="Chức danh"
             placeholder="Bấm vào đây"
-            options={+type === 1 ? SELECT.TITLE_1TV : +type === 2 ? SELECT.TITLE_2TV : +type === 3 ? SELECT.TITLE_CP : ''}
+            options={
+              +type === 1 ? SELECT.TITLE_1TV : +type === 2 ? SELECT.TITLE_2TV : +type === 3 ? SELECT.TITLE_CP : ''
+            }
             ref={ref}
           />
         </Card>
@@ -155,21 +160,41 @@ const PeoppleWrapper = forwardRef((props, ref) => {
             onChange={(e) => onSetFields([...BASE_FORM, 'in_out', i, 'name'], e.target.value, ref, true)}
           />
 
-          <CCInput type="select" name={[...BASE_FORM, 'in_out', i, 'gender']} label="Giới tính" options={SELECT.GENDER} />
+          <CCInput
+            type="select"
+            name={[...BASE_FORM, 'in_out', i, 'gender']}
+            label="Giới tính"
+            options={SELECT.GENDER}
+          />
 
           <CCInput type="select" name={[...BASE_FORM, 'in_out', i, 'title']} label="Chức danh" options={SELECT.TITLE} />
 
           <CCInput name={[...BASE_FORM, 'in_out', i, 'birth_day']} label="Sinh ngày" type="date" />
 
-          <CCSelect.SelectPersonType ref={ref} name={[...BASE_FORM, 'in_out', i, 'per_type']} label="Dân tộc" placeholder="Bấm vào đây" />
+          <CCSelect.SelectPersonType
+            ref={ref}
+            name={[...BASE_FORM, 'in_out', i, 'per_type']}
+            label="Dân tộc"
+            placeholder="Bấm vào đây"
+          />
 
-          <CCInput type="select" name={[...BASE_FORM, 'in_out', i, 'doc_type']} label="Loại giấy tờ pháp lý" options={SELECT.DOC_TYPE} />
+          <CCInput
+            type="select"
+            name={[...BASE_FORM, 'in_out', i, 'doc_type']}
+            label="Loại giấy tờ pháp lý"
+            options={SELECT.DOC_TYPE}
+          />
 
           <CCInput name={[...BASE_FORM, 'in_out', i, 'doc_code']} label="Số CMND/ CCCD/ Hộ chiếu" />
 
           <CCInput name={[...BASE_FORM, 'in_out', i, 'doc_time_provide']} label="Ngày cấp" type="date" />
 
-          <CCSelect.SelectDocProvide ref={ref} name={[...BASE_FORM, 'in_out', i, 'doc_place_provide']} label="Nơi cấp" placeholder="Bấm vào đây" />
+          <CCSelect.SelectDocProvide
+            ref={ref}
+            name={[...BASE_FORM, 'in_out', i, 'doc_place_provide']}
+            label="Nơi cấp"
+            placeholder="Bấm vào đây"
+          />
 
           <CCAddress name={[...BASE_FORM, 'in_out', i]} ref={ref} />
         </Card>
@@ -239,43 +264,52 @@ const PeronalType = forwardRef((props, ref) => {
     return options
   }
 
-  const handleSelectPersonType = (val, index) => {
+  const handleSelectPersonType = (val, i) => {
     /**
      * @params {val} => index value need to get
      * @params {index} => index position of child list form
      */
 
-    let data = [...present]
-
-    data[index] = val
-
-    setPresent(data)
-
-    // let originPathName = [...BASE_FORM, 'in_out', val]
-
-    let legalPathName = [...BASE_FORM, 'after_change', index]
+    let legalPathName = [...BASE_FORM, 'after_change', i]
 
     let listOriginPerson = ref?.current?.getFieldValue([...BASE_FORM, 'in_out'])
+
     let originPerson
+
     if (listOriginPerson?.length) {
       originPerson = listOriginPerson.filter((item) => item.type !== PERSON_TYPE.REMOVE)
     }
-
-    if (originPerson) {
+    if (originPerson && val !== -1) {
+      ref.current.setFields([
+        {
+          name: [...BASE_FORM, 'after_change', index, 'select_person'],
+          value: val,
+        },
+      ])
       onSetFields(legalPathName, originPerson?.[val], ref)
     }
   }
 
   return (
     <>
-      <Form.Item name={[...BASE_FORM, 'after_change', index, 'select_person']} label={htmlContent('<b>Chọn người đại diện</b>')}>
+      <Form.Item
+        name={[...BASE_FORM, 'after_change', index, 'select_person']}
+        label={htmlContent('<b>Chọn người đại diện</b>')}
+      >
         <Select onChange={(e) => handleSelectPersonType(e, index)} placeholder="Bấm vào đây" required>
           {getPersonType()?.map((item) => {
             return <Select.Option value={item.value}>{item.name}</Select.Option>
           })}
         </Select>
       </Form.Item>
-      <FormListPersonType ref={ref} listFormState={handleForm} presentState={presentState} BASE_FORM={BASE_FORM} i={index} type={props?.type} />
+      <FormListPersonType
+        ref={ref}
+        listFormState={handleForm}
+        presentState={presentState}
+        BASE_FORM={BASE_FORM}
+        i={index}
+        type={props?.type}
+      />
     </>
   )
 })
@@ -286,10 +320,8 @@ const FormListPersonType = forwardRef((props, ref) => {
   const { state, setState } = listFormState
 
   const { state: present, setState: setPresent } = presentState
-  
+
   const watchField = Form.useWatch(['change_info', 'legal_representative', 'after_change'], ref.current)
-
-
 
   const removeItem = (index) => {
     let val = ref.current.getFieldValue([...BASE_FORM, 'after_change'])
@@ -333,21 +365,46 @@ const FormListPersonType = forwardRef((props, ref) => {
           onChange={(e) => onSetFields([...BASE_FORM, 'after_change', i, 'name'], e.target.value, ref, true)}
         />
 
-        <CCInput type="select" name={[...BASE_FORM, 'after_change', i, 'gender']} label="Giới tính" options={SELECT.GENDER} />
+        <CCInput
+          type="select"
+          name={[...BASE_FORM, 'after_change', i, 'gender']}
+          label="Giới tính"
+          options={SELECT.GENDER}
+        />
 
-        <CCInput type="select" name={[...BASE_FORM, 'after_change', i, 'title']} label="Chức danh" options={SELECT.TITLE} />
+        <CCInput
+          type="select"
+          name={[...BASE_FORM, 'after_change', i, 'title']}
+          label="Chức danh"
+          options={SELECT.TITLE}
+        />
 
         <CCInput name={[...BASE_FORM, 'after_change', i, 'birth_day']} label="Sinh ngày" type="date" />
 
-        <CCSelect.SelectPersonType ref={ref} name={[...BASE_FORM, 'after_change', i, 'per_type']} label="Dân tộc" placeholder="Bấm vào đây" />
+        <CCSelect.SelectPersonType
+          ref={ref}
+          name={[...BASE_FORM, 'after_change', i, 'per_type']}
+          label="Dân tộc"
+          placeholder="Bấm vào đây"
+        />
 
-        <CCInput type="select" name={[...BASE_FORM, 'after_change', i, 'doc_type']} label="Loại giấy tờ pháp lý" options={SELECT.DOC_TYPE} />
+        <CCInput
+          type="select"
+          name={[...BASE_FORM, 'after_change', i, 'doc_type']}
+          label="Loại giấy tờ pháp lý"
+          options={SELECT.DOC_TYPE}
+        />
 
         <CCInput name={[...BASE_FORM, 'after_change', i, 'doc_code']} label="Số CMND/ CCCD/ Hộ chiếu" />
 
         <CCInput name={[...BASE_FORM, 'after_change', i, 'doc_time_provide']} label="Ngày cấp" type="date" />
 
-        <CCSelect.SelectDocProvide ref={ref} name={[...BASE_FORM, 'after_change', i, 'doc_place_provide']} label="Nơi cấp" placeholder="Bấm vào đây" />
+        <CCSelect.SelectDocProvide
+          ref={ref}
+          name={[...BASE_FORM, 'after_change', i, 'doc_place_provide']}
+          label="Nơi cấp"
+          placeholder="Bấm vào đây"
+        />
 
         <Form.Item label={htmlContent('<b>Địa chỉ thường trú</b>')}>
           <CCSelect.SelectProvince ref={ref} name={[...BASE_FORM, 'after_change', i, 'current']} />

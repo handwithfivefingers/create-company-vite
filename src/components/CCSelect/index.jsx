@@ -146,7 +146,11 @@ const SelectProvince = forwardRef((props, ref) => {
         </Select>
       </Form.Item>
 
-      <CCInput label="Số nhà, ngách, hẻm, ngõ, đường phố/tổ/xóm/ấp/thôn" name={[...name, 'address']} placeholder="27 Nguyễn Hữu Thọ" />
+      <CCInput
+        label="Số nhà, ngách, hẻm, ngõ, đường phố/tổ/xóm/ấp/thôn"
+        name={[...name, 'address']}
+        placeholder="27 Nguyễn Hữu Thọ"
+      />
     </>
   )
 })
@@ -185,7 +189,11 @@ const SelectTitle = forwardRef((props, ref) => {
             <Option value={1}>Khác</Option>
           </Select>
         </Col>
-        <Col span={inpShow ? 16 : 0}>{inpShow && <Input onChange={(e) => ref.current.setFields([{ name: [...props.name], value: e.target.value }])} />}</Col>
+        <Col span={inpShow ? 16 : 0}>
+          {inpShow && (
+            <Input onChange={(e) => ref.current.setFields([{ name: [...props.name], value: e.target.value }])} />
+          )}
+        </Col>
       </Row>
     </Form.Item>
   )
@@ -237,7 +245,9 @@ const SelectPersonType = forwardRef((props, ref) => {
             <Option value={2}>Khác</Option>
           </Select>
         </Col>
-        <Col span={select === 2 ? 16 : 0}>{select === 2 && <Input value={input} onChange={(e) => handleInputChange(e)} />}</Col>
+        <Col span={select === 2 ? 16 : 0}>
+          {select === 2 && <Input value={input} onChange={(e) => handleInputChange(e)} />}
+        </Col>
       </Row>
     </Form.Item>
   )
@@ -291,7 +301,9 @@ const SelectDocProvide = forwardRef((props, ref) => {
             <Option value={2}>Khác</Option>
           </Select>
         </Col>
-        <Col span={select === 2 ? 16 : 0}>{select === 2 && <Input onChange={(e) => handleInputchange(e)} value={input} />}</Col>
+        <Col span={select === 2 ? 16 : 0}>
+          {select === 2 && <Input onChange={(e) => handleInputchange(e)} value={input} />}
+        </Col>
       </Row>
     </Form.Item>
   )
@@ -305,13 +317,12 @@ const RadioAddress = forwardRef((props, ref) => {
   useEffect(() => {
     let prevData = ref.current.getFieldValue(prevField)
     let nextData = ref.current.getFieldValue(nextField)
-
     if (isEqual(prevData, nextData) && nextData) {
       setRadio(1)
     } else if (!nextData) {
       setRadio(null)
     } else {
-      setRadio(0)
+      setRadio(2)
     }
   }, [])
 

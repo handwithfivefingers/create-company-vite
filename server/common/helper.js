@@ -259,15 +259,25 @@ const sortObject = (obj) => {
 }
 
 const getVpnParams = (req, params) => {
-  let { createDate, orderId, amount, orderInfo } = params
+  let { amount, orderInfo } = params
 
-  var ipAddr = req.headers['x-forwarded-for'] || req.connection.remoteAddress || req.socket.remoteAddress || req.connection.socket.remoteAddress
+  let createDate = moment().format('YYYYMMDDHHmmss')
+  let orderId = moment().format('HHmmss')
+
+  var ipAddr =
+    req.headers['x-forwarded-for'] ||
+    req.connection.remoteAddress ||
+    req.socket.remoteAddress ||
+    req.connection.socket.remoteAddress
 
   var tmnCode = process.env.TMN_CODE_VPN
 
   var secretKey = process.env.SECRET_KEY_VPN
 
-  var returnUrl = process.env.NODE_ENV === 'development' ? 'http://localhost:3001/api/order/payment/url_return' : process.env.RETURN_URL
+  var returnUrl =
+    process.env.NODE_ENV === 'development'
+      ? 'http://localhost:3001/api/order/payment/url_return'
+      : process.env.RETURN_URL
 
   var orderType = req?.body?.orderType || 'billpayment'
 

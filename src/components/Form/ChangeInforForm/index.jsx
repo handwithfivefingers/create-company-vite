@@ -81,7 +81,7 @@ const ChangeInforForm = forwardRef((props, ref) => {
 
       if (change_info) {
         let { legal_representative, transfer_contract, base_inform, ...restInfo } = change_info
-       
+
         if (base_inform) {
           let { mst_provide } = base_inform
           if (mst_provide) {
@@ -136,6 +136,7 @@ const ChangeInforForm = forwardRef((props, ref) => {
             if (organization) {
               organization = {
                 ...organization,
+                mst_provide: moment(organization?.mst_provide, 'YYYY-MM-DD'),
               }
             }
 
@@ -158,7 +159,8 @@ const ChangeInforForm = forwardRef((props, ref) => {
             if (organization) {
               organization = {
                 ...organization,
-                time_provide: moment(organization.time_provide, 'YYYY-MM-DD'),
+                time_provide: moment(organization?.time_provide, 'YYYY-MM-DD'),
+                // time_provide: ,
               }
             }
 
@@ -188,7 +190,6 @@ const ChangeInforForm = forwardRef((props, ref) => {
       ..._data,
     })
 
-    console.log(_data)
 
     setProductSelect(cate)
 
