@@ -43,7 +43,6 @@ module.exports = class PaymentService {
 
       let _update = {
         orderInfo: { ...vnp_Params },
-        orderId,
         amount,
       }
       await Order.updateOne({ _id: orderInfo }, _update, { session, new: true })
