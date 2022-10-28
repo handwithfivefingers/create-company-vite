@@ -1,5 +1,4 @@
 const fs = require('fs')
-const { Log } = require('./../model')
 const loginFailed = (res) => {
   return res.status(400).json({
     message: 'Sai tài khoản hoặc mật khẩu!',
@@ -20,8 +19,6 @@ const errHandler = async (err, res) => {
   let message = 'Đã có lỗi xảy ra, vui lòng thử lại sau!'
 
   let error = { error: err, message }
-
-  await createLog(error)
 
   return res.status(400).json({
     ...error,
@@ -70,8 +67,6 @@ const deletedHandler = (data, res) => {
 const existHandler = async (res, message = null) => {
   let newMessage = ` ${message || 'Data'} đã tồn tại, vui lòng thử lại`
 
-  await createLog({ message: newMessage })
-
   return res.status(200).json({
     message: newMessage,
     success: false,
@@ -81,8 +76,6 @@ const existHandler = async (res, message = null) => {
 
 const permisHandler = async (res) => {
   let message = 'Không có quyền truy cập'
-
-  await createLog({ message })
 
   return res.status(200).json({
     message,
@@ -103,19 +96,6 @@ const removeFile = async (pathName) => {
   })
 }
 
-const createLog = async ({ error = null, message }) => {
-  const obj = {
-    error: {
-      error,
-      message,
-    },
-  }
-
-  const _err = new Log(obj)
-
-  await _err.save()
-}
-
 module.exports = {
   loginFailed,
   authFailedHandler,
@@ -127,5 +107,4 @@ module.exports = {
   existHandler,
   permisHandler,
   removeFile,
-  createLog,
 }

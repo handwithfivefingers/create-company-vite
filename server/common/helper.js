@@ -17,66 +17,115 @@ const qs = require('query-string')
 const crypto = require('crypto')
 
 const moment = require('moment')
-const { log } = require('console')
 
 libre.convertAsync = require('util').promisify(libre.convert)
 
-expressions.filters.lower = function (input) {
-  if (!input) return input
-  return input.toLowerCase()
+// expressions.filters.lower = function (input) {
+//   if (!input) return input
+//   return input.toLowerCase()
+// }
+
+// expressions.filters.upper = function (input) {
+//   if (!input) return input
+//   return input.toUpperCase()
+// }
+
+// expressions.filters.divideBy = function (input, num) {
+//   if (!input) return input
+//   return input / num
+// }
+
+// expressions.filters.formatNumber = function (input, type) {
+//   if (!input) return input
+
+//   let val = input.toString()
+//   val = val.split('').reverse() //
+//   let len = Math.round(val.length / 3)
+//   let output = []
+//   for (let i = 0; i <= len; i++) {
+//     let typeOutput = val.length > 3 ? type : ''
+//     let Poutput = [...val.splice(0, 3), typeOutput]
+//     output.push(...Poutput)
+//   }
+
+//   return output.reverse().join('')
+// }
+
+// expressions.filters.formatDate = function (input, type = null) {
+//   if (!input) return input
+
+//   let val = input.toString()
+
+//   return moment(val).format(type ? type : '[ngày] DD [tháng] MM [năm] YYYY')
+// }
+
+// expressions.filters.where = function (input, query) {
+//   return input.filter(function (item) {
+//     return expressions.compile(query)(item)
+//   })
+// }
+
+// expressions.filters.toFixed = function (input, precision) {
+//   // In our example precision is the integer 2
+
+//   // Make sure that if your input is undefined, your
+//   // output will be undefined as well and will not
+//   // throw an error
+//   if (!input) return input
+
+//   return input.toFixed(precision)
+// }
+expressions.filters = {
+  toFixed: function (input, precision) {
+    // In our example precision is the integer 2
+
+    // Make sure that if your input is undefined, your
+    // output will be undefined as well and will not
+    // throw an error
+    if (!input) return input
+
+    return input.toFixed(precision)
+  },
+  where: function (input, query) {
+    return input.filter(function (item) {
+      return expressions.compile(query)(item)
+    })
+  },
+  formatDate: function (input, type = null) {
+    if (!input) return input
+
+    let val = input.toString()
+
+    return moment(val).format(type ? type : '[ngày] DD [tháng] MM [năm] YYYY')
+  },
+  formatNumber: function (input, type) {
+    if (!input) return input
+
+    let val = input.toString()
+    val = val.split('').reverse() //
+    let len = Math.round(val.length / 3)
+    let output = []
+    for (let i = 0; i <= len; i++) {
+      let typeOutput = val.length > 3 ? type : ''
+      let Poutput = [...val.splice(0, 3), typeOutput]
+      output.push(...Poutput)
+    }
+
+    return output.reverse().join('')
+  },
+  divideBy: function (input, num) {
+    if (!input) return input
+    return input / num
+  },
+  upper: function (input) {
+    if (!input) return input
+    return input.toUpperCase()
+  },
+  lower: function (input) {
+    if (!input) return input
+    return input.toLowerCase()
+  },
 }
-
-expressions.filters.upper = function (input) {
-  if (!input) return input
-  return input.toUpperCase()
-}
-
-expressions.filters.divideBy = function (input, num) {
-  if (!input) return input
-  return input / num
-}
-
-expressions.filters.formatNumber = function (input, type) {
-  if (!input) return input
-
-  let val = input.toString()
-  val = val.split('').reverse() //
-  let len = Math.round(val.length / 3)
-  let output = []
-  for (let i = 0; i <= len; i++) {
-    let typeOutput = val.length > 3 ? type : ''
-    let Poutput = [...val.splice(0, 3), typeOutput]
-    output.push(...Poutput)
-  }
-
-  return output.reverse().join('')
-}
-
-expressions.filters.formatDate = function (input, type = null) {
-  if (!input) return input
-
-  let val = input.toString()
-
-  return moment(val).format(type ? type : '[ngày] DD [tháng] MM [năm] YYYY')
-}
-
-expressions.filters.where = function (input, query) {
-  return input.filter(function (item) {
-    return expressions.compile(query)(item)
-  })
-}
-
-expressions.filters.toFixed = function (input, precision) {
-  // In our example precision is the integer 2
-
-  // Make sure that if your input is undefined, your
-  // output will be undefined as well and will not
-  // throw an error
-  if (!input) return input
-
-  return input.toFixed(precision)
-}
-
 function nullGetter(tag, props) {
   if (props.tag === 'simple') {
     return 'undefined'
