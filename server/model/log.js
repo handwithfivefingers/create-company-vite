@@ -1,5 +1,8 @@
 module.exports = {
-  error: {
+  ip: {
+    type: String,
+  },
+  data: {
     type: Object,
   },
-};
+}

@@ -4,7 +4,7 @@ const shortid = require('shortid')
 const path = require('path')
 const multer = require('multer')
 const { authFailedHandler, errHandler } = require('@response')
-const { User } = require('../model')
+const { User, Log } = require('../model')
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -61,7 +61,12 @@ const TrackingApi = async (req, res, next) => {
   try {
     // console.log(req)
     let host = req.headers['host']
-    let remoteAddress = req.socket['remoteAddress']
+    let remoteAddress =
+      req.headers['x-forwarded-for'] ||
+      req.id ||
+      req.connection.remoteAddress ||
+      req.socket.remoteAddress ||
+      req.connection.socket.remoteAddress
     // let originalUrl = req.socket['originalUrl']
     console.log(host, req.originalUrl, remoteAddress)
   } catch (err) {
@@ -70,7 +75,7 @@ const TrackingApi = async (req, res, next) => {
   }
 }
 
-const validateIPNVnpay = (req, res, next) => {
+const validateIPNVnpay = async (req, res, next) => {
   const SANDBOX_WHITE_LIST = ['113.160.92.202']
   const PRODUCT_WHITE_LIST = [
     '113.52.45.78',
@@ -81,17 +86,45 @@ const validateIPNVnpay = (req, res, next) => {
     '103.220.87.4',
   ]
 
-  let validIps = [...SANDBOX_WHITE_LIST, ...PRODUCT_WHITE_LIST] // Put your IP whitelist in this array
+  const TEST_IP = ['127.0.0.1', '10.0.14.235', '10.0.12.251']
 
-  if (validIps.includes(req.connection.remoteAddress)) {
-    // IP is ok, so go on
-    console.log('IP ok')
+  let validIps = ['127.0.0.1', ...TEST_IP, ...SANDBOX_WHITE_LIST, ...PRODUCT_WHITE_LIST] // Put your IP whitelist in this array
+
+  const IPV4_PREFIX = '::ffff:'
+
+  var ipAddr =
+    // req.headers['x-forwarded-for'] ||
+    req.id || req.connection.remoteAddress || req.socket.remoteAddress || req.connection.socket.remoteAddress
+
+  const isIPV4 = ipAddr.includes(IPV4_PREFIX)
+
+  if (isIPV4) {
+    ipAddr = ipAddr?.replace(IPV4_PREFIX, '')
+  }
+
+  if (validIps.includes(ipAddr)) {
+    const type = SANDBOX_WHITE_LIST.includes(ipAddr)
+      ? 'sandbox'
+      : PRODUCT_WHITE_LIST.includes(ipAddr)
+      ? 'production'
+      : TEST_IP.includes(ipAddr)
+      ? 'dev'
+      : ''
+    let _logObject = {
+      ip: ipAddr,
+      type,
+      data: {
+        ...req.query,
+      },
+    }
+
+    let _log = new Log(_logObject)
+
+    await _log.save()
+
     next()
   } else {
-    // Invalid ip
-    console.log('Bad IP: ' + req.connection.remoteAddress)
-    const err = new Error('Bad IP: ' + req.connection.remoteAddress)
-    // next(err)
+    console.log('Bad IP: ' + ipAddr)
 
     return res.status(403).json({ message: 'You are not allowed to access' })
   }
