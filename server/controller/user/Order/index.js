@@ -23,6 +23,7 @@ module.exports = class OrderUser {
         .populate('category', 'name type')
         .populate('products', 'name')
         .populate('orderOwner', 'name')
+        .select('-orderInfo')
         .sort('-createdAt')
       return successHandler(_order, res)
     } catch (err) {
@@ -36,7 +37,7 @@ module.exports = class OrderUser {
 
     try {
       if (req.role === 'admin') {
-        const _order = await Order.findById(id).populate('products', 'name type')
+        const _order = await Order.findById(id).populate('products', 'name type').select('-orderInfo')
         return successHandler(_order, res)
       }
 
@@ -80,11 +81,6 @@ module.exports = class OrderUser {
       newData.slug = newData.name + '-' + shortid.generate()
 
       let _save = new Order({ ...newData })
-
-      // return res.status(200).json({
-      //   data: { ...req.body },
-      //   generateData: _save,
-      // })
 
       let _obj = await _save.save()
 
@@ -179,15 +175,17 @@ module.exports = class OrderUser {
   // common
 
   calcPrice = async (cateID) => {
-    if (!cateID) return null
+    try {
+      if (!cateID) return null
 
-    let _cate = await Category.findOne({ _id: cateID }).select('price')
+      let _cate = await Category.findOne({ _id: cateID }).select('price')
 
-    console.log('cateID', _cate)
+      if (!_cate) return null
 
-    if (!_cate) return null
-
-    return _cate.price
+      return _cate.price
+    } catch (error) {
+      throw error
+    }
   }
 
   findKeysByObject = (obj, type = null) => {
@@ -256,6 +254,7 @@ module.exports = class OrderUser {
       return { files, result, msg }
     } catch (err) {
       console.log('findKeysByObject', err)
+      throw err
     }
   }
 }
