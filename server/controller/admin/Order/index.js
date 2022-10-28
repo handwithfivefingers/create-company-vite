@@ -13,9 +13,9 @@ module.exports = class OrderAdmin {
       if (req.role !== 'admin') return permisHandler(res)
 
       const _order = await Order.findById(id)
-      .populate('products', 'name type')
-      .populate('data.create_company.main_career', ['name', 'code'])
-
+        .populate('products', 'name type')
+        .populate('data.create_company.main_career', ['name', 'code'])
+        .select('-orderInfo')
       return successHandler(_order, res)
     } catch (err) {
       console.log('getOrderBySlug error')
@@ -44,6 +44,7 @@ module.exports = class OrderAdmin {
           path: 'orderOwner',
           select: 'name email',
         })
+        .select('-orderInfo')
         .sort('-createdAt')
 
       const count = await Order.find({}).countDocuments()
@@ -70,7 +71,7 @@ module.exports = class OrderAdmin {
 
   reforceDelete = async (req, res) => {
     try {
-      // return res.status(200).json({})
+      return res.status(200).json({})
       await Order.deleteMany({})
 
       // await Category.insertMany(this.data)

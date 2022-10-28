@@ -21,28 +21,19 @@ const urlReturn =
 
 module.exports = class PaymentService {
   testPayment = (req, res) => {
-    let { createDate, orderId, amount, orderInfo } = req.body
+    let { amount, orderInfo } = req.body
 
-    return this.paymentOrder(req, res, { createDate, orderId, amount, orderInfo })
+    return this.paymentOrder(req, res, { amount, orderInfo })
   }
 
   paymentOrder = async (req, res, params) => {
     const session = await startSession()
 
     try {
-      let { createDate, orderId, amount, orderInfo } = params
-
-      let _update = {
-        orderInfo, // _id
-        orderCreated: createDate,
-        orderId,
-        amount,
-      }
+      let { amount, orderInfo } = params
 
       // Start Transaction
       session.startTransaction()
-
-      await Order.updateOne({ _id: orderInfo }, _update, { session, new: true })
 
       let vnp_Params = getVpnParams(req, params)
 
@@ -50,10 +41,17 @@ module.exports = class PaymentService {
 
       vnpUrl += '?' + qs.stringify(vnp_Params, { encode: false })
 
-      await new Promise((resolve) => setTimeout(resolve, 3000))
+      let _update = {
+        orderInfo: { ...vnp_Params },
+        orderId,
+        amount,
+      }
+      await Order.updateOne({ _id: orderInfo }, _update, { session, new: true })
 
       await session.commitTransaction()
+
       session.endSession()
+
       return res.status(200).json({ status: 200, url: vnpUrl })
     } catch (err) {
       console.log('paymentOrder', err)
@@ -158,10 +156,6 @@ module.exports = class PaymentService {
       let signed = hmac.update(new Buffer.from(signData, 'utf-8')).digest('hex')
 
       if (secureHash === signed) {
-        // var orderId = vnp_Params['vnp_TxnRef']
-
-        // var rspCode = vnp_Params['vnp_ResponseCode']
-
         const _update = {
           payment: Number(1),
           orderInfo: {
@@ -229,6 +223,9 @@ module.exports = class PaymentService {
           // Success
           const _update = {
             payment: Number(1),
+            orderInfo: {
+              ...vnp_Params,
+            },
           }
 
           await Order.updateOne({ _id: req.query.vnp_OrderInfo }, _update, {
