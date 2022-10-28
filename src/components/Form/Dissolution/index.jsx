@@ -63,7 +63,7 @@ const Dissolution = forwardRef((props, ref) => {
           [styles.active]: props.current === 0,
         })}
       >
-        <Select onSelect={(val, opt) => handleChange(val, opt, 'category')} placeholder="Bấm vào đây">
+        <Select onChange={(val, opt) => handleChange(val, opt, 'category')} placeholder="Bấm vào đây">
           {props.data?.map(({ _id, name, type }) => {
             return (
               <Select.Option key={_id} value={_id} type={type}>

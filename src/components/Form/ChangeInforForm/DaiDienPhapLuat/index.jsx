@@ -182,7 +182,7 @@ const PeoppleWrapper = forwardRef((props, ref) => {
   return (
     <Col span={12}>
       <Form.Item name={[...BASE_FORM, 'in_out', i, 'type']}>
-        <Select onSelect={handleSelectPeopleType} placeholder="Bấm vào đây">
+        <Select onChange={handleSelectPeopleType} placeholder="Bấm vào đây">
           <Select.Option value={PERSON_TYPE.REMOVE}>Bỏ bớt người đại diện</Select.Option>
           <Select.Option value={PERSON_TYPE.ADD}>Thêm mới người đại diện</Select.Option>
         </Select>
@@ -269,7 +269,7 @@ const PeronalType = forwardRef((props, ref) => {
   return (
     <>
       <Form.Item name={[...BASE_FORM, 'after_change', index, 'select_person']} label={htmlContent('<b>Chọn người đại diện</b>')}>
-        <Select onSelect={(e) => handleSelectPersonType(e, index)} placeholder="Bấm vào đây" required>
+        <Select onChange={(e) => handleSelectPersonType(e, index)} placeholder="Bấm vào đây" required>
           {getPersonType()?.map((item) => {
             return <Select.Option value={item.value}>{item.name}</Select.Option>
           })}

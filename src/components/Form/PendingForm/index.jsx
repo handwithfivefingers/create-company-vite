@@ -82,7 +82,7 @@ const TamHoanForm = forwardRef((props, ref) => {
           [styles.active]: props.current === 0,
         })}
       >
-        <Select onSelect={(val, opt) => handleChange(opt, 'category')} placeholder="Bấm vào đây">
+        <Select onChange={(val, opt) => handleChange(opt, 'category')} placeholder="Bấm vào đây">
           {props.data?.map((item) => {
             return (
               <Select.Option key={item._id} value={item._id} {...item}>
