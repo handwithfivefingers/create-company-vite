@@ -51,11 +51,8 @@ module.exports = {
       type: Object,
     },
   },
-  orderId: {
-    type: Number,
-  },
-  orderCreated: {
-    type: Number,
+  orderInfo: {
+    type: Object,
   },
   category: {
     type: mongoose.Schema.Types.ObjectId,

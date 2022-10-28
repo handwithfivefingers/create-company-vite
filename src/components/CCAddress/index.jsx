@@ -5,6 +5,7 @@ import CCSelect from '@/components/CCSelect'
 import { onSetFields, htmlContent } from '@/helper/Common'
 
 const CCAddress = forwardRef(({ name, label }, ref) => {
+
   return (
     <>
       <Form.Item className={styles.newLine} label={htmlContent(label || '<b>Địa chỉ thường trú <i>(ĐDPL)</i></b>')}>

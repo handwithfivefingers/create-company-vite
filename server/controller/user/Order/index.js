@@ -138,8 +138,6 @@ module.exports = class OrderUser {
       if (!result) throw msg
 
       var newData = {
-        // track,
-        // payment,
         data,
         orderOwner: req.id,
         name: shortid.generate(),
@@ -159,88 +157,11 @@ module.exports = class OrderUser {
       let params = {
         amount: price * 100,
         orderInfo: _obj._id,
-        orderId: req.body.orderId,
-        createDate: req.body.createDate,
       }
 
       return this.paymentOrder(req, res, params)
     } catch (err) {
       console.log('orderWithPayment error', err)
-      return errHandler(err, res)
-    }
-  }
-
-  getUrlReturn = async (req, res) => {
-    // console.log(req.query, " Get URL Return");
-    try {
-      var vnp_Params = req.query
-
-      var secureHash = vnp_Params['vnp_SecureHash']
-
-      delete vnp_Params['vnp_SecureHash']
-
-      delete vnp_Params['vnp_SecureHashType']
-
-      vnp_Params = sortObject(vnp_Params)
-
-      var tmnCode = process.env.TMN_CODE_VPN
-
-      var secretKey = process.env.SECRET_KEY_VPN
-
-      var signData = qs.stringify(vnp_Params, { encode: false })
-
-      var hmac = crypto.createHmac('sha512', secretKey)
-
-      var signed = hmac.update(new Buffer.from(signData, 'utf-8')).digest('hex')
-
-      const url = process.env.NODE_ENV === 'development' ? `http://localhost:3003/user/result?` : `https://app.thanhlapcongtyonline.vn/user/result?`
-
-      if (secureHash === signed) {
-        //Kiem tra xem du lieu trong db co hop le hay khong va thong bao ket qua
-        let code = vnp_Params['vnp_ResponseCode']
-        console.log(vnp_Params['vnp_OrderInfo']);
-        const query = qs.stringify({
-          code,
-          text: ResponseCode[code],
-          orderId: vnp_Params['vnp_OrderInfo'],
-        })
-
-        if (code === '00') {
-          // Success
-          const _update = {
-            payment: Number(1),
-          }
-
-          await Order.updateOne({ _id: req.query.vnp_OrderInfo }, _update, {
-            new: true,
-          })
-
-          let _order = await Order.findOne({
-            _id: req.query.vnp_OrderInfo,
-          }).populate('orderOwner', '_id name email')
-
-          let [{ subject, content }] = await Setting.find().populate('mailPaymentSuccess')
-
-          let params = {
-            email: _order.orderOwner.email || 'handgd1995@gmail.com',
-            subject,
-            content,
-            type: 'any',
-          }
-
-          await sendmailWithAttachments(req, res, params)
-
-          return res.redirect(url + query)
-        }
-        return res.redirect(url + query)
-      } else {
-        const query = qs.stringify({
-          code: ResponseCode[97],
-        })
-        return res.redirect(url + query)
-      }
-    } catch (err) {
-      console.log('getUrlReturn', err)
       return errHandler(err, res)
     }
   }
