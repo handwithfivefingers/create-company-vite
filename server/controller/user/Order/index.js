@@ -10,7 +10,11 @@ const { getVpnParams, sortObject } = require('@common/helper')
 const { uniqBy, rest } = require('lodash')
 
 const MailService = require('@server/controller/user/Sendmail')
+const PaymentService = require('../../Service/Payment')
+
 const { sendmailWithAttachments } = new MailService()
+
+const { paymentOrder } = new PaymentService()
 
 module.exports = class OrderUser {
   PAGE_SIZE = 10
@@ -119,7 +123,7 @@ module.exports = class OrderUser {
       if (exist) return existHandler(res)
 
       //  khai báo
-      const { track, payment, data } = req.body
+      const { data } = req.body
 
       const { category, products, ...rest } = data
 
@@ -150,27 +154,28 @@ module.exports = class OrderUser {
       let _obj = await _save.save()
 
       // handle Payment Here
+
       let params = {
         amount: price * 100,
         orderInfo: _obj._id,
       }
 
-      return this.paymentOrder(req, res, params)
+      return paymentOrder(req, res, params)
     } catch (err) {
       console.log('orderWithPayment error', err)
       return errHandler(err, res)
     }
   }
 
-  paymentOrder = (req, res, params) => {
-    let vnp_Params = getVpnParams(req, params)
+  // paymentOrder = (req, res, params) => {
+  //   let vnp_Params = getVpnParams(req, params)
 
-    var vnpUrl = process.env.VNPAY_URL
+  //   var vnpUrl = process.env.VNPAY_URL
 
-    vnpUrl += '?' + qs.stringify(vnp_Params, { encode: false })
+  //   vnpUrl += '?' + qs.stringify(vnp_Params, { encode: false })
 
-    return res.status(200).json({ status: 200, url: vnpUrl })
-  }
+  //   return res.status(200).json({ status: 200, url: vnpUrl })
+  // }
 
   // common
 

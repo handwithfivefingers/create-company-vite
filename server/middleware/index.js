@@ -86,46 +86,38 @@ const validateIPNVnpay = async (req, res, next) => {
     '103.220.87.4',
   ]
 
-  const TEST_IP = ['127.0.0.1', '10.0.14.235', '10.0.12.251']
+  let validIps = [...SANDBOX_WHITE_LIST, ...PRODUCT_WHITE_LIST] // Put your IP whitelist in this array
 
-  let validIps = ['127.0.0.1', ...TEST_IP, ...SANDBOX_WHITE_LIST, ...PRODUCT_WHITE_LIST] // Put your IP whitelist in this array
-
-  const IPV4_PREFIX = '::ffff:'
-
-  var ipAddr =
-    // req.headers['x-forwarded-for'] ||
-    req.id || req.connection.remoteAddress || req.socket.remoteAddress || req.connection.socket.remoteAddress
-
-  const isIPV4 = ipAddr.includes(IPV4_PREFIX)
-
-  if (isIPV4) {
-    ipAddr = ipAddr?.replace(IPV4_PREFIX, '')
+  if (process.env.NODE_ENV === 'development') {
+    validIps = [...validIps, '127.0.0.1']
   }
 
+  var ipAddr = req.id || req.connection.remoteAddress || req.socket.remoteAddress || req.connection.socket.remoteAddress
+
+  const type = SANDBOX_WHITE_LIST.includes(ipAddr)
+    ? 'sandbox'
+    : PRODUCT_WHITE_LIST.includes(ipAddr)
+    ? 'production'
+    : TEST_IP.includes(ipAddr)
+    ? 'dev'
+    : ''
+
+  let _logObject = {
+    ip: ipAddr,
+    type,
+    data: {
+      ...req.query,
+    },
+  }
+
+  let _log = new Log(_logObject)
+
+  await _log.save()
+
   if (validIps.includes(ipAddr)) {
-    const type = SANDBOX_WHITE_LIST.includes(ipAddr)
-      ? 'sandbox'
-      : PRODUCT_WHITE_LIST.includes(ipAddr)
-      ? 'production'
-      : TEST_IP.includes(ipAddr)
-      ? 'dev'
-      : ''
-    let _logObject = {
-      ip: ipAddr,
-      type,
-      data: {
-        ...req.query,
-      },
-    }
-
-    let _log = new Log(_logObject)
-
-    await _log.save()
-
     next()
   } else {
     console.log('Bad IP: ' + ipAddr)
-
     return res.status(403).json({ message: 'You are not allowed to access' })
   }
 }
