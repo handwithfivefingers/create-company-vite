@@ -110,9 +110,9 @@ const validateIPNVnpay = async (req, res, next) => {
     },
   }
 
-  // let _log = new Log(_logObject)
+  let _log = new Log(_logObject)
 
-  // await _log.save()
+  await _log.save()
 
   if (validIps.includes(ipAddr)) {
     next()
