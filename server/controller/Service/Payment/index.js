@@ -157,9 +157,7 @@ module.exports = class PaymentService {
       if (secureHash === signed) {
         let _order = await Order.findOne({
           _id: req.query.vnp_OrderInfo,
-          orderInfo: {
-            vnp_TxnRef: vnp_Params.vnp_TxnRef,
-          },
+          'orderInfo.vnp_TxnRef': vnp_Params.vnp_TxnRef,
         })
 
         if (!_order) return res.status(200).json({ RspCode: '01', Message: ResponseCode['01'] })
@@ -172,7 +170,7 @@ module.exports = class PaymentService {
             ...vnp_Params,
           },
         }
-        
+
         await _order.save(_update)
 
         // await Order.updateOne({ _id: req.query.vnp_OrderInfo }, _update, {
