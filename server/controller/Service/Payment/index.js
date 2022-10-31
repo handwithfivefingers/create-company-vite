@@ -86,14 +86,16 @@ module.exports = class PaymentService {
           _id: vnp_Params.vnp_OrderInfo,
           'orderInfo.vnp_TxnRef': vnp_Params.vnp_TxnRef,
         })
-
+        // Check Order Exist
         if (!_order) return res.status(200).json({ RspCode: '01', Message: ResponseCode['01'] })
 
-        if (_order.payment === 1) return res.status(200).json({ RspCode: '02', Message: ResponseCode['02'] })
-
-
+        // FIRST STEP -> Check Price valid
         if (+_order.price * 100 !== +vnp_Params.vnp_Amount)
           return res.status(200).json({ RspCode: '04', Message: ResponseCode['04'] })
+
+        // Check Order Payment
+
+        if (_order.payment === 1) return res.status(200).json({ RspCode: '02', Message: ResponseCode['02'] })
 
         _order.payment = Number(1)
 
