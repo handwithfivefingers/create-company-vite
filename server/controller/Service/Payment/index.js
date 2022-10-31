@@ -91,7 +91,8 @@ module.exports = class PaymentService {
 
         if (_order.payment === 1) return res.status(200).json({ RspCode: '02', Message: ResponseCode['02'] })
 
-        if (_order.price * 100 !== vnp_Params.vnp_Amount)
+
+        if (+_order.price * 100 !== +vnp_Params.vnp_Amount)
           return res.status(200).json({ RspCode: '04', Message: ResponseCode['04'] })
 
         _order.payment = Number(1)
