@@ -16,3 +16,15 @@
     }
   }
 }
+
+.orderWrapper {
+  // height:500px
+  display: grid;
+  grid-template-rows: calc(100vh - 40px - 62px - 38px - 24px) 40px;
+  @media (max-width: 767px) {
+    grid-template-rows: calc(100vh - 40px - 62px - 38px) 40px;
+  }
+  table {
+    background-color: #fff;
+  }
+}

@@ -77,7 +77,9 @@ const DaiDienPhapLuat = forwardRef((props, ref) => {
           </Col>
           {listIncludesOrExclude &&
             listIncludesOrExclude?.map((item, i) => (
-              <PeoppleWrapper {...props} BASE_FORM={BASE_FORM} ref={ref} i={i} />
+              <Col lg={12} md={24} sm={24} xs={24} key={[i, item]}>
+                <PeoppleWrapper {...props} BASE_FORM={BASE_FORM} ref={ref} i={i} />
+              </Col>
             ))}
         </Row>
       </Form.Item>
@@ -205,7 +207,7 @@ const PeoppleWrapper = forwardRef((props, ref) => {
   }
 
   return (
-    <Col span={12}>
+    <Col span={24}>
       <Form.Item name={[...BASE_FORM, 'in_out', i, 'type']}>
         <Select onChange={handleSelectPeopleType} placeholder="Bấm vào đây">
           <Select.Option value={PERSON_TYPE.REMOVE}>Bỏ bớt người đại diện</Select.Option>

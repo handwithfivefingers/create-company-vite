@@ -29,7 +29,10 @@ module.exports = class OrderUser {
         .populate('orderOwner', 'name')
         .select('-orderInfo')
         .sort('-createdAt')
-      return successHandler(_order, res)
+
+      let count = _order.length
+
+      return successHandler({ _order, count }, res)
     } catch (err) {
       console.log('getOrdersFromUser error')
       return errHandler(err, res)

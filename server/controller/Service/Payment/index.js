@@ -85,35 +85,52 @@ module.exports = class PaymentService {
         let _order = await Order.findOne({
           _id: vnp_Params.vnp_OrderInfo,
           'orderInfo.vnp_TxnRef': vnp_Params.vnp_TxnRef,
-        })
-        // Check Order Exist
+        }).populate('orderOwner', '_id name email')
+
+        // FIRST STEP - Order Exists
         if (!_order) return res.status(200).json({ RspCode: '01', Message: ResponseCode['01'] })
 
-        // FIRST STEP -> Check Price valid
-        if (+_order.price * 100 !== +vnp_Params.vnp_Amount)
-          return res.status(200).json({ RspCode: '04', Message: ResponseCode['04'] })
+        // SECOND STEP -> Check Price Match
+        
+        let isMatchAmount = +_order.price * 100 === +vnp_Params.vnp_Amount
+
+        if (!isMatchAmount) return res.status(200).json({ RspCode: '04', Message: ResponseCode['04'] })
 
         // Check Order Payment
 
+        // THIRD STEP - Checking Payment Status
+
         if (_order.payment === 1) return res.status(200).json({ RspCode: '02', Message: ResponseCode['02'] })
 
-        _order.payment = Number(1)
+        // pass all test case
+
+        _order.payment = 1
 
         _order.orderInfo = vnp_Params
 
         await _order.save()
 
-        //Kiem tra du lieu co hop le khong, cap nhat trang thai don hang va gui ket qua cho VNPAY theo dinh dang duoi
+        let [{ subject, content }] = await Setting.find().populate('mailPaymentSuccess')
 
+        let params = {
+          email: _order.orderOwner.email || 'handgd1995@gmail.com',
+          subject,
+          content,
+          type: 'any',
+        }
+
+        sendmailWithAttachments(req, res, params)
+
+        //Kiem tra du lieu co hop le khong, cap nhat trang thai don hang va gui ket qua cho VNPAY theo dinh dang duoi
         return res.status(200).json({ RspCode: '00', Message: ResponseCode['00'] })
-      } else {
-        return res.status(200).json({ RspCode: '97', Message: ResponseCode['97'] })
       }
+
+      return res.status(200).json({ RspCode: '97', Message: ResponseCode['97'] })
     } catch (error) {
       return res.status(400).json({
         message: 'Something went wrong',
-        RspCode: '97',
-        Message: 'Fail checksum',
+        RspCode: '99',
+        Message: ResponseCode['99'],
         error,
       })
     }
@@ -149,43 +166,37 @@ module.exports = class PaymentService {
       if (secureHash === signed) {
         //Kiem tra xem du lieu trong db co hop le hay khong va thong bao ket qua
         let code = vnp_Params['vnp_ResponseCode']
-        console.log(vnp_Params['vnp_OrderInfo'])
+        // console.log(vnp_Params['vnp_OrderInfo'])
         const query = qs.stringify({
           code,
           text: ResponseCode[code],
           orderId: vnp_Params['vnp_OrderInfo'],
         })
 
-        if (code === '00') {
-          // Success
-          const _update = {
-            payment: Number(1),
-            orderInfo: {
-              ...vnp_Params,
-            },
-          }
-
-          await Order.updateOne({ _id: req.query.vnp_OrderInfo }, _update, {
-            new: true,
-          })
-
-          let _order = await Order.findOne({
-            _id: req.query.vnp_OrderInfo,
-          }).populate('orderOwner', '_id name email')
-
-          let [{ subject, content }] = await Setting.find().populate('mailPaymentSuccess')
-
-          let params = {
-            email: _order.orderOwner.email || 'handgd1995@gmail.com',
-            subject,
-            content,
-            type: 'any',
-          }
-
-          await sendmailWithAttachments(req, res, params)
-
-          return res.redirect(url + query)
-        }
+        // if (code === '00') {
+        // Success
+        // const _update = {
+        //   payment: Number(1),
+        //   orderInfo: {
+        //     ...vnp_Params,
+        //   },
+        // }
+        // await Order.updateOne({ _id: req.query.vnp_OrderInfo }, _update, {
+        //   new: true,
+        // })
+        // let _order = await Order.findOne({
+        //   _id: req.query.vnp_OrderInfo,
+        // }).populate('orderOwner', '_id name email')
+        // let [{ subject, content }] = await Setting.find().populate('mailPaymentSuccess')
+        // let params = {
+        //   email: _order.orderOwner.email || 'handgd1995@gmail.com',
+        //   subject,
+        //   content,
+        //   type: 'any',
+        // }
+        // await sendmailWithAttachments(req, res, params)
+        // return res.redirect(url + query)
+        // }
         return res.redirect(url + query)
       } else {
         const query = qs.stringify({

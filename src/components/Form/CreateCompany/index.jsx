@@ -175,7 +175,13 @@ const CreateCompany = forwardRef((props, formRef) => {
       data,
     }
 
-    html = listForm.map((Component) => <Component {...configs} />)
+    html = listForm.map((Component, index) => (
+      <Row key={[configs, index]}>
+        <Col span={24}>
+          <Component {...configs} />
+        </Col>
+      </Row>
+    ))
 
     return html
   }

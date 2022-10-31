@@ -105,7 +105,7 @@ const BaseInformation = forwardRef((props, ref) => {
             placeholder: '80,000,000',
             name: ['capital'],
             options: {
-              column: 12,
+              column: 8,
               layout: 'horizontal',
               format: true,
               formatter: (v) => `${new Intl.NumberFormat('en-US').format(v.replace(/,/g, ''))}`,
@@ -116,7 +116,7 @@ const BaseInformation = forwardRef((props, ref) => {
             placeholder: '80',
             name: ['capital_percent'],
             options: {
-              column: 12,
+              column: 16,
               layout: 'horizontal',
               format: true,
               formatter: (v) => `${v.replace('%', '')}%`,
@@ -160,14 +160,14 @@ const BaseInformation = forwardRef((props, ref) => {
             placeholder="CÔNG TY TNHH DỊCH VỤ TƯ VẤN WARREN B"
           />
         </Col>
-        <Col span={12}>
+        <Col lg={12} md={24} sm={24} xs={24}>
           <CCInput
             label="Mã số doanh nghiệp hoặc Mã số thuế"
             name={['change_info', 'base_inform', 'mst']}
             placeholder="0316184427"
           />
         </Col>
-        <Col span={12}>
+        <Col lg={12} md={24} sm={24} xs={24}>
           <CCInput
             type="date"
             label="Ngày cấp"

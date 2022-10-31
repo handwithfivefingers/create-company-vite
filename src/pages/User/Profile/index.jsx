@@ -75,7 +75,7 @@ const UserProfile = (props) => {
       })
     }
   }, [profileData])
-
+  console.log('screen', screen)
   return (
     <Row className={animateClass ?? animateClass}>
       <Col lg={8} sm={24} xs={24} md={12} order={!screen.md ? 1 : 0}>
@@ -101,7 +101,7 @@ const UserProfile = (props) => {
         </Card>
       </Col>
 
-      <Col lg={16} sm={24} xs={24} md={12} className='p-l-8'>
+      <Col lg={16} sm={24} xs={24} md={12} className={screen.md ? 'p-l-8' : ''}>
         <Card title="Thông tin cá nhân">
           <Form onFinish={onProfileChange} ref={profileRef} layout="vertical">
             <Form.Item label="Name" name="name">

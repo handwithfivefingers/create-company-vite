@@ -35,7 +35,7 @@ const TangVonDieuLe = forwardRef((props, ref) => {
       })}
     >
       <Row gutter={[16, 0]}>
-        <Col span={12}>
+        <Col lg={12} md={24} sm={24} xs={24}>
           <Form.Item name={[...BASE_FORM, 'base_val', 'num']} label={htmlContent('Vốn điều lệ đã đăng ký <i>(bằng số)</i>')}>
             <InputNumber
               formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
@@ -45,10 +45,10 @@ const TangVonDieuLe = forwardRef((props, ref) => {
             />
           </Form.Item>
         </Col>
-        <Col span={12}>
+        <Col lg={12} md={24} sm={24} xs={24}>
           <CCInput label={htmlContent('Vốn điều lệ đã đăng ký <i>(bằng chữ)</i>')} name={[...BASE_FORM, 'base_val', 'char']} />
         </Col>
-        <Col span={12}>
+        <Col lg={12} md={24} sm={24} xs={24}>
           <Form.Item name={[...BASE_FORM, 'new_base_val', 'num']} label={htmlContent('Vốn điều lệ sau khi tăng <i>(bằng số)</i>')}>
             <InputNumber
               formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
@@ -58,7 +58,7 @@ const TangVonDieuLe = forwardRef((props, ref) => {
             />
           </Form.Item>
         </Col>
-        <Col span={12}>
+        <Col lg={12} md={24} sm={24} xs={24}>
           <CCInput label={htmlContent('Vốn điều lệ sau khi tăng <i>(bằng chữ)</i>')} name={[...BASE_FORM, 'new_base_val', 'char']} />
         </Col>
       </Row>
