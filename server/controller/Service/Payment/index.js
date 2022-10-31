@@ -155,21 +155,35 @@ module.exports = class PaymentService {
       let signed = hmac.update(new Buffer.from(signData, 'utf-8')).digest('hex')
 
       if (secureHash === signed) {
+        let _order = await Order.findOne({
+          _id: req.query.vnp_OrderInfo,
+          orderInfo: {
+            vnp_TxnRef: vnp_Params.vnp_TxnRef,
+          },
+        })
+
+        if (!_order) return res.status(200).json({ RspCode: '01', Message: ResponseCode['01'] })
+
+        if (!_order.payment === 1) return res.status(200).json({ RspCode: '02', Message: ResponseCode['02'] })
+
         const _update = {
           payment: Number(1),
           orderInfo: {
             ...vnp_Params,
           },
         }
+        
+        await _order.save(_update)
 
-        await Order.updateOne({ _id: req.query.vnp_OrderInfo }, _update, {
-          new: true,
-        })
+        // await Order.updateOne({ _id: req.query.vnp_OrderInfo }, _update, {
+        //   new: true,
+        // })
 
         //Kiem tra du lieu co hop le khong, cap nhat trang thai don hang va gui ket qua cho VNPAY theo dinh dang duoi
-        return res.status(200).json({ RspCode: '00', Message: 'success' })
+
+        return res.status(200).json({ RspCode: '00', Message: ResponseCode['00'] })
       } else {
-        return res.status(200).json({ RspCode: '97', Message: 'Fail checksum' })
+        return res.status(200).json({ RspCode: '97', Message: ResponseCode['97'] })
       }
     } catch (error) {
       return res.status(400).json({

@@ -11,24 +11,13 @@ import { useQuery } from '@tanstack/react-query'
 import moment from 'moment'
 const { TabPane } = Tabs
 const AdminDashboard = () => {
-  const [logs, setLogs] = useState([])
-  const [data, setData] = useState([])
-  const [output, setOutput] = useState([])
-
-  const logsRef = useRef([])
-  const dataRef = useRef([])
-  const outputRef = useRef([])
-  const [tabIndex, setTabIndex] = useState([])
+  const logsRef = useRef()
 
   const [containerHeight, setContainerHeight] = useState(100)
 
-  const { isFetching, isLoading, status } = useQuery(
+  const { data, isFetching, isLoading, status } = useQuery(
     ['logs'],
-    async () => {
-      let res = await AdminDashboardService.getLogs()
-      setScreenData(res)
-      return res
-    },
+    async () => await AdminDashboardService.getLogs(),
     {
       staleTime: 60 * 1000, // 1 minute
       refetchOnWindowFocus: true,
@@ -51,18 +40,10 @@ const AdminDashboard = () => {
     try {
       if (!res) return
       let { data } = res?.data
-      let { _logs, output, error } = data
-      logsRef.current = [
-        {
-          ...logsRef.current,
-          _logs,
-          output,
-          error,
-        },
-      ]
-      dataRef.current = _logs
 
-      outputRef.current = output.slice(0, 20)
+      let { _logs } = data
+
+      logsRef.current = _logs
     } catch (err) {
       console.log(err)
     }
@@ -70,10 +51,10 @@ const AdminDashboard = () => {
 
   const onScroll = (e, type) => {
     if (e.currentTarget.scrollHeight - e.currentTarget.scrollTop === containerHeight) {
-      if (type === 1) appendData()
-      else if (type === 2) appendOutputData()
+      appendData()
     }
   }
+
   const appendData = () => {
     let length = data.length
     let newData = data
@@ -81,86 +62,31 @@ const AdminDashboard = () => {
     setData(newData)
   }
 
-  const appendOutputData = () => {
-    let length = output.length
-    let newData = output
-    newData = [...newData, ...logs.output?.slice(length, length + 20)]
-    setOutput(newData)
+  if (data) {
+    logsRef.current = data.data.data
+
+    console.log('logsRef.current', logsRef.current)
   }
 
   return (
     <Row>
       <Col span={16}>
-        <Card title="Logs hệ thống" className="box__shadow" >
+        <Card title="Logs hệ thống" className="box__shadow">
           <Tabs
             defaultActiveKey="1"
             destroyInactiveTabPane
             className={clsx([styles.tabs, 'cc-card'])}
             animated={{ inkBar: true, tabPane: true }}
-            onChange={(v) => setTabIndex(v)}
-            value={tabIndex}
           >
-            <TabPane tab="Truy cập" key="1" value={1}>
-              {moment().format('[ngày] D [tháng] M [năm] y')}
-              {/* <List
-                className={clsx([styles.list, 'demo-loadmore-list'])}
-                loading={loading}
-                itemLayout="horizontal"
-                dataSource={logs._logs}
-                renderItem={(item) => (
-                  <List.Item actions={[]} className={clsx([styles.listItem])}>
-                    <Skeleton avatar title={false} loading={loading} active>
-                      <List.Item.Meta
-                        avatar={
-                          <Avatar
-                            className={clsx([styles.ava])}
-                            size={{ xs: 12, sm: 18, md: 24, lg: 30, xl: 36, xxl: 42 }}
-                            icon={<GrStatusWarning />}
-                          />
-                        }
-                        title={new Date(item?.createdAt).toString('dd/MM/yyyy HH:mm')}
-                        description={<span style={{ wordBreak: 'break-word' }}>{JSON.stringify(item.error)}</span>}
-                      />
-                    </Skeleton>
-                  </List.Item>
-                )}
-              /> */}
-              {/* <List loading={loading}>
+            <TabPane tab="Hệ thống" key="1" value={1}>
+              <List loading={isLoading}>
                 <VirtualList
-                  data={data}
+                  data={logsRef?.current || []}
                   height={containerHeight}
                   itemHeight={50}
-                  itemKey="Truy cập"
-                  onScroll={(e) => onScroll(e, 1)}
+                  itemKey="Hệ thống"
+                  onScroll={(e) => onScroll(e)}
                 >
-                  {(item, i) => (
-                    <List.Item key={`Truy cập ${i}`}>
-                      <List.Item.Meta
-                        avatar={
-                          <Avatar
-                            className={clsx([styles.ava])}
-                            size={{ xs: 12, sm: 18, md: 24, lg: 30, xl: 36, xxl: 42 }}
-                            icon={<GrStatusWarning />}
-                          />
-                        }
-                        title={new Date(item?.createdAt).toString('dd/MM/yyyy HH:mm')}
-                        description={
-                          <span style={{ wordBreak: 'break-word' }}>
-                            <pre style={{ wordBreak: 'break-word', whiteSpace: 'pre-wrap' }}>
-                              {JSON.stringify(item.error, undefined, 1)}
-                            </pre>
-                          </span>
-                        }
-                      />
-                    </List.Item>
-                  )}
-                </VirtualList>
-              </List> */}
-              <VirtualScroll data={dataRef.current} />
-            </TabPane>
-            <TabPane tab="Hệ thống" key="2" value={2}>
-              <List loading={isLoading}>
-                <VirtualList data={outputRef.current} height={containerHeight} itemHeight={50} itemKey="Hệ thống" onScroll={(e) => onScroll(e, 2)}>
                   {(item, i) => (
                     <List.Item key={i}>
                       <List.Item.Meta
@@ -178,7 +104,9 @@ const AdminDashboard = () => {
                             icon={<GrStatusWarning />}
                           />
                         }
-                        title={item?.slice(0, 28)}
+                        title={`Ngày khởi tạo : ${moment(item?.createdAt).format(
+                          'HH [giờ] mm [phút],[ngày] DD [tháng] MM [năm] YYYY',
+                        )}, Ip Connection: ${item.ip}`}
                         description={
                           <span style={{ wordBreak: 'break-word' }}>
                             {/* {item?.slice(29)} */}
@@ -188,7 +116,7 @@ const AdminDashboard = () => {
                                 whiteSpace: 'pre-wrap',
                               }}
                             >
-                              {item?.slice(29)}
+                              {JSON.stringify(item?.data, null, 4)}
                             </pre>
                           </span>
                         }
@@ -207,7 +135,7 @@ const AdminDashboard = () => {
             <Card className="box__shadow" title="Đơn hàng đã thanh toán"></Card>
           </Col>
           <Col span={24}>
-            <Card className="box__shadow"  title="Đơn hàng vừa tạo"></Card>
+            <Card className="box__shadow" title="Đơn hàng vừa tạo"></Card>
           </Col>
         </Row>
       </Col>

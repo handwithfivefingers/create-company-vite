@@ -35,7 +35,8 @@ router.get('/return_vnp', requireSignin, getUrlReturn)
 
 router.post('/service/order', checkingOrder)
 
-router.get('/service/payment/ipn_url', validateIPNVnpay, getIPNUrl)
+// router.get('/service/payment/ipn_url', validateIPNVnpay, getIPNUrl)
+router.get('/service/payment/ipn_url',  getIPNUrl)
 
 router.get('/service/province', requireSignin, getProvince)
 
