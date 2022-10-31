@@ -63,79 +63,6 @@ module.exports = class PaymentService {
     }
   }
 
-  // getUrlReturn = async (req, res) => {
-  //   console.log(req.query, ' Get URL Return')
-
-  //   var vnp_Params = req.query
-
-  //   var secureHash = vnp_Params['vnp_SecureHash']
-
-  //   delete vnp_Params['vnp_SecureHash']
-
-  //   delete vnp_Params['vnp_SecureHashType']
-
-  //   vnp_Params = sortObject(vnp_Params)
-
-  //   var tmnCode = process.env.TMN_CODE_VPN
-
-  //   var secretKey = process.env.SECRET_KEY_VPN
-
-  //   var signData = qs.stringify(vnp_Params, { encode: false })
-
-  //   var hmac = crypto.createHmac('sha512', secretKey)
-
-  //   var signed = hmac.update(new Buffer.from(signData, 'utf-8')).digest('hex')
-
-  //   const url =
-  //     process.env.NODE_ENV === 'development'
-  //       ? `http://localhost:3001/user/order?`
-  //       : `https://app.thanhlapcongtyonline.vn/user/order?`
-
-  //   if (secureHash === signed) {
-  //     //Kiem tra xem du lieu trong db co hop le hay khong va thong bao ket qua
-  //     let code = vnp_Params['vnp_ResponseCode']
-  //     const query = qs.stringify({
-  //       code,
-  //       text: ResponseCode[code],
-  //       orderId: vnp_Params['vnp_OrderInfo'],
-  //     })
-
-  //     if (code === '00') {
-  //       // Success
-  //       const _update = {
-  //         payment: Number(1),
-  //       }
-
-  //       await Order.updateOne({ _id: req.query.vnp_OrderInfo }, _update, { new: true })
-
-  //       console.log('updated Success')
-
-  //       let _order = await Order.findOne({ _id: req.query.vnp_OrderInfo }).populate('orderOwner', '_id name email')
-
-  //       console.log(_order)
-
-  //       let params = {
-  //         email: _order?.orderOwner?.email || 'handgod1995@gmail.com',
-  //         subject: 'Thông tin thanh toán',
-  //         content: `Chào ${_order?.orderOwner?.name},<br /> Quý khách đã thanh toán thành công. Thông tin giấy tờ sẽ được gửi sớm nhất có thể, quý khách vui lòng đợi trong giây lát.<br/> Xin cảm ơn`,
-  //         type: 'any',
-  //       }
-
-  //       await sendmailWithAttachments(req, res, params)
-
-  //       return res.redirect(url + query)
-  //     }
-
-  //     return res.redirect(url + query)
-  //   } else {
-  //     const query = qs.stringify({
-  //       code: ResponseCode[97],
-  //     })
-
-  //     return res.redirect(url + query)
-  //   }
-  // }
-
   getIPNUrl = async (req, res) => {
     try {
       let vnp_Params = req.query
@@ -156,26 +83,22 @@ module.exports = class PaymentService {
 
       if (secureHash === signed) {
         let _order = await Order.findOne({
-          _id: req.query.vnp_OrderInfo,
+          _id: vnp_Params.vnp_OrderInfo,
           'orderInfo.vnp_TxnRef': vnp_Params.vnp_TxnRef,
         })
 
         if (!_order) return res.status(200).json({ RspCode: '01', Message: ResponseCode['01'] })
 
-        if (!_order.payment === 1) return res.status(200).json({ RspCode: '02', Message: ResponseCode['02'] })
+        if (_order.payment === 1) return res.status(200).json({ RspCode: '02', Message: ResponseCode['02'] })
 
-        const _update = {
-          payment: Number(1),
-          orderInfo: {
-            ...vnp_Params,
-          },
-        }
+        if (_order.price * 100 !== vnp_Params.vnp_Amount)
+          return res.status(200).json({ RspCode: '04', Message: ResponseCode['04'] })
 
-        await _order.save(_update)
+        _order.payment = Number(1)
 
-        // await Order.updateOne({ _id: req.query.vnp_OrderInfo }, _update, {
-        //   new: true,
-        // })
+        _order.orderInfo = vnp_Params
+
+        await _order.save()
 
         //Kiem tra du lieu co hop le khong, cap nhat trang thai don hang va gui ket qua cho VNPAY theo dinh dang duoi
 
