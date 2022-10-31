@@ -6,6 +6,7 @@ import { Button, Col, Drawer, message, PageHeader, Row, Segmented, Table } from 
 import parser from 'html-react-parser'
 import { memo, useEffect, useState } from 'react'
 import styles from './styles.module.scss'
+import CCPagination from '@/components/CCPagination'
 
 function ListTemplateMail(props) {
   // const router = useRouter();
@@ -104,6 +105,15 @@ function ListTemplateMail(props) {
       fetchTemplateMail()
     }
   }
+  const pagiConfigs = {
+    current: data.current_page,
+    pageSize: 10,
+    total: data.count,
+    onChange: (page, pageSize) => {
+      fetchTemplateMail(page)
+    },
+    showSizeChanger: false,
+  }
 
   return (
     <>
@@ -153,7 +163,7 @@ function ListTemplateMail(props) {
         />
       </div>
 
-      <div style={{ padding: 8, background: '#fff' }}>
+      <div className={styles.tableWrapper}>
         <Table
           size="small"
           bordered
@@ -163,20 +173,21 @@ function ListTemplateMail(props) {
             tip: 'Loading...',
             delay: 100,
           }}
-          pagination={{
-            current: data.current_page,
-            pageSize: 10,
-            total: data.count,
-            onChange: (page, pageSize) => {
-              fetchTemplateMail(page)
-            },
-            showSizeChanger: false,
-          }}
-          sticky={{
-            offsetScroll: 8,
-            offsetHeader: -8,
-          }}
-          scroll={{ x: 1200 }}
+          // pagination={{
+          //   current: data.current_page,
+          //   pageSize: 10,
+          //   total: data.count,
+          //   onChange: (page, pageSize) => {
+          //     fetchTemplateMail(page)
+          //   },
+          //   showSizeChanger: false,
+          // }}
+          pagination={false}
+          // sticky={{
+          //   offsetScroll: 8,
+          //   offsetHeader: -8,
+          // }}
+          // scroll={{ x: 1200 }}
           rowKey={(record) => record._id}
         >
           <Table.Column width={'20%'} title="Mẫu Email" dataIndex="name" render={(val, record, i) => val} />
@@ -202,11 +213,13 @@ function ListTemplateMail(props) {
             )}
           />
         </Table>
-
-        <Drawer title={drawer.title} width={720} onClose={onClose} visible={drawer.visible}>
-          {drawer.component}
-        </Drawer>
       </div>
+      <div className={styles.pagination}>
+        <CCPagination {...pagiConfigs} />
+      </div>
+      <Drawer title={drawer.title} width={720} onClose={onClose} visible={drawer.visible}>
+        {drawer.component}
+      </Drawer>
     </>
   )
 }

@@ -1,0 +1,8 @@
+.tableWrapper {
+  display: flex;
+  width: 100%;
+  overflow: overlay;
+  > div {
+    width: 100%;
+  }
+}

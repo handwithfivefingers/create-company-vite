@@ -91,7 +91,7 @@ const DaiDienPhapLuat = forwardRef((props, ref) => {
         <Row gutter={[12]}>
           {listLegal.map((item, i) => {
             return (
-              <Col lg={8} md={12} sm={24} xs={24} key={i}>
+              <Col lg={8} md={12} sm={24} xs={24} key={[item, i]}>
                 <PeronalType
                   index={i}
                   ref={ref}

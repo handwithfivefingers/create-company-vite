@@ -4,7 +4,6 @@ import { Outlet, useNavigate } from 'react-router-dom'
 import WithAuth from '@/components/HOC/WithAuth'
 import { useSelector } from 'react-redux'
 const Admin = (props) => {
-  
   const auth = useSelector((state) => state.authReducer)
 
   const navigate = useNavigate()

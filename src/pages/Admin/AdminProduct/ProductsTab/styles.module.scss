@@ -6,15 +6,31 @@
 }
 
 .tableWrapper {
-  height: 100%;
-  background-color: #fff;
-  padding: 8px;
-  display: grid;
-  grid-template-rows: 1fr 60px;
+  display: flex;
+  width: 100%;
+  overflow: overlay;
+  flex-direction: column;
   > div {
-    overflow: auto;
+    width: 100%;
   }
-  .pagi {
-    align-items: center;
-  }
+}
+
+// .tableWrapper {
+//   background-color: #fff;
+//   overflow: overlay;
+//   table {
+//     background-color: #fff;
+//     thead {
+//       position: sticky;
+//       top: 0;
+//       z-index: 1;
+//     }
+//   }
+// }
+
+.pagination {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 4px 0;
 }

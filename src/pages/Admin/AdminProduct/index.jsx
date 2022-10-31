@@ -1,7 +1,7 @@
 import { PlusSquareOutlined } from '@ant-design/icons'
 
 import { Button, Tabs } from 'antd'
-import React, { useRef, useState } from 'react'
+import React, { useRef, useState, useMemo } from 'react'
 
 import AdminHeader from '../../../components/Admin/AdminHeader'
 import styles from './styles.module.scss'
@@ -10,10 +10,11 @@ import CareerCategoryTab from './CareerCategoryTab'
 import CareerTab from './CareerTab'
 import CategoryTab from './CategoryTab'
 import ProductsTab from './ProductsTab'
+import clsx from 'clsx'
 
 const { TabPane } = Tabs
 const AdminProduct = (props) => {
-  const [activeTabs, setActiveTabs] = useState('1')
+  const [activeTabs, setActiveTabs] = useState(1)
   const productRef = useRef()
 
   const [childModal, setChildModal] = useState({
@@ -111,54 +112,72 @@ const AdminProduct = (props) => {
     {
       label: 'Danh mục',
       key: 1,
-      children: <CategoryTab ref={productRef} />,
     },
     {
       label: 'Sản phẩm',
       key: 2,
-      children: <ProductsTab ref={productRef} />,
     },
     {
-      label: 'Danh mục Ngành nghề',
+      label: 'Danh mục ngành nghề',
       key: 3,
-      children: <CareerCategoryTab ref={productRef} />,
     },
     {
       label: 'Ngành nghề',
       key: 4,
-      children: <CareerTab ref={productRef} />,
     },
   ]
+
+  const renderTabByKey = useMemo(() => {
+    let html = null
+
+    switch (activeTabs) {
+      case 1:
+        return <CategoryTab ref={productRef} />
+      case 2:
+        return <ProductsTab ref={productRef} />
+      case 3:
+        return <CareerCategoryTab ref={productRef} />
+      case 4:
+        return <CareerTab ref={productRef} />
+    }
+
+    return html
+  }, [activeTabs])
   return (
     <>
       <AdminHeader title="Quản lý sản phẩm" extra={renderExtra()} />
 
-      <Tabs
-        className={styles.tabsPanel}
-        // defaultActiveKey={1}
-        activeKey={activeTabs}
-        onChange={(key) => setActiveTabs(key)}
-        // destroyInactiveTabPane
-        // items={items}
-      >
-        {/* {items.map((item) => (
-          <Tabs.TabPane label={item.label} key={item.key}>
-            {item.children}
-          </Tabs.TabPane>
-        ))} */}
-        <Tabs.TabPane tab={'Danh mục'} key={1}>
+      <Tabs className={styles.tabsPanel} activeKey={activeTabs} onChange={(key) => setActiveTabs(key)}>
+        <Tabs.TabPane tab={'Danh mục'} key={1} className="tabContent">
           <CategoryTab ref={productRef} />
         </Tabs.TabPane>
-        <Tabs.TabPane tab={'Sản phẩm'} key={2}>
+        <Tabs.TabPane tab={'Sản phẩm'} key={2} className="tabContent">
           <ProductsTab ref={productRef} />
         </Tabs.TabPane>
-        <Tabs.TabPane tab={'Danh mục Ngành nghề'} key={3}>
+        <Tabs.TabPane tab={'Danh mục Ngành nghề'} key={3} className="tabContent">
           <CareerCategoryTab ref={productRef} />
         </Tabs.TabPane>
-        <Tabs.TabPane tab={'Ngành nghề'} key={4}>
+        <Tabs.TabPane tab={'Ngành nghề'} key={4} className="tabContent">
           <CareerTab ref={productRef} />
         </Tabs.TabPane>
       </Tabs>
+      {/* <div className={styles.tabsPanel}>
+        <div className={styles.tabHeader}>
+          {items.map((item) => (
+            <div
+              className={clsx([styles.tabItem, { [styles.active]: item.key === activeTabs }])}
+              onClick={() => setActiveTabs(item.key)}
+              key={item.key}
+            >
+              {item.label}
+            </div>
+          ))}
+        </div>
+        <div className={styles.tabContent}>
+          {renderTabByKey}
+          
+          </div>
+      </div> */}
     </>
   )
 }

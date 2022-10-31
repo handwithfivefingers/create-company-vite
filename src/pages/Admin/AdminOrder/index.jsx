@@ -11,8 +11,6 @@ import { Link, useNavigate } from 'react-router-dom'
 import AdminHeader from '../../../components/Admin/AdminHeader'
 import styles from './styles.module.scss'
 import { useFetch } from '../../../helper/Hook'
-import { useMutation } from '@tanstack/react-query'
-import { motion } from 'framer-motion'
 const AdminOrder = () => {
   const [loading, setLoading] = useState(false)
 
@@ -272,7 +270,8 @@ const AdminOrder = () => {
   return (
     <>
       <AdminHeader title="Quản lý đơn hàng" />
-      <div style={{ padding: 8, background: '#fff' }}>
+
+      <div className={styles.tableWrapper}>
         <Table
           dataSource={orderData}
           loading={{
@@ -280,12 +279,11 @@ const AdminOrder = () => {
             tip: 'Loading...',
             delay: 100,
           }}
-          // size="small"
           bordered
           className="table"
           pagination={false}
           rowKey={(record) => record._id || makeid(9)}
-          scroll={{ x: 1350 }}
+          // sticky={{ offsetHeader: 1, offsetScroll: 1 }}
         >
           <Table.Column
             title="Đơn hàng"
@@ -308,14 +306,15 @@ const AdminOrder = () => {
             width="175px"
             render={(val, record, i) => <>{number_format(record?.price)} VND</>}
           />
-          {/* <Table.Column title="Tiến độ" width={75} render={(val, record, i) => renderProgress(record)} /> */}
           <Table.Column title="Thanh toán" width={150} render={(val, record, i) => renderTag(record)} />
           <Table.Column title="Ngày tạo" width={150} render={(val, record, i) => renderDate(record)} />
           <Table.Column title="Thao tác" width={104} render={(val, record, i) => renderAction(record)} />
         </Table>
       </div>
 
-      <CCPagination {...pagiConfigs} />
+      <div className={styles.pagination}>
+        <CCPagination {...pagiConfigs} />
+      </div>
 
       {childModal.visible && (
         <Modal footer={null} onCancel={() => onClose()} visible={childModal.visible} width={childModal.width}>

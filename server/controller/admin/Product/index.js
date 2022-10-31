@@ -8,7 +8,7 @@ module.exports = class ProductAdmin {
 
       let _product = await Product.find({}).populate('categories')
 
-      return successHandler(_product, res)
+      return successHandler({ _product, count: _product.length }, res)
     } catch (error) {
       console.log(error)
       return errHandler(error, res)

@@ -25,8 +25,6 @@ export default function ChangeInfoPreview(props) {
     tax,
   } = data
 
-  console.log(data)
-
   const renderASide = () => {
     let html = null
 
@@ -336,7 +334,7 @@ export default function ChangeInfoPreview(props) {
                     {base_inform?.contribute_members.map((item, index) => {
                       return (
                         item && (
-                          <Col lg={12} md={24}>
+                          <Col lg={12} md={24} key={[index, item]}>
                             <Row>
                               <Col span={24}>
                                 <Form.Item label={<Text type="secondary">Họ và Tên</Text>}>{item?.name}</Form.Item>
@@ -376,7 +374,7 @@ export default function ChangeInfoPreview(props) {
 
                 if (item.type === PERSON_TYPE.REMOVE) {
                   html = (
-                    <Col lg={12} md={24}>
+                    <Col lg={12} md={24} key={[item, index]}>
                       <Card className="box__shadow" size="small" title="Xóa thành viên">
                         <Form.Item label={<Text type="secondary">{t['name']}</Text>}>{item.name}</Form.Item>
                         <Form.Item label={<Text type="secondary">{t['title']}</Text>}>{item?.title}</Form.Item>
@@ -453,7 +451,7 @@ export default function ChangeInfoPreview(props) {
               {legal_representative.after_change?.map((item, index) => {
                 let html = null
                 html = (
-                  <Col lg={12} md={24}>
+                  <Col lg={12} md={24} key={[item, index]}>
                     <Card className="box__shadow" size="small" title="Người đại diện pháp luật sau khi thay đổi">
                       <Form.Item label={<Text type="secondary">{t['name']}</Text>}>{item.name}</Form.Item>
                       <Form.Item label={<Text type="secondary">{t['gender']}</Text>}>{item?.gender}</Form.Item>

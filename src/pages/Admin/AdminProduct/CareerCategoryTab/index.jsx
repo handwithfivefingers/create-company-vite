@@ -1,5 +1,13 @@
 import { Button, Drawer, Popconfirm, Space, Table, message, Input } from 'antd'
-import { FormOutlined, MinusSquareOutlined, PlusSquareOutlined, DeleteOutlined, SearchOutlined, BarsOutlined, MoreOutlined } from '@ant-design/icons'
+import {
+  FormOutlined,
+  MinusSquareOutlined,
+  PlusSquareOutlined,
+  DeleteOutlined,
+  SearchOutlined,
+  BarsOutlined,
+  MoreOutlined,
+} from '@ant-design/icons'
 import AdminProductService from '@/service/AdminService/AdminProductService'
 import { useFetch } from '../../../../helper/Hook'
 import React, { useEffect, useState } from 'react'
@@ -117,77 +125,86 @@ const CareerCategoryTab = forwardRef((props, ref) => {
     onChange: (current) => setCurrent(current),
   }
 
-
   return (
-    <div className={styles.tableWrapper}>
-      <Table
-        dataSource={careerCategory?.data}
-        loading={careerCategoryLoading}
-        rowKey={(record) => record._uuid || record._id || Math.random()}
-        size="small"
-        bordered
-        scroll={{ x: 768 }}
-        pagination={false}
-        // pagination={{
-        //   current: current,
-        //   // total: careerCategory?.count,
-        //   showSizeChanger: false,
-        //   pageSize: 10,
-        //   onChange: (current) => setCurrent(current),
-        //   position: ['topRight', 'bottomRight']
-        // }}
-      >
-        <Table.Column
-          width={250}
-          title="Tên"
-          render={(val, record, i) => record.name}
-          dataIndex={'name'}
-          filterSearch
-          onFilter={(value, record) => record['name'].toString().toLowerCase().includes(value.toLowerCase())}
-          filterDropdown={({ confirm, clearFilters, filters, prefixCls, selectedKeys, setSelectedKeys, visible }) => {
-            return (
-              <div style={{ padding: 8 }}>
-                <Input.Search
-                  placeholder={`Search 'name'`}
-                  value={selectedKeys[0]}
-                  onPressEnter={(e) => {
-                    setSelectedKeys(e.target.value ? [e.target.value] : [])
-                    confirm()
-                  }}
-                  onSearch={(val) => {
-                    setSelectedKeys(val ? [val] : [])
-                    confirm()
-                  }}
-                  allowClear
-                  enterButton
-                  className={styles.inpSearch}
-                />
-              </div>
-            )
-          }}
-        />
+    <>
+      <div className={styles.tableWrapper}>
+        <Table
+          dataSource={careerCategory?.data}
+          loading={careerCategoryLoading}
+          rowKey={(record) => record._uuid || record._id || Math.random()}
+          size="small"
+          bordered
+          // scroll={{ x: 768 }}
+          pagination={false}
+        >
+          <Table.Column
+            width={250}
+            title="Tên"
+            render={(val, record, i) => record.name}
+            dataIndex={'name'}
+            filterSearch
+            onFilter={(value, record) => record['name'].toString().toLowerCase().includes(value.toLowerCase())}
+            filterDropdown={({ confirm, clearFilters, filters, prefixCls, selectedKeys, setSelectedKeys, visible }) => {
+              return (
+                <div style={{ padding: 8 }}>
+                  <Input.Search
+                    placeholder={`Search 'name'`}
+                    value={selectedKeys[0]}
+                    onPressEnter={(e) => {
+                      setSelectedKeys(e.target.value ? [e.target.value] : [])
+                      confirm()
+                    }}
+                    onSearch={(val) => {
+                      setSelectedKeys(val ? [val] : [])
+                      confirm()
+                    }}
+                    allowClear
+                    enterButton
+                    className={styles.inpSearch}
+                  />
+                </div>
+              )
+            }}
+          />
 
-        <Table.Column title="Ngày tạo" render={(val, record, i) => moment(record.createdAt).format('[Ngày] DD [Tháng] MM [Năm] YYYY')} />
+          <Table.Column
+            title="Ngày tạo"
+            render={(val, record, i) => (
+              <span style={{ width: '200px', display: 'block' }}>
+                {moment(record.createdAt).format('[Ngày] DD [Tháng] MM [Năm] YYYY')}
+              </span>
+            )}
+          />
 
-        <Table.Column title="ID" render={(val, record, i) => record._id} />
+          <Table.Column title="ID" render={(val, record, i) => record._id} />
 
-        <Table.Column
-          width="100px"
-          render={(val, record, i) => (
-            <Space>
-              <Button onClick={(e) => onHandleUpdateCareerCategory(record)} icon={<FormOutlined />} />
-              <Popconfirm placement="topRight" title={'Bạn có muốn xoá ?'} onConfirm={() => onCareerCateDelete(record)} okText="Yes" cancelText="No">
-                <Button icon={<MinusSquareOutlined />} />
-              </Popconfirm>
-            </Space>
-          )}
-        />
-      </Table>
-      <CCPagination {...pagiConfigs} className={styles.pagi} />
+          <Table.Column
+            width="100px"
+            render={(val, record, i) => (
+              <Space>
+                <Button onClick={(e) => onHandleUpdateCareerCategory(record)} icon={<FormOutlined />} />
+                <Popconfirm
+                  placement="topRight"
+                  title={'Bạn có muốn xoá ?'}
+                  onConfirm={() => onCareerCateDelete(record)}
+                  okText="Yes"
+                  cancelText="No"
+                >
+                  <Button icon={<MinusSquareOutlined />} />
+                </Popconfirm>
+              </Space>
+            )}
+          />
+        </Table>
+      </div>
+
+      <div className={styles.pagination}>
+        <CCPagination {...pagiConfigs} className={styles.pagi} />
+      </div>
       <Drawer visible={childModal.visible} width={childModal.width} onClose={closeModal} destroyOnClose>
         {childModal.component}
       </Drawer>
-    </div>
+    </>
   )
 })
 

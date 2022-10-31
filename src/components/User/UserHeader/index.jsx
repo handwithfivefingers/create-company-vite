@@ -35,6 +35,7 @@ const UserHeader = (props) => {
       title={<div key={makeid(9)}>{commonReducer?.title}</div>}
       extra={[
         <Button
+          key="btn-action-1"
           type="text"
           icon={<FcQuestions />}
           style={{ alignItems: 'center', display: 'flex', gap: 4 }}
@@ -43,6 +44,7 @@ const UserHeader = (props) => {
           {screen.md && `Tài liệu hướng dẫn`}
         </Button>,
         <Button
+          key="btn-action-2"
           type="text"
           icon={<FcAssistant />}
           style={{ alignItems: 'center', display: 'flex', gap: 4 }}

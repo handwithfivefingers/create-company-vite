@@ -7,13 +7,20 @@
 .tableWrapper {
   height: 100%;
   background-color: #fff;
-  padding: 8px;
+  // padding: 8px;
   display: grid;
-  grid-template-rows: 1fr 60px;
+  // grid-template-rows: 1fr 60px;
   > div {
     overflow: auto;
   }
-  .pagi {
-    align-items: center;
-  }
+  // .pagi {
+  //   align-items: center;
+  // }
+}
+
+.pagination {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 4px 0;
 }
