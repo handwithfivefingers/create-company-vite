@@ -190,7 +190,7 @@ const Personal = forwardRef((props, ref) => {
         type="date"
         name={[...BASE_FORM, 'birth_day']}
         label="Ngày sinh"
-        placeholder="Chọn ngày"
+        placeholder="15/01/1966 - ENTER"
         inputReadOnly={false}
       />
 
@@ -217,7 +217,7 @@ const Personal = forwardRef((props, ref) => {
         type="date"
         name={[...BASE_FORM, 'doc_time_provide']}
         label="Ngày cấp"
-        placeholder="Chọn ngày"
+        placeholder="15/01/1966 - ENTER"
         inputReadOnly={false}
       />
 
@@ -270,7 +270,7 @@ const OriginalPerson = forwardRef((props, ref) => {
         type="date"
         name={[...BASE_FORM, 'organization', 'doc_time_provide']}
         label={htmlContent('Ngày cấp <i>(ngày đăng ký lần đầu)</i>')}
-        placeholder="Chọn ngày"
+        placeholder="15/01/1966 - ENTER"
         inputReadOnly={false}
         required
       />
@@ -303,7 +303,7 @@ const OriginalPerson = forwardRef((props, ref) => {
         type="date"
         name={[...BASE_FORM, 'birth_day']}
         label="Ngày sinh"
-        placeholder="Chọn ngày"
+        placeholder="15/01/1966 - ENTER"
         inputReadOnly={false}
       />
 
@@ -330,7 +330,7 @@ const OriginalPerson = forwardRef((props, ref) => {
         type="date"
         name={[...BASE_FORM, 'doc_time_provide']}
         label="Ngày cấp"
-        placeholder="Chọn ngày"
+        placeholder="15/01/1966 - ENTER"
         inputReadOnly={false}
       />
 
