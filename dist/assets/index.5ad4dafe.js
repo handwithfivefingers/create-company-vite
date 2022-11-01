@@ -1,0 +1,1 @@
+import{g as a,u as o,a as n,j as s}from"./vendor.aa9f5085.js";import{R as _,C as c}from"./index.4485a61a.js";const i=()=>{const e=a(),t=o();return n.exports.useEffect(()=>{e("/user/san-pham")},[t]),s("div",{children:s(_,{gutter:[0,12],children:s(c,{span:24})})})};export{i as default};

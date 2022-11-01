@@ -1,1 +1,0 @@
-import{k as a,u as o,r as n,j as s}from"./vendor.e5394fe2.js";import{R as _,C as c}from"./index.eab64f24.js";const i=()=>{const e=a(),t=o();return n.exports.useEffect(()=>{e("/user/san-pham")},[t]),s("div",{children:s(_,{gutter:[0,12],children:s(c,{span:24})})})};export{i as default};
