@@ -169,7 +169,7 @@ const PeoppleWrapper = forwardRef((props, ref) => {
 
           <CCInput type="select" name={[...BASE_FORM, 'in_out', i, 'title']} label="Chức danh" options={SELECT.TITLE} />
 
-          <CCInput name={[...BASE_FORM, 'in_out', i, 'birth_day']} label="Sinh ngày" type="date" />
+          <CCInput name={[...BASE_FORM, 'in_out', i, 'birth_day']} label="Sinh ngày" type="date" placeholder="15/01/1966 - ENTER"/>
 
           <CCSelect.SelectPersonType
             ref={ref}
@@ -187,7 +187,7 @@ const PeoppleWrapper = forwardRef((props, ref) => {
 
           <CCInput name={[...BASE_FORM, 'in_out', i, 'doc_code']} label="Số CMND/ CCCD/ Hộ chiếu" />
 
-          <CCInput name={[...BASE_FORM, 'in_out', i, 'doc_time_provide']} label="Ngày cấp" type="date" />
+          <CCInput name={[...BASE_FORM, 'in_out', i, 'doc_time_provide']} label="Ngày cấp" type="date" placeholder="15/01/2015 - ENTER"/>
 
           <CCSelect.SelectDocProvide
             ref={ref}
@@ -379,7 +379,7 @@ const FormListPersonType = forwardRef((props, ref) => {
           options={SELECT.TITLE}
         />
 
-        <CCInput name={[...BASE_FORM, 'after_change', i, 'birth_day']} label="Sinh ngày" type="date" />
+        <CCInput name={[...BASE_FORM, 'after_change', i, 'birth_day']} label="Sinh ngày" type="date" placeholder="15/01/1966 - ENTER"/>
 
         <CCSelect.SelectPersonType
           ref={ref}
@@ -397,7 +397,7 @@ const FormListPersonType = forwardRef((props, ref) => {
 
         <CCInput name={[...BASE_FORM, 'after_change', i, 'doc_code']} label="Số CMND/ CCCD/ Hộ chiếu" />
 
-        <CCInput name={[...BASE_FORM, 'after_change', i, 'doc_time_provide']} label="Ngày cấp" type="date" />
+        <CCInput name={[...BASE_FORM, 'after_change', i, 'doc_time_provide']} label="Ngày cấp" type="date" placeholder="15/01/2015 - ENTER"/>
 
         <CCSelect.SelectDocProvide
           ref={ref}
