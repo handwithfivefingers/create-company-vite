@@ -1,10 +1,10 @@
 import CCInput from '@/components/CCInput'
+import { htmlContent, onSetFields } from '@/helper/Common'
+import { useFetch } from '@/helper/Hook'
 import GlobalService from '@/service/GlobalService'
 import { Col, Form, Input, Radio, Row, Select, Space } from 'antd'
+import isEqual from 'lodash/isEqual'
 import React, { forwardRef, useEffect, useState } from 'react'
-import { onSetFields, htmlContent } from '@/helper/Common'
-import { useFetch } from '@/helper/Hook'
-import { isEqual } from 'lodash'
 
 import styles from './styles.module.scss'
 

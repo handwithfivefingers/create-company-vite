@@ -1,13 +1,12 @@
-import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons'
-import { Button, Col, Form, Row, Space, Radio, Select } from 'antd'
-import React, { forwardRef, useState, useEffect } from 'react'
 import CCInput from '@/components/CCInput'
 import { SELECT } from '@/constant/Common'
-import { onSetFields, htmlContent } from '@/helper/Common'
+import { htmlContent, onSetFields } from '@/helper/Common'
+import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons'
+import { Button, Col, Form, Row, Select } from 'antd'
 import clsx from 'clsx'
-import styles from '../CreateCompany.module.scss'
+import React, { forwardRef, useEffect, useState } from 'react'
 import CCSelect from '../../../CCSelect'
-import _ from 'lodash'
+import styles from '../CreateCompany.module.scss'
 
 const NguoiDaiDienPhapLuat = forwardRef(({ data, ...props }, ref) => {
   const { current, BASE_FORM } = props

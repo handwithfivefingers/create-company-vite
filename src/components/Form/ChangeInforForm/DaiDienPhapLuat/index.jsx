@@ -1,16 +1,15 @@
-import { Button, Form, Select, Row, Col, message, Divider, Radio, Space, Card } from 'antd'
-import clsx from 'clsx'
-import React, { forwardRef, useEffect, useState } from 'react'
 import CCInput from '@/components/CCInput'
 import { SELECT } from '@/constant/Common'
-import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons'
+import { MinusCircleOutlined } from '@ant-design/icons'
+import { Button, Card, Col, Divider, Form, Row, Select } from 'antd'
+import clsx from 'clsx'
+import React, { forwardRef, useEffect, useState } from 'react'
 
+import { htmlContent, onSetFields } from '@/helper/Common'
+import { useLocation } from 'react-router-dom'
 import CCAddress from '../../../CCAddress'
 import CCSelect from '../../../CCSelect'
-import { onSetFields, htmlContent } from '@/helper/Common'
 import styles from './styles.module.scss'
-import _, { isEqual } from 'lodash'
-import { useLocation } from 'react-router-dom'
 
 const BASE_FORM = ['change_info', 'legal_representative']
 

@@ -1,16 +1,12 @@
-import React, { forwardRef, useCallback, useEffect, useMemo, useState } from 'react'
-import moment from 'moment'
-import { LABEL, NEWLABEL } from '@/constant/FormConstant'
-import CCDescription from '@/components/CCDescription'
-import { checkVariable } from '@/helper/Common'
-import { Form, Descriptions, Divider, Typography, Col, Row } from 'antd'
-import _ from 'lodash'
-import styles from './styles.module.scss'
+import { Col, Divider, Row, Typography } from 'antd'
 import clsx from 'clsx'
-import DissolutionPreview from './DissolutionPreview'
-import PendingPreview from './PendingPreview'
+import moment from 'moment'
+import React, { forwardRef, useEffect, useState } from 'react'
 import ChangeInfoPreview from './ChangeInfoPreview'
 import CreateCompanyPreview from './CreateCompanyPreview'
+import DissolutionPreview from './DissolutionPreview'
+import PendingPreview from './PendingPreview'
+import styles from './styles.module.scss'
 
 const { Paragraph, Text } = Typography
 const PreviewData = forwardRef((props, ref) => {
