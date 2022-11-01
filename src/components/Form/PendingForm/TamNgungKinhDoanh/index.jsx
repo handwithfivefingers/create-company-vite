@@ -138,10 +138,10 @@ const TamNgungKinhDoanh = forwardRef(({ type, current, index }, ref) => {
       >
         <Row gutter={[16, 12]}>
           <Col span={12}>
-            <CCInput name={[...BASE_FORM, 'time_range', 'start']} label="Từ ngày" type="date" layout="horizontal" placeholder="Chọn ngày" />
+            <CCInput name={[...BASE_FORM, 'time_range', 'start']} label="Từ ngày" type="date" layout="horizontal" placeholder="15/01/2022 - ENTER" />
           </Col>
           <Col span={12}>
-            <CCInput name={[...BASE_FORM, 'time_range', 'end']} label="Đến ngày" type="date" layout="horizontal" placeholder="Chọn ngày" />
+            <CCInput name={[...BASE_FORM, 'time_range', 'end']} label="Đến ngày" type="date" layout="horizontal" placeholder="15/01/2023 - ENTER" />
           </Col>
         </Row>
       </Form.Item>
