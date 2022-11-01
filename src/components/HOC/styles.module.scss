@@ -25,15 +25,19 @@
   display: grid;
   grid-template-rows: calc(100vh - 74px) 50px;
   .adminMainContent {
+    // > div {
     > div {
-      > div {
-        display: grid;
-        grid-template-rows: 72px calc(100vh - 122px - 24px - 40px + 50px);
-        // :nth-child(2) {
-        //   @include scroll(6px, 6px, transparent);
-        //   overflow: overlay;
-        // }
+      display: grid;
+      grid-template-rows: 72px calc(100vh - 136px);
+
+      @media (max-width: 767px) {
+        grid-template-rows: 72px calc(100vh - 112px);
       }
+      // :nth-child(2) {
+      //   @include scroll(6px, 6px, transparent);
+      //   overflow: overlay;
+      // }
+      // }
     }
   }
 }

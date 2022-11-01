@@ -17,25 +17,23 @@ const Admin = (props) => {
   }
 
   return (
-    <div>
-      <Suspense
-        fallback={
-          <div className="container spin-suspense">
-            <Space align="center">
-              <Spin spinning={true} tip="Loading..." delay={500} />
-            </Space>
-          </div>
-        }
-      >
-        <div className="animate__animated animate__fadeIn">
-          <Outlet
-            context={{
-              animateClass: 'animate__animated animate__fadeIn animate__faster',
-            }}
-          />
+    <Suspense
+      fallback={
+        <div className="container spin-suspense">
+          <Space align="center">
+            <Spin spinning={true} tip="Loading..." delay={500} />
+          </Space>
         </div>
-      </Suspense>
-    </div>
+      }
+    >
+      <div className="animate__animated animate__fadeIn">
+        <Outlet
+          context={{
+            animateClass: 'animate__animated animate__fadeIn animate__faster',
+          }}
+        />
+      </div>
+    </Suspense>
   )
 }
 

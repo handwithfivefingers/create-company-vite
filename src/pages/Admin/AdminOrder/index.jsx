@@ -271,56 +271,58 @@ const AdminOrder = () => {
     <>
       <AdminHeader title="Quản lý đơn hàng" />
 
-      <div className={styles.tableWrapper}>
-        <Table
-          dataSource={orderData}
-          loading={{
-            spinning: isLoading,
-            tip: 'Loading...',
-            delay: 100,
-          }}
-          bordered
-          className="table"
-          pagination={false}
-          rowKey={(record) => record._id || makeid(9)}
-          // sticky={{ offsetHeader: 1, offsetScroll: 1 }}
-        >
-          <Table.Column
-            title="Đơn hàng"
-            width={210}
-            render={(val, record, i) => record?._id}
-            {...getColumnSearchProps(['_id'])}
-          />
-          <Table.Column
-            className={styles.inline}
-            title="Người đăng kí"
-            width="175px"
-            render={(val, record, i) => <span>{record?.orderOwner?.email}</span>}
-            {...getColumnSearchProps(['orderOwner', 'email'])}
-          />
-          <Table.Column title="Sản phẩm" render={renderProduct} />
-          <Table.Column title="Dịch vụ" width={210} render={renderService} />
-          <Table.Column
-            className={styles.inline}
-            title="Giá tiền"
-            width="175px"
-            render={(val, record, i) => <>{number_format(record?.price)} VND</>}
-          />
-          <Table.Column title="Thanh toán" width={150} render={(val, record, i) => renderTag(record)} />
-          <Table.Column title="Ngày tạo" width={150} render={(val, record, i) => renderDate(record)} />
-          <Table.Column title="Thao tác" width={104} render={(val, record, i) => renderAction(record)} />
-        </Table>
-      </div>
+      <div className={styles.contentWrapper}>
+        <div className={styles.tableWrapper}>
+          <Table
+            dataSource={orderData}
+            loading={{
+              spinning: isLoading,
+              tip: 'Loading...',
+              delay: 100,
+            }}
+            bordered
+            className="table"
+            pagination={false}
+            rowKey={(record) => record._id || makeid(9)}
+            // sticky={{ offsetHeader: 1, offsetScroll: 1 }}
+          >
+            <Table.Column
+              title="Đơn hàng"
+              width={210}
+              render={(val, record, i) => record?._id}
+              {...getColumnSearchProps(['_id'])}
+            />
+            <Table.Column
+              className={styles.inline}
+              title="Người đăng kí"
+              width="175px"
+              render={(val, record, i) => <span>{record?.orderOwner?.email}</span>}
+              {...getColumnSearchProps(['orderOwner', 'email'])}
+            />
+            <Table.Column title="Sản phẩm" render={renderProduct} />
+            <Table.Column title="Dịch vụ" width={210} render={renderService} />
+            <Table.Column
+              className={styles.inline}
+              title="Giá tiền"
+              width="175px"
+              render={(val, record, i) => <>{number_format(record?.price)} VND</>}
+            />
+            <Table.Column title="Thanh toán" width={150} render={(val, record, i) => renderTag(record)} />
+            <Table.Column title="Ngày tạo" width={150} render={(val, record, i) => renderDate(record)} />
+            <Table.Column title="Thao tác" width={104} render={(val, record, i) => renderAction(record)} />
+          </Table>
+        </div>
 
-      <div className={styles.pagination}>
-        <CCPagination {...pagiConfigs} />
-      </div>
+        <div className={styles.pagination}>
+          <CCPagination {...pagiConfigs} />
+        </div>
 
-      {childModal.visible && (
-        <Modal footer={null} onCancel={() => onClose()} visible={childModal.visible} width={childModal.width}>
-          {childModal.component}
-        </Modal>
-      )}
+        {childModal.visible && (
+          <Modal footer={null} onCancel={() => onClose()} visible={childModal.visible} width={childModal.width}>
+            {childModal.component}
+          </Modal>
+        )}
+      </div>
     </>
   )
 }

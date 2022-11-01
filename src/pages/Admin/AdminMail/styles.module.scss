@@ -93,3 +93,9 @@
   justify-content: flex-start;
   align-items: center;
 }
+.contentWrapper {
+  display: grid;
+  // grid-template-rows: ;
+  grid-template-rows: 1fr 50px;
+
+}

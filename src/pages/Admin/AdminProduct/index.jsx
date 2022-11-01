@@ -11,17 +11,14 @@ import CareerTab from './CareerTab'
 import CategoryTab from './CategoryTab'
 import ProductsTab from './ProductsTab'
 import clsx from 'clsx'
+import CCPagination from '@/components/CCPagination'
+import useBreakpoint from 'antd/lib/grid/hooks/useBreakpoint'
+import { useSelector } from 'react-redux'
 
 const { TabPane } = Tabs
 const AdminProduct = (props) => {
-  const [activeTabs, setActiveTabs] = useState(1)
+  const [activeTabs, setActiveTabs] = useState('1')
   const productRef = useRef()
-
-  const [childModal, setChildModal] = useState({
-    visible: false,
-    width: 0,
-    component: null,
-  })
 
   // Career
 
@@ -108,6 +105,7 @@ const AdminProduct = (props) => {
 
     return xhtml
   }
+
   const items = [
     {
       label: 'Danh mục',
@@ -127,27 +125,17 @@ const AdminProduct = (props) => {
     },
   ]
 
-  const renderTabByKey = useMemo(() => {
-    let html = null
-
-    switch (activeTabs) {
-      case 1:
-        return <CategoryTab ref={productRef} />
-      case 2:
-        return <ProductsTab ref={productRef} />
-      case 3:
-        return <CareerCategoryTab ref={productRef} />
-      case 4:
-        return <CareerTab ref={productRef} />
-    }
-
-    return html
-  }, [activeTabs])
+  const { collapsed } = useSelector((state) => state.commonReducer)
   return (
     <>
       <AdminHeader title="Quản lý sản phẩm" extra={renderExtra()} />
 
-      <Tabs className={styles.tabsPanel} activeKey={activeTabs} onChange={(key) => setActiveTabs(key)}>
+      <Tabs
+        className={styles.tabsPanel}
+        activeKey={activeTabs}
+        onChange={(key) => setActiveTabs(key)}
+        style={{ width: collapsed ? 'calc(100vw - 62px)' : 'calc(100vw - 236px)' }}
+      >
         <Tabs.TabPane tab={'Danh mục'} key={1} className="tabContent">
           <CategoryTab ref={productRef} />
         </Tabs.TabPane>
@@ -161,23 +149,6 @@ const AdminProduct = (props) => {
           <CareerTab ref={productRef} />
         </Tabs.TabPane>
       </Tabs>
-      {/* <div className={styles.tabsPanel}>
-        <div className={styles.tabHeader}>
-          {items.map((item) => (
-            <div
-              className={clsx([styles.tabItem, { [styles.active]: item.key === activeTabs }])}
-              onClick={() => setActiveTabs(item.key)}
-              key={item.key}
-            >
-              {item.label}
-            </div>
-          ))}
-        </div>
-        <div className={styles.tabContent}>
-          {renderTabByKey}
-          
-          </div>
-      </div> */}
     </>
   )
 }

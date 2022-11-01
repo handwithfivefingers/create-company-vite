@@ -68,9 +68,9 @@ export default defineConfig(({ command, mode }) => {
 
     return {
       ...configs,
-      optimizeDeps: {
-        force: true, // --> Force clear cache
-      },
+      // optimizeDeps: {
+      //   force: true, // --> Force clear cache
+      // },
     }
   }
 })

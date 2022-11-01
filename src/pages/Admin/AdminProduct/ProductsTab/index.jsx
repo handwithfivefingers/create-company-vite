@@ -25,6 +25,7 @@ const ProductsTab = forwardRef((props, ref) => {
     component: null,
   })
   const [currentPage, setCurrentPage] = useState(1)
+
   const {
     data: product,
     isLoading: productLoading,
@@ -120,22 +121,27 @@ const ProductsTab = forwardRef((props, ref) => {
           dataSource={product?._product}
           pagination={false}
           rowKey={(record) => record._id}
+          // scroll={{ x: 768 }}
         >
           <Table.Column
             width={300}
             title="Tên sản phẩm"
-            render={(val, { name }, i) => <span className="inline">{name}</span>}
+            render={(val, { name }, i) => (
+              <span className="inline" style={{ display: 'block', width: '250px' }}>
+                {name}
+              </span>
+            )}
           />
 
           <Table.Column
             title="Danh mục"
             width={250}
-            render={(val, { categories }, i) => categories?.map(({ name }) => <span className="inline">{name}</span>)}
+            render={(val, { categories }, i) => categories?.map(({ name }) => <span className="inline"  style={{ display: 'block', width: '250px' }}>{name}</span>)}
           />
 
           <Table.Column
             title="Giá tiền"
-            render={(val, { price }, i) => <span className="inline">{`${number_format(price)} VND`}</span>}
+            render={(val, { price }, i) => <span className="inline"  style={{ display: 'block', width: '100px' }}>{`${number_format(price)} VND`}</span>}
           />
 
           <Table.Column
@@ -164,6 +170,7 @@ const ProductsTab = forwardRef((props, ref) => {
       <div className={styles.pagination}>
         <CCPagination {...pagiConfig} />
       </div>
+
       <Drawer visible={childModal.visible} width={childModal.width} onClose={closeModal} destroyOnClose>
         {childModal.component}
       </Drawer>

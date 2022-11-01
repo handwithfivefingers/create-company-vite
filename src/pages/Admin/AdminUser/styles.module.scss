@@ -34,3 +34,7 @@
 }
 
 
+.contentWrapper {
+  display: grid;
+  grid-template-rows: 1fr 50px;
+}
