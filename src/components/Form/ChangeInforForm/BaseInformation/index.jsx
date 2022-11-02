@@ -152,7 +152,7 @@ const BaseInformation = forwardRef((props, ref) => {
       })}
     >
       <Row gutter={[12, 12]}>
-        <Col span={24}>
+        <Col lg={12} md={24} sm={24} xs={24}>
           <CCInput
             label="Tên doanh nghiệp"
             name={['change_info', 'base_inform', 'company_name']}
@@ -174,6 +174,16 @@ const BaseInformation = forwardRef((props, ref) => {
             name={['change_info', 'base_inform', 'mst_provide']}
             placeholder="15/01/1966 - ENTER"
             inputReadOnly={false}
+          />
+        </Col>
+
+        <Col lg={12} md={24} sm={24} xs={24}>
+        
+        <CCSelect.SelectDocProvide
+            ref={ref}
+            name={['change_info', 'base_inform', 'mst_place_provide']}
+            label="Nơi cấp"
+            placeholder="Bấm vào đây"
           />
         </Col>
         <Col span={24}>

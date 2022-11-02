@@ -94,7 +94,7 @@ const OnePersonForm = forwardRef((props, ref) => {
 
   const location = useLocation()
 
-  useEffect(() => {
+  useEffect(() => {// This run 1st
     if (location.state) {
       let val = ref.current?.getFieldValue([...BASE_FORM, 'list_president'])
 
@@ -103,6 +103,12 @@ const OnePersonForm = forwardRef((props, ref) => {
       }
     }
   }, [location])
+
+  useEffect(() => { // This run 2st
+    if (formList.length <= 1) {
+      addToList(2)
+    }
+  }, [])
 
   const addToList = (number = 1) => {
     let objPush = []
@@ -184,6 +190,13 @@ const MoreThanOneForm = forwardRef((props, ref) => {
       }
     }
   }, [location])
+
+
+  useEffect(() => { // This run 2st
+    if (formList.length <= 1) {
+      addToList(1)
+    }
+  }, [])
 
   const addToList = (number = 1) => {
     let objPush = []

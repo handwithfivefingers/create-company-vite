@@ -207,13 +207,22 @@ module.exports = class OrderUser {
 
   calcPrice = async (cateID) => {
     try {
+      let price
+
       if (!cateID) return null
 
-      let _cate = await Category.findOne({ _id: cateID }).select('price')
+      let _cate = await Category.findOne({ _id: cateID }).populate('parentCategory')
 
       if (!_cate) return null
 
-      return _cate.price
+      if (_cate?.parentCategory) {
+        price = _cate?.parentCategory?.price
+      } else {
+        price = _cate.price
+      }
+
+      return price
+
     } catch (error) {
       throw error
     }

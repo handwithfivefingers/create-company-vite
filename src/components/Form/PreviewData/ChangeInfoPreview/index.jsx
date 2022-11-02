@@ -305,6 +305,10 @@ export default function ChangeInfoPreview(props) {
 
               <Form.Item label={<Text type="secondary">{t['mst']}</Text>}>{base_inform?.mst}</Form.Item>
 
+              <Form.Item label={<Text type="secondary">{t['doc_place_provide']}</Text>}>
+                {base_inform?.mst_place_provide}
+              </Form.Item>
+
               {base_inform?.location && (
                 <>
                   <Form.Item label={t['office_location']}></Form.Item>
