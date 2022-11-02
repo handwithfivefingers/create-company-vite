@@ -12,6 +12,8 @@ const appConfig = require('./server/configs/defaultConfig')
 
 const LoadEnv = require('./server/configs/loadENV')
 
+const { spawn, fork, exec } = require('child_process')
+
 global.__basedir = __dirname
 
 const { NODE_ENV, PORT, DEV_PORT } = process.env
@@ -40,4 +42,7 @@ app.listen(RUNTIME_PORT, async () => {
   backupDB.start()
 
   console.log(`Server is running ${RUNTIME_PORT}`)
+  // console.log(process.env.PATH)`
+
+
 })
