@@ -172,7 +172,7 @@ const BaseInformation = forwardRef((props, ref) => {
             type="date"
             label="Ngày cấp"
             name={['change_info', 'base_inform', 'mst_provide']}
-            placeholder="0316184427"
+            placeholder="15/01/1966 - ENTER"
             inputReadOnly={false}
           />
         </Col>

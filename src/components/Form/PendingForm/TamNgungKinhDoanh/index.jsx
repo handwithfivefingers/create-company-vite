@@ -82,6 +82,13 @@ const TamNgungKinhDoanh = forwardRef(({ type, current, index }, ref) => {
     return xhtml
   }
 
+  const disabledTimeEnd = (current) => {
+    let val = ref.current.getFieldValue([...BASE_FORM, 'time_range', 'start'])
+    return current && current < val.endOf('day')
+  }
+
+  const disabledTimeStart = (current) => current && current < moment().endOf('day')
+
   return (
     <Form.Item
       className={clsx(styles.groupInput, styles.current, {
@@ -154,8 +161,8 @@ const TamNgungKinhDoanh = forwardRef(({ type, current, index }, ref) => {
               label="Từ ngày"
               type="date"
               layout="horizontal"
-              placeholder="Chọn ngày"
-              disabledDate={(current) => current && current < moment().endOf('day')}
+              placeholder="15/01/2022 - ENTER"
+              disabledDate={disabledTimeStart}
             />
           </Col>
           <Col lg={12} md={24} sm={24} xs={24}>
@@ -164,11 +171,8 @@ const TamNgungKinhDoanh = forwardRef(({ type, current, index }, ref) => {
               label="Đến ngày"
               type="date"
               layout="horizontal"
-              placeholder="Chọn ngày"
-              disabledDate={(current) => {
-                let val = ref.current.getFieldValue([...BASE_FORM, 'time_range', 'start'])
-                return current && current < val.endOf('day')
-              }}
+              placeholder="15/01/2023 - ENTER"
+              disabledDate={disabledTimeEnd}
             />
           </Col>
         </Row>
