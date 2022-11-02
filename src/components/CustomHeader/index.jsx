@@ -1,6 +1,5 @@
 import { DownOutlined, MenuOutlined } from '@ant-design/icons'
-import { Button, Drawer, Dropdown, Image, Menu } from 'antd'
-import useBreakpoint from 'antd/lib/grid/hooks/useBreakpoint'
+import { Button, Drawer, Dropdown, Image, Menu, Grid } from 'antd'
 import clsx from 'clsx'
 // import { signOut, useSession } from "next-auth/react";
 import { Link } from 'react-router-dom'
@@ -10,6 +9,7 @@ import React, { useEffect, useState } from 'react'
 import Logo from '@/assets/img/Logo.png'
 import styles from './CustomHeader.module.scss'
 
+const { useBreakpoint } = Grid
 const DesktopMenu = (props) => {
   return (
     <div className={clsx([styles.container, 'container'])}>

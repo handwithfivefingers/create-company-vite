@@ -1,11 +1,10 @@
 import CCInput from '@/components/CCInput'
 import { htmlContent, onSetFields } from '@/helper/Common'
 import { useFetch } from '@/helper/Hook'
-import GlobalService from '@/service/GlobalService'
 import { Col, Form, Input, Radio, Row, Select, Space } from 'antd'
-import isEqual from 'lodash/isEqual'
+import {isEqual} from 'lodash-es'
 import React, { forwardRef, useEffect, useState } from 'react'
-
+import GlobalService from '@/service/GlobalService'
 import styles from './styles.module.scss'
 
 const { Option } = Select
@@ -87,7 +86,9 @@ const SelectProvince = forwardRef((props, ref) => {
       console.log('getScreenData err: ' + err)
     }
   }
+
   if (!city) return 'loading'
+
   return (
     <>
       <Form.Item name={[...name, 'city']} placeholder={props.placeholder} label="Tỉnh/Thành phố">

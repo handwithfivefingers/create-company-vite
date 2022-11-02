@@ -1,11 +1,11 @@
 import ProfileService from '@/service/UserService/ProfileService'
-import { Button, Card, Col, Form, Input, message, Row } from 'antd'
-import useBreakpoint from 'antd/lib/grid/hooks/useBreakpoint'
+import { Button, Card, Col, Form, Input, message, Row, Grid } from 'antd'
 import React, { useEffect, useRef, useState } from 'react'
 import styles from './styles.module.scss'
 import { useOutletContext } from 'react-router-dom'
 import { useFetch } from '../../../helper/Hook'
 import { useSelector } from 'react-redux'
+const { useBreakpoint } = Grid
 
 const UserProfile = (props) => {
   const [loading, setLoading] = useState(false)

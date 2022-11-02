@@ -1,6 +1,6 @@
 import { PlusSquareOutlined } from '@ant-design/icons'
 
-import { Button, Tabs } from 'antd'
+import { Button, Tabs, Grid } from 'antd'
 import React, { useRef, useState, useMemo } from 'react'
 
 import AdminHeader from '../../../components/Admin/AdminHeader'
@@ -12,8 +12,9 @@ import CategoryTab from './CategoryTab'
 import ProductsTab from './ProductsTab'
 import clsx from 'clsx'
 import CCPagination from '@/components/CCPagination'
-import useBreakpoint from 'antd/lib/grid/hooks/useBreakpoint'
+
 import { useSelector } from 'react-redux'
+const { useBreakpoint } = Grid
 
 const { TabPane } = Tabs
 const AdminProduct = (props) => {

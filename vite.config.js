@@ -20,9 +20,6 @@ export default defineConfig(({ command, mode }) => {
   const env = loadEnv(mode, process.cwd(), '')
 
   let configs = {
-    // define: {
-    //   VITE__APP_ENV__: { ...env },
-    // },
     envPrefix: ['MAIL_', 'GG_', 'VITE_'],
     plugins: [react({}), visualizer()],
     root: '.',
@@ -59,9 +56,6 @@ export default defineConfig(({ command, mode }) => {
     // dev build
     return {
       ...configs,
-      // optimizeDeps: {
-      //   force: true, // --> Force clear cache
-      // },
     }
   } else {
     // command === 'build'

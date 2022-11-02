@@ -1,8 +1,5 @@
-import { Col, Row, Typography, Button } from 'antd'
-import Paragraph from 'antd/lib/skeleton/Paragraph'
-// import { List } from 'antd/lib/form/Form';
+import { Button, Col, Row } from 'antd'
 import clsx from 'clsx'
-import CCButton from '../Button'
 import styles from './Footer.module.scss'
 const Footer = () => {
   return (
