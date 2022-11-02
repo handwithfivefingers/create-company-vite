@@ -25,7 +25,7 @@ const buildFunction = async () => {
 
   const oldSource = " find ./ -name dist ! -path './node_modules/*'"
 
-  const removeOldSource = 'rm -rf ./dist'
+  const removeOldSource = 'rm -rf dist'
 
   const rename = 'mv dist-build dist'
 
@@ -93,7 +93,6 @@ const buildFunction = async () => {
   } catch (err) {
     console.log('git error', err)
   } finally {
-
     process.exit()
   }
 }
