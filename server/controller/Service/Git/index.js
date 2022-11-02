@@ -24,27 +24,22 @@ module.exports = class GitAction {
     const restartPm2 = 'pm2 reload ecosystem.config.js'
 
     // const chormium = cd + '/node_modules/puppeteer' + '/.local-chromium'
-
+    const childProcess = fork(`${global.__basedir}/test.js`)
     try {
       res.end()
-
-      const childProcess = fork(`${global.__basedir}/test.js`)
 
       childProcess.on('message', (msg) => {
         console.log('message from childProcess', msg)
       })
-
+    } catch (err) {
+      console.log('childProcess error', err)
+    } finally {
       childProcess.on('exit', (msg) => {
         console.log('childProcess terminated', msg)
+        console.log(`Action::: ${restartPm2}`)
+        exec(restartPm2)
       })
-
-    } catch (err) {
-      console.log('git error', err)
-    } 
-    // finally {
-    //   console.log(`Action::: ${restartPm2}`)
-    //   // 
-    // }
+    }
   }
 }
 
