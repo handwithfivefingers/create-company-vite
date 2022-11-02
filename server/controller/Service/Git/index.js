@@ -11,7 +11,7 @@ module.exports = class GitAction {
     let checkout = 'git checkout -- .'
     let pullCode = 'git pull'
     let installPackage = 'npm install'
-    let buildPackage = 'npm run build'
+    let buildPackage = 'yarn build'
     let restartPm2 = 'pm2 reload ecosystem.config.js'
     let chormium = cd + '/node_modules/puppeteer' + '/.local-chromium'
 

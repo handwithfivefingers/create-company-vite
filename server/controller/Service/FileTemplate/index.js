@@ -68,7 +68,7 @@ module.exports = class FileTemplate {
 
       return errHandler(err, res)
     } finally {
-      // await removeListFiles(attachments)
+      await removeListFiles(attachments)
     }
   }
 
