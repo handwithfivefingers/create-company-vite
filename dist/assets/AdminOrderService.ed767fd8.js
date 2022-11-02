@@ -1,0 +1,1 @@
+import{i as r}from"./index.bd197d1a.js";const t={getOrder:"/admin/order",deleteOrder:"/admin/order/delete/"},d={getOrder:e=>r.get(t.getOrder,e),getOrderBySlug:e=>r.get(`${t.getOrder}/${e.slug}`),deleteOrder:e=>r.post(t.deleteOrder+e)},i=d;export{i as A};

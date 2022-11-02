@@ -1,1 +1,0 @@
-import{a as r}from"./index.435316fb.js";const t={getOrder:"/admin/order",deleteOrder:"/admin/order/delete/"},d={getOrder:e=>r.get(t.getOrder,e),getOrderBySlug:e=>r.get(`${t.getOrder}/${e.slug}`),deleteOrder:e=>r.post(t.deleteOrder+e)},O=d;export{O as A};
