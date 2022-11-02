@@ -48,48 +48,36 @@ const buildFunction = async () => {
       message: `Action::: ${oldSource}`,
     })
 
-    const { err: oldSourceError, stdout: oldSourcesdtout, stderr: oldSourceStdErr } = exec(oldSource)
+    const execOldSource = exec(oldSource, { encoding: 'utf8' })
 
     process.send({
       message: `Action::: ${newSource}`,
     })
 
-    const { err, stdout, stderr } = exec(newSource)
+    const execNewSource = exec(newSource, { encoding: 'utf8' })
 
-    if (oldSourceError === null) {
-      return
-    }
+    if (!execNewSource) return
 
-    if (err === null) {
-      return
-    }
-
-    if (stdout) {
-      if (oldSourcesdtout) {
-        process.send({
-          message: 'remove old source',
-        })
-        process.send({
-          message: `Action::: ${removeOldSource}`,
-        })
-
-        exec(removeOldSource)
-      }
-
+    if (execOldSource) {
       process.send({
-        message: 'rename',
+        message: 'remove old source',
       })
       process.send({
-        message: `Action::: ${rename}`,
+        message: `Action::: ${removeOldSource}`,
       })
-      exec(rename)
+
+      exec(removeOldSource)
     }
 
-    // if (oldSourcesdtout && stdout) {
-    //   exec(removeOldSource)
+    process.send({
+      message: 'rename',
+    })
 
-    //   exec(rename)
-    // }
+    process.send({
+      message: `Action::: ${rename}`,
+    })
+
+    exec(rename)
   } catch (err) {
     console.log('git error', err)
   } finally {

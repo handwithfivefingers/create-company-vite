@@ -12,7 +12,7 @@ const appConfig = require('./server/configs/defaultConfig')
 
 const LoadEnv = require('./server/configs/loadENV')
 
-const { spawn, fork, exec } = require('child_process')
+const { spawn, fork, exec, execSync } = require('child_process')
 
 global.__basedir = __dirname
 
@@ -44,5 +44,9 @@ app.listen(RUNTIME_PORT, async () => {
   console.log(`Server is running ${RUNTIME_PORT}`)
   // console.log(process.env.PATH)`
 
+  const res = execSync("find ./ -name dist-build ! -path './node_modules/*'", { encoding: 'utf8' })
 
+  // console.log('err', typeof res.err, res.err)
+  // console.log('stdout', typeof res.stdout, res.stdout)
+  // console.log('stderr', typeof res.stderr, res.stderr)
 })
