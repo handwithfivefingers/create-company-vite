@@ -4,6 +4,7 @@ import AdminUserService from '@/service/AdminService/AdminUserService'
 import styles from './styles.module.scss'
 import CCPagination from '@/components/CCPagination'
 import AdminHeader from '@/components/Admin/AdminHeader'
+import clsx from 'clsx'
 const AdminUser = () => {
   const [loading, setLoading] = useState(false)
   const [data, setData] = useState([])
@@ -66,36 +67,52 @@ const AdminUser = () => {
 
   return (
     <>
-      {/* <PageHeader title="Quản lý người dùng" /> */}
       <AdminHeader title="Quản lý người dùng" />
-      <div style={{ padding: 8, background: '#fff' }}>
-        <Table
-          bordered
-          size="small"
-          sticky={{
-            offsetScroll: 8,
-            offsetHeader: -8,
-          }}
-          loading={{
-            spinning: loading,
-            tip: 'Loading...',
-            delay: 100,
-          }}
-          dataSource={data._user}
-          pagination={false}
-          rowKey={(record) => record._id}
-          scroll={{ x: 768 }}
-          style={{ padding: 0 }}
-        >
-          <Table.Column title="Tên người dùng" className={styles.inline} width={'25%'} render={(v, record, i) => record.name} />
-          <Table.Column className={styles.inline} title="Email" render={(v, record, i) => record.email} />
-          <Table.Column title="Số điện thoại" width={'120px'} className={styles.inline} render={(v, record, i) => record.phone} />
-          <Table.Column title="Role" width={'80px'} render={(v, record, i) => record.role} />
-          <Table.Column title="Ngày khởi tạo" render={(v, record, i) => record.createdAt.substring(0, 10)} />
-          <Table.Column title="" width={'80px'} render={(v, record, i) => <Button onClick={() => handleDelete(record)}>Xóa</Button>} />
-        </Table>
+      <div className={styles.contentWrapper}>
+        <div className={clsx([styles.tableWrapper, 'box__shadow'])}>
+          <Table
+            bordered
+            size="small"
+            loading={{
+              spinning: loading,
+              tip: 'Loading...',
+              delay: 100,
+            }}
+            dataSource={data._user}
+            pagination={false}
+            rowKey={(record) => record._id}
+          >
+            <Table.Column
+              title="Tên người dùng"
+              className={styles.inline}
+              width={'25%'}
+              render={(v, record, i) => record.name}
+            />
+            <Table.Column className={styles.inline} title="Email" render={(v, record, i) => record.email} />
+            <Table.Column
+              title="Số điện thoại"
+              width={'120px'}
+              className={styles.inline}
+              render={(v, record, i) => record.phone}
+            />
+            <Table.Column title="Role" width={'80px'} render={(v, record, i) => record.role} />
+            <Table.Column
+              title="Ngày khởi tạo"
+              render={(v, record, i) => (
+                <span style={{ display: 'block', width: 150 }}>{record.createdAt.substring(0, 10)}</span>
+              )}
+            />
+            <Table.Column
+              title=""
+              width={'80px'}
+              render={(v, record, i) => <Button onClick={() => handleDelete(record)}>Xóa</Button>}
+            />
+          </Table>
+        </div>
+        <div className={styles.pagination}>
+          <CCPagination {...pagiConfig} />
+        </div>
       </div>
-      <CCPagination {...pagiConfig} />
     </>
   )
 }

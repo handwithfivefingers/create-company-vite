@@ -191,6 +191,7 @@ module.exports = class Authorization {
 
   Logout = async (req, res) => {
     res.clearCookie('sessionId')
+
     res.status(200).json({
       authenticate: false,
     })
@@ -239,7 +240,10 @@ module.exports = class Authorization {
       let BASE_URL = process.env.NODE_ENV !== 'development' ? process.env.VITE_BASEHOST_PROD : 'http://localhost:3003'
       let mailParams = {
         email: _user.email,
-        content: content.replace('{name}', _user.name).replace('{otp}', otpObj.otp).replace('{link}', `${BASE_URL}/forgot-password?step=2&email=${_user.email}`),
+        content: content
+          .replace('{name}', _user.name)
+          .replace('{otp}', otpObj.otp)
+          .replace('{link}', `${BASE_URL}/forgot-password?step=2&email=${_user.email}`),
         subject,
         type: 'any',
       }
@@ -320,7 +324,12 @@ module.exports = class Authorization {
   }
 
   generateOTP = () => {
-    return otpGenerator.generate(6, { digits: true, lowerCaseAlphabets: false, upperCaseAlphabets: false, specialChars: false })
+    return otpGenerator.generate(6, {
+      digits: true,
+      lowerCaseAlphabets: false,
+      upperCaseAlphabets: false,
+      specialChars: false,
+    })
   }
 
   generateToken = async (obj, res) => {

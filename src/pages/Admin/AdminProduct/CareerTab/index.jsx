@@ -37,7 +37,10 @@ const CareerTab = forwardRef((props, ref) => {
       setData((state) => {
         let { data } = careerData
 
-        let sliceData = data?.slice((current - 1) * pagiConfigs.pageSize, (current - 1) * pagiConfigs.pageSize + pagiConfigs.pageSize)
+        let sliceData = data?.slice(
+          (current - 1) * pagiConfigs.pageSize,
+          (current - 1) * pagiConfigs.pageSize + pagiConfigs.pageSize,
+        )
         return sliceData
       })
     }
@@ -102,56 +105,73 @@ const CareerTab = forwardRef((props, ref) => {
     onChange: (current, pageSize) => setCurrent(current),
   }
   return (
-    <div className={styles.tableWrapper}>
-      <Table dataSource={data} rowKey={(record) => record._uuid || record._id} size="small" bordered scroll={{ x: 600 }} pagination={false}>
-        <Table.Column
-          title="Tên ngành"
-          dataIndex={'name'}
-          filterSearch
-          onFilter={(value, record) => record['name'].toString().toLowerCase().includes(value.toLowerCase())}
-          filterDropdown={({ confirm, clearFilters, filters, prefixCls, selectedKeys, setSelectedKeys, visible }) => {
-            return (
-              <div style={{ padding: 8 }}>
-                <Input.Search
-                  placeholder={`Search 'name'`}
-                  value={selectedKeys[0]}
-                  onPressEnter={(e) => {
-                    setSelectedKeys(e.target.value ? [e.target.value] : [])
-                    confirm()
-                  }}
-                  onSearch={(val) => {
-                    setSelectedKeys(val ? [val] : [])
-                    confirm()
-                  }}
-                  allowClear
-                  className={styles.inpSearch}
-                  enterButton
-                />
-              </div>
-            )
-          }}
-          render={(val, record, i) => record.name}
-        />
-        <Table.Column title="Mã ngành" render={(val, record, i) => record.code} />
-        <Table.Column
-          width={80}
-          title=""
-          render={(val, record, i) => (
-            <Space>
-              <Button onClick={(e) => onCareerEdit(record)} icon={<FormOutlined />} />
-              <Popconfirm placement="topRight" title={'Bạn có muốn xoá ?'} onConfirm={() => deleteCareer(record)} okText="Yes" cancelText="No">
-                <Button icon={<MinusSquareOutlined />} />
-              </Popconfirm>
-            </Space>
-          )}
-        />
-      </Table>
-
-      <CCPagination {...pagiConfigs} className={styles.pagi} />
+    <>
+      <div className={styles.tableWrapper}>
+        <Table
+          dataSource={data}
+          rowKey={(record) => record._uuid || record._id}
+          size="small"
+          bordered
+          // scroll={{ x: 600 }}
+          pagination={false}
+        >
+          <Table.Column
+            title="Tên ngành"
+            dataIndex={'name'}
+            filterSearch
+            onFilter={(value, record) => record['name'].toString().toLowerCase().includes(value.toLowerCase())}
+            filterDropdown={({ confirm, clearFilters, filters, prefixCls, selectedKeys, setSelectedKeys, visible }) => {
+              return (
+                <div style={{ padding: 8 }}>
+                  <Input.Search
+                    placeholder={`Search 'name'`}
+                    value={selectedKeys[0]}
+                    onPressEnter={(e) => {
+                      setSelectedKeys(e.target.value ? [e.target.value] : [])
+                      confirm()
+                    }}
+                    onSearch={(val) => {
+                      setSelectedKeys(val ? [val] : [])
+                      confirm()
+                    }}
+                    allowClear
+                    className={styles.inpSearch}
+                    enterButton
+                  />
+                </div>
+              )
+            }}
+            render={(val, record, i) => record.name}
+          />
+          <Table.Column title="Mã ngành" render={(val, record, i) => record.code} />
+          <Table.Column
+            width={80}
+            title=""
+            render={(val, record, i) => (
+              <Space>
+                <Button onClick={(e) => onCareerEdit(record)} icon={<FormOutlined />} />
+                <Popconfirm
+                  placement="topRight"
+                  title={'Bạn có muốn xoá ?'}
+                  onConfirm={() => deleteCareer(record)}
+                  okText="Yes"
+                  cancelText="No"
+                >
+                  <Button icon={<MinusSquareOutlined />} />
+                </Popconfirm>
+              </Space>
+            )}
+          />
+        </Table>
+      </div>
+      
+      <div className={styles.pagination}>
+        <CCPagination {...pagiConfigs} className={styles.pagi} />
+      </div>
       <Drawer visible={childModal.visible} width={childModal.width} onClose={closeModal} destroyOnClose>
         {childModal.component}
       </Drawer>
-    </div>
+    </>
   )
 })
 export default CareerTab

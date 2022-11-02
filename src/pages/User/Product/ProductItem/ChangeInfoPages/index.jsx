@@ -17,6 +17,12 @@ const ChangeInfoPages = forwardRef((props, ref) => {
     const params = {
       data: {
         ...value,
+        products: value?.products?.map((item) => {
+          if (item?.value) {
+            return item.value
+          }
+          return item
+        }),
       },
     }
     if (location.state?._id) {

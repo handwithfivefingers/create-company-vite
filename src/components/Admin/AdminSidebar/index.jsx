@@ -3,10 +3,10 @@ import { Layout, Menu, Button } from 'antd'
 // import { signOut } from "next-auth/react";
 import { memo, useEffect, useState } from 'react'
 import { RiLogoutCircleLine } from 'react-icons/ri'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { AdminRouter } from '@/constant/Route'
-import { AuthAction } from '@/store/actions'
+import { AuthAction, CommonAction } from '@/store/actions'
 import styles from './styles.module.scss'
 import clsx from 'clsx'
 const { Sider } = Layout
@@ -18,12 +18,18 @@ const AdminSidebar = () => {
   let navigate = useNavigate()
   let location = useLocation()
 
-  const onCollapse = (collapsed) => {
-    setCollapse(collapsed)
-  }
+  // const onCollapse = (collapsed) => {
+  //   setCollapse(collapsed)
+  // }
+
+  const collapsed = useSelector((state) => state.commonReducer.collapsed)
   const signOut = async () => {
     await dispatch(AuthAction.AuthLogout())
     navigate('/')
+  }
+
+  const onCollapse = (type) => {
+    dispatch(CommonAction.sideCollapsed(type))
   }
 
   const renderSidebar = (route) => {
@@ -106,9 +112,9 @@ const AdminSidebar = () => {
     <>
       <Sider
         collapsible
-        collapsed={collapse}
         onCollapse={onCollapse}
         collapsedWidth={50}
+        collapsed={collapsed}
         reverseArrow={true}
         breakpoint={'md'}
         trigger={<div className={styles.trigger}>{!collapse ? <CaretLeftOutlined /> : <CaretRightOutlined />}</div>}

@@ -1,34 +1,23 @@
 import LoadingScreen from '@/components/LoadingScreen'
 
-import { RouterProvider, RouterContext, BreakPointProvider, BreakPointContext } from '@/helper/Context'
+import { RouterContext, RouterProvider } from '@/helper/Context'
 
-import { ConfigProvider, Layout } from 'antd'
+import { ConfigProvider } from 'antd'
 
-import { useContext, useEffect, useState, cloneElement } from 'react'
+import { useContext, useEffect, useState } from 'react'
 
 import { useDispatch, useSelector } from 'react-redux'
 
 import { BrowserRouter, useLocation, useRoutes } from 'react-router-dom'
-
 import { LAYOUT_ROUTER, UserRouter } from './constant/Route'
-
 import { useAuth, useDetectLocation } from './helper/Hook'
-
 import { CommonAction } from './store/actions'
-
 import moment from 'moment'
-
 import './assets/css/styles.scss'
-
 import 'animate.css'
-
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
-
-import 'moment/locale/vi'
 import locale from 'antd/es/locale/vi_VN'
-import { default as VNnum2words } from '@/assets/js/convertNumber'
+import 'moment/locale/vi'
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -78,6 +67,7 @@ const RouterComponent = (props) => {
     }
     item && dispatch(CommonAction.titleChange(item.title))
   }
+
   // return Route
   if (!elementComp) return null
 
@@ -106,6 +96,7 @@ function App() {
   if (authReducer.authenticating && !authReducer.status) {
     return <LoadingScreen />
   }
+
   return (
     <div className="App">
       <QueryClientProvider client={queryClient}>

@@ -40,27 +40,39 @@ export default function CreateCompanyPreview(props) {
 
                   if (item.present_person === 'personal') {
                     html = (
-                      <Col lg={12} md={24}>
+                      <Col lg={12} md={24} key={[item, index]}>
                         <Card className="box__shadow" size="small" title={`Thành viên góp vốn ${index + 1}`}>
                           <Form.Item label={<Text type="secondary">{t['name']}</Text>}>{item.name}</Form.Item>
                           <Form.Item label={<Text type="secondary">{t['gender']}</Text>}>{item?.gender}</Form.Item>
-                          <Form.Item label={<Text type="secondary">{t['birth_day']}</Text>}>{moment(item?.birth_day).format('DD/MM/YYYY')}</Form.Item>
+                          <Form.Item label={<Text type="secondary">{t['birth_day']}</Text>}>
+                            {moment(item?.birth_day).format('DD/MM/YYYY')}
+                          </Form.Item>
                           <Form.Item label={<Text type="secondary">{t['per_type']}</Text>}>{item?.per_type}</Form.Item>
                           <Form.Item label={<Text type="secondary">{t['doc_type']}</Text>}>{item?.doc_type}</Form.Item>
                           <Form.Item label={<Text type="secondary">{t['doc_code']}</Text>}>{item?.doc_code}</Form.Item>
                           <Form.Item label={<Text type="secondary">{t['doc_time_provide']}</Text>}>
                             {moment(item?.doc_time_provide).format('DD/MM/YYYY')}
                           </Form.Item>
-                          <Form.Item label={<Text type="secondary">{t['doc_place_provide']}</Text>}>{item?.doc_place_provide}</Form.Item>
+                          <Form.Item label={<Text type="secondary">{t['doc_place_provide']}</Text>}>
+                            {item?.doc_place_provide}
+                          </Form.Item>
 
                           {item?.current && (
                             <>
                               <Form.Item label={'Địa chỉ thường trú'}></Form.Item>
                               <div style={{ paddingLeft: 20 }}>
-                                <Form.Item label={<Text type="secondary">{t['city']}</Text>}>{item?.current?.city}</Form.Item>
-                                <Form.Item label={<Text type="secondary">{t['district']}</Text>}>{item?.current?.district}</Form.Item>
-                                <Form.Item label={<Text type="secondary">{t['town']}</Text>}>{item?.current?.town}</Form.Item>
-                                <Form.Item label={<Text type="secondary">{t['address']}</Text>}>{item?.current?.address}</Form.Item>
+                                <Form.Item label={<Text type="secondary">{t['city']}</Text>}>
+                                  {item?.current?.city}
+                                </Form.Item>
+                                <Form.Item label={<Text type="secondary">{t['district']}</Text>}>
+                                  {item?.current?.district}
+                                </Form.Item>
+                                <Form.Item label={<Text type="secondary">{t['town']}</Text>}>
+                                  {item?.current?.town}
+                                </Form.Item>
+                                <Form.Item label={<Text type="secondary">{t['address']}</Text>}>
+                                  {item?.current?.address}
+                                </Form.Item>
                               </div>
                             </>
                           )}
@@ -69,10 +81,18 @@ export default function CreateCompanyPreview(props) {
                             <>
                               <Form.Item label={'Địa chỉ liên lạc'}></Form.Item>
                               <div style={{ paddingLeft: 20 }}>
-                                <Form.Item label={<Text type="secondary">{t['city']}</Text>}>{item?.contact?.city}</Form.Item>
-                                <Form.Item label={<Text type="secondary">{t['district']}</Text>}>{item?.contact?.district}</Form.Item>
-                                <Form.Item label={<Text type="secondary">{t['town']}</Text>}>{item?.contact?.town}</Form.Item>
-                                <Form.Item label={<Text type="secondary">{t['address']}</Text>}>{item?.contact?.address}</Form.Item>
+                                <Form.Item label={<Text type="secondary">{t['city']}</Text>}>
+                                  {item?.contact?.city}
+                                </Form.Item>
+                                <Form.Item label={<Text type="secondary">{t['district']}</Text>}>
+                                  {item?.contact?.district}
+                                </Form.Item>
+                                <Form.Item label={<Text type="secondary">{t['town']}</Text>}>
+                                  {item?.contact?.town}
+                                </Form.Item>
+                                <Form.Item label={<Text type="secondary">{t['address']}</Text>}>
+                                  {item?.contact?.address}
+                                </Form.Item>
                               </div>
                             </>
                           )}
@@ -83,8 +103,12 @@ export default function CreateCompanyPreview(props) {
                     html = (
                       <Col lg={12} md={24}>
                         <Card className="box__shadow" size="small" title={`Thành viên góp vốn ${index + 1}`}>
-                          <Form.Item label={<Text type="secondary">{t['company_name']}</Text>}>{item?.organization?.name}</Form.Item>
-                          <Form.Item label={<Text type="secondary">{t['mst']}</Text>}>{item?.organization?.mst}</Form.Item>
+                          <Form.Item label={<Text type="secondary">{t['company_name']}</Text>}>
+                            {item?.organization?.name}
+                          </Form.Item>
+                          <Form.Item label={<Text type="secondary">{t['mst']}</Text>}>
+                            {item?.organization?.mst}
+                          </Form.Item>
                           <Form.Item label={<Text type="secondary">{t['mst_provide']}</Text>}>
                             {moment(item?.organization?.doc_time_provide).format('DD/MM/YYYY')}
                           </Form.Item>
@@ -92,31 +116,51 @@ export default function CreateCompanyPreview(props) {
                           <Form.Item label={t['office_location']}></Form.Item>
 
                           <div style={{ paddingLeft: 20 }}>
-                            <Form.Item label={<Text type="secondary">{t['city']}</Text>}>{item?.organization?.doc_place_provide?.city}</Form.Item>
-                            <Form.Item label={<Text type="secondary">{t['district']}</Text>}>{item?.organization?.doc_place_provide?.district}</Form.Item>
-                            <Form.Item label={<Text type="secondary">{t['town']}</Text>}>{item?.organization?.doc_place_provide?.town}</Form.Item>
-                            <Form.Item label={<Text type="secondary">{t['address']}</Text>}>{item?.organization?.doc_place_provide?.address}</Form.Item>
+                            <Form.Item label={<Text type="secondary">{t['city']}</Text>}>
+                              {item?.organization?.doc_place_provide?.city}
+                            </Form.Item>
+                            <Form.Item label={<Text type="secondary">{t['district']}</Text>}>
+                              {item?.organization?.doc_place_provide?.district}
+                            </Form.Item>
+                            <Form.Item label={<Text type="secondary">{t['town']}</Text>}>
+                              {item?.organization?.doc_place_provide?.town}
+                            </Form.Item>
+                            <Form.Item label={<Text type="secondary">{t['address']}</Text>}>
+                              {item?.organization?.doc_place_provide?.address}
+                            </Form.Item>
                           </div>
 
                           <Form.Item label={<Text type="secondary">{t['name']}</Text>}>{item?.name}</Form.Item>
                           <Form.Item label={<Text type="secondary">{t['gender']}</Text>}>{item?.gender}</Form.Item>
-                          <Form.Item label={<Text type="secondary">{t['birth_day']}</Text>}>{moment(item?.birth_day).format('DD/MM/YYYY')}</Form.Item>
+                          <Form.Item label={<Text type="secondary">{t['birth_day']}</Text>}>
+                            {moment(item?.birth_day).format('DD/MM/YYYY')}
+                          </Form.Item>
                           <Form.Item label={<Text type="secondary">{t['per_type']}</Text>}>{item?.per_type}</Form.Item>
                           <Form.Item label={<Text type="secondary">{t['doc_type']}</Text>}>{item?.doc_type}</Form.Item>
                           <Form.Item label={<Text type="secondary">{t['doc_code']}</Text>}>{item?.doc_code}</Form.Item>
                           <Form.Item label={<Text type="secondary">{t['doc_time_provide']}</Text>}>
                             {moment(item?.doc_time_provide).format('DD/MM/YYYY')}
                           </Form.Item>
-                          <Form.Item label={<Text type="secondary">{t['doc_place_provide']}</Text>}>{item?.doc_place_provide}</Form.Item>
+                          <Form.Item label={<Text type="secondary">{t['doc_place_provide']}</Text>}>
+                            {item?.doc_place_provide}
+                          </Form.Item>
 
                           {item?.current && (
                             <>
                               <Form.Item label={'Địa chỉ thường trú'}></Form.Item>
                               <div style={{ paddingLeft: 20 }}>
-                                <Form.Item label={<Text type="secondary">{t['city']}</Text>}>{item?.current?.city}</Form.Item>
-                                <Form.Item label={<Text type="secondary">{t['district']}</Text>}>{item?.current?.district}</Form.Item>
-                                <Form.Item label={<Text type="secondary">{t['town']}</Text>}>{item?.current?.town}</Form.Item>
-                                <Form.Item label={<Text type="secondary">{t['address']}</Text>}>{item?.current?.address}</Form.Item>
+                                <Form.Item label={<Text type="secondary">{t['city']}</Text>}>
+                                  {item?.current?.city}
+                                </Form.Item>
+                                <Form.Item label={<Text type="secondary">{t['district']}</Text>}>
+                                  {item?.current?.district}
+                                </Form.Item>
+                                <Form.Item label={<Text type="secondary">{t['town']}</Text>}>
+                                  {item?.current?.town}
+                                </Form.Item>
+                                <Form.Item label={<Text type="secondary">{t['address']}</Text>}>
+                                  {item?.current?.address}
+                                </Form.Item>
                               </div>
                             </>
                           )}
@@ -125,10 +169,18 @@ export default function CreateCompanyPreview(props) {
                             <>
                               <Form.Item label={'Địa chỉ liên lạc'}></Form.Item>
                               <div style={{ paddingLeft: 20 }}>
-                                <Form.Item label={<Text type="secondary">{t['city']}</Text>}>{item?.contact?.city}</Form.Item>
-                                <Form.Item label={<Text type="secondary">{t['district']}</Text>}>{item?.contact?.district}</Form.Item>
-                                <Form.Item label={<Text type="secondary">{t['town']}</Text>}>{item?.contact?.town}</Form.Item>
-                                <Form.Item label={<Text type="secondary">{t['address']}</Text>}>{item?.contact?.address}</Form.Item>
+                                <Form.Item label={<Text type="secondary">{t['city']}</Text>}>
+                                  {item?.contact?.city}
+                                </Form.Item>
+                                <Form.Item label={<Text type="secondary">{t['district']}</Text>}>
+                                  {item?.contact?.district}
+                                </Form.Item>
+                                <Form.Item label={<Text type="secondary">{t['town']}</Text>}>
+                                  {item?.contact?.town}
+                                </Form.Item>
+                                <Form.Item label={<Text type="secondary">{t['address']}</Text>}>
+                                  {item?.contact?.address}
+                                </Form.Item>
                               </div>
                             </>
                           )}
@@ -149,27 +201,39 @@ export default function CreateCompanyPreview(props) {
               <Row gutter={[12, 12]}>
                 {legal_respon?.map((item, index) => {
                   return (
-                    <Col lg={12} md={24}>
+                    <Col lg={12} md={24} key={[item, index]}>
                       <Card className="box__shadow" size="small" title={`Người đại diện pháp luật ${index + 1}`}>
                         <Form.Item label={<Text type="secondary">{t['name']}</Text>}>{item.name}</Form.Item>
                         <Form.Item label={<Text type="secondary">{t['gender']}</Text>}>{item?.gender}</Form.Item>
-                        <Form.Item label={<Text type="secondary">{t['birth_day']}</Text>}>{moment(item?.birth_day).format('DD/MM/YYYY')}</Form.Item>
+                        <Form.Item label={<Text type="secondary">{t['birth_day']}</Text>}>
+                          {moment(item?.birth_day).format('DD/MM/YYYY')}
+                        </Form.Item>
                         <Form.Item label={<Text type="secondary">{t['per_type']}</Text>}>{item?.per_type}</Form.Item>
                         <Form.Item label={<Text type="secondary">{t['doc_type']}</Text>}>{item?.doc_type}</Form.Item>
                         <Form.Item label={<Text type="secondary">{t['doc_code']}</Text>}>{item?.doc_code}</Form.Item>
                         <Form.Item label={<Text type="secondary">{t['doc_time_provide']}</Text>}>
                           {moment(item?.doc_time_provide).format('DD/MM/YYYY')}
                         </Form.Item>
-                        <Form.Item label={<Text type="secondary">{t['doc_place_provide']}</Text>}>{item?.doc_place_provide}</Form.Item>
+                        <Form.Item label={<Text type="secondary">{t['doc_place_provide']}</Text>}>
+                          {item?.doc_place_provide}
+                        </Form.Item>
 
                         {item?.current && (
                           <>
                             <Form.Item label={'Địa chỉ thường trú'}></Form.Item>
                             <div style={{ paddingLeft: 20 }}>
-                              <Form.Item label={<Text type="secondary">{t['city']}</Text>}>{item?.current?.city}</Form.Item>
-                              <Form.Item label={<Text type="secondary">{t['district']}</Text>}>{item?.current?.district}</Form.Item>
-                              <Form.Item label={<Text type="secondary">{t['town']}</Text>}>{item?.current?.town}</Form.Item>
-                              <Form.Item label={<Text type="secondary">{t['address']}</Text>}>{item?.current?.address}</Form.Item>
+                              <Form.Item label={<Text type="secondary">{t['city']}</Text>}>
+                                {item?.current?.city}
+                              </Form.Item>
+                              <Form.Item label={<Text type="secondary">{t['district']}</Text>}>
+                                {item?.current?.district}
+                              </Form.Item>
+                              <Form.Item label={<Text type="secondary">{t['town']}</Text>}>
+                                {item?.current?.town}
+                              </Form.Item>
+                              <Form.Item label={<Text type="secondary">{t['address']}</Text>}>
+                                {item?.current?.address}
+                              </Form.Item>
                             </div>
                           </>
                         )}
@@ -178,10 +242,18 @@ export default function CreateCompanyPreview(props) {
                           <>
                             <Form.Item label={'Địa chỉ liên lạc'}></Form.Item>
                             <div style={{ paddingLeft: 20 }}>
-                              <Form.Item label={<Text type="secondary">{t['city']}</Text>}>{item?.contact?.city}</Form.Item>
-                              <Form.Item label={<Text type="secondary">{t['district']}</Text>}>{item?.contact?.district}</Form.Item>
-                              <Form.Item label={<Text type="secondary">{t['town']}</Text>}>{item?.contact?.town}</Form.Item>
-                              <Form.Item label={<Text type="secondary">{t['address']}</Text>}>{item?.contact?.address}</Form.Item>
+                              <Form.Item label={<Text type="secondary">{t['city']}</Text>}>
+                                {item?.contact?.city}
+                              </Form.Item>
+                              <Form.Item label={<Text type="secondary">{t['district']}</Text>}>
+                                {item?.contact?.district}
+                              </Form.Item>
+                              <Form.Item label={<Text type="secondary">{t['town']}</Text>}>
+                                {item?.contact?.town}
+                              </Form.Item>
+                              <Form.Item label={<Text type="secondary">{t['address']}</Text>}>
+                                {item?.contact?.address}
+                              </Form.Item>
                             </div>
                           </>
                         )}
@@ -222,7 +294,12 @@ export default function CreateCompanyPreview(props) {
         )}
 
         {(company_main_career || company_opt_career) && (
-          <Card title="Ngành nghề đăng kí kinh doanh" className="box__shadow" size="small" style={{ margin: '0 0 20px 0' }}>
+          <Card
+            title="Ngành nghề đăng kí kinh doanh"
+            className="box__shadow"
+            size="small"
+            style={{ margin: '0 0 20px 0' }}
+          >
             <Form colon labelWrap labelAlign="left" labelCol={{ lg: 8, md: 12, sm: 24, xs: 24 }}>
               {company_main_career && (
                 <Form.Item label={<Text type="secondary">Ngành nghề kinh doanh chính</Text>}>

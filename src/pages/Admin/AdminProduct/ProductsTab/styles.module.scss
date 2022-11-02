@@ -6,15 +6,25 @@
 }
 
 .tableWrapper {
-  height: 100%;
+  display: flex;
+  width: 100%;
+  overflow: overlay;
   background-color: #fff;
-  padding: 8px;
-  display: grid;
-  grid-template-rows: 1fr 60px;
   > div {
-    overflow: auto;
+    width: 100%;
   }
-  .pagi {
-    align-items: center;
+  table {
+    thead {
+      position: sticky;
+      top: 0;
+      z-index: 1;
+    }
   }
+}
+
+.pagination {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 4px 0;
 }

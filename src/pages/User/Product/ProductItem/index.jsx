@@ -183,15 +183,10 @@ const UserProductItem = (props) => {
     }
 
     try {
-      let createDate = moment().format('YYYYMMDDHHmmss')
-      let orderId = moment().format('HHmmss')
-
-      params.createDate = createDate
-      params.orderId = orderId
-
       let res = await ProductService.createOrderWithPayment(params)
       if (res.data.status === 200) {
-        return (window.location.href = res.data.url)
+        // return (window.location.href = res.data.url)
+        window.open(res.data.url)
       }
     } catch (err) {
       console.log('paymentService', err)

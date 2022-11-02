@@ -39,7 +39,6 @@
 .ant-layout-sider-trigger {
   background-color: #fff;
   border-radius: 4px;
-
 }
 
 .ant-layout-footer {
@@ -122,4 +121,22 @@ $bg: #fff;
 
 .box__shadow {
   box-shadow: var(--main-box-shadow);
+}
+
+.ant-tabs-content-holder {
+  overflow: overlay;
+  .ant-tabs-content {
+    height: 100%;
+    .ant-tabs-tabpane {
+      // display: grid;
+      height: calc(100vh - 46px - 24px - 72px - 40px - 80px);
+
+      [class*='tableWrapper'] {
+        height: calc(100vh - 46px - 24px - 72px - 40px - 80px);
+        @media (max-width: 767px) {
+          height: calc(100vh - 46px - 72px - 40px - 80px);
+        }
+      }
+    }
+  }
 }

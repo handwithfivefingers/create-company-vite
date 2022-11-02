@@ -1,6 +1,6 @@
 import React, { useCallback, useState, useEffect, useLayoutEffect, useRef, memo, useMemo } from 'react';
 import styles from './styles.module.scss';
-import { isEqual } from 'lodash';
+import isEqual from 'lodash/isEqual';
 const VirtualScroll = (props) => {
 	const [list, setList] = useState();
 

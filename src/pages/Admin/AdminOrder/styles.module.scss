@@ -30,3 +30,30 @@
     height: unset;
   }
 }
+
+.tableWrapper {
+  overflow: overlay !important;
+  background-color: #fff;
+
+  table {
+    background-color: #fff;
+    thead {
+      position: sticky;
+      top: 0;
+      z-index: 1;
+    }
+  }
+}
+
+.pagination {
+  display: flex;
+  // padding: 8px 0;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.contentWrapper {
+  display: grid;
+  // grid-template-rows: ;
+  grid-template-rows: 1fr 50px;
+}

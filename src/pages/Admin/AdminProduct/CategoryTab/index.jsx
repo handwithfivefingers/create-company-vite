@@ -7,7 +7,7 @@ import React, { useEffect, useState } from 'react'
 import { forwardRef } from 'react'
 import { useImperativeHandle } from 'react'
 import { number_format } from '../../../../helper/Common'
-
+import styles from './styles.module.scss'
 const CategoryTab = forwardRef((props, ref) => {
   const [cateData, setCateData] = useState([])
 
@@ -91,43 +91,51 @@ const CategoryTab = forwardRef((props, ref) => {
 
   return (
     <>
-      <Table
-        loading={{
-          spinning: categoryLoading,
-          tip: 'Loading...',
-          delay: 100,
-        }}
-        dataSource={category}
-        pagination={false}
-        size="small"
-        bordered
-        rowKey={(record) => record._id}
-      >
-        <Table.Column title="Danh mục" render={(val, record, index) => record.name} />
-        <Table.Column
-          title="Giá"
-          width={'25%'}
-          render={(val, record, index) => {
-            return `${number_format(record.price)} VND`
+      <div className={styles.tableWrapper}>
+        <Table
+          loading={{
+            spinning: categoryLoading,
+            tip: 'Loading...',
+            delay: 100,
           }}
-        />
-        <Table.Column title="Loại" width="100px" render={(val, record, index) => record.type} />
-        <Table.Column
-          title=""
-          width="100px"
-          render={(val, record, i) => {
-            return (
-              <Space>
-                <Button onClick={(e) => onHandleUpdateCategory(record)} icon={<FormOutlined />} />
+          dataSource={category}
+          pagination={false}
+          size="small"
+          bordered
+          rowKey={(record) => record._id}
+        >
+          <Table.Column title="Danh mục" render={(val, record, index) => record.name} />
+          <Table.Column
+            title="Giá"
+            width={'25%'}
+            render={(val, record, index) => {
+              return `${number_format(record.price)} VND`
+            }}
+          />
+          <Table.Column title="Loại" width="100px" render={(val, record, index) => record.type} />
+          <Table.Column
+            title=""
+            width="100px"
+            render={(val, record, i) => {
+              return (
+                <Space>
+                  <Button onClick={(e) => onHandleUpdateCategory(record)} icon={<FormOutlined />} />
 
-                <Popconfirm placement="topRight" title={'Bạn có muốn xoá ?'} onConfirm={() => onHandleDeleteCategory(record)} okText="Yes" cancelText="No">
-                  <Button icon={<MinusSquareOutlined />} />
-                </Popconfirm>
-              </Space>
-            )
-          }}
-        />
-      </Table>
+                  <Popconfirm
+                    placement="topRight"
+                    title={'Bạn có muốn xoá ?'}
+                    onConfirm={() => onHandleDeleteCategory(record)}
+                    okText="Yes"
+                    cancelText="No"
+                  >
+                    <Button icon={<MinusSquareOutlined />} />
+                  </Popconfirm>
+                </Space>
+              )
+            }}
+          />
+        </Table>
+      </div>
       <Drawer visible={childModal.visible} width={childModal.width} onClose={closeModal} destroyOnClose>
         {childModal.component}
       </Drawer>

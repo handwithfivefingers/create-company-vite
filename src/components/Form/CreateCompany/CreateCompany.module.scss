@@ -12,6 +12,11 @@
   display: flex;
   height: auto;
   animation-delay: 0.2s;
+  flex-direction: row;
+
+  @media (max-width: 767px) {
+    flex-direction: column;
+  }
 }
 
 .groupInput {
@@ -34,6 +39,6 @@
   justify-content: space-between;
   .title {
     margin: 0;
-    font-size:20px;
+    font-size: 20px;
   }
 }

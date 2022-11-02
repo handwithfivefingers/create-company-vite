@@ -1,14 +1,13 @@
-import React, { forwardRef, useState, useEffect, useRef, useMemo } from 'react'
-import { Form, Row, Col, InputNumber, Radio, Space, Button, DatePicker } from 'antd'
 import CCInput from '@/components/CCInput'
-import clsx from 'clsx'
-import styles from './styles.module.scss'
 import { SELECT } from '@/constant/Common'
-import CCSelect from '../../../CCSelect'
-import { onSetFields, htmlContent } from '@/helper/Common'
+import { htmlContent, onSetFields } from '@/helper/Common'
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons'
-import { isEqual } from 'lodash'
+import { Button, Col, Form, InputNumber, Row } from 'antd'
+import clsx from 'clsx'
+import React, { forwardRef, useEffect, useMemo, useState } from 'react'
 import { useLocation } from 'react-router-dom'
+import CCSelect from '../../../CCSelect'
+import styles from './styles.module.scss'
 
 const ThanhVienGopVon = forwardRef(({ data, ...props }, ref) => {
   const [present, setPresent] = useState({})

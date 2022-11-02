@@ -1,13 +1,12 @@
-import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons'
-import { Button, Col, Form, Row, Space, Radio, Select } from 'antd'
-import React, { forwardRef, useState, useEffect } from 'react'
 import CCInput from '@/components/CCInput'
 import { SELECT } from '@/constant/Common'
-import { onSetFields, htmlContent } from '@/helper/Common'
+import { htmlContent, onSetFields } from '@/helper/Common'
+import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons'
+import { Button, Col, Form, Row, Select } from 'antd'
 import clsx from 'clsx'
-import styles from '../CreateCompany.module.scss'
+import React, { forwardRef, useEffect, useState } from 'react'
 import CCSelect from '../../../CCSelect'
-import _ from 'lodash'
+import styles from '../CreateCompany.module.scss'
 
 const NguoiDaiDienPhapLuat = forwardRef(({ data, ...props }, ref) => {
   const { current, BASE_FORM } = props
@@ -35,10 +34,6 @@ const NguoiDaiDienPhapLuat = forwardRef(({ data, ...props }, ref) => {
   useEffect(() => {
     addItem()
   }, [])
-
-  // useEffect(() => {
-  //   setRender(!_render)
-  // }, [current])
 
   const addItem = () => {
     setListForm([...listForm, listField])
@@ -73,7 +68,7 @@ const NguoiDaiDienPhapLuat = forwardRef(({ data, ...props }, ref) => {
 
         {listForm.map((item, i) => {
           return (
-            <Col lg={8} md={12} sm={24} xs={24} key={[item, i]}>
+            <Col lg={8} md={12} sm={24} key={[item, i]}>
               <PeronalType
                 index={i}
                 ref={ref}
@@ -100,8 +95,8 @@ const PeronalType = forwardRef((props, ref) => {
 
     let originPerson = ref?.current?.getFieldValue(pathName)
 
-    let options = originPerson?.map(({ name, organization }, index) => ({
-      name: name || '...',
+    let options = originPerson?.map((item, index) => ({
+      name: item?.name || '...',
       value: index,
     })) || [{ value: null, name: 'None' }]
 
@@ -149,9 +144,17 @@ const PeronalType = forwardRef((props, ref) => {
 
   return (
     <>
-      <Form.Item name={[...BASE_FORM, 'legal_respon', index, 'select_person']} label={htmlContent('<b>Chọn người đại diện</b>')}>
+      <Form.Item
+        name={[...BASE_FORM, 'legal_respon', index, 'select_person']}
+        label={htmlContent('<b>Chọn người đại diện</b>')}
+      >
         {getPersonType() && (
-          <Select onChange={(e) => handleSelectPersonType(e, index)} placeholder="Bấm vào đây" autoComplete="off" value={present[index]}>
+          <Select
+            onChange={(e) => handleSelectPersonType(e, index)}
+            placeholder="Bấm vào đây"
+            autoComplete="off"
+            value={present[index]}
+          >
             {getPersonType()?.map((item, i) => {
               return (
                 <Select.Option value={item.value} key={item.key ? item.key : [name, i, item.value]}>
@@ -163,7 +166,14 @@ const PeronalType = forwardRef((props, ref) => {
         )}
       </Form.Item>
 
-      <FormListPersonType ref={ref} listFormState={handleForm} presentState={presentState} BASE_FORM={BASE_FORM} i={index} type={props?.type} />
+      <FormListPersonType
+        ref={ref}
+        listFormState={handleForm}
+        presentState={presentState}
+        BASE_FORM={BASE_FORM}
+        i={index}
+        type={props?.type}
+      />
     </>
   )
 })
@@ -224,19 +234,39 @@ const FormListPersonType = forwardRef((props, ref) => {
       />
 
       <div style={{ display: +present[i] != -1 ? 'none' : 'block' }}>
-        <CCInput type="select" name={[...BASE_FORM, 'legal_respon', i, 'gender']} label="Giới tính" options={SELECT.GENDER} placeholder="Bấm vào đây" />
+        <CCInput
+          type="select"
+          name={[...BASE_FORM, 'legal_respon', i, 'gender']}
+          label="Giới tính"
+          options={SELECT.GENDER}
+          placeholder="Bấm vào đây"
+        />
 
         <CCInput type="date" name={[...BASE_FORM, 'legal_respon', i, 'birth_day']} label="Ngày sinh" placeholder="15/01/1966 - ENTER" inputReadOnly={false} />
 
         <CCSelect.SelectPersonType name={[...BASE_FORM, 'legal_respon', i, 'per_type']} label="Dân tộc" ref={ref} />
 
-        <CCInput type="select" name={[...BASE_FORM, 'legal_respon', i, 'doc_type']} label="Loại giấy tờ" options={SELECT.DOC_TYPE} placeholder="Bấm vào đây" />
+        <CCInput
+          type="select"
+          name={[...BASE_FORM, 'legal_respon', i, 'doc_type']}
+          label="Loại giấy tờ"
+          options={SELECT.DOC_TYPE}
+          placeholder="Bấm vào đây"
+        />
 
-        <CCInput name={[...BASE_FORM, 'legal_respon', i, 'doc_code']} label="Số CMND / CCCD / Hộ chiếu" placeholder="0316184427" />
+        <CCInput
+          name={[...BASE_FORM, 'legal_respon', i, 'doc_code']}
+          label="Số CMND / CCCD / Hộ chiếu"
+          placeholder="0316184427"
+        />
 
         <CCInput type="date" name={[...BASE_FORM, 'legal_respon', i, 'doc_time_provide']} label="Ngày cấp" placeholder="15/01/1966 - ENTER" inputReadOnly={false} />
 
-        <CCSelect.SelectDocProvide name={[...BASE_FORM, 'legal_respon', i, 'doc_place_provide']} label="Nơi cấp" ref={ref} />
+        <CCSelect.SelectDocProvide
+          name={[...BASE_FORM, 'legal_respon', i, 'doc_place_provide']}
+          label="Nơi cấp"
+          ref={ref}
+        />
 
         <Form.Item
           label={

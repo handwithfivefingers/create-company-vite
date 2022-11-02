@@ -62,7 +62,7 @@ const DISSOLUTION_STEP = [
 		desc: 'Giải thể',
 	},
 	{
-		title: `Bước 2`,
+		title: `Bước 3`,
 		desc: 'Xem lại',
 	},
 ];

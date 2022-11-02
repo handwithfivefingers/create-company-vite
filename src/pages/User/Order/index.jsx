@@ -9,23 +9,14 @@ import OrderService from '@/service/UserService/OrderService'
 import moment from 'moment'
 import styles from './styles.module.scss'
 import clsx from 'clsx'
-import { m } from 'framer-motion'
+import CCPagination from '@/components/CCPagination'
+
 const UserOrder = () => {
   const { animateClass } = useOutletContext()
 
   const [loading, setLoading] = useState(false)
   const [data, setData] = useState([])
-  const [modal, setModal] = useState({
-    visible: false,
-    width: 0,
-    component: null,
-  })
-
-  const [drawer, setDrawer] = useState({
-    visible: false,
-    width: 0,
-    data: null,
-  })
+  const [current, setCurrent] = useState(1)
 
   let navigate = useNavigate()
 
@@ -51,13 +42,7 @@ const UserOrder = () => {
   }
 
   const handlePurchase = (record) => {
-    const date = new Date()
-    var createDate = dateformat(date, 'yyyymmddHHmmss')
-    var orderId = dateformat(date, 'HHmmss')
-
     let params = {
-      createDate,
-      orderId,
       amount: +record?.price * 100,
       orderInfo: record?._id,
     }
@@ -78,14 +63,6 @@ const UserOrder = () => {
     } finally {
       setLoading(false)
     }
-  }
-
-  const closeModal = () => {
-    setModal({
-      ...modal,
-      visible: false,
-    })
-    setDrawer((draw) => ({ ...draw, visible: false }))
   }
 
   const onEditOrder = (record) => {
@@ -132,87 +109,108 @@ const UserOrder = () => {
         </Tag>
       )
     }
-
   }
 
+  const pagiConfigs = {
+    current: current,
+    total: data?.count,
+    showSizeChanger: false,
+    pageSize: 10,
+    onChange: (current, pageSize) => setCurrent(current),
+  }
   return (
-    <m.div className={clsx(['cc-scroll', animateClass])} initial={{ opacity: 0 }} exit={{ opacity: 0 }} animate={{ opacity: 1 }}>
-      <Table
-        size="small"
-        bordered
-        dataSource={data}
-        loading={{
-          spinning: loading,
-          tip: 'Loading...',
-          delay: 100,
-        }}
-        rowKey={(record) => record._id}
-        scroll={{ x: 1000 }}
-      >
-        <Table.Column
-          align="center"
-          title="Mã đơn hàng"
-          dataIndex="per_main"
-          render={(val, record, i) => {
-            return record._id
+    <div className={clsx([animateClass, styles.orderWrapper])}>
+      <div className="cc-scroll" style={{ backgroundColor: '#fff' }}>
+        <Table
+          size="small"
+          bordered
+          dataSource={data?._order}
+          loading={{
+            spinning: loading,
+            tip: 'Loading...',
+            delay: 100,
           }}
-        />
-        <Table.Column
-          align="center"
-          title="Người đăng kí"
-          render={(val, record, i) => {
-            return record?.orderOwner.name
-          }}
-        />
+          rowKey={(record) => record._id}
+          pagination={false}
+        >
+          <Table.Column
+            align="center"
+            title="Mã đơn hàng"
+            dataIndex="per_main"
+            render={(val, record, i) => {
+              return record._id
+            }}
+          />
+          <Table.Column
+            align="center"
+            title="Người đăng kí"
+            render={(val, record, i) => {
+              return <span style={{ display: 'block', width: '150px' }}>{record?.orderOwner.name}</span>
+            }}
+          />
 
-        <Table.Column width="200px" align="center" title="Dịch vụ" dataIndex="" render={renderService} />
+          <Table.Column align="center" title="Dịch vụ" dataIndex="" render={renderService} />
 
-        <Table.Column
-          align="center"
-          title="Giá tiền"
-          render={(val, record, i) => {
-            return <>{number_format(record?.price)} VND</>
-          }}
-        />
-        <Table.Column
-          align="center"
-          title="Ngày tạo"
-          render={(val, record, i) => {
-            return <>{moment(record.createdAt).format('HH:mm DD-MM-YYYY')}</>
-          }}
-        />
-        <Table.Column
-          align="center"
-          title="Thanh toán"
-          dataIndex=""
-          render={(val, record, i) => {
-            return record?.payment === 1 ? <Tag color="green">Đã thanh toán</Tag> : <Tag color="volcano">Chưa thanh toán</Tag>
-          }}
-        />
+          <Table.Column
+            align="center"
+            title="Giá tiền"
+            render={(val, record, i) => {
+              return <span style={{ display: 'block', width: '150px' }}>{number_format(record?.price)} VND</span>
+            }}
+          />
+          <Table.Column
+            align="center"
+            title="Ngày tạo"
+            render={(val, record, i) => {
+              return (
+                <span style={{ display: 'block', width: '150px' }}>
+                  {moment(record.createdAt).format('HH:mm DD-MM-YYYY')}
+                </span>
+              )
+            }}
+          />
+          <Table.Column
+            align="center"
+            title="Thanh toán"
+            dataIndex=""
+            render={(val, record, i) => {
+              return record?.payment === 1 ? (
+                <Tag color="green">Đã thanh toán</Tag>
+              ) : (
+                <Tag color="volcano">Chưa thanh toán</Tag>
+              )
+            }}
+          />
 
-        <Table.Column
-          align="center"
-          width={88}
-          render={(v, record, i) => (
-            <div className={styles.btnGroup}>
-              <Tooltip title="Chỉnh sửa" color={'blue'} placement="left">
-                <Button className={styles.btn} onClick={() => onEditOrder(record)}>
-                  <FormOutlined />
-                </Button>
-              </Tooltip>
+          <Table.Column
+            align="center"
+            width={88}
+            render={(v, record, i) => (
+              <div className={styles.btnGroup}>
+                <Tooltip title="Chỉnh sửa" color={'blue'} placement="left">
+                  <Button className={styles.btn} onClick={() => onEditOrder(record)}>
+                    <FormOutlined />
+                  </Button>
+                </Tooltip>
 
-              <Tooltip title="Thanh toán" color={'blue'} placement="left">
-                <Button className={styles.btn} type="primary" disabled={record.payment} onClick={() => handlePurchase(record)} icon={<MdCreditCard />} />
-              </Tooltip>
-            </div>
-          )}
-        />
-      </Table>
-
-      <Modal visible={modal.visible} footer={null} bodyStyle={null} width={modal.width} onCancel={() => closeModal()}>
-        {modal.component}
-      </Modal>
-    </m.div>
+                <Tooltip title="Thanh toán" color={'blue'} placement="left">
+                  <Button
+                    className={styles.btn}
+                    type="primary"
+                    disabled={record.payment}
+                    onClick={() => handlePurchase(record)}
+                    icon={<MdCreditCard />}
+                  />
+                </Tooltip>
+              </div>
+            )}
+          />
+        </Table>
+      </div>
+      <div className={styles.pagination}>
+        <CCPagination {...pagiConfigs} />
+      </div>
+    </div>
   )
 }
 export default UserOrder

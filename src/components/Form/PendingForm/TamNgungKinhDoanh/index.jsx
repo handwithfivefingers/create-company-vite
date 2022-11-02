@@ -10,6 +10,7 @@ import styles from './styles.module.scss'
 import { htmlContent, onSetFields } from '@/helper/Common'
 import { useLocation } from 'react-router-dom'
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons'
+import moment from 'moment'
 
 const BASE_FORM = ['pending', 'approve']
 
@@ -42,7 +43,12 @@ const TamNgungKinhDoanh = forwardRef(({ type, current, index }, ref) => {
         xhtml = (
           <>
             <Form.Item label={PENDING_FORM.approve.fields.location.label}>
-              <CCSelect.SelectProvince ref={ref} label={'Địa chỉ trụ sở chính'} name={[...BASE_FORM, 'location']} placeholder="Địa chỉ trụ sở chính" />
+              <CCSelect.SelectProvince
+                ref={ref}
+                label={'Địa chỉ trụ sở chính'}
+                name={[...BASE_FORM, 'location']}
+                placeholder="Địa chỉ trụ sở chính"
+              />
             </Form.Item>
             <OnePersonForm BASE_FORM={BASE_FORM} ref={ref} />
 
@@ -60,7 +66,12 @@ const TamNgungKinhDoanh = forwardRef(({ type, current, index }, ref) => {
         xhtml = (
           <>
             <Form.Item label={htmlContent('<b>Địa chỉ trụ sở chính</b>')}>
-              <CCSelect.SelectProvince ref={ref} label={'Địa chỉ trụ sở chính'} name={[...BASE_FORM, 'location']} placeholder="Địa chỉ trụ sở chính" />{' '}
+              <CCSelect.SelectProvince
+                ref={ref}
+                label={'Địa chỉ trụ sở chính'}
+                name={[...BASE_FORM, 'location']}
+                placeholder="Địa chỉ trụ sở chính"
+              />{' '}
             </Form.Item>
             <MoreThanOneForm BASE_FORM={BASE_FORM} ref={ref} />
           </>
@@ -70,6 +81,13 @@ const TamNgungKinhDoanh = forwardRef(({ type, current, index }, ref) => {
 
     return xhtml
   }
+
+  const disabledTimeEnd = (current) => {
+    let val = ref.current.getFieldValue([...BASE_FORM, 'time_range', 'start'])
+    return current && current < val.endOf('day')
+  }
+
+  const disabledTimeStart = (current) => current && current < moment().endOf('day')
 
   return (
     <Form.Item
@@ -137,11 +155,25 @@ const TamNgungKinhDoanh = forwardRef(({ type, current, index }, ref) => {
         }
       >
         <Row gutter={[16, 12]}>
-          <Col span={12}>
-            <CCInput name={[...BASE_FORM, 'time_range', 'start']} label="Từ ngày" type="date" layout="horizontal" placeholder="15/01/2022 - ENTER" />
+          <Col lg={12} md={24} sm={24} xs={24}>
+            <CCInput
+              name={[...BASE_FORM, 'time_range', 'start']}
+              label="Từ ngày"
+              type="date"
+              layout="horizontal"
+              placeholder="15/01/2022 - ENTER"
+              disabledDate={disabledTimeStart}
+            />
           </Col>
-          <Col span={12}>
-            <CCInput name={[...BASE_FORM, 'time_range', 'end']} label="Đến ngày" type="date" layout="horizontal" placeholder="15/01/2023 - ENTER" />
+          <Col lg={12} md={24} sm={24} xs={24}>
+            <CCInput
+              name={[...BASE_FORM, 'time_range', 'end']}
+              label="Đến ngày"
+              type="date"
+              layout="horizontal"
+              placeholder="15/01/2023 - ENTER"
+              disabledDate={disabledTimeEnd}
+            />
           </Col>
         </Row>
       </Form.Item>
@@ -307,7 +339,10 @@ const MoreThanOneForm = forwardRef((props, ref) => {
                     </Form.Item>
                   </Col>
                   <Col span={12}>
-                    <Form.Item name={[...BASE_FORM, 'contribute_members', index, 'capital_percent']} label="Chiếm % vốn điều lệ">
+                    <Form.Item
+                      name={[...BASE_FORM, 'contribute_members', index, 'capital_percent']}
+                      label="Chiếm % vốn điều lệ"
+                    >
                       <InputNumber
                         style={{ width: '100%' }}
                         max={100}

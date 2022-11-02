@@ -6,6 +6,7 @@ import { Button, Col, Drawer, message, PageHeader, Row, Segmented, Table } from 
 import parser from 'html-react-parser'
 import { memo, useEffect, useState } from 'react'
 import styles from './styles.module.scss'
+import CCPagination from '@/components/CCPagination'
 
 function ListTemplateMail(props) {
   // const router = useRouter();
@@ -104,6 +105,15 @@ function ListTemplateMail(props) {
       fetchTemplateMail()
     }
   }
+  const pagiConfigs = {
+    current: data.current_page,
+    pageSize: 10,
+    total: data.count,
+    onChange: (page, pageSize) => {
+      fetchTemplateMail(page)
+    },
+    showSizeChanger: false,
+  }
 
   return (
     <>
@@ -152,57 +162,47 @@ function ListTemplateMail(props) {
           onChange={(value) => setSegment(value)}
         />
       </div>
+      <div className={styles.contentWrapper}>
+        <div className={styles.tableWrapper}>
+          <Table
+            size="small"
+            bordered
+            dataSource={data._template}
+            loading={{
+              spinning: loading,
+              tip: 'Loading...',
+              delay: 100,
+            }}
+            pagination={false}
+            rowKey={(record) => record._id}
+          >
+            <Table.Column width={'20%'} title="Mẫu Email" dataIndex="name" render={(val, record, i) => val} />
+            <Table.Column width={'20%'} title="Subject" dataIndex="subject" render={(val, record, i) => val} />
+            <Table.Column
+              title="Nội dung Email"
+              width={'50%'}
+              render={(val, record, i) => <div className={styles.tableContent}>{parser(record?.content || '')}</div>}
+            />
 
-      <div style={{ padding: 8, background: '#fff' }}>
-        <Table
-          size="small"
-          bordered
-          dataSource={data._template}
-          loading={{
-            spinning: loading,
-            tip: 'Loading...',
-            delay: 100,
-          }}
-          pagination={{
-            current: data.current_page,
-            pageSize: 10,
-            total: data.count,
-            onChange: (page, pageSize) => {
-              fetchTemplateMail(page)
-            },
-            showSizeChanger: false,
-          }}
-          sticky={{
-            offsetScroll: 8,
-            offsetHeader: -8,
-          }}
-          scroll={{ x: 1200 }}
-          rowKey={(record) => record._id}
-        >
-          <Table.Column width={'20%'} title="Mẫu Email" dataIndex="name" render={(val, record, i) => val} />
-          <Table.Column width={'20%'} title="Subject" dataIndex="subject" render={(val, record, i) => val} />
-          <Table.Column
-            title="Nội dung Email"
-            width={'50%'}
-            render={(val, record, i) => <div className={styles.tableContent}>{parser(record?.content || '')}</div>}
-          />
-
-          <Table.Column
-            width={'80px'}
-            title="Action"
-            render={(val, record, i) => (
-              <span style={{ display: 'inline-block', width: 80 }}>
-                <Button type="primary" size="small" onClick={() => editTemplate(record)}>
-                  <FormOutlined />
-                </Button>
-                <Button type="text" size="small" onClick={() => deleteTemplate(record)}>
-                  <DeleteOutlined />
-                </Button>
-              </span>
-            )}
-          />
-        </Table>
-
+            <Table.Column
+              width={'80px'}
+              title="Action"
+              render={(val, record, i) => (
+                <span style={{ display: 'inline-block', width: 80 }}>
+                  <Button type="primary" size="small" onClick={() => editTemplate(record)}>
+                    <FormOutlined />
+                  </Button>
+                  <Button type="text" size="small" onClick={() => deleteTemplate(record)}>
+                    <DeleteOutlined />
+                  </Button>
+                </span>
+              )}
+            />
+          </Table>
+        </div>
+        <div className={styles.pagination}>
+          <CCPagination {...pagiConfigs} />
+        </div>
         <Drawer title={drawer.title} width={720} onClose={onClose} visible={drawer.visible}>
           {drawer.component}
         </Drawer>

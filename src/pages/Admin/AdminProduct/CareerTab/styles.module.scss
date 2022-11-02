@@ -8,13 +8,21 @@
 .tableWrapper {
   height: 100%;
   background-color: #fff;
-  padding: 8px;
-  display: grid;
-  grid-template-rows: 1fr 60px;
-  > div {
-    overflow: auto;
+  grid-template-rows: 1fr 120px;
+  overflow: overlay !important;
+  table {
+    background-color: #fff;
+    thead {
+      position: sticky;
+      top: 0;
+      z-index: 1;
+    }
   }
-  .pagi {
-    align-items: center;
-  }
+}
+
+.pagination {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 4px 0;
 }

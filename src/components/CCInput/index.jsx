@@ -194,6 +194,7 @@ const InputDate = (props) => {
             placeholder={props?.placeholder}
             autoComplete={props?.autocomplete || 'off'}
             onChange={props?.onChange}
+            disabledDate={props?.disabledDate && props.disabledDate}
             {...rest}
           />
         </Form.Item>
@@ -222,6 +223,9 @@ const InputDate = (props) => {
 }
 
 const InputDateRange = (props) => {
+  // disabledStart
+  // disabledEnd
+
   return (
     <>
       <Form.Item name={props?.name} style={{ display: 'none' }} key={props?.key}>

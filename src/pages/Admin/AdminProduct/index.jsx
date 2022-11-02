@@ -1,7 +1,7 @@
 import { PlusSquareOutlined } from '@ant-design/icons'
 
 import { Button, Tabs } from 'antd'
-import React, { useRef, useState } from 'react'
+import React, { useRef, useState, useMemo } from 'react'
 
 import AdminHeader from '../../../components/Admin/AdminHeader'
 import styles from './styles.module.scss'
@@ -10,17 +10,15 @@ import CareerCategoryTab from './CareerCategoryTab'
 import CareerTab from './CareerTab'
 import CategoryTab from './CategoryTab'
 import ProductsTab from './ProductsTab'
+import clsx from 'clsx'
+import CCPagination from '@/components/CCPagination'
+import useBreakpoint from 'antd/lib/grid/hooks/useBreakpoint'
+import { useSelector } from 'react-redux'
 
 const { TabPane } = Tabs
 const AdminProduct = (props) => {
   const [activeTabs, setActiveTabs] = useState('1')
   const productRef = useRef()
-
-  const [childModal, setChildModal] = useState({
-    visible: false,
-    width: 0,
-    component: null,
-  })
 
   // Career
 
@@ -107,55 +105,47 @@ const AdminProduct = (props) => {
 
     return xhtml
   }
+
   const items = [
     {
       label: 'Danh mục',
       key: 1,
-      children: <CategoryTab ref={productRef} />,
     },
     {
       label: 'Sản phẩm',
       key: 2,
-      children: <ProductsTab ref={productRef} />,
     },
     {
-      label: 'Danh mục Ngành nghề',
+      label: 'Danh mục ngành nghề',
       key: 3,
-      children: <CareerCategoryTab ref={productRef} />,
     },
     {
       label: 'Ngành nghề',
       key: 4,
-      children: <CareerTab ref={productRef} />,
     },
   ]
+
+  const { collapsed } = useSelector((state) => state.commonReducer)
   return (
     <>
       <AdminHeader title="Quản lý sản phẩm" extra={renderExtra()} />
 
       <Tabs
         className={styles.tabsPanel}
-        // defaultActiveKey={1}
         activeKey={activeTabs}
         onChange={(key) => setActiveTabs(key)}
-        // destroyInactiveTabPane
-        // items={items}
+        style={{ width: collapsed ? 'calc(100vw - 62px)' : 'calc(100vw - 236px)' }}
       >
-        {/* {items.map((item) => (
-          <Tabs.TabPane label={item.label} key={item.key}>
-            {item.children}
-          </Tabs.TabPane>
-        ))} */}
-        <Tabs.TabPane tab={'Danh mục'} key={1}>
+        <Tabs.TabPane tab={'Danh mục'} key={1} className="tabContent">
           <CategoryTab ref={productRef} />
         </Tabs.TabPane>
-        <Tabs.TabPane tab={'Sản phẩm'} key={2}>
+        <Tabs.TabPane tab={'Sản phẩm'} key={2} className="tabContent">
           <ProductsTab ref={productRef} />
         </Tabs.TabPane>
-        <Tabs.TabPane tab={'Danh mục Ngành nghề'} key={3}>
+        <Tabs.TabPane tab={'Danh mục Ngành nghề'} key={3} className="tabContent">
           <CareerCategoryTab ref={productRef} />
         </Tabs.TabPane>
-        <Tabs.TabPane tab={'Ngành nghề'} key={4}>
+        <Tabs.TabPane tab={'Ngành nghề'} key={4} className="tabContent">
           <CareerTab ref={productRef} />
         </Tabs.TabPane>
       </Tabs>

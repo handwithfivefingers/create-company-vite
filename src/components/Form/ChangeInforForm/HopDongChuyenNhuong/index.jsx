@@ -297,7 +297,7 @@ const HopDongChuyenNhuong = forwardRef((props, ref) => {
           <Col span={12}>
             <CCInput
               name={[...fieldName, 'organization', 'legal_representative']}
-              label={htmlContent('>Họ và tên <i>(Đại diện pháp luật)</i>')}
+              label={htmlContent('Họ và tên <i>(Đại diện pháp luật)</i>')}
               onChange={(e) => onSetFields([...fieldName, 'organization', 'legal_representative'], e.target.value, ref, true)}
             />
           </Col>

@@ -1,16 +1,15 @@
-import { Button, Form, Select, Row, Col, message, Divider, Radio, Space, Card } from 'antd'
-import clsx from 'clsx'
-import React, { forwardRef, useEffect, useState } from 'react'
 import CCInput from '@/components/CCInput'
 import { SELECT } from '@/constant/Common'
-import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons'
+import { MinusCircleOutlined } from '@ant-design/icons'
+import { Button, Card, Col, Divider, Form, Row, Select } from 'antd'
+import clsx from 'clsx'
+import React, { forwardRef, useEffect, useState } from 'react'
 
+import { htmlContent, onSetFields } from '@/helper/Common'
+import { useLocation } from 'react-router-dom'
 import CCAddress from '../../../CCAddress'
 import CCSelect from '../../../CCSelect'
-import { onSetFields, htmlContent } from '@/helper/Common'
 import styles from './styles.module.scss'
-import _, { isEqual } from 'lodash'
-import { useLocation } from 'react-router-dom'
 
 const BASE_FORM = ['change_info', 'legal_representative']
 
@@ -77,7 +76,9 @@ const DaiDienPhapLuat = forwardRef((props, ref) => {
           </Col>
           {listIncludesOrExclude &&
             listIncludesOrExclude?.map((item, i) => (
-              <PeoppleWrapper {...props} BASE_FORM={BASE_FORM} ref={ref} i={i} />
+              <Col lg={12} md={24} sm={24} xs={24} key={[i, item]}>
+                <PeoppleWrapper {...props} BASE_FORM={BASE_FORM} ref={ref} i={i} />
+              </Col>
             ))}
         </Row>
       </Form.Item>
@@ -89,7 +90,7 @@ const DaiDienPhapLuat = forwardRef((props, ref) => {
         <Row gutter={[12]}>
           {listLegal.map((item, i) => {
             return (
-              <Col lg={8} md={12} sm={24} xs={24} key={i}>
+              <Col lg={8} md={12} sm={24} xs={24} key={[item, i]}>
                 <PeronalType
                   index={i}
                   ref={ref}
@@ -205,7 +206,7 @@ const PeoppleWrapper = forwardRef((props, ref) => {
   }
 
   return (
-    <Col span={12}>
+    <Col span={24}>
       <Form.Item name={[...BASE_FORM, 'in_out', i, 'type']}>
         <Select onChange={handleSelectPeopleType} placeholder="Bấm vào đây">
           <Select.Option value={PERSON_TYPE.REMOVE}>Bỏ bớt người đại diện</Select.Option>
