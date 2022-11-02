@@ -1,4 +1,5 @@
-const exec = require('child_process').execSync
+// const exec = require('child_process').
+const { execSync: exec, spawn } = require('child_process')
 const crypto = require('crypto')
 const sigHeaderName = 'X-Hub-Signature-256'
 const sigHashAlg = 'sha256'
@@ -7,43 +8,74 @@ const repo = '/usr/share/nginx/html/create-company-vite'
 
 module.exports = class GitAction {
   gitPull = async (req, res) => {
-    let cd = 'cd ' + repo
-    let checkout = 'git checkout -- .'
-    let pullCode = 'git pull'
-    let installPackage = 'npm install'
-    let buildPackage = 'yarn build'
-    let restartPm2 = 'pm2 reload ecosystem.config.js'
-    let chormium = cd + '/node_modules/puppeteer' + '/.local-chromium'
+    const cd = 'cd ' + repo
+
+    const checkout = 'git checkout -- .'
+
+    const pullCode = 'git pull'
+
+    const installPackage = 'npm install'
+
+    const buildPackage = 'yarn build'
+
+    const newSource = "find ./ -type d -iname 'dist-build' -ls"
+
+    const oldSource = "find ./ -type d -iname 'dist' -ls"
+
+    const removeOldSource = 'rm -rf ./dist'
+
+    const rename = 'mv ./dist-build ./dist'
+
+    const restartPm2 = 'pm2 reload ecosystem.config.js'
+
+    const chormium = cd + '/node_modules/puppeteer' + '/.local-chromium'
 
     try {
-      if (req.body.action !== 'closed') {
-        return res.end()
-      } else {
-        res.end()
+      // if (req.body.action !== 'closed') {
+      //   return res.end()
+      // } else {
+      res.end()
 
-        console.log(`Git action::: ${cd}`)
+      console.log(`Git action::: ${cd}`)
 
-        exec(cd)
+      exec(cd)
 
-        exec(checkout)
+      exec(checkout)
 
-        exec(pullCode)
+      exec(pullCode)
 
-        exec(installPackage)
+      exec(installPackage)
 
-        console.log(`Action::: ${buildPackage}`)
+      console.log(`Action::: ${buildPackage}`)
 
-        exec(buildPackage)
+      exec(buildPackage)
 
-        // check folder if success
+      const { err: oldSourceError, stdout: oldSourcesdtout, stderr: oldSourceStdErr } = exec(oldSource)
 
-        // replace name with build folder
+      const { err, stdout, stderr } = exec(newSource)
+
+      if (oldSourceError === null) {
+        return
       }
+
+      if (err === null) {
+        return
+      }
+
+      if (oldSourcesdtout && stdout) {
+        exec(removeOldSource)
+        exec(rename)
+      }
+
+      // check folder if success
+
+      // replace name with build folder
+      // }
     } catch (err) {
       console.log('git error', err)
     } finally {
       console.log(`Action::: ${restartPm2}`)
-      exec(restartPm2)
+      // exec(restartPm2)
     }
   }
 }

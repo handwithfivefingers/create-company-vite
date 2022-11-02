@@ -12,7 +12,8 @@ lerna-debug.log*
 /uploads/*.pdf
 /uploads/mockdata/database/**
 
-# dist
+dist
+dist-build
 dist-ssr
 *.local
 package-lock.json
