@@ -23,8 +23,6 @@ const AdminOrder = () => {
   })
   const [current, setCurrent] = useState(1)
 
-  const searchInput = useRef(null)
-
   const navigate = useNavigate()
   const { data, isLoading, status, refetch } = useFetch({
     cacheName: ['adminOrder'],
@@ -34,7 +32,6 @@ const AdminOrder = () => {
   const pagiConfigs = {
     current: current,
     total: data?.count,
-    showSizeChanger: false,
     pageSize: 10,
     onChange: (current, pageSize) => setCurrent(current),
   }
@@ -178,23 +175,6 @@ const AdminOrder = () => {
     )
   }
 
-  const renderProgress = (record) => {
-    return (
-      <Tooltip
-        title={
-          <>
-            Step: {record?.track.step} <br />
-            Status: {record?.track.status}
-          </>
-        }
-      >
-        <Button type="text" onClick={() => checkProgress(record)}>
-          {record?.track.step}
-        </Button>
-      </Tooltip>
-    )
-  }
-
   const renderProduct = (val, record, i) => {
     if (record?.data?.create_company) {
       return (
@@ -284,7 +264,6 @@ const AdminOrder = () => {
             className="table"
             pagination={false}
             rowKey={(record) => record._id || makeid(9)}
-            // sticky={{ offsetHeader: 1, offsetScroll: 1 }}
           >
             <Table.Column
               title="Đơn hàng"

@@ -5,7 +5,9 @@ const api_path = {
 
   updateOrder: '/order',
 
-  createOrderWithPayment: '/order/create/payment',
+  updateAndPayment: '/order/payment',
+
+  createOrderWithPayment: '/order/payment',
 
   products: `/product`,
 
@@ -32,6 +34,8 @@ const ProductService = {
   checkCompany: (params) => axios.post(api_path.checkCompany, params),
 
   updateOrder: (_id, form) => axios.post(api_path.updateOrder + '/' + _id, form),
+  
+  updateAndPayment: (_id, form) => axios.post(api_path.updateAndPayment + '/' + _id, form),
 }
 
 export default ProductService

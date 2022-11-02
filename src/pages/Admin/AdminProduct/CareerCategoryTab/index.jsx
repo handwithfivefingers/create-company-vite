@@ -129,7 +129,10 @@ const CareerCategoryTab = forwardRef((props, ref) => {
     <>
       <div className={styles.tableWrapper}>
         <Table
-          dataSource={careerCategory?.data}
+          dataSource={careerCategory?.data?.slice(
+            (current - 1) * pagiConfigs.pageSize,
+            (current - 1) * pagiConfigs.pageSize + pagiConfigs.pageSize,
+          )}
           loading={careerCategoryLoading}
           rowKey={(record) => record._uuid || record._id || Math.random()}
           size="small"

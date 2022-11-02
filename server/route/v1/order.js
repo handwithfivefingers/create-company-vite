@@ -6,7 +6,7 @@ const router = express.Router()
 const OrderUser = require('@controller/user/Order')
 const PaymentService = require('@controller/Service/Payment')
 
-const { getOrdersFromUser, createOrders, orderWithPayment, updateOrder } = new OrderUser()
+const { getOrdersFromUser, createOrders, orderWithPayment, updateOrder, updateAndPayment } = new OrderUser()
 
 const { getUrlReturn } = new PaymentService()
 
@@ -21,9 +21,12 @@ router.post('/order/create', requireSignin, upload.none(), createOrders)
 //create order
 router.post('/order/:_id', requireSignin, upload.none(), updateOrder)
 
+//update
+
+router.post('/order/payment/:_id', requireSignin, upload.none(), updateAndPayment)
 //create and payment
 
-router.post('/order/create/payment', requireSignin, upload.none(), orderWithPayment)
+router.post('/order/payment', requireSignin, upload.none(), orderWithPayment)
 
 // return url -> update db
 router.get('/order/payment/url_return', getUrlReturn)

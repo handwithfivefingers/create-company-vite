@@ -14,7 +14,9 @@ const UserOrder = () => {
   const { animateClass } = useOutletContext()
 
   const [loading, setLoading] = useState(false)
+
   const [data, setData] = useState([])
+
   const [current, setCurrent] = useState(1)
 
   let navigate = useNavigate()
@@ -35,30 +37,6 @@ const UserOrder = () => {
       }
     } catch (err) {
       console.log(err)
-    } finally {
-      setLoading(false)
-    }
-  }
-
-  const handlePurchase = (record) => {
-    let params = {
-      amount: +record?.price * 100,
-      orderInfo: record?._id,
-    }
-
-    return paymentService(params)
-  }
-
-  const paymentService = async (params) => {
-    setLoading(true)
-    try {
-      const res = await OrderService.Payment(params)
-      if (res.status === 200) {
-        window.open(res.data.url)
-      }
-    } catch (err) {
-      console.log(err)
-      message.error('something was wrong')
     } finally {
       setLoading(false)
     }
@@ -113,17 +91,20 @@ const UserOrder = () => {
   const pagiConfigs = {
     current: current,
     total: data?.count,
-    showSizeChanger: false,
     pageSize: 10,
     onChange: (current, pageSize) => setCurrent(current),
   }
+
   return (
     <div className={clsx([animateClass, styles.orderWrapper])}>
       <div className="cc-scroll" style={{ backgroundColor: '#fff' }}>
         <Table
           size="small"
           bordered
-          dataSource={data?._order}
+          dataSource={data?._order?.slice(
+            (current - 1) * pagiConfigs.pageSize,
+            (current - 1) * pagiConfigs.pageSize + pagiConfigs.pageSize,
+          )}
           loading={{
             spinning: loading,
             tip: 'Loading...',
@@ -186,21 +167,26 @@ const UserOrder = () => {
             width={88}
             render={(v, record, i) => (
               <div className={styles.btnGroup}>
-                <Tooltip title="Chỉnh sửa" color={'blue'} placement="left">
-                  <Button className={styles.btn} onClick={() => onEditOrder(record)}>
-                    <FormOutlined />
-                  </Button>
-                </Tooltip>
-
-                <Tooltip title="Thanh toán" color={'blue'} placement="left">
+                {record.payment ? (
                   <Button
                     className={styles.btn}
+                    onClick={() => onEditOrder(record)}
+                    disabled
                     type="primary"
-                    disabled={record.payment}
-                    onClick={() => handlePurchase(record)}
-                    icon={<MdCreditCard />}
+                    icon={<FormOutlined />}
+                    sise="middle"
                   />
-                </Tooltip>
+                ) : (
+                  <Tooltip title="Chỉnh sửa & Thanh toán" color={'blue'} placement="left">
+                    <Button
+                      className={styles.btn}
+                      onClick={() => onEditOrder(record)}
+                      type="primary"
+                      icon={<FormOutlined />}
+                      sise="middle"
+                    />
+                  </Tooltip>
+                )}
               </div>
             )}
           />

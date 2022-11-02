@@ -24,7 +24,7 @@ const ProductsTab = forwardRef((props, ref) => {
     width: 0,
     component: null,
   })
-  const [currentPage, setCurrentPage] = useState(1)
+  const [current, setCurrent] = useState(1)
 
   const {
     data: product,
@@ -99,11 +99,11 @@ const ProductsTab = forwardRef((props, ref) => {
     })
   }
 
-  const pagiConfig = {
-    current: currentPage,
+  const pagiConfigs = {
+    current: current,
     pageSize: 10,
     total: product?.count,
-    onChange: (page, pageSize) => setCurrentPage(page),
+    onChange: (page, pageSize) => setCurrent(page),
     showSizeChanger: false,
   }
 
@@ -118,10 +118,12 @@ const ProductsTab = forwardRef((props, ref) => {
             tip: 'Loading...',
             delay: 100,
           }}
-          dataSource={product?._product}
+          dataSource={product?._product?.slice(
+            (current - 1) * pagiConfigs.pageSize,
+            (current - 1) * pagiConfigs.pageSize + pagiConfigs.pageSize,
+          )}
           pagination={false}
           rowKey={(record) => record._id}
-          // scroll={{ x: 768 }}
         >
           <Table.Column
             width={300}
@@ -136,12 +138,22 @@ const ProductsTab = forwardRef((props, ref) => {
           <Table.Column
             title="Danh mục"
             width={250}
-            render={(val, { categories }, i) => categories?.map(({ name }) => <span className="inline"  style={{ display: 'block', width: '250px' }}>{name}</span>)}
+            render={(val, { categories }, i) =>
+              categories?.map(({ name, index }) => (
+                <span className="inline" style={{ display: 'block', width: '250px' }} key={[name, i, index]}>
+                  {name}
+                </span>
+              ))
+            }
           />
 
           <Table.Column
             title="Giá tiền"
-            render={(val, { price }, i) => <span className="inline"  style={{ display: 'block', width: '100px' }}>{`${number_format(price)} VND`}</span>}
+            render={(val, { price }, i) => (
+              <span className="inline" style={{ display: 'block', width: '100px' }}>{`${number_format(
+                price,
+              )} VND`}</span>
+            )}
           />
 
           <Table.Column
@@ -168,7 +180,7 @@ const ProductsTab = forwardRef((props, ref) => {
       </div>
 
       <div className={styles.pagination}>
-        <CCPagination {...pagiConfig} />
+        <CCPagination {...pagiConfigs} />
       </div>
 
       <Drawer visible={childModal.visible} width={childModal.width} onClose={closeModal} destroyOnClose>

@@ -11,7 +11,6 @@ const db = require('./server/configs/db')
 const appConfig = require('./server/configs/defaultConfig')
 
 const LoadEnv = require('./server/configs/loadENV')
-const { exec } = require('child_process')
 
 global.__basedir = __dirname
 
@@ -39,18 +38,6 @@ app.listen(RUNTIME_PORT, async () => {
   task.start()
 
   backupDB.start()
-
-  // await Order.deleteMany()
-  exec("find ./ -type d -iname 'dist-build' -ls  ", (err, stdout, stderr) => {
-    // console.log(err, stdout, stderr)
-    console.log('log error', err)
-    console.log('log stdout', stdout)
-
-    if(stdout) {
-      
-    }
-    console.log('log stderr', stderr)
-  })
 
   console.log(`Server is running ${RUNTIME_PORT}`)
 })

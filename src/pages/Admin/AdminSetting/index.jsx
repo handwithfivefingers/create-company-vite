@@ -3,7 +3,7 @@ import CCInput from '@/components/CCInput'
 import { onSetFields } from '@/helper/Common'
 import AdminMailService from '@/service/AdminService/AdminMailService'
 import AdminSettingService from '@/service/AdminService/AdminSettingService'
-import { Button, Form, message, Tabs, Row, Col } from 'antd'
+import { Button, Form, message, Tabs, Row, Col, Select } from 'antd'
 import React, { forwardRef, useEffect, useRef, useState } from 'react'
 import styles from './styles.module.scss'
 const { TabPane } = Tabs
@@ -18,9 +18,7 @@ const ChangePassword = forwardRef((props, ref) => {
             <CCInput type="password" name="new_password" label="Mật khẩu mới" placeholder="********" />
             <CCInput type="password" name="confirm_password" label="Xác nhận mật khẩu mới" placeholder="********" />
           </Col>
-          <Col span={16}>
-            
-          </Col>
+          <Col span={16}></Col>
         </Row>
 
         <Form.Item>
@@ -51,13 +49,61 @@ const SettingMail = forwardRef((props, ref) => {
   return (
     <Form ref={ref} onFinish={props.mailSubmit} layout="vertical">
       <Form.Item label={<h3>Cài đặt mail</h3>}>
-        <CCInput type="select" label={'Mail đăng kí'} name="mailRegister" options={getOptions()} />
+        {/* <CCInput type="select" label={'Mail đăng kí'} name="mailRegister" options={getOptions()} /> */}
 
+        <Form.Item label={'Mail đăng kí'} name="mailRegister">
+          <Select>
+            {getOptions()?.map(({ value, name }, index) => {
+              return (
+                <Select.Option value={value} key={[index, value]}>
+                  {name}
+                </Select.Option>
+              )
+            })}
+          </Select>
+        </Form.Item>
+
+        <Form.Item label={'Mail Quên mật khẩu'} name="mailForgotPass">
+          <Select>
+            {getOptions()?.map(({ value, name }, index) => {
+              return (
+                <Select.Option value={value} key={[index, value]}>
+                  {name}
+                </Select.Option>
+              )
+            })}
+          </Select>
+        </Form.Item>
+
+        <Form.Item label={'Mail hồ sơ sau khi thanh toán'} name="mailPayment">
+          <Select>
+            {getOptions()?.map(({ value, name }, index) => {
+              return (
+                <Select.Option value={value} key={[index, value]}>
+                  {name}
+                </Select.Option>
+              )
+            })}
+          </Select>
+        </Form.Item>
+
+        <Form.Item label={'Mail Thanh Toán Thành Công'} name="mailPaymentSuccess">
+          <Select>
+            {getOptions()?.map(({ value, name }, index) => {
+              return (
+                <Select.Option value={value} key={[index, value]}>
+                  {name}
+                </Select.Option>
+              )
+            })}
+          </Select>
+        </Form.Item>
+{/* 
         <CCInput type="select" label={'Mail Quên mật khẩu'} name="mailForgotPass" options={getOptions()} />
 
         <CCInput type="select" label={'Mail hồ sơ sau khi thanh toán'} name="mailPayment" options={getOptions()} />
 
-        <CCInput type="select" label={'Mail Thanh Toán Thành Công'} name="mailPaymentSuccess" options={getOptions()} />
+        <CCInput type="select" label={'Mail Thanh Toán Thành Công'} name="mailPaymentSuccess" options={getOptions()} /> */}
 
         <Form.Item>
           <Button htmlType="submit" loading={props?.loading}>
@@ -133,7 +179,15 @@ const AdminSetting = () => {
     },
     {
       name: 'Mail',
-      content: <SettingMail mailSubmit={mailSubmit} ref={mailRef} options={options} settingMail={settingMail} loading={loading} />,
+      content: (
+        <SettingMail
+          mailSubmit={mailSubmit}
+          ref={mailRef}
+          options={options}
+          settingMail={settingMail}
+          loading={loading}
+        />
+      ),
     },
   ]
 

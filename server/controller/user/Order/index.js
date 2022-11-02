@@ -156,8 +156,6 @@ module.exports = class OrderUser {
 
       let _obj = await _save.save()
 
-      // handle Payment Here
-
       let params = {
         amount: price * 100,
         orderInfo: _obj._id,
@@ -170,17 +168,42 @@ module.exports = class OrderUser {
     }
   }
 
-  // paymentOrder = (req, res, params) => {
-  //   let vnp_Params = getVpnParams(req, params)
+  updateAndPayment = async (req, res) => {
+    try {
+      let _id = req.params._id
+      let { data } = req.body
 
-  //   var vnpUrl = process.env.VNPAY_URL
+      let { category, products } = data
 
-  //   vnpUrl += '?' + qs.stringify(vnp_Params, { encode: false })
+      let _updateObject = {
+        category: category._id || category.value,
+        products: products?.map((item) => item.value),
+        data,
+      }
 
-  //   return res.status(200).json({ status: 200, url: vnpUrl })
-  // }
+      let _order = await Order.findOne(_id)
 
-  // common
+      if (!_order) return errHandler(err, res)
+
+      _order.category = category._id || category.value
+
+      _order.products = products?.map((item) => item.value)
+
+      _order.data = data
+
+      await _order.save()
+
+      let params = {
+        amount: _order.price * 100,
+        orderInfo: _order._id,
+      }
+
+      return paymentOrder(req, res, params)
+    } catch (error) {
+      console.log('updateOrder error', error)
+      return errHandler(err, res)
+    }
+  }
 
   calcPrice = async (cateID) => {
     try {

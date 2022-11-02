@@ -1,16 +1,15 @@
 import CCInput from '@/components/CCInput'
-import CCListForm from '@/components/CCListForm'
 import CCSelect from '@/components/CCSelect'
 import { SELECT } from '@/constant/Common'
 import { PENDING_FORM } from '@/constant/FormConstant'
-import { Col, Form, InputNumber, Row, Button, Space, Card } from 'antd'
-import clsx from 'clsx'
-import React, { forwardRef, useEffect, useState, useMemo } from 'react'
-import styles from './styles.module.scss'
 import { htmlContent, onSetFields } from '@/helper/Common'
-import { useLocation } from 'react-router-dom'
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons'
+import { Button, Card, Col, Form, InputNumber, Row, Space } from 'antd'
+import clsx from 'clsx'
 import moment from 'moment'
+import React, { forwardRef, useEffect, useState } from 'react'
+import { useLocation } from 'react-router-dom'
+import styles from './styles.module.scss'
 
 const BASE_FORM = ['pending', 'approve']
 

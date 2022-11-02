@@ -172,7 +172,7 @@ const UserProductItem = (props) => {
     }
   }
 
-  const paymentService = async (params, ref) => {
+  const paymentService = async ({ _id, ...params }, ref) => {
     if (!ref.current) return
 
     try {
@@ -183,9 +183,14 @@ const UserProductItem = (props) => {
     }
 
     try {
-      let res = await ProductService.createOrderWithPayment(params)
-      if (res.data.status === 200) {
-        // return (window.location.href = res.data.url)
+      let res
+      if (_id) {
+        res = await ProductService.updateAndPayment(_id, params)
+      } else {
+        res = await ProductService.createOrderWithPayment(params)
+      }
+
+      if (res.status === 200) {
         window.open(res.data.url)
       }
     } catch (err) {
@@ -193,7 +198,6 @@ const UserProductItem = (props) => {
 
       message.error({
         content: error.response?.data?.error || error.message || `Đã có lỗi xảy ra, vui lòng thử lại sau`,
-        duration: 3,
       })
     }
   }
