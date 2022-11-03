@@ -68,7 +68,7 @@ const TrackingApi = async (req, res, next) => {
       req.socket.remoteAddress ||
       req.connection.socket.remoteAddress
     // let originalUrl = req.socket['originalUrl']
-    console.log(host, req.originalUrl, remoteAddress)
+    console.log('Tracking api', req.originalUrl, remoteAddress)
   } catch (err) {
   } finally {
     next()
@@ -94,6 +94,15 @@ const validateIPNVnpay = async (req, res, next) => {
 
   var ipAddr = req.id || req.connection.remoteAddress || req.socket.remoteAddress || req.connection.socket.remoteAddress
 
+  let remoteAddress =
+    req.headers['x-forwarded-for'] ||
+    req.id ||
+    req.connection.remoteAddress ||
+    req.socket.remoteAddress ||
+    req.connection.socket.remoteAddress
+
+  console.log('validateIPNVnpay', ipAddr, remoteAddress)
+
   const type = SANDBOX_WHITE_LIST.includes(ipAddr) ? 'sandbox' : PRODUCT_WHITE_LIST.includes(ipAddr) ? 'production' : ''
 
   let _logObject = {
@@ -105,13 +114,13 @@ const validateIPNVnpay = async (req, res, next) => {
   }
 
   if (whiteList.includes(ipAddr)) {
+    console.log('whitelist contains')
     let _log = new Log(_logObject)
     await _log.save()
 
     next()
   } else {
     console.log('Bad IP: ' + ipAddr)
-
     return res.status(403).json({ message: 'You are not allowed to access' })
   }
 }
