@@ -163,8 +163,9 @@ const UserProductItem = (props) => {
       }
       if (res.status === 200) {
         message.success(res.data.message)
-        navigate('/user/san-pham')
+        return navigate('/user/san-pham')
       }
+      throw res?.data
     } catch (error) {
       console.log('saveService', error)
       message.error({
@@ -196,8 +197,11 @@ const UserProductItem = (props) => {
       }
 
       if (res.status === 200) {
-        window.open(res.data.url)
+        return window.open(res.data.url)
       }
+ 
+      throw res?.data
+ 
     } catch (err) {
       console.log('paymentService', err)
 

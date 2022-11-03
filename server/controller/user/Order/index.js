@@ -58,7 +58,7 @@ module.exports = class OrderUser {
 
   createOrders = async (req, res) => {
     try {
-      const { payment, data } = req.body
+      const { data } = req.body
 
       const { category, products, ...rest } = data
 
@@ -75,7 +75,6 @@ module.exports = class OrderUser {
       if (!files) throw 'Something was wrong when generate file, please try again'
 
       let newData = {
-        payment,
         data,
         orderOwner: req.id,
         name: shortid.generate(),
@@ -101,7 +100,10 @@ module.exports = class OrderUser {
   updateOrder = async (req, res) => {
     try {
       let _id = req.params._id
+
       let { data } = req.body
+
+      console.log('data', data)
 
       let { category, products } = data
 
@@ -171,11 +173,12 @@ module.exports = class OrderUser {
   updateAndPayment = async (req, res) => {
     try {
       let _id = req.params._id
+
       let { data } = req.body
 
       let { category, products } = data
 
-      let _order = await Order.findOne({ _id })
+      let _order = await Order.findOne({ _id: _id })
 
       if (!_order) return errHandler(err, res)
 
@@ -193,9 +196,8 @@ module.exports = class OrderUser {
       }
 
       return paymentOrder(req, res, params)
-      
     } catch (error) {
-      console.log('updateOrder error', error)
+      console.log('updateAndPayment error', error)
       return errHandler(err, res)
     }
   }

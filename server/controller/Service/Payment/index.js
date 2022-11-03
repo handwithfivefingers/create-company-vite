@@ -168,7 +168,7 @@ module.exports = class PaymentService {
           return this.sendResponseToClient(
             {
               code: '01',
-              text: ResponseCode['01'],
+              text: "Đơn hàng không tồn tại",
               orderId,
             },
             res,
@@ -181,23 +181,14 @@ module.exports = class PaymentService {
           return this.sendResponseToClient(
             {
               code: '04',
-              text: ResponseCode['04'],
+              text: 'Số tiền giao dịch không chính xác',
               orderId,
             },
             res,
           )
         }
 
-        if (_order.payment === 1) {
-          return this.sendResponseToClient(
-            {
-              code: '02',
-              text: ResponseCode['02'],
-              orderId,
-            },
-            res,
-          )
-        }
+     
         if (vnp_Params['vnp_ResponseCode'] === '00' && vnp_Params['vnp_TransactionStatus'] === '00') {
           let [{ subject, content }] = await Setting.find().populate('mailPaymentSuccess')
 
@@ -211,7 +202,7 @@ module.exports = class PaymentService {
           sendmailWithAttachments(req, res, params)
         } else {
           code = vnp_Params['vnp_ResponseCode']
-          text = 'Giao dịch không thành công'
+          text = `Giao dịch không thành công, vui lòng kiểm tra lại đơn hàng của bạn`;
         }
 
         return this.sendResponseToClient(
