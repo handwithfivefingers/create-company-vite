@@ -94,13 +94,7 @@ const validateIPNVnpay = async (req, res, next) => {
 
   var ipAddr = req.id || req.connection.remoteAddress || req.socket.remoteAddress || req.connection.socket.remoteAddress
 
-  const type = SANDBOX_WHITE_LIST.includes(ipAddr)
-    ? 'sandbox'
-    : PRODUCT_WHITE_LIST.includes(ipAddr)
-    ? 'production'
-    : TEST_IP.includes(ipAddr)
-    ? 'dev'
-    : ''
+  const type = SANDBOX_WHITE_LIST.includes(ipAddr) ? 'sandbox' : PRODUCT_WHITE_LIST.includes(ipAddr) ? 'production' : ''
 
   let _logObject = {
     ip: ipAddr,
@@ -111,15 +105,13 @@ const validateIPNVnpay = async (req, res, next) => {
   }
 
   if (whiteList.includes(ipAddr)) {
-
     let _log = new Log(_logObject)
     await _log.save()
-    
+
     next()
   } else {
-    
     console.log('Bad IP: ' + ipAddr)
-    
+
     return res.status(403).json({ message: 'You are not allowed to access' })
   }
 }

@@ -181,7 +181,7 @@ module.exports = class OrderUser {
         data,
       }
 
-      let _order = await Order.findOne(_id)
+      let _order = await Order.findOne({ _id })
 
       if (!_order) return errHandler(err, res)
 
@@ -222,7 +222,6 @@ module.exports = class OrderUser {
       }
 
       return price
-
     } catch (error) {
       throw error
     }

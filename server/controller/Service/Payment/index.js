@@ -82,16 +82,19 @@ module.exports = class PaymentService {
       let signed = hmac.update(new Buffer.from(signData, 'utf-8')).digest('hex')
 
       if (secureHash === signed) {
+
         let _order = await Order.findOne({
           _id: vnp_Params.vnp_OrderInfo,
           'orderInfo.vnp_TxnRef': vnp_Params.vnp_TxnRef,
         }).populate('orderOwner', '_id name email')
 
+
         // FIRST STEP - Order Exists
+
         if (!_order) return res.status(200).json({ RspCode: '01', Message: ResponseCode['01'] })
 
         // SECOND STEP -> Check Price Match
-        
+
         let isMatchAmount = +_order.price * 100 === +vnp_Params.vnp_Amount
 
         if (!isMatchAmount) return res.status(200).json({ RspCode: '04', Message: ResponseCode['04'] })
@@ -122,7 +125,9 @@ module.exports = class PaymentService {
         sendmailWithAttachments(req, res, params)
 
         //Kiem tra du lieu co hop le khong, cap nhat trang thai don hang va gui ket qua cho VNPAY theo dinh dang duoi
+
         return res.status(200).json({ RspCode: '00', Message: ResponseCode['00'] })
+        
       }
 
       return res.status(200).json({ RspCode: '97', Message: ResponseCode['97'] })
@@ -165,8 +170,11 @@ module.exports = class PaymentService {
 
       if (secureHash === signed) {
         //Kiem tra xem du lieu trong db co hop le hay khong va thong bao ket qua
+
         let code = vnp_Params['vnp_ResponseCode']
+
         // console.log(vnp_Params['vnp_OrderInfo'])
+
         const query = qs.stringify({
           code,
           text: ResponseCode[code],
@@ -194,10 +202,13 @@ module.exports = class PaymentService {
         //   content,
         //   type: 'any',
         // }
+
         // await sendmailWithAttachments(req, res, params)
         // return res.redirect(url + query)
         // }
+
         return res.redirect(url + query)
+
       } else {
         const query = qs.stringify({
           code: ResponseCode[97],
