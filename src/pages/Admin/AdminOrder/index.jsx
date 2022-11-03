@@ -127,7 +127,12 @@ const AdminOrder = () => {
             </Link>
           }
         />
-        <Button type="primary" onClick={() => handleEditRecord(record)} icon={<FormOutlined />} />
+        <Button
+          type="primary"
+          onClick={() => handleEditRecord(record)}
+          disabled={!record?.data}
+          icon={<FormOutlined />}
+        />
         <Popconfirm
           placement="topRight"
           title={'Bạn có muốn xoá ?'}

@@ -160,7 +160,6 @@ const ChangeInforForm = forwardRef((props, ref) => {
               organization = {
                 ...organization,
                 time_provide: moment(organization?.time_provide, 'YYYY-MM-DD'),
-                // time_provide: ,
               }
             }
 
@@ -189,7 +188,6 @@ const ChangeInforForm = forwardRef((props, ref) => {
     ref.current?.setFieldsValue({
       ..._data,
     })
-
 
     setProductSelect(cate)
 

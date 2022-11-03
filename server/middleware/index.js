@@ -6,6 +6,8 @@ const multer = require('multer')
 const { authFailedHandler, errHandler } = require('@response')
 const { User, Log } = require('../model')
 
+const VNPWHITELIST = require('../constant/VnpayWhitelist')
+
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, path.join(path.dirname(global.__basedir), 'uploads'))
@@ -68,7 +70,6 @@ const TrackingApi = async (req, res, next) => {
       req.connection.socket.remoteAddress
 
     console.log('Tracking api', req.originalUrl, remoteAddress)
-
   } catch (err) {
   } finally {
     next()
@@ -76,20 +77,10 @@ const TrackingApi = async (req, res, next) => {
 }
 
 const validateIPNVnpay = async (req, res, next) => {
-  const SANDBOX_WHITE_LIST = ['113.160.92.202']
-  const PRODUCT_WHITE_LIST = [
-    '113.52.45.78',
-    '116.97.245.130',
-    '42.118.107.252',
-    '113.20.97.250',
-    '203.171.19.146',
-    '103.220.87.4',
-  ]
-
-  let whiteList = [...SANDBOX_WHITE_LIST, ...PRODUCT_WHITE_LIST] // Put your IP whitelist in this array
+  let WHITE_LIST = VNPWHITELIST // Put your IP whitelist in this array
 
   if (process.env.NODE_ENV === 'development') {
-    whiteList = [...whiteList, '127.0.0.1']
+    WHITE_LIST = [...WHITE_LIST, '127.0.0.1']
   }
 
   let remoteAddress =
@@ -99,25 +90,23 @@ const validateIPNVnpay = async (req, res, next) => {
     req.socket.remoteAddress ||
     req.connection.socket.remoteAddress
 
-  const type = SANDBOX_WHITE_LIST.includes(remoteAddress)
-    ? 'sandbox'
-    : PRODUCT_WHITE_LIST.includes(remoteAddress)
-    ? 'production'
-    : ''
+  // const type = SANDBOX_WHITE_LIST.includes(remoteAddress)
+  //   ? 'sandbox'
+  //   : PRODUCT_WHITE_LIST.includes(remoteAddress)
+  //   ? 'production'
+  //   : ''
 
   let _logObject = {
     ip: remoteAddress,
-    type,
+    // type,
     data: {
       ...req.query,
     },
   }
 
-  if (whiteList.includes(remoteAddress)) {
-    console.log('whitelist contains')
+  if (WHITE_LIST.includes(remoteAddress)) {
     let _log = new Log(_logObject)
     await _log.save()
-
     next()
   } else {
     console.log('Bad IP: ' + remoteAddress)

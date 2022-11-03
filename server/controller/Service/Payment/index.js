@@ -18,7 +18,10 @@ const { startSession } = require('mongoose')
 const moment = require('moment')
 const urlReturn =
   process.env.NODE_ENV === 'development' ? 'http://localhost:3001/api/order/payment/url_return' : process.env.RETURN_URL
-
+const urlResult =
+  process.env.NODE_ENV === 'development'
+    ? `http://localhost:3003/user/result?`
+    : `https://app.thanhlapcongtyonline.vn/user/result?`
 module.exports = class PaymentService {
   testPayment = (req, res) => {
     let { amount, orderInfo } = req.body
@@ -82,12 +85,10 @@ module.exports = class PaymentService {
       let signed = hmac.update(new Buffer.from(signData, 'utf-8')).digest('hex')
 
       if (secureHash === signed) {
-
         let _order = await Order.findOne({
           _id: vnp_Params.vnp_OrderInfo,
           'orderInfo.vnp_TxnRef': vnp_Params.vnp_TxnRef,
         }).populate('orderOwner', '_id name email')
-
 
         // FIRST STEP - Order Exists
 
@@ -107,33 +108,22 @@ module.exports = class PaymentService {
 
         // pass all test case
 
-        _order.payment = 1
+        if (vnp_Params['vnp_ResponseCode'] === '00' && vnp_Params['vnp_TransactionStatus'] === '00') {
+          _order.payment = 1
 
-        _order.orderInfo = vnp_Params
+          _order.orderInfo = vnp_Params
 
-        await _order.save()
-
-        let [{ subject, content }] = await Setting.find().populate('mailPaymentSuccess')
-
-        let params = {
-          email: _order.orderOwner.email || 'handgd1995@gmail.com',
-          subject,
-          content,
-          type: 'any',
+          await _order.save()
         }
 
-        sendmailWithAttachments(req, res, params)
+        return res.status(200).json({ RspCode: '00', Message: ResponseCode['00'] })
 
         //Kiem tra du lieu co hop le khong, cap nhat trang thai don hang va gui ket qua cho VNPAY theo dinh dang duoi
-
-        return res.status(200).json({ RspCode: '00', Message: ResponseCode['00'] })
-        
       }
 
-      return res.status(200).json({ RspCode: '97', Message: ResponseCode['97'] })
+      return res.status(200).json({ RspCode: '00', Message: ResponseCode['00'] })
     } catch (error) {
       return res.status(400).json({
-        message: 'Something went wrong',
         RspCode: '99',
         Message: ResponseCode['99'],
         error,
@@ -163,61 +153,95 @@ module.exports = class PaymentService {
 
       var signed = hmac.update(new Buffer.from(signData, 'utf-8')).digest('hex')
 
-      const url =
-        process.env.NODE_ENV === 'development'
-          ? `http://localhost:3003/user/result?`
-          : `https://app.thanhlapcongtyonline.vn/user/result?`
-
       if (secureHash === signed) {
         //Kiem tra xem du lieu trong db co hop le hay khong va thong bao ket qua
 
+        let orderId = vnp_Params['vnp_OrderInfo']
         let code = vnp_Params['vnp_ResponseCode']
 
-        // console.log(vnp_Params['vnp_OrderInfo'])
+        let _order = await Order.findOne({
+          _id: vnp_Params.vnp_OrderInfo,
+          'orderInfo.vnp_TxnRef': vnp_Params.vnp_TxnRef,
+        }).populate('orderOwner', '_id name email')
 
-        const query = qs.stringify({
-          code,
-          text: ResponseCode[code],
-          orderId: vnp_Params['vnp_OrderInfo'],
-        })
+        if (!_order) {
+          return this.sendResponseToClient(
+            {
+              code: '01',
+              text: ResponseCode['01'],
+              orderId,
+            },
+            res,
+          )
+        }
 
-        // if (code === '00') {
-        // Success
-        // const _update = {
-        //   payment: Number(1),
-        //   orderInfo: {
-        //     ...vnp_Params,
-        //   },
-        // }
-        // await Order.updateOne({ _id: req.query.vnp_OrderInfo }, _update, {
-        //   new: true,
-        // })
-        // let _order = await Order.findOne({
-        //   _id: req.query.vnp_OrderInfo,
-        // }).populate('orderOwner', '_id name email')
-        // let [{ subject, content }] = await Setting.find().populate('mailPaymentSuccess')
-        // let params = {
-        //   email: _order.orderOwner.email || 'handgd1995@gmail.com',
-        //   subject,
-        //   content,
-        //   type: 'any',
-        // }
+        let isMatchAmount = +_order.price * 100 === +vnp_Params.vnp_Amount
 
-        // await sendmailWithAttachments(req, res, params)
-        // return res.redirect(url + query)
-        // }
+        if (!isMatchAmount) {
+          return this.sendResponseToClient(
+            {
+              code: '04',
+              text: ResponseCode['04'],
+              orderId,
+            },
+            res,
+          )
+        }
 
-        return res.redirect(url + query)
+        if (_order.payment === 1) {
+          return this.sendResponseToClient(
+            {
+              code: '02',
+              text: ResponseCode['02'],
+              orderId,
+            },
+            res,
+          )
+        }
+        if (vnp_Params['vnp_ResponseCode'] === '00' && vnp_Params['vnp_TransactionStatus'] === '00') {
+          let [{ subject, content }] = await Setting.find().populate('mailPaymentSuccess')
 
+          let params = {
+            email: _order.orderOwner.email || 'handgd1995@gmail.com',
+            subject,
+            content,
+            type: 'any',
+          }
+
+          sendmailWithAttachments(req, res, params)
+        } else {
+          code = vnp_Params['vnp_ResponseCode']
+          text = 'Giao dịch không thành công'
+        }
+
+        return this.sendResponseToClient(
+          {
+            code: vnp_Params['vnp_ResponseCode'],
+            text: ResponseCode[vnp_Params['vnp_ResponseCode']],
+            orderId,
+          },
+          res,
+        )
       } else {
         const query = qs.stringify({
           code: ResponseCode[97],
+          text: ResponseCode[97],
         })
-        return res.redirect(url + query)
+        return res.redirect(urlResult + query)
       }
     } catch (err) {
       console.log('getUrlReturn', err)
       return errHandler(err, res)
+    }
+  }
+
+  sendResponseToClient = async (params, res) => {
+    try {
+      const query = qs.stringify(params)
+
+      return res.redirect(urlResult + query)
+    } catch (error) {
+      throw error
     }
   }
 }

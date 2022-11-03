@@ -107,7 +107,7 @@ module.exports = class OrderUser {
 
       let _updateObject = {
         category: category._id || category.value,
-        products: products?.map((item) => item.value),
+        products: products?.map((item) => item?.value || item),
         data,
       }
       await Order.updateOne({ _id }, _updateObject, { new: true })
@@ -175,19 +175,13 @@ module.exports = class OrderUser {
 
       let { category, products } = data
 
-      let _updateObject = {
-        category: category._id || category.value,
-        products: products?.map((item) => item.value),
-        data,
-      }
-
       let _order = await Order.findOne({ _id })
 
       if (!_order) return errHandler(err, res)
 
       _order.category = category._id || category.value
 
-      _order.products = products?.map((item) => item.value)
+      _order.products = products?.map((item) => item.value || item)
 
       _order.data = data
 
@@ -199,6 +193,7 @@ module.exports = class OrderUser {
       }
 
       return paymentOrder(req, res, params)
+      
     } catch (error) {
       console.log('updateOrder error', error)
       return errHandler(err, res)

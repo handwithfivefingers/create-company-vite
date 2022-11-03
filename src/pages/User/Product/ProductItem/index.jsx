@@ -15,8 +15,6 @@ const PendingPages = lazy(() => import('./PendingPages'))
 const DissolutionPages = lazy(() => import('./DissolutionPages'))
 
 const UserProductItem = (props) => {
-  let location = useLocation()
-
   const formRef = useRef()
 
   const [current, setCurrent] = useState(0)
@@ -37,6 +35,8 @@ const UserProductItem = (props) => {
       desc: 'Xem lại',
     },
   ])
+
+  const [loading, setLoading] = useState(false)
 
   let params = useParams()
 
@@ -153,6 +153,8 @@ const UserProductItem = (props) => {
   // Service
   const saveService = async ({ _id, ...params }) => {
     try {
+      setLoading(true)
+
       let res
       if (_id) {
         res = await ProductService.updateOrder(_id, params)
@@ -169,6 +171,8 @@ const UserProductItem = (props) => {
         content: error.response?.data?.error || error.message || `Đã có lỗi xảy ra, vui lòng thử lại sau`,
         duration: 3,
       })
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -183,6 +187,7 @@ const UserProductItem = (props) => {
     }
 
     try {
+      setLoading(true)
       let res
       if (_id) {
         res = await ProductService.updateAndPayment(_id, params)
@@ -199,6 +204,8 @@ const UserProductItem = (props) => {
       message.error({
         content: error.response?.data?.error || error.message || `Đã có lỗi xảy ra, vui lòng thử lại sau`,
       })
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -220,7 +227,7 @@ const UserProductItem = (props) => {
     <div className={styles.mainContent}>
       {data && renderHeaderStep()}
       <div className={styles.formContent}>
-        <Spin spinning={isFetching}>{data && renderFormByType(data?.type)}</Spin>
+        <Spin spinning={isFetching || loading}>{data && renderFormByType(data?.type)}</Spin>
       </div>
     </div>
   )
