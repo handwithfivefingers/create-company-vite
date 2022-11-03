@@ -30,11 +30,11 @@ const buildFunction = async () => {
   const rename = 'mv dist-build dist'
 
   try {
-    // exec(cd)
+    exec(cd)
 
-    // exec(checkout)
+    exec(checkout)
 
-    // exec(pullCode)
+    exec(pullCode)
 
     exec(installPackage)
 
