@@ -75,7 +75,7 @@ const UserProfile = (props) => {
       })
     }
   }, [profileData])
-  console.log('screen', screen)
+
   return (
     <Row className={animateClass ?? animateClass}>
       <Col lg={8} sm={24} xs={24} md={12} order={!screen.md ? 1 : 0}>

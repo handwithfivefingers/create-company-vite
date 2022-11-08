@@ -30,6 +30,9 @@ const UserSidebar = (props) => {
     else setCurrent(location.pathname)
   }, [location])
 
+
+
+
   const renderSidebar = (route) => {
     let xhtml = null
     xhtml = route.map((item, i) => {
@@ -46,7 +49,7 @@ const UserSidebar = (props) => {
     await dispatch(AuthAction.AuthLogout())
     navigate('/')
   }
-
+console.log('location', location, current)
   return (
     <>
       <Sider

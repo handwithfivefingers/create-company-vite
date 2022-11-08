@@ -21,6 +21,7 @@ import Admin from '@/pages/Admin'
 import User from '@/pages/User'
 import ForgotPassword from '../pages/HomePage/ForgotPassword'
 import LoginPage from '../pages/HomePage/LoginPage'
+import Policy from '../pages/User/Policy'
 
 // const HomePage = lazy(() => import('src/pages/HomePage'));
 // const Admin = lazy(() => import('src/pages/Admin'));
@@ -99,6 +100,11 @@ export const UserRouter = [
     path: '/user/profile',
     title: 'Tài khoản',
     icon: <RiAdminFill />,
+  },
+  {
+    path: '/user/policy',
+    title: 'Chính sách',
+    icon: <RiChatPollLine />,
   },
 ]
 
@@ -216,6 +222,12 @@ export const LAYOUT_ROUTER = ({ status, role }) => [
           title: 'Orders',
           icon: <RiChatPollLine />,
           element: <UserOrder />,
+        },
+        {
+          path: 'policy',
+          title: 'Chính sách hoàn / huỷ',
+          icon: <RiChatPollLine />,
+          element: <Policy />,
         },
         {
           path: 'result',
