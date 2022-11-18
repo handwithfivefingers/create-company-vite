@@ -1,5 +1,5 @@
 export const VALIDATE_MESSAGE = {
-  required: '${label} là bắt buộc!',
+  required: 'Vui lòng nhập ${label} !',
   types: {
     email: '${label} định dạng không đúng!',
     number: '${label} is not a valid number!',

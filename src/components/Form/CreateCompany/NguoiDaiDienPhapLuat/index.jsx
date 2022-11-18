@@ -147,6 +147,8 @@ const PeronalType = forwardRef((props, ref) => {
       <Form.Item
         name={[...BASE_FORM, 'legal_respon', index, 'select_person']}
         label={htmlContent('<b>Chọn người đại diện</b>')}
+        required
+        rules={[{ required: true, message: 'Chọn người đại diện là bắt buộc' }]}
       >
         {getPersonType() && (
           <Select
@@ -223,6 +225,7 @@ const FormListPersonType = forwardRef((props, ref) => {
         name={[...BASE_FORM, 'legal_respon', i, 'name']}
         label="Họ và tên"
         onChange={(e) => onSetFields([...BASE_FORM, 'legal_respon', i, 'name'], e.target.value, ref, true)}
+        required
       />
 
       <CCSelect.SelectTitle
@@ -231,6 +234,7 @@ const FormListPersonType = forwardRef((props, ref) => {
         placeholder="Bấm vào đây"
         options={+type === 1 ? SELECT.TITLE_1TV : +type === 2 ? SELECT.TITLE_2TV : +type === 3 ? SELECT.TITLE_CP : ''}
         ref={ref}
+        required
       />
 
       <div style={{ display: +present[i] != -1 ? 'none' : 'block' }}>
@@ -240,6 +244,7 @@ const FormListPersonType = forwardRef((props, ref) => {
           label="Giới tính"
           options={SELECT.GENDER}
           placeholder="Bấm vào đây"
+          required
         />
 
         <CCInput
@@ -248,9 +253,15 @@ const FormListPersonType = forwardRef((props, ref) => {
           label="Ngày sinh"
           placeholder="15/01/1966 - ENTER"
           inputReadOnly={false}
+          required
         />
 
-        <CCSelect.SelectPersonType name={[...BASE_FORM, 'legal_respon', i, 'per_type']} label="Dân tộc" ref={ref} />
+        <CCSelect.SelectPersonType
+          name={[...BASE_FORM, 'legal_respon', i, 'per_type']}
+          label="Dân tộc"
+          ref={ref}
+          required
+        />
 
         <CCInput
           type="select"
@@ -258,12 +269,14 @@ const FormListPersonType = forwardRef((props, ref) => {
           label="Loại giấy tờ"
           options={SELECT.DOC_TYPE}
           placeholder="Bấm vào đây"
+          required
         />
 
         <CCInput
           name={[...BASE_FORM, 'legal_respon', i, 'doc_code']}
           label="Số CMND / CCCD / Hộ chiếu"
           placeholder="0316184427"
+          required
         />
 
         <CCInput
@@ -272,24 +285,18 @@ const FormListPersonType = forwardRef((props, ref) => {
           label="Ngày cấp"
           placeholder="15/01/1966 - ENTER"
           inputReadOnly={false}
+          required
         />
 
         <CCSelect.SelectDocProvide
           name={[...BASE_FORM, 'legal_respon', i, 'doc_place_provide']}
           label="Nơi cấp"
           ref={ref}
+          required
         />
 
-        <Form.Item
-          label={
-            <div
-              dangerouslySetInnerHTML={{
-                __html: '</><b>Địa chỉ thường trú</b></>',
-              }}
-            />
-          }
-        >
-          <CCSelect.SelectProvince ref={ref} name={[...BASE_FORM, 'legal_respon', i, 'current']} />
+        <Form.Item label={htmlContent('<b>Địa chỉ thường trú</b>')}>
+          <CCSelect.SelectProvince ref={ref} name={[...BASE_FORM, 'legal_respon', i, 'current']} required />
         </Form.Item>
 
         <CCSelect.RadioAddress
@@ -297,6 +304,7 @@ const FormListPersonType = forwardRef((props, ref) => {
           prevField={[...BASE_FORM, 'legal_respon', i, 'current']}
           nextField={[...BASE_FORM, 'legal_respon', i, 'contact']}
           label={'<b>Nơi ở hiện tại</b>'}
+          required
         />
       </div>
     </Form.Item>

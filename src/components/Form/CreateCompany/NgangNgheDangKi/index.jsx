@@ -93,7 +93,11 @@ const NgangNgheDangKi = forwardRef((props, ref) => {
     >
       <Row gutter={[16, 12]}>
         <Col span={24}>
-          <Form.Item label="Vui lòng chọn">
+          <Form.Item
+            label="Vui lòng chọn"
+            required
+            rules={[{ required: true, message: 'Vui lòng chọn ngành nghề đăng kí' }]}
+          >
             <Select placeholder="Bấm vào đây" onChange={handleSelfSelectCareer}>
               <Select.Option value={1}>Tự chọn ngành nghề</Select.Option>
               <Select.Option value={2}>Chọn theo lĩnh vực đề xuất</Select.Option>
@@ -102,12 +106,18 @@ const NgangNgheDangKi = forwardRef((props, ref) => {
         </Col>
         {selfSelect && selfSelect === 2 && (
           <Col span={24}>
-            <Form.Item label="Chọn nhóm ngành nghề">
+            <Form.Item
+              label="Chọn nhóm ngành nghề"
+              required
+              rules={[{ required: true, message: 'Vui lòng chọn nhóm ngành nghề' }]}
+            >
               <Select
                 showSearch
                 allowClear
                 optionFilterProp="children"
-                filterOption={(input, option) => option.children.join('').toLowerCase().indexOf(input.toLowerCase()) >= 0}
+                filterOption={(input, option) =>
+                  option.children.join('').toLowerCase().indexOf(input.toLowerCase()) >= 0
+                }
                 onChange={handleCareerCateSelected}
                 placeholder="Gõ nhóm ngành liên quan"
               >
@@ -131,9 +141,13 @@ const NgangNgheDangKi = forwardRef((props, ref) => {
                   showSearch
                   allowClear
                   optionFilterProp="children"
-                  filterOption={(input, option) => option.children.join('').toLowerCase().indexOf(input.toLowerCase()) >= 0}
+                  filterOption={(input, option) =>
+                    option.children.join('').toLowerCase().indexOf(input.toLowerCase()) >= 0
+                  }
                   onChange={(val, opt) => handleChange([...BASE_FORM, 'company_main_career'], opt)}
                   placeholder="Gõ tên ngành hoặc mã ngành"
+                  required
+                  rules={[{ required: true, message: 'Vui lòng chọn nhóm ngành nghề' }]}
                 >
                   {careerData?.map((item) => (
                     <Select.Option key={item._id} value={item._id} code={item.code} name={item.name}>
@@ -153,7 +167,9 @@ const NgangNgheDangKi = forwardRef((props, ref) => {
                   onChange={(val, opt) => handleChange([...BASE_FORM, 'company_opt_career'], opt)}
                   optionFilterProp="children"
                   placeholder="Gõ tên ngành hoặc mã ngành"
-                  filterOption={(input, option) => option.children.join('').toLowerCase().indexOf(input.toLowerCase()) >= 0}
+                  filterOption={(input, option) =>
+                    option.children.join('').toLowerCase().indexOf(input.toLowerCase()) >= 0
+                  }
                 >
                   {careerData?.map((item) => (
                     <Select.Option key={item._id} value={item._id} code={item.code} name={item.name}>

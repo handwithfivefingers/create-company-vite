@@ -115,6 +115,13 @@ const TenCongTy = forwardRef((props, ref) => {
             label="Tên công ty bằng Tiếng Việt"
             hasFeedback
             validateStatus={loading ? 'validating' : companyData.length > 0 ? 'error' : 'success'}
+            rules={[
+              {
+                required: true,
+                message: 'Tên công ty là bắt buộc',
+              },
+            ]}
+            required
           >
             <Input
               size="small"

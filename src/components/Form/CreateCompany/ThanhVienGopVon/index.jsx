@@ -183,6 +183,7 @@ const Personal = forwardRef((props, ref) => {
         label="Họ và Tên"
         placeholder="NGUYỄN VĂN A"
         onChange={(e) => onSetFields([...BASE_FORM, 'name'], e.target.value, ref, true)}
+        required
       />
 
       <CCInput
@@ -191,6 +192,7 @@ const Personal = forwardRef((props, ref) => {
         label="Ngày sinh"
         placeholder="15/01/1966 - ENTER"
         inputReadOnly={false}
+        required
       />
 
       <CCInput
@@ -199,6 +201,7 @@ const Personal = forwardRef((props, ref) => {
         label="Giới tính"
         options={SELECT.GENDER}
         placeholder="Bấm vào đây"
+        required
       />
 
       <CCSelect.SelectPersonType
@@ -206,11 +209,23 @@ const Personal = forwardRef((props, ref) => {
         name={[...BASE_FORM, 'per_type']}
         label="Dân tộc"
         placeholder="Bấm vào đây"
+        required
       />
 
-      <CCInput type="select" name={[...BASE_FORM, 'doc_type']} label="Loại giấy tờ" options={SELECT.DOC_TYPE} />
+      <CCInput
+        type="select"
+        name={[...BASE_FORM, 'doc_type']}
+        label="Loại giấy tờ"
+        options={SELECT.DOC_TYPE}
+        required
+      />
 
-      <CCInput label={'Số CMND / CCCD / Hộ chiếu'} name={[...BASE_FORM, 'doc_code']} placeholder="0010829446357" />
+      <CCInput
+        label={'Số CMND / CCCD / Hộ chiếu'}
+        name={[...BASE_FORM, 'doc_code']}
+        placeholder="0010829446357"
+        required
+      />
 
       <CCInput
         type="date"
@@ -218,6 +233,7 @@ const Personal = forwardRef((props, ref) => {
         label="Ngày cấp"
         placeholder="15/01/1966 - ENTER"
         inputReadOnly={false}
+        required
       />
 
       <CCSelect.SelectDocProvide
@@ -225,10 +241,11 @@ const Personal = forwardRef((props, ref) => {
         name={[...BASE_FORM, 'doc_place_provide']}
         label="Nơi cấp"
         placeholder="Bấm vào đây"
+        required
       />
 
       <Form.Item label={htmlContent('<b>Địa chỉ thường trú</b>')} className={styles.newLine}>
-        <CCSelect.SelectProvince ref={ref} name={[...BASE_FORM, 'current']} />
+        <CCSelect.SelectProvince ref={ref} name={[...BASE_FORM, 'current']} required />
       </Form.Item>
 
       <CCSelect.RadioAddress
@@ -236,6 +253,7 @@ const Personal = forwardRef((props, ref) => {
         nextField={[...BASE_FORM, 'contact']}
         ref={ref}
         bodyStyle={styles}
+        required
       />
     </div>
   )
@@ -264,7 +282,12 @@ const OriginalPerson = forwardRef((props, ref) => {
         onChange={(e) => onSetFields([...BASE_FORM, 'organization', 'name'], e.target.value, ref, true)}
         required
       />
-      <CCInput label="Mã số DN hoặc Mã số thuế" name={[...BASE_FORM, 'organization', 'mst']} placeholder="0316184427"required />
+      <CCInput
+        label="Mã số DN hoặc Mã số thuế"
+        name={[...BASE_FORM, 'organization', 'mst']}
+        placeholder="0316184427"
+        required
+      />
       <CCInput
         type="date"
         name={[...BASE_FORM, 'organization', 'doc_time_provide']}
@@ -272,10 +295,11 @@ const OriginalPerson = forwardRef((props, ref) => {
         placeholder="15/01/1966 - ENTER"
         inputReadOnly={false}
         required
+        message="Ngày cấp (ngày đăng ký lần đầu) là bắt buộc!"
       />
 
-      <Form.Item label={htmlContent('<b>Địa chỉ trụ sở chính</b>')} className={styles.newLine} required>
-        <CCSelect.SelectProvince ref={ref} name={[...BASE_FORM, 'organization', 'doc_place_provide']} />
+      <Form.Item label={htmlContent('<b>Địa chỉ trụ sở chính</b>')} className={styles.newLine}>
+        <CCSelect.SelectProvince ref={ref} name={[...BASE_FORM, 'organization', 'doc_place_provide']} required />
       </Form.Item>
 
       <CCInput
@@ -289,6 +313,8 @@ const OriginalPerson = forwardRef((props, ref) => {
         }
         placeholder="NGUYỄN VĂN A"
         onChange={(e) => onSetFields([...BASE_FORM, 'name'], e.target.value, ref, true)}
+        required
+        message='Họ và Tên đại diện pháp luật (ĐDPL) là bắt buộc!'
       />
       <CCSelect.SelectTitle
         ref={ref}
@@ -296,6 +322,8 @@ const OriginalPerson = forwardRef((props, ref) => {
         label={htmlContent('Chức danh <i>(ĐDPL)</i>')}
         placeholder="Bấm vào đây"
         options={SELECT.TITLE_2}
+        required
+        message='Chức danh (ĐDPL) là bắt buộc!'
       />
 
       <CCInput
@@ -304,6 +332,7 @@ const OriginalPerson = forwardRef((props, ref) => {
         label="Ngày sinh"
         placeholder="15/01/1966 - ENTER"
         inputReadOnly={false}
+        required
       />
 
       <CCInput
@@ -312,6 +341,7 @@ const OriginalPerson = forwardRef((props, ref) => {
         label="Giới tính"
         options={SELECT.GENDER}
         placeholder="Bấm vào đây"
+        required
       />
 
       <CCSelect.SelectPersonType
@@ -319,11 +349,23 @@ const OriginalPerson = forwardRef((props, ref) => {
         name={[...BASE_FORM, 'per_type']}
         label="Dân tộc"
         placeholder="Bấm vào đây"
+        required
       />
 
-      <CCInput type="select" name={[...BASE_FORM, 'doc_type']} label="Loại giấy tờ" options={SELECT.DOC_TYPE} />
+      <CCInput
+        type="select"
+        name={[...BASE_FORM, 'doc_type']}
+        label="Loại giấy tờ"
+        options={SELECT.DOC_TYPE}
+        required
+      />
 
-      <CCInput label={'Số CMND / CCCD / Hộ chiếu'} name={[...BASE_FORM, 'doc_code']} placeholder="0316184427" />
+      <CCInput
+        label={'Số CMND / CCCD / Hộ chiếu'}
+        name={[...BASE_FORM, 'doc_code']}
+        placeholder="0316184427"
+        required
+      />
 
       <CCInput
         type="date"
@@ -331,6 +373,7 @@ const OriginalPerson = forwardRef((props, ref) => {
         label="Ngày cấp"
         placeholder="15/01/1966 - ENTER"
         inputReadOnly={false}
+        required
       />
 
       <CCSelect.SelectDocProvide
@@ -338,16 +381,18 @@ const OriginalPerson = forwardRef((props, ref) => {
         name={[...BASE_FORM, 'doc_place_provide']}
         label="Nơi cấp"
         placeholder="Bấm vào đây"
+        required
       />
 
       <Form.Item className={styles.newLine} label={htmlContent('<b>Địa chỉ thường trú <i>(ĐDPL)</i></b>')}>
-        <CCSelect.SelectProvince ref={ref} name={[...BASE_FORM, 'current']} />
+        <CCSelect.SelectProvince ref={ref} name={[...BASE_FORM, 'current']} required />
       </Form.Item>
       <CCSelect.RadioAddress
         prevField={[...BASE_FORM, 'current']}
         nextField={[...BASE_FORM, 'contact']}
         ref={ref}
         bodyStyle={styles}
+        required
       />
     </div>
   )
@@ -373,6 +418,9 @@ const PresentPerson = forwardRef((props, ref) => {
           name: 'Thành viên góp vốn là tổ chức',
         },
       ]}
+      required
+      rules={{ required: true }}
+      message={'Thành viên góp vốn là bắt buộc'}
     />
   )
 })

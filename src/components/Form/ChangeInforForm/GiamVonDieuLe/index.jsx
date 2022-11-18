@@ -39,6 +39,8 @@ const GiamVonDieuLe = forwardRef((props, ref) => {
           <Form.Item
             name={[...BASE_FORM, 'base_val', 'num']}
             label={htmlContent('Vốn điều lệ đã đăng ký <i>(bằng số)</i>')}
+            required
+            rules={[{ required: true, message: 'Vui lòng nhập Vốn điều lệ đã đăng ký!' }]}
           >
             <InputNumber
               formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
@@ -52,12 +54,17 @@ const GiamVonDieuLe = forwardRef((props, ref) => {
           <CCInput
             label={htmlContent('Vốn điều lệ đã đăng ký <i>(bằng chữ)</i>')}
             name={[...BASE_FORM, 'base_val', 'char']}
+            required
+            message="Vui lòng nhập Vốn điều lệ đã đăng ký (bằng chữ)!"
+
           />
         </Col>
         <Col lg={12} md={24} sm={24} xs={24}>
           <Form.Item
             name={[...BASE_FORM, 'new_base_val', 'num']}
             label={htmlContent('Vốn điều lệ sau khi giảm <i>(bằng số)</i>')}
+            required
+            rules={[{ required: true, message: 'Vui lòng nhập Vốn điều lệ sau khi giảm!' }]}
           >
             <InputNumber
               formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
@@ -71,6 +78,8 @@ const GiamVonDieuLe = forwardRef((props, ref) => {
           <CCInput
             label={htmlContent('Vốn điều lệ sau khi giảm <i>(bằng chữ)</i>')}
             name={[...BASE_FORM, 'new_base_val', 'char']}
+            required
+            message="Vui lòng nhập Vốn điều lệ sau khi giảm (bằng chữ)!"
           />
         </Col>
       </Row>

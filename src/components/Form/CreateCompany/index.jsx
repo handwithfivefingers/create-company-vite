@@ -125,7 +125,6 @@ const CreateCompany = forwardRef((props, formRef) => {
       }
     }
 
-    console.log(_data)
     formRef.current?.setFieldsValue({
       ..._data,
     })

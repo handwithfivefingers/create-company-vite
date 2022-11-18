@@ -34,22 +34,6 @@ const ChuTichHoiDongThanhVien = forwardRef((props, ref) => {
   }
   const handleClear = () => {
     let { create_company } = ref.current.getFieldsValue()
-    // ref.current.setFieldsValue({
-    //   ...create_company,
-    //   create_company: {
-    //     approve: {
-    //       ...create_company.approve,
-    //       per_main: {
-    //         name: undefined,
-    //         gender: undefined,
-    //         birth_day: undefined,
-    //         per_type: undefined,
-    //         reg_address: undefined,
-    //         current_address: undefined,
-    //       },
-    //     },
-    //   },
-    // })
     onSetFields(['create_company', 'approve', 'per_main'], null, ref)
   }
   return (
@@ -72,7 +56,7 @@ const ChuTichHoiDongThanhVien = forwardRef((props, ref) => {
         </div>
         <Row gutter={[16, 12]}>
           <Col span={24}>
-            <CCInput name={[...BASE_FORM, 'per_main', 'name']} label="Họ và tên" />
+            <CCInput name={[...BASE_FORM, 'per_main', 'name']} label="Họ và tên" required />
           </Col>
           <Col lg={12} md={12} sm={24} xs={24}>
             <CCInput
@@ -88,10 +72,11 @@ const ChuTichHoiDongThanhVien = forwardRef((props, ref) => {
               name={[...BASE_FORM, 'per_main', 'birth_day']}
               label="Ngày sinh"
               inputReadOnly={false}
+              required
             />
           </Col>
           <Col lg={12} md={12} sm={24} xs={24}>
-            <CCInput name={[...BASE_FORM, 'per_main', 'per_type']} label="Dân tộc" />
+            <CCInput name={[...BASE_FORM, 'per_main', 'per_type']} label="Dân tộc" required />
           </Col>
 
           <Col lg={12} md={12} sm={24} xs={24}>
@@ -100,10 +85,11 @@ const ChuTichHoiDongThanhVien = forwardRef((props, ref) => {
               name={[...BASE_FORM, 'per_main', 'doc_type']}
               label="Loại giấy tờ pháp lý"
               options={SELECT.DOC_TYPE}
+              required
             />
           </Col>
           <Col lg={12} md={12} sm={24} xs={24}>
-            <CCInput name={[...BASE_FORM, 'per_main', 'doc_code']} label="Số giấy tờ pháp lý" />
+            <CCInput name={[...BASE_FORM, 'per_main', 'doc_code']} label="Số giấy tờ pháp lý" required />
           </Col>
 
           <Col lg={12} md={12} sm={24} xs={24}>
@@ -112,18 +98,19 @@ const ChuTichHoiDongThanhVien = forwardRef((props, ref) => {
               name={[...BASE_FORM, 'per_main', 'doc_time_provide']}
               label="Ngày cấp"
               inputReadOnly={false}
+              required
             />
           </Col>
 
           <Col lg={12} md={12} sm={24} xs={24}>
-            <CCInput name={[...BASE_FORM, 'per_main', 'doc_place_provide']} label="Nơi cấp" />
+            <CCInput name={[...BASE_FORM, 'per_main', 'doc_place_provide']} label="Nơi cấp" required />
           </Col>
 
           <Col lg={12} md={12} sm={24} xs={24}>
-            <CCInput name={[...BASE_FORM, 'per_main', 'reg_address']} label="Nơi đăng kí hộ khẩu thường trú" />
+            <CCInput name={[...BASE_FORM, 'per_main', 'reg_address']} label="Nơi đăng kí hộ khẩu thường trú" required />
           </Col>
           <Col lg={12} md={12} sm={24} xs={24}>
-            <CCInput name={[...BASE_FORM, 'per_main', 'current_address']} label="Chỗ ở hiện tại" />
+            <CCInput name={[...BASE_FORM, 'per_main', 'current_address']} label="Chỗ ở hiện tại" required />
           </Col>
         </Row>
       </Form.Item>

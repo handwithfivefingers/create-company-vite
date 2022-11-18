@@ -17,6 +17,8 @@ import ProductService from '../../../service/UserService/ProductService'
 import BaseInformation from './BaseInformation'
 import { useLocation } from 'react-router-dom'
 import moment from 'moment'
+import { VALIDATE_MESSAGE } from '@/constant/InputValidate'
+
 const ChangeInforForm = forwardRef((props, ref) => {
   const [productSelect, setProductSelect] = useState('')
 
@@ -316,7 +318,7 @@ const ChangeInforForm = forwardRef((props, ref) => {
   }
 
   return (
-    <Form ref={ref} layout="vertical" name="change_info">
+    <Form ref={ref} layout="vertical" name="change_info" validateMessages={VALIDATE_MESSAGE}>
       <Form.Item
         name={['category']}
         label="Chọn loại hình doanh nghiệp"

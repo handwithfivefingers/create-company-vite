@@ -2,7 +2,7 @@ import CCInput from '@/components/CCInput'
 import { htmlContent, onSetFields } from '@/helper/Common'
 import { useFetch } from '@/helper/Hook'
 import { Col, Form, Input, Radio, Row, Select, Space } from 'antd'
-import {isEqual} from 'lodash-es'
+import { isEqual } from 'lodash-es'
 import React, { forwardRef, useEffect, useState } from 'react'
 import GlobalService from '@/service/GlobalService'
 import styles from './styles.module.scss'
@@ -91,7 +91,13 @@ const SelectProvince = forwardRef((props, ref) => {
 
   return (
     <>
-      <Form.Item name={[...name, 'city']} placeholder={props.placeholder} label="Tỉnh/Thành phố">
+      <Form.Item
+        name={[...name, 'city']}
+        placeholder={props.placeholder}
+        label="Tỉnh/Thành phố"
+        rules={[{ required: props?.required }]}
+        required={props?.required}
+      >
         <Select
           showSearch
           onChange={(val, opt) => handleSelectCity(val, opt)}
@@ -109,7 +115,12 @@ const SelectProvince = forwardRef((props, ref) => {
         </Select>
       </Form.Item>
 
-      <Form.Item label="Quận/Huyện/Thị xã/Thành phố thuộc tỉnh" name={[...name, 'district']}>
+      <Form.Item
+        label="Quận/Huyện/Thị xã/Thành phố thuộc tỉnh"
+        name={[...name, 'district']}
+        rules={[{ required: props?.required }]}
+        required={props?.required}
+      >
         <Select
           placeholder={props.placeholder}
           onChange={(val, opt) => handleSelectDistricts(val, opt)}
@@ -128,7 +139,12 @@ const SelectProvince = forwardRef((props, ref) => {
         </Select>
       </Form.Item>
 
-      <Form.Item label="Xã/Phường/Thị trấn" name={[...name, 'town']}>
+      <Form.Item
+        label="Xã/Phường/Thị trấn"
+        name={[...name, 'town']}
+        rules={[{ required: props?.required }]}
+        required={props?.required}
+      >
         <Select
           placeholder={props.placeholder}
           onChange={(val, opt) => handleSelectWards(val, opt)}
@@ -151,6 +167,8 @@ const SelectProvince = forwardRef((props, ref) => {
         label="Số nhà, ngách, hẻm, ngõ, đường phố/tổ/xóm/ấp/thôn"
         name={[...name, 'address']}
         placeholder="27 Nguyễn Hữu Thọ"
+        rules={[{ required: props?.required }]}
+        required={props?.required}
       />
     </>
   )
@@ -176,7 +194,12 @@ const SelectTitle = forwardRef((props, ref) => {
   }
 
   return (
-    <Form.Item name={[...props.name]} label={props.label}>
+    <Form.Item
+      name={[...props.name]}
+      label={props.label}
+      rules={[{ required: props?.required, message: props?.message }]}
+      required={props?.required}
+    >
       <Row>
         <Col span={inpShow ? 8 : 24} style={{ padding: 0 }}>
           <Select placeholder={props.placeholder} onChange={(val, opt) => handleSelect(val, opt)}>
@@ -238,7 +261,13 @@ const SelectPersonType = forwardRef((props, ref) => {
     ref.current.setFields([{ name: [...pathName], value: e.target.value }])
   }
   return (
-    <Form.Item name={[...props.name]} label={props.label} dependencies={props.dependencies}>
+    <Form.Item
+      name={[...props.name]}
+      label={props.label}
+      dependencies={props.dependencies}
+      rules={[{ required: props?.required }]}
+      required={props?.required}
+    >
       <Row>
         <Col span={select === 2 ? 8 : 24} style={{ padding: 0 }}>
           <Select value={select} placeholder={props.placeholder} onChange={(val, opt) => handleSelect(val, opt)}>
@@ -294,7 +323,12 @@ const SelectDocProvide = forwardRef((props, ref) => {
     ref.current.setFields([{ name: [...pathName], value: e.target.value }])
   }
   return (
-    <Form.Item name={[...props.name]} label={props.label}>
+    <Form.Item
+      name={[...props.name]}
+      label={props.label}
+      rules={[{ required: props?.required }]}
+      required={props?.required}
+    >
       <Row>
         <Col span={select === 2 ? 8 : 24} style={{ padding: 0 }}>
           <Select placeholder={props.placeholder} onChange={(val, opt) => handleSelect(val, opt)} value={select}>
@@ -352,6 +386,8 @@ const RadioAddress = forwardRef((props, ref) => {
         }
         return !canChange
       }}
+      rules={[{ required: props?.required }]}
+      required={props?.required}
     >
       {() => {
         return (

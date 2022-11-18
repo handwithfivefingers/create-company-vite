@@ -68,7 +68,13 @@ const CCInput = forwardRef((props, ref) => {
         return (
           <div className={styles.formHorizontal}>
             <div className={styles.formTitle}>{props?.label || ' '}</div>
-            <Form.Item value={value} name={name} key={props?.key}>
+            <Form.Item
+              value={value}
+              name={name}
+              key={props?.key}
+              rules={[{ required: rest?.required, message: rest?.message }]}
+              required={rest?.required}
+            >
               <Input
                 onChange={props?.onChange}
                 style={style}
@@ -107,7 +113,7 @@ const InputPassword = (props) => {
       name={props.name}
       label={props?.label || ' '}
       key={props?.key}
-      rules={[{ required: rest?.required }]}
+      rules={[{ required: rest?.required, message: rest?.message }]}
       required={rest?.required}
     >
       <InputNumber
@@ -128,7 +134,7 @@ const InputText = ({ value, name, label, style, ...rest }) => {
       name={name}
       label={label && rest?.display !== 'none' ? label || ' ' : ''}
       key={rest?.key}
-      rules={[{ required: rest?.required }]}
+      rules={[{ required: rest?.required, message: rest?.message }]}
       required={rest?.required}
     >
       <Input
@@ -148,7 +154,7 @@ const InputSelect = ({ name, label, optional, handleOptions, ...props }) => {
     <Form.Item
       name={name}
       label={label && props?.display !== 'none' ? label || ' ' : ''}
-      rules={[{ required: props?.required }]}
+      rules={[{ required: props?.required, message: props?.message }]}
       required={props?.required}
     >
       <Select
@@ -185,7 +191,7 @@ const InputDate = (props) => {
           name={props.name}
           key={props?.key}
           layout={props?.layout}
-          rules={[{ required: props?.required }]}
+          rules={[{ required: props?.required, message: rest?.message }]}
           required={props?.required}
         >
           <DatePicker
@@ -206,7 +212,7 @@ const InputDate = (props) => {
         name={props.name}
         label={props?.label || ' '}
         key={props?.key}
-        rules={[{ required: props?.required }]}
+        rules={[{ required: props?.required, message: rest?.message }]}
         required={props?.required}
       >
         <DatePicker
@@ -236,7 +242,7 @@ const InputDateRange = (props) => {
         name={makeid(9)}
         label={props?.label || ' '}
         key={props?.key}
-        rules={[{ required: props?.required }]}
+        rules={[{ required: props?.required, message: rest?.message }]}
         required={props?.required}
       >
         <RangePicker

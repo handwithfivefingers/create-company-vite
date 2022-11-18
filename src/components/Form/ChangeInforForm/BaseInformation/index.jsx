@@ -158,6 +158,7 @@ const BaseInformation = forwardRef((props, ref) => {
             name={['change_info', 'base_inform', 'company_name']}
             onChange={(e) => onSetFields(['change_info', 'base_inform', 'company_name'], e.target.value, ref, true)}
             placeholder="CÔNG TY TNHH DỊCH VỤ TƯ VẤN WARREN B"
+            required
           />
         </Col>
         <Col lg={12} md={24} sm={24} xs={24}>
@@ -165,6 +166,7 @@ const BaseInformation = forwardRef((props, ref) => {
             label="Mã số doanh nghiệp hoặc Mã số thuế"
             name={['change_info', 'base_inform', 'mst']}
             placeholder="0316184427"
+            required
           />
         </Col>
         <Col lg={12} md={24} sm={24} xs={24}>
@@ -174,16 +176,18 @@ const BaseInformation = forwardRef((props, ref) => {
             name={['change_info', 'base_inform', 'mst_provide']}
             placeholder="15/01/1966 - ENTER"
             inputReadOnly={false}
+            required
           />
         </Col>
 
         <Col lg={12} md={24} sm={24} xs={24}>
-        
-        <CCSelect.SelectDocProvide
+          <CCSelect.SelectDocProvide
             ref={ref}
             name={['change_info', 'base_inform', 'mst_place_provide']}
             label="Nơi cấp"
             placeholder="Bấm vào đây"
+            required
+
           />
         </Col>
         <Col span={24}>
@@ -192,6 +196,8 @@ const BaseInformation = forwardRef((props, ref) => {
             name={['change_info', 'base_inform', 'org_person']}
             placeholder="NGUYỄN VĂN A"
             onChange={(e) => onSetFields(['change_info', 'base_inform', 'org_person'], e.target.value, ref, true)}
+            required
+            message='Vui lòng nhập Người đại diện pháp luật'
           />
         </Col>
         <Col span={24}>
@@ -201,6 +207,7 @@ const BaseInformation = forwardRef((props, ref) => {
               label={'Địa chỉ trụ sở chính'}
               name={[...BASE_FORM, 'location']}
               placeholder="Địa chỉ trụ sở chính"
+              required
             />
           </Form.Item>
         </Col>
