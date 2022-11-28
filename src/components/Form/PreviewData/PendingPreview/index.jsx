@@ -12,7 +12,6 @@ export default function PendingPreview(props) {
 
   let { approve } = data
 
-  console.log(approve)
   return (
     <Row gutter={0}>
       <Col span={24}>

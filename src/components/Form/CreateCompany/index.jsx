@@ -6,6 +6,7 @@ import styles from './CreateCompany.module.scss'
 import { useLocation } from 'react-router-dom'
 import moment from 'moment'
 import { VALIDATE_MESSAGE } from '@/constant/InputValidate'
+// import NguoiDaiDienPhapLuat from './NguoiDaiDienPhapLuat'
 const DiaChiTruSoChinh = lazy(() => {
   return import(`./DiaChiTruSoChinh`).then(({ default: Component }) => {
     return {

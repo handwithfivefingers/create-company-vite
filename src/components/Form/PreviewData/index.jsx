@@ -19,60 +19,6 @@ const PreviewData = forwardRef((props, ref) => {
     }
   }, [props])
 
-  const renderBaseForm = (list) => {
-    let xhtml = []
-
-    for (let item of list) {
-      let title = ''
-      let data = []
-
-      if (item.title) title = item.title
-
-      if (item.data) data = item.data
-
-      if (item.data.length) {
-        let list = renderFieldForm(data)
-        xhtml.push(
-          <>
-            <h3>{title}</h3>
-            {list}
-          </>,
-        )
-      }
-    }
-    return xhtml
-  }
-
-  const renderFieldForm = (listData) => {
-    let xhtml = []
-    for (let item of listData) {
-      /**
-       * ITEM DATA:
-        field: "base_val"
-        fields: {num: 'Vốn điều lệ (bằng số)', char: 'Vốn điều lệ (bằng chữ)'}
-        label: undefined
-        name: (3) ['create_company', 'approve', 'base_val']
-       */
-
-      let { fields, label, name } = item
-
-      let data = ref.current.getFieldValue(name)
-
-      let loopItem = renderLoopItem({ data, fields, label })
-
-      xhtml.push(
-        <>
-          <Divider orientationMargin={0} orientation="left" className={styles.margin_0}>
-            <h5 className={clsx(styles.margin_0, styles.padding_4)}>{label} : </h5>
-          </Divider>
-
-          {loopItem}
-        </>,
-      )
-    }
-    return xhtml
-  }
-
   const renderLoopItem = ({ data, fields, label }) => {
     let xhtml = []
 
@@ -121,7 +67,9 @@ const PreviewData = forwardRef((props, ref) => {
             if (itemKeys !== 'Vốn điều lệ (bằng số)' && moment(dataKeys, 'DD-MM-YYYY', true).isValid()) {
               return (
                 itemKeys && (
-                  <Paragraph className={clsx(styles.margin_0, styles.padding_4)}>{`${itemKeys} : ${moment(dataKeys).format('DD/MM/YYYY')}`}</Paragraph>
+                  <Paragraph className={clsx(styles.margin_0, styles.padding_4)}>{`${itemKeys} : ${moment(
+                    dataKeys,
+                  ).format('DD/MM/YYYY')}`}</Paragraph>
                 )
               )
             } else {
@@ -146,58 +94,11 @@ const PreviewData = forwardRef((props, ref) => {
     return xhtml
   }
 
-  const getFieldsInfo = (pLabel, pData, pathName) => {
-    // loop base on pData, not from constant;
-
-    let result = []
-
-    for (let key in pData) {
-      let caseData = []
-
-      let dataFields = pData[key]
-
-      let pTitle = pLabel[key]?.title
-
-      let labelFields = pLabel[key]?.fields
-
-      for (let props in dataFields) {
-        // props -> Field name 1
-
-        let val = dataFields[props]
-
-        if (typeof val === 'string' || typeof val === 'number') {
-          let labelName = labelFields[props]
-
-          caseData.push({
-            field: props,
-            name: [...pathName, key, props],
-            label: labelName,
-          })
-        } else if (typeof val === 'object') {
-          let labelName = labelFields[props]?.label
-
-          caseData.push({
-            field: props,
-            name: [...pathName, key, props],
-            label: labelName,
-            fields: labelFields[props]?.fields ? labelFields[props].fields : [],
-          })
-        }
-      }
-
-      result.push({ title: pTitle, data: caseData })
-    }
-
-    return result
-  }
-
   const renderPreviewData = (data) => {
     let xhtml = null
 
     try {
       if (data) {
-        // console.table(data)
-
         let { category, products, ...rest } = data
 
         let [productType] = Object.keys(rest) // get keys Product
@@ -216,28 +117,8 @@ const PreviewData = forwardRef((props, ref) => {
             break
 
           case 'create_company':
-
-            // let listProductItem = rest[productType] // dynamic Data
-
-            // let listLabel = NEWLABEL(productType) // Constant
-
-            // let list = getFieldsInfo(listLabel, listProductItem, productType)
-
-            // if (list.length) {
-            //   let newList = renderBaseForm(list)
-            //   xhtml = newList
-            // }
-            xhtml = <CreateCompanyPreview data={rest[productType]}/>
+            xhtml = <CreateCompanyPreview data={rest[productType]} />
             break
-          // let listProductItem = rest[productType] // dynamic Data
-
-          // let listLabel = NEWLABEL(productType) // Constant
-
-          // let list = getFieldsInfo(listLabel, listProductItem, productType)
-          // if (list.length) {
-          //   let newList = renderBaseForm(list)
-
-          //   xhtml = newList
         }
       }
     } catch (error) {
@@ -298,7 +179,11 @@ const PreviewData = forwardRef((props, ref) => {
       .reduce((obj, key) => {
         obj[key] = item[key]
 
-        if (!Array.isArray(obj[key]) && typeof obj[key] === 'object' && !moment(obj[key], 'DD-MM-YYYY', true).isValid()) {
+        if (
+          !Array.isArray(obj[key]) &&
+          typeof obj[key] === 'object' &&
+          !moment(obj[key], 'DD-MM-YYYY', true).isValid()
+        ) {
           obj[key] = objectSorter(obj[key])
         }
         return obj

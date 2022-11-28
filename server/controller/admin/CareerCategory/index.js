@@ -36,8 +36,6 @@ module.exports = class CareerCategoryAdmin {
     try {
       let { name, category } = req.body
 
-      console.log('create cate')
-
       let _cate = await CareerCategory.findOne({ name: req.body.name, delete_flag: 0 })
 
       if (_cate) throw 'Category already exists'

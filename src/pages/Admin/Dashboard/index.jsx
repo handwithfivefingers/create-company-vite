@@ -64,8 +64,6 @@ const AdminDashboard = () => {
 
   if (data) {
     logsRef.current = data.data.data
-
-    console.log('logsRef.current', logsRef.current)
   }
 
   return (

@@ -110,7 +110,6 @@ module.exports = class ProductManager {
   deleteProduct = async (req, res) => {
     try {
       const { id } = req.params
-      console.log(id, req)
       // return;
       await Product.findOneAndDelete({
         _id: id,

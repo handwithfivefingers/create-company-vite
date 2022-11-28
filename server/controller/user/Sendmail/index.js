@@ -173,7 +173,6 @@ module.exports = class MailService {
       throw err
     } finally {
       await Order.updateOne({ _id: rest._id }, { send: 1 })
-      console.log('sendmail success')
     }
   }
 

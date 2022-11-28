@@ -12,7 +12,6 @@ const CareerCategoryForm = ({ data, onFinishScreen, id, name }) => {
     }
   }, [id])
 
-  console.log(data)
   const onFinish = async (val) => {
     try {
       if (id) {

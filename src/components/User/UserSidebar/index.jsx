@@ -49,7 +49,6 @@ const UserSidebar = (props) => {
     await dispatch(AuthAction.AuthLogout())
     navigate('/')
   }
-console.log('location', location, current)
   return (
     <>
       <Sider

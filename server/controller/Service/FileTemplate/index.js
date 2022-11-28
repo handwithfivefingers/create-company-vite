@@ -52,7 +52,6 @@ module.exports = class FileTemplate {
 
         mailParams.filesPath = attachments
 
-
         // await sendmailWithAttachments(req, res, mailParams)
 
         return res.status(200).json({ message: 'ok' })
@@ -64,11 +63,11 @@ module.exports = class FileTemplate {
     } catch (err) {
       console.log('handleConvertFile error', err)
 
-      attachments.length > 0 && (await removeListFiles(attachments, true))
+      // attachments.length > 0 && (await removeListFiles(attachments, true))
 
       return errHandler(err, res)
     } finally {
-      await removeListFiles(attachments)
+      // await removeListFiles(attachments)
     }
   }
 

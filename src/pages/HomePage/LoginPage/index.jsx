@@ -69,7 +69,6 @@ export default function LoginPage() {
   if (authReducer.status) {
     if (type !== 'POP') {
       let lastRoute = route.listHistory[route.listHistory.length - 1]
-      console.log('lastRoute', lastRoute, route)
 
       if (lastRoute?.to !== '' || lastRoute?.to !== '/' || lastRoute?.to !== '/user') {
         navigate(-1)

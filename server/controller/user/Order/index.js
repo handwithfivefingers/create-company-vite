@@ -103,8 +103,6 @@ module.exports = class OrderUser {
 
       let { data } = req.body
 
-      console.log('data', data)
-
       let { category, products } = data
 
       let _updateObject = {

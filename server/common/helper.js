@@ -8,7 +8,7 @@ const Docxtemplater = require('docxtemplater')
 
 const shortid = require('shortid')
 
-const { assign, last, ...lodash } = require('lodash')
+const { assign, last, filter, ...lodash } = require('lodash')
 
 const libre = require('libreoffice-convert')
 
@@ -37,7 +37,6 @@ expressions.filters.divideBy = function (input, num) {
 
 expressions.filters.formatNumber = function (input, type) {
   if (!input) return input
-
   let val = input.toString()
   val = val.split('').reverse() //
   let len = Math.round(val.length / 3)
@@ -47,86 +46,27 @@ expressions.filters.formatNumber = function (input, type) {
     let Poutput = [...val.splice(0, 3), typeOutput]
     output.push(...Poutput)
   }
-
   return output.reverse().join('')
 }
 
 expressions.filters.formatDate = function (input, type = null) {
   if (!input) return input
-
   let val = input.toString()
-
   return moment(val).format(type ? type : '[ngày] DD [tháng] MM [năm] YYYY')
 }
 
 expressions.filters.where = function (input, query) {
   return input.filter(function (item) {
-    return expressions.compile(query)(item)
+    let result = expressions.compile(query)(item)
+    return result
   })
 }
 
 expressions.filters.toFixed = function (input, precision) {
-  // In our example precision is the integer 2
-
-  // Make sure that if your input is undefined, your
-  // output will be undefined as well and will not
-  // throw an error
   if (!input) return input
-
   return input.toFixed(precision)
 }
 
-// expressions.filters = {
-//   toFixed: function (input, precision) {
-//     // In our example precision is the integer 2
-
-//     // Make sure that if your input is undefined, your
-//     // output will be undefined as well and will not
-//     // throw an error
-//     if (!input) return input
-
-//     return input.toFixed(precision)
-//   },
-//   where: function (input, query) {
-//     return input.filter(function (item) {
-//       return expressions.compile(query)(item)
-//     })
-//   },
-//   formatDate: function (input, type = null) {
-//     if (!input) return input
-
-//     let val = input.toString()
-
-//     return moment(val).format(type ? type : '[ngày] DD [tháng] MM [năm] YYYY')
-//   },
-//   formatNumber: function (input, type) {
-//     if (!input) return input
-
-//     let val = input.toString()
-//     val = val.split('').reverse() //
-//     let len = Math.round(val.length / 3)
-//     let output = []
-//     for (let i = 0; i <= len; i++) {
-//       let typeOutput = val.length > 3 ? type : ''
-//       let Poutput = [...val.splice(0, 3), typeOutput]
-//       output.push(...Poutput)
-//     }
-
-//     return output.reverse().join('')
-//   },
-//   divideBy: function (input, num) {
-//     if (!input) return input
-//     return input / num
-//   },
-//   upper: function (input) {
-//     if (!input) return input
-//     return input.toUpperCase()
-//   },
-//   lower: function (input) {
-//     if (!input) return input
-//     return input.toLowerCase()
-//   },
-// }
 function nullGetter(tag, props) {
   if (props.tag === 'simple') {
     return 'undefined'
@@ -140,7 +80,6 @@ function nullGetter(tag, props) {
 function angularParser(tag) {
   tag = tag.replace(/^\.$/, 'this').replace(/(’|‘)/g, "'").replace(/(“|”)/g, '"')
   const expr = expressions.compile(tag)
-  // expr = expressions.compile(tag);
   return {
     get: function (scope, context) {
       let obj = {}
@@ -193,12 +132,6 @@ const specialFields = ['company_main_career', 'company_opt_career']
 const objToKeys = (obj, baseObj, path = null) => {
   Object.keys(obj).forEach((item) => {
     let isSpecial = specialFields.some((elmt) => elmt === item)
-
-    // item => dissolution , uy_quyen, pending, .... 1st
-
-    // item => cancel, approve .... 2nd;
-
-    // item => fields
 
     let newPath = path ? [path, item].join('_') : item
 
@@ -259,9 +192,44 @@ const flattenObject = (data) => {
 
       _template[props] = _template[props].map((item) => item)
     }
+    if (props === 'change_info_legal_representative_in_out') {
+      // let val = _template[props].filter((item) => item.type === 'includes')
+
+      // if (_template.change_info?.legal_representative?.in) {
+      //   _template.change_info = {
+      //     legal_representative: {
+      //       ..._template.change_info?.legal_representative,
+      //       in: [
+      //         ..._template.change_info?.legal_representative.in,
+      //         ..._template[props].filter((item) => item.type === 'includes'),
+      //       ],
+      //       // out: _template[props].filter((item) => item.type === 'excludes'),
+      //     },
+      //   }
+      // }
+      // if (_template.change_info?.legal_representative?.out) {
+      //   _template.change_info = {
+      //     legal_representative: {
+      //       ..._template.change_info?.legal_representative,
+      //       out: [
+      //         ..._template.change_info?.legal_representative.in,
+      //         ..._template[props].filter((item) => item.type === 'excludes'),
+      //       ]
+      //       ,
+      //     },
+      //   }
+      // }
+
+      _template.change_info = {
+        legal_representative: {
+          in: _template[props].filter((item) => item.type === 'includes'),
+          out: _template[props].filter((item) => item.type === 'excludes'),
+        },
+      }
+    }
   }
 
-  console.log(_template)
+  // console.log(JSON.stringify(_template, null, 4))
 
   return _template
 }
@@ -272,9 +240,9 @@ const convertFile = async (file, data) => {
   let ext = '.pdf'
 
   let pdfBuf = await libre.convertAsync(buffer, ext, undefined)
-  console.log('converting')
+  // console.log('converting')
   let pdfFile = await saveFileAsDocx(pdfBuf, ext, file.name) // docx input
-  console.log('saving file')
+  // console.log('saving file')
   return pdfFile
 }
 

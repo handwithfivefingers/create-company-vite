@@ -50,8 +50,6 @@ const FormProduct = (props) => {
 
   const onCreate = async (val) => {
     try {
-      console.log(val)
-
       let res = await AdminProductService.createProduct(val)
 
       if (res.status === 200) {

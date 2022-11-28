@@ -9,6 +9,7 @@ import { useFetch } from '../../../../helper/Hook'
 import styles from './styles.module.scss'
 import { FileExcelOutlined } from '@ant-design/icons'
 
+// import CreateCompanyPages from './CreateCompanyPages'
 const CreateCompanyPages = lazy(() => import('./CreateCompanyPages'))
 const ChangeInfoPages = lazy(() => import('./ChangeInfoPages'))
 const PendingPages = lazy(() => import('./PendingPages'))
@@ -60,16 +61,13 @@ const UserProductItem = (props) => {
     }
   }, [productData])
 
-  const Next = useCallback(() => {
+  const Next = () => {
     setCurrent(current + 1)
-  }, [current])
+  }
 
-  const Prev = useCallback(() => {
-    setCurrent(current - 1)
-  }, [current])
+  const Prev = () => setCurrent(current - 1)
 
   const setDataOutput = (output) => {
-    console.log(output)
   }
 
   const renderFormByType = (type) => {
@@ -199,9 +197,8 @@ const UserProductItem = (props) => {
       if (res.status === 200) {
         return window.open(res.data.url)
       }
- 
+
       throw res?.data
- 
     } catch (err) {
       console.log('paymentService', err)
 

@@ -1,0 +1,11 @@
+.btnSave {
+  transition: all 0.2s;
+  opacity: 0;
+  visibility: hidden;
+  &.active {
+    opacity: 1;
+    visibility: visible;
+    margin-left: auto;
+    flex-shrink: 1;
+  }
+}

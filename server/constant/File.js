@@ -415,7 +415,7 @@ const getChangeInfoFiles = (type, key) => {
 
     // tax: [allFiles.change_info_phu_luc_4, allFiles.change_info_cp_bienbanhop_HDCD],
   }
-  console.log('coming file', type, key, changeInfoFileCp?.[key])
+  // console.log('coming file', type, key, changeInfoFileCp?.[key])
 
   switch (type) {
     case 1:

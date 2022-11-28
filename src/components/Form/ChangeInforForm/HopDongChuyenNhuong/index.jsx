@@ -330,10 +330,7 @@ const HopDongChuyenNhuong = forwardRef((props, ref) => {
           type="select"
           label="Chủ sở hữu"
           name={[...BASE_FORM, 'A_side', 'owner']}
-          onChange={(e) => {
-            setSohuuA(e)
-            console.log(ref.current.getFieldsValue())
-          }}
+          onChange={(e) => setSohuuA(e)}
           options={SELECT.OWNER}
           placeholder="Bấm vào đây"
         />

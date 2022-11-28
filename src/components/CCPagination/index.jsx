@@ -3,7 +3,6 @@ import { Pagination } from 'antd'
 import styles from './styles.module.scss'
 import clsx from 'clsx'
 export default function CCPagination(props) {
-  console.log(props)
   return (
     <Pagination
       className={clsx([styles.pagi, props.className])}

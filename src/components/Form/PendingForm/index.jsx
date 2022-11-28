@@ -52,7 +52,6 @@ const TamHoanForm = forwardRef((props, ref) => {
       }
     }
 
-    console.log(_data)
     setSelectType(_data.category)
 
     ref.current?.setFieldsValue({

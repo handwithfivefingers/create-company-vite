@@ -11,36 +11,23 @@ const PaymentService = require('@controller/Service/Payment')
 const FileTemplateService = require('@controller/Service/FileTemplate')
 
 const PuppeteerController = require('@controller/Service/Puppeteer')
+
 const { validateIPNVnpay } = require('../../middleware')
-
-const { checkingOrder } = new FileTemplateService()
-
-const { testPayment, getUrlReturn, getIPNUrl } = new PaymentService()
-
-const { getProvince } = new Province()
-
-const { sendmailWithAttachments } = new MailService()
-
-const { search } = new PuppeteerController()
 
 const router = express.Router()
 
-router.post('/sendmail', upload.array('attachments', 5), sendmailWithAttachments)
+router.post('/sendmail', upload.array('attachments', 5), new MailService().sendmailWithAttachments)
 
-router.post('/payment', requireSignin, testPayment)
+router.post('/payment', requireSignin, new PaymentService().testPayment)
 
-router.get('/return_vnp', requireSignin, getUrlReturn)
+router.get('/return_vnp', requireSignin, new PaymentService().getUrlReturn)
 
-// router.get('/return_vnp', requireSignin, getUrlReturn)
+router.post('/service/order', new FileTemplateService().checkingOrder)
 
-router.post('/service/order', checkingOrder)
+router.get('/service/payment/ipn_url', validateIPNVnpay, new PaymentService().getIPNUrl)
 
-// router.get('/service/payment/ipn_url', validateIPNVnpay, getIPNUrl)
+router.get('/service/province', requireSignin, new Province().getProvince)
 
-router.get('/service/payment/ipn_url',  validateIPNVnpay, getIPNUrl)
-
-router.get('/service/province', requireSignin, getProvince)
-
-router.post('/service/search', requireSignin, search)
+router.post('/service/search', requireSignin, new PuppeteerController().search)
 
 module.exports = router

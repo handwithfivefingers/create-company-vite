@@ -75,7 +75,6 @@ module.exports = class Authorization {
       if (response) {
         const auth = await response.authenticate(req.body.password)
 
-        console.log(response)
         if (auth) {
           let _tokenObj = { _id: response._id, role: response.role, updatedAt: response.updatedAt }
 
@@ -207,7 +206,6 @@ module.exports = class Authorization {
   ForgotPassword = async (req, res) => {
     try {
       let { email } = req.body
-      console.log('Forgot Password', email)
       // if (!email) throw { message: 'Email is required' }
 
       // await OTP.deleteMany({})
@@ -265,8 +263,6 @@ module.exports = class Authorization {
       if (!otp) throw { message: 'Invalid OTP' }
 
       let _user = await OTP.findOne({ email: email })
-
-      console.log('ValidateOTP', email, otp, _user)
 
       if (!_user) throw { message: 'OTP Expired' }
 

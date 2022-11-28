@@ -36,7 +36,7 @@ const otpSchema = new Schema({ ...otp }, { timestamps: true })
 userSchema.method({
   authenticate: async function (password) {
     // console.log(this);
-    console.log(password, this.hash_password)
+    // console.log(password, this.hash_password)
     return await bcrypt.compare(password, this.hash_password)
   },
 })

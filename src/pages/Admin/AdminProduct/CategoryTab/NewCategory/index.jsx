@@ -11,7 +11,6 @@ const NewCategory = (props) => {
   const formRef = useRef()
 
   const onFinish = async (val) => {
-    console.log(val)
     try {
       setLoading(true)
       // edit
@@ -34,7 +33,6 @@ const NewCategory = (props) => {
 
   const onCreateCate = async (data) => {
     try {
-      console.log(data)
       let res = await AdminProductService.createCategory(data)
       if (res.status === 200) {
         message.success(res.data?.message)

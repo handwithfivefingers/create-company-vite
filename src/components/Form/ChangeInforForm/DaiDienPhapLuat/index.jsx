@@ -50,7 +50,6 @@ const DaiDienPhapLuat = forwardRef((props, ref) => {
     setListLegal([...val, listForm])
 
     let value = ref.current.getFieldValue(BASE_FORM)
-    console.log(value)
   }
 
   const handleIncludesOrExludesPeople = (val = null) => {
@@ -264,8 +263,6 @@ const PeronalType = forwardRef((props, ref) => {
     let _dataPresent = [...present]
 
     _dataPresent[index] = valIndex
-
-    console.log(_dataPresent)
 
     setPresent(_dataPresent)
     if (valIndex !== -1) {

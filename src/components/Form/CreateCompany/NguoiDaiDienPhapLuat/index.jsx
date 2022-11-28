@@ -169,6 +169,7 @@ const PeronalType = forwardRef((props, ref) => {
       </Form.Item>
 
       <FormListPersonType
+        {...props}
         ref={ref}
         listFormState={handleForm}
         presentState={presentState}
@@ -181,11 +182,12 @@ const PeronalType = forwardRef((props, ref) => {
 })
 
 const FormListPersonType = forwardRef((props, ref) => {
-  const { i, presentState, listFormState, BASE_FORM, type } = props
+  const { i, presentState, listFormState, BASE_FORM } = props
 
   const { state, setState } = listFormState
 
   const { state: present, setState: setPresent } = presentState
+  const [type, setType] = useState(null)
 
   const removeItem = (index) => {
     let val = ref.current.getFieldValue([...BASE_FORM, 'legal_respon'])
@@ -204,6 +206,12 @@ const FormListPersonType = forwardRef((props, ref) => {
 
     setState(val)
   }
+
+  useEffect(() => {
+    let value = ref.current.getFieldsValue()
+    setType(value?.category?.type)
+  }, [props])
+  
   return (
     <Form.Item
       label={

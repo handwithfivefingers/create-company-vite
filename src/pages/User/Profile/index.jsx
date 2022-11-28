@@ -30,7 +30,6 @@ const UserProfile = (props) => {
 
   const onPassChange = async (val) => {
     try {
-      console.log(val)
       let { confirm_password, new_password, old_password } = val
       if (!old_password) throw { message: 'Password is incorrect' }
       if (confirm_password !== new_password) {

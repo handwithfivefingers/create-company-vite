@@ -34,7 +34,7 @@ const ProductService = {
   checkCompany: (params) => axios.post(api_path.checkCompany, params),
 
   updateOrder: (_id, form) => axios.post(api_path.updateOrder + '/' + _id, form),
-  
+
   updateAndPayment: (_id, form) => axios.post(api_path.updateAndPayment + '/' + _id, form),
 }
 
