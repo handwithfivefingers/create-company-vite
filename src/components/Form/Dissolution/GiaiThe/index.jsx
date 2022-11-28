@@ -62,27 +62,47 @@ const GiaiThe = forwardRef((props, ref) => {
         [styles.active]: props.current === props.index,
       })}
     >
+      <Row gutter={[12, 12]}>
+      <Col lg={12} md={24} sm={24} xs={24}>
       <CCInput
         label="Nhập tên doanh nghiệp"
         name={[...BASE_FORM, 'company_name']}
         placeholder="CÔNG TY TNHH DỊCH VỤ TƯ VẤN WARREN B"
         onChange={(e) => setFields(e, [...BASE_FORM, 'company_name'])}
       />
+      </Col>
+      <Col lg={12} md={24} sm={24} xs={24}>
+      <CCInput label="Nhập mã số doanh nghiệp hoặc Mã số thuế" 
+      name={[...BASE_FORM, 'mst']} placeholder="0316184427" />
+      </Col>
 
-      <CCInput label="Nhập mã số doanh nghiệp hoặc Mã số thuế" name={[...BASE_FORM, 'mst']} placeholder="0316184427" />
+      <Col lg={12} md={24} sm={24} xs={24}>
+      <CCInput 
+      type="date"
+      label="Ngày cấp"
+      name={[...BASE_FORM, 'mst_provide']}
+      placeholder="15/01/1966 - ENTER"
+            inputReadOnly={false}
+            required
+      />
 
+      </Col>
+      <Col lg={12} md={24} sm={24} xs={24}>
       <CCInput
         label={htmlContent('Người đại diện pháp luật <i>(nhập đầy đủ họ và tên)</i>')}
         name={[...BASE_FORM, 'org_person']}
         placeholder="NGUYỄN VĂN A"
         onChange={(e) => setFields(e, [...BASE_FORM, 'org_person'])}
       />
-
+      </Col>
+      <Col span={24}>
       <Form.Item label={htmlContent('<b>Địa chỉ trụ sở chính</b>')}>
         <CCSelect.SelectProvince ref={ref} name={[...BASE_FORM, 'location']} placeholder="Nhập địa chỉ trụ sở chính" label="Địa chỉ trụ sở chính" />
       </Form.Item>
+      </Col>
 
       {renderFormByType}
+      </Row>
     </Form.Item>
   )
 })
