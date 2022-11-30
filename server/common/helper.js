@@ -227,6 +227,7 @@ const flattenObject = (data) => {
           out: _template[props].filter((item) => item.type === 'excludes'),
         },
       }
+
     }
   }
 
