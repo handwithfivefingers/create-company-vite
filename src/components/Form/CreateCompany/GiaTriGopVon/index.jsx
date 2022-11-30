@@ -29,7 +29,7 @@ const GiaTriGopVon = forwardRef((props, ref) => {
       let transform = numToWord(numInp)
       let upperLetter = transform.charAt(0).toUpperCase() + transform.slice(1)
       onSetFields([...BASE_FORM, 'base_val', 'char'], upperLetter)
-    }, 1000)
+    }, 350)
   }
 
   const onSetFields = (pathName, value) => {

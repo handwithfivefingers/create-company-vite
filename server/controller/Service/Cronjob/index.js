@@ -1,18 +1,13 @@
-const cron = require('node-cron')
 const { Order, Setting } = require('@model')
-
-const MailService = require('@controller/user/Sendmail')
-
 const { flattenObject, convertFile, removeListFiles } = require('@common/helper')
-const { uniqBy } = require('lodash')
 const { createLog } = require('@response')
-
-const path = require('path')
+const { uniqBy } = require('lodash')
+const cron = require('node-cron')
+const MailService = require('@controller/user/Sendmail')
 const mongoose = require('mongoose')
 const fs = require('fs')
-const exec = require('child_process').execSync
 const moment = require('moment')
-const { cronMail } = new MailService()
+const path = require('path')
 module.exports = class CronTab {
   constructor() {
     console.log('Cron loaded')
@@ -21,9 +16,15 @@ module.exports = class CronTab {
   task = cron.schedule(
     '* * * * *',
     async () => {
-      let _order = await Order.findOne({ $and: [{ payment: 1, send: 0, delete_flag: { $ne: 1 } }] }).populate('orderOwner', 'email')
-
-      if (_order) return this.handleConvertFile(_order)
+      try {
+        let _order = await Order.findOne({ $and: [{ payment: 1, send: 0, delete_flag: { $ne: 1 } }] }).populate(
+          'orderOwner',
+          'email',
+        )
+        if (_order) return this.handleConvertFile(_order)
+      } catch (error) {
+        console.log('error scheduled', error)
+      }
     },
     {
       scheduled: false,
@@ -71,7 +72,7 @@ module.exports = class CronTab {
 
         mailParams.filesPath = attachments
 
-        await cronMail(mailParams)
+        await new MailService().cronMail(mailParams)
 
         return console.log('Cronjob success')
       }

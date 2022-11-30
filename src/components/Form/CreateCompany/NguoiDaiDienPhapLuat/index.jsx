@@ -116,7 +116,7 @@ const PeronalType = forwardRef((props, ref) => {
 
     let data = [...present]
 
-    data[index] = val
+    data[index] = `${val}`
 
     setPresent(data)
 
@@ -125,10 +125,12 @@ const PeronalType = forwardRef((props, ref) => {
     let legalPathName = [...BASE_FORM, 'legal_respon', index]
 
     let originPerson = ref?.current?.getFieldValue(originPathName)
-
+    
     if (originPerson) {
       onSetFields(legalPathName, originPerson, ref)
     }
+    
+    onSetFields([...legalPathName, 'select_person'], val, ref)
   }
 
   useEffect(() => {
@@ -147,12 +149,11 @@ const PeronalType = forwardRef((props, ref) => {
       <Form.Item
         name={[...BASE_FORM, 'legal_respon', index, 'select_person']}
         label={htmlContent('<b>Chọn người đại diện</b>')}
-        required
         rules={[{ required: true, message: 'Chọn người đại diện là bắt buộc' }]}
       >
         {getPersonType() && (
           <Select
-            onChange={(e) => handleSelectPersonType(e, index)}
+            onSelect={(e) => handleSelectPersonType(e, index)}
             placeholder="Bấm vào đây"
             autoComplete="off"
             value={present[index]}
@@ -211,7 +212,7 @@ const FormListPersonType = forwardRef((props, ref) => {
     let value = ref.current.getFieldsValue()
     setType(value?.category?.type)
   }, [props])
-  
+
   return (
     <Form.Item
       label={
