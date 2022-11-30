@@ -52,7 +52,8 @@ expressions.filters.formatNumber = function (input, type) {
 expressions.filters.formatDate = function (input, type = null) {
   if (!input) return input
   let val = input.toString()
-  return moment(val).format(type ? type : '[ngày] DD [tháng] MM [năm] YYYY')
+  if (!val) ''
+  else return moment(val).format(type ? type : '[ngày] DD [tháng] MM [năm] YYYY')
 }
 
 expressions.filters.where = function (input, query) {
