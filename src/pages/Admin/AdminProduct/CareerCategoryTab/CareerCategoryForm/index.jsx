@@ -58,7 +58,6 @@ const CareerCategoryForm = ({ data, onFinishScreen, id, name }) => {
       message.error('Something went wrong')
     }
   }
-
   return (
     <Card title="Danh mục ngành nghề" style={{ minWidth: '350px' }} bordered={false}>
       <Form onFinish={onFinish} ref={formRef} layout="vertical">
@@ -72,11 +71,13 @@ const CareerCategoryForm = ({ data, onFinishScreen, id, name }) => {
             mode="multiple"
             allowClear
             optionFilterProp="children"
-            filterOption={(input, option) => option.children?.join('')?.toLowerCase()?.indexOf(input.toLowerCase()) >= 0}
+            filterOption={(input, option) =>
+              option.children?.join('')?.toLowerCase()?.indexOf(input.toLowerCase()) >= 0
+            }
             style={{ width: '100%' }}
             placeholder="Please select"
           >
-            {data?.map((item) => (
+            {data?.data?.map((item) => (
               <Select.Option key={item._id} value={item._id}>
                 {item.name} - {item.code}
               </Select.Option>

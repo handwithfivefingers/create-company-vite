@@ -7,7 +7,6 @@ import CareerForm from './CarrerForm'
 import styles from './styles.module.scss'
 import CCPagination from '@/components/CCPagination'
 const CareerTab = forwardRef((props, ref) => {
-  const [data, setData] = useState([])
   const [current, setCurrent] = useState(1)
 
   const [childModal, setChildModal] = useState({
@@ -17,6 +16,7 @@ const CareerTab = forwardRef((props, ref) => {
   })
   const {
     data: careerData,
+    isLoading,
     status,
     refetch,
   } = useFetch({
@@ -31,20 +31,6 @@ const CareerTab = forwardRef((props, ref) => {
     }),
     [],
   )
-
-  useEffect(() => {
-    if (status === 'success' && careerData) {
-      setData((state) => {
-        let { data } = careerData
-
-        let sliceData = data?.slice(
-          (current - 1) * pagiConfigs.pageSize,
-          (current - 1) * pagiConfigs.pageSize + pagiConfigs.pageSize,
-        )
-        return sliceData
-      })
-    }
-  }, [current])
 
   const handleAddCareer = () => {
     setChildModal({
@@ -108,12 +94,17 @@ const CareerTab = forwardRef((props, ref) => {
     <>
       <div className={styles.tableWrapper}>
         <Table
-          dataSource={data}
+          dataSource={
+            careerData?.data?.slice(
+              (current - 1) * pagiConfigs.pageSize,
+              (current - 1) * pagiConfigs.pageSize + pagiConfigs.pageSize,
+            ) || []
+          }
           rowKey={(record) => record._uuid || record._id}
           size="small"
           bordered
-          // scroll={{ x: 600 }}
           pagination={false}
+          loading={isLoading}
         >
           <Table.Column
             title="Tên ngành"
@@ -164,7 +155,7 @@ const CareerTab = forwardRef((props, ref) => {
           />
         </Table>
       </div>
-      
+
       <div className={styles.pagination}>
         <CCPagination {...pagiConfigs} className={styles.pagi} />
       </div>

@@ -1,12 +1,20 @@
 import { Col, Form, Row, Select, Space, Spin } from 'antd'
 import clsx from 'clsx'
-import React, { forwardRef, lazy, useEffect, useState, Suspense } from 'react'
+import React, { forwardRef, lazy, useEffect, useState, Suspense, useMemo } from 'react'
 import { onSetFields } from '@/helper/Common'
 import styles from './CreateCompany.module.scss'
 import { useLocation } from 'react-router-dom'
 import moment from 'moment'
 import { VALIDATE_MESSAGE } from '@/constant/InputValidate'
+// import GiaTriGopVon from './GiaTriGopVon'
+// import ThanhVienGopVon from './ThanhVienGopVon'
+// import NgangNgheDangKi from './NgangNgheDangKi'
 // import NguoiDaiDienPhapLuat from './NguoiDaiDienPhapLuat'
+// import TenCongTy from './TenCongTy'
+// import DiaChiTruSoChinh from './DiaChiTruSoChinh'
+
+// import ThanhVienGopVon from './ThanhVienGopVon'
+
 const DiaChiTruSoChinh = lazy(() => {
   return import(`./DiaChiTruSoChinh`).then(({ default: Component }) => {
     return {
@@ -85,6 +93,8 @@ const CreateCompany = forwardRef((props, formRef) => {
       name: category.name,
     }
 
+    console.log(formRef.current.getFieldsValue())
+
     if (data) {
       let approve = data?.create_company?.approve
 
@@ -106,6 +116,7 @@ const CreateCompany = forwardRef((props, formRef) => {
             return obj
           })
         }
+
         if (legal_respon) {
           legal_respon = legal_respon.map(({ birth_day, doc_time_provide, ...item }) => {
             return {
@@ -129,6 +140,10 @@ const CreateCompany = forwardRef((props, formRef) => {
     formRef.current?.setFieldsValue({
       ..._data,
     })
+
+    setSelect({ type: category.type, value: category._id, name: category.name })
+
+    console.log(formRef.current.getFieldsValue())
   }
 
   const handleSelect = (v, opt, pathName) => {
@@ -162,17 +177,17 @@ const CreateCompany = forwardRef((props, formRef) => {
       </Select>
     )
   }
-
-  const renderFormItem = (data) => {
+  const renderFormItem = useMemo(() => {
     let html = null
-    const listForm = [GiaTriGopVon, ThanhVienGopVon, NguoiDaiDienPhapLuat, TenCongTy, DiaChiTruSoChinh, NgangNgheDangKi]
+    // const listForm = [GiaTriGopVon, ThanhVienGopVon, NguoiDaiDienPhapLuat, TenCongTy, DiaChiTruSoChinh, NgangNgheDangKi]
+    const listForm = [GiaTriGopVon, ThanhVienGopVon]
 
     const configs = {
       BASE_FORM: BASE_FORM,
       current: props.step,
       ref: formRef,
       className: animateClass,
-      data,
+      data: select,
     }
 
     html = listForm.map((Component, index) => (
@@ -184,7 +199,7 @@ const CreateCompany = forwardRef((props, formRef) => {
     ))
 
     return html
-  }
+  }, [select, props.step])
 
   return (
     <>
@@ -214,7 +229,6 @@ const CreateCompany = forwardRef((props, formRef) => {
             </Form.Item>
           </Col>
         </Row>
-
         <Suspense
           fallback={
             <div className="container spin-suspense">
@@ -224,8 +238,75 @@ const CreateCompany = forwardRef((props, formRef) => {
             </div>
           }
         >
-          {renderFormItem(select)}
+          {renderFormItem}
         </Suspense>
+
+        {/* <Row>
+          <Col span={24}>
+            <GiaTriGopVon
+              BASE_FORM={BASE_FORM}
+              current={props.step}
+              ref={formRef}
+              className={animateClass}
+              data={select}
+            />
+          </Col>
+        </Row>
+        <Row>
+          <Col span={24}>
+            <ThanhVienGopVon
+              BASE_FORM={BASE_FORM}
+              current={props.step}
+              ref={formRef}
+              className={animateClass}
+              data={select}
+            />
+          </Col>
+        </Row>
+        <Row>
+          <Col span={24}>
+            <NguoiDaiDienPhapLuat
+              BASE_FORM={BASE_FORM}
+              current={props.step}
+              ref={formRef}
+              className={animateClass}
+              data={select}
+            />
+          </Col>
+        </Row>
+        <Row>
+          <Col span={24}>
+            <TenCongTy
+              BASE_FORM={BASE_FORM}
+              current={props.step}
+              ref={formRef}
+              className={animateClass}
+              data={select}
+            />
+          </Col>
+        </Row>
+        <Row>
+          <Col span={24}>
+            <DiaChiTruSoChinh
+              BASE_FORM={BASE_FORM}
+              current={props.step}
+              ref={formRef}
+              className={animateClass}
+              data={select}
+            />
+          </Col>
+        </Row>
+        <Row>
+          <Col span={24}>
+            <NgangNgheDangKi
+              BASE_FORM={BASE_FORM}
+              current={props.step}
+              ref={formRef}
+              className={animateClass}
+              data={select}
+            />
+          </Col>
+        </Row> */}
       </Form>
     </>
   )

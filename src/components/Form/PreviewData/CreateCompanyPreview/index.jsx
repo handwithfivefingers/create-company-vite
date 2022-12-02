@@ -39,10 +39,12 @@ export default function CreateCompanyPreview(props) {
                   let html = null
 
                   if (item.present_person === 'personal') {
+                    console.log('CreateCompanyPreview present_person', item)
                     html = (
                       <Col lg={12} md={24} key={[item, index]}>
                         <Card className="box__shadow" size="small" title={`Thành viên góp vốn ${index + 1}`}>
                           <Form.Item label={<Text type="secondary">{t['name']}</Text>}>{item.name}</Form.Item>
+                          <Form.Item label={<Text type="secondary">{t['capital']}</Text>}>{item?.capital}</Form.Item>
                           <Form.Item label={<Text type="secondary">{t['gender']}</Text>}>{item?.gender}</Form.Item>
                           <Form.Item label={<Text type="secondary">{t['birth_day']}</Text>}>
                             {moment(item?.birth_day).format('DD/MM/YYYY')}

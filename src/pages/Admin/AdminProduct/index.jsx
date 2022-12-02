@@ -10,6 +10,7 @@ import CareerCategoryTab from './CareerCategoryTab'
 import CareerTab from './CareerTab'
 import CategoryTab from './CategoryTab'
 import ProductsTab from './ProductsTab'
+
 import clsx from 'clsx'
 import CCPagination from '@/components/CCPagination'
 
@@ -42,6 +43,7 @@ const AdminProduct = (props) => {
 
   const onHandleAddCareerCategory = () => {
     try {
+      console.log(productRef.current)
       return productRef.current.addCareerCategory()
     } catch (err) {
       setTimeout(onHandleAddCareerCategory, 1000)
@@ -106,25 +108,6 @@ const AdminProduct = (props) => {
 
     return xhtml
   }
-
-  const items = [
-    {
-      label: 'Danh mục',
-      key: 1,
-    },
-    {
-      label: 'Sản phẩm',
-      key: 2,
-    },
-    {
-      label: 'Danh mục ngành nghề',
-      key: 3,
-    },
-    {
-      label: 'Ngành nghề',
-      key: 4,
-    },
-  ]
 
   const { collapsed } = useSelector((state) => state.commonReducer)
   return (

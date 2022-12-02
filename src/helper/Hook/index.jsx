@@ -47,14 +47,23 @@ const useScrollAware = () => {
   return [scrollTop, ref]
 }
 
-const useFetch = ({ cacheName, fn, path, otherPath, enabled = true, staleTime = 60 * 1000, refetchOnWindowFocus = true, refetchInterval = false }) => {
+const useFetch = ({
+  cacheName,
+  fn,
+  path,
+  otherPath,
+  enabled = true,
+  staleTime = 60 * 1000,
+  refetchOnWindowFocus = true,
+  refetchInterval = false,
+}) => {
   const { data, isFetching, isLoading, status, refetch } = useQuery(
     cacheName,
     async () => {
       let res = await fn()
       let result
       result = path ? res.data?.[path] : res.data?.data
-      
+
       if (otherPath) {
         result = { ...res.data }
       }
