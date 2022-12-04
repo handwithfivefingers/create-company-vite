@@ -61,9 +61,6 @@ const DissolutionPages = forwardRef((props, ref) => {
               <Button onClick={Prev} type="dashed">
                 Quay lại
               </Button>
-              <Button loading={loading} onClick={() => handleSaveDissolution(ref)}>
-                Lưu lại
-              </Button>
             </>
           )}
 
@@ -75,6 +72,16 @@ const DissolutionPages = forwardRef((props, ref) => {
           {step === 2 && (
             <Button loading={loading} onClick={() => handlePurchaseDissolution(ref)} type="primary">
               Thanh toán
+            </Button>
+          )}
+          {step > 0 && (
+            <Button
+              loading={loading}
+              onClick={() => handleSaveDissolution(ref)}
+              type="primary"
+              style={{ background: 'var(--ant-info-color)', borderColor: 'var(--ant-info-color)' }}
+            >
+              Lưu lại
             </Button>
           )}
         </div>

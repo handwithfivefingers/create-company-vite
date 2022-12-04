@@ -2,7 +2,7 @@ import CCInput from '@/components/CCInput'
 import { SELECT } from '@/constant/Common'
 import { htmlContent, onSetFields } from '@/helper/Common'
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons'
-import { Button, Col, Form, InputNumber, Row } from 'antd'
+import { Button, Col, Form, InputNumber, Row, Select } from 'antd'
 import clsx from 'clsx'
 import React, { forwardRef, useEffect, useMemo, useState } from 'react'
 import { useLocation } from 'react-router-dom'
@@ -20,7 +20,7 @@ const ThanhVienGopVon = forwardRef(({ data, ...props }, ref) => {
 
   const location = useLocation()
 
-  // run 1 
+  // run 1
   useEffect(() => {
     let value = [...listForm] // default is 1
     if (data?.type == 2 && value.length < 2) {
@@ -68,7 +68,7 @@ const ThanhVienGopVon = forwardRef(({ data, ...props }, ref) => {
       xhtml = <Personal {...props} ref={ref} BASE_FORM={path} type={data?.type} />
     } else if (presentPerson === 'organization') {
       xhtml = (
-        <OriginalPerson ref={ref} BASE_FORM={[...BASE_FORM, 'origin_person', index]} {...props} type={data?.type} />
+        <OriginalPerson {...props} ref={ref} BASE_FORM={[...BASE_FORM, 'origin_person', index]} type={data?.type} />
       )
     }
     return xhtml
@@ -113,8 +113,6 @@ const ThanhVienGopVon = forwardRef(({ data, ...props }, ref) => {
   const presentSelect = (val, opt) => {
     setRender(!_render)
   }
-
-  console.log('listForm', listForm)
 
   return (
     <Form.Item
@@ -173,27 +171,21 @@ const PresentPerson = forwardRef((props, ref) => {
   const { BASE_FORM, index } = props
 
   return (
-    <CCInput
-      display={'none'}
-      type="select"
+    <Form.Item
       name={[...BASE_FORM, 'origin_person', index, 'present_person']}
-      onChange={props.presentSelect}
-      placeholder="Bấm vào đây"
-      options={[
-        {
-          value: 'personal',
-          name: 'Thành viên góp vốn là cá nhân',
-        },
-        {
-          value: 'organization',
-          name: 'Thành viên góp vốn là tổ chức',
-        },
-      ]}
+      rules={{
+        required: true,
+        message: 'Thành viên góp vốn là bắt buộc',
+      }}
       required
-      rules={{ required: true }}
-      message={'Thành viên góp vốn là bắt buộc'}
-    />
+    >
+      <Select placeholder="Bấm vào đây" onChange={props.presentSelect}>
+        <Select.Option value="personal">Thành viên góp vốn là cá nhân</Select.Option>
+        <Select.Option value="organization">Thành viên góp vốn là tổ chức</Select.Option>
+      </Select>
+    </Form.Item>
   )
+
 })
 
 export default ThanhVienGopVon

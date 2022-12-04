@@ -67,10 +67,6 @@ const ChangeInfoPages = forwardRef((props, ref) => {
         <div className={'card-boxShadow flex flex__spacing-4'} style={{ position: 'sticky', bottom: 0 }}>
           {step > 0 && (
             <>
-              <Button loading={loading} onClick={() => handleSaveChangeInfo(ref)}>
-                Lưu lại
-              </Button>
-
               <Button onClick={Prev} type="dashed">
                 Quay lại
               </Button>
@@ -89,6 +85,16 @@ const ChangeInfoPages = forwardRef((props, ref) => {
                 Thanh toán
               </Button>
             </>
+          )}
+          {step > 0 && (
+            <Button
+              loading={loading}
+              onClick={() => handleSaveChangeInfo(ref)}
+              type="primary"
+              style={{ background: 'var(--ant-info-color)', borderColor: 'var(--ant-info-color)' }}
+            >
+              Lưu lại
+            </Button>
           )}
         </div>
       </Suspense>

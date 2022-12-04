@@ -73,9 +73,6 @@ const PendingPages = forwardRef((props, ref) => {
               <Button onClick={Prev} type="dashed">
                 Quay lại
               </Button>
-              <Button loading={loading} onClick={() => handleSavePending(ref)}>
-                Lưu lại
-              </Button>
             </>
           )}
 
@@ -88,6 +85,18 @@ const PendingPages = forwardRef((props, ref) => {
             <>
               <Button loading={loading} onClick={() => handlePurchasePending(ref)} type="primary">
                 Thanh toán
+              </Button>
+            </>
+          )}
+          {step > 0 && (
+            <>
+              <Button
+                loading={loading}
+                onClick={() => handleSavePending(ref)}
+                type="primary"
+                style={{ background: 'var(--ant-info-color)', borderColor: 'var(--ant-info-color)' }}
+              >
+                Lưu lại
               </Button>
             </>
           )}

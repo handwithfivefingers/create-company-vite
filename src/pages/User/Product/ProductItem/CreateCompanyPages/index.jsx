@@ -71,6 +71,8 @@ const CreateCompanyPages = forwardRef((props, ref) => {
             loading={loading}
             onClick={() => saveCreateCompany(ref)}
             className={clsx(styles.btnSave, { [styles.active]: step > 0 })}
+            type="primary"
+            style={{ background: 'var(--ant-info-color)', borderColor: 'var(--ant-info-color)' }}
           >
             Lưu lại
           </Button>

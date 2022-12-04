@@ -69,6 +69,21 @@ module.exports = class OrderAdmin {
     }
   }
 
+  getLatestOrder = async (req, res) => {
+    try {
+      let _latestOrder = await Order.find().sort({ createtAt: 1 }).limit(10)
+      return res.status(200).json({
+        data: _latestOrder,
+        message: 'Get Latest Order successfully',
+      })
+    } catch (error) {
+      console.log('getLatestOrder error', error)
+      return res.status(400).json({
+        message: 'Get Latest Order failed',
+      })
+    }
+  }
+
   reforceDelete = async (req, res) => {
     try {
       return res.status(200).json({})

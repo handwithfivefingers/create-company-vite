@@ -7,7 +7,7 @@ const { Order, Category, Setting } = require('@model')
 const { ResponseCode } = require('@common/ResponseCode')
 const { getListFiles } = require('@constant/File')
 const { getVpnParams, sortObject } = require('@common/helper')
-const { uniqBy, rest } = require('lodash')
+const { uniqBy } = require('lodash')
 
 const MailService = require('@server/controller/user/Sendmail')
 const PaymentService = require('../../Service/Payment')
@@ -99,21 +99,34 @@ module.exports = class OrderUser {
 
   updateOrder = async (req, res) => {
     try {
+      console.log('updateOrder processing ... 1')
       let _id = req.params._id
 
       let { data } = req.body
 
-      let { category, products } = data
+      let { category, products, ...rest } = data
+
+      let { files, result, msg } = this.findKeysByObject(rest, category?.type)
+      console.log('updateOrder processing ... 2')
+
+      if (!result) throw { message: msg }
+
+      if (!files) throw 'Something was wrong when generate file, please try again'
 
       let _updateObject = {
         category: category._id || category.value,
         products: products?.map((item) => item?.value || item),
         data,
+        files,
       }
+      
+      console.log('updateOrder processing ... 3')
+
       await Order.updateOne({ _id }, _updateObject, { new: true })
 
       return successHandler({ message: 'Updated Success' }, res)
     } catch (error) {
+      console.log('updateOrder request error', req)
       console.log('updateOrder error', error)
     }
   }
@@ -222,6 +235,10 @@ module.exports = class OrderUser {
     }
   }
 
+  /**
+   * @param {_ obj: data Object such as create_company, change_info ....}
+   * @param {_ number: type of category }
+   */
   findKeysByObject = (obj, type = null) => {
     let msg = ''
     let result = true

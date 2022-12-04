@@ -4,6 +4,7 @@ import { forwardRef, useState, useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
 import GiaiThe from './GiaiThe'
 import styles from './styles.module.scss'
+import { VALIDATE_MESSAGE } from '@/constant/InputValidate'
 
 const Dissolution = forwardRef((props, ref) => {
   const [selectType, setSelectType] = useState()
@@ -22,7 +23,7 @@ const Dissolution = forwardRef((props, ref) => {
     let { category, data } = state
 
     let _data = {
-      ...data
+      ...data,
     }
 
     if (!category) return
@@ -54,7 +55,7 @@ const Dissolution = forwardRef((props, ref) => {
   }
 
   return (
-    <Form ref={ref} layout="vertical">
+    <Form ref={ref} layout="vertical" validateMessages={VALIDATE_MESSAGE}>
       <Form.Item
         name="category"
         label="Chọn loại hình doanh nghiệp"

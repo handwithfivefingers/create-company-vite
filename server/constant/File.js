@@ -126,34 +126,34 @@ const getCreateCompanyFiles = (type, key, opt = null) => {
     // 2tv
 
     create_company_2tv_phuluc_I_6_DSTVCTTNHH2TV: {
-      name: 'Phụ lục I-6 DANH SÁCH THÀNH VIÊN CÔNG TY TRÁCH NHIỆM HỮU HẠN HAI THÀNH VIÊN TRỞ LÊN',
+      name: 'Phụ lục I-6 Danh sách Thành viên Công ty TNHH Hai Thành Viên trở lên',
       path: '/files/create_company/2tv/create_company_2tv_phuluc_I_6_DSTVCTTNHH2TV.docx',
     },
 
     create_company_2tv_phuluc_I_3_GDNDKCTTNHH2TV: {
-      name: 'Phụ lục I-3 GIẤY ĐỀ NGHỊ ĐĂNG KÝ CÔNG TY TNHH HAI THÀNH VIÊN TRỞ LÊN',
+      name: 'Phụ lục I-3 Giấy đề nghị đăng kí Công ty TNHH Hai thành viên trở lên',
       path: '/files/create_company/2tv/create_company_2tv_phuluc_I_3_GDNDKCTTNHH2TV.docx',
     },
 
     create_company_2tv_mau_dieu_le_CTTNHH2TVTLDNSD: {
-      name: 'MẪU ĐIỀU LỆ CTY TNHH 2TV THEO LUẬT DN SỬA ĐỔI',
+      name: 'Mẫu điều lệ Công ty TNHH Hai thành viên theo luật DN sửa đổi',
       path: '/files/create_company/2tv/create_company_2tv_mau_dieu_le_CTTNHH2TVTLDNSD.docx',
     },
 
     // cp
 
     create_company_cp_phuluc_I_4_GDNDKCTCP: {
-      name: 'Phụ lục I-4 GIẤY ĐỀ NGHỊ ĐĂNG KÝ CÔNG TY CỔ PHẦN',
+      name: 'Phụ lục I-4 Giấy đề nghị đăng kí công ty Cổ phần',
       path: '/files/create_company/cp/create_company_cp_phuluc_I_4_GDNDKCTCP.docx',
     },
 
     create_company_cp_phuluc_I_7_DSCDSLCTCP: {
-      name: 'Phụ lục I-7 DANH SÁCH CỔ ĐÔNG SÁNG LẬP CÔNG TY CỔ PHẦN',
+      name: 'Phụ lục I-7 Danh sách cổ đông sáng lập Công ty Cổ phần',
       path: '/files/create_company/cp/create_company_cp_phuluc_I_7_DSCDSLCTCP.docx',
     },
 
     create_company_cp_mau_dieu_le_CTCPTLDNSD: {
-      name: 'MẪU ĐIỀU LỆ CTY CỔ PHẦN THEO LUẬT DN SỬA ĐỔI',
+      name: 'Mẫu điều lệ Công ty Cổ phần theo luật DN sửa đổi',
       path: '/files/create_company/cp/create_company_cp_mau_dieu_le_CTCPTLDNSD.docx',
     },
   }

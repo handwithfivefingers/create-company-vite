@@ -25,7 +25,6 @@ module.exports = {
     type: Number,
     enum: [0, 1],
     default: 0,
-    required: true,
   },
   products: [
     {

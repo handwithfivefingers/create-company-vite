@@ -93,15 +93,12 @@ const CreateCompany = forwardRef((props, formRef) => {
       name: category.name,
     }
 
-    console.log(formRef.current.getFieldsValue())
-
     if (data) {
       let approve = data?.create_company?.approve
-
       if (approve) {
         let { origin_person, legal_respon } = approve
         if (origin_person) {
-          origin_person = origin_person.map(({ birth_day, doc_time_provide, organization, ...item }) => {
+          origin_person = origin_person?.map(({ birth_day, doc_time_provide, organization, ...item }) => {
             let obj = {
               ...item,
               birth_day: moment(birth_day, 'YYYY-MM-DD'),
@@ -113,8 +110,10 @@ const CreateCompany = forwardRef((props, formRef) => {
                 doc_time_provide: moment(organization.doc_time_provide, 'YYYY-MM-DD'),
               }
             }
+
             return obj
           })
+
         }
 
         if (legal_respon) {
@@ -143,7 +142,6 @@ const CreateCompany = forwardRef((props, formRef) => {
 
     setSelect({ type: category.type, value: category._id, name: category.name })
 
-    console.log(formRef.current.getFieldsValue())
   }
 
   const handleSelect = (v, opt, pathName) => {
@@ -179,9 +177,7 @@ const CreateCompany = forwardRef((props, formRef) => {
   }
   const renderFormItem = useMemo(() => {
     let html = null
-    // const listForm = [GiaTriGopVon, ThanhVienGopVon, NguoiDaiDienPhapLuat, TenCongTy, DiaChiTruSoChinh, NgangNgheDangKi]
-    const listForm = [GiaTriGopVon, ThanhVienGopVon]
-
+    const listForm = [GiaTriGopVon, ThanhVienGopVon, NguoiDaiDienPhapLuat, TenCongTy, DiaChiTruSoChinh, NgangNgheDangKi]
     const configs = {
       BASE_FORM: BASE_FORM,
       current: props.step,
@@ -201,9 +197,19 @@ const CreateCompany = forwardRef((props, formRef) => {
     return html
   }, [select, props.step])
 
+  // const handleFieldChanges = (field, fields) => {
+  //   console.log('field change', field)
+  //   console.log('value showed', formRef.current.getFieldsValue())
+  // }
   return (
     <>
-      <Form layout="vertical" ref={formRef} autoComplete="off" validateMessages={VALIDATE_MESSAGE}>
+      <Form
+        layout="vertical"
+        ref={formRef}
+        autoComplete="off"
+        validateMessages={VALIDATE_MESSAGE}
+        onFieldsChange={handleFieldChanges}
+      >
         <Row
           className={clsx([
             styles.hide,
@@ -240,73 +246,6 @@ const CreateCompany = forwardRef((props, formRef) => {
         >
           {renderFormItem}
         </Suspense>
-
-        {/* <Row>
-          <Col span={24}>
-            <GiaTriGopVon
-              BASE_FORM={BASE_FORM}
-              current={props.step}
-              ref={formRef}
-              className={animateClass}
-              data={select}
-            />
-          </Col>
-        </Row>
-        <Row>
-          <Col span={24}>
-            <ThanhVienGopVon
-              BASE_FORM={BASE_FORM}
-              current={props.step}
-              ref={formRef}
-              className={animateClass}
-              data={select}
-            />
-          </Col>
-        </Row>
-        <Row>
-          <Col span={24}>
-            <NguoiDaiDienPhapLuat
-              BASE_FORM={BASE_FORM}
-              current={props.step}
-              ref={formRef}
-              className={animateClass}
-              data={select}
-            />
-          </Col>
-        </Row>
-        <Row>
-          <Col span={24}>
-            <TenCongTy
-              BASE_FORM={BASE_FORM}
-              current={props.step}
-              ref={formRef}
-              className={animateClass}
-              data={select}
-            />
-          </Col>
-        </Row>
-        <Row>
-          <Col span={24}>
-            <DiaChiTruSoChinh
-              BASE_FORM={BASE_FORM}
-              current={props.step}
-              ref={formRef}
-              className={animateClass}
-              data={select}
-            />
-          </Col>
-        </Row>
-        <Row>
-          <Col span={24}>
-            <NgangNgheDangKi
-              BASE_FORM={BASE_FORM}
-              current={props.step}
-              ref={formRef}
-              className={animateClass}
-              data={select}
-            />
-          </Col>
-        </Row> */}
       </Form>
     </>
   )
