@@ -21,12 +21,13 @@ router.post('/order/create', requireSignin, upload.none(), createOrders)
 //create order
 router.post('/order/:_id', requireSignin, upload.none(), updateOrder)
 
-//update
-
-router.post('/order/payment/:_id', requireSignin, upload.none(), updateAndPayment)
 //create and payment
 
 router.post('/order/payment', requireSignin, upload.none(), orderWithPayment)
+//update
+
+router.post('/order/payment/:_id', requireSignin, upload.none(), updateAndPayment)
+
 
 // return url -> update db
 router.get('/order/payment/url_return', getUrlReturn)
