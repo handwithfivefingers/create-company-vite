@@ -119,7 +119,7 @@ module.exports = class OrderUser {
         data,
         files,
       }
-      
+
       console.log('updateOrder processing ... 3')
 
       await Order.updateOne({ _id }, _updateObject, { new: true })
@@ -134,7 +134,9 @@ module.exports = class OrderUser {
   orderWithPayment = async (req, res) => {
     // const session = await mongoose.startSession();
     try {
+      console.log('orderWithPayment', req.body)
       let exist = await Order.findOne({ orderId: req.body.orderId }) // findOne.length > 0 => exist || valid
+      console.log('orderWithPayment exist', exist)
 
       if (exist) return existHandler(res)
 

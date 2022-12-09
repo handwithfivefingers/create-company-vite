@@ -69,7 +69,7 @@ const TrackingApi = async (req, res, next) => {
       req.socket.remoteAddress ||
       req.connection.socket.remoteAddress
 
-    // console.log('Tracking api', req.originalUrl, remoteAddress)
+    console.log('--->', req.originalUrl, remoteAddress)
   } catch (err) {
   } finally {
     next()
