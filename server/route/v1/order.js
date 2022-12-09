@@ -26,7 +26,7 @@ router.post('/order/:_id', requireSignin, upload.none(), updateOrder)
 router.post('/order/payment', requireSignin, upload.none(), orderWithPayment)
 //update
 
-router.post('/order/payment/:_id', requireSignin, upload.none(), updateAndPayment)
+router.post('/order/update_payment/:_id', requireSignin, upload.none(), updateAndPayment)
 
 
 // return url -> update db
