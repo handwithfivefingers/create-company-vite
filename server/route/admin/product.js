@@ -11,12 +11,11 @@ const router = express.Router()
 
 router.get('/product', requireSignin, getProduct)
 
-router.get('/product/:_id', requireSignin, getSingleProduct)
-
-router.post('/product/:_id', requireSignin, updateProduct)
-
 router.post('/product', requireSignin, createProduct)
 
 router.delete('/product/:_id', requireSignin, deleteProduct)
 
+router.get('/product/:_id', requireSignin, getSingleProduct)
+
+router.post('/product/:_id', requireSignin, updateProduct)
 module.exports = router

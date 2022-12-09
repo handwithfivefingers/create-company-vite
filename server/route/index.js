@@ -14,7 +14,6 @@ const AdminRoute = require('./admin')
 
 const { MailRoute, ...AdminRouter } = AdminRoute
 // Default User
-AppRouter.use('/', AuthRoute, ProductRoute, CategoryRoute, CareerRoute, OrderRoute, ServiceRoute, UserRoute, CareerCategoryRoute, MailRoute)
 
 // Admin
 AppRouter.use(
@@ -29,5 +28,7 @@ AppRouter.use(
   AdminRouter.CareerCate,
   AdminRouter.CareerAdmin,
 )
+
+AppRouter.use('/', AuthRoute, ProductRoute, CategoryRoute, CareerRoute, OrderRoute, ServiceRoute, UserRoute, CareerCategoryRoute, MailRoute)
 
 module.exports = AppRouter

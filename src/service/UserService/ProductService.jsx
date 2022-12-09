@@ -5,7 +5,7 @@ const api_path = {
 
   updateOrder: '/order',
 
-  updateAndPayment: '/order/update_payment',
+  updateAndPayment: '/order/payment',
 
   createOrderWithPayment: '/order/payment',
 

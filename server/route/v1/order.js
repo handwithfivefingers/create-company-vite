@@ -18,18 +18,16 @@ router.get('/order', requireSignin, upload.none(), getOrdersFromUser)
 //create order
 router.post('/order/create', requireSignin, upload.none(), createOrders)
 
-//create order
-router.post('/order/:_id', requireSignin, upload.none(), updateOrder)
-
 //create and payment
-
 router.post('/order/payment', requireSignin, upload.none(), orderWithPayment)
-//update
-
-router.post('/order/update_payment/:_id', requireSignin, upload.none(), updateAndPayment)
-
 
 // return url -> update db
 router.get('/order/payment/url_return', getUrlReturn)
+
+//update
+router.post('/order/payment/:_id', requireSignin, upload.none(), updateAndPayment)
+
+//create order
+router.post('/order/:_id', requireSignin, upload.none(), updateOrder)
 
 module.exports = router
