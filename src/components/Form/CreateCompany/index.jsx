@@ -113,7 +113,6 @@ const CreateCompany = forwardRef((props, formRef) => {
 
             return obj
           })
-
         }
 
         if (legal_respon) {
@@ -141,7 +140,6 @@ const CreateCompany = forwardRef((props, formRef) => {
     })
 
     setSelect({ type: category.type, value: category._id, name: category.name })
-
   }
 
   const handleSelect = (v, opt, pathName) => {
@@ -197,19 +195,9 @@ const CreateCompany = forwardRef((props, formRef) => {
     return html
   }, [select, props.step])
 
-  // const handleFieldChanges = (field, fields) => {
-  //   console.log('field change', field)
-  //   console.log('value showed', formRef.current.getFieldsValue())
-  // }
   return (
     <>
-      <Form
-        layout="vertical"
-        ref={formRef}
-        autoComplete="off"
-        validateMessages={VALIDATE_MESSAGE}
-        onFieldsChange={handleFieldChanges}
-      >
+      <Form layout="vertical" ref={formRef} autoComplete="off" validateMessages={VALIDATE_MESSAGE}>
         <Row
           className={clsx([
             styles.hide,
