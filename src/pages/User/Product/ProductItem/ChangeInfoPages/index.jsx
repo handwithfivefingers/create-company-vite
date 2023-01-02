@@ -34,7 +34,8 @@ const ChangeInfoPages = forwardRef((props, ref) => {
   const handleSaveChangeInfo = useCallback(
     (ref) => {
       const params = getParams(ref)
-
+      console.log(params)
+      // return;
       return saveService(params)
     },
     [data],

@@ -18,6 +18,7 @@ import BaseInformation from './BaseInformation'
 import { useLocation } from 'react-router-dom'
 import moment from 'moment'
 import { VALIDATE_MESSAGE } from '@/constant/InputValidate'
+import CapNhatThongTinDangKy from './CapNhatThongtinDangKy'
 
 const ChangeInforForm = forwardRef((props, ref) => {
   const [productSelect, setProductSelect] = useState('')
@@ -82,7 +83,7 @@ const ChangeInforForm = forwardRef((props, ref) => {
       _data.category = cate
 
       if (change_info) {
-        let { legal_representative, transfer_contract, base_inform, ...restInfo } = change_info
+        let { legal_representative, transfer_contract, base_inform, update_info, ...restInfo } = change_info
 
         if (base_inform) {
           let { mst_provide } = base_inform
@@ -91,98 +92,19 @@ const ChangeInforForm = forwardRef((props, ref) => {
           }
         }
 
-        if (legal_representative) {
-          let { in_out, after_change, ...restLegal } = legal_representative
+        let shallowLegalInformation = getLegalInformationProps(legal_representative)
 
-          if (in_out) {
-            in_out = in_out.map((item) => {
-              return {
-                ...item,
-                birth_day: moment(item.birth_day, 'YYYY-MM-DD'),
-                doc_time_provide: moment(item.doc_time_provide, 'YYYY-MM-DD'),
-              }
-            })
-          }
+        let shallowTransferContact = getTransferContactProps(transfer_contract)
 
-          if (after_change) {
-            after_change = after_change.map((item) => {
-              return {
-                ...item,
-                birth_day: moment(item.birth_day, 'YYYY-MM-DD'),
-                doc_time_provide: moment(item.doc_time_provide, 'YYYY-MM-DD'),
-              }
-            })
-          }
-
-          legal_representative = {
-            ...restLegal,
-            in_out,
-            after_change,
-          }
-        }
-
-        if (transfer_contract) {
-          let { A_side, B_side } = transfer_contract
-
-          if (A_side) {
-            let { personal, organization } = A_side
-
-            if (personal) {
-              personal = {
-                ...personal,
-                birth_day: moment(personal?.birth_day, 'YYYY-MM-DD'),
-                doc_time_provide: moment(personal?.doc_time_provide, 'YYYY-MM-DD'),
-              }
-            }
-
-            if (organization) {
-              organization = {
-                ...organization,
-                mst_provide: moment(organization?.mst_provide, 'YYYY-MM-DD'),
-              }
-            }
-
-            A_side = {
-              ...A_side,
-              personal,
-              organization,
-            }
-          }
-
-          if (B_side) {
-            let { personal, organization } = B_side
-            if (personal) {
-              personal = {
-                ...personal,
-                birth_day: moment(personal?.birth_day, 'YYYY-MM-DD'),
-                doc_time_provide: moment(personal?.doc_time_provide, 'YYYY-MM-DD'),
-              }
-            }
-            if (organization) {
-              organization = {
-                ...organization,
-                time_provide: moment(organization?.time_provide, 'YYYY-MM-DD'),
-              }
-            }
-
-            B_side = {
-              ...B_side,
-              personal,
-              organization,
-            }
-          }
-          transfer_contract = {
-            ...transfer_contract,
-            A_side,
-            B_side,
-          }
-        }
+        let shallowUpdateInfo = getInformationProps(update_info)
 
         change_info = {
           ...restInfo,
-          legal_representative,
-          transfer_contract,
+          update_info: shallowUpdateInfo,
+          legal_representative: shallowLegalInformation,
+          transfer_contract: shallowTransferContact,
         }
+
         _data.change_info = change_info
       }
     }
@@ -196,6 +118,124 @@ const ChangeInforForm = forwardRef((props, ref) => {
     onSetFields(['category'], cate, ref)
 
     fetchProduct(cate.value)
+  }
+
+  const getTransferContactProps = (data) => {
+    let shallowTransfer = { ...data }
+
+    if (shallowTransfer) {
+      let { A_side, B_side } = shallowTransfer
+
+      if (A_side) {
+        let { personal, organization } = A_side
+
+        if (personal) {
+          personal = {
+            ...personal,
+            birth_day: moment(personal?.birth_day, 'YYYY-MM-DD'),
+            doc_time_provide: moment(personal?.doc_time_provide, 'YYYY-MM-DD'),
+          }
+        }
+
+        if (organization) {
+          organization = {
+            ...organization,
+            mst_provide: moment(organization?.mst_provide, 'YYYY-MM-DD'),
+          }
+        }
+
+        A_side = {
+          ...A_side,
+          personal,
+          organization,
+        }
+      }
+
+      if (B_side) {
+        let { personal, organization } = B_side
+        if (personal) {
+          personal = {
+            ...personal,
+            birth_day: moment(personal?.birth_day, 'YYYY-MM-DD'),
+            doc_time_provide: moment(personal?.doc_time_provide, 'YYYY-MM-DD'),
+          }
+        }
+        if (organization) {
+          organization = {
+            ...organization,
+            time_provide: moment(organization?.time_provide, 'YYYY-MM-DD'),
+          }
+        }
+
+        B_side = {
+          ...B_side,
+          personal,
+          organization,
+        }
+      }
+      shallowTransfer = {
+        ...shallowTransfer,
+        A_side,
+        B_side,
+      }
+    }
+    return shallowTransfer
+  }
+
+  const getLegalInformationProps = (data) => {
+    let shallowLegal = { ...data }
+    if (shallowLegal) {
+      let { in_out, after_change, ...restLegal } = shallowLegal
+
+      if (in_out) {
+        in_out = in_out.map((item) => {
+          return {
+            ...item,
+            birth_day: moment(item.birth_day, 'YYYY-MM-DD'),
+            doc_time_provide: moment(item.doc_time_provide, 'YYYY-MM-DD'),
+          }
+        })
+      }
+
+      if (after_change) {
+        after_change = after_change.map((item) => {
+          return {
+            ...item,
+            birth_day: moment(item.birth_day, 'YYYY-MM-DD'),
+            doc_time_provide: moment(item.doc_time_provide, 'YYYY-MM-DD'),
+          }
+        })
+      }
+
+      shallowLegal = {
+        ...restLegal,
+        in_out,
+        after_change,
+      }
+    }
+    return shallowLegal
+  }
+
+  const getInformationProps = (update_info) => {
+    let shallowUpdate = { ...update_info }
+    if (shallowUpdate) {
+      let { information, ...restInformation } = shallowUpdate
+
+      if (information) {
+        if (information.birth_day) {
+          information.birth_day = moment(new Date(information.birth_day))
+        }
+        if (information.doc_time_provide) {
+          information.doc_time_provide = moment(new Date(information.doc_time_provide))
+        }
+      }
+
+      shallowUpdate = {
+        ...restInformation,
+        information,
+      }
+    }
+    return shallowUpdate
   }
 
   const checkType = (type, i, ref) => {
@@ -281,6 +321,19 @@ const ChangeInforForm = forwardRef((props, ref) => {
       //   return <DaiDienToChuc key={[type, i]} current={props.current} index={i + 2} ref={ref} {...props.data} />
       // case '9':
       //   return <ThongTinDangKyThue key={[type, i]} current={props.current} index={i + 2} ref={ref} {...props.data} />
+
+      case '10':
+        return (
+          <CapNhatThongTinDangKy
+            key={[type, i]}
+            current={props.current}
+            index={i + 2}
+            ref={ref}
+            {...props.data}
+            type={productSelect?.type}
+          />
+        )
+
       default:
         return null
     }

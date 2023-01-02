@@ -72,11 +72,21 @@ const getPendingFiles = (type, key) => {
       }?.[key]
     case 2:
       return {
-        approve: [allFiles.pending_uyquyen, allFiles.pending_quyetdinh_twoPerson, allFiles.pending_a_b, allFiles.pending_bienban_twoPerson],
+        approve: [
+          allFiles.pending_uyquyen,
+          allFiles.pending_quyetdinh_twoPerson,
+          allFiles.pending_a_b,
+          allFiles.pending_bienban_twoPerson,
+        ],
       }?.[key]
     case 3:
       return {
-        approve: [allFiles.pending_uyquyen, allFiles.pending_quyetdinh_cp, allFiles.pending_a_b, allFiles.pending_bienban_cp],
+        approve: [
+          allFiles.pending_uyquyen,
+          allFiles.pending_quyetdinh_cp,
+          allFiles.pending_a_b,
+          allFiles.pending_bienban_cp,
+        ],
       }?.[key]
     // case này tạm bỏ
     // case 'cancel':
@@ -253,6 +263,11 @@ const getChangeInfoFiles = (type, key) => {
       path: '/files/change_info/change_info_uyquyen.docx',
     },
 
+    change_info_phu_luc_II_5: {
+      name: 'Thông báo về việc bổ sung cập nhật thông tin đăng kí Doang nghiệp',
+      path: '/files/change_info/change_info_File_PhuLuc_II_5_ThongBaoVeViecBoSungCapNhatThongTinDangKiDoanhNghiep-13.docx',
+    },
+
     // 2tv
     change_info_2tv_quyetdinh_thaydoi_HDTV: {
       name: 'Quyết định thay đổi HDTV',
@@ -282,7 +297,11 @@ const getChangeInfoFiles = (type, key) => {
   }
 
   let changeInfoFile = {
-    legal_representative: [allFiles.change_info_quyetdinh, allFiles.change_info_phu_luc_2, allFiles.change_info_uyquyen],
+    legal_representative: [
+      allFiles.change_info_quyetdinh,
+      allFiles.change_info_phu_luc_2,
+      allFiles.change_info_uyquyen,
+    ],
 
     // Người đại diện theo ủy quyền của chủ sở hữu là tổ chức: "Phụ lục II-1","File_3_UyQuyen.doc",
     present_change: [allFiles.change_info_phu_luc_4, allFiles.change_info_uyquyen],
@@ -291,22 +310,37 @@ const getChangeInfoFiles = (type, key) => {
     location: [allFiles.change_info_quyetdinh, allFiles.change_info_phu_luc_4, allFiles.change_info_uyquyen],
 
     // Giảm vốn điều lệ: "Quyết định thay đổi", "Phụ lục II-1","File_3_UyQuyen.doc",
-    down_authorized_capital: [allFiles.change_info_quyetdinh, allFiles.change_info_phu_luc_4, allFiles.change_info_uyquyen],
+    down_authorized_capital: [
+      allFiles.change_info_quyetdinh,
+      allFiles.change_info_phu_luc_4,
+      allFiles.change_info_uyquyen,
+    ],
 
     // Chủ sở hữu: "Hợp đồng chuyển nhượng", "Phụ lục II-4","File_3_UyQuyen.doc",
-    transfer_contract: [allFiles.change_info_hop_dong_chuyen_nhuong, allFiles.change_info_phu_luc_2_4, allFiles.change_info_uyquyen],
+    transfer_contract: [
+      allFiles.change_info_hop_dong_chuyen_nhuong,
+      allFiles.change_info_phu_luc_2_4,
+      allFiles.change_info_uyquyen,
+    ],
 
     // Ngành nghề kinh doanh:"Quyết định thay đổi", "Phụ lục II-1","File_3_UyQuyen.doc",
     company_career: [allFiles.change_info_quyetdinh, allFiles.change_info_phu_luc_4, allFiles.change_info_uyquyen],
 
     // Tăng vốn điều lệ:"Quyết định thay đổi", "Phụ lục II-1","File_3_UyQuyen.doc",
-    up_authorized_capital: [allFiles.change_info_quyetdinh, allFiles.change_info_phu_luc_4, allFiles.change_info_uyquyen],
+    up_authorized_capital: [
+      allFiles.change_info_quyetdinh,
+      allFiles.change_info_phu_luc_4,
+      allFiles.change_info_uyquyen,
+    ],
 
     // Tên doanh nghiệp:"Quyết định thay đổi", "Phụ lục II-1","File_3_UyQuyen.doc",
     name: [allFiles.change_info_quyetdinh, allFiles.change_info_phu_luc_4, allFiles.change_info_uyquyen],
 
     // Nội dung đăng ký thuế: "Phụ lục II-1","File_3_UyQuyen.doc",
     tax: [allFiles.change_info_phu_luc_4, allFiles.change_info_uyquyen],
+
+    // Cập nhật thông tin đăng kí
+    update_info: [allFiles.change_info_phu_luc_II_5, allFiles.change_info_uyquyen],
   }
 
   let changeInfoFile2TV = {
@@ -342,7 +376,11 @@ const getChangeInfoFiles = (type, key) => {
       allFiles.change_info_uyquyen,
     ],
 
-    transfer_contract: [allFiles.change_info_hop_dong_chuyen_nhuong, allFiles.change_info_phu_luc_2_4, allFiles.change_info_uyquyen],
+    transfer_contract: [
+      allFiles.change_info_hop_dong_chuyen_nhuong,
+      allFiles.change_info_phu_luc_2_4,
+      allFiles.change_info_uyquyen,
+    ],
 
     company_career: [
       allFiles.change_info_2tv_quyetdinh_thaydoi_HDTV,
@@ -357,6 +395,9 @@ const getChangeInfoFiles = (type, key) => {
       allFiles.change_info_phu_luc_4,
       allFiles.change_info_uyquyen,
     ],
+
+    // Cập nhật thông tin đăng kí
+    update_info: [allFiles.change_info_phu_luc_II_5, allFiles.change_info_uyquyen],
 
     // tax: [allFiles.change_info_phu_luc_4, allFiles.change_info_uyquyen],
   }
@@ -413,6 +454,8 @@ const getChangeInfoFiles = (type, key) => {
       allFiles.change_info_uyquyen,
     ],
 
+    // Cập nhật thông tin đăng kí
+    update_info: [allFiles.change_info_phu_luc_II_5, allFiles.change_info_uyquyen],
     // tax: [allFiles.change_info_phu_luc_4, allFiles.change_info_cp_bienbanhop_HDCD],
   }
   // console.log('coming file', type, key, changeInfoFileCp?.[key])
@@ -480,12 +523,22 @@ const getDissolutionFiles = (type, key) => {
       }?.[key]
     case 2:
       return {
-        approve: [allFiles.dissolution_Phuluc, allFiles.dissolution_uy_quyen, allFiles.dissolution_bienban_twoPerson, allFiles.dissolution_quyetdinh_twoPerson],
+        approve: [
+          allFiles.dissolution_Phuluc,
+          allFiles.dissolution_uy_quyen,
+          allFiles.dissolution_bienban_twoPerson,
+          allFiles.dissolution_quyetdinh_twoPerson,
+        ],
         cancel: null,
       }?.[key]
     case 3:
       return {
-        approve: [allFiles.dissolution_Phuluc, allFiles.dissolution_uy_quyen, allFiles.dissolution_bienban_cp, allFiles.dissolution_quyetdinh_cp],
+        approve: [
+          allFiles.dissolution_Phuluc,
+          allFiles.dissolution_uy_quyen,
+          allFiles.dissolution_bienban_cp,
+          allFiles.dissolution_quyetdinh_cp,
+        ],
         cancel: null,
       }?.[key]
     default:
@@ -516,6 +569,8 @@ exports.getListFiles = (pathName) =>
       name: (type, props, keys, opt) => getFileByPathName(type, props, keys, opt),
 
       tax: (type, props, keys, opt) => getFileByPathName(type, props, keys, opt),
+
+      update_info: (type, props, keys, opt) => getFileByPathName(type, props, keys, opt),
     },
 
     pending: {

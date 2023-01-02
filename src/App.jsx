@@ -16,7 +16,7 @@ import moment from 'moment'
 import './assets/css/styles.scss'
 import 'animate.css'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import locale from 'antd/es/locale/vi_VN'
+// import locale from 'antd/es/locale/vi_VN'
 import 'moment/locale/vi'
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -36,6 +36,7 @@ ConfigProvider.config({
 moment.defaultFormat = 'DD/MM/YYYY'
 
 moment.locale('vi')
+moment().utcOffset('+07:00');
 
 const RouterComponent = (props) => {
   let location = useLocation()
@@ -100,7 +101,8 @@ function App() {
   return (
     <div className="App">
       <QueryClientProvider client={queryClient}>
-        <ConfigProvider locale={locale}>
+        {/* <ConfigProvider locale={locale}> */}
+        <ConfigProvider>
           <RouterProvider value={{ route, setRoute: (val) => routerHistoryHandler(val) }}>
             <BrowserRouter>
               <RouterComponent auth={auth} />

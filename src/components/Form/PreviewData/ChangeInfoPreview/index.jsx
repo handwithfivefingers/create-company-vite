@@ -23,6 +23,7 @@ export default function ChangeInfoPreview(props) {
     company_career,
     name,
     tax,
+    update_info,
   } = data
 
   const renderASide = () => {
@@ -555,6 +556,7 @@ export default function ChangeInfoPreview(props) {
             </Card>
           </>
         )}
+
         {down_authorized_capital && (
           <>
             <Card
@@ -585,6 +587,7 @@ export default function ChangeInfoPreview(props) {
             </Card>
           </>
         )}
+
         {up_authorized_capital && (
           <>
             <Card
@@ -615,6 +618,7 @@ export default function ChangeInfoPreview(props) {
             </Card>
           </>
         )}
+
         {transfer_contract && (
           <Card
             title="Đăng ký thay đổi hợp đồng chuyển nhượng phần góp vốn"
@@ -628,6 +632,7 @@ export default function ChangeInfoPreview(props) {
             {/* B_side */}
           </Card>
         )}
+
         {company_career && (
           <>
             <Card
@@ -656,6 +661,7 @@ export default function ChangeInfoPreview(props) {
             </Card>
           </>
         )}
+
         {name && (
           <>
             <Card
@@ -676,6 +682,104 @@ export default function ChangeInfoPreview(props) {
             </Card>
           </>
         )}
+
+        {update_info && (
+          <>
+            <Card
+              title="Cập nhật thông tin đăng ký doanh nghiệp"
+              className="box__shadow"
+              size="small"
+              style={{ margin: '0 0 20px 0' }}
+            >
+              {/* <Form.Item label={<Text type="secondary">Tên công ty bằng Tiếng Việt</Text>}>{name?.name_vi}</Form.Item> */}
+
+              {update_info.select?.map((item) => {
+                if (item === 'information') {
+                  let information = update_info.information
+                  return (
+                    <>
+                      <Form.Item label={'Cập nhật thông tin cá nhân'}>
+                        <Form.Item label={<Text type="secondary">{t['name']}</Text>}>{information.name}</Form.Item>
+
+                        <Form.Item label={<Text type="secondary">{t['birth_day']}</Text>}>
+                          {moment(information?.birth_day).format('DD/MM/YYYY')}
+                        </Form.Item>
+
+                        <Form.Item label={<Text type="secondary">{t['doc_type']}</Text>}>
+                          {information?.doc_type}
+                        </Form.Item>
+                        <Form.Item label={<Text type="secondary">{t['doc_code']}</Text>}>
+                          {information?.doc_code}
+                        </Form.Item>
+                        <Form.Item label={<Text type="secondary">{t['doc_time_provide']}</Text>}>
+                          {moment(information?.doc_time_provide).format('DD/MM/YYYY')}
+                        </Form.Item>
+                        <Form.Item label={<Text type="secondary">{t['doc_place_provide']}</Text>}>
+                          {information?.doc_place_provide}
+                        </Form.Item>
+
+                        {information?.current && (
+                          <>
+                            <Form.Item label={'Địa chỉ thường trú (ĐDPL)'}></Form.Item>
+                            <div style={{ paddingLeft: 20 }}>
+                              <Form.Item label={<Text type="secondary">{t['city']}</Text>}>
+                                {information?.current?.city}
+                              </Form.Item>
+                              <Form.Item label={<Text type="secondary">{t['district']}</Text>}>
+                                {information?.current?.district}
+                              </Form.Item>
+                              <Form.Item label={<Text type="secondary">{t['town']}</Text>}>
+                                {information?.current?.town}
+                              </Form.Item>
+                              <Form.Item label={<Text type="secondary">{t['address']}</Text>}>
+                                {information?.current?.address}
+                              </Form.Item>
+                            </div>
+                          </>
+                        )}
+
+                        {information?.contact && (
+                          <>
+                            <Form.Item label={'Địa chỉ liên lạc'}></Form.Item>
+                            <div style={{ paddingLeft: 20 }}>
+                              <Form.Item label={<Text type="secondary">{t['city']}</Text>}>
+                                {information?.contact?.city}
+                              </Form.Item>
+                              <Form.Item label={<Text type="secondary">{t['district']}</Text>}>
+                                {information?.contact?.district}
+                              </Form.Item>
+                              <Form.Item label={<Text type="secondary">{t['town']}</Text>}>
+                                {information?.contact?.town}
+                              </Form.Item>
+                              <Form.Item label={<Text type="secondary">{t['address']}</Text>}>
+                                {information?.contact?.address}
+                              </Form.Item>
+                            </div>
+                          </>
+                        )}
+                      </Form.Item>
+                    </>
+                  )
+                } else if (item === 'phone') {
+                  return (
+                    <Form.Item label={'Cập nhật Số điện thoại'}>{update_info?.phone || 'Chưa có dữ liệu'}</Form.Item>
+                  )
+                } else if (item === 'email') {
+                  return (
+                    <Form.Item label={'Cập nhật địa chỉ email'}>{update_info?.email || 'Chưa có dữ liệu'}</Form.Item>
+                  )
+                } else if (item === 'website') {
+                  return (
+                    <Form.Item label={'Cập nhật địa chỉ website'}>
+                      {update_info?.website || 'Chưa có dữ liệu'}
+                    </Form.Item>
+                  )
+                }
+              })}
+            </Card>
+          </>
+        )}
+
         {tax && (
           <>
             <Card
