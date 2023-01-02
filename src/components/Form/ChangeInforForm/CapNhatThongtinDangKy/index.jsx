@@ -26,7 +26,7 @@ const CapNhatThongTinDangKy = forwardRef((props, ref) => {
 
       console.log(selectValue)
 
-      setSelect(selectValue)
+      setSelect(selectValue || [])
     }
   }, [ref])
 
