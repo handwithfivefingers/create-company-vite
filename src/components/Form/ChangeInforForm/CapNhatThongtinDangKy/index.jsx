@@ -102,6 +102,12 @@ const CapNhatThongTinDangKy = forwardRef((props, ref) => {
         />
 
         <CCAddress name={[...BASE_FORM, 'information']} ref={ref} required />
+
+        <CCInput name={[...BASE_FORM, 'information', 'phone']} label="Số điện thoại" required />
+
+        <CCInput name={[...BASE_FORM, 'information', 'email']} label="Địa chỉ email" required />
+
+        <CCInput name={[...BASE_FORM, 'information', 'website']} label="Địa chỉ website" required />
       </Card>
     )
   }
@@ -109,7 +115,7 @@ const CapNhatThongTinDangKy = forwardRef((props, ref) => {
   const PhoneField = () => {
     return (
       <Card className="box__shadow" title="Cập nhật số điện thoại">
-        <CCInput name={[...BASE_FORM, 'phone']} label="Số điện thoại" />
+        <CCInput name={[...BASE_FORM, 'phone']} label="Số điện thoại" required/>
       </Card>
     )
   }
@@ -117,7 +123,7 @@ const CapNhatThongTinDangKy = forwardRef((props, ref) => {
   const EmailField = () => {
     return (
       <Card className="box__shadow" title="Cập nhật địa chỉ email">
-        <CCInput name={[...BASE_FORM, 'email']} label="Email" />
+        <CCInput name={[...BASE_FORM, 'email']} label="Email" required/>
       </Card>
     )
   }
@@ -125,7 +131,7 @@ const CapNhatThongTinDangKy = forwardRef((props, ref) => {
   const WebsiteField = () => {
     return (
       <Card className="box__shadow" title="Cập nhật địa chỉ website">
-        <CCInput name={[...BASE_FORM, 'website']} label="Website" />
+        <CCInput name={[...BASE_FORM, 'website']} label="Website" required/>
       </Card>
     )
   }
