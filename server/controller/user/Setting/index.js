@@ -36,7 +36,9 @@ module.exports = class SettingClass {
   getSettingMail = async (req, res) => {
     if (req.role !== 'admin') return permisHandler(res)
     try {
-      let _setting = await Setting.findOne({ userOwner: req.id }).populate('mailRegister mailPayment mailPaymentSuccess').select('mailRegister mailPayment mailPaymentSuccess')
+      let _setting = await Setting.findOne({ userOwner: req.id })
+        .populate('mailRegister mailPayment mailPaymentSuccess mailForgotPass')
+        .select('mailRegister mailPayment mailPaymentSuccess mailForgotPass')
 
       return res.status(200).json({
         message: 'ok',
