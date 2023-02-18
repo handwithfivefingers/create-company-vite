@@ -1,15 +1,12 @@
-import clsx from 'clsx'
-import React from 'react'
-import CCInput from '../../../CCInput'
 import CCListForm from '@/components/CCListForm'
-import { Form, InputNumber, Space, Button, Row, Col } from 'antd'
-import { forwardRef, useMemo, useState, useEffect } from 'react'
+import { PENDING_FORM } from '@/constant/FormConstant'
+import { Col, Form, InputNumber, Row } from 'antd'
+import clsx from 'clsx'
+import React, { forwardRef, useMemo } from 'react'
+import { htmlContent, onSetFields } from '../../../../helper/Common'
+import CCInput from '../../../CCInput'
 import CCSelect from '../../../CCSelect'
 import styles from './styles.module.scss'
-import { SELECT } from '@/constant/Common'
-import { PENDING_FORM } from '@/constant/FormConstant'
-import { htmlContent, onSetFields } from '../../../../helper/Common'
-import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons'
 
 const BaseInformation = forwardRef((props, ref) => {
   const BASE_FORM = ['change_info', 'base_inform']

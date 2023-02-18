@@ -1,15 +1,13 @@
 import CCInput from '@/components/CCInput'
-import CCListForm from '@/components/CCListForm'
 import CCSelect from '@/components/CCSelect'
-import { DISSOLUTION_FORM } from '@/constant/FormConstant'
-import { Form, InputNumber, Row, Col, Card, Space, Button } from 'antd'
-import clsx from 'clsx'
-import React, { forwardRef, useEffect, useMemo, useState } from 'react'
-import styles from './styles.module.scss'
 import { htmlContent, onSetFields } from '@/helper/Common'
+import { Button, Card, Col, Form, InputNumber, Row, Space } from 'antd'
+import clsx from 'clsx'
+import { forwardRef, useEffect, useMemo, useState } from 'react'
+import styles from './styles.module.scss'
 
-import { useLocation } from 'react-router-dom'
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons'
+import { useLocation } from 'react-router-dom'
 
 const BASE_FORM = ['dissolution', 'approve']
 
@@ -326,7 +324,7 @@ const MoreThanOneForm = forwardRef((props, ref) => {
                         {
                           required: true,
                           message: '% vốn điều lệ là bắt buộc',
-                        }
+                        },
                       ]}
                     >
                       <InputNumber

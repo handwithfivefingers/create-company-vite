@@ -1,9 +1,9 @@
-import React, { forwardRef, Suspense, lazy, useCallback } from 'react'
-import { Card, Space, Spin, Button } from 'antd'
 import CreateCompany from '@/components/Form/CreateCompany'
+import { Button, Card, Space, Spin } from 'antd'
+import clsx from 'clsx'
+import { forwardRef, Suspense } from 'react'
 import { useLocation } from 'react-router-dom'
 import styles from './styles.module.scss'
-import clsx from 'clsx'
 // const PreviewData = lazy(() => import('@/components/Form/PreviewData'))
 import PreviewData from '../../../../../components/Form/PreviewData'
 

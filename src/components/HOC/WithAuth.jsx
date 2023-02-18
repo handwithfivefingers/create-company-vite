@@ -1,13 +1,13 @@
-import { Layout } from 'antd'
-import clsx from 'clsx'
 import AdminSidebar from '@/components/Admin/AdminSidebar'
 import UserHeader from '@/components/User/UserHeader'
 import UserSidebar from '@/components/User/UserSidebar'
-import { AnimatePresence, domAnimation, LazyMotion, m, domMax } from 'framer-motion'
+import { Layout } from 'antd'
+import clsx from 'clsx'
+import { AnimatePresence, domAnimation, LazyMotion } from 'framer-motion'
+import { Children, cloneElement, memo } from 'react'
 import { FcInfo } from 'react-icons/fc'
 import { Link, Navigate, useLocation } from 'react-router-dom'
 import styles from './styles.module.scss'
-import React, { Children, cloneElement, memo } from 'react'
 
 const { Content, Footer } = Layout
 

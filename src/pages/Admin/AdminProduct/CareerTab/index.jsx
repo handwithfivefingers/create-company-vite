@@ -1,11 +1,11 @@
+import CCPagination from '@/components/CCPagination'
 import AdminProductService from '@/service/AdminService/AdminProductService'
 import { FormOutlined, MinusSquareOutlined } from '@ant-design/icons'
 import { Button, Drawer, Input, message, Popconfirm, Space, Table } from 'antd'
-import React, { forwardRef, useImperativeHandle, useState, useEffect } from 'react'
+import { forwardRef, useImperativeHandle, useState } from 'react'
 import { useFetch } from '../../../../helper/Hook'
 import CareerForm from './CarrerForm'
 import styles from './styles.module.scss'
-import CCPagination from '@/components/CCPagination'
 const CareerTab = forwardRef((props, ref) => {
   const [current, setCurrent] = useState(1)
 

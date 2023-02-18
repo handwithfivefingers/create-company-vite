@@ -1,7 +1,6 @@
-import { Row, Col, Card, Form, Typography } from 'antd'
-import React from 'react'
 import t from '@/constant/CommonText'
 import { number_format } from '@/helper/Common'
+import { Card, Col, Form, Row, Typography } from 'antd'
 import styles from './styles.module.scss'
 
 const { Text, Link } = Typography
@@ -24,9 +23,13 @@ export default function DissolutionPreview(props) {
                 <Form.Item label={t['office_location']}></Form.Item>
                 <div style={{ paddingLeft: 20 }}>
                   <Form.Item label={<Text type="secondary">{t['city']}</Text>}>{approve?.location?.city}</Form.Item>
-                  <Form.Item label={<Text type="secondary">{t['district']}</Text>}>{approve?.location?.district}</Form.Item>
+                  <Form.Item label={<Text type="secondary">{t['district']}</Text>}>
+                    {approve?.location?.district}
+                  </Form.Item>
                   <Form.Item label={<Text type="secondary">{t['town']}</Text>}>{approve?.location?.town}</Form.Item>
-                  <Form.Item label={<Text type="secondary">{t['address']}</Text>}>{approve?.location?.address}</Form.Item>
+                  <Form.Item label={<Text type="secondary">{t['address']}</Text>}>
+                    {approve?.location?.address}
+                  </Form.Item>
                   <Form.Item label={<Text type="secondary">{t['legal_respon']}</Text>}>{approve?.org_person}</Form.Item>
                 </div>
               </>
@@ -38,7 +41,13 @@ export default function DissolutionPreview(props) {
                 <div style={{ paddingLeft: 20 }}>
                   {approve?.list_president.map((item, index) => {
                     return (
-                      <Form.Item label={<Text type="secondary">{index !== 0 ? `Tên thành viên hội đồng quản trị ${index}` : 'Tên Chủ Tịch HDQT'}</Text>}>
+                      <Form.Item
+                        label={
+                          <Text type="secondary">
+                            {index !== 0 ? `Tên thành viên hội đồng quản trị ${index}` : 'Tên Chủ Tịch HDQT'}
+                          </Text>
+                        }
+                      >
                         {item.president}
                       </Form.Item>
                     )
@@ -61,7 +70,9 @@ export default function DissolutionPreview(props) {
                           <Form.Item label={<Text type="secondary">Vốn góp</Text>}>{item.capital}</Form.Item>
                         </Col>
                         <Col span={12}>
-                          <Form.Item label={<Text type="secondary">Chiếm % vốn điều lệ</Text>}>{item.capital_percent}</Form.Item>
+                          <Form.Item label={<Text type="secondary">Chiếm % vốn điều lệ</Text>}>
+                            {item.capital_percent}
+                          </Form.Item>
                         </Col>
                       </Row>
                     )
@@ -71,7 +82,9 @@ export default function DissolutionPreview(props) {
             )}
 
             {approve?.total_capital && (
-              <Form.Item label={<Text type="secondary">{t['total_capital']}</Text>}>{number_format(approve?.total_capital)}</Form.Item>
+              <Form.Item label={<Text type="secondary">{t['total_capital']}</Text>}>
+                {number_format(approve?.total_capital)}
+              </Form.Item>
             )}
           </Form>
         </Card>

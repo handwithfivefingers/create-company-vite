@@ -1,7 +1,7 @@
 import { Col, Divider, Row, Typography } from 'antd'
 import clsx from 'clsx'
 import moment from 'moment'
-import React, { forwardRef, useEffect, useState } from 'react'
+import { forwardRef, useEffect, useState } from 'react'
 import ChangeInfoPreview from './ChangeInfoPreview'
 import CreateCompanyPreview from './CreateCompanyPreview'
 import DissolutionPreview from './DissolutionPreview'

@@ -1,14 +1,14 @@
 import { CaretLeftOutlined, CaretRightOutlined, PieChartOutlined, TeamOutlined } from '@ant-design/icons'
-import { Layout, Menu, Button } from 'antd'
+import { Layout, Menu } from 'antd'
 // import { signOut } from "next-auth/react";
+import { AdminRouter } from '@/constant/Route'
+import { AuthAction, CommonAction } from '@/store/actions'
+import clsx from 'clsx'
 import { memo, useEffect, useState } from 'react'
 import { RiLogoutCircleLine } from 'react-icons/ri'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
-import { AdminRouter } from '@/constant/Route'
-import { AuthAction, CommonAction } from '@/store/actions'
 import styles from './styles.module.scss'
-import clsx from 'clsx'
 const { Sider } = Layout
 
 const AdminSidebar = () => {

@@ -1,12 +1,9 @@
-import React from 'react'
 import WebViewer, { getInstance } from '@pdftron/webviewer'
-import { Button, Card, Drawer, Form, Input, List, message, Modal, Space, Typography, Radio } from 'antd'
-import { useEffect, useRef, useState } from 'react'
+import { List, Modal, Radio } from 'antd'
+import { memo, useEffect, useRef, useState } from 'react'
 import ReactDOMServer from 'react-dom/server'
-import { RiPlayList2Fill } from 'react-icons/ri'
 import { BiDownload } from 'react-icons/bi'
-import { useParams } from 'react-router-dom'
-import { memo } from 'react'
+import { RiPlayList2Fill } from 'react-icons/ri'
 
 const localUrl = `${import.meta.env.VITE_BASEHOST_DEV}/public`
 

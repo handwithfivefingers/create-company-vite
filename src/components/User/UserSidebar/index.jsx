@@ -1,19 +1,18 @@
+import { AuthAction, CommonAction } from '@/store/actions'
 import { CaretLeftOutlined, CaretRightOutlined, DesktopOutlined, PieChartOutlined } from '@ant-design/icons'
 import { Layout, Menu } from 'antd'
-import React, { useCallback, useEffect, useState } from 'react'
+import clsx from 'clsx'
+import { memo, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
-import { AuthAction, CommonAction } from '@/store/actions'
 import { UserRouter } from '../../../constant/Route'
 import styles from './styles.module.scss'
-import clsx from 'clsx'
 
 const { Sider } = Layout
 
 const UserSidebar = (props) => {
   const [current, setCurrent] = useState()
   const { collapsed } = useSelector((state) => state.commonReducer)
-  const { role } = useSelector((state) => state?.authReducer)
 
   let location = useLocation()
 
@@ -29,9 +28,6 @@ const UserSidebar = (props) => {
     if (location.pathname.includes('/user/san-pham')) setCurrent('/user/san-pham')
     else setCurrent(location.pathname)
   }, [location])
-
-
-
 
   const renderSidebar = (route) => {
     let xhtml = null
@@ -82,4 +78,4 @@ const UserSidebar = (props) => {
   )
 }
 
-export default React.memo(UserSidebar)
+export default memo(UserSidebar)

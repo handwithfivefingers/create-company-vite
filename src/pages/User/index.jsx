@@ -1,11 +1,10 @@
-import { Spin, Space } from 'antd'
-import React, { Suspense, useCallback, useState } from 'react'
-import { Outlet } from 'react-router-dom'
 import WithAuth from '@/components/HOC/WithAuth'
-import { useEffect } from 'react'
-import ProfileService from '../../service/UserService/ProfileService'
-import { useFetch } from '../../helper/Hook'
+import { Space, Spin } from 'antd'
+import { Suspense, useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
+import { Outlet } from 'react-router-dom'
+import { useFetch } from '../../helper/Hook'
+import ProfileService from '../../service/UserService/ProfileService'
 const User = () => {
   return (
     <>

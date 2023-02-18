@@ -1,12 +1,9 @@
-import CCInput from '@/components/CCInput'
-import { SELECT } from '@/constant/Common'
-import { htmlContent, onSetFields } from '@/helper/Common'
+import { onSetFields } from '@/helper/Common'
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons'
-import { Button, Col, Form, InputNumber, Row, Select } from 'antd'
+import { Button, Col, Form, Row, Select } from 'antd'
 import clsx from 'clsx'
-import React, { forwardRef, useEffect, useMemo, useState } from 'react'
+import { forwardRef, useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
-import CCSelect from '../../../CCSelect'
 import OriginalPerson from './OriginalPerson'
 import Personal from './Personal'
 import styles from './styles.module.scss'
@@ -185,7 +182,6 @@ const PresentPerson = forwardRef((props, ref) => {
       </Select>
     </Form.Item>
   )
-
 })
 
 export default ThanhVienGopVon

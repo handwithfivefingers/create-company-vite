@@ -1,10 +1,8 @@
 import { Button, Card, Form, Input, message, Typography } from 'antd'
-import React, { useState, useRef } from 'react'
-import { useNavigate, useSearchParams } from 'react-router-dom'
 import clsx from 'clsx'
+import React, { useRef, useState } from 'react'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 import styles from './styles.module.scss'
-// import axios from '@/config/axios'
-
 import AuthService from '@/service/AuthService'
 import { useEffect } from 'react'
 const { Text, Link } = Typography

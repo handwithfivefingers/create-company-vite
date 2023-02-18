@@ -1,10 +1,8 @@
-import React from 'react'
 import { CaretRightOutlined } from '@ant-design/icons'
-import { Result, Button, Row, Collapse, Card, Descriptions } from 'antd'
-import { useNavigate, useSearchParams, useNavigationType, useOutletContext } from 'react-router-dom'
-import styles from './styles.module.scss'
+import { Card, Collapse, Descriptions } from 'antd'
 import clsx from 'clsx'
-import { htmlContent } from '@/helper/Common'
+import { useNavigate, useOutletContext } from 'react-router-dom'
+import styles from './styles.module.scss'
 const { Panel } = Collapse
 export default function Policy() {
   const { animateClass } = useOutletContext()
@@ -18,10 +16,7 @@ export default function Policy() {
           defaultActiveKey={['1']}
           expandIcon={({ isActive }) => <CaretRightOutlined rotate={isActive ? 90 : 0} />}
         >
-          <Panel
-            header={'Điều khoản và điều kiện về bảo mật khi sử dụng thanhlapcongtyonline.vn'}
-            key="1"
-          >
+          <Panel header={'Điều khoản và điều kiện về bảo mật khi sử dụng thanhlapcongtyonline.vn'} key="1">
             <Card className={'box__shadow m-tb-5'}>
               <Descriptions
                 title="I. Chính sách bảo mật thông tin người dùng khi sử dụng dịch vụ đăng ký doanh nghiệp của thanhlapcongtyonline.vn"

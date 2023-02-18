@@ -1,18 +1,17 @@
+import { VALIDATE_MESSAGE } from '@/constant/InputValidate'
+import { onSetFields } from '@/helper/Common'
 import { Col, Form, Row, Select, Space, Spin } from 'antd'
 import clsx from 'clsx'
-import React, { forwardRef, lazy, useEffect, useState, Suspense, useMemo } from 'react'
-import { onSetFields } from '@/helper/Common'
-import styles from './CreateCompany.module.scss'
-import { useLocation } from 'react-router-dom'
 import moment from 'moment'
-import { VALIDATE_MESSAGE } from '@/constant/InputValidate'
+import { forwardRef, lazy, Suspense, useEffect, useMemo, useState } from 'react'
+import { useLocation } from 'react-router-dom'
+import styles from './CreateCompany.module.scss'
 // import GiaTriGopVon from './GiaTriGopVon'
 // import ThanhVienGopVon from './ThanhVienGopVon'
 // import NgangNgheDangKi from './NgangNgheDangKi'
 // import NguoiDaiDienPhapLuat from './NguoiDaiDienPhapLuat'
 // import TenCongTy from './TenCongTy'
 // import DiaChiTruSoChinh from './DiaChiTruSoChinh'
-
 // import ThanhVienGopVon from './ThanhVienGopVon'
 
 const DiaChiTruSoChinh = lazy(() => {

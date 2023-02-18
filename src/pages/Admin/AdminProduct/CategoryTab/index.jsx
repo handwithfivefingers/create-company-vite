@@ -1,12 +1,10 @@
-import { Button, Drawer, Popconfirm, Space, Table, message } from 'antd'
-import { FormOutlined, MinusSquareOutlined } from '@ant-design/icons'
 import AdminProductService from '@/service/AdminService/AdminProductService'
-import NewCategory from './NewCategory'
-import { useFetch } from '../../../../helper/Hook'
-import React, { useEffect, useState } from 'react'
-import { forwardRef } from 'react'
-import { useImperativeHandle } from 'react'
+import { FormOutlined, MinusSquareOutlined } from '@ant-design/icons'
+import { Button, Drawer, message, Popconfirm, Space, Table } from 'antd'
+import React, { forwardRef, useImperativeHandle, useState } from 'react'
 import { number_format } from '../../../../helper/Common'
+import { useFetch } from '../../../../helper/Hook'
+import NewCategory from './NewCategory'
 import styles from './styles.module.scss'
 const CategoryTab = forwardRef((props, ref) => {
   const [cateData, setCateData] = useState([])

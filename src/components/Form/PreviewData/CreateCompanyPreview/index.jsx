@@ -1,7 +1,5 @@
-import { Row, Col, Card, Form, Typography } from 'antd'
-import React from 'react'
 import t from '@/constant/CommonText'
-import { number_format } from '@/helper/Common'
+import { Card, Col, Form, Row, Typography } from 'antd'
 import moment from 'moment'
 
 const { Text, Link } = Typography

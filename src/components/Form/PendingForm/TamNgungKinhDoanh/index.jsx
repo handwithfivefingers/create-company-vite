@@ -7,7 +7,7 @@ import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons'
 import { Button, Card, Col, Form, InputNumber, Row, Space } from 'antd'
 import clsx from 'clsx'
 import moment from 'moment'
-import React, { forwardRef, useEffect, useState } from 'react'
+import { forwardRef, useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import styles from './styles.module.scss'
 

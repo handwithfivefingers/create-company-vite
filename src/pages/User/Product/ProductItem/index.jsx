@@ -1,13 +1,12 @@
 import CCSteps from '@/components/CCHeaderSteps'
 import { CREATE_COMPANY_STEP, DISSOLUTION_STEP, PENDING_STEP } from '@/constant/Step'
 import ProductService from '@/service/UserService/ProductService'
-import { message, Spin, Form, notification, List } from 'antd'
-import moment from 'moment'
-import React, { lazy, useCallback, useEffect, useRef, useState } from 'react'
-import { useNavigate, useParams, useLocation } from 'react-router-dom'
+import { FileExcelOutlined } from '@ant-design/icons'
+import { List, message, notification, Spin } from 'antd'
+import { lazy, useCallback, useEffect, useRef, useState } from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
 import { useFetch } from '../../../../helper/Hook'
 import styles from './styles.module.scss'
-import { FileExcelOutlined } from '@ant-design/icons'
 
 // import CreateCompanyPages from './CreateCompanyPages'
 const CreateCompanyPages = lazy(() => import('./CreateCompanyPages'))

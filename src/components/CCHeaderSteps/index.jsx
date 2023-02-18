@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react'
-import styles from './styles.module.scss'
+import { Card, Skeleton } from 'antd'
 import clsx from 'clsx'
-import { Skeleton, Card } from 'antd'
+import React from 'react'
 import { useSelector } from 'react-redux'
+import styles from './styles.module.scss'
 const CCSteps = (props) => {
   // const [current, setCurrent] = useState(0)
   const collapsed = useSelector((state) => state.commonReducer.collapsed)

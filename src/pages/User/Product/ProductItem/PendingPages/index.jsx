@@ -1,5 +1,5 @@
-import React, { forwardRef, Suspense, lazy, useCallback } from 'react'
-import { Card, Space, Spin, Button } from 'antd'
+import { Button, Card, Space, Spin } from 'antd'
+import { forwardRef, lazy, Suspense, useCallback } from 'react'
 import { useLocation } from 'react-router-dom'
 
 const TamHoanForm = lazy(() => {

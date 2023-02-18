@@ -1,9 +1,8 @@
-import React from "react";
-import { Skeleton, Typography, Tag } from "antd";
-import styles from "./ProductCard.module.scss";
-import clsx from "clsx";
-import { number_format } from "@/helper/Common";
-import { Link } from "react-router-dom";
+import { Skeleton, Typography, Tag } from 'antd'
+import styles from './ProductCard.module.scss'
+import clsx from 'clsx'
+import { number_format } from '@/helper/Common'
+import { Link } from 'react-router-dom'
 // import Link from 'next/link'
 const ProductCard = (props) => {
   // console.log(props);
@@ -22,7 +21,7 @@ const ProductCard = (props) => {
         </div>
       </div>
     </Link>
-  );
-};
+  )
+}
 
-export default ProductCard;
+export default ProductCard

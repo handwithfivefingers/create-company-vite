@@ -1,13 +1,13 @@
+import { makeid } from '@/helper/Common'
 import { ClockCircleOutlined } from '@ant-design/icons'
-import { PageHeader, Button, Grid } from 'antd'
-import React, { useEffect, useRef, useState } from 'react'
+import { Button, Grid, PageHeader } from 'antd'
+import { memo, useEffect, useRef } from 'react'
+import { FcAssistant, FcQuestions } from 'react-icons/fc'
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import { makeid } from '@/helper/Common'
-import { FcAssistant, FcQuestions } from 'react-icons/fc'
 
-import styles from './styles.module.scss'
 import moment from 'moment'
+import styles from './styles.module.scss'
 
 const { useBreakpoint } = Grid
 const UserHeader = (props) => {
@@ -59,4 +59,4 @@ const UserHeader = (props) => {
   )
 }
 
-export default React.memo(UserHeader)
+export default memo(UserHeader)

@@ -1,8 +1,8 @@
-import { Form, Radio, Space } from 'antd'
-import React, { useEffect, useState, forwardRef } from 'react'
-import styles from './styles.module.scss'
 import CCSelect from '@/components/CCSelect'
-import { onSetFields, htmlContent } from '@/helper/Common'
+import { htmlContent } from '@/helper/Common'
+import { Form } from 'antd'
+import React, { forwardRef } from 'react'
+import styles from './styles.module.scss'
 
 const CCAddress = forwardRef(({ name, label, ...props }, ref) => {
   return (

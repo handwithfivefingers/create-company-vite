@@ -1,6 +1,6 @@
 import { Button, Col, Form, Row } from 'antd'
 import clsx from 'clsx'
-import React, { forwardRef } from 'react'
+import { forwardRef } from 'react'
 import CCInput from '@/components/CCInput'
 import { SELECT } from '@/constant/Common'
 import styles from '../CreateCompany.module.scss'

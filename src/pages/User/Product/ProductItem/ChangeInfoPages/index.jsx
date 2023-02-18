@@ -1,6 +1,5 @@
-import React, { forwardRef, Suspense, lazy } from 'react'
+import { forwardRef, Suspense, lazy, useCallback } from 'react'
 import { Card, Space, Spin, Button } from 'antd'
-import { useCallback } from 'react'
 import { useLocation } from 'react-router-dom'
 
 const ChangeInforForm = lazy(() => import('@/components/Form/ChangeInforForm'))
@@ -34,7 +33,7 @@ const ChangeInfoPages = forwardRef((props, ref) => {
   const handleSaveChangeInfo = useCallback(
     (ref) => {
       const params = getParams(ref)
-      console.log(params)
+      // console.log(params)
       // return;
       return saveService(params)
     },

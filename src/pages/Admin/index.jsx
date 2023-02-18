@@ -1,8 +1,8 @@
-import { Spin, Space } from 'antd'
-import React, { Suspense } from 'react'
-import { Outlet, useNavigate } from 'react-router-dom'
 import WithAuth from '@/components/HOC/WithAuth'
+import { Space, Spin } from 'antd'
+import { Suspense } from 'react'
 import { useSelector } from 'react-redux'
+import { Outlet, useNavigate } from 'react-router-dom'
 const Admin = (props) => {
   const auth = useSelector((state) => state.authReducer)
 

@@ -1,11 +1,8 @@
-import CCInput from '@/components/CCInput'
-import { SELECT } from '@/constant/Common'
 import { htmlContent, onSetFields } from '@/helper/Common'
-import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons'
+import { PlusOutlined } from '@ant-design/icons'
 import { Button, Col, Form, Row, Select } from 'antd'
 import clsx from 'clsx'
-import React, { forwardRef, useEffect, useState } from 'react'
-import CCSelect from '../../../CCSelect'
+import { forwardRef, useEffect, useState } from 'react'
 import styles from '../CreateCompany.module.scss'
 import FormListPersonType from './FormListPersonal'
 

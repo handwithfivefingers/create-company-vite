@@ -1,8 +1,8 @@
-import React, { forwardRef, useEffect, useState, useRef } from 'react'
-import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons'
-import { Button, Col, Form, InputNumber, Row, Space, Spin } from 'antd'
 import CCInput from '@/components/CCInput'
-import { onSetFields, numToWord } from '../../helper/Common'
+import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons'
+import { Button, Col, Form, InputNumber, Row, Space } from 'antd'
+import React, { forwardRef, useEffect } from 'react'
+import { numToWord, onSetFields } from '../../helper/Common'
 
 const CCListForm = forwardRef((props, ref) => {
   const { BASE_FORM, listForm, listName, btnText, formLength, defaultLength } = props

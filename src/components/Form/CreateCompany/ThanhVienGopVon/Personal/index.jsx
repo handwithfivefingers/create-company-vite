@@ -3,7 +3,7 @@ import CCSelect from '@/components/CCSelect'
 import { SELECT } from '@/constant/Common'
 import { htmlContent, onSetFields } from '@/helper/Common'
 import { Form, InputNumber } from 'antd'
-import React, { forwardRef, useEffect } from 'react'
+import { forwardRef } from 'react'
 import styles from './styles.module.scss'
 
 const Personal = forwardRef((props, ref) => {

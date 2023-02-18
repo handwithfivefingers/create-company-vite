@@ -1,6 +1,6 @@
 import { Form } from 'antd'
 import clsx from 'clsx'
-import React, { forwardRef } from 'react'
+import { forwardRef } from 'react'
 import CCInput from '@/components/CCInput'
 import styles from '../CreateCompany.module.scss'
 import CCSelect from '../../../CCSelect'

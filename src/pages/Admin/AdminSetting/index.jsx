@@ -4,7 +4,7 @@ import { onSetFields } from '@/helper/Common'
 import AdminMailService from '@/service/AdminService/AdminMailService'
 import AdminSettingService from '@/service/AdminService/AdminSettingService'
 import { Button, Form, message, Tabs, Row, Col, Select } from 'antd'
-import React, { forwardRef, useEffect, useRef, useState } from 'react'
+import  { forwardRef, useEffect, useRef, useState } from 'react'
 import styles from './styles.module.scss'
 const { TabPane } = Tabs
 

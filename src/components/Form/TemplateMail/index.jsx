@@ -1,16 +1,12 @@
-import React, { memo, useEffect, useRef, useState } from 'react'
-import { Card, Form, Button, message, Spin, Input } from 'antd'
-import CCEditor from '../../Editor'
-import { RiArrowGoBackFill, RiCloseFill } from 'react-icons/ri'
-import styles from './styles.module.scss'
-import axios from '@/config/axios'
 import AdminMailService from '@/service/AdminService/AdminMailService'
+import { Button, Input, message, Spin } from 'antd'
 import clsx from 'clsx'
+import { memo, useEffect, useRef, useState } from 'react'
+import CCEditor from '../../Editor'
+import styles from './styles.module.scss'
 
 const TemplateMail = (props) => {
-  const [name, setName] = useState()
   const [content, setContent] = useState()
-  const [subject, setSubject] = useState()
   const [loading, setLoading] = useState(false)
   const editorRef = useRef()
   const inpRef = useRef({
@@ -49,14 +45,13 @@ const TemplateMail = (props) => {
 
       if (params.name.length <= 1) return
       if (params.content.length <= 1) return
-      
+
       if (props.type === 1) {
         let res = await AdminMailService.addTemplate(params)
         if (res.data.status === 201) {
           message.success(res.data.message)
         } else message.error(res.data.message)
-      }
-      else if (props.type === 2) {
+      } else if (props.type === 2) {
         let res = await AdminMailService.editTemplate({
           _id: props.data._id,
           ...params,

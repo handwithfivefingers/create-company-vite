@@ -1,9 +1,9 @@
+import CCInput from "@/components/CCInput";
+import { SELECT } from "@/constant/Common";
 import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
 import { Button, Col, Form, Row, Space } from "antd";
 import clsx from "clsx";
-import React, { forwardRef, useState } from "react";
-import CCInput from "@/components/CCInput";
-import { SELECT } from "@/constant/Common";
+import { forwardRef, useState } from "react";
 import styles from "./../styles.module.scss";
 
 const BASE_FORM = ["pending", "cancel"]; 

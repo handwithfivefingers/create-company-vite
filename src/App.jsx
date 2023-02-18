@@ -10,7 +10,7 @@ import { useDispatch, useSelector } from 'react-redux'
 
 import { BrowserRouter, useLocation, useRoutes } from 'react-router-dom'
 import { LAYOUT_ROUTER, UserRouter } from './constant/Route'
-import { useAuth, useDetectLocation } from './helper/Hook'
+import { useAuth, useDetectLocation, useHistoryStack } from './helper/Hook'
 import { CommonAction } from './store/actions'
 import moment from 'moment'
 import './assets/css/styles.scss'
@@ -18,6 +18,7 @@ import 'animate.css'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 // import locale from 'antd/es/locale/vi_VN'
 import 'moment/locale/vi'
+
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -36,7 +37,8 @@ ConfigProvider.config({
 moment.defaultFormat = 'DD/MM/YYYY'
 
 moment.locale('vi')
-moment().utcOffset('+07:00');
+
+moment().utcOffset('+07:00')
 
 const RouterComponent = (props) => {
   let location = useLocation()
@@ -50,11 +52,19 @@ const RouterComponent = (props) => {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    if (route !== routeDetect) {
-      setRoute(routeDetect)
-    }
+    handleDetectRoute(route, routeDetect)
     changeTitle(routeDetect?.to)
   }, [routeDetect])
+
+  const handleDetectRoute = (routeComing, routeHistory) => {
+    try {
+      if (routeHistory.from && routeHistory.to) {
+        setRoute(routeHistory)
+      }
+    } catch (error) {
+      console.log('detected route failed', error)
+    }
+  }
 
   const changeTitle = (pathname) => {
     let path = pathname.split('/').reverse()
@@ -69,7 +79,6 @@ const RouterComponent = (props) => {
     item && dispatch(CommonAction.titleChange(item.title))
   }
 
-  // return Route
   if (!elementComp) return null
 
   return elementComp
@@ -97,7 +106,6 @@ function App() {
   if (authReducer.authenticating && !authReducer.status) {
     return <LoadingScreen />
   }
-
   return (
     <div className="App">
       <QueryClientProvider client={queryClient}>

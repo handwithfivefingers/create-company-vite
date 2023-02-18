@@ -1,5 +1,4 @@
 import { Card, Col, Row, Tabs } from 'antd'
-import React from 'react'
 import styles from './styles.module.scss'
 import clsx from 'clsx'
 import { useNavigate, useLocation } from 'react-router-dom'

@@ -1,18 +1,13 @@
-import { useMutation } from '@tanstack/react-query'
 import { Button, Form, Input, message, Spin } from 'antd'
 import clsx from 'clsx'
 import { useRouter } from 'next/router'
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { RiArrowGoBackFill } from 'react-icons/ri'
 import CCEditor from '../../../../components/Editor'
 import axios from '../../../../config/axios'
 import styles from './styles.module.scss'
 
 export default function EditMail() {
-
-
-  const mutation = useMutation()
-
   const [name, setName] = useState()
 
   const [subject, setSubject] = useState()
@@ -22,8 +17,6 @@ export default function EditMail() {
   const [loading, setLoading] = useState(false)
 
   const router = useRouter()
-
-
 
   const handleSave = () => {
     if (!name) return
@@ -52,17 +45,11 @@ export default function EditMail() {
         </div>
       </div>
       <Form.Item>
-        <Input
-          placeholder={'Tiêu đề'}
-          onChange={(e) => setName(e.target.value)}
-        />
+        <Input placeholder={'Tiêu đề'} onChange={(e) => setName(e.target.value)} />
       </Form.Item>
 
       <Form.Item>
-        <Input
-          placeholder={'Subject'}
-          onChange={(e) => setSubject(e.target.value)}
-        />
+        <Input placeholder={'Subject'} onChange={(e) => setSubject(e.target.value)} />
       </Form.Item>
 
       <CCEditor content={content} onChange={(e) => setContent(e)} />

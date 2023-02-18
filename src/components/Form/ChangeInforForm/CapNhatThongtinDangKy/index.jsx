@@ -1,14 +1,12 @@
-import { Col, Form, Row, InputNumber, Select, Card } from 'antd'
-import clsx from 'clsx'
-import React, { forwardRef, useEffect } from 'react'
 import CCInput from '@/components/CCInput'
-import styles from '../DaiDienPhapLuat/styles.module.scss'
-import { onSetFields, htmlContent, numToWord } from '@/helper/Common'
+import { SELECT } from '@/constant/Common'
+import { htmlContent } from '@/helper/Common'
+import { Card, Col, Form, Row, Select } from 'antd'
+import clsx from 'clsx'
+import React, { forwardRef, useEffect, useState } from 'react'
 import CCAddress from '../../../CCAddress'
 import CCSelect from '../../../CCSelect'
-import { SELECT } from '@/constant/Common'
-import { useState } from 'react'
-import moment from 'moment'
+import styles from '../DaiDienPhapLuat/styles.module.scss'
 const BASE_FORM = ['change_info', 'update_info']
 
 const CapNhatThongTinDangKy = forwardRef((props, ref) => {

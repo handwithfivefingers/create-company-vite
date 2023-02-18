@@ -1,44 +1,44 @@
-import React, { useEffect, forwardRef, useState, useRef } from "react";
-import { Card, Timeline, Row, Col, Button, Upload, Form, Input, Space, Select, message } from "antd";
-import { UploadOutlined, StarOutlined } from "@ant-design/icons";
-import Editor from "../Editor";
-import axios from "../../config/axios";
+import { UploadOutlined } from '@ant-design/icons'
+import { Button, Card, Col, Form, message, Row, Select, Space, Timeline, Upload } from 'antd'
+import { useEffect, useRef, useState } from 'react'
+import axios from '../../config/axios'
+import Editor from '../Editor'
 
 export default function Tracking(props) {
-  const [list, setList] = useState([]);
-  const [content, setContent] = useState();
-  const formRef = useRef();
-  const editorRef = useRef();
+  const [list, setList] = useState([])
+  const [content, setContent] = useState()
+  const formRef = useRef()
+  const editorRef = useRef()
   useEffect(() => {
-    getTemplateMail();
-  }, []);
+    getTemplateMail()
+  }, [])
 
   const getTemplateMail = () => {
-    axios.get("/admin/template").then((res) => {
+    axios.get('/admin/template').then((res) => {
       if (res.data.status === 200) {
-        setList(res.data.data);
-      } else message.error(res.data.message);
-    });
-  };
+        setList(res.data.data)
+      } else message.error(res.data.message)
+    })
+  }
 
   const handleSendMailWithAttach = () => {
     if (props.onFinishScreen) {
-      props.onFinishScreen();
+      props.onFinishScreen()
     }
-  };
+  }
 
   const handleSelect = (e, o) => {
-    setContent(o.data);
-  };
+    setContent(o.data)
+  }
   const onFinish = (val) => {
-    let { template, attachments } = val;
-    let email = props.data.orderOwner.email;
-    let newContent = editorRef.current.getContent();
+    let { template, attachments } = val
+    let email = props.data.orderOwner.email
+    let newContent = editorRef.current.getContent()
     if (props.onFinishScreen) {
-      props.onFinishScreen(attachments, newContent, email);
+      props.onFinishScreen(attachments, newContent, email)
     }
-  };
-  
+  }
+
   return (
     <Card title="Chức năng gửi mail đính kèm" bordered={false}>
       <Row>
@@ -52,13 +52,13 @@ export default function Tracking(props) {
         <Col span={16}>
           <Form onFinish={onFinish} ref={formRef}>
             <Form.Item name="template">
-              <Select placeholder="Chọn mẫu tin nhắn" onSelect={handleSelect} style={{ width: "100%" }}>
+              <Select placeholder="Chọn mẫu tin nhắn" onSelect={handleSelect} style={{ width: '100%' }}>
                 {list?._template?.map((item) => {
                   return (
                     <Select.Option key={item._id} value={item._id} data={item.content}>
                       {item.name}
                     </Select.Option>
-                  );
+                  )
                 })}
               </Select>
             </Form.Item>
@@ -68,7 +68,7 @@ export default function Tracking(props) {
                 <Button icon={<UploadOutlined />}>Upload</Button>
               </Upload>
             </Form.Item>
-            <Space style={{ display: "flex", justifyContent: "center" }}>
+            <Space style={{ display: 'flex', justifyContent: 'center' }}>
               <Form.Item>
                 <Button htmlType="submit">Gửi</Button>
               </Form.Item>
@@ -77,5 +77,5 @@ export default function Tracking(props) {
         </Col>
       </Row>
     </Card>
-  );
+  )
 }

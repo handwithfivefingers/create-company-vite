@@ -1,9 +1,9 @@
-import { Col, Form, InputNumber, Row } from 'antd'
-import clsx from 'clsx'
-import React, { forwardRef, useEffect } from 'react'
 import CCInput from '@/components/CCInput'
 import { FormFieldText } from '@/constant/Common'
 import { numToWord } from '@/helper/Common'
+import { Col, Form, InputNumber, Row } from 'antd'
+import clsx from 'clsx'
+import { forwardRef } from 'react'
 import styles from './styles.module.scss'
 
 const GiaTriGopVon = forwardRef((props, ref) => {
@@ -41,9 +41,9 @@ const GiaTriGopVon = forwardRef((props, ref) => {
     ])
   }
 
-  useEffect(() => {
-    console.log(props, ref.current.getFieldsValue())
-  }, [])
+  // useEffect(() => {
+  //   console.log(props, ref.current.getFieldsValue())
+  // }, [])
 
   return (
     <Row

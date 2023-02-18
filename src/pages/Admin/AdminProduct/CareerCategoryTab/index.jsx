@@ -1,22 +1,12 @@
-import { Button, Drawer, Popconfirm, Space, Table, message, Input } from 'antd'
-import {
-  FormOutlined,
-  MinusSquareOutlined,
-  PlusSquareOutlined,
-  DeleteOutlined,
-  SearchOutlined,
-  BarsOutlined,
-  MoreOutlined,
-} from '@ant-design/icons'
-import AdminProductService from '@/service/AdminService/AdminProductService'
-import { useFetch } from '../../../../helper/Hook'
-import React, { useEffect, useState } from 'react'
-import CareerCategoryForm from './CareerCategoryForm'
-import { forwardRef } from 'react'
-import { useImperativeHandle } from 'react'
-import moment from 'moment'
-import styles from './styles.module.scss'
 import CCPagination from '@/components/CCPagination'
+import AdminProductService from '@/service/AdminService/AdminProductService'
+import { FormOutlined, MinusSquareOutlined } from '@ant-design/icons'
+import { Button, Drawer, Input, message, Popconfirm, Space, Table } from 'antd'
+import moment from 'moment'
+import React, { forwardRef, useEffect, useImperativeHandle, useState } from 'react'
+import { useFetch } from '../../../../helper/Hook'
+import CareerCategoryForm from './CareerCategoryForm'
+import styles from './styles.module.scss'
 
 const CareerCategoryTab = forwardRef((props, ref) => {
   const [data, setData] = useState([])

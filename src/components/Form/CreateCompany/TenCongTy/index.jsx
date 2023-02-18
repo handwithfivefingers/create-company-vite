@@ -4,7 +4,7 @@ import ProductService from '@/service/UserService/ProductService'
 import { CaretRightOutlined } from '@ant-design/icons'
 import { Alert, Card, Col, Collapse, Form, Input, Row } from 'antd'
 import clsx from 'clsx'
-import React, { forwardRef, useState } from 'react'
+import { forwardRef, useState } from 'react'
 import styles from '../CreateCompany.module.scss'
 
 const popData = {

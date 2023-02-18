@@ -1,14 +1,13 @@
-import { FormOutlined } from '@ant-design/icons'
-import { Button, Drawer, Form, message, Modal, Table, Tag, Tooltip } from 'antd'
-import { useEffect, useState } from 'react'
-import { MdCreditCard } from 'react-icons/md'
-import { useNavigate, useOutletContext } from 'react-router-dom'
+import CCPagination from '@/components/CCPagination'
 import { number_format } from '@/helper/Common'
 import OrderService from '@/service/UserService/OrderService'
-import moment from 'moment'
-import styles from './styles.module.scss'
+import { FormOutlined } from '@ant-design/icons'
+import { Button, Table, Tag, Tooltip } from 'antd'
 import clsx from 'clsx'
-import CCPagination from '@/components/CCPagination'
+import moment from 'moment'
+import { useEffect, useState } from 'react'
+import { useNavigate, useOutletContext } from 'react-router-dom'
+import styles from './styles.module.scss'
 
 const UserOrder = () => {
   const { animateClass } = useOutletContext()

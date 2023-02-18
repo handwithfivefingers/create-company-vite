@@ -1,6 +1,6 @@
 import { Col, Form, Row, Select } from 'antd'
 import clsx from 'clsx'
-import React, { forwardRef, useEffect, useState } from 'react'
+import { forwardRef, useEffect, useState } from 'react'
 import GlobalService from '@/service/GlobalService'
 import styles from '../CreateCompany.module.scss'
 import { useFetch } from '@/helper/Hook'

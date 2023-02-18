@@ -1,14 +1,13 @@
-import { Button, Col, Form, InputNumber, Row, Space } from 'antd'
-import clsx from 'clsx'
-import React, { forwardRef, useState, useMemo, useEffect } from 'react'
 import CCInput from '@/components/CCInput'
 import { SELECT } from '@/constant/Common'
-import styles from '../DaiDienPhapLuat/styles.module.scss'
-import CCAddress from '../../../CCAddress'
-import { onSetFields, htmlContent, numToWord } from '@/helper/Common'
-import CCSelect from '../../../CCSelect'
-import CCListForm from '@/components/CCListForm'
+import { htmlContent, numToWord, onSetFields } from '@/helper/Common'
+import { Col, Form, InputNumber, Row } from 'antd'
+import clsx from 'clsx'
+import React, { forwardRef, useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
+import CCAddress from '../../../CCAddress'
+import CCSelect from '../../../CCSelect'
+import styles from '../DaiDienPhapLuat/styles.module.scss'
 /**
  * @description Bên bán -> A
  * @description Bên mua -> B

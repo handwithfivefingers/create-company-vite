@@ -1,12 +1,8 @@
-import { DownOutlined, MenuOutlined } from '@ant-design/icons'
-import { Button, Drawer, Dropdown, Image, Menu, Grid } from 'antd'
+import { Grid, Image } from 'antd'
 import clsx from 'clsx'
-// import { signOut, useSession } from "next-auth/react";
-import { Link } from 'react-router-dom'
-import { useNavigate, useLocation } from 'react-router-dom'
-// import { useRouter } from "next/router";
-import React, { useEffect, useState } from 'react'
+import { Link, useLocation } from 'react-router-dom'
 import Logo from '@/assets/img/Logo.png'
+import React, { useEffect, useState } from 'react'
 import styles from './CustomHeader.module.scss'
 
 const { useBreakpoint } = Grid

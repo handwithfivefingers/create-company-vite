@@ -1,7 +1,6 @@
 import { Button, Card, Form, Input, Select } from 'antd'
 import React, { useEffect, useRef } from 'react'
 import AdminProductService from '@/service/AdminService/AdminProductService'
-import { useFetch } from '../../../../../helper/Hook'
 
 const CareerCategoryForm = ({ data, onFinishScreen, id, name }) => {
   const formRef = useRef()

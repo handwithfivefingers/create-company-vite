@@ -29,7 +29,7 @@ export default function HomePage() {
 
   if (authReducer.status) {
     if (type !== 'POP') {
-      navigate(-1)
+      navigate(route.from)
     } else {
       navigate(authReducer.role)
     }

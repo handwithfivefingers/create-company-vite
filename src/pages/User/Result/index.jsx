@@ -1,6 +1,5 @@
-import React from 'react'
-import { Result, Button } from 'antd'
-import { useNavigate, useSearchParams, useNavigationType, useOutletContext } from 'react-router-dom'
+import { Button, Result } from 'antd'
+import { useNavigate, useNavigationType, useOutletContext, useSearchParams } from 'react-router-dom'
 export default function CCResult() {
   let [params] = useSearchParams()
   const { animateClass } = useOutletContext()

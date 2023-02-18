@@ -1,12 +1,11 @@
 import { BarsOutlined, DeleteOutlined, FormOutlined, MoreOutlined, PlusSquareOutlined } from '@ant-design/icons'
-
+import CCPagination from '@/components/CCPagination'
 import TemplateMail from '@/components/Form/TemplateMail'
 import AdminMailService from '@/service/AdminService/AdminMailService'
-import { Button, Col, Drawer, message, PageHeader, Row, Segmented, Table } from 'antd'
+import { Button, Drawer, message, PageHeader, Segmented, Table } from 'antd'
 import parser from 'html-react-parser'
 import { memo, useEffect, useState } from 'react'
 import styles from './styles.module.scss'
-import CCPagination from '@/components/CCPagination'
 
 function ListTemplateMail(props) {
   // const router = useRouter();

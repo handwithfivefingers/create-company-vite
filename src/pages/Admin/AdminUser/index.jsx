@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react'
-import { Card, message, Modal, Table, Button, PageHeader } from 'antd'
-import AdminUserService from '@/service/AdminService/AdminUserService'
-import styles from './styles.module.scss'
-import CCPagination from '@/components/CCPagination'
 import AdminHeader from '@/components/Admin/AdminHeader'
+import CCPagination from '@/components/CCPagination'
+import AdminUserService from '@/service/AdminService/AdminUserService'
+import { Button, message, Modal, Table } from 'antd'
 import clsx from 'clsx'
+import { useEffect, useState } from 'react'
+import styles from './styles.module.scss'
 const AdminUser = () => {
   const [loading, setLoading] = useState(false)
   const [data, setData] = useState([])

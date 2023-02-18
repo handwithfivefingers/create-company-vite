@@ -1,9 +1,6 @@
-import { Button, Form, Input, Space, Spin } from 'antd'
+import { Button, Form, Input, Spin } from 'antd'
 import clsx from 'clsx'
-import React, { forwardRef, useRef } from 'react'
-import { useEffect, useImperativeHandle } from 'react'
-import { FcGoogle, FcUnlock } from 'react-icons/fc'
-import AuthService from '../../../../service/AuthService'
+import React, { forwardRef, useEffect, useRef } from 'react'
 import styles from './Login.module.scss'
 
 const LoginForm = forwardRef((props, ref) => {
@@ -45,7 +42,9 @@ const LoginForm = forwardRef((props, ref) => {
             <Input.Password />
           </Form.Item>
           <Form.Item>
-            <div style={{ display: 'flex', justifyContent: 'center', padding: '8px 0', flexDirection: 'column', gap: 12 }}>
+            <div
+              style={{ display: 'flex', justifyContent: 'center', padding: '8px 0', flexDirection: 'column', gap: 12 }}
+            >
               <Button type="primary" htmlType="submit" block>
                 Đăng nhập
               </Button>

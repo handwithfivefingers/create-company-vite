@@ -3,18 +3,17 @@ import CCSelect from '@/components/CCSelect'
 import { SELECT } from '@/constant/Common'
 import { htmlContent, onSetFields } from '@/helper/Common'
 import { Form, InputNumber } from 'antd'
-import React, { forwardRef, useEffect } from 'react'
+import { forwardRef } from 'react'
 import styles from './styles.module.scss'
 
 const OriginalPerson = forwardRef((props, ref) => {
-
   const { BASE_FORM, type } = props
 
-//   console.log('OriginalPerson', props.item)
+  //   console.log('OriginalPerson', props.item)
 
-//   useEffect(() => {
-//     onSetFields(BASE_FORM, props.item, ref)
-//   }, [props])
+  //   useEffect(() => {
+  //     onSetFields(BASE_FORM, props.item, ref)
+  //   }, [props])
 
   return (
     <div className={styles.groupInput}>
@@ -149,7 +148,6 @@ const OriginalPerson = forwardRef((props, ref) => {
         bodyStyle={styles}
         required
       />
-
     </div>
   )
 })

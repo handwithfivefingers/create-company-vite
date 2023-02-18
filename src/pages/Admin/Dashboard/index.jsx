@@ -1,14 +1,12 @@
-import VirtualScroll from '@/components/VirtualScroll'
 import AdminDashboardService from '@/service/AdminService/AdminDashboardService'
-import { Avatar, Card, Col, List, message, Row, Skeleton, Tabs } from 'antd'
+import { useQuery } from '@tanstack/react-query'
+import { Avatar, Card, Col, List, Row, Tabs } from 'antd'
 import clsx from 'clsx'
+import moment from 'moment'
 import VirtualList from 'rc-virtual-list'
-import React, { useEffect, useState, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { GrStatusWarning } from 'react-icons/gr'
 import styles from './styles.module.scss'
-import { makeid } from '@/helper/Common'
-import { useQuery } from '@tanstack/react-query'
-import moment from 'moment'
 const { TabPane } = Tabs
 const AdminDashboard = () => {
   const logsRef = useRef()

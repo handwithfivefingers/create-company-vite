@@ -1,14 +1,12 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
+import { useNavigate, useNavigationType } from 'react-router-dom'
 import LoginForm from './Login'
 import RegisterForm from './Register'
-import { useNavigate, useLocation, useNavigationType } from 'react-router-dom'
-
-import { Tabs } from 'antd'
-import { AuthAction } from '@/store/actions'
-import { useDispatch, useSelector } from 'react-redux'
 import { RouterContext } from '@/helper/Context'
+import { AuthAction } from '@/store/actions'
+import { Tabs } from 'antd'
+import { useDispatch, useSelector } from 'react-redux'
 import styles from './styles.module.scss'
-import { forwardRef } from 'react'
 const { TabPane } = Tabs
 
 export default function LoginPage() {
@@ -68,10 +66,10 @@ export default function LoginPage() {
 
   if (authReducer.status) {
     if (type !== 'POP') {
-      let lastRoute = route.listHistory[route.listHistory.length - 1]
+      let lastRoute = route.from
 
-      if (lastRoute?.to !== '' || lastRoute?.to !== '/' || lastRoute?.to !== '/user') {
-        navigate(-1)
+      if (lastRoute !== '' || lastRoute !== '/' || lastRoute !== '/user') {
+        navigate(lastRoute)
       } else {
         navigate('/user/san-pham')
       }

@@ -1,10 +1,10 @@
 import { Form, Select } from 'antd'
 import clsx from 'clsx'
-import { forwardRef, useState, useEffect } from 'react'
+import moment from 'moment'
+import { forwardRef, useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import styles from './styles.module.scss'
 import TamNgungKinhDoanh from './TamNgungKinhDoanh'
-import moment from 'moment'
 const TamHoanForm = forwardRef((props, ref) => {
   const [selectType, setSelectType] = useState({
     type: 1,
