@@ -4,13 +4,10 @@ import { AuthAction } from '@/store/actions'
 
 const useAuth = () => {
   const authReducer = useSelector((state) => state.authReducer)
-
   const dispatch = useDispatch()
-
   useEffect(() => {
     dispatch(AuthAction.AuthUser())
   }, [])
-
   return authReducer // status:true false, role: admin user
 }
 

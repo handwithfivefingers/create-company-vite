@@ -24,7 +24,7 @@ module.exports = class GitAction {
     const restartPm2 = 'pm2 reload ecosystem.config.js'
 
     // const chormium = cd + '/node_modules/puppeteer' + '/.local-chromium'
-    const childProcess = fork(`${global.__basedir}/test.js`)
+    const childProcess = fork(`${global.__basedir}/git_webhook.js`)
     try {
       res.end()
 

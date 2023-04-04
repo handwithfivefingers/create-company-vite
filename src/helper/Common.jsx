@@ -91,6 +91,7 @@ const checkMoment = (date) => {
   } else {
     console.log('this is a moment object')
   }
+  return date.isValid
 }
 
 const log = (...rest) => {

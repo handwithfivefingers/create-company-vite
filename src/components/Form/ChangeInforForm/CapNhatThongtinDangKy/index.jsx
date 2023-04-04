@@ -9,13 +9,79 @@ import CCSelect from '../../../CCSelect'
 import styles from '../DaiDienPhapLuat/styles.module.scss'
 const BASE_FORM = ['change_info', 'update_info']
 
-const CapNhatThongTinDangKy = forwardRef((props, ref) => {
-  //   useEffect(() => {
-  //     if (ref) {
-  //       onSetFields(['change_info', 'update_info', 'type'], 'Tăng vốn góp', ref)
-  //     }
-  //   }, [ref])
+const InformationField = ({ forwardRef }) => {
+  return (
+    <Card className="box__shadow" title="Cập nhật thông tin cá nhân">
+      <CCInput name={[...BASE_FORM, 'information', 'name']} label="Họ và tên" required />
+      <CCInput
+        name={[...BASE_FORM, 'information', 'birth_day']}
+        label="Ngày sinh"
+        type="date"
+        placeholder="15/01/1966 - ENTER"
+        required
+      />
 
+      <CCInput
+        name={[...BASE_FORM, 'information', 'doc_type']}
+        label="Loại giấy tờ pháp lý"
+        options={SELECT.DOC_TYPE}
+        required
+        type="select"
+      />
+
+      <CCInput name={[...BASE_FORM, 'information', 'doc_code']} label="Số CMND/ CCCD/ Hộ chiếu" />
+
+      <CCInput
+        name={[...BASE_FORM, 'information', 'doc_time_provide']}
+        label="Ngày cấp"
+        type="date"
+        placeholder="15/01/2015 - ENTER"
+        required
+      />
+
+      <CCSelect.SelectDocProvide
+        ref={forwardRef}
+        name={[...BASE_FORM, 'information', 'doc_place_provide']}
+        label="Nơi cấp"
+        placeholder="Bấm vào đây"
+        required
+      />
+
+      <CCAddress name={[...BASE_FORM, 'information']} ref={forwardRef} required />
+
+      <CCInput name={[...BASE_FORM, 'information', 'phone']} label="Số điện thoại" required />
+
+      <CCInput name={[...BASE_FORM, 'information', 'email']} label="Địa chỉ email" required />
+
+      <CCInput name={[...BASE_FORM, 'information', 'website']} label="Địa chỉ website" required />
+    </Card>
+  )
+}
+
+const PhoneField = ({ forwardRef }) => {
+  return (
+    <Card className="box__shadow" title="Cập nhật số điện thoại">
+      <CCInput name={[...BASE_FORM, 'phone']} label="Số điện thoại" required />
+    </Card>
+  )
+}
+
+const EmailField = ({ forwardRef }) => {
+  return (
+    <Card className="box__shadow" title="Cập nhật địa chỉ email">
+      <CCInput name={[...BASE_FORM, 'email']} label="Email" required />
+    </Card>
+  )
+}
+
+const WebsiteField = ({ forwardRef }) => {
+  return (
+    <Card className="box__shadow" title="Cập nhật địa chỉ website">
+      <CCInput name={[...BASE_FORM, 'website']} label="Website" required />
+    </Card>
+  )
+}
+const CapNhatThongTinDangKy = forwardRef((props, ref) => {
   const [select, setSelect] = useState([])
 
   useEffect(() => {
@@ -28,113 +94,8 @@ const CapNhatThongTinDangKy = forwardRef((props, ref) => {
     }
   }, [ref])
 
-  //   const handleInpChange = (e, pathName) => {
-  //     let numInp = ref.current.getFieldValue([...pathName, 'num'])
+  const handleSelect = (val) => setSelect(val)
 
-  //     if (timer) clearTimeout(timer)
-  //     timer = setTimeout(() => {
-  //       let transform = numToWord(numInp)
-  //       let upperLetter = transform.charAt(0).toUpperCase() + transform.slice(1)
-
-  //       onSetFields([...pathName, 'char'], upperLetter, ref)
-  //     }, 500)
-  //   }
-
-  const handleSelect = (val) => {
-    // console.log('select', val)
-    setSelect(val)
-    // console.log(ref.current.getFieldsValue())
-  }
-
-  const InformationField = () => {
-    return (
-      <Card className="box__shadow" title="Cập nhật thông tin cá nhân">
-        <CCInput name={[...BASE_FORM, 'information', 'name']} label="Họ và tên" required />
-        <CCInput
-          name={[...BASE_FORM, 'information', 'birth_day']}
-          label="Ngày sinh"
-          type="date"
-          placeholder="15/01/1966 - ENTER"
-          required
-          // onChange={(date, dateString) => {
-          //   // console.log(date, dateString)
-
-          //   // console.log(dateString)
-          //   // console.log(new Date(dateString))
-          //   // console.log()
-
-          //   let d = moment(dateString, 'DD/MM/YYYY')
-          //   console.log(d, dateString)
-
-          //   onSetFields([...BASE_FORM, 'information', 'birth_day'], d, ref)
-
-          //   // console.log(moment(new Date('12/12/2022')))
-          //   // console.log(ref.current.getFieldValue([...BASE_FORM, 'information']))
-          // }}
-        />
-
-        <CCInput
-          name={[...BASE_FORM, 'information', 'doc_type']}
-          label="Loại giấy tờ pháp lý"
-          options={SELECT.DOC_TYPE}
-          required
-          type="select"
-        />
-
-        <CCInput name={[...BASE_FORM, 'information', 'doc_code']} label="Số CMND/ CCCD/ Hộ chiếu" />
-
-        <CCInput
-          name={[...BASE_FORM, 'information', 'doc_time_provide']}
-          label="Ngày cấp"
-          type="date"
-          placeholder="15/01/2015 - ENTER"
-          required
-        />
-
-        <CCSelect.SelectDocProvide
-          ref={ref}
-          name={[...BASE_FORM, 'information', 'doc_place_provide']}
-          label="Nơi cấp"
-          placeholder="Bấm vào đây"
-          required
-        />
-
-        <CCAddress name={[...BASE_FORM, 'information']} ref={ref} required />
-
-        <CCInput name={[...BASE_FORM, 'information', 'phone']} label="Số điện thoại" required />
-
-        <CCInput name={[...BASE_FORM, 'information', 'email']} label="Địa chỉ email" required />
-
-        <CCInput name={[...BASE_FORM, 'information', 'website']} label="Địa chỉ website" required />
-      </Card>
-    )
-  }
-
-  const PhoneField = () => {
-    return (
-      <Card className="box__shadow" title="Cập nhật số điện thoại">
-        <CCInput name={[...BASE_FORM, 'phone']} label="Số điện thoại" required/>
-      </Card>
-    )
-  }
-
-  const EmailField = () => {
-    return (
-      <Card className="box__shadow" title="Cập nhật địa chỉ email">
-        <CCInput name={[...BASE_FORM, 'email']} label="Email" required/>
-      </Card>
-    )
-  }
-
-  const WebsiteField = () => {
-    return (
-      <Card className="box__shadow" title="Cập nhật địa chỉ website">
-        <CCInput name={[...BASE_FORM, 'website']} label="Website" required/>
-      </Card>
-    )
-  }
-
-  console.log('rendered')
   return (
     <Form.Item
       label={<h3>Cập nhật thông tin đăng ký doanh nghiệp</h3>}
@@ -170,7 +131,7 @@ const CapNhatThongTinDangKy = forwardRef((props, ref) => {
           if (item === 'information')
             return (
               <Col lg={12} sm={24}>
-                <InformationField key={[item, index]} />
+                <InformationField key={[item, index]} forwardRef={ref} />
               </Col>
             )
           else if (item === 'phone')

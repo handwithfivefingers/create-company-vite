@@ -1,10 +1,9 @@
 import { Button, Card, Form, Input, message, Typography } from 'antd'
 import clsx from 'clsx'
-import React, { useRef, useState } from 'react'
+import React, { useRef, useState , useEffect} from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import styles from './styles.module.scss'
 import AuthService from '@/service/AuthService'
-import { useEffect } from 'react'
 const { Text, Link } = Typography
 export default function ForgotPassword() {
   const [loading, setLoading] = useState(false)
@@ -83,9 +82,7 @@ export default function ForgotPassword() {
   const resetPassword = async (val) => {
     try {
       setLoading(true)
-
       let res = await AuthService.resetPassword(val)
-
       if (res.status !== 200) throw { message: 'Something went wrong' }
       message.success(res.data?.data.message || res.data.message)
       navigate('/')
@@ -102,7 +99,7 @@ export default function ForgotPassword() {
       title="Quên mật khẩu"
       className={styles.card}
       extra={[
-        <Button type="text" onClick={() => navigate('/')}>
+        <Button type="text" onClick={() => navigate('/')} key={'forgot_password'}>
           Quay lại
         </Button>,
       ]}

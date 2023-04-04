@@ -22,18 +22,15 @@ export default function LoginPage() {
 
   const { route } = useContext(RouterContext)
 
-  const authReducer = useSelector((state) => state.authReducer)
+  const { status, role } = useSelector((state) => state.authReducer)
 
   const navigate = useNavigate()
 
   const dispatch = useDispatch()
 
-  let type = useNavigationType()
-
   useEffect(() => {
     loadingScript()
-
-    if (route.to && authReducer.status) {
+    if (route.to && status) {
       navigate(route.to)
     }
   }, [])
@@ -64,24 +61,6 @@ export default function LoginPage() {
     setLoading(false)
   }
 
-  if (authReducer.status) {
-    if (type !== 'POP') {
-      let lastRoute = route.from
-
-      if (lastRoute !== '' || lastRoute !== '/' || lastRoute !== '/user') {
-        navigate(lastRoute)
-      } else {
-        navigate('/user/san-pham')
-      }
-    } else {
-      if (authReducer.role === 'user') {
-        navigate('/user/san-pham')
-      } else {
-        navigate(authReducer.role)
-      }
-    }
-  }
-
   const loadingScript = () => {
     if (!window?.google) {
       let ggScript = document.createElement('script')
@@ -95,6 +74,20 @@ export default function LoginPage() {
           setReady(true)
         }
       }
+    }
+  }
+
+  let type = useNavigationType()
+
+  if (status) {
+    if (type !== 'POP') {
+      if (route.from) {
+        navigate(route.from)
+      } else {
+        navigate(role)
+      }
+    } else {
+      navigate(role)
     }
   }
 

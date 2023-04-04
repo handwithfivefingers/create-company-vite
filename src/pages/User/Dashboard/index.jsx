@@ -1,8 +1,6 @@
-import { Card, Col, Row, Tabs } from 'antd'
-import styles from './styles.module.scss'
-import clsx from 'clsx'
-import { useNavigate, useLocation } from 'react-router-dom'
+import { Col, Row } from 'antd'
 import { useEffect } from 'react'
+import { useLocation, useNavigate } from 'react-router-dom'
 
 const UserDashboard = () => {
   const navigate = useNavigate()

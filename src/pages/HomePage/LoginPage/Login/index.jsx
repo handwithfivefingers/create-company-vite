@@ -5,12 +5,13 @@ import styles from './Login.module.scss'
 
 const LoginForm = forwardRef((props, ref) => {
   const ggRef = useRef()
+  const { ggScript, loginWithGoogle, loading, onFinish, forgotPassword } = props
 
   useEffect(() => {
-    if (props.ggScript) {
+    if (ggScript) {
       handleScriptLoaded()
     }
-  }, [props.ggScript])
+  }, [ggScript])
 
   const handleScriptLoaded = () => {
     try {
@@ -26,15 +27,16 @@ const LoginForm = forwardRef((props, ref) => {
   }
 
   const handleCredentialResponse = async (response) => {
-    if (props.loginWithGoogle) {
-      return props?.loginWithGoogle({ type: 'google', ...response })
+    if (loginWithGoogle) {
+      return loginWithGoogle({ type: 'google', ...response })
     }
   }
+
   return (
     <div className={clsx([styles.loginWrap, 'container'])}>
       <h1>Đăng nhập</h1>
-      <Spin spinning={props.loading}>
-        <Form ref={ref} onFinish={props.onFinish} layout="vertical">
+      <Spin spinning={loading}>
+        <Form ref={ref} onFinish={onFinish} layout="vertical">
           <Form.Item name="phone" label="Số điện thoại">
             <Input />
           </Form.Item>
@@ -51,7 +53,7 @@ const LoginForm = forwardRef((props, ref) => {
 
               <div ref={ggRef} className={styles.googleBtn} />
 
-              <Button type="link" onClick={props?.forgotPassword}>
+              <Button type="link" onClick={forgotPassword}>
                 Quên mật khẩu
               </Button>
             </div>

@@ -35,10 +35,12 @@ export default function CCResult() {
         </p>
       }
       extra={[
-        <Button type="primary" onClick={() => navigate('/user/order')}>
+        <Button type="primary" onClick={() => navigate('/user/order')} key={['_check']}>
           Kiểm tra đơn hàng
         </Button>,
-        <Button onClick={() => navigate('/user/san-pham')}>Về trang sản phẩm</Button>,
+        <Button onClick={() => navigate('/user/san-pham')} key={['_back']}>
+          Về trang sản phẩm
+        </Button>,
       ]}
     />
   )

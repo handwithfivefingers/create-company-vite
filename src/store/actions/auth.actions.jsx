@@ -3,26 +3,26 @@ import axios from '@/config/axios'
 import AuthService from '@/service/AuthService'
 import { AUTH, AUTH_LOGIN, AUTH_LOGOUT, AUTH_REGISTER } from '../type/auth.type'
 export const AuthUser = () => {
-  return (dispatch) => {
+  return async (dispatch) => {
     dispatch({
       type: AUTH.AUTH_REQUEST,
     })
-    axios
-      .post('/auth')
-      .then((res) => {
-        dispatch({
-          type: AUTH.AUTH_SUCCESS,
-          payload: {
-            status: res.data.authenticate,
-            role: res.data.role,
-          },
-        })
+    try {
+      const response = await axios.post('/auth')
+
+      dispatch({
+        type: AUTH.AUTH_SUCCESS,
+        payload: {
+          status: response.data.authenticate,
+          role: response.data.role,
+        },
       })
-      .catch((err) => {
-        dispatch({
-          type: AUTH.AUTH_FAILURE,
-        })
+      
+    } catch (error) {
+      dispatch({
+        type: AUTH.AUTH_FAILURE,
       })
+    }
   }
 }
 

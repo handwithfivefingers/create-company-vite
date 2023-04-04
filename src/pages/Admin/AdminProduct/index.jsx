@@ -43,7 +43,6 @@ const AdminProduct = (props) => {
 
   const onHandleAddCareerCategory = () => {
     try {
-      console.log(productRef.current)
       return productRef.current.addCareerCategory()
     } catch (err) {
       setTimeout(onHandleAddCareerCategory, 1000)

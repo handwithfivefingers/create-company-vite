@@ -116,7 +116,7 @@ const InputPassword = (props) => {
       rules={[{ required: rest?.required, message: rest?.message }]}
       required={rest?.required}
     >
-      <InputNumber
+      <Input.Password
         onChange={props?.onChange}
         style={{ ...props.style, width: '100%' }}
         formatter={props?.formatter}

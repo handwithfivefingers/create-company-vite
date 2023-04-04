@@ -37,7 +37,6 @@ export default function CreateCompanyPreview(props) {
                   let html = null
 
                   if (item.present_person === 'personal') {
-                    console.log('CreateCompanyPreview present_person', item)
                     html = (
                       <Col lg={12} md={24} key={[item, index]}>
                         <Card className="box__shadow" size="small" title={`Thành viên góp vốn ${index + 1}`}>

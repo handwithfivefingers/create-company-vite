@@ -26,7 +26,7 @@ const { connectDB } = new db()
 
 const { onInit } = new appConfig(app)
 
-const { task, backupDB } = new Cronjob()
+const { task, backupDB, forkSSL } = new Cronjob()
 
 initEnvLoaded()
 
@@ -41,6 +41,7 @@ app.listen(RUNTIME_PORT, async () => {
 
   backupDB.start()
 
-  console.log(`Server is running ${RUNTIME_PORT}`)
+  forkSSL.start()
 
+  console.log(`Server is running on Port ${RUNTIME_PORT}`)
 })

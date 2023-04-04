@@ -35,7 +35,7 @@ const CreateCompanyPages = forwardRef((props, ref) => {
   }
 
   return (
-    <Card className="card-boxShadow">
+    <Card className="card-boxShadow card-scrollTop">
       <Suspense
         fallback={
           <div className="container spin-suspense" key="create_company_page_suspense">

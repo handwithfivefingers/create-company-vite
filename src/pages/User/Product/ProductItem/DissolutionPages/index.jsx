@@ -40,7 +40,7 @@ const DissolutionPages = forwardRef((props, ref) => {
     [data],
   )
   return (
-    <Card className="card-boxShadow">
+    <Card className="card-boxShadow card-scrollTop">
       <Suspense
         fallback={
           <div className="container spin-suspense">

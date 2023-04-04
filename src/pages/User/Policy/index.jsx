@@ -1,14 +1,11 @@
 import { CaretRightOutlined } from '@ant-design/icons'
 import { Card, Collapse, Descriptions } from 'antd'
 import clsx from 'clsx'
-import { useNavigate, useOutletContext } from 'react-router-dom'
+import { useOutletContext } from 'react-router-dom'
 import styles from './styles.module.scss'
 const { Panel } = Collapse
 export default function Policy() {
   const { animateClass } = useOutletContext()
-
-  let navigate = useNavigate()
-
   return (
     <div className={clsx([animateClass, styles.orderWrapper])}>
       <div className="cc-scroll" style={{ backgroundColor: '#fff' }}>

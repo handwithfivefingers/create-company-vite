@@ -110,10 +110,7 @@ const PDFViewer = (props) => {
         let params = {
           path: '/lib',
           initialDoc,
-          // extension: 'docx',
-          // showLocalFilePicker: true,
           fullAPI: true,
-          // loadAsPDF: true,
         }
 
         let instance = await WebViewer(params, ref.current)
@@ -129,18 +126,7 @@ const PDFViewer = (props) => {
           })
 
           documentViewer.addEventListener('documentLoaded', async () => {
-            // await PDFNet.initialize();
-            // const doc = documentViewer.getDocument();
-            // const pdfDoc = await doc.getPDFDoc();
-            // Ensure that we have our first page.
-            // await pdfDoc.requirePage(1);
-
-            // Run our main function using 'runWithCleanup'
-            // await PDFNet.runWithCleanup(async () => console.log('Running main function...'));
-
-            // Refresh the cache with the newly updated document
             documentViewer.refreshAll()
-            // Update viewer with new document
             documentViewer.updateView()
           })
           // Handle Plugin

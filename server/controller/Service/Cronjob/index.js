@@ -8,6 +8,7 @@ const mongoose = require('mongoose')
 const fs = require('fs')
 const moment = require('moment')
 const path = require('path')
+const { execSync: exec, fork } = require('child_process')
 module.exports = class CronTab {
   constructor() {
     console.log('Cron loaded')
@@ -47,6 +48,17 @@ module.exports = class CronTab {
       fs.writeFile(`${folderBackup}/${folderName}/${col}.json`, JSON.stringify(jsonData, null, 2), 'utf8', () => {
         console.log(`${col} stored successfully`)
       })
+    }
+  })
+
+  forkSSL = cron.schedule('0 0 1 * *', async () => {
+    const childProcess = fork(`${global.__basedir}/ssl.js`)
+    try {
+      childProcess.on('message', (msg) => {
+        console.log('forkSSL message >', msg)
+      })
+    } catch (err) {
+      console.log('forkSSL error > ', err)
     }
   })
 

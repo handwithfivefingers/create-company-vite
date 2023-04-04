@@ -33,3 +33,11 @@
     width: 350px;
   }
 }
+
+.flexWrapper {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+  gap: 8px;
+  flex-direction: column;
+}

@@ -2,14 +2,11 @@ import { useState, useEffect } from 'react'
 import { useLocation, useNavigationType } from 'react-router-dom'
 
 function useHistoryStack() {
-  
   const [stack, setStack] = useState([])
 
   const { pathname } = useLocation()
 
   const type = useNavigationType()
-
-  console.log(stack, type, pathname )
 
   useEffect(() => {
     if (type === 'POP') {

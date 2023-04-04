@@ -1,13 +1,12 @@
-import React, { useContext, useEffect, useRef, useState, Suspense, lazy } from 'react'
+import React, { Suspense, useContext, useEffect } from 'react'
 
-import { Outlet, useNavigate, useNavigationType } from 'react-router-dom'
-import AuthService from '@/service/AuthService'
-import { useDispatch, useSelector } from 'react-redux'
+import CustomHeader from '@/components/CustomHeader'
+import Footer from '@/components/Footer'
 import { RouterContext } from '@/helper/Context'
 import { Layout, Spin } from 'antd'
-import CustomHeader from '@/components/CustomHeader'
 import clsx from 'clsx'
-import Footer from '@/components/Footer'
+import { useSelector } from 'react-redux'
+import { Outlet, useNavigate, useNavigationType } from 'react-router-dom'
 import styles from './styles.module.scss'
 
 const { Content } = Layout
@@ -15,25 +14,14 @@ const { Content } = Layout
 export default function HomePage() {
   const { route } = useContext(RouterContext)
 
-  const authReducer = useSelector((state) => state.authReducer)
-
   const navigate = useNavigate()
 
-  let type = useNavigationType()
-
   useEffect(() => {
-    if (route.to && authReducer.status) {
-      navigate(route.to)
+    if (route.to && status) {
+      if (route.to !== '/') navigate(route.to)
+      else navigate('/user')
     }
   }, [])
-
-  if (authReducer.status) {
-    if (type !== 'POP') {
-      navigate(route.from)
-    } else {
-      navigate(authReducer.role)
-    }
-  }
 
   return (
     <Layout style={{ background: '#fff', minHeight: '100vh' }}>

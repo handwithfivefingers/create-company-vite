@@ -35,24 +35,12 @@ const VirtualScroll = (props) => {
   const scroll = useCallback(
     (event) => {
       const container = event.target
-
       const delta = container.scrollTop - lastScrollTop.current
-
       lastScrollTop.current = container.scrollTop
-
       const isPositive = delta >= 0
-      // console.log('delta', delta);
-
       anchorItem.current.offset += delta
-
       let tempFirst = firstItem
-
       tempFirst = Math.min(list.length - VISIBLE_COUNT, anchorItem.current.index - BUFFER_SIZE)
-
-      // console.log('anchorItem', anchorItem.current);
-
-      // console.log('tempFirst:', tempFirst);
-
       updateAnchorItem(container)
     },
     [list, anchorItem],

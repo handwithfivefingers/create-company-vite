@@ -1,13 +1,13 @@
 import CCSteps from '@/components/CCHeaderSteps'
 import { CREATE_COMPANY_STEP, DISSOLUTION_STEP, PENDING_STEP } from '@/constant/Step'
 import ProductService from '@/service/UserService/ProductService'
-import { FileExcelOutlined } from '@ant-design/icons'
-import { List, message, notification, Spin } from 'antd'
+import { Spin, message } from 'antd'
 import { lazy, useCallback, useEffect, useRef, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useFetch } from '../../../../helper/Hook'
 import styles from './styles.module.scss'
-
+import { MessageAction } from '@/store/actions'
+import { useDispatch, useSelector } from 'react-redux'
 // import CreateCompanyPages from './CreateCompanyPages'
 const CreateCompanyPages = lazy(() => import('./CreateCompanyPages'))
 const ChangeInfoPages = lazy(() => import('./ChangeInfoPages'))
@@ -39,6 +39,7 @@ const UserProductItem = (props) => {
   const [loading, setLoading] = useState(false)
 
   let params = useParams()
+  const dispatch = useDispatch()
 
   const {
     data: productData,
@@ -54,6 +55,14 @@ const UserProductItem = (props) => {
 
   const navigate = useNavigate()
 
+  const { errorList } = useSelector((state) => state.messageReducer)
+
+  useEffect(() => {
+    if (errorList.length > 0) {
+      const cardScrollTop = document.querySelector('.card-scrollTop')
+      cardScrollTop?.scrollIntoView()
+    }
+  }, [errorList])
   useEffect(() => {
     if (productData && status === 'success') {
       setData({ ...productData, data: productData.data.sort((a, b) => a.type - b.type) })
@@ -66,8 +75,7 @@ const UserProductItem = (props) => {
 
   const Prev = () => setCurrent(current - 1)
 
-  const setDataOutput = (output) => {
-  }
+  const setDataOutput = (output) => {}
 
   const renderFormByType = (type) => {
     const configs = {
@@ -210,17 +218,21 @@ const UserProductItem = (props) => {
   }
 
   const openNotification = (errorList) => {
-    notification.open({
-      message: ``,
-      icon: <FileExcelOutlined style={{ color: 'var(--light)' }} />,
-      description: (
-        <List size="small" dataSource={errorList} renderItem={(item) => <List.Item>{item.errors}</List.Item>} />
-      ),
+    dispatch(MessageAction.setErrorsMessage(errorList))
 
-      style: {
-        width: 400,
-      },
-    })
+    // notification.open({
+    //   message: ``,
+    //   icon: <FileExcelOutlined style={{ color: 'var(--light)' }} />,
+    //   description: (
+    //     // <List size="small" dataSource={errorList} renderItem={(item) => <List.Item>{item.errors}</List.Item>} />
+    //     <Alert type="error" message={errorList.map((item) => item.errors)} banner />
+    //   ),
+
+    //   style: {
+    //     width: 400,
+    //   },
+    // })
+    // <Alert type="error" message={errorList.map((item) => item.errors)} banner />
   }
 
   return (

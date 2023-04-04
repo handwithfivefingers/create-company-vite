@@ -1,11 +1,11 @@
 import WithAuth from '@/components/HOC/WithAuth'
 import { Space, Spin } from 'antd'
-import { Suspense, useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
+import { Suspense, useEffect, useState, useMemo } from 'react'
 import { Outlet } from 'react-router-dom'
 import { useFetch } from '../../helper/Hook'
 import ProfileService from '../../service/UserService/ProfileService'
 const User = () => {
+  const renderTidio = useMemo(() => <Tidio />, [])
   return (
     <>
       <Suspense
@@ -22,23 +22,19 @@ const User = () => {
             animateClass: 'animate__animated animate__fadeIn animate__faster',
           }}
         />
+        {renderTidio}
       </Suspense>
-      <Tidio />
     </>
   )
 }
 
 const Tidio = () => {
-  const authReducer = useSelector((state) => state.authReducer)
   const [ready, setReady] = useState(false)
-  const {
-    data: profileData,
-    refetch,
-    status,
-    isLoading,
-  } = useFetch({
+  const { data: profileData } = useFetch({
     cacheName: ['userProfile'],
     fn: () => fetchProfile(),
+    refetchInterval: false,
+    refetchOnWindowFocus: false,
   })
 
   const fetchProfile = () => ProfileService.getProfile()
@@ -48,11 +44,8 @@ const Tidio = () => {
   const TidioScript = () => {
     if (!window.tidioChatApi) {
       const PUBLIC_KEY = 'dsoujgdd2n9ranu8l3qkkbtrkx3mxgoj'
-
       let tidioScript = document.createElement('script')
-
       tidioScript.src = `//code.tidio.co/${PUBLIC_KEY}.js`
-
       document.body.appendChild(tidioScript)
       tidioScript.onload = tidioScript.onreadystatechange = function () {
         if (!ready && (!this.readyState || this.readyState == 'complete')) {
@@ -62,7 +55,6 @@ const Tidio = () => {
       }
     }
   }
-
   const setTidioIdentify = () => {
     if (profileData) {
       tidioChatApi.setVisitorData = {

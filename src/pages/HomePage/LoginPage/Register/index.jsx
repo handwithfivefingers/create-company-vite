@@ -51,15 +51,7 @@ const RegisterForm = forwardRef((props, ref) => {
             <Input />
           </Form.Item>
 
-          <div
-            style={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              padding: '8px 0',
-              flexDirection: 'column',
-              gap: 8,
-            }}
-          >
+          <div className={styles.flexWrapper}>
             <Button type="primary" htmlType="submit" block>
               Đăng kí
             </Button>

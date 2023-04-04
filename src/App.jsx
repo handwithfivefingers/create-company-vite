@@ -1,23 +1,17 @@
 import LoadingScreen from '@/components/LoadingScreen'
-
 import { RouterContext, RouterProvider } from '@/helper/Context'
-
-import { ConfigProvider } from 'antd'
-
-import { useContext, useEffect, useState } from 'react'
-
-import { useDispatch, useSelector } from 'react-redux'
-
-import { BrowserRouter, useLocation, useRoutes } from 'react-router-dom'
-import { LAYOUT_ROUTER, UserRouter } from './constant/Route'
-import { useAuth, useDetectLocation, useHistoryStack } from './helper/Hook'
-import { CommonAction } from './store/actions'
-import moment from 'moment'
-import './assets/css/styles.scss'
-import 'animate.css'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-// import locale from 'antd/es/locale/vi_VN'
+import 'animate.css'
+import { ConfigProvider } from 'antd'
+import moment from 'moment'
 import 'moment/locale/vi'
+import { useContext, useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { BrowserRouter, useLocation, useRoutes } from 'react-router-dom'
+import './assets/css/styles.scss'
+import { LAYOUT_ROUTER, UserRouter } from './constant/Route'
+import { useAuth, useDetectLocation } from './helper/Hook'
+import { CommonAction } from './store/actions'
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -59,7 +53,15 @@ const RouterComponent = (props) => {
   const handleDetectRoute = (routeComing, routeHistory) => {
     try {
       if (routeHistory.from && routeHistory.to) {
-        setRoute(routeHistory)
+        const forgotRegex = new RegExp('forgot-password', 'g')
+        const loginRegex = new RegExp('login', 'g')
+        const registerRegex = new RegExp('register', 'g')
+
+        if (routeHistory.to.match(forgotRegex)) return
+        if (routeHistory.to.match(loginRegex)) return
+        if (routeHistory.to.match(registerRegex)) return
+        if (routeHistory.to === '/') return
+        if (routeHistory.to.match) setRoute(routeHistory)
       }
     } catch (error) {
       console.log('detected route failed', error)

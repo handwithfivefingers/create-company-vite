@@ -1,19 +1,23 @@
 import ProfileService from '@/service/UserService/ProfileService'
 import { Button, Card, Col, Form, Grid, Input, message, Row } from 'antd'
+import clsx from 'clsx'
 import { useEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
-import { useOutletContext } from 'react-router-dom'
+import { useNavigate, useOutletContext } from 'react-router-dom'
+import CCInput from '../../../components/CCInput'
 import { useFetch } from '../../../helper/Hook'
+import styles from './styles.module.scss'
 const { useBreakpoint } = Grid
 
 const UserProfile = (props) => {
   const [loading, setLoading] = useState(false)
   const { animateClass } = useOutletContext()
-
+  const navigate = useNavigate()
   const passRef = useRef()
   const profileRef = useRef()
   const screen = useBreakpoint()
   const authReducer = useSelector((state) => state.authReducer)
+
   const {
     data: profileData,
     refetch,
@@ -77,30 +81,30 @@ const UserProfile = (props) => {
   return (
     <Row className={animateClass ?? animateClass}>
       <Col lg={8} sm={24} xs={24} md={12} order={!screen.md ? 1 : 0}>
-        <Card title="Đổi mật khẩu" style={{ height: '100%' }}>
+        <Card title="Đổi mật khẩu" className={'box__shadow '}>
           <Form onFinish={onPassChange} ref={passRef} layout="vertical">
-            <Form.Item label="Mật khẩu hiện tại" name="old_password">
-              <Input />
-            </Form.Item>
-
-            <Form.Item label="Mật khẩu mới" name="new_password">
-              <Input />
-            </Form.Item>
-
-            <Form.Item label="Xác thực mật khẩu" name="confirm_password">
-              <Input />
-            </Form.Item>
+            <CCInput type="password" label="Mật khẩu hiện tại" name="old_password" />
+            <CCInput type="password" label="Mật khẩu mới" name="new_password" />
+            <CCInput type="password" label="Xác thực mật khẩu" name="confirm_password" />
             <Form.Item>
-              <Button type="primary" htmlType="submit" loading={isLoading}>
-                Submit
-              </Button>
+              <div className={clsx(styles.dFlex, styles.fCol)}>
+                <div>
+                  <Button type="primary" htmlType="submit" loading={isLoading}>
+                    Xác nhận
+                  </Button>
+                </div>
+                <div>
+                  <Button type="link" onClick={() => navigate('/forgot-password')}>
+                    Quên mật khẩu
+                  </Button>
+                </div>
+              </div>
             </Form.Item>
           </Form>
         </Card>
       </Col>
-
       <Col lg={16} sm={24} xs={24} md={12} className={screen.md ? 'p-l-8' : ''}>
-        <Card title="Thông tin cá nhân">
+        <Card title="Thông tin cá nhân" className={'box__shadow '}>
           <Form onFinish={onProfileChange} ref={profileRef} layout="vertical">
             <Form.Item label="Name" name="name">
               <Input />
@@ -113,7 +117,7 @@ const UserProfile = (props) => {
             </Form.Item>
             <Form.Item>
               <Button type="primary" htmlType="submit" loading={loading}>
-                Submit
+                Xác nhận
               </Button>
             </Form.Item>
           </Form>

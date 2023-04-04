@@ -142,7 +142,6 @@ const PeronalType = forwardRef((props, ref) => {
     }
   }, [])
 
-  console.log(ref.current.getFieldsValue())
   return (
     <>
       <Form.Item

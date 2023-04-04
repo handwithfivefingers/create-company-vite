@@ -1,4 +1,4 @@
-import { forwardRef, Suspense, lazy, useCallback } from 'react'
+import { forwardRef, Suspense, lazy, useCallback, useEffect } from 'react'
 import { Card, Space, Spin, Button } from 'antd'
 import { useLocation } from 'react-router-dom'
 
@@ -11,6 +11,7 @@ const ChangeInfoPages = forwardRef((props, ref) => {
 
   const { saveService, paymentService, data, step, loading, onFinishScreen, Prev, Next, changeInforStep, editData } =
     props
+
   const getParams = (ref) => {
     let value = ref.current.getFieldsValue()
     const params = {
@@ -43,14 +44,13 @@ const ChangeInfoPages = forwardRef((props, ref) => {
   const handlePayment = useCallback(
     (ref) => {
       const params = getParams(ref)
-
       return paymentService(params, ref)
     },
     [data],
   )
 
   return (
-    <Card className="card-boxShadow">
+    <Card className="card-boxShadow card-scrollTop">
       <Suspense
         fallback={
           <div className="container spin-suspense">
