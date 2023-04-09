@@ -24,7 +24,7 @@ module.exports = class FileTemplate {
 
       return res.status(200).json({ data: [] })
     } catch (err) {
-      console.log('checkingOrder err')
+      console.log('checkingOrder err', err)
 
       return errHandler(err, res)
     }
@@ -52,7 +52,7 @@ module.exports = class FileTemplate {
 
         mailParams.filesPath = attachments
 
-        // await sendmailWithAttachments(req, res, mailParams)
+        // const mailResponse = await sendmailWithAttachments(req, res, mailParams)
 
         return res.status(200).json({ message: 'ok' })
       }
