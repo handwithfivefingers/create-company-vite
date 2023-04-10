@@ -23,7 +23,7 @@ module.exports = class OrderAdmin {
     }
   }
 
-  getAllOrder = async (req, res) => {
+  getOrders = async (req, res) => {
     try {
       if (req.role !== 'admin') return permisHandler(res)
 
@@ -55,6 +55,38 @@ module.exports = class OrderAdmin {
       return errHandler(err, res)
     }
   }
+  // getAllOrder = async (req, res) => {
+  //   try {
+  //     if (req.role !== 'admin') return permisHandler(res)
+
+  //     let { type } = req.query
+
+  //     // pagination using cursor
+  //     /**
+  //      *  Collections.find({ _id: { $gte: cursor_id } })
+  //      * .limit(100);
+  //      *
+  //      */
+
+  //     let _order = await Order.find({ delete_flag: { $ne: 1 } })
+  //       .populate('main_career', ['name', 'code'])
+  //       .populate('category', 'name type')
+  //       .populate('products', 'name')
+  //       .populate({
+  //         path: 'orderOwner',
+  //         select: 'name email',
+  //       })
+  //       .select('-orderInfo')
+  //       .sort('-createdAt')
+
+  //     const count = await Order.find({}).countDocuments()
+
+  //     return successHandler({ _order, count }, res)
+  //   } catch (err) {
+  //     console.log('getOrders error', err)
+  //     return errHandler(err, res)
+  //   }
+  // }
 
   deleteOrder = async (req, res) => {
     let { id } = req.params

@@ -24,6 +24,7 @@ const AdminOrder = () => {
   const [current, setCurrent] = useState(1)
 
   const navigate = useNavigate()
+
   const { data, isLoading, status, refetch } = useFetch({
     cacheName: ['adminOrder'],
     fn: () => AdminOrderService.getOrder(),
@@ -33,7 +34,10 @@ const AdminOrder = () => {
     current: current,
     total: data?.count,
     pageSize: 10,
-    onChange: (current, pageSize) => setCurrent(current),
+    onChange: (current, pageSize) => {
+      console.log('current', current)
+      setCurrent(current)
+    },
   }
 
   useEffect(() => {
@@ -65,47 +69,47 @@ const AdminOrder = () => {
     }
   }
 
-  const checkProgress = (record) => {
-    setChildModal({
-      visible: true,
-      width: '100%',
-      component: (
-        <Tracking
-          data={record}
-          onFinishScreen={(attachments, content, email) => {
-            handleSendMailWithAttach(attachments, content, email)
-            onClose()
-          }}
-        />
-      ),
-    })
-  }
+  // const checkProgress = (record) => {
+  //   setChildModal({
+  //     visible: true,
+  //     width: '100%',
+  //     component: (
+  //       <Tracking
+  //         data={record}
+  //         onFinishScreen={(attachments, content, email) => {
+  //           handleSendMailWithAttach(attachments, content, email)
+  //           onClose()
+  //         }}
+  //       />
+  //     ),
+  //   })
+  // }
 
-  const handleSendMailWithAttach = async (attachments, content, email) => {
-    try {
-      setLoading(true)
+  // const handleSendMailWithAttach = async (attachments, content, email) => {
+  //   try {
+  //     setLoading(true)
 
-      const form = new FormData()
+  //     const form = new FormData()
 
-      attachments?.fileList?.map((item) => {
-        form.append('attachments', item.originFileObj)
-      })
+  //     attachments?.fileList?.map((item) => {
+  //       form.append('attachments', item.originFileObj)
+  //     })
 
-      form.append('content', content)
+  //     form.append('content', content)
 
-      form.append('email', email)
+  //     form.append('email', email)
 
-      let res = await axios.post('/api/sendmail', form)
+  //     let res = await axios.post('/api/sendmail', form)
 
-      let msg = res.data.message
+  //     let msg = res.data.message
 
-      message.success(`${msg} -> Email: ${[res.data.info.accepted].join('')}`)
-    } catch (err) {
-      console.log(err)
-    } finally {
-      setLoading(false)
-    }
-  }
+  //     message.success(`${msg} -> Email: ${[res.data.info.accepted].join('')}`)
+  //   } catch (err) {
+  //     console.log(err)
+  //   } finally {
+  //     setLoading(false)
+  //   }
+  // }
 
   const onClose = useCallback(() => {
     setChildModal({
@@ -213,6 +217,7 @@ const AdminOrder = () => {
     setSearchText(selectedKeys[0])
     setSearchedColumn([...dataIndex])
   }
+
   const getColumnSearchProps = (dataIndex) => ({
     filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
       <div style={{ padding: 8 }}>

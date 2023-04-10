@@ -14,7 +14,9 @@ router.post('/order/delete/:id', requireSignin, OrderAdminRouter.deleteOrder)
 
 router.post('/order/delete_all', requireSignin, OrderAdminRouter.reforceDelete)
 
-router.get('/order', requireSignin, OrderAdminRouter.getAllOrder)
+// router.get('/order', requireSignin, OrderAdminRouter.getAllOrder)
+
+router.get('/order', requireSignin, OrderAdminRouter.getOrders)
 
 router.get('/order/:id', requireSignin, OrderAdminRouter.getOrderByID)
 

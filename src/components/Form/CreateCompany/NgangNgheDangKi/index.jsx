@@ -64,11 +64,7 @@ const NgangNgheDangKi = forwardRef((props, ref) => {
     ])
   }
 
-  const handleCareerCateSelected = (val, opt) => {
-    return getSingleCate(val)
-  }
-
-  const getSingleCate = async (_id) => {
+  const handleCareerCateSelected = async (_id, opt) => {
     try {
       let res = await GlobalService.getSingleCareerCategory(_id)
       let { data } = res.data
@@ -77,9 +73,21 @@ const NgangNgheDangKi = forwardRef((props, ref) => {
       console.log(err)
     }
   }
+
   const handleSelfSelectCareer = (val) => {
     setSelfSelect(val)
   }
+
+  const handleFilterOptions = (input, option) => {
+    const { children } = option
+    const searchString = input?.toLowerCase() || ''
+    if (!children) return false
+    if (Array.isArray(children)) {
+      return children.join('').toLowerCase()?.indexOf(searchString) >= 0
+    }
+    return children.toLowerCase()?.indexOf(searchString) >= 0
+  }
+
   return (
     <Form.Item
       label={<h2>Ngành nghề đăng kí kinh doanh</h2>}
@@ -115,9 +123,7 @@ const NgangNgheDangKi = forwardRef((props, ref) => {
                 showSearch
                 allowClear
                 optionFilterProp="children"
-                filterOption={(input, option) =>
-                  option.children.join('').toLowerCase().indexOf(input.toLowerCase()) >= 0
-                }
+                filterOption={handleFilterOptions}
                 onChange={handleCareerCateSelected}
                 placeholder="Gõ nhóm ngành liên quan"
               >
@@ -141,9 +147,7 @@ const NgangNgheDangKi = forwardRef((props, ref) => {
                   showSearch
                   allowClear
                   optionFilterProp="children"
-                  filterOption={(input, option) =>
-                    option.children.join('').toLowerCase().indexOf(input.toLowerCase()) >= 0
-                  }
+                  filterOption={handleFilterOptions}
                   onChange={(val, opt) => handleChange([...BASE_FORM, 'company_main_career'], opt)}
                   placeholder="Gõ tên ngành hoặc mã ngành"
                   required
@@ -167,9 +171,7 @@ const NgangNgheDangKi = forwardRef((props, ref) => {
                   onChange={(val, opt) => handleChange([...BASE_FORM, 'company_opt_career'], opt)}
                   optionFilterProp="children"
                   placeholder="Gõ tên ngành hoặc mã ngành"
-                  filterOption={(input, option) =>
-                    option.children.join('').toLowerCase().indexOf(input.toLowerCase()) >= 0
-                  }
+                  filterOption={handleFilterOptions}
                 >
                   {careerData?.map((item) => (
                     <Select.Option key={item._id} value={item._id} code={item.code} name={item.name}>
