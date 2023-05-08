@@ -98,9 +98,11 @@ export default function LoginPage() {
   useEffect(() => {
     if (status) {
       let listHistory = route.listHistory
+      const listExcludes = ['login', 'register', 'forgot-password']
       if (listHistory.length) {
         let nextNavigate = listHistory[listHistory.length - 1]
-        navigate(nextNavigate.from)
+        if (listExcludes.includes(nextNavigate.from)) navigate(nextNavigate.from)
+        else navigate(role)
       } else {
         navigate(role)
       }
