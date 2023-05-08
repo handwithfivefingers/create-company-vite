@@ -12,6 +12,7 @@ const shortid = require('shortid')
 const { sendmailWithAttachments } = new MailService()
 
 const { GG_EMAIL_CLIENT_ID: CLIENT_ID } = process.env
+const { ISODate } = require('mongoose')
 
 const client = new OAuth2Client(CLIENT_ID)
 module.exports = class Authorization {
@@ -20,10 +21,11 @@ module.exports = class Authorization {
   registerUser = async (req, res) => {
     try {
       let _user = await User.findOne({
-        $and: [{ email: req.body.email }, { phone: req.body.phone }, { delete_flag: { $ne: 1 } }],
+        $or: [{ email: req.body.email }, { phone: req.body.phone }],
+        delete_flag: { $ne: 1 },
       })
 
-      let message = _user?.phone === req.body.phone ? 'Phone' : 'Email' // if have user -> check mail or phone
+      let message = _user?.phone === req.body.phone ? 'Số điện thoại' : 'Địa chỉ Email' // if have user -> check mail or phone
 
       if (_user) return existHandler(res, message)
 
@@ -32,23 +34,23 @@ module.exports = class Authorization {
       var password = Math.random().toString(36).slice(-8)
 
       const hash_password = await bcrypt.hash(password, 10)
-
+      let userName = shortid()
       const _obj = new User({
         phone,
-        name: shortid(),
         email,
         hash_password,
+        name: userName,
       })
 
       const _save = await _obj.save()
 
-      const { email: _email, role, _id } = _save
+      const { email: _email, role, _id, updatedAt } = _save
 
-      let _tokenObj = { _id, role }
+      let _tokenObj = { _id, role, updatedAt }
 
       await this.generateToken(_tokenObj, res)
 
-      let mailParams = await this.getMailParams({ name, phone, password, role, email: _email }, res)
+      let mailParams = await this.getMailParams({ name: userName, phone, password, role, email: _email }, res)
 
       await sendmailWithAttachments(req, res, mailParams)
 
@@ -57,7 +59,7 @@ module.exports = class Authorization {
         message: 'Đăng kí thành công',
       })
     } catch (err) {
-      console.log('Register Error')
+      console.log('Register Error', err)
       return errHandler(err, res)
     }
   }
@@ -73,7 +75,7 @@ module.exports = class Authorization {
       let otpObj = new OTP({
         otp: this.generateOTP(),
         email,
-        time: new Date(),
+        time: ISODate(new Date()),
       })
 
       // let { content, subject } = await this.getTemplateMail('mailForgotPass')

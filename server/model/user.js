@@ -4,7 +4,6 @@ const bcrypt = require('bcryptjs')
 module.exports = {
   name: {
     type: String,
-    required: true,
     trim: true,
     min: 3,
   },
