@@ -15,16 +15,16 @@ const LoginForm = () => {
   const [loading, setLoading] = useState(false)
   const formRef = useRef()
   const [step, setStep] = useState(1)
-  const navigate = useNavigate()
   const { status, role } = useSelector((state) => state.authReducer)
-  let type = useNavigationType()
   const { route } = useContext(RouterContext)
+  const navigate = useNavigate()
+  let type = useNavigationType()
 
   const onFinish = async (value) => {
     setLoading(true)
     if (step === 1) {
-      await onGetOTP(value)
-      setStep(2)
+      const result = await onGetOTP(value)
+      result && setStep(2)
     } else if (step === 2) {
       await onLogin()
     }
@@ -36,15 +36,21 @@ const LoginForm = () => {
       const response = await AuthService.getLoginOTP(value)
       if (response.status === 200) {
         message.success(response.data?.data?.message)
+        return true
       }
     } catch (error) {
       message.error(error.response?.message || error.message || 'Đã có lỗi xảy ra, vui lòng liên hệ admin')
+      return false
     }
   }
 
   const onLogin = async () => {
-    const value = formRef.current.getFieldsValue(true)
-    dispatch(AuthAction.AuthLogin(value))
+    try {
+      const value = formRef.current.getFieldsValue(true)
+      dispatch(AuthAction.AuthLogin(value))
+    } catch (error) {
+      console.log('onLogin error', error)
+    }
   }
 
   const renderFieldByStep = useMemo(() => {
@@ -84,17 +90,18 @@ const LoginForm = () => {
     message.error(listMess)
   }
 
-  if (status) {
-    if (type !== 'POP') {
-      if (route.from) {
-        navigate(route.from)
+  useEffect(() => {
+    if (status) {
+      let listHistory = route.listHistory
+      if (listHistory.length) {
+        let nextNavigate = listHistory[listHistory.length - 1]
+        navigate(nextNavigate.from)
       } else {
         navigate(role)
       }
-    } else {
-      navigate(role)
     }
-  }
+  }, [status])
+
   return (
     <>
       <Card

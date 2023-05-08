@@ -68,11 +68,12 @@ module.exports = class Authorization {
 
       let _user = await User.findOne({ email })
 
-      await OTP.deleteMany({ email: email }) // Clear all OTP 
+      await OTP.deleteMany({ email: email }) // Clear all OTP
 
       let otpObj = new OTP({
         otp: this.generateOTP(),
         email,
+        time: new Date(),
       })
 
       // let { content, subject } = await this.getTemplateMail('mailForgotPass')

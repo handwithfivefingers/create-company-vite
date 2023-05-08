@@ -52,18 +52,23 @@ const RouterComponent = (props) => {
 
   const handleDetectRoute = (routeComing, routeHistory) => {
     try {
-      console.log('HandleDetect Route', routeComing, routeHistory)
-      if (routeComing.to !== routeHistory.to) {
-        const forgotRegex = new RegExp('forgot-password', 'g')
-        const loginRegex = new RegExp('login', 'g')
-        const registerRegex = new RegExp('register', 'g')
+      // console.log('routeComing', routeComing)
+      // console.log('routeHistory', routeHistory)
+      // if (routeComing.to !== routeHistory.to) {
+      //   const forgotRegex = new RegExp('forgot-password', 'g')
+      //   const loginRegex = new RegExp('login', 'g')
+      //   const registerRegex = new RegExp('register', 'g')
 
-        if (routeHistory.to.match(forgotRegex)) return
-        if (routeHistory.to.match(loginRegex)) return
-        if (routeHistory.to.match(registerRegex)) return
-        if (routeHistory.to === '/') return
-        if (routeHistory.to.match) setRoute(routeHistory)
-      }
+      //   let match =
+      //     routeHistory.to.match(forgotRegex) ||
+      //     routeHistory.to.match(loginRegex) ||
+      //     routeHistory.to.match(registerRegex)
+
+      //   if (routeHistory.to === '/' || routeHistory.to !== '') return
+      //   else if (!match) setRoute(routeHistory)
+
+      // }
+      setRoute(routeHistory)
     } catch (error) {
       console.log('detected route failed', error)
     }
@@ -98,12 +103,17 @@ function App() {
 
   const authReducer = useSelector((state) => state.authReducer)
 
-  const routerHistoryHandler = (val) => {
-    setRoute((state) => ({
-      ...state,
-      ...val,
-      listHistory: [...state.listHistory, { ...val }].slice(-20),
-    }))
+  const routerHistoryHandler = ({ from, to }) => {
+    const nextState = JSON.parse(JSON.stringify(route))
+    nextState.from = from
+    nextState.to = to
+    const listExclude = ['', '/', 'login', 'register', 'forgot-password']
+    if (!listExclude.includes(from)) {
+      nextState.from = from
+      nextState.listHistory = [...nextState.listHistory, { from, to }]
+      nextState.listHistory = nextState.listHistory.filter((routeItem) => !listExclude.includes(routeItem.from))
+    }
+    setRoute(nextState)
   }
 
   if (authReducer.authenticating && !authReducer.status) {

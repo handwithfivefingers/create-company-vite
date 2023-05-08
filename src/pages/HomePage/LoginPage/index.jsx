@@ -81,19 +81,31 @@ export default function LoginPage() {
     }
   }
 
-  let type = useNavigationType()
+  // let type = useNavigationType()
 
-  if (status) {
-    if (type !== 'POP') {
-      if (route.from) {
-        navigate(route.from)
+  // if (status) {
+  //   if (type !== 'POP') {
+  //     if (route.from) {
+  //       navigate(route.from)
+  //     } else {
+  //       navigate(role)
+  //     }
+  //   } else {
+  //     navigate(role)
+  //   }
+  // }
+
+  useEffect(() => {
+    if (status) {
+      let listHistory = route.listHistory
+      if (listHistory.length) {
+        let nextNavigate = listHistory[listHistory.length - 1]
+        navigate(nextNavigate.from)
       } else {
         navigate(role)
       }
-    } else {
-      navigate(role)
     }
-  }
+  }, [status])
 
   return (
     <>
