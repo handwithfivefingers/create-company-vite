@@ -6,7 +6,6 @@ const useDetectLocation = (location) => {
     to: '',
     from: '', //--> previous pathname
   })
-  //   const dispatch = useDispatch();
   useEffect(() => {
     setRoute((prev) => ({ to: location.pathname, from: prev.to }))
   }, [location])

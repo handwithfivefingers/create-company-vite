@@ -1,17 +1,17 @@
 import LoadingScreen from '@/components/LoadingScreen'
 import { RouterContext, RouterProvider } from '@/helper/Context'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import 'animate.css'
 import { ConfigProvider } from 'antd'
 import moment from 'moment'
-import 'moment/locale/vi'
 import { useContext, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { BrowserRouter, useLocation, useRoutes } from 'react-router-dom'
-import './assets/css/styles.scss'
 import { LAYOUT_ROUTER, UserRouter } from './constant/Route'
 import { useAuth, useDetectLocation } from './helper/Hook'
 import { CommonAction } from './store/actions'
+import 'moment/locale/vi'
+import 'animate.css'
+import './assets/css/styles.scss'
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -45,6 +45,8 @@ const RouterComponent = (props) => {
 
   const dispatch = useDispatch()
 
+  console.log('location', location)
+  console.log('routeDetect', routeDetect)
   useEffect(() => {
     handleDetectRoute(route, routeDetect)
     changeTitle(routeDetect?.to)
@@ -52,7 +54,8 @@ const RouterComponent = (props) => {
 
   const handleDetectRoute = (routeComing, routeHistory) => {
     try {
-      if (routeHistory.from && routeHistory.to) {
+      console.log('HandleDetect Route', routeComing, routeHistory)
+      if (routeComing.to !== routeHistory.to) {
         const forgotRegex = new RegExp('forgot-password', 'g')
         const loginRegex = new RegExp('login', 'g')
         const registerRegex = new RegExp('register', 'g')
@@ -108,10 +111,10 @@ function App() {
   if (authReducer.authenticating && !authReducer.status) {
     return <LoadingScreen />
   }
+
   return (
     <div className="App">
       <QueryClientProvider client={queryClient}>
-        {/* <ConfigProvider locale={locale}> */}
         <ConfigProvider>
           <RouterProvider value={{ route, setRoute: (val) => routerHistoryHandler(val) }}>
             <BrowserRouter>
@@ -119,7 +122,6 @@ function App() {
             </BrowserRouter>
           </RouterProvider>
         </ConfigProvider>
-        {/* <ReactQueryDevtools /> */}
       </QueryClientProvider>
     </div>
   )

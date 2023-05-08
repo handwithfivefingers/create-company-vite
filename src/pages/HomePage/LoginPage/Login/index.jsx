@@ -1,67 +1,120 @@
-import { Button, Form, Input, Spin } from 'antd'
+import { Button, Card, Form, Input, Typography, message } from 'antd'
+import { useState, useEffect, useRef, useMemo } from 'react'
+import { useNavigate, useSearchParams, Link, useNavigationType } from 'react-router-dom'
+const { Text } = Typography
+import styles from './styles.module.scss'
 import clsx from 'clsx'
-import React, { forwardRef, useEffect, useRef } from 'react'
-import styles from './Login.module.scss'
+import { RouterContext } from '@/helper/Context'
+import AuthService from '@/service/AuthService'
+import { AuthAction } from '@/store/actions'
+import { useDispatch, useSelector } from 'react-redux'
+import { useContext } from 'react'
 
-const LoginForm = forwardRef((props, ref) => {
-  const ggRef = useRef()
-  const { ggScript, loginWithGoogle, loading, onFinish, forgotPassword } = props
+const LoginForm = () => {
+  const dispatch = useDispatch()
+  const [loading, setLoading] = useState(false)
+  const formRef = useRef()
+  const [step, setStep] = useState(1)
+  const navigate = useNavigate()
+  const { status, role } = useSelector((state) => state.authReducer)
+  let type = useNavigationType()
+  const { route } = useContext(RouterContext)
 
-  useEffect(() => {
-    if (ggScript) {
-      handleScriptLoaded()
+  const onFinish = async (value) => {
+    setLoading(true)
+    if (step === 1) {
+      await onGetOTP(value)
+      setStep(2)
+    } else if (step === 2) {
+      await onLogin()
     }
-  }, [ggScript])
+    setLoading(false)
+  }
 
-  const handleScriptLoaded = () => {
+  const onGetOTP = async (value) => {
     try {
-      props.ggScript.accounts.id.initialize({
-        client_id: import.meta.env.GG_EMAIL_CLIENT_ID,
-        callback: async (response) => await handleCredentialResponse(response),
-      })
-      props.ggScript.accounts.id.renderButton(ggRef.current, { theme: 'filled_blue', size: 'large', width: '308' })
-      props.ggScript.accounts.id.prompt() // also display the One Tap dialog
+      const response = await AuthService.getLoginOTP(value)
+      if (response.status === 200) {
+        message.success(response.data?.data?.message)
+      }
     } catch (error) {
-      console.log('handleScriptLoaded error: ' + error)
+      message.error(error.response?.message || error.message || 'Đã có lỗi xảy ra, vui lòng liên hệ admin')
     }
   }
 
-  const handleCredentialResponse = async (response) => {
-    if (loginWithGoogle) {
-      return loginWithGoogle({ type: 'google', ...response })
-    }
+  const onLogin = async () => {
+    const value = formRef.current.getFieldsValue(true)
+    dispatch(AuthAction.AuthLogin(value))
   }
 
-  return (
-    <div className={clsx([styles.loginWrap, 'container'])}>
-      <h1>Đăng nhập</h1>
-      <Spin spinning={loading}>
-        <Form ref={ref} onFinish={onFinish} layout="vertical">
-          <Form.Item name="phone" label="Số điện thoại">
+  const renderFieldByStep = useMemo(() => {
+    let html = null
+
+    if (step === 1) {
+      html = (
+        <>
+          <Form.Item name={['email']} label="Email" rules={[{ type: 'email' }]} required>
             <Input />
           </Form.Item>
-          <Form.Item name="password" label="Mật khẩu">
-            <Input.Password />
+
+          <Text type="secondary" className={clsx(styles.text, 'ant-row ant-form-item')}>
+            * Mã xác thực sẽ được gửi qua Email
+          </Text>
+        </>
+      )
+    } else if (step === 2) {
+      html = (
+        <>
+          <Form.Item name={['otp']} label="Mã OTP" rules={[{ required: true, message: 'OTP là bắt buộc' }]}>
+            <Input maxLength={6} />
           </Form.Item>
+        </>
+      )
+    }
+
+    return html
+  }, [step])
+
+  const handleFinishFail = (value) => {
+    const { errorFields } = value
+    const listMess = errorFields.reduce((prev, current) => {
+      prev = prev + '\n' + current.errors
+      return prev
+    }, '')
+    message.error(listMess)
+  }
+
+  if (status) {
+    if (type !== 'POP') {
+      if (route.from) {
+        navigate(route.from)
+      } else {
+        navigate(role)
+      }
+    } else {
+      navigate(role)
+    }
+  }
+  return (
+    <>
+      <Card
+        title="Xác thực tài khoản"
+        className={styles.card}
+        style={{ width: 350 }}
+        extra={[<Link to="/">Quay lại</Link>]}
+      >
+        <Form layout="vertical" onFinish={onFinish} ref={formRef} onFinishFailed={handleFinishFail}>
+          {renderFieldByStep}
+
           <Form.Item>
-            <div
-              style={{ display: 'flex', justifyContent: 'center', padding: '8px 0', flexDirection: 'column', gap: 12 }}
-            >
-              <Button type="primary" htmlType="submit" block>
-                Đăng nhập
-              </Button>
-
-              <div ref={ggRef} className={styles.googleBtn} />
-
-              <Button type="link" onClick={forgotPassword}>
-                Quên mật khẩu
-              </Button>
-            </div>
+            <Button type="primary" htmlType="submit" loading={loading} block>
+              Xác thực
+            </Button>
           </Form.Item>
         </Form>
-      </Spin>
-    </div>
+      </Card>
+    </>
   )
-})
+}
 
 export default LoginForm

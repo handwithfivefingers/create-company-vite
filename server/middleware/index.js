@@ -23,6 +23,7 @@ const requireSignin = async (req, res, next) => {
   try {
     let token = req.cookies['sessionId']
 
+    console.log(token)
     if (!token) throw { message: 'Authorization required' }
 
     const decoded = await jwt.verify(token, process.env.SECRET)

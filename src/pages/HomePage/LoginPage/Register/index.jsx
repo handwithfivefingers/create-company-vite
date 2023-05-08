@@ -1,7 +1,9 @@
-import { Button, Form, Input, Spin } from 'antd'
+import { Button, Descriptions, Divider, Form, Input, Spin, Typography } from 'antd'
 import clsx from 'clsx'
 import React, { forwardRef, useEffect, useRef } from 'react'
 import styles from './styles.module.scss'
+import { Link as NavLink } from 'react-router-dom'
+const { Link, Text } = Typography
 
 const RegisterForm = forwardRef((props, ref) => {
   const ggRef = useRef()
@@ -38,16 +40,54 @@ const RegisterForm = forwardRef((props, ref) => {
 
   return (
     <div className={clsx([styles.registerWrap, 'container'])}>
-      <h1>Đăng kí</h1>
       <Spin spinning={props.loading}>
         <Form ref={ref} onFinish={props.onFinish} layout="vertical">
-          <Form.Item label="Họ và tên" name="name">
+          <Text>Vui lòng nhập thông tin liên hệ dưới đây để nhận được bộ hồ sơ đầy đủ và nhanh chóng</Text>
+          <Form.Item
+            label="Email"
+            name="email"
+            validateTrigger={['onBlur']}
+            rules={[
+              {
+                required: true,
+                message: 'Email là bắt buộc',
+              },
+              {
+                type: 'email',
+                message: 'Định dạng email không đúng',
+              },
+            ]}
+          >
             <Input />
           </Form.Item>
-          <Form.Item label="Email" name="email">
-            <Input />
-          </Form.Item>
-          <Form.Item name="phone" label="Số điện thoại (Zalo)">
+          <Form.Item
+            validateTrigger={['onBlur']}
+            name="phone"
+            label="Số điện thoại (Zalo)"
+            rules={[
+              {
+                required: true,
+                message: 'Số điện thoại là bắt buộc',
+                type: 'string',
+              },
+              {
+                type: 'string',
+                min: 9,
+                max: 11,
+                message: 'Số điện thoại cần > 9 số và < 11 số',
+              },
+              {
+                validator: (_, value) => {
+                  if (value && value.match(/([^0-9])/)) {
+                    console.log('value')
+                    return Promise.reject(new Error('Số điện thoại định dạng không đúng'))
+                  } else {
+                    return Promise.resolve()
+                  }
+                },
+              },
+            ]}
+          >
             <Input />
           </Form.Item>
 
@@ -55,11 +95,21 @@ const RegisterForm = forwardRef((props, ref) => {
             <Button type="primary" htmlType="submit" block>
               Đăng kí
             </Button>
-
             <div ref={ggRef} />
           </div>
         </Form>
       </Spin>
+
+      <Text style={{ border: 0, maxWidth: 350, fontSize: 12, padding: '20px 0' }}>
+        <span>
+          Quý khách đã có tài khoản và đã điền form trên hệ thống của chúng tôi?{' '}
+          <NavLink to="/login" style={{ border: 0, fontSize: 12 }}>
+            Hãy nhấn vào đây{' '}
+          </NavLink>
+          và nhập email để nhận mã xác nhận. Sau đó, quý khách có thể đăng nhập lại và quản lý thông tin đã nhập một
+          cách dễ dàng.
+        </span>
+      </Text>
     </div>
   )
 })

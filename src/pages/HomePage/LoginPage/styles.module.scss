@@ -1,4 +1,8 @@
 .tabs {
   display: flex;
   min-height: 500px;
+  height: 100%;
+  :global(.ant-tabs-tabpane) {
+    height: 100% !important;
+  }
 }

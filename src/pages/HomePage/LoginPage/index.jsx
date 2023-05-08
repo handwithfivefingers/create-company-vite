@@ -9,12 +9,16 @@ import { useDispatch, useSelector } from 'react-redux'
 import styles from './styles.module.scss'
 const { TabPane } = Tabs
 
+const LIST_TABS = {
+  1: 'login',
+  2: 'register',
+}
 export default function LoginPage() {
   const formRef = useRef()
 
   const [loading, setLoading] = useState(false)
 
-  const [tab, setTab] = useState(1)
+  const [tab, setTab] = useState(LIST_TABS[2])
 
   const [ggScript, setGGScript] = useState()
 
@@ -93,14 +97,8 @@ export default function LoginPage() {
 
   return (
     <>
-      <Tabs
-        defaultActiveKey="1"
-        centered
-        className={styles.tabs}
-        onChange={(tab) => setTab(tab)}
-        destroyInactiveTabPane={false}
-      >
-        <TabPane tab="Đăng nhập" key="1">
+      <Tabs defaultActiveKey={tab} centered className={styles.tabs} onChange={setTab} destroyInactiveTabPane={false}>
+        {/* <TabPane tab="Đăng nhập" key={LIST_TABS[1]}>
           <LoginForm
             ref={formRef}
             onFinish={onLogin}
@@ -109,8 +107,8 @@ export default function LoginPage() {
             ggScript={ggScript}
             forgotPassword={forgotPassword}
           />
-        </TabPane>
-        <TabPane tab="Đăng kí" key="2">
+        </TabPane> */}
+        <TabPane tab="Đăng kí" key={LIST_TABS[2]}>
           <RegisterForm
             ref={formRef}
             onFinish={onRegister}

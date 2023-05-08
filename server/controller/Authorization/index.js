@@ -1,12 +1,13 @@
 const { User, Setting, OTP, TemplateMail } = require('../../model')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
-const { loginFailed, createdHandler, errHandler, existHandler, successHandler } = require('../../response')
+const { loginFailed, errHandler, existHandler, successHandler } = require('../../response')
 const MailService = require('@server/controller/user/Sendmail')
 const otpGenerator = require('otp-generator')
 
 const { OAuth2Client } = require('google-auth-library')
 const axios = require('axios')
+const shortid = require('shortid')
 
 const { sendmailWithAttachments } = new MailService()
 
@@ -26,7 +27,7 @@ module.exports = class Authorization {
 
       if (_user) return existHandler(res, message)
 
-      const { phone, name, email } = req.body
+      const { phone, email } = req.body
 
       var password = Math.random().toString(36).slice(-8)
 
@@ -34,7 +35,7 @@ module.exports = class Authorization {
 
       const _obj = new User({
         phone,
-        name,
+        name: shortid(),
         email,
         hash_password,
       })
@@ -49,8 +50,6 @@ module.exports = class Authorization {
 
       let mailParams = await this.getMailParams({ name, phone, password, role, email: _email }, res)
 
-      // console.log("mailParams", mailParams);
-
       await sendmailWithAttachments(req, res, mailParams)
 
       return res.status(201).json({
@@ -63,9 +62,86 @@ module.exports = class Authorization {
     }
   }
 
+  getUserOTPForLogin = async (req, res) => {
+    try {
+      let { email } = req.body
+
+      let _user = await User.findOne({ email })
+
+      await OTP.deleteMany({ email: email }) // Clear all OTP 
+
+      let otpObj = new OTP({
+        otp: this.generateOTP(),
+        email,
+      })
+
+      // let { content, subject } = await this.getTemplateMail('mailForgotPass')
+
+      let mailTemplate = {
+        content: `Mã xác thực của bạn là: ${otpObj.otp}`,
+        subject: '[App Thành lập công ty] Xác thực tài khoản',
+      }
+
+      await otpObj.save()
+
+      let mailParams = {
+        email: _user.email,
+        type: 'any',
+        ...mailTemplate,
+      }
+
+      sendmailWithAttachments(req, res, mailParams)
+
+      return successHandler({ message: 'OTP đã được gửi qua tài khoản email của bạn !' }, res)
+    } catch (error) {
+      console.log('getUserOTPForLogin error', error)
+      return errHandler(error, res)
+    }
+  }
+
+  loginUserWithOtp = async (req, res) => {
+    try {
+      const { email, otp } = req.body
+
+      let _otp = await OTP.findOne({ email })
+
+      if (!_otp) throw { message: 'OTP đã hết hạn' }
+
+      let isOTPValid = String(_otp.otp) === String(otp)
+
+      if (!isOTPValid) throw { message: 'OTP không đúng' }
+
+      OTP.deleteOne({ _id: _otp._id })
+
+      const _user = await User.findOne({ email })
+
+      if (!_user) throw { message: 'Tài khoản không đúng' }
+
+      let _tokenObj = { _id: _user._id, role: _user.role, updatedAt: _user.updatedAt }
+
+      await this.generateToken(_tokenObj, res)
+
+      let _userData = {
+        _id: _user._id,
+        name: _user.name,
+        email: _user.email,
+        phone: _user.phone,
+        role: _user.role,
+      }
+
+      return res.status(200).json({
+        data: _userData,
+        authenticate: true,
+        callbackUrl: `/${_userData.role}`,
+      })
+    } catch (error) {
+      console.log('loginUserWithOtp error', error)
+      return errHandler(error, res)
+    }
+  }
+
   LoginUser = async (req, res) => {
     try {
-      // let { credential } = req.body
       let { type } = req.body
 
       if (type === 'google') return this.LoginWithGoogle(req, res)
@@ -206,9 +282,6 @@ module.exports = class Authorization {
   ForgotPassword = async (req, res) => {
     try {
       let { email } = req.body
-      // if (!email) throw { message: 'Email is required' }
-
-      // await OTP.deleteMany({})
 
       let _user = await User.findOne({ email })
 
@@ -221,21 +294,14 @@ module.exports = class Authorization {
         email,
       })
 
-      let { name, content, subject } = await this.getTemplateMail('mailForgotPass')
-
-      // console.log(mailObj)
+      let { content, subject } = await this.getTemplateMail('mailForgotPass')
 
       await otpObj.save()
 
       // try to send mail
 
-      // let mailParams = mailObj.replace('{otp}', otpObj.otp)
-
-      // mailParams.email = _user.email
-
-      // console.log(name, content, subject)
-
       let BASE_URL = process.env.NODE_ENV !== 'development' ? process.env.VITE_BASEHOST_PROD : 'http://localhost:3003'
+
       let mailParams = {
         email: _user.email,
         content: content
@@ -248,7 +314,7 @@ module.exports = class Authorization {
 
       await sendmailWithAttachments(req, res, mailParams)
 
-      return successHandler({ message: 'OTP successfully registered' }, res)
+      return successHandler({ message: 'OTP đã được gửi qua tài khoản email của bạn !' }, res)
     } catch (error) {
       console.log('ForgotPassword', error)
 
@@ -260,17 +326,17 @@ module.exports = class Authorization {
     try {
       let { email, otp } = req.body
 
-      if (!otp) throw { message: 'Invalid OTP' }
+      if (!otp) throw { message: 'OTP không đúng' }
 
       let _user = await OTP.findOne({ email: email })
 
-      if (!_user) throw { message: 'OTP Expired' }
+      if (!_user) throw { message: 'OTP đã hết hạn' }
 
       let _userOTP = _user.otp
 
       let isOTPValid = String(_userOTP) === String(otp)
 
-      if (!isOTPValid) throw { message: 'Invalid OTP' }
+      if (!isOTPValid) throw { message: 'OTP không đúng' }
 
       res.sendStatus(200)
     } catch (error) {
@@ -282,7 +348,7 @@ module.exports = class Authorization {
     try {
       let { password, confirm_password, email, otp } = req.body
 
-      if (password !== confirm_password) throw { message: 'Invalid password' }
+      if (password !== confirm_password) throw { message: 'Mật khẩu không đúng' }
 
       let [_user] = await User.aggregate([
         {
@@ -303,7 +369,7 @@ module.exports = class Authorization {
 
       let isOTPValid = _user?.otp?.otp === otp || false
 
-      if (!isOTPValid) throw { message: 'OTP invalid' }
+      if (!isOTPValid) throw { message: 'OTP không chính xác' }
 
       const hash_password = await bcrypt.hash(password, 10)
 
@@ -311,7 +377,7 @@ module.exports = class Authorization {
 
       await OTP.deleteOne({ email: email })
 
-      return successHandler('Change Password success', res)
+      return successHandler('Thay đổi mật khẩu thành công', res)
     } catch (error) {
       console.log(error)
 

@@ -1,30 +1,24 @@
-import React, { Suspense, lazy } from 'react'
-import { Layout, Spin } from 'antd'
-import {
-  RiBankLine,
-  RiBarChartFill,
-  RiChatPollLine,
-  RiAdminFill,
-  RiBriefcase4Fill,
-  RiMailSettingsFill,
-} from 'react-icons/ri'
+import React, { lazy } from 'react'
 import { BiHomeAlt } from 'react-icons/bi'
 import { FcInfo } from 'react-icons/fc'
+import {
+  RiAdminFill,
+  RiBankLine,
+  RiBarChartFill,
+  RiBriefcase4Fill,
+  RiChatPollLine,
+  RiMailSettingsFill,
+} from 'react-icons/ri'
 import { Navigate } from 'react-router-dom'
 
-import CustomHeader from '@/components/CustomHeader'
-import Footer from '@/components/Footer'
-import Error from '@/pages/_error'
-import LoadingScreen from '@/components/LoadingScreen'
-import HomePage from '@/pages/HomePage'
 import Admin from '@/pages/Admin'
+import HomePage from '@/pages/HomePage'
 import User from '@/pages/User'
+import Error from '@/pages/_error'
 import ForgotPassword from '../pages/HomePage/ForgotPassword'
 import LoginPage from '../pages/HomePage/LoginPage'
 import Policy from '../pages/User/Policy'
-
-// const HomePage = lazy(() => import('src/pages/HomePage'));
-// const Admin = lazy(() => import('src/pages/Admin'));
+import LoginForm from '../pages/HomePage/LoginPage/Login'
 
 const AdminDashboard = lazy(() => import('@/pages/Admin/Dashboard'))
 
@@ -35,8 +29,7 @@ const AdminProduct = lazy(() => import('@/pages/Admin/AdminProduct'))
 const AdminSetting = lazy(() => import('@/pages/Admin/AdminSetting'))
 const AdminUser = lazy(() => import('@/pages/Admin/AdminUser'))
 
-// const User = lazy(() => import('@/pages/User'));
-const UserDashboard = lazy(() => import('@/pages/User/Dashboard'))
+// const UserDashboard = lazy(() => import('@/pages/User/Dashboard'))
 const UserProductPage = lazy(() => import('@/pages/User/Product'))
 const UserProductItem = lazy(() => import('@/pages/User/Product/ProductItem'))
 const UserOrder = lazy(() => import('@/pages/User/Order'))
@@ -44,8 +37,6 @@ const UserProfile = lazy(() => import('@/pages/User/Profile'))
 
 const CCResult = lazy(() => import('@/pages/User/Result'))
 const AdminAbout = lazy(() => import('@/pages/Admin/AdminAbout'))
-
-const { Content } = Layout
 
 export const AdminRouter = [
   {
@@ -122,6 +113,10 @@ export const LAYOUT_ROUTER = ({ status, role }) => [
       {
         path: '/forgot-password',
         element: <ForgotPassword />,
+      },
+      {
+        path: '/login',
+        element: <LoginForm />,
       },
     ],
   },
