@@ -5,16 +5,15 @@ const { loginFailed, errHandler, existHandler, successHandler } = require('../..
 const MailService = require('@server/controller/user/Sendmail')
 const otpGenerator = require('otp-generator')
 
-const { OAuth2Client } = require('google-auth-library')
+// const { OAuth2Client } = require('google-auth-library')
 const axios = require('axios')
 const shortid = require('shortid')
 
 const { sendmailWithAttachments } = new MailService()
 
 const { GG_EMAIL_CLIENT_ID: CLIENT_ID } = process.env
-const { ISODate } = require('mongoose')
 
-const client = new OAuth2Client(CLIENT_ID)
+// const client = new OAuth2Client(CLIENT_ID)
 module.exports = class Authorization {
   constructor() {}
 
@@ -75,7 +74,7 @@ module.exports = class Authorization {
       let otpObj = new OTP({
         otp: this.generateOTP(),
         email,
-        time: ISODate(new Date()),
+        time: new Date(),
       })
 
       // let { content, subject } = await this.getTemplateMail('mailForgotPass')
