@@ -45,8 +45,6 @@ const RouterComponent = (props) => {
 
   const dispatch = useDispatch()
 
-  console.log('location', location)
-  console.log('routeDetect', routeDetect)
   useEffect(() => {
     handleDetectRoute(route, routeDetect)
     changeTitle(routeDetect?.to)
