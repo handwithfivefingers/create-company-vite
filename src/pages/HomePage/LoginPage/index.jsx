@@ -20,9 +20,9 @@ export default function LoginPage() {
 
   const [tab, setTab] = useState(LIST_TABS[2])
 
-  const [ggScript, setGGScript] = useState()
+  // const [ggScript, setGGScript] = useState()
 
-  const [ready, setReady] = useState(false)
+  // const [ready, setReady] = useState(false)
 
   const { route } = useContext(RouterContext)
 
@@ -33,31 +33,31 @@ export default function LoginPage() {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    loadingScript()
+    // loadingScript()
     if (route.to && status) {
       navigate(route.to)
     }
   }, [])
 
-  useEffect(() => {
-    if (window?.google) {
-      setGGScript(window.google)
-    }
-  }, [ready])
+  // useEffect(() => {
+  //   if (window?.google) {
+  //     setGGScript(window.google)
+  //   }
+  // }, [ready])
 
-  const onLogin = async (val) => {
-    setLoading(true)
-    dispatch(AuthAction.AuthLogin(val))
-    setLoading(false)
-  }
+  // const onLogin = async (val) => {
+  //   setLoading(true)
+  //   dispatch(AuthAction.AuthLogin(val))
+  //   setLoading(false)
+  // }
 
-  const loginWithGoogle = async (val) => {
-    await dispatch(AuthAction.AuthLogin(val))
-  }
+  // const loginWithGoogle = async (val) => {
+  //   await dispatch(AuthAction.AuthLogin(val))
+  // }
 
-  const forgotPassword = async (val) => {
-    navigate('/forgot-password')
-  }
+  // const forgotPassword = async (val) => {
+  //   navigate('/forgot-password')
+  // }
 
   const onRegister = async (val) => {
     setLoading(true)
@@ -65,21 +65,21 @@ export default function LoginPage() {
     setLoading(false)
   }
 
-  const loadingScript = () => {
-    if (!window?.google) {
-      let ggScript = document.createElement('script')
+  // const loadingScript = () => {
+  //   if (!window?.google) {
+  //     let ggScript = document.createElement('script')
 
-      ggScript.src = `//accounts.google.com/gsi/client`
+  //     ggScript.src = `//accounts.google.com/gsi/client`
 
-      document.body.appendChild(ggScript)
+  //     document.body.appendChild(ggScript)
 
-      ggScript.onload = ggScript.onreadystatechange = function () {
-        if (!ready && (!this.readyState || this.readyState == 'complete')) {
-          setReady(true)
-        }
-      }
-    }
-  }
+  //     ggScript.onload = ggScript.onreadystatechange = function () {
+  //       if (!ready && (!this.readyState || this.readyState == 'complete')) {
+  //         setReady(true)
+  //       }
+  //     }
+  //   }
+  // }
 
   // let type = useNavigationType()
 
@@ -122,13 +122,13 @@ export default function LoginPage() {
             forgotPassword={forgotPassword}
           />
         </TabPane> */}
-        <TabPane tab="Đăng kí" key={LIST_TABS[2]}>
+        <TabPane tab="Nhập thông tin liên hệ" key={LIST_TABS[2]}>
           <RegisterForm
             ref={formRef}
             onFinish={onRegister}
             loading={loading}
-            loginWithGoogle={loginWithGoogle}
-            ggScript={ggScript}
+            // loginWithGoogle={loginWithGoogle}
+            // ggScript={ggScript}
           />
         </TabPane>
       </Tabs>

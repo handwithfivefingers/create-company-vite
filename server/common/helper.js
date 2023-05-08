@@ -18,6 +18,10 @@ const moment = require('moment')
 
 const expressions = require('./expression')
 
+const otpGenerator = require('otp-generator')
+
+const jwt = require('jsonwebtoken')
+
 libre.convertAsync = require('util').promisify(libre.convert)
 
 function nullGetter(tag, props) {
@@ -332,6 +336,26 @@ const convertString = (str) => {
   )
 }
 
+const generateOTP = (length = 6) => {
+  return otpGenerator.generate(length, {
+    digits: true,
+    lowerCaseAlphabets: false,
+    upperCaseAlphabets: false,
+    specialChars: false,
+  })
+}
+const generateToken = async (obj, res) => {
+  const token = await jwt.sign(obj, process.env.SECRET, {
+    expiresIn: process.env.EXPIRE_TIME,
+  })
+  var hour = 3600000
+
+  res.cookie('sessionId', token, {
+    maxAge: 2 * 24 * hour,
+    httpOnly: true,
+  })
+}
+
 module.exports = {
   sortObject,
   getVpnParams,
@@ -342,4 +366,6 @@ module.exports = {
   filterData,
   filterCaregories,
   handleCheckChildren,
+  generateOTP,
+  generateToken,
 }

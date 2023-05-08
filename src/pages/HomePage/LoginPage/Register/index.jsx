@@ -6,37 +6,37 @@ import { Link as NavLink } from 'react-router-dom'
 const { Link, Text } = Typography
 
 const RegisterForm = forwardRef((props, ref) => {
-  const ggRef = useRef()
+  // const ggRef = useRef()
 
-  useEffect(() => {
-    if (props.ggScript) {
-      handleScriptLoaded()
-    }
-  }, [props.ggScript])
+  // useEffect(() => {
+  //   if (props.ggScript) {
+  //     handleScriptLoaded()
+  //   }
+  // }, [props.ggScript])
 
-  const handleScriptLoaded = async () => {
-    try {
-      props.ggScript?.accounts?.id?.initialize({
-        client_id: import.meta.env.GG_EMAIL_CLIENT_ID,
-        callback: async (response) => await handleCredentialResponse(response),
-      })
-      props.ggScript?.accounts?.id?.renderButton(ggRef.current, {
-        theme: 'filled_blue',
-        size: 'large',
-        width: '308',
-        text: 'signup_with',
-      })
-      props.ggScript?.accounts?.id?.prompt() // also display the One Tap dialog
-    } catch (error) {
-      console.log('handleScriptLoaded script error: ' + error)
-    }
-  }
+  // const handleScriptLoaded = async () => {
+  //   try {
+  //     props.ggScript?.accounts?.id?.initialize({
+  //       client_id: import.meta.env.GG_EMAIL_CLIENT_ID,
+  //       callback: async (response) => await handleCredentialResponse(response),
+  //     })
+  //     props.ggScript?.accounts?.id?.renderButton(ggRef.current, {
+  //       theme: 'filled_blue',
+  //       size: 'large',
+  //       width: '308',
+  //       text: 'signup_with',
+  //     })
+  //     props.ggScript?.accounts?.id?.prompt() // also display the One Tap dialog
+  //   } catch (error) {
+  //     console.log('handleScriptLoaded script error: ' + error)
+  //   }
+  // }
 
-  const handleCredentialResponse = async (response) => {
-    if (props.loginWithGoogle) {
-      return props?.loginWithGoogle({ type: 'google', ...response })
-    }
-  }
+  // const handleCredentialResponse = async (response) => {
+  //   if (props.loginWithGoogle) {
+  //     return props?.loginWithGoogle({ type: 'google', ...response })
+  //   }
+  // }
 
   return (
     <div className={clsx([styles.registerWrap, 'container'])}>
@@ -93,9 +93,9 @@ const RegisterForm = forwardRef((props, ref) => {
 
           <div className={styles.flexWrapper}>
             <Button type="primary" htmlType="submit" block>
-              Đăng kí
+              Tiếp theo
             </Button>
-            <div ref={ggRef} />
+            {/* <div ref={ggRef} /> */}
           </div>
         </Form>
       </Spin>
@@ -103,7 +103,7 @@ const RegisterForm = forwardRef((props, ref) => {
       <Text style={{ border: 0, maxWidth: 350, padding: '20px 0' }}>
         <span>
           Quý khách đã có tài khoản và đã điền form trên hệ thống của chúng tôi?{' '}
-          <NavLink to="/login" style={{ border: 0 }}>
+          <NavLink to="/login" style={{ border: 0, fontSize: 14 }}>
             Hãy nhấn vào đây{' '}
           </NavLink>
           và nhập email để nhận mã xác nhận. Sau đó, quý khách có thể đăng nhập lại và quản lý thông tin đã nhập một

@@ -3,11 +3,11 @@ const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const { loginFailed, errHandler, existHandler, successHandler } = require('../../response')
 const MailService = require('@server/controller/user/Sendmail')
-const otpGenerator = require('otp-generator')
 
-// const { OAuth2Client } = require('google-auth-library')
 const axios = require('axios')
 const shortid = require('shortid')
+
+const { generateOTP, generateToken } = require('../../common/helper')
 
 const { sendmailWithAttachments } = new MailService()
 
@@ -47,7 +47,7 @@ module.exports = class Authorization {
 
       let _tokenObj = { _id, role, updatedAt }
 
-      await this.generateToken(_tokenObj, res)
+      await generateToken(_tokenObj, res)
 
       let mailParams = await this.getMailParams({ name: userName, phone, password, role, email: _email }, res)
 
@@ -72,12 +72,10 @@ module.exports = class Authorization {
       await OTP.deleteMany({ email: email }) // Clear all OTP
 
       let otpObj = new OTP({
-        otp: this.generateOTP(),
+        otp: generateOTP(),
         email,
         time: new Date(),
       })
-
-      // let { content, subject } = await this.getTemplateMail('mailForgotPass')
 
       let mailTemplate = {
         content: `Mã xác thực của bạn là: ${otpObj.otp}`,
@@ -92,7 +90,7 @@ module.exports = class Authorization {
         ...mailTemplate,
       }
 
-      sendmailWithAttachments(req, res, mailParams)
+      await sendmailWithAttachments(req, res, mailParams)
 
       return successHandler({ message: 'OTP đã được gửi qua tài khoản email của bạn !' }, res)
     } catch (error) {
@@ -113,15 +111,15 @@ module.exports = class Authorization {
 
       if (!isOTPValid) throw { message: 'OTP không đúng' }
 
-      OTP.deleteOne({ _id: _otp._id })
-
       const _user = await User.findOne({ email })
 
       if (!_user) throw { message: 'Tài khoản không đúng' }
 
       let _tokenObj = { _id: _user._id, role: _user.role, updatedAt: _user.updatedAt }
 
-      await this.generateToken(_tokenObj, res)
+      OTP.deleteOne({ _id: _otp._id })
+
+      await generateToken(_tokenObj, res)
 
       let _userData = {
         _id: _user._id,
@@ -156,7 +154,7 @@ module.exports = class Authorization {
         if (auth) {
           let _tokenObj = { _id: response._id, role: response.role, updatedAt: response.updatedAt }
 
-          await this.generateToken(_tokenObj, res)
+          await generateToken(_tokenObj, res)
 
           let newData = {
             _id: response._id,
@@ -230,7 +228,7 @@ module.exports = class Authorization {
         }
       }
 
-      await this.generateToken(_tokenObj, res)
+      await generateToken(_tokenObj, res)
 
       return res.status(200).json({
         data: newData,
@@ -292,7 +290,7 @@ module.exports = class Authorization {
       await OTP.deleteMany({ email })
 
       let otpObj = new OTP({
-        otp: this.generateOTP(),
+        otp: generateOTP(),
         email,
       })
 
@@ -387,26 +385,26 @@ module.exports = class Authorization {
     }
   }
 
-  generateOTP = () => {
-    return otpGenerator.generate(6, {
-      digits: true,
-      lowerCaseAlphabets: false,
-      upperCaseAlphabets: false,
-      specialChars: false,
-    })
-  }
+  // generateOTP = () => {
+  //   return otpGenerator.generate(6, {
+  //     digits: true,
+  //     lowerCaseAlphabets: false,
+  //     upperCaseAlphabets: false,
+  //     specialChars: false,
+  //   })
+  // }
 
-  generateToken = async (obj, res) => {
-    const token = await jwt.sign(obj, process.env.SECRET, {
-      expiresIn: process.env.EXPIRE_TIME,
-    })
-    var hour = 3600000
+  // generateToken = async (obj, res) => {
+  //   const token = await jwt.sign(obj, process.env.SECRET, {
+  //     expiresIn: process.env.EXPIRE_TIME,
+  //   })
+  //   var hour = 3600000
 
-    res.cookie('sessionId', token, {
-      maxAge: 2 * 24 * hour,
-      httpOnly: true,
-    })
-  }
+  //   res.cookie('sessionId', token, {
+  //     maxAge: 2 * 24 * hour,
+  //     httpOnly: true,
+  //   })
+  // }
 
   getMailParams = async ({ name, phone, password, role, email }, res) => {
     try {
