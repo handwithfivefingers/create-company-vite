@@ -1,15 +1,52 @@
-import { Button, Card, Form, Input, Typography, message } from 'antd'
-import { useState, useEffect, useRef, useMemo } from 'react'
-import { useNavigate, useSearchParams, Link, useNavigationType } from 'react-router-dom'
-const { Text } = Typography
-import styles from './styles.module.scss'
-import clsx from 'clsx'
 import { RouterContext } from '@/helper/Context'
 import AuthService from '@/service/AuthService'
 import { AuthAction } from '@/store/actions'
+import { Button, Card, Form, Input, message } from 'antd'
+import { useContext, useEffect, useMemo, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useContext } from 'react'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
+import styles from './styles.module.scss'
 
+const TYPE_VERIFY = {
+  PHONE: 'PHONE',
+  EMAIL: 'EMAIL',
+}
+
+const FIELD_RULE = {
+  EMAIL: [
+    {
+      required: true,
+      message: 'Email là bắt buộc',
+    },
+    {
+      type: 'email',
+      message: 'Định dạng email không đúng',
+    },
+  ],
+  PHONE: [
+    {
+      required: true,
+      message: 'Số điện thoại là bắt buộc',
+      type: 'string',
+    },
+    {
+      type: 'string',
+      min: 9,
+      max: 11,
+      message: 'Số điện thoại cần > 9 số và < 11 số',
+    },
+    {
+      validator: (_, value) => {
+        if (value && value.match(/([^0-9])/)) {
+          console.log('value')
+          return Promise.reject(new Error('Số điện thoại định dạng không đúng'))
+        } else {
+          return Promise.resolve()
+        }
+      },
+    },
+  ],
+}
 const LoginForm = () => {
   const dispatch = useDispatch()
   const [loading, setLoading] = useState(false)
@@ -18,17 +55,37 @@ const LoginForm = () => {
   const { status, role } = useSelector((state) => state.authReducer)
   const { route } = useContext(RouterContext)
   const navigate = useNavigate()
-  let type = useNavigationType()
+  const location = useLocation()
+
+  useEffect(() => {
+    if (status) {
+      let listHistory = route.listHistory
+      if (listHistory.length) {
+        let nextNavigate = listHistory[listHistory.length - 1]
+        navigate(nextNavigate.from)
+      } else {
+        navigate(role)
+      }
+    }
+  }, [status])
+
+  useEffect(() => {
+    if (location.state) {
+      formRef.current.setFieldsValue({
+        ...location.state,
+      })
+    }
+  }, [location.state])
 
   const onFinish = async (value) => {
-    setLoading(true)
-    if (step === 1) {
-      const result = await onGetOTP(value)
-      result && setStep(2)
-    } else if (step === 2) {
+    try {
+      setLoading(true)
       await onLogin()
+    } catch (error) {
+      console.log('error')
+    } finally {
+      setLoading(false)
     }
-    setLoading(false)
   }
 
   const onGetOTP = async (value) => {
@@ -44,42 +101,48 @@ const LoginForm = () => {
     }
   }
 
+  const sendOTP = async (formData) => {
+    return (await AuthService.getLoginOTP(formData)).data
+  }
+
+  const onHandleSendOTPByEmail = async () => {
+    try {
+      setLoading(true)
+      const { phone, email } = formRef.current.getFieldsValue(true)
+      const type = 'EMAIL'
+      const data = await sendOTP({ phone, email, type })
+      console.log('onHandleSendOTPByEmail data', data)
+      data && setStep(2)
+      message.success(data.data.message)
+    } catch (error) {
+      console.log(error)
+    } finally {
+      setLoading(false)
+    }
+  }
+  const onHandleSendOTPBySMS = async () => {
+    try {
+      setLoading(true)
+      const { phone, email } = formRef.current.getFieldsValue(true)
+      const type = 'SMS'
+      const data = await sendOTP({ phone, email, type })
+      console.log('onHandleSendOTPBySMS data', data)
+      data && setStep(2)
+    } catch (error) {
+      console.log(error)
+    } finally {
+      setLoading(false)
+    }
+  }
+
   const onLogin = async () => {
     try {
       const value = formRef.current.getFieldsValue(true)
-      dispatch(AuthAction.AuthLogin(value))
+      dispatch(AuthAction.AuthLoginWithEmail(value))
     } catch (error) {
       console.log('onLogin error', error)
     }
   }
-
-  const renderFieldByStep = useMemo(() => {
-    let html = null
-
-    if (step === 1) {
-      html = (
-        <>
-          <Form.Item name={['email']} label="Email" rules={[{ type: 'email' }]} required>
-            <Input />
-          </Form.Item>
-
-          <Text type="secondary" className={clsx(styles.text, 'ant-row ant-form-item')}>
-            * Mã xác thực sẽ được gửi qua Email
-          </Text>
-        </>
-      )
-    } else if (step === 2) {
-      html = (
-        <>
-          <Form.Item name={['otp']} label="Mã OTP" rules={[{ required: true, message: 'OTP là bắt buộc' }]}>
-            <Input maxLength={6} />
-          </Form.Item>
-        </>
-      )
-    }
-
-    return html
-  }, [step])
 
   const handleFinishFail = (value) => {
     const { errorFields } = value
@@ -90,20 +153,53 @@ const LoginForm = () => {
     message.error(listMess)
   }
 
-  useEffect(() => {
-    if (status) {
-      let listHistory = route.listHistory
-      if (listHistory.length) {
-        let nextNavigate = listHistory[listHistory.length - 1]
-        navigate(nextNavigate.from)
-      } else {
-        navigate(role)
-      }
+  const renderFieldByStep = useMemo(() => {
+    let html = null
+
+    if (step === 1) {
+      html = (
+        <>
+          <Form.Item name={['email']} label="Email" rules={FIELD_RULE['EMAIL']} required>
+            <Input />
+          </Form.Item>
+
+          <Form.Item name={['phone']} label="Số điện thoại" rules={FIELD_RULE['PHONE']} required>
+            <Input />
+          </Form.Item>
+
+          <Form.Item noStyle>
+            <div className="d-flex flex-column" style={{ gap: 12 }}>
+              <Button type="primary" loading={loading} block onClick={onHandleSendOTPByEmail}>
+                Xác thực qua Email
+              </Button>
+              <span style={{ textAlign: 'center' }}>Hoặc</span>
+              <Button loading={loading} block onClick={onHandleSendOTPBySMS}>
+                Xác thực qua số điện thoại
+              </Button>
+            </div>
+          </Form.Item>
+        </>
+      )
+    } else if (step === 2) {
+      html = (
+        <>
+          <Form.Item name={['otp']} label="Mã OTP" rules={[{ required: true, message: 'OTP là bắt buộc' }]}>
+            <Input maxLength={6} />
+          </Form.Item>
+          <Form.Item>
+            <Button type="primary" htmlType="submit" loading={loading} block>
+              Xác thực
+            </Button>
+          </Form.Item>
+        </>
+      )
     }
-  }, [status])
+
+    return html
+  }, [step])
 
   return (
-    <>
+    <div className="p-5">
       <Card
         title="Xác thực tài khoản"
         className={styles.card}
@@ -112,15 +208,9 @@ const LoginForm = () => {
       >
         <Form layout="vertical" onFinish={onFinish} ref={formRef} onFinishFailed={handleFinishFail}>
           {renderFieldByStep}
-
-          <Form.Item>
-            <Button type="primary" htmlType="submit" loading={loading} block>
-              Xác thực
-            </Button>
-          </Form.Item>
         </Form>
       </Card>
-    </>
+    </div>
   )
 }
 

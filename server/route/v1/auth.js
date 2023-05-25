@@ -1,41 +1,36 @@
 const express = require('express')
 const { upload, requireSignin } = require('@middleware')
-
 const router = express.Router() // get || post || put || delete || ....
 
-const Authorization = require('@controller/Authorization')
+const LoginController = require('@controller/Authorization/login.controller')
+const RegisterController = require('@controller/Authorization/register.controller')
+const ForgotPasswordController = require('@controller/Authorization/forgot-password.controller')
 
-const {
-  registerUser,
-  LoginUser,
-  Logout,
-  Authenticate,
-  ForgotPassword,
-  ValidateOTP,
-  ResetPassword,
-  getUserOTPForLogin,
-  loginUserWithOtp,
-} = new Authorization()
+const logOut = (req, res) => {
+  res.clearCookie('sessionId')
+  return res.status(200).json({
+    authenticate: false,
+  })
+}
 
-// // Create User
-router.post('/register', upload.none(), registerUser)
+router.post('/register', upload.none(), new RegisterController().onHandleRegister)
 
-//login
-// router.post('/login', upload.none(), LoginUser)
-router.post('/login', upload.none(), loginUserWithOtp)
+router.post('/login-otp', new LoginController().onHandleGetOTPForLogin)
 
-router.post('/login-otp', upload.none(), getUserOTPForLogin)
+router.post('/login', upload.none(), new LoginController().onHandleLogin)
 
-//logout
-router.post('/logout', upload.none(), Logout)
+router.post('/auth', requireSignin, new LoginController().onHandleVerifyToken)
 
-//authenticate
-router.post('/auth', requireSignin, Authenticate)
+router.post('/check-user', new LoginController().onCheckUserExist)
 
-router.post('/forgot-password', ForgotPassword)
+// router.post('/sms', new LoginController().onSendSMS)
 
-router.post('/check-otp', ValidateOTP)
+router.post('/forgot-password', new ForgotPasswordController().onHandleForgotPassword)
 
-router.post('/reset-password', ResetPassword)
+router.post('/check-otp', new ForgotPasswordController().onHandleValiteOTP)
+
+router.post('/reset-password', new ForgotPasswordController().onHandleResetPassword)
+
+router.post('/logout', logOut)
 
 module.exports = router

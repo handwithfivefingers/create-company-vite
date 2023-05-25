@@ -17,7 +17,6 @@ export const AuthUser = () => {
           role: response.data.role,
         },
       })
-      
     } catch (error) {
       dispatch({
         type: AUTH.AUTH_FAILURE,
@@ -26,27 +25,38 @@ export const AuthUser = () => {
   }
 }
 
-export const AuthLogin = (val) => {
+export const AuthLoginWithEmail = (val) => {
   return async (dispatch) => {
-    dispatch({
-      type: AUTH_LOGIN.REQUEST,
-    })
+    dispatchLoginRequest(dispatch)
+
     try {
       const resp = await AuthService.onLogin(val)
       if (resp.status === 200) {
-        dispatch({
-          type: AUTH_LOGIN.SUCCESS,
-          payload: {
-            status: resp.data.authenticate,
-            role: resp.data.data.role,
-          },
-        })
+        const { authenticate, data } = resp.data
+
+        dispatchLoginSuccess(dispatch, { authenticate: authenticate, role: data.role })
+
         message.success('Login success')
       }
     } catch (err) {
-      dispatch({
-        type: AUTH_LOGIN.FAILURE,
-      })
+      distpachLoginFailure(dispatch)
+      message.error(err.response.data.message)
+    }
+  }
+}
+
+export const AuthLoginWithPhone = (val) => {
+  return async (dispatch) => {
+    dispatchLoginRequest(dispatch)
+    try {
+      const resp = await AuthService.loginWithPhone(val)
+      if (resp.status === 200) {
+        const { authenticate, data } = resp.data
+        dispatchLoginSuccess(dispatch, { authenticate: authenticate, role: data.role })
+        message.success('Login success')
+      }
+    } catch (err) {
+      distpachLoginFailure(dispatch)
       message.error(err.response.data.message)
     }
   }
@@ -54,28 +64,19 @@ export const AuthLogin = (val) => {
 
 export const AuthRegister = (form) => {
   return async (dispatch) => {
-    dispatch({
-      type: AUTH_REGISTER.REQUEST,
-    })
     try {
+      dispatchRegisterReq(dispatch)
+
       let resp = await AuthService.onRegister(form)
-      if (resp.status === 201) {
+
+      if (resp.status === 200) {
         message.success(resp.data.message)
-        dispatch({
-          type: AUTH_REGISTER.SUCCESS,
-          payload: {
-            status: true,
-            role: resp.data.role,
-          },
-        })
-      } else {
-        message.error(resp.data.message)
-        dispatch({
-          type: AUTH_REGISTER.FAILURE,
-        })
+        distpachRegisterSuccess(dispatch, { role: resp.data.role, status: true })
       }
-    } catch (err) {
-      console.log(err)
+    } catch (error) {
+      console.log(error)
+      message.error(error.response.data.message)
+      dispatchRegisterFailure(dispatch)
     }
   }
 }
@@ -85,5 +86,46 @@ export const AuthLogout = () => async (dispatch) => {
   dispatch({
     type: AUTH_LOGOUT.SUCCESS,
     payload: {},
+  })
+}
+const dispatchRegisterReq = (dispatch) => {
+  dispatch({
+    type: AUTH_REGISTER.REQUEST,
+  })
+}
+const distpachRegisterSuccess = (dispatch, { status, role }) => {
+  dispatch({
+    type: AUTH_REGISTER.SUCCESS,
+    payload: {
+      status: true,
+      role,
+    },
+  })
+}
+const dispatchRegisterFailure = (dispatch) => {
+  dispatch({
+    type: AUTH_REGISTER.FAILURE,
+  })
+}
+
+const dispatchLoginSuccess = (dispatch, { authenticate, role }) => {
+  return dispatch({
+    type: AUTH_LOGIN.SUCCESS,
+    payload: {
+      status: authenticate,
+      role: role,
+    },
+  })
+}
+
+const distpachLoginFailure = (dispatch) => {
+  return dispatch({
+    type: AUTH_LOGIN.FAILURE,
+  })
+}
+
+const dispatchLoginRequest = (dispatch) => {
+  return dispatch({
+    type: AUTH_LOGIN.REQUEST,
   })
 }

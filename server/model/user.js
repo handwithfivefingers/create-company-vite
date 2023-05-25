@@ -11,7 +11,6 @@ module.exports = {
     type: String,
     required: true,
     trim: true,
-    unique: true,
     lowercase: true,
   },
   hash_password: {
@@ -26,7 +25,6 @@ module.exports = {
   phone: {
     type: String,
     required: true,
-    unique: true,
   },
   delete_flag: {
     type: Number,

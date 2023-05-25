@@ -12,15 +12,23 @@ const CategoryAdmin = require('./category')
 const CareerCate = require('./careerCate')
 const CareerAdmin = require('./career')
 
-module.exports = {
+const express = require('express')
+const router = express.Router()
+
+router.use(
+  '/',
+  SettingRoute,
   LogRoute,
   AdminOrderRoute,
-  MailRoute,
   FileRoute,
-  SettingRoute,
   UserRoute,
   ProductAdmin,
   CategoryAdmin,
   CareerCate,
   CareerAdmin,
+)
+
+module.exports = {
+  MailRoute,
+  router,
 }

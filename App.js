@@ -13,6 +13,7 @@ const appConfig = require('./server/configs/defaultConfig')
 const LoadEnv = require('./server/configs/loadENV')
 
 const { spawn, fork, exec, execSync } = require('child_process')
+const { User } = require('./server/model')
 
 global.__basedir = __dirname
 

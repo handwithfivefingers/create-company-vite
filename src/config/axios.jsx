@@ -3,7 +3,7 @@ import store from '@/store'
 import { AuthAction } from '@/store/actions'
 
 const instance = axios.create({
-  baseURL: import.meta.env.MODE === 'development' ? `${import.meta.env.VITE_BASEHOST_DEV}/api` : `${import.meta.env.VITE_BASEHOST_PROD}/api`,
+  baseURL: import.meta.env.MODE === 'development' ? `${import.meta.env.VITE_BASEHOST_DEV}/api/v1` : `${import.meta.env.VITE_BASEHOST_PROD}/api/v1`,
   timeout: 1000 * 30, // Wait for 30 seconds
   headers: {
     'Access-Control-Allow-Origin': '*',

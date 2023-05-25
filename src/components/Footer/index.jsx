@@ -22,7 +22,10 @@ const Footer = () => {
         }}
       >
         <Col span={24} align="center">
-          <p style={{ color: '#fff', margin: 0, padding: '8px 0' }}>Công ty TNHH Thành lập công ty Online - Giấy phép kinh doanh số: 12312312 - Cấp ngày 17/11/2017</p>
+          {/* <p style={{ color: '#fff', margin: 0, padding: '8px 0' }}>Công ty TNHH Thành lập công ty Online - Giấy phép kinh doanh số: 12312312 - Cấp ngày 17/11/2017</p> */}
+          <p style={{ color: '#fff', margin: 0, padding: '8px 0' }}>
+            MỘT SẢN PHẨM CỦA CÔNG TY TNHH DỊCH VỤ TƯ VẤN WARREN B - MST: 0316184427
+          </p>
         </Col>
       </Row>
     </div>

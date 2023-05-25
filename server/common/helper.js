@@ -22,7 +22,11 @@ const otpGenerator = require('otp-generator')
 
 const jwt = require('jsonwebtoken')
 
+const { Setting } = require('../model')
+
 libre.convertAsync = require('util').promisify(libre.convert)
+
+const specialFields = ['company_main_career', 'company_opt_career']
 
 function nullGetter(tag, props) {
   if (props.tag === 'simple') {
@@ -83,8 +87,6 @@ const saveFileAsDocx = async (buffer, ext, fileName) => {
   fs.writeFileSync(filePath, buffer)
   return filePath
 }
-
-const specialFields = ['company_main_career', 'company_opt_career']
 
 const objToKeys = (obj, baseObj, path = null) => {
   Object.keys(obj).forEach((item) => {
@@ -344,6 +346,7 @@ const generateOTP = (length = 6) => {
     specialChars: false,
   })
 }
+
 const generateToken = async (obj, res) => {
   const token = await jwt.sign(obj, process.env.SECRET, {
     expiresIn: process.env.EXPIRE_TIME,
@@ -354,6 +357,15 @@ const generateToken = async (obj, res) => {
     maxAge: 2 * 24 * hour,
     httpOnly: true,
   })
+}
+
+const getTemplateMail = async (template) => {
+  try {
+    let [_setting] = await Setting.find().populate(`${template}`, '-updatedAt -createdAt -_id -__v')
+    return _setting[template]
+  } catch (error) {
+    throw error
+  }
 }
 
 module.exports = {
@@ -368,4 +380,5 @@ module.exports = {
   handleCheckChildren,
   generateOTP,
   generateToken,
+  getTemplateMail,
 }

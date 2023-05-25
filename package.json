@@ -19,6 +19,7 @@
     "@response": "./server/response",
     "@constant": "./server/constant",
     "@common": "./server/common",
+    "@service": "./server/service",
     "@uploads": "./uploads"
   },
   "dependencies": {
