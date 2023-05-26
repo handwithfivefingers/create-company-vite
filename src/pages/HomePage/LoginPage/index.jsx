@@ -1,10 +1,10 @@
 import { RouterContext } from '@/helper/Context'
 import AuthService from '@/service/AuthService'
 import { AuthAction } from '@/store/actions'
-import { Alert, Button, Input, Modal, Tabs, message, Form } from 'antd'
+import { Alert, Button, Input, Modal, Tabs, message, Form, Typography } from 'antd'
 import React, { forwardRef, useContext, useEffect, useImperativeHandle, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 import RegisterForm from './Register'
 import styles from './styles.module.scss'
 
@@ -48,6 +48,10 @@ export default function LoginPage() {
     if (route.to && status) {
       navigate(route.to)
     }
+    // formRef.current.setFieldsValue({
+    //   email: 'truyenmai95@gmail.com',
+    //   phone: '0798341239',
+    // })
   }, [])
 
   useEffect(() => {
@@ -194,17 +198,25 @@ const AlertNotify = (props) => {
         <Alert
           message={
             <>
-              <p>Đã có tài khoản trùng số điện thoại.</p>
-              <p>Tiếp tục đăng kí và xóa tài khoản cũ ?</p>
+              <Typography.Text style={{ border: 0, maxWidth: 350, padding: '20px 0' }}>
+                <span>
+                  Số điện thoại đã tồn tại! Quý khách đã có tài khoản và đã từng điền form trên hệ thống của chúng tôi?
+                  Hãy
+                 
+                    <Button type="link" onClick={onLogin} style={{ padding: '0 4px', fontSize: 14 }}>
+                    <b> {` nhấn vào đây `} </b>
+                    </Button>
+                 
+                  và nhập mã xác thực được gửi qua số điện thoại. Sau đó, quý khách có thể đăng nhập lại và quản lý
+                  thông tin đã nhập một cách dễ dàng. Hoặc <b>bỏ qua</b> thông báo này và đăng ký tài khoản mới.
+                </span>
+              </Typography.Text>
             </>
           }
           type="warning"
         />
       </div>
       <div className="d-flex flex-row justify-content-center align-items-center" style={{ gap: 8 }}>
-        <Button type="primary" style={{ width: '120px' }} onClick={onLogin}>
-          Đăng nhập
-        </Button>
         <Button style={{ width: '160px' }} onClick={onRegister}>
           Xác thực và Tiếp tục
         </Button>

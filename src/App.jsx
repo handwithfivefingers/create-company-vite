@@ -1,7 +1,7 @@
 import LoadingScreen from '@/components/LoadingScreen'
 import { RouterContext, RouterProvider } from '@/helper/Context'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { ConfigProvider } from 'antd'
+import { ConfigProvider, message } from 'antd'
 import moment from 'moment'
 import { useContext, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
@@ -27,7 +27,9 @@ ConfigProvider.config({
     primaryColor: '#cd2027',
   },
 })
-
+message.config({
+  duration: 5,
+})
 moment.defaultFormat = 'DD/MM/YYYY'
 
 moment.locale('vi')
@@ -52,22 +54,6 @@ const RouterComponent = (props) => {
 
   const handleDetectRoute = (routeComing, routeHistory) => {
     try {
-      // console.log('routeComing', routeComing)
-      // console.log('routeHistory', routeHistory)
-      // if (routeComing.to !== routeHistory.to) {
-      //   const forgotRegex = new RegExp('forgot-password', 'g')
-      //   const loginRegex = new RegExp('login', 'g')
-      //   const registerRegex = new RegExp('register', 'g')
-
-      //   let match =
-      //     routeHistory.to.match(forgotRegex) ||
-      //     routeHistory.to.match(loginRegex) ||
-      //     routeHistory.to.match(registerRegex)
-
-      //   if (routeHistory.to === '/' || routeHistory.to !== '') return
-      //   else if (!match) setRoute(routeHistory)
-
-      // }
       setRoute(routeHistory)
     } catch (error) {
       console.log('detected route failed', error)

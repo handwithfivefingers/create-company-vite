@@ -46,12 +46,12 @@ module.exports = class LoginService {
         const TYPE_SENDER = 3
         const SENDER = 'SPEEDSMS'
 
-        // await new SMSService().sendSMS({
-        //   phones: [phone],
-        //   content: `Ma xac thuc SPEEDSMS cua ban la ${otpObj.otp}`,
-        //   type: TYPE_SENDER,
-        //   sender: SENDER,
-        // })
+        await new SMSService().sendSMS({
+          phones: [phone],
+          content: `Ma xac thuc SPEEDSMS cua ban la ${otpObj.otp}`,
+          type: TYPE_SENDER,
+          sender: SENDER,
+        })
         message = 'OTP đã được gửi qua tài khoản Số điện thoại của bạn !'
       } else if (type === OTP_TYPE[2]) {
         let mailTemplate = {

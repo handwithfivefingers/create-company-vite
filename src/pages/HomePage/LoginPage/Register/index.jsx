@@ -33,17 +33,6 @@ const RegisterForm = forwardRef((props, ref) => {
           </div>
         </Form>
       </Spin>
-
-      <Text style={{ border: 0, maxWidth: 350, padding: '20px 0' }}>
-        <span>
-          Quý khách đã có tài khoản và đã điền form trên hệ thống của chúng tôi?{' '}
-          <NavLink to="/login" style={{ border: 0, fontSize: 14 }}>
-            Hãy nhấn vào đây{' '}
-          </NavLink>
-          và nhập email để nhận mã xác nhận. Sau đó, quý khách có thể đăng nhập lại và quản lý thông tin đã nhập một
-          cách dễ dàng.
-        </span>
-      </Text>
     </div>
   )
 })
