@@ -54,6 +54,7 @@ const LoginForm = () => {
   const [step, setStep] = useState(1)
   const { status, role } = useSelector((state) => state.authReducer)
   const { route } = useContext(RouterContext)
+  const [typeVerify, setTypeVerify] = useState(TYPE_VERIFY['PHONE'])
   const navigate = useNavigate()
   const location = useLocation()
 
@@ -62,7 +63,9 @@ const LoginForm = () => {
       let listHistory = route.listHistory
       if (listHistory.length) {
         let nextNavigate = listHistory[listHistory.length - 1]
-        navigate(nextNavigate.from)
+        if (location.pathname.includes(nextNavigate.from)) {
+          navigate(role)
+        } else navigate(nextNavigate.from)
       } else {
         navigate(role)
       }
@@ -77,70 +80,73 @@ const LoginForm = () => {
     }
   }, [location.state])
 
-  const onFinish = async (value) => {
+  const onFinish = async () => {
     try {
       setLoading(true)
       await onLogin()
     } catch (error) {
-      console.log('error')
+      console.log('error', error)
     } finally {
       setLoading(false)
-    }
-  }
-
-  const onGetOTP = async (value) => {
-    try {
-      const response = await AuthService.getLoginOTP(value)
-      if (response.status === 200) {
-        message.success(response.data?.data?.message)
-        return true
-      }
-    } catch (error) {
-      message.error(error.response?.message || error.message || 'Đã có lỗi xảy ra, vui lòng liên hệ admin')
-      return false
     }
   }
 
   const sendOTP = async (formData) => {
     return (await AuthService.getLoginOTP(formData)).data
   }
-
   const onHandleSendOTPByEmail = async () => {
     try {
       setLoading(true)
       const { phone, email } = formRef.current.getFieldsValue(true)
       const type = 'EMAIL'
       const data = await sendOTP({ phone, email, type })
-      console.log('onHandleSendOTPByEmail data', data)
       data && setStep(2)
       message.success(data.data.message)
     } catch (error) {
-      console.log(error)
+      message.error(error.response.data.message)
     } finally {
       setLoading(false)
     }
   }
+
   const onHandleSendOTPBySMS = async () => {
     try {
       setLoading(true)
       const { phone, email } = formRef.current.getFieldsValue(true)
       const type = 'SMS'
       const data = await sendOTP({ phone, email, type })
-      console.log('onHandleSendOTPBySMS data', data)
+      // console.log('onHandleSendOTPBySMS data', data)
+      message.success(data.data.message)
       data && setStep(2)
     } catch (error) {
-      console.log(error)
+      // console.log(error)
+      message.error(error.response.data.message)
     } finally {
       setLoading(false)
+    }
+  }
+
+  const onHandleSendOTP = async () => {
+    switch (typeVerify) {
+      case TYPE_VERIFY['EMAIL']:
+        return onHandleSendOTPByEmail()
+      case TYPE_VERIFY['PHONE']:
+        return onHandleSendOTPBySMS()
     }
   }
 
   const onLogin = async () => {
     try {
       const value = formRef.current.getFieldsValue(true)
-      dispatch(AuthAction.AuthLoginWithEmail(value))
+      const resp = await AuthService.onLogin(value)
+      // console.log('onLogin result', resp)
+      if (resp.status === 200) {
+        const { authenticate, data } = resp.data
+        dispatch(AuthAction.loginSuccess({ authenticate, role: data.role }))
+      }
     } catch (error) {
-      console.log('onLogin error', error)
+      // console.log('onLogin error', error)
+      message.error(error.response?.data?.message || 'Đã có lỗi xảy ra, vui lòng liên hệ admin')
     }
   }
 
@@ -153,29 +159,46 @@ const LoginForm = () => {
     message.error(listMess)
   }
 
+  const toggleVerify = () => {
+    if (typeVerify === TYPE_VERIFY['EMAIL']) {
+      setTypeVerify(TYPE_VERIFY['PHONE'])
+    } else {
+      setTypeVerify(TYPE_VERIFY['EMAIL'])
+    }
+  }
+
   const renderFieldByStep = useMemo(() => {
     let html = null
+
+    const formInput = () => {
+      if (typeVerify === TYPE_VERIFY['EMAIL']) {
+        return (
+          <Form.Item name={['email']} label="Email" rules={FIELD_RULE['EMAIL']} required>
+            <Input />
+          </Form.Item>
+        )
+      }
+      return (
+        <Form.Item name={['phone']} label="Số điện thoại" rules={FIELD_RULE['PHONE']} required>
+          <Input />
+        </Form.Item>
+      )
+    }
 
     if (step === 1) {
       html = (
         <>
-          <Form.Item name={['email']} label="Email" rules={FIELD_RULE['EMAIL']} required>
-            <Input />
-          </Form.Item>
-
-          <Form.Item name={['phone']} label="Số điện thoại" rules={FIELD_RULE['PHONE']} required>
-            <Input />
-          </Form.Item>
+          {formInput()}
 
           <Form.Item noStyle>
-            <div className="d-flex flex-column" style={{ gap: 12 }}>
-              <Button type="primary" loading={loading} block onClick={onHandleSendOTPByEmail}>
-                Xác thực qua Email
+            <div className="d-flex flex-column align-items-center " style={{ gap: 12, paddingTop: 12 }}>
+              <Button type="primary" loading={loading} block onClick={onHandleSendOTP}>
+                Xác thực
               </Button>
-              <span style={{ textAlign: 'center' }}>Hoặc</span>
-              <Button loading={loading} block onClick={onHandleSendOTPBySMS}>
-                Xác thực qua số điện thoại
-              </Button>
+              <span>Hoặc</span>
+              <a type="primary" loading={loading} block onClick={toggleVerify}>
+                Xác thực qua {typeVerify === TYPE_VERIFY['EMAIL'] ? 'Số điện thoại' : 'Email'}
+              </a>
             </div>
           </Form.Item>
         </>
@@ -186,8 +209,9 @@ const LoginForm = () => {
           <Form.Item name={['otp']} label="Mã OTP" rules={[{ required: true, message: 'OTP là bắt buộc' }]}>
             <Input maxLength={6} />
           </Form.Item>
+
           <Form.Item>
-            <Button type="primary" htmlType="submit" loading={loading} block>
+            <Button type="primary" loading={loading} block onClick={onFinish}>
               Xác thực
             </Button>
           </Form.Item>
@@ -196,7 +220,7 @@ const LoginForm = () => {
     }
 
     return html
-  }, [step])
+  }, [step, typeVerify, loading])
 
   return (
     <div className="p-5">

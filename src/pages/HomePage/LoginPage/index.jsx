@@ -1,7 +1,7 @@
 import { RouterContext } from '@/helper/Context'
 import AuthService from '@/service/AuthService'
 import { AuthAction } from '@/store/actions'
-import { Alert, Button, Input, Modal, Tabs, message } from 'antd'
+import { Alert, Button, Input, Modal, Tabs, message, Form } from 'antd'
 import React, { forwardRef, useContext, useEffect, useImperativeHandle, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
@@ -54,13 +54,7 @@ export default function LoginPage() {
     if (status) {
       navigateLastRoute()
     }
-    // formRef.current.setFieldsValue({
-    //   email: 'truyenmai95@gmail.com',
-    //   phone: '0798341239',
-    // })
   }, [status])
-
-  console.log('status, role', status, role)
 
   const navigateLastRoute = () => {
     let listHistory = route.listHistory
@@ -82,7 +76,7 @@ export default function LoginPage() {
   const toggleModal = () => setModal((state) => ({ ...state, open: !state.open }))
 
   const isUserExist = async ({ phone, email, type = undefined }) => {
-    return (await AuthService.isUserExist({ phone, email, type }))?.data?.status || false
+    return (await AuthService.isUserExist({ phone, email, type }))?.data
   }
 
   const onRegisterSubmit = async () => {
@@ -108,13 +102,12 @@ export default function LoginPage() {
   const onRegisterWithSMS = async () => {
     try {
       const result = await sendOTP('SMS')
-      // const result = await sendOTP()
       if (result.data) {
         message.success(result.data.message)
       }
       setModal((state) => ({ ...state, component: <OTPInput ref={inputRef} onSubmit={onRegisterSubmit} /> }))
     } catch (error) {
-      message.error(error.response.data?.error?.message)
+      message.error(error.response.data?.message)
     }
   }
 
@@ -129,12 +122,16 @@ export default function LoginPage() {
   const onFinish = async (value) => {
     try {
       setLoading(true)
-      const userExist = await isUserExist(value)
+      const { status: userExist, message: msg } = await isUserExist(value)
+
       if (userExist) {
-        setModal({
-          open: true,
-          component: <AlertNotify onRegister={onRegisterWithSMS} onLogin={onLogin} />,
-        })
+        if (msg) {
+          message.error(msg)
+        } else
+          setModal({
+            open: true,
+            component: <AlertNotify onRegister={onRegisterWithSMS} onLogin={onLogin} />,
+          })
       } else {
         const result = await sendOTP()
         if (result.data) {
@@ -173,7 +170,12 @@ const OTPInput = forwardRef((props, ref) => {
 
   return (
     <div className="d-flex flex-column align-items-center" style={{ padding: '20px 0', gap: 12 }}>
-      <Input value={otpValue} onChange={(e) => setOTPValue(e.target.value)} placeholder="OTP code" />
+      <Form layout="vertical" style={{ width: '100%' }}>
+        <Form.Item name={['otp']} label="Mã OTP" rules={[{ required: true, message: 'OTP là bắt buộc' }]}>
+          <Input value={otpValue} onChange={(e) => setOTPValue(e.target.value)} placeholder="OTP code" maxLength={6} />
+        </Form.Item>
+      </Form>
+
       <div>
         <Button type="primary" onClick={onSubmit}>
           Xác nhận

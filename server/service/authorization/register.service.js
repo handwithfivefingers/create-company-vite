@@ -10,24 +10,17 @@ module.exports = class RegiserService {
 
       const isOTPValid = await OTP.findOne({ phone, email, otp, delete_flag: 0 })
 
+      const _userExist = await User.find({ email, delete_flag: 0 })
+
+      if (_userExist.length && _userExist.some((user) => user.phone !== phone)) {
+        throw { message: 'Email đã có người đăng kí, vui lòng thử email khác' }
+      }
+
       if (!isOTPValid) throw { message: 'Mã xác thực không chính xác' }
 
       if (deleteOldUser) {
         await this.handleDeleteUserBeforeRegister({ phone, email })
       }
-
-      // await User.findOne({
-      //   $or: [{ email: req.body.email }, { phone: req.body.phone }],
-      //   delete_flag: 0,
-      // })
-
-      // let message = _user?.phone === req.body.phone ? 'Số điện thoại' : 'Địa chỉ Email' // if have user -> check mail or phone
-
-      // if (_user) {
-      //   return {
-      //     message: `${message} đã có người sử dụng, vui lòng thử lại !`,
-      //   }
-      // }
 
       var password = Math.random().toString(36).slice(-8)
 

@@ -12,7 +12,7 @@ module.exports = class RegisterController {
       })
     } catch (error) {
       return res.status(400).json({
-        error,
+        ...error,
       })
     }
   }

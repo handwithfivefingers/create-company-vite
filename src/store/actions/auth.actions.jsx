@@ -28,7 +28,6 @@ export const AuthUser = () => {
 export const AuthLoginWithEmail = (val) => {
   return async (dispatch) => {
     dispatchLoginRequest(dispatch)
-
     try {
       const resp = await AuthService.onLogin(val)
       if (resp.status === 200) {
@@ -38,29 +37,31 @@ export const AuthLoginWithEmail = (val) => {
 
         message.success('Login success')
       }
+      return true
     } catch (err) {
       distpachLoginFailure(dispatch)
       message.error(err.response.data.message)
+      return false
     }
   }
 }
 
-export const AuthLoginWithPhone = (val) => {
-  return async (dispatch) => {
-    dispatchLoginRequest(dispatch)
-    try {
-      const resp = await AuthService.loginWithPhone(val)
-      if (resp.status === 200) {
-        const { authenticate, data } = resp.data
-        dispatchLoginSuccess(dispatch, { authenticate: authenticate, role: data.role })
-        message.success('Login success')
-      }
-    } catch (err) {
-      distpachLoginFailure(dispatch)
-      message.error(err.response.data.message)
-    }
-  }
-}
+// export const AuthLoginWithPhone = (val) => {
+//   return async (dispatch) => {
+//     dispatchLoginRequest(dispatch)
+//     try {
+//       const resp = await AuthService.loginWithPhone(val)
+//       if (resp.status === 200) {
+//         const { authenticate, data } = resp.data
+//         dispatchLoginSuccess(dispatch, { authenticate: authenticate, role: data.role })
+//         message.success('Login success')
+//       }
+//     } catch (err) {
+//       distpachLoginFailure(dispatch)
+//       message.error(err.response.data.message)
+//     }
+//   }
+// }
 
 export const AuthRegister = (form) => {
   return async (dispatch) => {
@@ -129,3 +130,8 @@ const dispatchLoginRequest = (dispatch) => {
     type: AUTH_LOGIN.REQUEST,
   })
 }
+
+const loginSuccess = (value) => (dispatch) => {
+  return dispatchLoginSuccess(dispatch, value)
+}
+export { loginSuccess }
