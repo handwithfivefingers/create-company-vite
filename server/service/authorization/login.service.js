@@ -13,10 +13,11 @@ module.exports = class LoginService {
 
       let message, _otp, _user
 
-      if (email) {
-        _otp = await OTP.findOne({ email, type, delete_flag: 0 })
-        _user = await User.findOne({ email })
-      } else if (phone) {
+      // if (email) {
+      //   _otp = await OTP.findOne({ email, type, delete_flag: 0 })
+      //   _user = await User.findOne({ email })
+      // } else
+      if (phone) {
         _otp = await OTP.findOne({ phone, type, delete_flag: 0 })
         _user = await User.findOne({ phone })
       } else {
@@ -52,6 +53,7 @@ module.exports = class LoginService {
           type: TYPE_SENDER,
           sender: SENDER,
         })
+
         message = 'OTP đã được gửi qua tài khoản Số điện thoại của bạn !'
       } else if (type === OTP_TYPE[2]) {
         let mailTemplate = {
@@ -81,12 +83,15 @@ module.exports = class LoginService {
     try {
       const { email, phone, otp } = req.body
       let _otp, _user, _tokenObj, result
-      if (email) {
-        _otp = await OTP.findOne({ email, delete_flag: 0, otp })
-        _user = await User.findOne({ email })
-      } else if (phone) {
+      // if (email) {
+      //   _otp = await OTP.findOne({ email, delete_flag: 0, otp })
+      //   _user = await User.findOne({ email })
+      // } else
+
+      if (phone) {
         _otp = await OTP.findOne({ phone, delete_flag: 0, otp })
-        _user = await User.findOne({ phone })
+
+        _user = await User.findOne({ phone, delete_flag: 0 })
       }
 
       if (!_otp) throw { message: 'OTP đã hết hạn' }
@@ -123,11 +128,11 @@ module.exports = class LoginService {
       const { phone, email, type } = req.body
 
       let _user
-      _user = await User.find({ email, delete_flag: 0 })
+      // _user = await User.find({ email, delete_flag: 0 })
 
-      if (_user.length && _user.some((user) => user.phone !== phone)) {
-        throw { message: 'Email đã có người đăng kí với số điện thoại khác, vui lòng thử lại email khác', status: true }
-      }
+      // if (_user.length && _user.some((user) => user.phone !== phone)) {
+      //   throw { message: 'Email đã có người đăng kí với số điện thoại khác, vui lòng thử lại email khác', status: true }
+      // }
 
       if (+type === 1) {
         _user = await User.findOne({ phone, email })

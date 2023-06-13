@@ -10,11 +10,11 @@ module.exports = class RegiserService {
 
       const isOTPValid = await OTP.findOne({ phone, email, otp, delete_flag: 0 })
 
-      const _userExist = await User.find({ email, delete_flag: 0 })
+      // const _userExist = await User.find({ phone, delete_flag: 0 })
 
-      if (_userExist.length && _userExist.some((user) => user.phone !== phone)) {
-        throw { message: 'Email đã có người đăng kí, vui lòng thử email khác' }
-      }
+      // if (_userExist.length && _userExist.some((user) => user.phone !== phone)) {
+      //   throw { message: 'Email đã có người đăng kí, vui lòng thử email khác' }
+      // }
 
       if (!isOTPValid) throw { message: 'Mã xác thực không chính xác' }
 
@@ -43,10 +43,9 @@ module.exports = class RegiserService {
 
       await generateToken(_tokenObj, res)
 
-      // let mailParams = await this.getMailParams({ name: userName, phone, password, role, email: _save.email }, res)
-
-      // await sendmailWithAttachments(req, res, mailParams)
-
+      // isOTPValid.delete_flag = 1
+      // isOTPValid.save()
+      
       return {
         role,
         message: 'Đăng kí thành công',
@@ -62,7 +61,7 @@ module.exports = class RegiserService {
       await User.updateOne(
         {
           phone,
-          email,
+          // email,
           delete_flag: 0,
         },
         {

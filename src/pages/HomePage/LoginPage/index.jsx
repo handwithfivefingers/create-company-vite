@@ -15,13 +15,6 @@ const LIST_TABS = {
   2: 'register',
 }
 
-const STEP = {
-  1: 'PREPARE',
-  2: 'REGISTER',
-  3: 'LOGIN',
-  4: 'VERIFY',
-}
-
 export default function LoginPage() {
   const formRef = useRef()
 
@@ -49,7 +42,7 @@ export default function LoginPage() {
       navigate(route.to)
     }
     // formRef.current.setFieldsValue({
-    //   email: 'truyenmai95@gmail.com',
+    //   email: 'handgod1995@gmail.com',
     //   phone: '0798341239',
     // })
   }, [])
@@ -71,6 +64,7 @@ export default function LoginPage() {
       navigate(role)
     }
   }
+
   const onHandleRegister = async (val) => {
     setLoading(true)
     await dispatch(AuthAction.AuthRegister(val))

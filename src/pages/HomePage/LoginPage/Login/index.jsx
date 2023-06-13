@@ -195,10 +195,10 @@ const LoginForm = () => {
               <Button type="primary" loading={loading} block onClick={onHandleSendOTP}>
                 Xác thực
               </Button>
-              <span>Hoặc</span>
+              {/* <span>Hoặc</span>
               <a type="primary" loading={loading} block onClick={toggleVerify}>
                 Xác thực qua {typeVerify === TYPE_VERIFY['EMAIL'] ? 'Số điện thoại' : 'Email'}
-              </a>
+              </a> */}
             </div>
           </Form.Item>
         </>

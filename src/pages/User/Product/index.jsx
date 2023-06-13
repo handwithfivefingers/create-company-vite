@@ -15,7 +15,7 @@ const UserProductPage = (props) => {
 
   useEffect(() => {
     if (data && status === 'success') {
-      let prod = data.sort((a, b) => a.type - b.type)
+      let prod = data.length && data?.sort((a, b) => a.type - b.type) || []
       setProduct(prod)
     }
   }, [isLoading])
