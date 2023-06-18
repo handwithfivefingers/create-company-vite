@@ -67,7 +67,7 @@ export default function LoginPage() {
 
   const onHandleRegister = async () => {
     const { email, phone } = formRef.current.getFieldsValue(true)
-    let otp = inputRef.current.getValue()
+    let otp = inputRef.current?.getValue() || ''
     setLoading(true)
     await dispatch(AuthAction.AuthRegister({ email, phone, otp }))
     setLoading(false)
@@ -136,15 +136,17 @@ export default function LoginPage() {
             component: <AlertNotify onRegister={onRegisterWithSMS} onLogin={onLogin} />,
           })
       } else {
-        const result = await sendOTP()
-        if (result.data) {
-          message.success(result.data.message)
-          setModal((state) => ({
-            ...state,
-            open: true,
-            component: <OTPInput ref={inputRef} onSubmit={onHandleRegister} />,
-          }))
-        }
+        // const result = await sendOTP()
+        // if (result.data) {
+        //   message.success(result.data.message)
+        //   setModal((state) => ({
+        //     ...state,
+        //     open: true,
+        //     component: <OTPInput ref={inputRef} onSubmit={onHandleRegister} />,
+        //   }))
+        // }
+        await onHandleRegister()
+        // message.success(result.data.message)
       }
     } catch (error) {
       console.log('finish error')

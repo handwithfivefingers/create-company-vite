@@ -81,7 +81,12 @@ module.exports = class RegiserService {
     try {
       const { phone, email, otp, deleteOldUser } = req.body
 
-      const isOTPValid = await OTP.findOne({ phone, email, otp, delete_flag: 0 })
+      let isOTPValid = true
+
+      if (otp) {
+        const isOtpExist = await OTP.findOne({ phone, email, otp, delete_flag: 0 })
+        if (isOtpExist) isOTPValid = false
+      }
 
       // const _userExist = await User.find({ phone, delete_flag: 0 })
 
@@ -115,10 +120,7 @@ module.exports = class RegiserService {
       let _tokenObj = { _id, role, updatedAt }
 
       await generateToken(_tokenObj, res)
-
-      // isOTPValid.delete_flag = 1
-      // isOTPValid.save()
-
+      
       return {
         role,
         message: 'Đăng kí thành công',
