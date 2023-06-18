@@ -2,6 +2,7 @@ const { generateOTP, generateToken } = require('../../common/helper')
 const { OTP, User } = require('../../model')
 const MailService = require('@server/controller/user/Sendmail')
 const SMSService = require('../sms.service')
+
 const OTP_TYPE = {
   1: 'SMS',
   2: 'EMAIL',

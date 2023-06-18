@@ -226,7 +226,7 @@ const getVpnParams = (req, params) => {
 
   var returnUrl =
     process.env.NODE_ENV === 'development'
-      ? 'http://localhost:3001/api/order/payment/url_return'
+      ? 'http://localhost:3001/api/v1/order/payment/url_return'
       : process.env.RETURN_URL
 
   var orderType = req?.body?.orderType || 'billpayment'

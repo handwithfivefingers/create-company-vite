@@ -65,9 +65,11 @@ export default function LoginPage() {
     }
   }
 
-  const onHandleRegister = async (val) => {
+  const onHandleRegister = async () => {
+    const { email, phone } = formRef.current.getFieldsValue(true)
+    let otp = inputRef.current.getValue()
     setLoading(true)
-    await dispatch(AuthAction.AuthRegister(val))
+    await dispatch(AuthAction.AuthRegister({ email, phone, otp }))
     setLoading(false)
   }
 
@@ -77,20 +79,20 @@ export default function LoginPage() {
     return (await AuthService.isUserExist({ phone, email, type }))?.data
   }
 
-  const onRegisterSubmit = async () => {
+  const onRegisterAndRemoveOldAccount = async () => {
     try {
       let otp = inputRef.current.getValue()
       const { email, phone } = formRef.current.getFieldsValue(true)
       await onHandleRegister({ email, phone, otp, deleteOldUser: true })
     } catch (error) {
-      console.log('onRegisterSubmit', error)
+      console.log('onRegisterAndRemoveOldAccount', error)
     }
   }
   // GHxcrKaZdv
   const sendOTP = async (type = 'EMAIL') => {
     try {
       const { phone, email } = formRef.current.getFieldsValue(true)
-      const resp = await AuthService.getLoginOTP({ phone, email, type })
+      const resp = await AuthService.getRegisterOTP({ phone, email, type })
       return resp.data
     } catch (error) {
       throw error
@@ -103,7 +105,10 @@ export default function LoginPage() {
       if (result.data) {
         message.success(result.data.message)
       }
-      setModal((state) => ({ ...state, component: <OTPInput ref={inputRef} onSubmit={onRegisterSubmit} /> }))
+      setModal((state) => ({
+        ...state,
+        component: <OTPInput ref={inputRef} onSubmit={onRegisterAndRemoveOldAccount} />,
+      }))
     } catch (error) {
       message.error(error.response.data?.message)
     }
@@ -134,11 +139,16 @@ export default function LoginPage() {
         const result = await sendOTP()
         if (result.data) {
           message.success(result.data.message)
+          setModal((state) => ({
+            ...state,
+            open: true,
+            component: <OTPInput ref={inputRef} onSubmit={onHandleRegister} />,
+          }))
         }
-        await onHandleRegister(value)
       }
     } catch (error) {
       console.log('finish error')
+      message.error(error.response?.data?.message || error.message)
     } finally {
       setLoading(false)
     }
@@ -196,11 +206,9 @@ const AlertNotify = (props) => {
                 <span>
                   Số điện thoại đã tồn tại! Quý khách đã có tài khoản và đã từng điền form trên hệ thống của chúng tôi?
                   Hãy
-                 
-                    <Button type="link" onClick={onLogin} style={{ padding: '0 4px', fontSize: 14 }}>
+                  <Button type="link" onClick={onLogin} style={{ padding: '0 4px', fontSize: 14 }}>
                     <b> {` nhấn vào đây `} </b>
-                    </Button>
-                 
+                  </Button>
                   và nhập mã xác thực được gửi qua số điện thoại. Sau đó, quý khách có thể đăng nhập lại và quản lý
                   thông tin đã nhập một cách dễ dàng. Hoặc <b>bỏ qua</b> thông báo này và đăng ký tài khoản mới.
                 </span>

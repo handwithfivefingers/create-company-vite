@@ -1,9 +1,82 @@
 const shortid = require('shortid')
 const { User, OTP } = require('../../model')
 const bcrypt = require('bcryptjs')
-const { generateToken } = require('../../common/helper')
+const SMSService = require('../sms.service')
+const { generateOTP, generateToken } = require('../../common/helper')
+const MailService = require('@server/controller/user/Sendmail')
 
+const OTP_TYPE = {
+  1: 'SMS',
+  2: 'EMAIL',
+}
 module.exports = class RegiserService {
+  getUserOTPForLogin = async (req, res) => {
+    try {
+      const { email, phone, type } = req.body
+
+      const msg = {
+        phoneError: 'Số điện thoại không chính xác',
+        otpError: 'OTP đã được gửi, vui lòng thử lại sau',
+      }
+
+      let message, _otp, _user
+
+      if (!phone) throw { message: msg.phoneError }
+
+      _otp = await OTP.findOne({ phone, type, delete_flag: 0 })
+
+      if (_otp) throw { message: msg.otpError }
+
+      let past3Min = new Date(new Date().getTime() - 180 * 1000)
+
+      let time = req.body.type === OTP_TYPE[1] ? past3Min : new Date()
+
+      let otpObj = new OTP({
+        otp: generateOTP(),
+        email,
+        time,
+        phone,
+        type: req.body.type,
+      })
+
+      await otpObj.save()
+
+      if (type === OTP_TYPE[1]) {
+        const TYPE_SENDER = 3
+        const SENDER = 'SPEEDSMS'
+
+        await new SMSService().sendSMS({
+          phones: [phone],
+          content: `Ma xac thuc SPEEDSMS cua ban la ${otpObj.otp}`,
+          type: TYPE_SENDER,
+          sender: SENDER,
+        })
+
+        message = 'OTP đã được gửi qua tài khoản Số điện thoại của bạn !'
+      } else if (type === OTP_TYPE[2]) {
+        let mailTemplate = {
+          content: `Mã xác thực của bạn là: ${otpObj.otp}`,
+          subject: '[App Thành lập công ty] Xác thực tài khoản',
+        }
+
+        let mailParams = {
+          email: email,
+          type: 'any',
+          ...mailTemplate,
+        }
+
+        await new MailService().sendmailWithAttachments(req, res, mailParams)
+
+        message = 'OTP đã được gửi qua tài khoản email của bạn !'
+      }
+
+      return { message }
+    } catch (error) {
+      console.log('getUserOTPForLogin error', error)
+      throw error
+    }
+  }
+
   registerUser = async (req, res) => {
     try {
       const { phone, email, otp, deleteOldUser } = req.body
@@ -45,7 +118,7 @@ module.exports = class RegiserService {
 
       // isOTPValid.delete_flag = 1
       // isOTPValid.save()
-      
+
       return {
         role,
         message: 'Đăng kí thành công',

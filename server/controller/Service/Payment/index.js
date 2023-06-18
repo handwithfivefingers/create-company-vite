@@ -15,13 +15,14 @@ const { getVpnParams, sortObject } = require('@server/common/helper')
 const crypto = require('crypto')
 
 const { startSession } = require('mongoose')
+
 const moment = require('moment')
-const urlReturn =
-  process.env.NODE_ENV === 'development' ? 'http://localhost:3001/api/order/payment/url_return' : process.env.RETURN_URL
+
 const urlResult =
   process.env.NODE_ENV === 'development'
     ? `http://localhost:3003/user/result?`
     : `https://app.thanhlapcongtyonline.vn/user/result?`
+
 module.exports = class PaymentService {
   testPayment = (req, res) => {
     let { amount, orderInfo } = req.body
@@ -168,7 +169,7 @@ module.exports = class PaymentService {
           return this.sendResponseToClient(
             {
               code: '01',
-              text: "Đơn hàng không tồn tại",
+              text: 'Đơn hàng không tồn tại',
               orderId,
             },
             res,
@@ -188,7 +189,6 @@ module.exports = class PaymentService {
           )
         }
 
-     
         if (vnp_Params['vnp_ResponseCode'] === '00' && vnp_Params['vnp_TransactionStatus'] === '00') {
           let [{ subject, content }] = await Setting.find().populate('mailPaymentSuccess')
 
@@ -202,7 +202,7 @@ module.exports = class PaymentService {
           sendmailWithAttachments(req, res, params)
         } else {
           code = vnp_Params['vnp_ResponseCode']
-          text = `Giao dịch không thành công, vui lòng kiểm tra lại đơn hàng của bạn`;
+          text = `Giao dịch không thành công, vui lòng kiểm tra lại đơn hàng của bạn`
         }
 
         return this.sendResponseToClient(
@@ -221,7 +221,14 @@ module.exports = class PaymentService {
         return res.redirect(urlResult + query)
       }
     } catch (err) {
-      console.log('getUrlReturn', err)
+      return this.sendResponseToClient(
+        {
+          code: 99,
+          text: `Giao dịch không thành công, vui lòng kiểm tra lại đơn hàng của bạn`,
+          orderId: req.query.vnp_Params?.['vnp_OrderInfo'],
+        },
+        res,
+      )
       return errHandler(err, res)
     }
   }

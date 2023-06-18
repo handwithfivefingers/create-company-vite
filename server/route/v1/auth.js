@@ -15,6 +15,8 @@ const logOut = (req, res) => {
 
 router.post('/register', upload.none(), new RegisterController().onHandleRegister)
 
+router.post('/register-otp', new RegisterController().onHandleGetRegisterOtp)
+
 router.post('/login-otp', new LoginController().onHandleGetOTPForLogin)
 
 router.post('/login', upload.none(), new LoginController().onHandleLogin)
