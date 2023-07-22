@@ -4,8 +4,8 @@ import { AuthAction } from '@/store/actions'
 import { Alert, Button, Input, Modal, Tabs, message, Form, Typography } from 'antd'
 import React, { forwardRef, useContext, useEffect, useImperativeHandle, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useNavigate, Link } from 'react-router-dom'
-import RegisterForm from './Register'
+import { useNavigate, Link, useSearchParams } from 'react-router-dom'
+import RegisterProvider from './Register'
 import styles from './styles.module.scss'
 
 const { TabPane } = Tabs
@@ -31,20 +31,24 @@ export default function LoginPage() {
     component: null,
   })
 
+  const [step, setStep] = useState(1)
+
   const inputRef = useRef()
 
   const navigate = useNavigate()
 
   const dispatch = useDispatch()
 
+  const [params, setParams] = useSearchParams()
+
   useEffect(() => {
     if (route.to && status) {
       navigate(route.to)
     }
-    // formRef.current.setFieldsValue({
-    //   email: 'handgod1995@gmail.com',
-    //   phone: '0798341239',
-    // })
+    formRef.current.setFieldsValue({
+      email: 'handgod1995@gmail.com',
+      phone: '0798341239',
+    })
   }, [])
 
   useEffect(() => {
@@ -65,11 +69,9 @@ export default function LoginPage() {
     }
   }
 
-  const onHandleRegister = async () => {
-    const { email, phone } = formRef.current.getFieldsValue(true)
-    let otp = inputRef.current?.getValue() || ''
+  const onHandleRegister = async (value) => {
     setLoading(true)
-    await dispatch(AuthAction.AuthRegister({ email, phone, otp }))
+    await dispatch(AuthAction.AuthRegister(value))
     setLoading(false)
   }
 
@@ -79,16 +81,14 @@ export default function LoginPage() {
     return (await AuthService.isUserExist({ phone, email, type }))?.data
   }
 
-  const onRegisterAndRemoveOldAccount = async () => {
+  const onRegisterAndRemoveOldAccount = async (value) => {
     try {
-      let otp = inputRef.current.getValue()
-      const { email, phone } = formRef.current.getFieldsValue(true)
-      await onHandleRegister({ email, phone, otp, deleteOldUser: true })
+      await onHandleRegister({ ...value, deleteOldUser: true })
     } catch (error) {
       console.log('onRegisterAndRemoveOldAccount', error)
     }
   }
-  // GHxcrKaZdv
+
   const sendOTP = async (type = 'EMAIL') => {
     try {
       const { phone, email } = formRef.current.getFieldsValue(true)
@@ -101,16 +101,18 @@ export default function LoginPage() {
 
   const onRegisterWithSMS = async () => {
     try {
-      const result = await sendOTP('SMS')
-      if (result.data) {
-        message.success(result.data.message)
+      setLoading(true)
+      const result = await sendOTP()
+      message.success(result.data.message)
+      let newParams = {
+        verifyOTP: 1,
       }
-      setModal((state) => ({
-        ...state,
-        component: <OTPInput ref={inputRef} onSubmit={onRegisterAndRemoveOldAccount} />,
-      }))
+      setParams(newParams)
+      setModal({ ...modal, open: false })
     } catch (error) {
       message.error(error.response.data?.message)
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -125,28 +127,22 @@ export default function LoginPage() {
   const onFinish = async (value) => {
     try {
       setLoading(true)
-      const { status: userExist, message: msg } = await isUserExist(value)
 
-      if (userExist) {
-        if (msg) {
-          message.error(msg)
-        } else
-          setModal({
-            open: true,
-            component: <AlertNotify onRegister={onRegisterWithSMS} onLogin={onLogin} />,
-          })
-      } else {
-        // const result = await sendOTP()
-        // if (result.data) {
-        //   message.success(result.data.message)
-        //   setModal((state) => ({
-        //     ...state,
-        //     open: true,
-        //     component: <OTPInput ref={inputRef} onSubmit={onHandleRegister} />,
-        //   }))
-        // }
-        await onHandleRegister()
-        // message.success(result.data.message)
+      if (step === 2) {
+        onRegisterAndRemoveOldAccount(value)
+      } else if (step === 1) {
+        const { status: userExist, message: msg } = await isUserExist(value)
+        if (userExist) {
+          if (msg) {
+            message.error(msg)
+          } else
+            setModal({
+              open: true,
+              component: <AlertNotify onRegister={onRegisterWithSMS} onLogin={onLogin} loading={loading} />,
+            })
+        } else {
+          await onHandleRegister()
+        }
       }
     } catch (error) {
       console.log('finish error')
@@ -156,13 +152,22 @@ export default function LoginPage() {
     }
   }
 
+  useEffect(() => {
+    if (+params.get('verifyOTP') === 1) {
+      setStep(2)
+    } else {
+      setStep(1)
+    }
+  }, [params])
+
   return (
     <>
       <Tabs defaultActiveKey={tab} centered className={styles.tabs} onChange={setTab} destroyInactiveTabPane={false}>
         <TabPane tab="Nhập thông tin liên hệ" key={LIST_TABS[2]}>
-          <RegisterForm ref={formRef} onFinish={onFinish} loading={loading} />
+          <RegisterProvider ref={formRef} submit={onFinish} loading={loading} step={step} />
         </TabPane>
       </Tabs>
+
       <Modal open={modal.open} footer={false} onCancel={toggleModal}>
         {modal.component}
       </Modal>
@@ -170,34 +175,7 @@ export default function LoginPage() {
   )
 }
 
-const OTPInput = forwardRef((props, ref) => {
-  const [otpValue, setOTPValue] = useState('')
-
-  const { onSubmit } = props
-  useImperativeHandle(ref, () => ({
-    getValue: () => otpValue,
-  }))
-
-  return (
-    <div className="d-flex flex-column align-items-center" style={{ padding: '20px 0', gap: 12 }}>
-      <Form layout="vertical" style={{ width: '100%' }}>
-        <Form.Item name={['otp']} label="Mã OTP" rules={[{ required: true, message: 'OTP là bắt buộc' }]}>
-          <Input value={otpValue} onChange={(e) => setOTPValue(e.target.value)} placeholder="OTP code" maxLength={6} />
-        </Form.Item>
-      </Form>
-
-      <div>
-        <Button type="primary" onClick={onSubmit}>
-          Xác nhận
-        </Button>
-      </div>
-    </div>
-  )
-})
-
-const AlertNotify = (props) => {
-  const { onRegister, onLogin } = props
-
+const AlertNotify = ({ onRegister, onLogin, loading }) => {
   return (
     <div className="d-flex flex-column justify-content-center p-5" style={{ gap: 20 }}>
       <div className={'p-5'}>
@@ -221,8 +199,8 @@ const AlertNotify = (props) => {
         />
       </div>
       <div className="d-flex flex-row justify-content-center align-items-center" style={{ gap: 8 }}>
-        <Button style={{ width: '160px' }} onClick={onRegister}>
-          Xác thực và Tiếp tục
+        <Button style={{ width: '180px' }} onClick={onRegister} loading={loading}>
+          Bỏ qua và đăng ký mới
         </Button>
       </div>
     </div>

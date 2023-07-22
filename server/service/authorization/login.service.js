@@ -14,10 +14,6 @@ module.exports = class LoginService {
 
       let message, _otp, _user
 
-      // if (email) {
-      //   _otp = await OTP.findOne({ email, type, delete_flag: 0 })
-      //   _user = await User.findOne({ email })
-      // } else
       if (phone) {
         _otp = await OTP.findOne({ phone, type, delete_flag: 0 })
         _user = await User.findOne({ phone })

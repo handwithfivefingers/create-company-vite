@@ -19,7 +19,7 @@ module.exports = class RegisterController {
 
   onHandleGetRegisterOtp = async (req, res) => {
     try {
-      const data = await new RegisterService().getUserOTPForLogin(req, res)
+      const data = await new RegisterService().getUserOTPForRegister(req, res)
       return res.status(200).json({
         data,
       })

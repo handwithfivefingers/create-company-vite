@@ -29,7 +29,6 @@ const AdminProduct = lazy(() => import('@/pages/Admin/AdminProduct'))
 const AdminSetting = lazy(() => import('@/pages/Admin/AdminSetting'))
 const AdminUser = lazy(() => import('@/pages/Admin/AdminUser'))
 
-// const UserDashboard = lazy(() => import('@/pages/User/Dashboard'))
 const UserProductPage = lazy(() => import('@/pages/User/Product'))
 const UserProductItem = lazy(() => import('@/pages/User/Product/ProductItem'))
 const UserOrder = lazy(() => import('@/pages/User/Order'))

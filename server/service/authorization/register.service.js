@@ -10,7 +10,7 @@ const OTP_TYPE = {
   2: 'EMAIL',
 }
 module.exports = class RegiserService {
-  getUserOTPForLogin = async (req, res) => {
+  getUserOTPForRegister = async (req, res) => {
     try {
       const { email, phone, type } = req.body
 
@@ -80,21 +80,17 @@ module.exports = class RegiserService {
   registerUser = async (req, res) => {
     try {
       const { phone, email, otp, deleteOldUser } = req.body
-
-      let isOTPValid = true
-
+      console.log('register', req.body)
+      let _OTP
       if (otp) {
-        const isOtpExist = await OTP.findOne({ phone, email, otp, delete_flag: 0 })
-        if (isOtpExist) isOTPValid = false
+        _OTP = await OTP.findOne({ phone, email, otp, delete_flag: 0 })
       }
 
-      // const _userExist = await User.find({ phone, delete_flag: 0 })
+      if (!_OTP) throw { message: 'Mã xác thực không chính xác' }
 
-      // if (_userExist.length && _userExist.some((user) => user.phone !== phone)) {
-      //   throw { message: 'Email đã có người đăng kí, vui lòng thử email khác' }
-      // }
+      _OTP.delete_flag = 1
 
-      if (!isOTPValid) throw { message: 'Mã xác thực không chính xác' }
+      await _OTP.save()
 
       if (deleteOldUser) {
         await this.handleDeleteUserBeforeRegister({ phone, email })
@@ -120,7 +116,7 @@ module.exports = class RegiserService {
       let _tokenObj = { _id, role, updatedAt }
 
       await generateToken(_tokenObj, res)
-      
+
       return {
         role,
         message: 'Đăng kí thành công',
