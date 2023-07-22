@@ -45,10 +45,10 @@ export default function LoginPage() {
     if (route.to && status) {
       navigate(route.to)
     }
-    formRef.current.setFieldsValue({
-      email: 'handgod1995@gmail.com',
-      phone: '0798341239',
-    })
+    // formRef.current.setFieldsValue({
+    //   email: 'handgod1995@gmail.com',
+    //   phone: '0798341239',
+    // })
   }, [])
 
   useEffect(() => {
