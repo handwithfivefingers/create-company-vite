@@ -5,6 +5,7 @@ import { htmlContent, onSetFields } from '@/helper/Common'
 import { Form, InputNumber } from 'antd'
 import { forwardRef } from 'react'
 import styles from './styles.module.scss'
+import CCInputBirthDay from '../../../../CCInputBirthDay'
 
 const OriginalPerson = forwardRef((props, ref) => {
   const { BASE_FORM, type } = props
@@ -79,14 +80,7 @@ const OriginalPerson = forwardRef((props, ref) => {
         message="Chức danh (ĐDPL) là bắt buộc!"
       />
 
-      <CCInput
-        type="date"
-        name={[...BASE_FORM, 'birth_day']}
-        label="Ngày sinh"
-        placeholder="15/01/1966 - ENTER"
-        inputReadOnly={false}
-        required
-      />
+      <CCInputBirthDay name={[...BASE_FORM, 'birth_day']} inputReadOnly={false} required />
 
       <CCInput
         type="select"

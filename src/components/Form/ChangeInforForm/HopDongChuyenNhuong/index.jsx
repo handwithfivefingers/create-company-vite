@@ -8,6 +8,7 @@ import { useLocation } from 'react-router-dom'
 import CCAddress from '../../../CCAddress'
 import CCSelect from '../../../CCSelect'
 import styles from '../DaiDienPhapLuat/styles.module.scss'
+import CCInputBirthDay from '../../../CCInputBirthDay'
 /**
  * @description Bên bán -> A
  * @description Bên mua -> B
@@ -77,7 +78,14 @@ const HopDongChuyenNhuong = forwardRef((props, ref) => {
               </Col>
               <Col span={12}>
                 <Form.Item label="Chiếm % vốn điều lệ" name={[...fieldName, 'capital_current', 'percent']}>
-                  <InputNumber style={{ width: '100%' }} placeholder="Bấm vào đây" max={100} min={0} stringMode formatter={(v) => `${v.replace('%', '')}%`} />
+                  <InputNumber
+                    style={{ width: '100%' }}
+                    placeholder="Bấm vào đây"
+                    max={100}
+                    min={0}
+                    stringMode
+                    formatter={(v) => `${v.replace('%', '')}%`}
+                  />
                 </Form.Item>
               </Col>
             </Row>
@@ -102,7 +110,14 @@ const HopDongChuyenNhuong = forwardRef((props, ref) => {
               </Col>
               <Col span={12}>
                 <Form.Item label="Chiếm % vốn điều lệ" name={[...fieldName, 'capital_transfer', 'percent']}>
-                  <InputNumber style={{ width: '100%' }} placeholder="Bấm vào đây" max={100} min={0} stringMode formatter={(v) => `${v.replace('%', '')}%`} />
+                  <InputNumber
+                    style={{ width: '100%' }}
+                    placeholder="Bấm vào đây"
+                    max={100}
+                    min={0}
+                    stringMode
+                    formatter={(v) => `${v.replace('%', '')}%`}
+                  />
                 </Form.Item>
               </Col>
             </Row>
@@ -129,7 +144,7 @@ const HopDongChuyenNhuong = forwardRef((props, ref) => {
             />
           </Col>
           <Col lg={12} md={12} sm={24} xs={24}>
-            <CCInput type="date" name={[...fieldName, 'personal', 'birth_day']} label="Ngày sinh" placeholder="15/01/1966 - ENTER" />
+            <CCInputBirthDay name={[...fieldName, 'personal', 'birth_day']} />
           </Col>
 
           <Col lg={12} md={12} sm={24} xs={24}>
@@ -147,11 +162,21 @@ const HopDongChuyenNhuong = forwardRef((props, ref) => {
           </Col>
 
           <Col lg={12} md={12} sm={24} xs={24}>
-            <CCInput type="date" name={[...fieldName, 'personal', 'doc_time_provide']} label="Ngày cấp" placeholder="15/01/2015 - ENTER"/>
+            <CCInput
+              type="date"
+              name={[...fieldName, 'personal', 'doc_time_provide']}
+              label="Ngày cấp"
+              placeholder="15/01/2015 - ENTER"
+            />
           </Col>
 
           <Col lg={12} md={12} sm={24} xs={24}>
-            <CCSelect.SelectDocProvide ref={ref} name={[...fieldName, 'personal', 'doc_place_provide']} label="Nơi cấp" placeholder="Bấm vào đây" />
+            <CCSelect.SelectDocProvide
+              ref={ref}
+              name={[...fieldName, 'personal', 'doc_place_provide']}
+              label="Nơi cấp"
+              placeholder="Bấm vào đây"
+            />
           </Col>
 
           <Col lg={12} md={12} sm={24} xs={24}>
@@ -172,15 +197,29 @@ const HopDongChuyenNhuong = forwardRef((props, ref) => {
           </Col>
 
           <Col lg={12} md={12} sm={24} xs={24}>
-            <CCInput name={[...fieldName, 'organization', 'mst']} label="Mã số doanh nghiệp hoặc Mã số thuế" placeholder="0316184427" />
+            <CCInput
+              name={[...fieldName, 'organization', 'mst']}
+              label="Mã số doanh nghiệp hoặc Mã số thuế"
+              placeholder="0316184427"
+            />
           </Col>
 
           <Col lg={12} md={12} sm={24} xs={24}>
-            <CCInput name={[...fieldName, 'organization', 'mst_provide']} label="Ngày cấp (ngày đăng ký lần đầu)" type="date" placeholder="15/01/2015 - ENTER"/>
+            <CCInput
+              name={[...fieldName, 'organization', 'mst_provide']}
+              label="Ngày cấp (ngày đăng ký lần đầu)"
+              type="date"
+              placeholder="15/01/2015 - ENTER"
+            />
           </Col>
 
           <Col lg={12} md={12} sm={24} xs={24}>
-            <CCSelect.SelectDocProvide ref={ref} name={[...fieldName, 'organization', 'place_provide']} label="Nơi cấp" placeholder="Bấm vào đây" />
+            <CCSelect.SelectDocProvide
+              ref={ref}
+              name={[...fieldName, 'organization', 'place_provide']}
+              label="Nơi cấp"
+              placeholder="Bấm vào đây"
+            />
           </Col>
 
           <Col span={24}>
@@ -193,7 +232,9 @@ const HopDongChuyenNhuong = forwardRef((props, ref) => {
             <CCInput
               name={[...fieldName, 'organization', 'legal_representative']}
               label={htmlContent('Họ và tên <i>(Đại diện pháp luật)</i>')}
-              onChange={(e) => onSetFields([...fieldName, 'organization', 'legal_representative'], e.target.value, ref, true)}
+              onChange={(e) =>
+                onSetFields([...fieldName, 'organization', 'legal_representative'], e.target.value, ref, true)
+              }
             />
           </Col>
           <Col span={12}>
@@ -227,10 +268,16 @@ const HopDongChuyenNhuong = forwardRef((props, ref) => {
               />
             </Col>
             <Col lg={12} md={12} sm={24} xs={24}>
-              <CCInput name={[...fieldName, 'personal', 'gender']} label="Giới tính" type="select" options={SELECT.GENDER} placeholder="Bấm vào đây" />
+              <CCInput
+                name={[...fieldName, 'personal', 'gender']}
+                label="Giới tính"
+                type="select"
+                options={SELECT.GENDER}
+                placeholder="Bấm vào đây"
+              />
             </Col>
             <Col lg={12} md={12} sm={24} xs={24}>
-              <CCInput name={[...fieldName, 'personal', 'birth_day']} label="Ngày sinh" type="date" placeholder="15/01/1966 - ENTER"/>
+              <CCInputBirthDay name={[...fieldName, 'personal', 'birth_day']} />
             </Col>
             <Col lg={12} md={12} sm={24} xs={24}>
               <CCSelect.SelectPersonType ref={ref} name={[...fieldName, 'personal', 'per_type']} label="Dân tộc" />
@@ -250,11 +297,21 @@ const HopDongChuyenNhuong = forwardRef((props, ref) => {
             </Col>
 
             <Col lg={12} md={12} sm={24} xs={24}>
-              <CCInput name={[...fieldName, 'personal', 'doc_time_provide']} label="Ngày cấp" type="date" placeholder="15/01/2015 - ENTER" />
+              <CCInput
+                name={[...fieldName, 'personal', 'doc_time_provide']}
+                label="Ngày cấp"
+                type="date"
+                placeholder="15/01/2015 - ENTER"
+              />
             </Col>
 
             <Col lg={12} md={12} sm={24} xs={24}>
-              <CCSelect.SelectDocProvide ref={ref} name={[...fieldName, 'personal', 'doc_place_provide']} label="Nơi cấp" placeholder="Bấm vào đây" />
+              <CCSelect.SelectDocProvide
+                ref={ref}
+                name={[...fieldName, 'personal', 'doc_place_provide']}
+                label="Nơi cấp"
+                placeholder="Bấm vào đây"
+              />
             </Col>
 
             <Col lg={12} md={12} sm={24} xs={24}>
@@ -279,10 +336,20 @@ const HopDongChuyenNhuong = forwardRef((props, ref) => {
             <CCInput name={[...fieldName, 'organization', 'mst']} label="Mã số doanh nghiệp" />
           </Col>
           <Col lg={12} md={12} sm={24} xs={24}>
-            <CCInput name={[...fieldName, 'organization', 'time_provide']} label="Ngày cấp" type="date" placeholder="15/01/2015 - ENTER"/>
+            <CCInput
+              name={[...fieldName, 'organization', 'time_provide']}
+              label="Ngày cấp"
+              type="date"
+              placeholder="15/01/2015 - ENTER"
+            />
           </Col>
           <Col lg={12} md={12} sm={24} xs={24}>
-            <CCSelect.SelectDocProvide ref={ref} name={[...fieldName, 'organization', 'place_provide']} label="Nơi cấp" placeholder="Bấm vào đây" />
+            <CCSelect.SelectDocProvide
+              ref={ref}
+              name={[...fieldName, 'organization', 'place_provide']}
+              label="Nơi cấp"
+              placeholder="Bấm vào đây"
+            />
           </Col>
           <Col span={24}>
             <Form.Item label="Địa chỉ trụ sở chính">
@@ -291,13 +358,20 @@ const HopDongChuyenNhuong = forwardRef((props, ref) => {
           </Col>
 
           <Col span={24}>
-            <CCInput type="select" name={[...fieldName, 'organization', 'company_model']} label="Mô hình công ty" options={SELECT.COMPANY_MODEL} />
+            <CCInput
+              type="select"
+              name={[...fieldName, 'organization', 'company_model']}
+              label="Mô hình công ty"
+              options={SELECT.COMPANY_MODEL}
+            />
           </Col>
           <Col span={12}>
             <CCInput
               name={[...fieldName, 'organization', 'legal_representative']}
               label={htmlContent('Họ và tên <i>(Đại diện pháp luật)</i>')}
-              onChange={(e) => onSetFields([...fieldName, 'organization', 'legal_representative'], e.target.value, ref, true)}
+              onChange={(e) =>
+                onSetFields([...fieldName, 'organization', 'legal_representative'], e.target.value, ref, true)
+              }
             />
           </Col>
           <Col span={12}>

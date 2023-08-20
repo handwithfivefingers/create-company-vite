@@ -1,11 +1,12 @@
 import WithAuth from '@/components/HOC/WithAuth'
 import { Space, Spin } from 'antd'
-import { Suspense, useEffect, useState, useMemo } from 'react'
+import { Suspense, useEffect, useState, memo } from 'react'
 import { Outlet } from 'react-router-dom'
-import { useFetch } from '../../helper/Hook'
-import ProfileService from '../../service/UserService/ProfileService'
+import { useFetch } from '@/helper/Hook'
+import ProfileService from '@/service/UserService/ProfileService'
+import { StepProgressProvider } from '@/context/StepProgressContext'
+
 const User = () => {
-  const renderTidio = useMemo(() => <Tidio />, [])
   return (
     <>
       <Suspense
@@ -17,18 +18,21 @@ const User = () => {
           </div>
         }
       >
-        <Outlet
-          context={{
-            animateClass: 'animate__animated animate__fadeIn animate__faster',
-          }}
-        />
-        {renderTidio}
+        <StepProgressProvider>
+          <Outlet
+            context={{
+              animateClass: 'animate__animated animate__fadeIn animate__faster',
+            }}
+          />
+        </StepProgressProvider>
+
+        {/* <Tidio /> */}
       </Suspense>
     </>
   )
 }
 
-const Tidio = () => {
+const Tidio = memo(() => {
   const [ready, setReady] = useState(false)
   const { data: profileData } = useFetch({
     cacheName: ['userProfile'],
@@ -66,5 +70,6 @@ const Tidio = () => {
     }
   }
   return <></>
-}
+})
+
 export default WithAuth(User, 'user')

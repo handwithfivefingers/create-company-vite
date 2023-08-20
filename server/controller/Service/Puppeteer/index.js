@@ -36,9 +36,15 @@ const minimal_args = [
   '--password-store=basic',
   '--use-gl=swiftshader',
   '--use-mock-keychain',
+  '--enable-automation',
 ]
 
-const blocked_domains = ['googlesyndication.com', 'adservice.google.com', 'googleads.g.doubleclick.net', 'googletagservices.com']
+const blocked_domains = [
+  'googlesyndication.com',
+  'adservice.google.com',
+  'googleads.g.doubleclick.net',
+  'googletagservices.com',
+]
 
 module.exports = class PuppeteerController {
   startBrowser = async (url) => {
@@ -48,6 +54,15 @@ module.exports = class PuppeteerController {
       browser = await puppeteer.launch({ headless: true, args: minimal_args })
 
       page = await browser.newPage()
+      
+      await page.setExtraHTTPHeaders({
+        'user-agent':
+          'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36',
+        'upgrade-insecure-requests': '1',
+        accept: 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8',
+        'accept-encoding': 'gzip, deflate, br',
+        'accept-language': 'en-US,en;q=0.9,en;q=0.8',
+      })
 
       await this.blockUnnessesaryRequest(page)
 
@@ -65,9 +80,9 @@ module.exports = class PuppeteerController {
     }
   }
 
-  catchScreenShot = async () => {
+  catchScreenShot = async (page) => {
     return await page.screenshot({
-      path: `uploads/puppeteer/${moment().format('DDMMYYYY-HHmm')}.png`,
+      path: `uploads/puppeteer/${moment().format('DDMMYYYY-HHmmss')}.png`,
       fullPage: true,
     })
   }
@@ -85,7 +100,7 @@ module.exports = class PuppeteerController {
 
       browser = brows
 
-      let selector = 'input[name=q]'
+      let selector = 'input[name="q"]'
 
       let actionSelector = 'button[type="submit"]'
 
@@ -95,11 +110,22 @@ module.exports = class PuppeteerController {
 
       if (!query) throw { message: 'Invalid query string' }
 
-      const listQuery = ['#main section .container table.table-taxinfo thead span', '#main section .container div.tax-listing div h3']
+      console.log('waiting for Query')
+
+      const listQuery = [
+        '#main section .container table.table-taxinfo thead span',
+        '#main section .container div.tax-listing div h3',
+      ]
 
       if (!isBrowserReady) throw { message: 'Browser was error' }
 
+      this.catchScreenShot(page)
+      setTimeout(() => {
+        this.catchScreenShot(page)
+      }, 10000)
       await page.waitForSelector(selector)
+
+      console.log('Founded Input')
 
       await page.$eval(selector, (el, v) => (el.value = v), query)
 

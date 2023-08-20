@@ -5,9 +5,11 @@ import CCInput from '@/components/CCInput'
 import styles from '../CreateCompany.module.scss'
 import CCSelect from '../../../CCSelect'
 import { htmlContent } from '@/helper/Common'
+import { useStepData } from '@/context/StepProgressContext'
 
 const DiaChiTruSoChinh = forwardRef((props, ref) => {
   const { BASE_FORM, current } = props
+  const { currentStep } = useStepData()
 
   return (
     <Form.Item
@@ -16,7 +18,7 @@ const DiaChiTruSoChinh = forwardRef((props, ref) => {
         styles.hide,
         props.className,
         {
-          [styles.visible]: current === 5,
+          [styles.visible]: currentStep === 5,
         },
       ])}
     >

@@ -5,6 +5,7 @@ import CategoryService from '../../../service/UserService/CategoriesService'
 import clsx from 'clsx'
 import styles from './styles.module.scss'
 import { useFetch } from '../../../helper/Hook'
+import { StepProgressProvider } from '@/context/StepProgressContext'
 
 const UserProductPage = (props) => {
   const [product, setProduct] = useState([])
@@ -15,7 +16,7 @@ const UserProductPage = (props) => {
 
   useEffect(() => {
     if (data && status === 'success') {
-      let prod = data.length && data?.sort((a, b) => a.type - b.type) || []
+      let prod = (data.length && data?.sort((a, b) => a.type - b.type)) || []
       setProduct(prod)
     }
   }, [isLoading])

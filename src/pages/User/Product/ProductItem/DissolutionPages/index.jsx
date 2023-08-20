@@ -1,13 +1,15 @@
 import { Button, Card, Space, Spin } from 'antd'
 import { forwardRef, lazy, Suspense, useCallback } from 'react'
+import { useStepAPI, useStepData } from '../../../../../context/StepProgressContext'
 
 const Dissolution = lazy(() => import('@/components/Form/Dissolution'))
 
 const PreviewData = lazy(() => import('@/components/Form/PreviewData'))
 
 const DissolutionPages = forwardRef((props, ref) => {
-  const { saveService, paymentService, data, step, loading, Prev, Next } = props
-
+  const { saveService, paymentService, data, loading } = props
+  const { onNextStep, onPrevStep } = useStepAPI()
+  const { currentStep, steps } = useStepData()
   const handleSaveDissolution = useCallback(
     (ref) => {
       let value = ref.current.getFieldsValue()
@@ -50,30 +52,30 @@ const DissolutionPages = forwardRef((props, ref) => {
           </div>
         }
       >
-        <Dissolution data={data} ref={ref} current={step} />
+        <Dissolution data={data} ref={ref} current={currentStep} />
 
-        {step === 2 && <PreviewData key={['preview', 'dissolution']} ref={ref} />}
+        {currentStep === 2 && <PreviewData key={['preview', 'dissolution']} ref={ref} />}
 
         <div className={'card-boxShadow flex flex__spacing-4'} style={{ position: 'sticky', bottom: 0 }}>
-          {step > 0 && (
+          {currentStep > 0 && (
             <>
-              <Button onClick={Prev} type="dashed">
+              <Button onClick={onPrevStep} type="dashed">
                 Quay lại
               </Button>
             </>
           )}
 
-          {step < 2 && (
-            <Button onClick={Next} type="primary">
+          {currentStep < 2 && (
+            <Button onClick={onNextStep} type="primary">
               Tiếp tục
             </Button>
           )}
-          {step === 2 && (
+          {currentStep === 2 && (
             <Button loading={loading} onClick={() => handlePurchaseDissolution(ref)} type="primary">
               Thanh toán
             </Button>
           )}
-          {step > 0 && (
+          {currentStep > 0 && (
             <Button
               loading={loading}
               onClick={() => handleSaveDissolution(ref)}

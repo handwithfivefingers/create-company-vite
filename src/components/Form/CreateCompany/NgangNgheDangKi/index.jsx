@@ -5,8 +5,11 @@ import GlobalService from '@/service/GlobalService'
 import styles from '../CreateCompany.module.scss'
 import { useFetch } from '@/helper/Hook'
 import { useQuery } from '@tanstack/react-query'
+import { useStepData } from '@/context/StepProgressContext'
 
 const NgangNgheDangKi = forwardRef((props, ref) => {
+  const { currentStep } = useStepData()
+
   const { BASE_FORM, current } = props
 
   const [careerData, setCareerData] = useState([])
@@ -95,7 +98,7 @@ const NgangNgheDangKi = forwardRef((props, ref) => {
         styles.hide,
         props.className,
         {
-          [styles.visible]: current === 6,
+          [styles.visible]: currentStep === 6,
         },
       ])}
     >

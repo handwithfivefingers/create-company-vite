@@ -6,6 +6,7 @@ import { Alert, Card, Col, Collapse, Form, Input, Row } from 'antd'
 import clsx from 'clsx'
 import { forwardRef, useState } from 'react'
 import styles from '../CreateCompany.module.scss'
+import { useStepData } from '@/context/StepProgressContext'
 
 const popData = {
   content: (
@@ -45,6 +46,8 @@ const popData = {
 }
 
 const TenCongTy = forwardRef((props, ref) => {
+  const { currentStep } = useStepData()
+
   let timeout
 
   const { BASE_FORM, current } = props
@@ -91,7 +94,7 @@ const TenCongTy = forwardRef((props, ref) => {
         styles.hide,
         props.className,
         {
-          [styles.visible]: current === 4,
+          [styles.visible]: currentStep === 4,
         },
       ])}
     >

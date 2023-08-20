@@ -6,6 +6,7 @@ import { Button, Form } from 'antd'
 import { forwardRef, useEffect, useState } from 'react'
 import CCSelect from '@/components/CCSelect'
 import styles from '../../CreateCompany.module.scss'
+import CCInputBirthDay from '../../../../CCInputBirthDay'
 
 const FormListPersonType = forwardRef((props, ref) => {
   const { i, presentState, listFormState, BASE_FORM } = props
@@ -81,14 +82,7 @@ const FormListPersonType = forwardRef((props, ref) => {
           required
         />
 
-        <CCInput
-          type="date"
-          name={[...BASE_FORM, 'legal_respon', i, 'birth_day']}
-          label="Ngày sinh"
-          placeholder="15/01/1966 - ENTER"
-          inputReadOnly={false}
-          required
-        />
+        <CCInputBirthDay name={[...BASE_FORM, 'legal_respon', i, 'birth_day']} required inputReadOnly={false} />
 
         <CCSelect.SelectPersonType
           name={[...BASE_FORM, 'legal_respon', i, 'per_type']}

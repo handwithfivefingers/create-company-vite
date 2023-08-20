@@ -5,9 +5,11 @@ import { Col, Form, InputNumber, Row } from 'antd'
 import clsx from 'clsx'
 import { forwardRef } from 'react'
 import styles from './styles.module.scss'
+import { useStepData } from '@/context/StepProgressContext'
 
 const GiaTriGopVon = forwardRef((props, ref) => {
-  const { current, BASE_FORM } = props
+  const { BASE_FORM } = props
+  const { currentStep } = useStepData()
 
   const checkInputValidation = (e) => {
     let pattern = /[1-9]/g
@@ -40,11 +42,7 @@ const GiaTriGopVon = forwardRef((props, ref) => {
       },
     ])
   }
-
-  // useEffect(() => {
-  //   console.log(props, ref.current.getFieldsValue())
-  // }, [])
-
+  console.log('rendered Gia tri gop von')
   return (
     <Row
       gutter={[16, 12]}
@@ -52,7 +50,7 @@ const GiaTriGopVon = forwardRef((props, ref) => {
         styles.hide,
         props.className,
         {
-          [styles.visible]: current === 1,
+          [styles.visible]: currentStep === 1,
         },
       ])}
     >

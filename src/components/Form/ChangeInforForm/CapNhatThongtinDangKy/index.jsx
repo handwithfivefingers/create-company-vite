@@ -7,19 +7,16 @@ import React, { forwardRef, useEffect, useState } from 'react'
 import CCAddress from '../../../CCAddress'
 import CCSelect from '../../../CCSelect'
 import styles from '../DaiDienPhapLuat/styles.module.scss'
+import CCInputBirthDay from '../../../CCInputBirthDay'
+import { IndentifySelectionComponent } from '../../../CCInputIdentifyNumber'
 const BASE_FORM = ['change_info', 'update_info']
 
 const InformationField = ({ forwardRef }) => {
   return (
     <Card className="box__shadow" title="Cập nhật thông tin cá nhân">
       <CCInput name={[...BASE_FORM, 'information', 'name']} label="Họ và tên" required />
-      <CCInput
-        name={[...BASE_FORM, 'information', 'birth_day']}
-        label="Ngày sinh"
-        type="date"
-        placeholder="15/01/1966 - ENTER"
-        required
-      />
+      <CCInputBirthDay required name={[...BASE_FORM, 'information', 'birth_day']} />
+      {/* <IndentifySelectionComponent BASE_FORM={[...BASE_FORM, 'information']} /> */}
 
       <CCInput
         name={[...BASE_FORM, 'information', 'doc_type']}
@@ -30,7 +27,7 @@ const InformationField = ({ forwardRef }) => {
       />
 
       <CCInput name={[...BASE_FORM, 'information', 'doc_code']} label="Số CMND/ CCCD/ Hộ chiếu" />
-
+      
       <CCInput
         name={[...BASE_FORM, 'information', 'doc_time_provide']}
         label="Ngày cấp"
@@ -46,13 +43,10 @@ const InformationField = ({ forwardRef }) => {
         placeholder="Bấm vào đây"
         required
       />
-
+      
       <CCAddress name={[...BASE_FORM, 'information']} ref={forwardRef} required />
-
       <CCInput name={[...BASE_FORM, 'information', 'phone']} label="Số điện thoại" required />
-
       <CCInput name={[...BASE_FORM, 'information', 'email']} label="Địa chỉ email" required />
-
       <CCInput name={[...BASE_FORM, 'information', 'website']} label="Địa chỉ website" required />
     </Card>
   )

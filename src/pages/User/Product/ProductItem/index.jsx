@@ -8,7 +8,10 @@ import { useFetch } from '../../../../helper/Hook'
 import styles from './styles.module.scss'
 import { MessageAction } from '@/store/actions'
 import { useDispatch, useSelector } from 'react-redux'
+import { useMemo } from 'react'
+import { useStepAPI } from '@/context/StepProgressContext'
 // import CreateCompanyPages from './CreateCompanyPages'
+
 const CreateCompanyPages = lazy(() => import('./CreateCompanyPages'))
 const ChangeInfoPages = lazy(() => import('./ChangeInfoPages'))
 const PendingPages = lazy(() => import('./PendingPages'))
@@ -16,8 +19,6 @@ const DissolutionPages = lazy(() => import('./DissolutionPages'))
 
 const UserProductItem = (props) => {
   const formRef = useRef()
-
-  const [current, setCurrent] = useState(0)
 
   const [data, setData] = useState()
 
@@ -38,7 +39,10 @@ const UserProductItem = (props) => {
 
   const [loading, setLoading] = useState(false)
 
+  const { onCreateStep } = useStepAPI()
+
   let params = useParams()
+
   const dispatch = useDispatch()
 
   const {
@@ -58,102 +62,28 @@ const UserProductItem = (props) => {
   const { errorList } = useSelector((state) => state.messageReducer)
 
   useEffect(() => {
+    if (data?.type) {
+      let steps = []
+      if (data.type === 1) steps = CREATE_COMPANY_STEP
+      else if (data.type === 2) steps = changeInforStep
+      else if (data.type === 3) steps = PENDING_STEP
+      else if (data.type === 4) steps = DISSOLUTION_STEP
+      onCreateStep(steps)
+    }
+  }, [data])
+
+  useEffect(() => {
     if (errorList.length > 0) {
       const cardScrollTop = document.querySelector('.card-scrollTop')
       cardScrollTop?.scrollIntoView()
     }
   }, [errorList])
+
   useEffect(() => {
     if (productData && status === 'success') {
       setData({ ...productData, data: productData.data.sort((a, b) => a.type - b.type) })
     }
   }, [productData])
-
-  const Next = () => {
-    setCurrent(current + 1)
-  }
-
-  const Prev = () => setCurrent(current - 1)
-
-  const setDataOutput = (output) => {}
-
-  const renderFormByType = (type) => {
-    const configs = {
-      ref: formRef,
-      step: current,
-      setStep: setCurrent,
-      loading: isLoading,
-      Prev,
-      Next,
-      paymentService,
-      saveService,
-      onFinishScreen: setDataOutput,
-      data: data.data,
-    }
-    switch (type) {
-      case 1:
-        // Thành lập doanh nghiệp
-        return <CreateCompanyPages {...configs} />
-      case 2:
-        // Thay đổi thông tin
-        configs.changeInforStep = changeInforStep
-        configs.onFinishScreen = handleChangeInforForm
-        configs.data = data
-
-        return <ChangeInfoPages {...configs} />
-      case 3:
-        // Tạm hoãn
-        return <PendingPages {...configs} />
-      case 4:
-        return <DissolutionPages {...configs} />
-      default:
-        return null
-    }
-  }
-
-  const renderHeaderStep = () => {
-    // let { type } = data
-    if (data) {
-      let options = {
-        step: current,
-        data: null,
-        onFinishScreen: (index) => setCurrent(index),
-      }
-
-      if (data.type === 1) options.data = CREATE_COMPANY_STEP
-      else if (data.type === 2) options.data = changeInforStep
-      else if (data.type === 3) options.data = PENDING_STEP
-      else if (data.type === 4) options.data = DISSOLUTION_STEP
-      return <CCSteps {...options} />
-    }
-  }
-
-  const handleChangeInforForm = useCallback((val) => {
-    let data = [
-      {
-        title: 'Bước 1',
-        desc: 'Chọn loại hình doanh nghiệp',
-      },
-      {
-        title: `Bước 2`,
-        desc: 'Thông tin chung',
-      },
-    ]
-
-    for (let i = 0; i < val.length; i++) {
-      data.push({ desc: val[i].children, title: `Bước ${i + 3}` })
-    }
-
-    data.push({
-      title: `Bước ${val.length > 0 ? val.length + 3 : data.length + 1}`,
-      desc: 'Xem lại',
-    })
-    setChangeInforStep(data)
-  }, [])
-
-  /**
-   * @value {Object}
-   */
 
   // Service
   const saveService = async ({ _id, ...params }) => {
@@ -219,27 +149,42 @@ const UserProductItem = (props) => {
 
   const openNotification = (errorList) => {
     dispatch(MessageAction.setErrorsMessage(errorList))
-
-    // notification.open({
-    //   message: ``,
-    //   icon: <FileExcelOutlined style={{ color: 'var(--light)' }} />,
-    //   description: (
-    //     // <List size="small" dataSource={errorList} renderItem={(item) => <List.Item>{item.errors}</List.Item>} />
-    //     <Alert type="error" message={errorList.map((item) => item.errors)} banner />
-    //   ),
-
-    //   style: {
-    //     width: 400,
-    //   },
-    // })
-    // <Alert type="error" message={errorList.map((item) => item.errors)} banner />
   }
+
+  const renderFormByType = useMemo(() => {
+    const configs = {
+      ref: formRef,
+      loading: isLoading,
+      paymentService,
+      saveService,
+      data: data?.data,
+    }
+    switch (data?.type) {
+      case 1:
+        // Thành lập doanh nghiệp
+        return <CreateCompanyPages {...configs} />
+      case 2:
+        // Thay đổi thông tin
+        configs.changeInforStep = changeInforStep
+        // configs.onFinishScreen = handleChangeInforForm
+        configs.data = data
+
+        return <ChangeInfoPages {...configs} />
+      case 3:
+        // Tạm hoãn
+        return <PendingPages {...configs} />
+      case 4:
+        return <DissolutionPages {...configs} />
+      default:
+        return null
+    }
+  }, [data])
 
   return (
     <div className={styles.mainContent}>
-      {data && renderHeaderStep()}
+      <CCSteps />
       <div className={styles.formContent}>
-        <Spin spinning={isFetching || loading}>{data && renderFormByType(data?.type)}</Spin>
+        <Spin spinning={isFetching || loading}>{data && renderFormByType}</Spin>
       </div>
     </div>
   )

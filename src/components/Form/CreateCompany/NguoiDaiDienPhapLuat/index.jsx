@@ -5,9 +5,11 @@ import clsx from 'clsx'
 import { forwardRef, useEffect, useState } from 'react'
 import styles from '../CreateCompany.module.scss'
 import FormListPersonType from './FormListPersonal'
+import { useStepData } from '@/context/StepProgressContext'
 
 const NguoiDaiDienPhapLuat = forwardRef(({ data, ...props }, ref) => {
-  const { current, BASE_FORM } = props
+  const {  BASE_FORM } = props
+  const { currentStep } = useStepData()
 
   const [listForm, setListForm] = useState([])
 
@@ -51,7 +53,7 @@ const NguoiDaiDienPhapLuat = forwardRef(({ data, ...props }, ref) => {
         styles.hide,
         props.className,
         {
-          [styles.visible]: current === 3,
+          [styles.visible]: currentStep === 3,
         },
       ])}
     >

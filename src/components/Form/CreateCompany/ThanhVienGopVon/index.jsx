@@ -7,16 +7,15 @@ import { useLocation } from 'react-router-dom'
 import OriginalPerson from './OriginalPerson'
 import Personal from './Personal'
 import styles from './styles.module.scss'
+import { useStepData } from '@/context/StepProgressContext'
 
 const ThanhVienGopVon = forwardRef(({ data, ...props }, ref) => {
-  const { current, BASE_FORM } = props
-
+  const { currentStep } = useStepData()
   const [listForm, setListForm] = useState([{}])
-
   const [_render, setRender] = useState(false)
-
   const location = useLocation()
-
+  const { BASE_FORM } = props
+  const formIntances = Form.useFormInstance()
   // run 1
   useEffect(() => {
     let value = [...listForm] // default is 1
@@ -111,13 +110,14 @@ const ThanhVienGopVon = forwardRef(({ data, ...props }, ref) => {
     setRender(!_render)
   }
 
+  console.log('ThanhVienGopVon render', formIntances.getFieldsValue(true))
   return (
     <Form.Item
       className={clsx([
         styles.hide,
         props.className,
         {
-          [styles.visible]: current === 2,
+          [styles.visible]: currentStep === 2,
         },
       ])}
     >

@@ -5,8 +5,12 @@ import CCInput from '@/components/CCInput'
 import { SELECT } from '@/constant/Common'
 import styles from '../CreateCompany.module.scss'
 import onSetFields from '@/helper/Commmon'
+import { useStepData } from '@/context/StepProgressContext'
+import CCInputBirthDay from '../../../CCInputBirthDay'
+
 const ChuTichHoiDongThanhVien = forwardRef((props, ref) => {
-  const { BASE_FORM, current } = props
+  const { BASE_FORM } = props
+  const { currentStep } = useStepData()
 
   const handleAutoFill = () => {
     let { create_company } = ref.current.getFieldsValue()
@@ -43,7 +47,7 @@ const ChuTichHoiDongThanhVien = forwardRef((props, ref) => {
           styles.hide,
           props.className,
           {
-            [styles.visible]: current === 4,
+            [styles.visible]: currentStep === 4,
           },
         ])}
       >
@@ -67,13 +71,7 @@ const ChuTichHoiDongThanhVien = forwardRef((props, ref) => {
             />
           </Col>
           <Col lg={12} md={12} sm={24} xs={24}>
-            <CCInput
-              type="date"
-              name={[...BASE_FORM, 'per_main', 'birth_day']}
-              label="Ngày sinh"
-              inputReadOnly={false}
-              required
-            />
+            <CCInputBirthDay name={[...BASE_FORM, 'per_main', 'birth_day']} required />
           </Col>
           <Col lg={12} md={12} sm={24} xs={24}>
             <CCInput name={[...BASE_FORM, 'per_main', 'per_type']} label="Dân tộc" required />

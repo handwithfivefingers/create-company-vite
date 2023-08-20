@@ -1,4 +1,4 @@
-const exec = require('child_process').execSync
+const { execSync: exec } = require('child_process')
 
 const repo = '/usr/share/nginx/html/create-company-vite'
 const crypto = require('crypto')

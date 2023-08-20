@@ -16,6 +16,7 @@ import HopDongChuyenNhuong from './HopDongChuyenNhuong'
 import NganhNgheKinhDoanh from './NganhNgheKinhDoanh'
 import TangVonDieuLe from './TangVonDieuLe'
 import TenDoanhNghiep from './TenDoanhNghiep'
+import { useStepAPI, useStepData } from '../../../context/StepProgressContext'
 
 const ChangeInforForm = forwardRef((props, ref) => {
   const [productSelect, setProductSelect] = useState('')
@@ -25,6 +26,8 @@ const ChangeInforForm = forwardRef((props, ref) => {
   const [data, setData] = useState([])
 
   let location = useLocation()
+
+  const { onCreateStep } = useStepAPI()
 
   useEffect(() => {
     if (location?.state) {
@@ -336,18 +339,35 @@ const ChangeInforForm = forwardRef((props, ref) => {
     }
   }
 
-  const handleOnChange = (val, opt) => {
+  const handleUpdateProgressAndComponent = (val, opt) => {
     setSelectType(opt)
-    if (props.onFinishScreen) {
-      props.onFinishScreen(opt)
+
+    let data = [
+      {
+        title: 'Bước 1',
+        desc: 'Chọn loại hình doanh nghiệp',
+      },
+      {
+        title: `Bước 2`,
+        desc: 'Thông tin chung',
+      },
+    ]
+
+    for (let i = 0; i < opt.length; i++) {
+      data.push({ desc: opt[i].children, title: `Bước ${i + 3}` })
     }
+
+    data.push({
+      title: `Bước ${opt.length > 0 ? opt.length + 3 : data.length + 1}`,
+      desc: 'Xem lại',
+    })
+
+    onCreateStep(data)
   }
 
   const handleSelectCate = ({ type, name, value }, pathName) => {
     setProductSelect({ type, name, value })
-
     onSetFields([pathName], { type, name, value }, ref)
-
     fetchProduct(value)
   }
 
@@ -403,7 +423,7 @@ const ChangeInforForm = forwardRef((props, ref) => {
           listHeight={300}
           placeholder="Bấm vào đây"
           optionFilterProp="children"
-          onChange={handleOnChange}
+          onChange={handleUpdateProgressAndComponent}
           filterOption={(input, option) => {
             return option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
           }}
@@ -421,7 +441,7 @@ const ChangeInforForm = forwardRef((props, ref) => {
 
       {selectType?.map((item, i) => checkType(item.type, i, ref))}
 
-      <BaseInformation current={props.current} index={1} ref={ref} type={productSelect?.type} />
+      <BaseInformation index={1} ref={ref} type={productSelect?.type} />
     </Form>
   )
 })

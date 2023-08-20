@@ -1,4 +1,4 @@
-import { RouterContext } from '@/helper/Context'
+// import { RouterContext } from '@/helper/Context'
 import AuthService from '@/service/AuthService'
 import { AuthAction } from '@/store/actions'
 import { Alert, Button, Input, Modal, Tabs, message, Form, Typography } from 'antd'
@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate, Link, useSearchParams } from 'react-router-dom'
 import RegisterProvider from './Register'
 import styles from './styles.module.scss'
+import { useRouterData } from '../../../helper/Context'
 
 const { TabPane } = Tabs
 
@@ -22,7 +23,7 @@ export default function LoginPage() {
 
   const [tab, setTab] = useState(LIST_TABS[2])
 
-  const { route } = useContext(RouterContext)
+  const route = useRouterData()
 
   const { status, role } = useSelector((state) => state.authReducer)
 

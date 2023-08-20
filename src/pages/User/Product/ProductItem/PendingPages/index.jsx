@@ -1,6 +1,7 @@
 import { Button, Card, Space, Spin } from 'antd'
 import { forwardRef, lazy, Suspense, useCallback } from 'react'
 import { useLocation } from 'react-router-dom'
+import { useStepAPI, useStepData } from '@/context/StepProgressContext'
 
 const TamHoanForm = lazy(() => {
   return import('@/components/Form/PendingForm')
@@ -9,8 +10,11 @@ const TamHoanForm = lazy(() => {
 const PreviewData = lazy(() => {
   return import('@/components/Form/PreviewData')
 })
+
 const PendingPages = forwardRef((props, ref) => {
-  const { data, loading, Prev, Next, saveService, paymentService, step } = props
+  const { onNextStep, onPrevStep } = useStepAPI()
+  const { currentStep } = useStepData()
+  const { data, loading, saveService, paymentService } = props
   const location = useLocation()
 
   const handleSavePending = useCallback(
@@ -56,9 +60,9 @@ const PendingPages = forwardRef((props, ref) => {
           </div>
         }
       >
-        <TamHoanForm data={data} ref={ref} current={step} />
+        <TamHoanForm data={data} ref={ref} current={currentStep} />
 
-        {step === 2 && (
+        {currentStep === 2 && (
           <PreviewData
             key={['preview', 'pending']}
             ref={ref}
@@ -68,27 +72,27 @@ const PendingPages = forwardRef((props, ref) => {
           />
         )}
         <div className={'card-boxShadow flex flex__spacing-4'} style={{ position: 'sticky', bottom: 0 }}>
-          {step > 0 && (
+          {currentStep > 0 && (
             <>
-              <Button onClick={Prev} type="dashed">
+              <Button onClick={onPrevStep} type="dashed">
                 Quay lại
               </Button>
             </>
           )}
 
-          {step < 2 && (
-            <Button onClick={Next} type="primary">
+          {currentStep < 2 && (
+            <Button onClick={onNextStep} type="primary">
               Tiếp tục
             </Button>
           )}
-          {step === 2 && (
+          {currentStep === 2 && (
             <>
               <Button loading={loading} onClick={() => handlePurchasePending(ref)} type="primary">
                 Thanh toán
               </Button>
             </>
           )}
-          {step > 0 && (
+          {currentStep > 0 && (
             <>
               <Button
                 loading={loading}

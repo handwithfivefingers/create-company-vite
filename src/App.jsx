@@ -1,5 +1,5 @@
 import LoadingScreen from '@/components/LoadingScreen'
-import { RouterContext, RouterProvider } from '@/helper/Context'
+import { RouterProvider, useRouterAPI, useRouterData } from '@/helper/Context'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { ConfigProvider, message } from 'antd'
 import moment from 'moment'
@@ -43,18 +43,19 @@ const RouterComponent = (props) => {
 
   const routeDetect = useDetectLocation(location)
 
-  const { route, setRoute } = useContext(RouterContext)
+  const route = useRouterData()
+  const { onRouterChange } = useRouterAPI()
 
   const dispatch = useDispatch()
 
   useEffect(() => {
-    handleDetectRoute(route, routeDetect)
+    handleDetectRoute(routeDetect)
     changeTitle(routeDetect?.to)
   }, [routeDetect])
 
-  const handleDetectRoute = (routeComing, routeHistory) => {
+  const handleDetectRoute = (routeHistory) => {
     try {
-      setRoute(routeHistory)
+      onRouterChange(routeHistory, route)
     } catch (error) {
       console.log('detected route failed', error)
     }
@@ -73,6 +74,7 @@ const RouterComponent = (props) => {
     item && dispatch(CommonAction.titleChange(item.title))
   }
 
+  console.log(route)
   if (!elementComp) return null
 
   return elementComp
@@ -81,26 +83,7 @@ const RouterComponent = (props) => {
 function App() {
   const auth = useAuth() // custom Hook
 
-  const [route, setRoute] = useState({
-    to: '',
-    from: '',
-    listHistory: [],
-  })
-
   const authReducer = useSelector((state) => state.authReducer)
-
-  const routerHistoryHandler = ({ from, to }) => {
-    const nextState = JSON.parse(JSON.stringify(route))
-    nextState.from = from
-    nextState.to = to
-    const listExclude = ['', '/', 'login', 'register', 'forgot-password']
-    if (!listExclude.includes(from)) {
-      nextState.from = from
-      nextState.listHistory = [...nextState.listHistory, { from, to }]
-      nextState.listHistory = nextState.listHistory.filter((routeItem) => !listExclude.includes(routeItem.from))
-    }
-    setRoute(nextState)
-  }
 
   if (authReducer.authenticating && !authReducer.status) {
     return <LoadingScreen />
@@ -110,7 +93,7 @@ function App() {
     <div className="App">
       <QueryClientProvider client={queryClient}>
         <ConfigProvider>
-          <RouterProvider value={{ route, setRoute: (val) => routerHistoryHandler(val) }}>
+          <RouterProvider>
             <BrowserRouter>
               <RouterComponent auth={auth} />
             </BrowserRouter>

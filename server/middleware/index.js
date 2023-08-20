@@ -23,7 +23,7 @@ const requireSignin = async (req, res, next) => {
   try {
     let token = req.cookies['sessionId']
 
-    console.log(token)
+    // console.log(token)
     if (!token) throw { message: 'Authorization required' }
 
     const decoded = await jwt.verify(token, process.env.SECRET)
@@ -70,7 +70,7 @@ const TrackingApi = async (req, res, next) => {
       req.socket.remoteAddress ||
       req.connection.socket.remoteAddress
 
-    console.log('--->', req.originalUrl, remoteAddress)
+    // console.log('--->', req.originalUrl, remoteAddress)
   } catch (err) {
   } finally {
     next()
@@ -110,7 +110,7 @@ const validateIPNVnpay = async (req, res, next) => {
     await _log.save()
     next()
   } else {
-    console.log('Bad IP: ' + remoteAddress)
+    // console.log('Bad IP: ' + remoteAddress)
     return res.status(403).json({ message: 'You are not allowed to access' })
   }
 }

@@ -3,7 +3,8 @@ import CCSelect from '@/components/CCSelect'
 import { SELECT } from '@/constant/Common'
 import { htmlContent, onSetFields } from '@/helper/Common'
 import { Form, InputNumber } from 'antd'
-import { forwardRef } from 'react'
+import { forwardRef, useState } from 'react'
+import CCInputBirthDay from '../../../../CCInputBirthDay'
 import styles from './styles.module.scss'
 
 const Personal = forwardRef((props, ref) => {
@@ -29,14 +30,7 @@ const Personal = forwardRef((props, ref) => {
         required
       />
 
-      <CCInput
-        type="date"
-        name={[...BASE_FORM, 'birth_day']}
-        label="Ngày sinh"
-        placeholder="15/01/1966 - ENTER"
-        inputReadOnly={false}
-        required
-      />
+      <CCInputBirthDay name={[...BASE_FORM, 'birth_day']} required inputReadOnly />
 
       <CCInput
         type="select"
@@ -101,5 +95,7 @@ const Personal = forwardRef((props, ref) => {
     </div>
   )
 })
+
+
 
 export default Personal

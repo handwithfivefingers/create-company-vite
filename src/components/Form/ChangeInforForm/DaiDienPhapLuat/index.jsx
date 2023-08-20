@@ -10,6 +10,7 @@ import { useLocation } from 'react-router-dom'
 import CCAddress from '../../../CCAddress'
 import CCSelect from '../../../CCSelect'
 import styles from './styles.module.scss'
+import { IndentifySelectionComponent } from '../../../CCInputIdentifyNumber'
 
 const BASE_FORM = ['change_info', 'legal_representative']
 
@@ -179,13 +180,7 @@ const PeoppleWrapper = forwardRef((props, ref) => {
             required
           />
 
-          <CCInput
-            name={[...BASE_FORM, 'in_out', i, 'birth_day']}
-            label="Sinh ngày"
-            type="date"
-            placeholder="15/01/1966 - ENTER"
-            required
-          />
+          <CCInputBirthDay name={[...BASE_FORM, 'in_out', i, 'birth_day']} label="Sinh ngày" required />
 
           <CCSelect.SelectPersonType
             ref={ref}
@@ -194,6 +189,8 @@ const PeoppleWrapper = forwardRef((props, ref) => {
             placeholder="Bấm vào đây"
             required
           />
+
+          {/* <IndentifySelectionComponent BASE_FORM={[...BASE_FORM, 'in_out', i]} /> */}
 
           <CCInput
             type="select"
@@ -408,12 +405,7 @@ const FormListPersonType = forwardRef((props, ref) => {
           options={SELECT.TITLE}
         />
 
-        <CCInput
-          name={[...BASE_FORM, 'after_change', i, 'birth_day']}
-          label="Sinh ngày"
-          type="date"
-          placeholder="15/01/1966 - ENTER"
-        />
+        <CCInputBirthDay name={[...BASE_FORM, 'after_change', i, 'birth_day']} label="Sinh ngày" />
 
         <CCSelect.SelectPersonType
           ref={ref}
@@ -421,6 +413,7 @@ const FormListPersonType = forwardRef((props, ref) => {
           label="Dân tộc"
           placeholder="Bấm vào đây"
         />
+        {/*     <IndentifySelectionComponent BASE_FORM={[...BASE_FORM, 'after_change', i]} />*/}
 
         <CCInput
           type="select"

@@ -3,42 +3,30 @@ import clsx from 'clsx'
 import React from 'react'
 import { useSelector } from 'react-redux'
 import styles from './styles.module.scss'
+import { useStepData, useStepAPI } from '@/context/StepProgressContext'
 const CCSteps = (props) => {
-  // const [current, setCurrent] = useState(0)
   const collapsed = useSelector((state) => state.commonReducer.collapsed)
-  // useEffect(() => {
-  //   setCurrent(props.step)
-  // }, [props.step])
+  const { steps, currentStep } = useStepData()
+  const { updateStep } = useStepAPI()
+  const offset = steps?.length
 
-  const offset = props?.data?.length
-  const handleClick = (ind) => {
-    if (props?.onFinishScreen) {
-      props.onFinishScreen(ind)
-    }
+  const styleProps = {
+    ['--animate-duration']: `0.5s`,
+    ['--animate-delay']: `0.3s`,
   }
-
   return (
-    <Card
-      className={clsx([styles.cardHeader, { [styles.collapsed]: collapsed }])}
-    >
+    <Card className={clsx([styles.cardHeader, { [styles.collapsed]: collapsed }])}>
       <div className={styles.listStep} style={{ '--offset': offset }}>
-        {props?.data?.map((item, index) => {
+        {steps?.map((item, index) => {
           return (
             <div
-              key={[props.step, index, offset]}
-              className={clsx([
-                styles.stepItem,
-                {
-                  [styles.sticky]: props.step == index,
-                  ['animate__animated animate__fadeIn animate__faster']:
-                    props.step == index,
-                },
-              ])}
-              style={{
-                ['--animate-duration']: `0.5s`,
-                ['--animate-delay']: `0.3s`,
-              }}
-              onClick={() => handleClick(index)}
+              className={clsx(styles.stepItem, {
+                [styles.sticky]: currentStep == index,
+                ['animate__animated animate__fadeIn animate__faster']: props.step == index,
+              })}
+              style={styleProps}
+              onClick={() => updateStep(index)}
+              key={['step_progress', index, offset]}
             >
               <div className={clsx([styles.stepContent])}>
                 <div className={styles.icon}>

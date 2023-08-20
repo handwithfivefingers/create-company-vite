@@ -144,6 +144,8 @@ const InputText = ({ value, name, label, style, ...rest }) => {
         disabled={rest?.disabled}
         autoComplete={rest?.autocomplete || 'off'}
         value={rest?.value}
+        // {...rest}
+        maxLength={rest?.maxLength}
       />
     </Form.Item>
   )

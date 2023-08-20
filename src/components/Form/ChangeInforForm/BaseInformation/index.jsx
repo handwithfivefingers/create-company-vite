@@ -7,9 +7,11 @@ import { htmlContent, onSetFields } from '../../../../helper/Common'
 import CCInput from '../../../CCInput'
 import CCSelect from '../../../CCSelect'
 import styles from './styles.module.scss'
+import { useStepData } from '../../../../context/StepProgressContext'
 
 const BaseInformation = forwardRef((props, ref) => {
   const BASE_FORM = ['change_info', 'base_inform']
+  const { currentStep } = useStepData()
 
   const renderFormByType = useMemo(() => {
     let type = props?.type
@@ -145,7 +147,7 @@ const BaseInformation = forwardRef((props, ref) => {
   return (
     <div
       className={clsx(styles.current, {
-        [styles.active]: props.current === 1,
+        [styles.active]: currentStep === 1,
       })}
     >
       <Row gutter={[12, 12]}>
@@ -184,7 +186,6 @@ const BaseInformation = forwardRef((props, ref) => {
             label="Nơi cấp"
             placeholder="Bấm vào đây"
             required
-
           />
         </Col>
         <Col span={24}>
@@ -194,7 +195,7 @@ const BaseInformation = forwardRef((props, ref) => {
             placeholder="NGUYỄN VĂN A"
             onChange={(e) => onSetFields(['change_info', 'base_inform', 'org_person'], e.target.value, ref, true)}
             required
-            message='Vui lòng nhập Người đại diện pháp luật'
+            message="Vui lòng nhập Người đại diện pháp luật"
           />
         </Col>
         <Col span={24}>

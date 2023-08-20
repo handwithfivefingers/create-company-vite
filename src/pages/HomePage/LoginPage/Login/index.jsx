@@ -1,4 +1,4 @@
-import { RouterContext } from '@/helper/Context'
+import { FIELD_RULE, TYPE_VERIFY } from '@/constant/pages/Login'
 import AuthService from '@/service/AuthService'
 import { AuthAction } from '@/store/actions'
 import { Button, Card, Form, Input, message } from 'antd'
@@ -6,54 +6,15 @@ import { useContext, useEffect, useMemo, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import styles from './styles.module.scss'
+import { useRouterData } from '../../../../helper/Context'
 
-const TYPE_VERIFY = {
-  PHONE: 'PHONE',
-  EMAIL: 'EMAIL',
-}
-
-const FIELD_RULE = {
-  EMAIL: [
-    {
-      required: true,
-      message: 'Email là bắt buộc',
-    },
-    {
-      type: 'email',
-      message: 'Định dạng email không đúng',
-    },
-  ],
-  PHONE: [
-    {
-      required: true,
-      message: 'Số điện thoại là bắt buộc',
-      type: 'string',
-    },
-    {
-      type: 'string',
-      min: 9,
-      max: 11,
-      message: 'Số điện thoại cần > 9 số và < 11 số',
-    },
-    {
-      validator: (_, value) => {
-        if (value && value.match(/([^0-9])/)) {
-          console.log('value')
-          return Promise.reject(new Error('Số điện thoại định dạng không đúng'))
-        } else {
-          return Promise.resolve()
-        }
-      },
-    },
-  ],
-}
 const LoginForm = () => {
   const dispatch = useDispatch()
   const [loading, setLoading] = useState(false)
   const formRef = useRef()
   const [step, setStep] = useState(1)
   const { status, role } = useSelector((state) => state.authReducer)
-  const { route } = useContext(RouterContext)
+  const route = useRouterData()
   const [typeVerify, setTypeVerify] = useState(TYPE_VERIFY['PHONE'])
   const navigate = useNavigate()
   const location = useLocation()

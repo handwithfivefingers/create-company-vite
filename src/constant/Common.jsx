@@ -244,3 +244,9 @@ export const CHANGE_INFO_SELECTION = [
     type: '9',
   },
 ]
+
+export const IDENTIFY_NUMBER = {
+  CCCD: 12,
+  CMND: 9,
+  HC: 8,
+}

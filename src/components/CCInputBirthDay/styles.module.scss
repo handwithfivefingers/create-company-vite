@@ -1,0 +1,10 @@
+.formHorizontal {
+  display: flex;
+
+  .formTitle {
+    width: 100px;
+  }
+  div:not(.formTitle) {
+    flex: 1;
+  }
+}

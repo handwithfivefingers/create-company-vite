@@ -80,7 +80,7 @@ module.exports = class RegiserService {
   registerUser = async (req, res) => {
     try {
       const { phone, email, otp, deleteOldUser } = req.body
-      console.log('register', req.body)
+      // console.log('register', req.body)
       let _OTP
       if (otp) {
         _OTP = await OTP.findOne({ phone, email, otp, delete_flag: 0 })

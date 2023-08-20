@@ -1,6 +1,7 @@
 import { forwardRef, Suspense, lazy, useCallback, useEffect } from 'react'
 import { Card, Space, Spin, Button } from 'antd'
 import { useLocation } from 'react-router-dom'
+import { useStepAPI, useStepData } from '../../../../../context/StepProgressContext'
 
 const ChangeInforForm = lazy(() => import('@/components/Form/ChangeInforForm'))
 
@@ -8,9 +9,10 @@ const PreviewData = lazy(() => import('@/components/Form/PreviewData'))
 
 const ChangeInfoPages = forwardRef((props, ref) => {
   const location = useLocation()
+  const { onNextStep, onPrevStep } = useStepAPI()
+  const { currentStep, steps } = useStepData()
 
-  const { saveService, paymentService, data, step, loading, onFinishScreen, Prev, Next, changeInforStep, editData } =
-    props
+  const { saveService, paymentService, data, loading, onFinishScreen, editData } = props
 
   const getParams = (ref) => {
     let value = ref.current.getFieldsValue()
@@ -60,33 +62,31 @@ const ChangeInfoPages = forwardRef((props, ref) => {
           </div>
         }
       >
-        <ChangeInforForm data={data} ref={ref} current={step} onFinishScreen={onFinishScreen} edit={editData} />
+        <ChangeInforForm data={data} ref={ref} current={currentStep} onFinishScreen={onFinishScreen} edit={editData} />
 
-        {step === changeInforStep?.length - 1 && <PreviewData key={['preview', 'change_info']} ref={ref} />}
+        {currentStep === steps?.length - 1 && <PreviewData key={['preview', 'change_info']} ref={ref} />}
 
         <div className={'card-boxShadow flex flex__spacing-4'} style={{ position: 'sticky', bottom: 0 }}>
-          {step > 0 && (
-            <>
-              <Button onClick={Prev} type="dashed">
-                Quay lại
-              </Button>
-            </>
+          {currentStep > 0 && (
+            <Button onClick={onPrevStep} type="dashed">
+              Quay lại
+            </Button>
           )}
 
-          {step < changeInforStep?.length - 1 && (
-            <Button onClick={Next} type="primary">
+          {currentStep < steps?.length - 1 && (
+            <Button onClick={onNextStep} type="primary">
               Tiếp tục
             </Button>
           )}
 
-          {step === changeInforStep?.length - 1 && (
+          {currentStep === steps?.length - 1 && (
             <>
               <Button loading={loading} onClick={() => handlePayment(ref)} type="primary">
                 Thanh toán
               </Button>
             </>
           )}
-          {step > 0 && (
+          {currentStep > 0 && (
             <Button
               loading={loading}
               onClick={() => handleSaveChangeInfo(ref)}
