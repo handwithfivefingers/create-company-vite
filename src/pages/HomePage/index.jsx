@@ -1,17 +1,15 @@
 import CustomHeader from '@/components/CustomHeader'
 import Footer from '@/components/Footer'
-// import { RouterContext } from '@/helper/Context'
 import { Layout, Spin } from 'antd'
 import clsx from 'clsx'
-import React, { Suspense, useContext, useEffect } from 'react'
+import React, { Suspense, useEffect } from 'react'
 import { Outlet, useNavigate } from 'react-router-dom'
-import styles from './styles.module.scss'
 import { useRouterData } from '../../helper/Context'
+import styles from './styles.module.scss'
 
 const { Content } = Layout
 
 export default function HomePage() {
-  // const { route } = useContext(RouterContext)
   const route = useRouterData()
   const navigate = useNavigate()
 

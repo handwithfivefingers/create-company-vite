@@ -50,6 +50,9 @@ export default defineConfig(({ command, mode }) => {
         },
       },
     },
+    // esbuild: {
+    //   drop: ['console', 'debugger'],
+    // },
   }
 
   if (command === 'serve') {
@@ -65,6 +68,9 @@ export default defineConfig(({ command, mode }) => {
       // optimizeDeps: {
       //   force: true, // --> Force clear cache
       // },
+      esbuild: {
+        drop: ['console', 'debugger'],
+      },
     }
   }
 })

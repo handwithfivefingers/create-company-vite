@@ -1,7 +1,7 @@
 const shortid = require('shortid')
 const { User, OTP } = require('../../model')
 const bcrypt = require('bcryptjs')
-const SMSService = require('../sms.service')
+const SMSService = require('../v1/third-connect/sms.service')
 const { generateOTP, generateToken } = require('../../common/helper')
 const MailService = require('@server/controller/user/Sendmail')
 

@@ -23,7 +23,7 @@ const DiaChiTruSoChinh = forwardRef((props, ref) => {
       ])}
     >
       <Form.Item label={htmlContent('<b>Địa chỉ trụ sở chính<b>')}>
-        <CCSelect.SelectProvince ref={ref} name={[...BASE_FORM, 'core', 'address']} label="Nơi cấp" required />
+        <CCSelect.SelectProvince  name={[...BASE_FORM, 'core', 'address']} label="Nơi cấp" required />
         <CCInput label="Số điện thoại liên hệ" name={[...BASE_FORM, 'core', 'contact', 'phone']} required />
 
         <CCInput type="email" label="Email liên hệ (nếu có)" name={[...BASE_FORM, 'core', 'contact', 'email']} />

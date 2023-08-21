@@ -11,6 +11,7 @@ const api_path = {
   forgotPassword: '/forgot-password',
   checkOtp: '/check-otp',
   resetPassword: '/reset-password',
+  loginWithAdmin: '/login-admin',
 }
 
 const AuthService = {
@@ -33,6 +34,8 @@ const AuthService = {
   checkOtp: (form) => axios.post(api_path.checkOtp, form),
 
   resetPassword: (form) => axios.post(api_path.resetPassword, form),
+
+  onLoginWithAdmin: (form) => axios.post(api_path.loginWithAdmin, form),
 }
 
 export default AuthService

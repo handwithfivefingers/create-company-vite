@@ -110,7 +110,6 @@ const ThanhVienGopVon = forwardRef(({ data, ...props }, ref) => {
     setRender(!_render)
   }
 
-  console.log('ThanhVienGopVon render', formIntances.getFieldsValue(true))
   return (
     <Form.Item
       className={clsx([

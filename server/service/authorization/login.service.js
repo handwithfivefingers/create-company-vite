@@ -1,8 +1,8 @@
 const { generateOTP, generateToken } = require('../../common/helper')
 const { OTP, User } = require('../../model')
 const MailService = require('@server/controller/user/Sendmail')
-const SMSService = require('../sms.service')
-
+const SMSService = require('../v1/third-connect/sms.service')
+const bcrypt = require('bcryptjs')
 const OTP_TYPE = {
   1: 'SMS',
   2: 'EMAIL',
@@ -80,10 +80,6 @@ module.exports = class LoginService {
     try {
       const { email, phone, otp } = req.body
       let _otp, _user, _tokenObj, result
-      // if (email) {
-      //   _otp = await OTP.findOne({ email, delete_flag: 0, otp })
-      //   _user = await User.findOne({ email })
-      // } else
 
       if (phone) {
         _otp = await OTP.findOne({ phone, delete_flag: 0, otp })
@@ -145,6 +141,28 @@ module.exports = class LoginService {
       throw { message: 'User not exists', status: false }
     } catch (error) {
       console.log('error', error)
+      throw error
+    }
+  }
+
+  onLoginAsAdmin = async (req, res) => {
+    try {
+      const { phone, password } = req.body
+
+      const _user = await User.findOne({ phone: phone })
+
+      if (!_user) throw { message: 'User doesnt exist' }
+
+      const isMatchPassword = bcrypt.compare(password, _user.hash_password)
+
+      if (!isMatchPassword) throw { message: 'Password doesnt correct' }
+      
+      await generateToken({ _id: _user._id, role: _user.role, updatedAt: _user.updatedAt }, res)
+
+      return {
+        data: _user,
+      }
+    } catch (error) {
       throw error
     }
   }

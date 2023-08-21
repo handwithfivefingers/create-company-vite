@@ -21,11 +21,19 @@ const DiaChiTruSoChinh = forwardRef((props, ref) => {
       })}
     >
       <Form.Item label={htmlContent('<b><u>ĐỊA CHỈ TRỤ SỞ HIỆN TẠI<u></b>')}>
-        <CCSelect.SelectProvince ref={ref} label={'Địa chỉ trụ sở chính'} name={[...BASE_FORM, 'old']} placeholder="Địa chỉ trụ sở chính" />
+        <CCSelect.SelectProvince
+          label={'Địa chỉ trụ sở chính'}
+          name={[...BASE_FORM, 'old']}
+          placeholder="Địa chỉ trụ sở chính"
+        />
       </Form.Item>
 
       <Form.Item label={htmlContent('<b><u>ĐỊA CHỈ TRỤ SỞ SAU KHI THAY ĐỔI</u></b>')}>
-        <CCSelect.SelectProvince ref={ref} label={'Địa chỉ trụ sở chính'} name={[...BASE_FORM, 'new_location']} placeholder="Địa chỉ trụ sở chính" />
+        <CCSelect.SelectProvince
+          label={'Địa chỉ trụ sở chính'}
+          name={[...BASE_FORM, 'new_location']}
+          placeholder="Địa chỉ trụ sở chính"
+        />
       </Form.Item>
     </Form.Item>
   )

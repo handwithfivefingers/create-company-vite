@@ -6,16 +6,18 @@ import { Form, InputNumber } from 'antd'
 import { forwardRef } from 'react'
 import styles from './styles.module.scss'
 import CCInputBirthDay from '../../../../CCInputBirthDay'
+import {
+  CCInputTypeIdentify,
+  CCInputNumberIdentify,
+  CCInputDateProvideIdentify,
+  CCInputOutdateIdentify,
+  CCInputProviderIdentify,
+} from '@/components/CCInputIdentify'
 
 const OriginalPerson = forwardRef((props, ref) => {
   const { BASE_FORM, type } = props
-
-  //   console.log('OriginalPerson', props.item)
-
-  //   useEffect(() => {
-  //     onSetFields(BASE_FORM, props.item, ref)
-  //   }, [props])
-
+  const formInstance = Form.useFormInstance()
+  const doctypeWatch = Form.useWatch([...BASE_FORM, 'doc_type'], formInstance)
   return (
     <div className={styles.groupInput}>
       {/* START Nhập thông tin của tổ chức */}
@@ -53,7 +55,7 @@ const OriginalPerson = forwardRef((props, ref) => {
       />
 
       <Form.Item label={htmlContent('<b>Địa chỉ trụ sở chính</b>')} className={styles.newLine}>
-        <CCSelect.SelectProvince ref={ref} name={[...BASE_FORM, 'organization', 'doc_place_provide']} required />
+        <CCSelect.SelectProvince name={[...BASE_FORM, 'organization', 'doc_place_provide']} required />
       </Form.Item>
 
       <CCInput
@@ -94,45 +96,28 @@ const OriginalPerson = forwardRef((props, ref) => {
       <CCSelect.SelectPersonType
         ref={ref}
         name={[...BASE_FORM, 'per_type']}
-        label="Dân tộc"
+        label="Dân tộc 2"
         placeholder="Bấm vào đây"
         required
       />
+    
+      <CCInputTypeIdentify name={[...BASE_FORM, 'doc_type']} required />
 
-      <CCInput
-        type="select"
-        name={[...BASE_FORM, 'doc_type']}
-        label="Loại giấy tờ"
-        options={SELECT.DOC_TYPE}
-        required
-      />
+      <CCInputNumberIdentify indentifyType={doctypeWatch} name={[...BASE_FORM, 'doc_code']} required />
 
-      <CCInput
-        label={'Số CMND / CCCD / Hộ chiếu'}
-        name={[...BASE_FORM, 'doc_code']}
-        placeholder="0316184427"
-        required
-      />
-
-      <CCInput
-        type="date"
+      <CCInputDateProvideIdentify
         name={[...BASE_FORM, 'doc_time_provide']}
-        label="Ngày cấp"
-        placeholder="15/01/1966 - ENTER"
-        inputReadOnly={false}
         required
+        inputReadOnly={false}
+        indentifyType={doctypeWatch}
       />
 
-      <CCSelect.SelectDocProvide
-        ref={ref}
-        name={[...BASE_FORM, 'doc_place_provide']}
-        label="Nơi cấp"
-        placeholder="Bấm vào đây"
-        required
-      />
+      <CCInputOutdateIdentify name={[...BASE_FORM, 'doc_outdate']} indentifyType={doctypeWatch} />
+
+      <CCInputProviderIdentify name={[...BASE_FORM, 'doc_place_provide']} required indentifyType={doctypeWatch} />
 
       <Form.Item className={styles.newLine} label={htmlContent('<b>Địa chỉ thường trú <i>(ĐDPL)</i></b>')}>
-        <CCSelect.SelectProvince ref={ref} name={[...BASE_FORM, 'current']} required />
+        <CCSelect.SelectProvince name={[...BASE_FORM, 'current']} required />
       </Form.Item>
 
       <CCSelect.RadioAddress

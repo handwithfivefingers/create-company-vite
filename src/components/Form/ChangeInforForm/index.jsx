@@ -57,7 +57,7 @@ const ChangeInforForm = forwardRef((props, ref) => {
         products: listMatch,
       })
 
-      handleOnChange(null, listMatch)
+      handleUpdateProgressAndComponent(null, listMatch)
     }
   }, [data])
 

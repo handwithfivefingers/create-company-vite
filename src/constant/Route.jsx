@@ -18,10 +18,10 @@ import Error from '@/pages/_error'
 import ForgotPassword from '../pages/HomePage/ForgotPassword'
 import LoginPage from '../pages/HomePage/LoginPage'
 import Policy from '../pages/User/Policy'
-import LoginForm from '../pages/HomePage/LoginPage/Login'
+import LoginForm from '@/pages/HomePage/LoginPage/Login'
+import LoginAdmin from '@/pages/HomePage/LoginAdmin'
 
 const AdminDashboard = lazy(() => import('@/pages/Admin/Dashboard'))
-
 const AdminMail = lazy(() => import('@/pages/Admin/AdminMail'))
 const AdminOrder = lazy(() => import('@/pages/Admin/AdminOrder'))
 const ClassComponentText = lazy(() => import('@/pages/Admin/AdminOrder/OrderItem'))
@@ -35,6 +35,7 @@ const UserOrder = lazy(() => import('@/pages/User/Order'))
 const UserProfile = lazy(() => import('@/pages/User/Profile'))
 
 const CCResult = lazy(() => import('@/pages/User/Result'))
+
 const AdminAbout = lazy(() => import('@/pages/Admin/AdminAbout'))
 
 export const AdminRouter = [
@@ -108,6 +109,10 @@ export const LAYOUT_ROUTER = ({ status, role }) => [
       {
         index: true,
         element: <LoginPage />,
+      },
+      {
+        path: '/login-admin',
+        element: <LoginAdmin />,
       },
       {
         path: '/forgot-password',

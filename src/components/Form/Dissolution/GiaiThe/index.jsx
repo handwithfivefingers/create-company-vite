@@ -110,7 +110,6 @@ const GiaiThe = forwardRef((props, ref) => {
         <Col span={24}>
           <Form.Item label={htmlContent('<b>Địa chỉ trụ sở chính</b>')}>
             <CCSelect.SelectProvince
-              ref={ref}
               name={[...BASE_FORM, 'location']}
               placeholder="Nhập địa chỉ trụ sở chính"
               label="Địa chỉ trụ sở chính"

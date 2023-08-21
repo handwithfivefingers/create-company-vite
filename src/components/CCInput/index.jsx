@@ -151,7 +151,7 @@ const InputText = ({ value, name, label, style, ...rest }) => {
   )
 }
 
-const InputSelect = ({ name, label, optional, handleOptions, ...props }) => {
+const InputSelect = ({ name, label, optional, handleOptions, prefix, ...props }) => {
   return (
     <Form.Item
       name={name}
@@ -183,7 +183,7 @@ const InputSelect = ({ name, label, optional, handleOptions, ...props }) => {
 }
 
 const InputDate = (props) => {
-  const { name, label, value, onChange, style, placeholder, ...rest } = props
+  const { name, label, value, onChange, style, placeholder, validateTrigger, otherRule = [], ...rest } = props
 
   if (props?.layout === 'horizontal') {
     return (
@@ -214,8 +214,9 @@ const InputDate = (props) => {
         name={props.name}
         label={props?.label || ' '}
         key={props?.key}
-        rules={[{ required: props?.required, message: rest?.message }]}
+        rules={[{ required: props?.required, message: rest?.message }, ...otherRule]}
         required={props?.required}
+        validateTrigger={validateTrigger}
       >
         <DatePicker
           style={{ ...props.style, width: '100%' }}

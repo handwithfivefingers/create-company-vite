@@ -7,10 +7,19 @@ import styles from '../CreateCompany.module.scss'
 import onSetFields from '@/helper/Commmon'
 import { useStepData } from '@/context/StepProgressContext'
 import CCInputBirthDay from '../../../CCInputBirthDay'
+import {
+  CCInputTypeIdentify,
+  CCInputNumberIdentify,
+  CCInputDateProvideIdentify,
+  CCInputOutdateIdentify,
+  CCInputProviderIdentify,
+} from '@/components/CCInputIdentify'
 
 const ChuTichHoiDongThanhVien = forwardRef((props, ref) => {
   const { BASE_FORM } = props
   const { currentStep } = useStepData()
+  const formInstance = Form.useFormInstance()
+  const doctypeWatch = Form.useWatch([...BASE_FORM, 'per_main', 'doc_type'], formInstance)
 
   const handleAutoFill = () => {
     let { create_company } = ref.current.getFieldsValue()
@@ -78,30 +87,35 @@ const ChuTichHoiDongThanhVien = forwardRef((props, ref) => {
           </Col>
 
           <Col lg={12} md={12} sm={24} xs={24}>
-            <CCInput
-              type="select"
-              name={[...BASE_FORM, 'per_main', 'doc_type']}
-              label="Loại giấy tờ pháp lý"
-              options={SELECT.DOC_TYPE}
+            <CCInputTypeIdentify name={[...BASE_FORM, 'per_main', 'doc_type']} required />
+          </Col>
+          <Col lg={12} md={12} sm={24} xs={24}>
+            <CCInputNumberIdentify
+              indentifyType={doctypeWatch}
+              name={[...BASE_FORM, 'per_main', 'doc_code']}
               required
             />
           </Col>
-          <Col lg={12} md={12} sm={24} xs={24}>
-            <CCInput name={[...BASE_FORM, 'per_main', 'doc_code']} label="Số giấy tờ pháp lý" required />
-          </Col>
 
           <Col lg={12} md={12} sm={24} xs={24}>
-            <CCInput
-              type="date"
+            <CCInputDateProvideIdentify
               name={[...BASE_FORM, 'per_main', 'doc_time_provide']}
-              label="Ngày cấp"
-              inputReadOnly={false}
               required
+              inputReadOnly={false}
+              indentifyType={doctypeWatch}
             />
           </Col>
 
           <Col lg={12} md={12} sm={24} xs={24}>
-            <CCInput name={[...BASE_FORM, 'per_main', 'doc_place_provide']} label="Nơi cấp" required />
+            <CCInputOutdateIdentify name={[...BASE_FORM, 'per_main', 'doc_outdate']} indentifyType={doctypeWatch} />
+          </Col>
+
+          <Col lg={12} md={12} sm={24} xs={24}>
+            <CCInputProviderIdentify
+              name={[...BASE_FORM, 'per_main', 'doc_place_provide']}
+              required
+              indentifyType={doctypeWatch}
+            />
           </Col>
 
           <Col lg={12} md={12} sm={24} xs={24}>

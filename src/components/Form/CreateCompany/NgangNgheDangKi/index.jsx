@@ -7,16 +7,15 @@ import { useFetch } from '@/helper/Hook'
 import { useQuery } from '@tanstack/react-query'
 import { useStepData } from '@/context/StepProgressContext'
 
-const NgangNgheDangKi = forwardRef((props, ref) => {
+const NgangNgheDangKi = forwardRef(({ BASE_FORM, className }, ref) => {
+
   const { currentStep } = useStepData()
-
-  const { BASE_FORM, current } = props
-
   const [careerData, setCareerData] = useState([])
-
   const [selfSelect, setSelfSelect] = useState(null)
 
-  const { status, fetchStatus, data } = useQuery(
+  const formInstance = Form.useFormInstance()
+
+  const { status, data } = useQuery(
     ['career'],
     async () => {
       let res = await GlobalService.fetchCareer()
@@ -30,11 +29,7 @@ const NgangNgheDangKi = forwardRef((props, ref) => {
     },
   )
 
-  const {
-    data: careerCate,
-    status: cateStatus,
-    refetch: cateRefetch,
-  } = useFetch({
+  const { data: careerCate } = useFetch({
     cacheName: ['careerCate'],
     fn: () => GlobalService.getCareerCategory(),
   })
@@ -45,12 +40,6 @@ const NgangNgheDangKi = forwardRef((props, ref) => {
     }
   }, [data, selfSelect])
 
-  /**
-   *
-   * @param {*} pathName
-   * @param {*} val
-   * @param {*} opt Object or Array
-   */
 
   const handleChange = (pathName, opt) => {
     let value
@@ -72,6 +61,8 @@ const NgangNgheDangKi = forwardRef((props, ref) => {
       let res = await GlobalService.getSingleCareerCategory(_id)
       let { data } = res.data
       setCareerData(data)
+      let dataFormatted = data.map(({ code, name, _id }) => ({ code, name, value: _id }))
+      formInstance.setFieldValue([...BASE_FORM, 'company_opt_career'], dataFormatted)
     } catch (err) {
       console.log(err)
     }
@@ -96,7 +87,7 @@ const NgangNgheDangKi = forwardRef((props, ref) => {
       label={<h2>Ngành nghề đăng kí kinh doanh</h2>}
       className={clsx([
         styles.hide,
-        props.className,
+        className,
         {
           [styles.visible]: currentStep === 6,
         },
@@ -177,7 +168,12 @@ const NgangNgheDangKi = forwardRef((props, ref) => {
                   filterOption={handleFilterOptions}
                 >
                   {careerData?.map((item) => (
-                    <Select.Option key={item._id} value={item._id} code={item.code} name={item.name}>
+                    <Select.Option
+                      key={'company_opt_career' + item._id}
+                      value={item._id}
+                      code={item.code}
+                      name={item.name}
+                    >
                       {item.code}-{item.name}
                     </Select.Option>
                   ))}

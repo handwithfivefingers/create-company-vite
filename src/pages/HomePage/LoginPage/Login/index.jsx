@@ -120,14 +120,6 @@ const LoginForm = () => {
     message.error(listMess)
   }
 
-  const toggleVerify = () => {
-    if (typeVerify === TYPE_VERIFY['EMAIL']) {
-      setTypeVerify(TYPE_VERIFY['PHONE'])
-    } else {
-      setTypeVerify(TYPE_VERIFY['EMAIL'])
-    }
-  }
-
   const renderFieldByStep = useMemo(() => {
     let html = null
 

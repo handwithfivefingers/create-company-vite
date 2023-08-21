@@ -201,7 +201,6 @@ const BaseInformation = forwardRef((props, ref) => {
         <Col span={24}>
           <Form.Item label={htmlContent('<b>Địa chỉ trụ sở chính</b>')}>
             <CCSelect.SelectProvince
-              ref={ref}
               label={'Địa chỉ trụ sở chính'}
               name={[...BASE_FORM, 'location']}
               placeholder="Địa chỉ trụ sở chính"

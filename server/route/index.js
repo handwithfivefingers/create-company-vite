@@ -9,6 +9,6 @@ AppRouter.use('/v1', v1Router)
 
 // Admin
 
-AppRouter.use('/admin', adminRouter)
+AppRouter.use('/v1/admin', adminRouter)
 
 module.exports = AppRouter

@@ -3,18 +3,14 @@ const { upload, requireSignin } = require('@middleware')
 
 const router = express.Router()
 
-const CategoryAdmin = require('@controller/admin/Category')
+const AdminCategoryController = require('@controller/v1/admin/category.controller')
 
-const { createCategory, getCategory, hardDelete, updateCategory, reforceCategoriesData } = new CategoryAdmin()
+router.get('/category', requireSignin, new AdminCategoryController().onHandleGetCategory)
 
-router.get('/category', requireSignin, getCategory)
+router.post('/category', requireSignin, new AdminCategoryController().onHandleCreateCategory)
 
-router.post('/category', requireSignin, createCategory)
+router.post('/category/:_id', requireSignin, new AdminCategoryController().onHandleUpdateCategory)
 
-router.post('/category/:_id', requireSignin, updateCategory)
-
-router.delete('/category/:_id', requireSignin, hardDelete)
-
-router.post('/force', requireSignin, reforceCategoriesData)
+router.delete('/category/:_id', requireSignin, new AdminCategoryController().onHandleDeleteCategory)
 
 module.exports = router

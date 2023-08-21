@@ -9,7 +9,7 @@ import styles from './styles.module.scss'
 
 const { Option } = Select
 
-const SelectProvince = forwardRef((props, ref) => {
+const SelectProvince = (props) => {
   const { data: city } = useFetch({
     cacheName: ['careerData', 'province'],
     fn: () => GlobalService.getProvince(),
@@ -23,7 +23,7 @@ const SelectProvince = forwardRef((props, ref) => {
   const [districts, setDistricts] = useState([])
 
   const [wards, setWards] = useState([])
-
+  const formInstance = Form.useFormInstance()
   const name = props?.name
 
   useEffect(() => {
@@ -33,37 +33,34 @@ const SelectProvince = forwardRef((props, ref) => {
   useEffect(() => {
     if (props.data) {
       let { pathName, value } = props?.data
-      onSetFields([...pathName], value, ref)
+      setFields([...pathName], value)
     } else {
-      let val = ref?.current?.getFieldValue([...name])
-      onSetFields([...name], val, ref)
+      let val = formInstance.getFieldValue([...name])
+      setFields([...name], val)
     }
   }, [])
 
   const handleSelectCity = (val, opt) => {
     let pathName = props.data?.pathName || name
-    onSetFields([...pathName, 'city'], opt.name, ref)
+    setFields([...pathName, 'city'], opt.name)
     setParams({ code: val, ward: null })
     let listFields = [
       [...pathName, 'district'],
       [...pathName, 'town'],
     ]
 
-    listFields.forEach((item) => onSetFields([...item], null, ref))
+    listFields.forEach((item) => setFields([...item], null))
   }
 
   const handleSelectDistricts = (val, opt) => {
     let pathName = props.data?.pathName || name
-
-    onSetFields([...pathName, 'district'], opt.name, ref)
-
+    setFields([...pathName, 'district'], opt.name)
     setParams((state) => ({ ...state, wards: val }))
   }
 
   const handleSelectWards = (val, opt) => {
     let pathName = props.data?.pathName || name
-
-    onSetFields([...pathName, 'town'], opt.name, ref)
+    setFields([...pathName, 'town'], opt.name)
   }
 
   const getScreenData = async ({ code = null, wards = null } = {}) => {
@@ -85,6 +82,15 @@ const SelectProvince = forwardRef((props, ref) => {
     } catch (err) {
       console.log('getScreenData err: ' + err)
     }
+  }
+
+  const setFields = (namePath, value) => {
+    formInstance.setFields([
+      {
+        name: [...namePath],
+        value,
+      },
+    ])
   }
 
   if (!city) return 'loading'
@@ -172,7 +178,7 @@ const SelectProvince = forwardRef((props, ref) => {
       />
     </>
   )
-})
+}
 
 const SelectTitle = forwardRef((props, ref) => {
   const [inpShow, setInpShow] = useState(false)
@@ -283,21 +289,32 @@ const SelectPersonType = forwardRef((props, ref) => {
   )
 })
 
-const SelectDocProvide = forwardRef((props, ref) => {
+const SelectDocProvide = (props) => {
   const [select, SetSelect] = useState(1)
-
   const [input, SetInput] = useState('')
+  const formInstace = Form.useFormInstance()
   const DEFAULT_SELECT = 'Cục Cảnh Sát Quản Lý Hành Chính Về Trật Tự Xã Hội'
+
   useEffect(() => {
     let pathName = props.data?.pathName || props.name
-    let value = props.data?.value || ref.current.getFieldValue([...pathName])
+    let value = props.data?.value || formInstace.getFieldValue([...pathName])
     if (value && value !== DEFAULT_SELECT) {
       SetSelect(2)
       SetInput(value)
-      onSetFields(pathName, value, ref)
+      formInstace.setFields([
+        {
+          name: [...pathName],
+          value,
+        },
+      ])
     } else {
       SetSelect(1)
-      onSetFields(pathName, DEFAULT_SELECT, ref)
+      formInstace.setFields([
+        {
+          name: [...pathName],
+          value: DEFAULT_SELECT,
+        },
+      ])
     }
   }, [props])
 
@@ -306,7 +323,7 @@ const SelectDocProvide = forwardRef((props, ref) => {
 
     SetSelect(val)
     if (val === 1) {
-      ref.current.setFields([
+      formInstace.setFields([
         {
           name: [...pathName],
           value: DEFAULT_SELECT,
@@ -320,8 +337,9 @@ const SelectDocProvide = forwardRef((props, ref) => {
 
     SetInput(e.target.value)
 
-    ref.current.setFields([{ name: [...pathName], value: e.target.value }])
+    formInstace.setFields([{ name: [...pathName], value: e.target.value }])
   }
+
   return (
     <Form.Item
       name={[...props.name]}
@@ -342,7 +360,7 @@ const SelectDocProvide = forwardRef((props, ref) => {
       </Row>
     </Form.Item>
   )
-})
+}
 
 const RadioAddress = forwardRef((props, ref) => {
   const { prevField, nextField } = props
@@ -407,7 +425,7 @@ const RadioAddress = forwardRef((props, ref) => {
                   display: radio && radio === 2 ? 'block' : 'none',
                 }}
               >
-                <CCSelect.SelectProvince ref={ref} name={nextField} />
+                <CCSelect.SelectProvince name={nextField} />
               </div>
             }
           </>

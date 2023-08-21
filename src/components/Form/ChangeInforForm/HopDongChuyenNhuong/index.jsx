@@ -224,7 +224,7 @@ const HopDongChuyenNhuong = forwardRef((props, ref) => {
 
           <Col span={24}>
             <Form.Item label="Địa chỉ trụ sở chính">
-              <CCSelect.SelectProvince ref={ref} name={[...fieldName, 'organization', 'company_address', 'current']} />
+              <CCSelect.SelectProvince name={[...fieldName, 'organization', 'company_address', 'current']} />
             </Form.Item>
           </Col>
 
@@ -353,7 +353,7 @@ const HopDongChuyenNhuong = forwardRef((props, ref) => {
           </Col>
           <Col span={24}>
             <Form.Item label="Địa chỉ trụ sở chính">
-              <CCSelect.SelectProvince ref={ref} name={[...fieldName, 'organization', 'company_address', 'current']} />
+              <CCSelect.SelectProvince  name={[...fieldName, 'organization', 'company_address', 'current']} />
             </Form.Item>
           </Col>
 

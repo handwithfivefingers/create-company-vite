@@ -246,7 +246,7 @@ export const CHANGE_INFO_SELECTION = [
 ]
 
 export const IDENTIFY_NUMBER = {
-  CCCD: 12,
-  CMND: 9,
-  HC: 8,
+  'Căn cước công dân': 12,
+  'Chứng minh nhân dân': 9,
+  'Hộ chiếu': 8,
 }

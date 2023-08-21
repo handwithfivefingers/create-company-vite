@@ -8,42 +8,44 @@ import CCAddress from '../../../CCAddress'
 import CCSelect from '../../../CCSelect'
 import styles from '../DaiDienPhapLuat/styles.module.scss'
 import CCInputBirthDay from '../../../CCInputBirthDay'
-import { IndentifySelectionComponent } from '../../../CCInputIdentifyNumber'
 const BASE_FORM = ['change_info', 'update_info']
+import {
+  CCInputTypeIdentify,
+  CCInputNumberIdentify,
+  CCInputDateProvideIdentify,
+  CCInputOutdateIdentify,
+  CCInputProviderIdentify,
+} from '@/components/CCInputIdentify'
 
 const InformationField = ({ forwardRef }) => {
+  const formInstance = Form.useFormInstance()
+
+  const doctypeWatch = Form.useWatch([...BASE_FORM, 'information', 'doc_type'], formInstance)
+
   return (
     <Card className="box__shadow" title="Cập nhật thông tin cá nhân">
       <CCInput name={[...BASE_FORM, 'information', 'name']} label="Họ và tên" required />
       <CCInputBirthDay required name={[...BASE_FORM, 'information', 'birth_day']} />
-      {/* <IndentifySelectionComponent BASE_FORM={[...BASE_FORM, 'information']} /> */}
 
-      <CCInput
-        name={[...BASE_FORM, 'information', 'doc_type']}
-        label="Loại giấy tờ pháp lý"
-        options={SELECT.DOC_TYPE}
-        required
-        type="select"
-      />
+      <CCInputTypeIdentify name={[...BASE_FORM, 'information', 'doc_type']} required />
 
-      <CCInput name={[...BASE_FORM, 'information', 'doc_code']} label="Số CMND/ CCCD/ Hộ chiếu" />
-      
-      <CCInput
+      <CCInputNumberIdentify indentifyType={doctypeWatch} name={[...BASE_FORM, 'information', 'doc_code']} required />
+
+      <CCInputDateProvideIdentify
         name={[...BASE_FORM, 'information', 'doc_time_provide']}
-        label="Ngày cấp"
-        type="date"
-        placeholder="15/01/2015 - ENTER"
         required
+        inputReadOnly={false}
+        indentifyType={doctypeWatch}
       />
 
-      <CCSelect.SelectDocProvide
-        ref={forwardRef}
+      <CCInputOutdateIdentify name={[...BASE_FORM, 'information', 'doc_outdate']} indentifyType={doctypeWatch} />
+
+      <CCInputProviderIdentify
         name={[...BASE_FORM, 'information', 'doc_place_provide']}
-        label="Nơi cấp"
-        placeholder="Bấm vào đây"
         required
+        indentifyType={doctypeWatch}
       />
-      
+
       <CCAddress name={[...BASE_FORM, 'information']} ref={forwardRef} required />
       <CCInput name={[...BASE_FORM, 'information', 'phone']} label="Số điện thoại" required />
       <CCInput name={[...BASE_FORM, 'information', 'email']} label="Địa chỉ email" required />

@@ -21,6 +21,8 @@ router.post('/login-otp', new LoginController().onHandleGetOTPForLogin)
 
 router.post('/login', upload.none(), new LoginController().onHandleLogin)
 
+router.post('/login-admin', upload.none(), new LoginController().onLoginAsAdmin)
+
 router.post('/auth', requireSignin, new LoginController().onHandleVerifyToken)
 
 router.post('/check-user', new LoginController().onCheckUserExist)

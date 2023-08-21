@@ -43,7 +43,6 @@ const TamNgungKinhDoanh = forwardRef(({ type, current, index }, ref) => {
           <>
             <Form.Item label={PENDING_FORM.approve.fields.location.label}>
               <CCSelect.SelectProvince
-                ref={ref}
                 label={'Địa chỉ trụ sở chính'}
                 name={[...BASE_FORM, 'location']}
                 placeholder="Địa chỉ trụ sở chính"
@@ -66,11 +65,10 @@ const TamNgungKinhDoanh = forwardRef(({ type, current, index }, ref) => {
           <>
             <Form.Item label={htmlContent('<b>Địa chỉ trụ sở chính</b>')}>
               <CCSelect.SelectProvince
-                ref={ref}
                 label={'Địa chỉ trụ sở chính'}
                 name={[...BASE_FORM, 'location']}
                 placeholder="Địa chỉ trụ sở chính"
-              />{' '}
+              />
             </Form.Item>
             <MoreThanOneForm BASE_FORM={BASE_FORM} ref={ref} />
           </>

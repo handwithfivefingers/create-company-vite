@@ -9,7 +9,6 @@ const CCAddress = forwardRef(({ name, label, ...props }, ref) => {
     <>
       <Form.Item className={styles.newLine} label={htmlContent(label || '<b>Địa chỉ thường trú <i>(ĐDPL)</i></b>')}>
         <CCSelect.SelectProvince
-          ref={ref}
           name={[...name, 'current']}
           label="Nơi đăng kí hộ khẩu thường trú"
           required={props?.required}
