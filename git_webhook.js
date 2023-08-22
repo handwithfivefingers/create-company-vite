@@ -1,88 +1,45 @@
-const { execSync: exec } = require('child_process')
+const { exec, spawn } = require('child_process')
+const { parentPort } = require('worker_threads')
+// const crypto = require('crypto')
+// const sigHeaderName = 'X-Hub-Signature-256'
+// const sigHashAlg = 'sha256'
+// const secret = 'Hdme195'
+// const repo = '/usr/share/nginx/html/create-company-vite'
 
-const repo = '/usr/share/nginx/html/create-company-vite'
-const crypto = require('crypto')
-const sigHeaderName = 'X-Hub-Signature-256'
-const sigHashAlg = 'sha256'
-const secret = 'Hdme195'
+// parentPort.on('message', () => {
+//   console.log('start process')
+// })
+// const cd = 'cd ' + repo
 
-process.on('message', (msg) => {
-  console.log('start process')
-})
+// const checkout = 'git checkout -- .'
 
-const buildFunction = async () => {
-  const cd = 'cd ' + repo
+// const pullCode = 'git pull'
 
-  const checkout = 'git checkout -- .'
+// const installPackage = 'npm install'
 
-  const pullCode = 'git pull'
+// const buildPackage = 'yarn build'
 
-  const installPackage = 'npm install'
+// const newSource = " find ./ -name dist-build ! -path './node_modules/*'"
 
-  const buildPackage = 'yarn build'
+// const oldSource = " find ./ -name dist ! -path './node_modules/*'"
 
-  const newSource = " find ./ -name dist-build ! -path './node_modules/*'"
+// const removeOldSource = 'rm -rf dist'
 
-  const oldSource = " find ./ -name dist ! -path './node_modules/*'"
+// const rename = 'mv dist-build dist'
 
-  const removeOldSource = 'rm -rf dist'
+async function build() {
+  parentPort.on('message', () => console.log('Trigger Shell')).unref()
 
-  const rename = 'mv dist-build dist'
+  const spawned = spawn('sh git.sh', [], { shell: true })
 
-  try {
-    exec(cd)
+  spawned.stdout.on('data', (data) => console.log(data.toString()))
 
-    exec(checkout)
-
-    exec(pullCode)
-
-    exec(installPackage)
-
-    process.send({
-      message: `Action::: ${buildPackage}`,
-    })
-
-    exec(buildPackage)
-
-    process.send({
-      message: `Action::: ${oldSource}`,
-    })
-
-    const execOldSource = exec(oldSource, { encoding: 'utf8' })
-
-    process.send({
-      message: `Action::: ${newSource}`,
-    })
-
-    const execNewSource = exec(newSource, { encoding: 'utf8' })
-
-    if (!execNewSource) return
-
-    if (execOldSource) {
-      process.send({
-        message: 'remove old source',
-      })
-      process.send({
-        message: `Action::: ${removeOldSource}`,
-      })
-
-      exec(removeOldSource)
-    }
-
-    process.send({
-      message: 'rename',
-    })
-
-    process.send({
-      message: `Action::: ${rename}`,
-    })
-
-    exec(rename)
-  } catch (err) {
-    console.log('git error', err)
-  } finally {
-    process.exit()
-  }
+  spawned.stderr.on('data', function (data) {
+    console.log(data.toString())
+  })
+  spawned.on('exit', function (code) {
+    console.log('exit :', code.toString())
+    exec('pm2 reload ecosystem.config.js')
+  })
 }
-
-buildFunction()
+build()
