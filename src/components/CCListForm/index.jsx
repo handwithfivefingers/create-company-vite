@@ -1,11 +1,14 @@
 import CCInput from '@/components/CCInput'
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons'
 import { Button, Col, Form, InputNumber, Row, Space } from 'antd'
-import React, { forwardRef, useEffect } from 'react'
+import React, { forwardRef, useEffect, memo } from 'react'
 import { numToWord, onSetFields } from '../../helper/Common'
+import styles from './styles.module.scss'
 
 const CCListForm = forwardRef((props, ref) => {
   const { BASE_FORM, listForm, listName, btnText, formLength, defaultLength } = props
+
+  const formInstance = Form.useFormInstance()
 
   let obj = [{}, {}, {}, {}, {}] // defaultObj
 
@@ -14,7 +17,7 @@ const CCListForm = forwardRef((props, ref) => {
 
     let val = obj.slice(0, defaultLength || 1)
 
-    onSetFields(pathName, val, ref)
+    setFields(pathName, val)
   }, [props])
 
   const handleChange = (e, formItem, fieldIndex) => {
@@ -23,7 +26,7 @@ const CCListForm = forwardRef((props, ref) => {
 
     if (formItem?.options?.toUpperCase) {
       val = val.toUpperCase()
-      onSetFields(pathName, val, ref)
+      setFields(pathName, val)
     }
     if (formItem.options.convertToNumber) {
       let fieldConvert = [...BASE_FORM, listName, fieldIndex, ...formItem?.options?.fieldsConvert]
@@ -38,9 +41,11 @@ const CCListForm = forwardRef((props, ref) => {
     }
     return formItem?.label
   }
+
   let timer
+
   const onInputChange = (e, pathName, fieldConvet) => {
-    let numInp = ref.current.getFieldValue(pathName)
+    let numInp = formInstance.getFieldValue(pathName)
 
     if (timer) clearTimeout(timer)
 
@@ -49,42 +54,45 @@ const CCListForm = forwardRef((props, ref) => {
 
       let upperLetter = transform.charAt(0).toUpperCase() + transform.slice(1)
 
-      onSetFields(fieldConvet, upperLetter, ref)
+      // onSetFields(fieldConvet, upperLetter, ref)
+      setFields(fieldConvet, upperLetter)
     }, 1000)
   }
 
   const renderListform = (listForm, field, fieldIndex) => {
     let xhtml = null
-
+    console.log('listForm', listForm)
     xhtml = listForm.map((formItem, formIndex) => {
       let { options } = formItem
       let column = options?.column
       let inputType = options?.format
-      switch (formItem?.type) {
+      const formType = formItem.type
+      const formName = [field.name, ...formItem?.name]
+      const labelName = handleRenderLabel(formItem, fieldIndex)
+      const layout = formItem?.options?.layout
+      const placeholder = formItem?.placeholder
+      switch (formType) {
         case 'date':
           return (
-            <Col span={column || 24}>
-              <CCInput
-                key={[field.name, formIndex, formItem?.name]}
-                label={handleRenderLabel(formItem, fieldIndex)}
-                name={[field.name, ...formItem?.name]}
-                type={formItem?.type}
-                layout={formItem?.options?.layout}
-                placeholder={formItem?.placeholder}
-              />
-            </Col>
+            <FormListItemDate
+              column={column}
+              name={formName}
+              type={formType}
+              label={labelName}
+              layout={layout}
+              placeholder={placeholder}
+            />
           )
         case 'select':
           return (
             <ListformSelect
-              key={[field.name, formIndex, formItem?.name]}
-              label={handleRenderLabel(formItem, fieldIndex)}
-              name={[field.name, ...formItem?.name]}
-              type={formItem?.type}
+              label={labelName}
+              name={formName}
+              type={formType}
               onChange={formItem?.onChange ? (e) => handleChange(e, formItem, fieldIndex) : ''}
               options={formItem?.options}
-              layout={formItem?.options?.layout}
-              placeholder={formItem?.placeholder}
+              layout={layout}
+              placeholder={placeholder}
             />
           )
         default:
@@ -92,33 +100,22 @@ const CCListForm = forwardRef((props, ref) => {
             <Col span={column || 24}>
               {inputType ? (
                 <Form.Item
-                  label={handleRenderLabel(formItem, fieldIndex)}
-                  key={[field.name, formIndex, ...formItem?.name]}
-                  name={[field.name, ...formItem?.name]}
-                  type={formItem?.type}
+                  label={labelName}
+                  name={formName}
+                  type={formType}
                   onChange={(e) => handleChange(e, formItem, fieldIndex)}
-                  layout={formItem?.options?.layout}
+                  layout={layout}
                 >
-                  <InputNumber
-                    style={{ width: '100%' }}
-                    placeholder={formItem?.placeholder}
-                    max={options?.max}
-                    min={options?.min}
-                    formatter={options?.formatter}
-                    parser={options?.parser}
-                    length={options?.length}
-                    stringMode={true}
-                  />
+                  <InputNumber style={{ width: '100%' }} placeholder={placeholder} {...options} stringMode={true} />
                 </Form.Item>
               ) : (
                 <CCInput
-                  key={[field.name, formIndex, ...formItem?.name]}
-                  label={handleRenderLabel(formItem, fieldIndex)}
-                  name={[field.name, ...formItem?.name]}
-                  type={formItem?.type}
+                  label={labelName}
+                  name={formName}
+                  type={formType}
                   onChange={formItem?.onChange ? (e) => handleChange(e, formItem, fieldIndex) : ''}
-                  layout={formItem?.options?.layout}
-                  placeholder={formItem?.placeholder}
+                  layout={layout}
+                  placeholder={placeholder}
                 />
               )}
             </Col>
@@ -128,35 +125,33 @@ const CCListForm = forwardRef((props, ref) => {
     return xhtml
   }
 
+  const setFields = (pathName, value) => {
+    formInstance.setFields([
+      {
+        name: pathName,
+        value,
+      },
+    ])
+  }
+
   return (
     <Form.Item label={<h4>{props?.label}</h4>}>
       <Row gutter={[16, 12]}>
         {listForm && (
-          <Form.List name={[...BASE_FORM, listName]}>
+          <Form.List name={[...BASE_FORM, listName]} key={`form_lists_${[...BASE_FORM, listName].join('_')}`}>
             {(fields, { add, remove }) => (
-              <>
+              <React.Fragment key={`form_lists`}>
                 {fields?.map((field, i) => (
-                  <>
-                    <Col lg={12} md={12} sm={24} xs={24} key={[field, i + 1]}>
-                      <Row gutter={[16, 12]}>{renderListform(listForm, field, i)}</Row>
-
-                      <Space style={{ display: 'flex', justifyContent: 'center' }}>
-                        {fields.length <= (defaultLength || 1) ? '' : <MinusCircleOutlined onClick={() => remove(field.name)} />}
-                      </Space>
-                    </Col>
-                  </>
+                  <FormListBody
+                    isValid={fields.length <= (defaultLength || 1)}
+                    key={['form_item', field, i + 1]}
+                    onClick={() => remove(field.name)}
+                  >
+                    {renderListform(listForm, field, i)}
+                  </FormListBody>
                 ))}
-
-                {fields.length >= formLength ? (
-                  ''
-                ) : (
-                  <Form.Item label=" ">
-                    <Button type="dashed" onClick={() => add()} block icon={<PlusOutlined />}>
-                      {btnText}
-                    </Button>
-                  </Form.Item>
-                )}
-              </>
+                <FormListFooter isValid={fields.length >= formLength} btnText={btnText} add={add} key={`form_item_footer`}/>
+              </React.Fragment>
             )}
           </Form.List>
         )}
@@ -182,7 +177,32 @@ const ListformSelect = ({ columnm, field, formIndex, formItem, handleRenderLabel
   )
 }
 
+const FormListBody = memo(({ isValid, onClick, children }) => {
+  return (
+    <Col lg={12} md={12} sm={24} xs={24}>
+      <Row gutter={[16, 12]}>{children}</Row>
+      <Space className={styles.flexStyles}>{isValid ? '' : <MinusCircleOutlined onClick={onClick} />}</Space>
+    </Col>
+  )
+})
 
+const FormListFooter = memo(({ isValid, btnText, add }) => {
+  if (isValid) return ''
+  return (
+    <Form.Item label=" ">
+      <Button type="dashed" onClick={() => add()} block icon={<PlusOutlined />}>
+        {btnText}
+      </Button>
+    </Form.Item>
+  )
+})
 
+const FormListItemDate = ({ column, name, label, layout, placeholder, type }) => {
+  return (
+    <Col span={column || 24}>
+      <CCInput label={label} name={name} type={type} layout={layout} placeholder={placeholder} />
+    </Col>
+  )
+}
 
 export default CCListForm

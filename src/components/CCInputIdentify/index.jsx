@@ -1,12 +1,10 @@
 import CCInput from '@/components/CCInput'
-import { SELECT, IDENTIFY_NUMBER } from '@/constant/Common'
-import { useState } from 'react'
-import moment from 'moment'
-import CCSelect from '../CCSelect'
-import GlobalService from '@/service/GlobalService'
+import { IDENTIFY_NUMBER, SELECT } from '@/constant/Common'
 import { useFetch } from '@/helper/Hook'
+import GlobalService from '@/service/GlobalService'
 import { Form } from 'antd'
-import { useEffect } from 'react'
+import moment from 'moment'
+import { useEffect, useState } from 'react'
 
 // Fixed 20/08/2023
 // Age: 18 or higher
@@ -135,9 +133,7 @@ const CCInputProviderIdentify = ({ name, label, placeholder, indentifyType, ...p
 }
 
 export {
-  CCInputNumberIdentify,
-  CCInputTypeIdentify,
-  CCInputDateProvideIdentify,
-  CCInputOutdateIdentify,
-  CCInputProviderIdentify,
+  CCInputDateProvideIdentify, CCInputNumberIdentify, CCInputOutdateIdentify,
+  CCInputProviderIdentify, CCInputTypeIdentify
 }
+

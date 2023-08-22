@@ -3,7 +3,7 @@ import CCSelect from '@/components/CCSelect'
 import { htmlContent, onSetFields } from '@/helper/Common'
 import { Button, Card, Col, Form, InputNumber, Row, Space } from 'antd'
 import clsx from 'clsx'
-import { forwardRef, useEffect, useMemo, useState } from 'react'
+import { forwardRef, useEffect, useMemo, useState, memo } from 'react'
 import styles from './styles.module.scss'
 
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons'
@@ -36,7 +36,7 @@ const GiaiThe = forwardRef((props, ref) => {
     if (+type === 3) {
       xhtml = (
         <>
-          <OnePersonForm BASE_FORM={BASE_FORM} ref={ref} />
+          <BoardMembersCoopMember BASE_FORM={BASE_FORM} ref={ref} />
           <Form.Item
             label="Tổng số vốn điều lệ"
             name={[...BASE_FORM, 'total_capital']}
@@ -56,14 +56,13 @@ const GiaiThe = forwardRef((props, ref) => {
         </>
       )
     } else if (+type === 2) {
-      xhtml = <MoreThanOneForm BASE_FORM={BASE_FORM} ref={ref} />
+      xhtml = <BoardMembers2Member BASE_FORM={BASE_FORM} ref={ref} />
     }
     return xhtml
   }, [type])
 
   return (
     <Form.Item
-      // label="Giải thể"
       className={clsx(styles.groupInput, styles.current, {
         [styles.active]: props.current === props.index,
       })}
@@ -124,7 +123,7 @@ const GiaiThe = forwardRef((props, ref) => {
   )
 })
 
-const OnePersonForm = forwardRef((props, ref) => {
+const BoardMembersCoopMember = forwardRef((props, ref) => {
   const { BASE_FORM } = props
 
   const [formList, setFormList] = useState([{}])
@@ -167,13 +166,13 @@ const OnePersonForm = forwardRef((props, ref) => {
 
     let value = ref.current?.getFieldValue([...BASE_FORM, 'list_president'])
 
-    let valSplice = value.splice(i, 1)
+    let valSplice = value?.splice(i, 1)
 
     onSetFields([...BASE_FORM, 'list_president'], value, ref)
   }
 
   return (
-    <Form.Item label="Hội đồng quản trị">
+    <Form.Item label="Đại hội đồng cổ đông" style={{ width: '100%' }}>
       <Row gutter={[16, 12]}>
         {formList?.map((item, index) => {
           return (
@@ -182,11 +181,7 @@ const OnePersonForm = forwardRef((props, ref) => {
                 className="box__shadow"
                 size="small"
                 title={index === 0 ? 'Tên Chủ tịch HĐQT' : `Tên thành viên HĐQT ${index}`}
-                extra={[
-                  <Space style={{ display: 'flex', justifyContent: 'center' }}>
-                    {formList.length <= 3 ? '' : <MinusCircleOutlined onClick={() => removeItem(index)} />}
-                  </Space>,
-                ]}
+                extra={[<RemoveFormBtn inValid={formList.length <= 3} onClick={() => removeItem(index)} />]}
               >
                 <Row>
                   <Col span={24}>
@@ -204,22 +199,25 @@ const OnePersonForm = forwardRef((props, ref) => {
             </Col>
           )
         })}
+        <FormListFooter
+          inValid={formList.length >= 5}
+          onClick={() => addToList()}
+          btnText="Thêm thành viên HĐQT (nếu có)"
+        />
 
-        {formList.length < 5 && (
+        {/* {formList.length < 5 && (
           <Col lg={12} md={12} sm={24} xs={24}>
             <Form.Item label=" ">
-              <Button type="dashed" onClick={() => addToList()} block icon={<PlusOutlined />}>
-                Thêm thành viên HĐQT (nếu có)
-              </Button>
+              <Button type="dashed" onClick={() => addToList()} block icon={<PlusOutlined />}></Button>
             </Form.Item>
           </Col>
-        )}
+        )} */}
       </Row>
     </Form.Item>
   )
 })
 
-const MoreThanOneForm = forwardRef((props, ref) => {
+const BoardMembers2Member = forwardRef((props, ref) => {
   const { BASE_FORM } = props
 
   const [formList, setFormList] = useState([{}, {}])
@@ -236,7 +234,6 @@ const MoreThanOneForm = forwardRef((props, ref) => {
   }, [location])
 
   useEffect(() => {
-    // This run 2st
     if (formList.length <= 1) {
       addToList(1)
     }
@@ -252,17 +249,21 @@ const MoreThanOneForm = forwardRef((props, ref) => {
   }
 
   const removeItem = (i) => {
-    let data = JSON.parse(JSON.stringify(formList))
+    try {
+      let data = JSON.parse(JSON.stringify(formList))
 
-    let _data = data.splice(i, 1)
+      let _data = data.splice(i, 1)
 
-    setFormList(data)
+      setFormList(data)
 
-    let value = ref.current?.getFieldValue([...BASE_FORM, 'contribute_members'])
+      let value = ref.current?.getFieldValue([...BASE_FORM, 'contribute_members'])
 
-    let valSplice = value.splice(i, 1)
+      let valSplice = value?.splice(i, 1)
 
-    onSetFields([...BASE_FORM, 'contribute_members'], value, ref)
+      onSetFields([...BASE_FORM, 'contribute_members'], value, ref)
+    } catch (error) {
+      console.log('removeItem error', error)
+    }
   }
 
   return (
@@ -275,11 +276,7 @@ const MoreThanOneForm = forwardRef((props, ref) => {
                 className="box__shadow"
                 size="small"
                 title={`Tên thành viên góp vốn thứ ${index + 1}`}
-                extra={[
-                  <Space style={{ display: 'flex', justifyContent: 'center' }}>
-                    {formList.length <= 2 ? '' : <MinusCircleOutlined onClick={() => removeItem(index)} />}
-                  </Space>,
-                ]}
+                extra={[<RemoveFormBtn inValid={formList.length <= 2} onClick={() => removeItem(index)} />]}
               >
                 <Row gutter={[16]}>
                   <Col span={24}>
@@ -343,19 +340,35 @@ const MoreThanOneForm = forwardRef((props, ref) => {
           )
         })}
 
-        {formList.length >= 5 ? (
-          ''
-        ) : (
-          <Col lg={12} md={12} sm={24} xs={24}>
-            <Form.Item label=" ">
-              <Button className="box__shadow" type="dashed" onClick={() => addToList()} block icon={<PlusOutlined />}>
-                Thêm thành viên góp vốn (nếu có)
-              </Button>
-            </Form.Item>
-          </Col>
-        )}
+        <FormListFooter
+          inValid={formList.length >= 5}
+          btnText="Thêm thành viên góp vốn (nếu có)"
+          onClick={() => addToList()}
+        />
       </Row>
     </Form.Item>
+  )
+})
+
+const FormListFooter = memo(({ inValid, btnText, onClick }) => {
+  if (inValid) return ''
+  return (
+    <Col lg={12} md={12} sm={24} xs={24}>
+      <Form.Item label=" ">
+        <Button type="dashed" onClick={onClick} block icon={<PlusOutlined />}>
+          {btnText}
+        </Button>
+      </Form.Item>
+    </Col>
+  )
+})
+
+const RemoveFormBtn = memo(({ inValid, onClick }) => {
+  if (inValid) return ''
+  return (
+    <Space className={styles.flexStyles}>
+      <MinusCircleOutlined onClick={onClick} />
+    </Space>
   )
 })
 
