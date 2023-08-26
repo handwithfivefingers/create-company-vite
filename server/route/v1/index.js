@@ -6,12 +6,13 @@ const AuthRoute = require('./auth')
 const ProductRoute = require('./product')
 const CategoryRoute = require('./category')
 const CareerRoute = require('./career')
-const OrderRoute = require('./order')
 const ServiceRoute = require('./service')
 const UserRoute = require('./user')
 const CareerCategoryRoute = require('./careerCategory')
-
 const AdminRoute = require('../admin')
+
+const { requireSignin } = require('@middleware')
+
 const { MailRoute } = AdminRoute
 
 router.use(
@@ -20,11 +21,15 @@ router.use(
   ProductRoute,
   CategoryRoute,
   CareerRoute,
-  OrderRoute,
   ServiceRoute,
   UserRoute,
   CareerCategoryRoute,
   MailRoute,
 )
+
+router.use('/order/payment', require('./payment'))
+
+router.use('/order', requireSignin, require('./order'))
+
 
 module.exports = router

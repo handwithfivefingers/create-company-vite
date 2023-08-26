@@ -27,11 +27,8 @@ const UserOrder = () => {
   const getScreenData = async () => {
     try {
       setLoading(true)
-      let res = await OrderService.getOrders()
-
-      if (res.data.status === 200) {
-        setData(res.data.data)
-      }
+      const res = await OrderService.getOrders()
+      setData(res.data)
     } catch (err) {
       console.log(err)
     } finally {
@@ -60,27 +57,39 @@ const UserOrder = () => {
   const renderService = (val, record, i) => {
     if (record?.data?.create_company) {
       return (
-        <Tag color="#108ee9" key={[Math.random(), Math.random().toFixed(Math.random() * 10)]}>
-          Thành lập doanh nghiệp
-        </Tag>
+        <>
+          <Tag color="#108ee9" key={[Math.random(), Math.random().toFixed(Math.random() * 10)]}>
+            Thành lập doanh nghiệp
+          </Tag>
+          - {record.category.name}
+        </>
       )
     } else if (record?.data?.change_info) {
       return (
-        <Tag color="#108ee9" key={[Math.random(), Math.random().toFixed(Math.random() * 10)]}>
-          Thay đổi thông tin
-        </Tag>
+        <>
+          <Tag color="#108ee9" key={[Math.random(), Math.random().toFixed(Math.random() * 10)]}>
+            Thay đổi thông tin
+          </Tag>
+          - {record.category.name}
+        </>
       )
     } else if (record?.data?.pending) {
       return (
-        <Tag color="#108ee9" key={[Math.random(), Math.random().toFixed(Math.random() * 10)]}>
-          Tạm hoãn
-        </Tag>
+        <>
+          <Tag color="#108ee9" key={[Math.random(), Math.random().toFixed(Math.random() * 10)]}>
+            Tạm hoãn
+          </Tag>
+          - {record.category.name}
+        </>
       )
     } else if (record?.data?.dissolution) {
       return (
-        <Tag color="#108ee9" key={[Math.random(), Math.random().toFixed(Math.random() * 10)]}>
-          Giải thể
-        </Tag>
+        <>
+          <Tag color="#108ee9" key={[Math.random(), Math.random().toFixed(Math.random() * 10)]}>
+            Giải thể
+          </Tag>
+          - {record.category.name}
+        </>
       )
     }
   }
@@ -98,7 +107,7 @@ const UserOrder = () => {
         <Table
           size="small"
           bordered
-          dataSource={data?._order?.slice(
+          dataSource={data?.data?.slice(
             (current - 1) * pagiConfigs.pageSize,
             (current - 1) * pagiConfigs.pageSize + pagiConfigs.pageSize,
           )}
@@ -126,7 +135,7 @@ const UserOrder = () => {
             }}
           />
 
-          <Table.Column align="center" title="Dịch vụ" dataIndex="" render={renderService} />
+          <Table.Column align="left" title="Dịch vụ" dataIndex="" render={renderService} />
 
           <Table.Column
             align="center"

@@ -1,10 +1,17 @@
 const shortid = require('shortid')
-const { successHandler } = require('@response')
-const { Order, Category } = require('@model')
-const { getListFiles } = require('@constant/File')
-const { uniqBy } = require('lodash')
-const { isFunction } = require('../../../common/helper')
+const qs = require('query-string')
+const crypto = require('crypto')
+const { errHandler, successHandler, permisHandler, existHandler } = require('@response')
+const { Order, Category, Setting } = require('@model')
 
+const { ResponseCode } = require('@common/ResponseCode')
+const { getListFiles } = require('@constant/File')
+const { getVpnParams, sortObject } = require('@common/helper')
+const { uniqBy } = require('lodash')
+
+const PaymentService = require('../../Service/Payment')
+
+const { paymentOrder } = new PaymentService()
 module.exports = class OrderService {
   PAGE_SIZE = 10
   // Get getOrdersFromUser
@@ -41,33 +48,35 @@ module.exports = class OrderService {
       throw error
     }
   }
-
-  getOrderById = async (req) => {
+  getOrderBySlug = async (req) => {
     try {
-      const _id = req.params
-      const _order = await Order.findOne({ _id })
-        .populate({
-          path: 'category',
-          select: 'name price type',
-        })
-        .populate('products')
-        .select('-send -__v -files -delete_flag -createdAt')
-      if (!_order) throw { message: 'Order not found' }
-      return {
-        data: { ..._order._doc },
+      const { id } = req.params
+    } catch (error) {}
+  }
+  getOrderBySlug = async (req, res) => {
+    const { id } = req.params
+
+    try {
+      if (req.role === 'admin') {
+        const _order = await Order.findById(id).populate('products', 'name type').select('-orderInfo')
+        return successHandler(_order, res)
       }
-    } catch (error) {
-      throw error
+
+      return permisHandler(res)
+    } catch (err) {
+      console.log('getOrderBySlug error')
+
+      return errHandler(err, res)
     }
   }
 
-  createOrder = async (req) => {
+  createOrders = async (req, res) => {
     try {
       const { data } = req.body
 
       const { category, products, ...rest } = data
 
-      if (!category) throw { message: 'Categories not found' }
+      if (!category) throw 'Categories not found'
 
       let { files, result, msg } = this.findKeysByObject(rest, category?.type)
 
@@ -75,9 +84,9 @@ module.exports = class OrderService {
 
       let price = await this.calcPrice(category._id || category.value)
 
-      if (!price) throw { message: 'Cant find price for category' }
+      if (!price) throw 'Cant find price for category'
 
-      if (!files) throw { message: 'Something was wrong when generate file, please try again' }
+      if (!files) throw 'Something was wrong when generate file, please try again'
 
       let newData = {
         data,
@@ -91,24 +100,20 @@ module.exports = class OrderService {
 
       newData.slug = newData.name + '-' + shortid.generate()
 
-      const _save = new Order(newData)
+      let _save = new Order({ ...newData })
 
-      const dataSaved = await _save.save()
+      let _obj = await _save.save()
 
-      //   return successHandler(_obj, res)
-      return {
-        _id: dataSaved._id,
-        orderOwner: dataSaved.orderOwner,
-      }
+      return successHandler(_obj, res)
     } catch (err) {
       console.log('createOrders error', err)
-      //   return errHandler(err, res)
-      throw err
+      return errHandler(err, res)
     }
   }
 
-  updateOrder = async (req) => {
+  updateOrder = async (req, res) => {
     try {
+      console.log('updateOrder processing ... 1')
       let _id = req.params._id
 
       let { data } = req.body
@@ -116,10 +121,11 @@ module.exports = class OrderService {
       let { category, products, ...rest } = data
 
       let { files, result, msg } = this.findKeysByObject(rest, category?.type)
+      console.log('updateOrder processing ... 2')
 
       if (!result) throw { message: msg }
 
-      if (!files) throw { message: 'Something was wrong when generate file, please try again' }
+      if (!files) throw 'Something was wrong when generate file, please try again'
 
       let _updateObject = {
         category: category._id || category.value,
@@ -128,13 +134,92 @@ module.exports = class OrderService {
         files,
       }
 
+      console.log('updateOrder processing ... 3')
+
       await Order.updateOne({ _id }, _updateObject, { new: true })
 
-      //   return successHandler({ message: 'Updated Success' }, res)
-      return { message: 'Updated Success' }
+      return successHandler({ message: 'Updated Success' }, res)
     } catch (error) {
+      console.log('updateOrder request error', req)
       console.log('updateOrder error', error)
-      throw error
+    }
+  }
+
+  orderWithPayment = async (req, res) => {
+    // const session = await mongoose.startSession();
+    try {
+      //  khai báo
+      const { data } = req.body
+
+      const { category, products, ...rest } = data
+
+      if (!category) throw 'Product not found'
+
+      let price = await this.calcPrice(category._id || category.value)
+
+      let { files, result, msg } = this.findKeysByObject(rest, category?.type)
+
+      if (!price) throw 'Product not found'
+
+      if (!result) throw msg
+
+      var newData = {
+        data,
+        orderOwner: req.id,
+        name: shortid.generate(),
+        category: category._id || category.value,
+        products,
+        price,
+        files,
+      }
+
+      newData.slug = newData.name + '-' + shortid.generate()
+
+      let _save = new Order({ ...newData })
+
+      let _obj = await _save.save()
+
+      let params = {
+        amount: price * 100,
+        orderInfo: _obj._id,
+      }
+
+      return paymentOrder(req, res, params)
+    } catch (err) {
+      console.log('orderWithPayment error', err)
+      return errHandler(err, res)
+    }
+  }
+
+  updateAndPayment = async (req, res) => {
+    try {
+      let _id = req.params._id
+
+      let { data } = req.body
+
+      let { category, products } = data
+
+      let _order = await Order.findOne({ _id: _id })
+
+      if (!_order) return errHandler(err, res)
+
+      _order.category = category._id || category.value
+
+      _order.products = products?.map((item) => item.value || item)
+
+      _order.data = data
+
+      await _order.save()
+
+      let params = {
+        amount: _order.price * 100,
+        orderInfo: _order._id,
+      }
+
+      return paymentOrder(req, res, params)
+    } catch (error) {
+      console.log('updateAndPayment error', error)
+      return errHandler(err, res)
     }
   }
 
@@ -192,8 +277,11 @@ module.exports = class OrderService {
 
             let objProperty = list?.[key]
 
-            if (isFunction(objProperty)) {
+            let isFunction = objProperty && typeof objProperty === 'function'
+
+            if (isFunction) {
               // explicit property
+
               if (props === 'create_company') {
                 // let opt = obj[props][key]?.present_person // get selected item
 

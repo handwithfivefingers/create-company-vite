@@ -149,7 +149,7 @@ module.exports = class LoginService {
     try {
       const { phone, password } = req.body
 
-      const _user = await User.findOne({ phone: phone })
+      const _user = await User.findOne({ phone: phone }).select('-hash_password')
 
       if (!_user) throw { message: 'User doesnt exist' }
 

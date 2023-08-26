@@ -1,30 +1,19 @@
 const express = require('express')
 
-const { upload, requireSignin } = require('@middleware')
+const { upload } = require('@middleware')
 
 const AdminCategoryController = require('@controller/v1/admin/careerCategory.controller')
 
-// const { fetchCareer, createCareer, fetchSingleCareerCate, updateCareerCate, deleteCareerCate } = new CareerCategoryAdmin()
-
 const router = express.Router()
 
-// router.get('/career_cate', upload.none(), fetchCareer)
+router.get('/', upload.none(), new AdminCategoryController().onHandleGet)
 
-// router.get('/career_cate/:id', upload.none(), fetchSingleCareerCate)
+router.get('/:id', upload.none(), new AdminCategoryController().onHandleGetById)
 
-// router.post('/career_cate/:id', upload.none(), updateCareerCate)
+router.post('/', upload.none(), new AdminCategoryController().onHandleCreate)
 
-// router.post('/career_cate', upload.none(), createCareer)
+router.post('/:id', upload.none(), new AdminCategoryController().onHandleUpdate)
 
-// router.delete('/career_cate/:id', upload.none(), deleteCareerCate)
-router.get('/career_cate', upload.none(), new AdminCategoryController().onHandleGet)
-
-router.get('/career_cate/:id', upload.none(), new AdminCategoryController().onHandleGetById)
-
-router.post('/career_cate/:id', upload.none(), new AdminCategoryController().onHandleUpdate)
-
-router.post('/career_cate', upload.none(), new AdminCategoryController().onHandleCreate)
-
-router.delete('/career_cate/:id', upload.none(), new AdminCategoryController().onHandleDelete)
+router.delete('/:id', upload.none(), new AdminCategoryController().onHandleDelete)
 
 module.exports = router

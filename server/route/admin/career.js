@@ -7,27 +7,15 @@ const router = express.Router()
 const AdminCareerController = require('@controller/v1/admin/career.controller')
 
 // //Get
-// router.get('/career', requireSignin, upload.none(), fetchCareer)
+router.get('/', requireSignin, upload.none(), new AdminCareerController().onHandleGet)
 
 // //Post
-// router.post('/career', requireSignin, upload.none(), createCareer)
+router.post('/', requireSignin, upload.none(), new AdminCareerController().onHandleCreate)
 
 // //Edit
-// router.post('/career/:id', requireSignin, upload.none(), editCareer)
+router.post('/:id', requireSignin, upload.none(), new AdminCareerController().onHandleUpdate)
 
 // //Delete
-// router.delete('/career/:id', requireSignin, upload.none(), deleteCareer)
-
-// //Get
-router.get('/career', requireSignin, upload.none(), new AdminCareerController().onHandleGet)
-
-// //Post
-router.post('/career', requireSignin, upload.none(), new AdminCareerController().onHandleCreate)
-
-// //Edit
-router.post('/career/:id', requireSignin, upload.none(), new AdminCareerController().onHandleUpdate)
-
-// //Delete
-router.delete('/career/:id', requireSignin, upload.none(), new AdminCareerController().onHandleDelete)
+router.delete('/:id', requireSignin, upload.none(), new AdminCareerController().onHandleDelete)
 
 module.exports = router

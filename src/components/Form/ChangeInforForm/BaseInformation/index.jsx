@@ -11,10 +11,10 @@ import styles from './styles.module.scss'
 import GlobalService from '@/service/GlobalService'
 import { useFetch } from '@/helper/Hook'
 
-const BaseInformation = forwardRef((props, ref) => {
-  const BASE_FORM = ['change_info', 'base_inform']
-  const { currentStep } = useStepData()
+const BASE_FORM = ['change_info', 'base_inform']
 
+const BaseInformation = forwardRef((props, ref) => {
+  const { currentStep } = useStepData()
   const renderFormByType = useMemo(() => {
     if (+props.type === 2) return <BoardMembers2Member BASE_FORM={BASE_FORM} key={`board_members`} />
     else if (+props.type === 3) return <BoardMembersCoopMember BASE_FORM={BASE_FORM} key={`board_members`} />
@@ -56,14 +56,7 @@ const BaseInformation = forwardRef((props, ref) => {
         </Col>
 
         <Col lg={12} md={24} sm={24} xs={24}>
-          {/* <div></div> */}
           <SelectDoc name={['change_info', 'base_inform', 'mst_place_provide']} label="Nơi cấp" required />
-          {/* <CCSelect.SelectDocProvide
-            name={['change_info', 'base_inform', 'mst_place_provide']}
-            label="Nơi cấp"
-            placeholder="Bấm vào đây"
-            required
-          /> */}
         </Col>
 
         <Col span={24}>
@@ -109,6 +102,7 @@ const BoardMembers2Member = memo(({ BASE_FORM, ...props }) => {
         customLabel: 'Thành viên góp vốn thứ ',
       },
     },
+    // Vốn góp
     {
       label: PENDING_FORM.approve.fields.contribute_members.fields.capital,
       placeholder: '80,000,000',
@@ -120,6 +114,7 @@ const BoardMembers2Member = memo(({ BASE_FORM, ...props }) => {
         formatter: (v) => `${new Intl.NumberFormat('en-US').format(v.replace(/,/g, ''))}`,
       },
     },
+    // Chiếm % vốn điều lệ
     {
       label: PENDING_FORM.approve.fields.contribute_members.fields.capital_percent,
       placeholder: '80',
@@ -132,6 +127,27 @@ const BoardMembers2Member = memo(({ BASE_FORM, ...props }) => {
         max: 100,
         min: 0,
         length: 3,
+      },
+    },
+    // Số giấy chứng nhận góp vốn
+    {
+      label: PENDING_FORM.approve.fields.contribute_members.fields.doc_code,
+      placeholder: '123456789',
+      name: ['doc_code'],
+      options: {
+        column: 12,
+        layout: 'vertical',
+      },
+    },
+    // Ngày cấp giấy chứng nhận góp vốn
+    {
+      label: PENDING_FORM.approve.fields.contribute_members.fields.time_provide,
+      placeholder: '01/01/1999',
+      name: ['time_provide'],
+      type: 'date',
+      options: {
+        column: 12,
+        layout: 'vertical',
       },
     },
   ]

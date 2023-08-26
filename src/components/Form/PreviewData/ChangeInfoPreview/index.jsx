@@ -25,6 +25,7 @@ export default function ChangeInfoPreview(props) {
     update_info,
   } = data
 
+  console.log('dât', props)
   const renderASide = () => {
     let html = null
 
@@ -37,6 +38,7 @@ export default function ChangeInfoPreview(props) {
           <Form.Item label={<Text type="secondary">{t['birth_day']}</Text>}>
             {moment(currentLabel?.birth_day).format('DD/MM/YYYY')}
           </Form.Item>
+          <Form.Item label={<Text type="secondary">{t['gender']}</Text>}>{currentLabel?.gender}</Form.Item>
           <Form.Item label={<Text type="secondary">{t['doc_type']}</Text>}>{currentLabel?.doc_type}</Form.Item>
           <Form.Item label={<Text type="secondary">{t['doc_code']}</Text>}>{currentLabel?.doc_code}</Form.Item>
           <Form.Item label={<Text type="secondary">{t['doc_time_provide']}</Text>}>
@@ -87,6 +89,7 @@ export default function ChangeInfoPreview(props) {
           <Form.Item label={<Text type="secondary">{t['mst']}</Text>}>
             {moment(currentLabel?.mst).format('DD/MM/YYYY')}
           </Form.Item>
+
           <Form.Item label={<Text type="secondary">{t['mst_provide']}</Text>}>{currentLabel?.mst_provide}</Form.Item>
           <Form.Item label={<Text type="secondary">{t['doc_place_provide']}</Text>}>
             {currentLabel?.place_provide}
@@ -353,6 +356,18 @@ export default function ChangeInfoPreview(props) {
                                   {item?.capital_percent}
                                 </Form.Item>
                               </Col>
+                              {item.doc_code && (
+                                <Col span={12} className="d-flex align-items-end">
+                                  <Text type="secondary">Số giấy chứng nhận góp vốn :</Text>
+                                  <Text> {item?.doc_code}</Text>
+                                </Col>
+                              )}
+                              {item.time_provide && (
+                                <Col span={12} className="d-flex align-items-end">
+                                  <Text type="secondary">Ngày cấp giấy chứng nhận góp vốn :</Text>
+                                  <Text> {moment(item?.time_provide).format('DD/MM/YYYY')}</Text>
+                                </Col>
+                              )}
                             </Row>
                           </Col>
                         )
@@ -634,7 +649,8 @@ export default function ChangeInfoPreview(props) {
 
         {company_career && (
           <>
-            <Card
+            <CompanyCareer company_career={company_career} />
+            {/* <Card
               title="Đăng ký thay đổi ngành nghề kinh doanh"
               className="box__shadow"
               size="small"
@@ -657,13 +673,13 @@ export default function ChangeInfoPreview(props) {
                   })}
                 </ul>
               </Form.Item>
-            </Card>
+            </Card> */}
           </>
         )}
 
         {name && (
           <>
-            <Card
+            {/* <Card
               title="Đăng ký thay đổi tên doanh nghiệp"
               className="box__shadow"
               size="small"
@@ -678,20 +694,20 @@ export default function ChangeInfoPreview(props) {
               <Form.Item label={<Text type="secondary">Tên công ty viết tắt (chỉ điền nếu có thay đổi)</Text>}>
                 {name?.name_etc}
               </Form.Item>
-            </Card>
+            </Card> */}
+            <ChangeName name={name} />
           </>
         )}
 
         {update_info && (
           <>
-            <Card
+            <UpdateInformation update_info={update_info} />
+            {/* <Card
               title="Cập nhật thông tin đăng ký doanh nghiệp"
               className="box__shadow"
               size="small"
               style={{ margin: '0 0 20px 0' }}
             >
-              {/* <Form.Item label={<Text type="secondary">Tên công ty bằng Tiếng Việt</Text>}>{name?.name_vi}</Form.Item> */}
-
               {update_info.select?.map((item) => {
                 if (item === 'information') {
                   let information = update_info.information
@@ -775,7 +791,7 @@ export default function ChangeInfoPreview(props) {
                   )
                 }
               })}
-            </Card>
+            </Card> */}
           </>
         )}
 
@@ -791,5 +807,134 @@ export default function ChangeInfoPreview(props) {
         )}
       </Col>
     </Row>
+  )
+}
+
+const CompanyCareer = ({ company_career }) => {
+  return (
+    <Card
+      title="Đăng ký thay đổi ngành nghề kinh doanh"
+      className="box__shadow"
+      size="small"
+      style={{ margin: '0 0 20px 0' }}
+    >
+      <Form.Item label={<Text type="secondary">Bổ sung ngành, nghề kinh doanh</Text>}>
+        <ul style={{ listStyle: 'none' }}>
+          {company_career?.include?.map((item, index) => {
+            return <li key={['Bổ sung ngành, nghề kinh doanh', item, index]}>{item.children.reverse().join('')}</li>
+          })}
+        </ul>
+      </Form.Item>
+
+      <Form.Item label={<Text type="secondary">Bỏ ngành, nghề kinh doanh</Text>}>
+        <ul style={{ listStyle: 'none' }}>
+          {company_career?.exclude?.map((item, index) => {
+            return <li key={['Bổ sung ngành, nghề kinh doanh', item, index]}>{item.children.join('')}</li>
+          })}
+        </ul>
+      </Form.Item>
+    </Card>
+  )
+}
+const ChangeName = ({ name }) => {
+  return (
+    <Card
+      title="Đăng ký thay đổi tên doanh nghiệp"
+      className="box__shadow"
+      size="small"
+      style={{ margin: '0 0 20px 0' }}
+    >
+      <Form.Item label={<Text type="secondary">Tên công ty bằng Tiếng Việt</Text>}>{name?.name_vi}</Form.Item>
+      <Form.Item label={<Text type="secondary">Tên công ty bằng tiếng nước ngoài (chỉ điền nếu có thay đổi)</Text>}>
+        {name?.name_en}
+      </Form.Item>
+      <Form.Item label={<Text type="secondary">Tên công ty viết tắt (chỉ điền nếu có thay đổi)</Text>}>
+        {name?.name_etc}
+      </Form.Item>
+    </Card>
+  )
+}
+
+const UpdateInformation = ({ update_info }) => {
+  if (!update_info) return null
+  return (
+    <Card
+      title="Cập nhật thông tin đăng ký doanh nghiệp"
+      className="box__shadow"
+      size="small"
+      style={{ margin: '0 0 20px 0' }}
+    >
+      {update_info.select?.map((item) => {
+        if (item === 'information') {
+          const information = update_info.information
+          return (
+            <>
+              <Form.Item label={'Cập nhật thông tin cá nhân'}>
+                <Form.Item label={<Text type="secondary">{t['name']}</Text>}>{information.name}</Form.Item>
+
+                <Form.Item label={<Text type="secondary">{t['birth_day']}</Text>}>
+                  {moment(information?.birth_day).format('DD/MM/YYYY')}
+                </Form.Item>
+
+                <Form.Item label={<Text type="secondary">{t['doc_type']}</Text>}>{information?.doc_type}</Form.Item>
+                <Form.Item label={<Text type="secondary">{t['doc_code']}</Text>}>{information?.doc_code}</Form.Item>
+                <Form.Item label={<Text type="secondary">{t['doc_time_provide']}</Text>}>
+                  {moment(information?.doc_time_provide).format('DD/MM/YYYY')}
+                </Form.Item>
+                <Form.Item label={<Text type="secondary">{t['doc_place_provide']}</Text>}>
+                  {information?.doc_place_provide}
+                </Form.Item>
+
+                {information?.current && (
+                  <>
+                    <Form.Item label={'Địa chỉ thường trú (ĐDPL)'}></Form.Item>
+                    <div style={{ paddingLeft: 20 }}>
+                      <Form.Item label={<Text type="secondary">{t['city']}</Text>}>
+                        {information?.current?.city}
+                      </Form.Item>
+                      <Form.Item label={<Text type="secondary">{t['district']}</Text>}>
+                        {information?.current?.district}
+                      </Form.Item>
+                      <Form.Item label={<Text type="secondary">{t['town']}</Text>}>
+                        {information?.current?.town}
+                      </Form.Item>
+                      <Form.Item label={<Text type="secondary">{t['address']}</Text>}>
+                        {information?.current?.address}
+                      </Form.Item>
+                    </div>
+                  </>
+                )}
+
+                {information?.contact && (
+                  <>
+                    <Form.Item label={'Địa chỉ liên lạc'}></Form.Item>
+                    <div style={{ paddingLeft: 20 }}>
+                      <Form.Item label={<Text type="secondary">{t['city']}</Text>}>
+                        {information?.contact?.city}
+                      </Form.Item>
+                      <Form.Item label={<Text type="secondary">{t['district']}</Text>}>
+                        {information?.contact?.district}
+                      </Form.Item>
+                      <Form.Item label={<Text type="secondary">{t['town']}</Text>}>
+                        {information?.contact?.town}
+                      </Form.Item>
+                      <Form.Item label={<Text type="secondary">{t['address']}</Text>}>
+                        {information?.contact?.address}
+                      </Form.Item>
+                    </div>
+                  </>
+                )}
+              </Form.Item>
+            </>
+          )
+        } else if (item === 'phone') {
+          return <Form.Item label={'Cập nhật Số điện thoại'}>{update_info?.phone || 'Chưa có dữ liệu'}</Form.Item>
+        } else if (item === 'email') {
+          return <Form.Item label={'Cập nhật địa chỉ email'}>{update_info?.email || 'Chưa có dữ liệu'}</Form.Item>
+        } else if (item === 'website') {
+          return <Form.Item label={'Cập nhật địa chỉ website'}>{update_info?.website || 'Chưa có dữ liệu'}</Form.Item>
+        }
+      })}
+    </Card>
   )
 }

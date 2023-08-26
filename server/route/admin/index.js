@@ -9,24 +9,19 @@ const SettingRoute = require('./setting')
 const UserRoute = require('./user')
 const ProductAdmin = require('./product')
 const CategoryAdmin = require('./category')
-const CareerCate = require('./careerCate')
-const CareerAdmin = require('./career')
+
+const { requireSignin } = require('@middleware')
 
 const express = require('express')
 const router = express.Router()
 
-router.use(
-  '/',
-  SettingRoute,
-  LogRoute,
-  AdminOrderRoute,
-  FileRoute,
-  UserRoute,
-  ProductAdmin,
-  CategoryAdmin,
-  CareerCate,
-  CareerAdmin,
-)
+router.use('/', SettingRoute, LogRoute, AdminOrderRoute, FileRoute, UserRoute, ProductAdmin, CategoryAdmin)
+
+router.use('/career_cate', require('./careerCate'))
+
+router.use('/career', require('./career'))
+
+router.use('/category', requireSignin, require('./category'))
 
 module.exports = {
   MailRoute,

@@ -64,9 +64,12 @@ const ChangeInforForm = forwardRef((props, ref) => {
   const initDataforEditing = () => {
     let _data = {}
     let cate = {}
+
     let { state } = location
 
     let { category, products, data } = state
+
+    console.log(state)
 
     if (!category) return
 
@@ -86,10 +89,7 @@ const ChangeInforForm = forwardRef((props, ref) => {
         let { legal_representative, transfer_contract, base_inform, update_info, ...restInfo } = change_info
 
         if (base_inform) {
-          let { mst_provide } = base_inform
-          if (mst_provide) {
-            base_inform = moment(base_inform?.mst_provide, 'YYYY-MM-DD')
-          }
+          base_inform.mst_provide = moment(base_inform?.mst_provide, 'YYYY-MM-DD')
         }
 
         let shallowLegalInformation = getLegalInformationProps(legal_representative)
@@ -98,8 +98,10 @@ const ChangeInforForm = forwardRef((props, ref) => {
 
         let shallowUpdateInfo = getInformationProps(update_info)
 
+        console.log('base_inform', base_inform)
         change_info = {
           ...restInfo,
+          base_inform,
           update_info: shallowUpdateInfo,
           legal_representative: shallowLegalInformation,
           transfer_contract: shallowTransferContact,
@@ -237,6 +239,8 @@ const ChangeInforForm = forwardRef((props, ref) => {
     }
     return shallowUpdate
   }
+
+  const getBaseInformationData = (data) => {}
 
   const checkType = (type, i, ref) => {
     switch (type) {

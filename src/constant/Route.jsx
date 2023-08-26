@@ -20,6 +20,7 @@ import LoginPage from '../pages/HomePage/LoginPage'
 import Policy from '../pages/User/Policy'
 import LoginForm from '@/pages/HomePage/LoginPage/Login'
 import LoginAdmin from '@/pages/HomePage/LoginAdmin'
+import Checkout from '@/pages/User/Checkout'
 
 const AdminDashboard = lazy(() => import('@/pages/Admin/Dashboard'))
 const AdminMail = lazy(() => import('@/pages/Admin/AdminMail'))
@@ -35,7 +36,6 @@ const UserOrder = lazy(() => import('@/pages/User/Order'))
 const UserProfile = lazy(() => import('@/pages/User/Profile'))
 
 const CCResult = lazy(() => import('@/pages/User/Result'))
-
 const AdminAbout = lazy(() => import('@/pages/Admin/AdminAbout'))
 
 export const AdminRouter = [
@@ -217,6 +217,17 @@ export const LAYOUT_ROUTER = ({ status, role }) => [
           ],
         },
         {
+          path: 'checkout',
+          title: 'Thanh toán',
+          element: <Checkout />,
+          children: [
+            {
+              path: ':slug',
+              element: <Checkout />,
+            },
+          ],
+        },
+        {
           path: 'order',
           title: 'Orders',
           icon: <RiChatPollLine />,
@@ -245,11 +256,15 @@ export const LAYOUT_ROUTER = ({ status, role }) => [
         },
       ]
     ) : (
-      <Navigate to="/" />
+      <Navigate to="/404" />
     ),
   },
   {
+    path: '/404',
+    element: <Error />,
+  },
+  {
     path: '*',
-    element: <Navigate to="/" />,
+    element: <Error />,
   },
 ]

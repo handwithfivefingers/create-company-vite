@@ -7,7 +7,7 @@ import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons'
 import { Button, Card, Col, Form, InputNumber, Row, Space } from 'antd'
 import clsx from 'clsx'
 import moment from 'moment'
-import { forwardRef, useEffect, useState } from 'react'
+import { forwardRef, useEffect, useState, memo, useCallback, useMemo } from 'react'
 import { useLocation } from 'react-router-dom'
 import styles from './styles.module.scss'
 
@@ -34,7 +34,7 @@ const TamNgungKinhDoanh = forwardRef(({ type, current, index }, ref) => {
     ])
   }
 
-  const renderFormByType = () => {
+  const renderFormByType = useMemo(() => {
     let xhtml = null
 
     if (type) {
@@ -53,7 +53,6 @@ const TamNgungKinhDoanh = forwardRef(({ type, current, index }, ref) => {
             <Form.Item label="Tổng số vốn điều lệ" name={[...BASE_FORM, 'total_capital']}>
               <InputNumber
                 placeholder="100,000,000"
-                // stringMode
                 formatter={(v) => `${new Intl.NumberFormat('en-US').format(v.replace(/,/g, ''))}`}
                 style={{ width: '100%' }}
               />
@@ -77,7 +76,7 @@ const TamNgungKinhDoanh = forwardRef(({ type, current, index }, ref) => {
     }
 
     return xhtml
-  }
+  }, [type])
 
   const disabledTimeEnd = (current) => {
     let val = ref.current.getFieldValue([...BASE_FORM, 'time_range', 'start'])
@@ -107,7 +106,7 @@ const TamNgungKinhDoanh = forwardRef(({ type, current, index }, ref) => {
         onChange={(e) => handleChange(e, [...BASE_FORM, 'org_person'])}
       />
 
-      {renderFormByType()}
+      {renderFormByType}
 
       <CCInput
         type="select"
@@ -141,6 +140,7 @@ const TamNgungKinhDoanh = forwardRef(({ type, current, index }, ref) => {
             }
             placeholder="0316184427 - 001"
           />
+          <CCSelect.SelectProvince name={[...BASE_FORM]} />
         </>
       )}
       <Form.Item
@@ -389,4 +389,5 @@ const RemoveFormBtn = memo(({ inValid, onClick }) => {
     </Space>
   )
 })
+
 export default TamNgungKinhDoanh

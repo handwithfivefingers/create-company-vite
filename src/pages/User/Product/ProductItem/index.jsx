@@ -1,16 +1,14 @@
 import CCSteps from '@/components/CCHeaderSteps'
 import { CREATE_COMPANY_STEP, DISSOLUTION_STEP, PENDING_STEP } from '@/constant/Step'
+import { useStepAPI } from '@/context/StepProgressContext'
 import ProductService from '@/service/UserService/ProductService'
+import { MessageAction } from '@/store/actions'
 import { Spin, message } from 'antd'
-import { lazy, useCallback, useEffect, useRef, useState } from 'react'
+import { lazy, useEffect, useMemo, useRef, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useFetch } from '../../../../helper/Hook'
 import styles from './styles.module.scss'
-import { MessageAction } from '@/store/actions'
-import { useDispatch, useSelector } from 'react-redux'
-import { useMemo } from 'react'
-import { useStepAPI } from '@/context/StepProgressContext'
-// import CreateCompanyPages from './CreateCompanyPages'
 
 const CreateCompanyPages = lazy(() => import('./CreateCompanyPages'))
 const ChangeInfoPages = lazy(() => import('./ChangeInfoPages'))
@@ -126,9 +124,13 @@ const UserProductItem = (props) => {
       setLoading(true)
       let res
       if (_id) {
-        res = await ProductService.updateAndPayment(_id, params)
+        // res = await ProductService.updateAndPayment(_id, params)
+        await ProductService.updateOrder(_id, params)
+        return navigate(`/user/checkout/${_id}`)
       } else {
-        res = await ProductService.createOrderWithPayment(params)
+        const resp = await ProductService.createOrder(params)
+        // res = await ProductService.createOrderWithPayment(params)
+        return navigate(`/user/checkout/${resp.data._id}`)
       }
 
       if (res.status === 200) {

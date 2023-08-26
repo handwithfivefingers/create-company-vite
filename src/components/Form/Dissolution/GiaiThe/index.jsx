@@ -106,6 +106,12 @@ const GiaiThe = forwardRef((props, ref) => {
             message="Người đại diện pháp luật (nhập đầy đủ họ và tên) là bắt buộc!"
           />
         </Col>
+        <Col lg={12} md={24} sm={24} xs={24}>
+          <CCInput name={[...BASE_FORM, 'dissolution_number']} label="Số quyết định giải thể" style={{ width: '100%' }} />
+        </Col>
+        <Col lg={12} md={24} sm={24} xs={24}>
+          <CCInput type="date" name={[...BASE_FORM, 'dissolution_date']} label="Ngày quyết định giải thể" />
+        </Col>
         <Col span={24}>
           <Form.Item label={htmlContent('<b>Địa chỉ trụ sở chính</b>')}>
             <CCSelect.SelectProvince

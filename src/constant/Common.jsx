@@ -194,57 +194,6 @@ export const SELECT = {
   ],
 }
 
-export const CHANGE_INFO_SELECTION = [
-  {
-    key: 'name',
-    value: '62257b0bca8648da6987e4f5',
-    children: 'Tên doanh nghiêp',
-    type: '3',
-  },
-  {
-    key: 'down_authorized_capital',
-    value: '62257e4dca8648da6987e53d',
-    children: 'Giảm vốn điều lệ',
-    type: '4',
-  },
-  {
-    key: 'up_authorized_capital',
-    value: '62257eccca8648da6987e54e',
-    children: 'Tăng vốn điều lệ',
-    type: '5',
-  },
-  {
-    key: 'company_career',
-    value: '622f575496766518c4fc8216',
-    children: 'Ngành nghề kinh doanh',
-    type: '7',
-  },
-  {
-    key: 'location',
-    value: '622f577b96766518c4fc8220',
-    children: 'Địa chỉ trụ sở chính',
-    type: '1',
-  },
-  {
-    key: 'transfer_contract',
-    value: '622f579b96766518c4fc822c',
-    children: 'Chủ sở hữu',
-    type: '6',
-  },
-  {
-    key: 'present_change',
-    value: '622f585c96766518c4fc823a',
-    children: 'Người đại diện theo ủy quyền của chủ sở hữu là tổ chức',
-    type: '8',
-  },
-  {
-    key: 'tax',
-    value: '622f5896cad47d00092d1010',
-    children: 'Nội dung đăng ký thuế',
-    type: '9',
-  },
-]
-
 export const IDENTIFY_NUMBER = {
   'Căn cước công dân': 12,
   'Chứng minh nhân dân': 9,

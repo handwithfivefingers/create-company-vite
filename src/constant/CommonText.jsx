@@ -25,6 +25,9 @@ const COMMON_TEXT = {
   doc_time_provide: 'Ngày cấp',
   doc_place_provide: 'Nơi cấp',
   mst_provide: 'Ngày cấp (ngày đăng ký lần đầu)',
+  dissolution_number: 'Số quyết định giải thể',
+  dissolution_date: 'Ngày quyết định giải thể',
+  org_person: 'Người đại diện pháp luật'
 }
 
 export default COMMON_TEXT

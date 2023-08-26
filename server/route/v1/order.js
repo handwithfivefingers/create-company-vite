@@ -6,28 +6,24 @@ const router = express.Router()
 const OrderUser = require('@controller/user/Order')
 const PaymentService = require('@controller/Service/Payment')
 
+const OrderController = require('@controller/v1/user/order.controller')
+
 const { getOrdersFromUser, createOrders, orderWithPayment, updateOrder, updateAndPayment } = new OrderUser()
 
 const { getUrlReturn } = new PaymentService()
 
-// USER
+// // USER
+// router.post('/payment/url_return', getUrlReturn)
 
 //get order
-router.get('/order', requireSignin, upload.none(), getOrdersFromUser)
+router.get('/', upload.none(), new OrderController().onHandleGet)
+
+router.get('/:_id', upload.none(), new OrderController().onHandleGetById)
 
 //create order
-router.post('/order/create', requireSignin, upload.none(), createOrders)
+router.post('/', new OrderController().onHandleCreate)
 
-//create and payment
-router.post('/order/payment', requireSignin, upload.none(), orderWithPayment)
-
-// return url -> update db
-router.get('/order/payment/url_return', getUrlReturn)
-
-//update
-router.post('/order/payment/:_id', requireSignin, upload.none(), updateAndPayment)
-
-//create order
-router.post('/order/:_id', requireSignin, upload.none(), updateOrder)
+//Update order
+router.post('/:_id', new OrderController().onHandleUpdate)
 
 module.exports = router

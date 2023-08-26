@@ -2,9 +2,9 @@ import t from '@/constant/CommonText'
 import { number_format } from '@/helper/Common'
 import { Card, Col, Form, Row, Typography } from 'antd'
 import styles from './styles.module.scss'
-
+import moment from 'moment'
 const { Text, Link } = Typography
-
+const DATE_FORMAT = 'DD/MM/YYYY'
 export default function DissolutionPreview(props) {
   let { data } = props
 
@@ -18,6 +18,21 @@ export default function DissolutionPreview(props) {
             <Form.Item label={<Text type="secondary">{t['company_name']}</Text>}>{approve?.company_name}</Form.Item>
 
             <Form.Item label={<Text type="secondary">{t['mst']}</Text>}>{approve?.mst}</Form.Item>
+
+            <Form.Item label={<Text type="secondary">{t['mst_provide']}</Text>}>
+              {moment(approve?.mst_provide).format(DATE_FORMAT)}
+            </Form.Item>
+
+            <Form.Item label={<Text type="secondary">{t['org_person']}</Text>}>{approve?.org_person}</Form.Item>
+
+            <Form.Item label={<Text type="secondary">{t['dissolution_number']}</Text>}>
+              {approve?.dissolution_number}
+            </Form.Item>
+
+            <Form.Item label={<Text type="secondary">{t['dissolution_date']}</Text>}>
+              {moment(approve?.dissolution_date).format(DATE_FORMAT)}
+            </Form.Item>
+
             {approve?.location && (
               <>
                 <Form.Item label={t['office_location']}></Form.Item>

@@ -368,6 +368,10 @@ const getTemplateMail = async (template) => {
   }
 }
 
+const isFunction = (fnName) => {
+  return fnName && typeof fnName === 'function'
+}
+
 module.exports = {
   sortObject,
   getVpnParams,
@@ -381,4 +385,5 @@ module.exports = {
   generateOTP,
   generateToken,
   getTemplateMail,
+  isFunction,
 }
