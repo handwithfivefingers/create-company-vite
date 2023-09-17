@@ -1,8 +1,7 @@
-const { findNestedObj } = require('@common/helper')
 const PROVINCE = require('@uploads/mockdata/province.json')
 const { sortBy } = require('lodash')
 
-module.exports = class Province {
+module.exports = class ProvinceService {
   getProvince = async (req, res) => {
     try {
       let data = PROVINCE.map(({ districts, ...item }) => ({ ...item }))

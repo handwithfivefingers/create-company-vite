@@ -1,8 +1,8 @@
 import CCPagination from '@/components/CCPagination'
 import { number_format } from '@/helper/Common'
 import OrderService from '@/service/UserService/OrderService'
-import { FormOutlined } from '@ant-design/icons'
-import { Button, Table, Tag, Tooltip } from 'antd'
+import { FormOutlined, DeleteOutlined } from '@ant-design/icons'
+import { Button, Table, Tag, Tooltip, Popconfirm, message } from 'antd'
 import clsx from 'clsx'
 import moment from 'moment'
 import { useEffect, useState } from 'react'
@@ -94,6 +94,23 @@ const UserOrder = () => {
     }
   }
 
+  const handleDeleteOrder = async (id) => {
+    try {
+      const resp = await OrderService.deleteOrder(id)
+      console.log('resp', resp.data)
+      message.success(resp.data.message)
+    } catch (error) {
+      const msg =
+        error.response?.data?.message ||
+        error.response?.message ||
+        error.message ||
+        'Đã có lỗi xảy ra , vui lòng liên hệ admin'
+      message.error(msg)
+    } finally {
+      getScreenData()
+    }
+  }
+  
   const pagiConfigs = {
     current: current,
     total: data?.count,
@@ -127,15 +144,8 @@ const UserOrder = () => {
               return record._id
             }}
           />
-          <Table.Column
-            align="center"
-            title="Người đăng kí"
-            render={(val, record, i) => {
-              return <span style={{ display: 'block', width: '150px' }}>{record?.orderOwner.name}</span>
-            }}
-          />
 
-          <Table.Column align="left" title="Dịch vụ" dataIndex="" render={renderService} />
+          <Table.Column align="left" title="Dịch vụ" dataIndex="" render={renderService} width={250} />
 
           <Table.Column
             align="center"
@@ -183,15 +193,26 @@ const UserOrder = () => {
                     sise="middle"
                   />
                 ) : (
-                  <Tooltip title="Chỉnh sửa & Thanh toán" color={'blue'} placement="left">
-                    <Button
-                      className={styles.btn}
-                      onClick={() => onEditOrder(record)}
-                      type="primary"
-                      icon={<FormOutlined />}
-                      sise="middle"
-                    />
-                  </Tooltip>
+                  <>
+                    <Tooltip title="Chỉnh sửa & Thanh toán" color={'blue'} placement="left">
+                      <Button
+                        className={styles.btn}
+                        onClick={() => onEditOrder(record)}
+                        type="primary"
+                        icon={<FormOutlined />}
+                        sise="middle"
+                      />
+                    </Tooltip>
+                    <Popconfirm
+                      placement="topRight"
+                      title={'Bạn có muốn xoá ?'}
+                      onConfirm={() => handleDeleteOrder(record._id)}
+                      okText="Yes"
+                      cancelText="No"
+                    >
+                      <Button icon={<DeleteOutlined />} />
+                    </Popconfirm>
+                  </>
                 )}
               </div>
             )}

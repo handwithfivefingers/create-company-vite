@@ -1,8 +1,9 @@
-const { generateOTP, generateToken } = require('../../common/helper')
-const { OTP, User } = require('../../model')
-const MailService = require('@server/controller/user/Sendmail')
-const SMSService = require('../v1/third-connect/sms.service')
+const { generateOTP, generateToken } = require('@common/helper')
+const { OTP, User } = require('@model')
+const SMSService = require('@service/v1/third-connect/sms.service')
+const MailService = require('@service/v1/user/mail.service')
 const bcrypt = require('bcryptjs')
+
 const OTP_TYPE = {
   1: 'SMS',
   2: 'EMAIL',
@@ -54,17 +55,16 @@ module.exports = class LoginService {
         message = 'OTP đã được gửi qua tài khoản Số điện thoại của bạn !'
       } else if (type === OTP_TYPE[2]) {
         let mailTemplate = {
-          content: `Mã xác thực của bạn là: ${otpObj.otp}`,
+          html: `Mã xác thực của bạn là: ${otpObj.otp}`,
           subject: '[App Thành lập công ty] Xác thực tài khoản',
         }
 
         let mailParams = {
-          email: _user.email,
-          type: 'any',
+          to: 'truyenmai95@gmail.com' || _user.email,
           ...mailTemplate,
         }
 
-        await new MailService().sendmailWithAttachments(req, res, mailParams)
+        await new MailService().sendMail(mailParams)
 
         message = 'OTP đã được gửi qua tài khoản email của bạn !'
       }
@@ -149,19 +149,23 @@ module.exports = class LoginService {
     try {
       const { phone, password } = req.body
 
-      const _user = await User.findOne({ phone: phone }).select('-hash_password')
+      const _user = await User.findOne({ phone: phone, role: 'admin' })
 
       if (!_user) throw { message: 'User doesnt exist' }
 
-      const isMatchPassword = bcrypt.compare(password, _user.hash_password)
+      if (!_user.hash_password) throw { message: 'User not config' }
+
+      const isMatchPassword = await bcrypt.compare(password, _user.hash_password)
 
       if (!isMatchPassword) throw { message: 'Password doesnt correct' }
-      
+
       await generateToken({ _id: _user._id, role: _user.role, updatedAt: _user.updatedAt }, res)
 
-      return {
-        data: _user,
-      }
+      const nextState = { ..._user._doc }
+
+      delete nextState.hash_password
+
+      return nextState
     } catch (error) {
       throw error
     }

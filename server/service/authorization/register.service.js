@@ -3,7 +3,7 @@ const { User, OTP } = require('../../model')
 const bcrypt = require('bcryptjs')
 const SMSService = require('../v1/third-connect/sms.service')
 const { generateOTP, generateToken } = require('../../common/helper')
-const MailService = require('@server/controller/user/Sendmail')
+const MailService = require('@service/v1/user/mail.service')
 
 const OTP_TYPE = {
   1: 'SMS',
@@ -55,17 +55,16 @@ module.exports = class RegiserService {
         message = 'OTP đã được gửi qua tài khoản Số điện thoại của bạn !'
       } else if (type === OTP_TYPE[2]) {
         let mailTemplate = {
-          content: `Mã xác thực của bạn là: ${otpObj.otp}`,
+          html: `Mã xác thực của bạn là: ${otpObj.otp}`,
           subject: '[App Thành lập công ty] Xác thực tài khoản',
         }
 
         let mailParams = {
           email: email,
-          type: 'any',
           ...mailTemplate,
         }
 
-        await new MailService().sendmailWithAttachments(req, res, mailParams)
+        await new MailService().sendMail(mailParams)
 
         message = 'OTP đã được gửi qua tài khoản email của bạn !'
       }

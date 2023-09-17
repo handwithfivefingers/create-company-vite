@@ -33,23 +33,15 @@ const ChangeInfoPages = forwardRef((props, ref) => {
     return params
   }
 
-  const handleSaveChangeInfo = useCallback(
-    (ref) => {
-      const params = getParams(ref)
-      // console.log(params)
-      // return;
-      return saveService(params)
-    },
-    [data],
-  )
+  const handleSaveChangeInfo = (ref) => {
+    const params = getParams(ref)
+    return saveService(params)
+  }
 
-  const handlePayment = useCallback(
-    (ref) => {
-      const params = getParams(ref)
-      return paymentService(params, ref)
-    },
-    [data],
-  )
+  const handlePayment = (ref) => {
+    const params = getParams(ref)
+    return paymentService(params, ref)
+  }
 
   return (
     <Card className="card-boxShadow card-scrollTop">

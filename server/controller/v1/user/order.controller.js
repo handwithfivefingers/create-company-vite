@@ -52,17 +52,17 @@ module.exports = class OrderController {
     }
   }
 
-  //   onHandleDelete = async (req, res) => {
-  //     try {
-  //       const data = await new CareerService().onGetCareer(req)
+  onHandleDelete = async (req, res) => {
+    try {
+      await new OrderService().deleteOrder(req)
 
-  //       return res.status(200).json({
-  //         data,
-  //       })
-  //     } catch (error) {
-  //       return res.status(400).json({
-  //         error,
-  //       })
-  //     }
-  //   }
+      return res.status(200).json({
+        message: 'Xóa thành công',
+      })
+    } catch (error) {
+      return res.status(400).json({
+        error,
+      })
+    }
+  }
 }

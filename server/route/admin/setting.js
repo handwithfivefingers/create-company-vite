@@ -1,16 +1,10 @@
 const express = require('express')
-
-const { upload, requireSignin } = require('@middleware')
-
-const SettingClass = require('@controller/user/Setting');
-
-const { settingTemplateMail, getSettingMail } = new SettingClass()
-
-
 const router = express.Router()
 
-router.post('/email/setting', requireSignin, settingTemplateMail)
+const SettingController = require('@controller/v1/admin/setting.controller')
 
-router.get('/email/setting', requireSignin, getSettingMail)
+router.get('/', new SettingController().onGetSetting)
+
+router.post('/', new SettingController().onUpdateSetting)
 
 module.exports = router

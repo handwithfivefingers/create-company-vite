@@ -2,11 +2,12 @@ const express = require('express')
 
 const router = express.Router()
 
-const PaymentService = require('@controller/Service/Payment')
+const PaymentController = require('@controller/v1/user/payment.controller')
 
-const { getUrlReturn } = new PaymentService()
+router.get('/url_return', new PaymentController().getURLReturn)
 
+router.get('/', new PaymentController().getTransaction)
 
-router.get('/url_return', getUrlReturn)
+router.post('/', new PaymentController().createTransaction)
 
 module.exports = router

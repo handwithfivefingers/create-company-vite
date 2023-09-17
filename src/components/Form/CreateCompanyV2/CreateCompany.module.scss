@@ -1,0 +1,44 @@
+.hide {
+  display: none;
+  opacity: 0;
+  visibility: hidden;
+  transition: 0.1s;
+  height: 0;
+  margin: 0 !important;
+}
+.visible {
+  opacity: 1;
+  visibility: visible;
+  display: flex;
+  height: auto;
+  animation-delay: 0.2s;
+  flex-direction: row;
+
+  @media (max-width: 767px) {
+    flex-direction: column;
+  }
+}
+
+.groupInput {
+  display: grid;
+  grid-template-columns: repeat(2, calc(50% - 6px));
+  gap: 12px;
+  width: 100%;
+}
+
+.titleSubForm {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.label {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  .title {
+    margin: 0;
+    font-size: 20px;
+  }
+}

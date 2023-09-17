@@ -1,7 +1,5 @@
 const express = require('express')
 
-const { requireSignin } = require('@middleware')
-
 const OrderAdmin = require('@controller/admin/Order')
 
 const router = express.Router()
@@ -10,14 +8,12 @@ const router = express.Router()
 
 const OrderAdminRouter = new OrderAdmin()
 
-router.post('/order/delete/:id', requireSignin, OrderAdminRouter.deleteOrder)
+router.post('/delete/:id', OrderAdminRouter.deleteOrder)
 
-router.post('/order/delete_all', requireSignin, OrderAdminRouter.reforceDelete)
+router.post('/delete_all', OrderAdminRouter.reforceDelete)
 
-// router.get('/order', requireSignin, OrderAdminRouter.getAllOrder)
+router.get('/', OrderAdminRouter.getOrders)
 
-router.get('/order', requireSignin, OrderAdminRouter.getOrders)
-
-router.get('/order/:id', requireSignin, OrderAdminRouter.getOrderByID)
+router.get('/:id', OrderAdminRouter.getOrderByID)
 
 module.exports = router

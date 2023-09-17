@@ -173,7 +173,12 @@ const CreateCompany = forwardRef(({ data }, formRef) => {
     return html
   }, [select])
 
-  console.log('CreateCompany rendered')
+  const rowClassName = clsx([
+    styles.hide,
+    {
+      [styles.visible]: currentStep === 0,
+    },
+  ])
 
   return (
     <Form
@@ -183,14 +188,7 @@ const CreateCompany = forwardRef(({ data }, formRef) => {
       validateMessages={VALIDATE_MESSAGE}
       form={createCompanyForm}
     >
-      <Row
-        className={clsx([
-          styles.hide,
-          {
-            [styles.visible]: currentStep === 0,
-          },
-        ])}
-      >
+      <Row className={rowClassName}>
         <Col span={24}>
           <Form.Item
             name={['category']}

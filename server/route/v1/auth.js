@@ -1,6 +1,6 @@
 const express = require('express')
 const { upload, requireSignin } = require('@middleware')
-const router = express.Router() // get || post || put || delete || ....
+const router = express.Router()
 
 const LoginController = require('@controller/Authorization/login.controller')
 const RegisterController = require('@controller/Authorization/register.controller')
@@ -19,7 +19,7 @@ router.post('/register-otp', new RegisterController().onHandleGetRegisterOtp)
 
 router.post('/login-otp', new LoginController().onHandleGetOTPForLogin)
 
-router.post('/login', upload.none(), new LoginController().onHandleLogin)
+router.post('/login', new LoginController().onHandleLogin)
 
 router.post('/login-admin', upload.none(), new LoginController().onLoginAsAdmin)
 

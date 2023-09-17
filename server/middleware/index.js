@@ -5,7 +5,7 @@ const path = require('path')
 const multer = require('multer')
 const { authFailedHandler, errHandler } = require('@response')
 const { User, Log } = require('../model')
-
+const apicache = require('apicache')
 const VNPWHITELIST = require('../constant/VnpayWhitelist')
 
 const storage = multer.diskStorage({
@@ -18,7 +18,6 @@ const storage = multer.diskStorage({
 })
 
 const upload = multer({ storage })
-
 
 const requireSignin = async (req, res, next) => {
   try {
@@ -70,8 +69,7 @@ const TrackingApi = async (req, res, next) => {
       req.connection.remoteAddress ||
       req.socket.remoteAddress ||
       req.connection.socket.remoteAddress
-
-    // console.log('--->', req.originalUrl, remoteAddress)
+    console.log('--->', req.originalUrl, remoteAddress)
   } catch (err) {
   } finally {
     next()

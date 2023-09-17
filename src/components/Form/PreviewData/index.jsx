@@ -201,22 +201,7 @@ const PreviewData = forwardRef((props, ref) => {
       <Col span={24}>
         <Alert
           type="error"
-          message={
-            <b>
-              Vui lòng điền đầy đủ thông tin trước khi Thanh toán
-              <Tooltip
-                placement="topLeft"
-                title={
-                  <ul>
-                    <li>- Đối với trường hợp thanh toán, cần phải điền hết các field yêu cầu.</li>
-                    <li>- Đối với trường hợp lưu lại để chỉnh sửa, không có điều kiện kèm theo</li>
-                  </ul>
-                }
-              >
-                <InfoCircleOutlined style={{ cursor: 'pointer', fontSize: 16, marginLeft: 4 }} />
-              </Tooltip>
-            </b>
-          }
+          message={<Message />}
           description={
             <ul style={{ paddingLeft: 20 }}>
               {errorList.map((item) => (
@@ -242,4 +227,22 @@ const PreviewData = forwardRef((props, ref) => {
   )
 })
 
+const Message = () => {
+  return (
+    <b>
+      Vui lòng điền đầy đủ thông tin trước khi Thanh toán
+      <Tooltip
+        placement="topLeft"
+        title={
+          <ul>
+            <li>- Đối với trường hợp thanh toán, cần phải điền hết các field yêu cầu.</li>
+            <li>- Đối với trường hợp lưu lại để chỉnh sửa, không có điều kiện kèm theo</li>
+          </ul>
+        }
+      >
+        <InfoCircleOutlined style={{ cursor: 'pointer', fontSize: 16, marginLeft: 4 }} />
+      </Tooltip>
+    </b>
+  )
+}
 export default PreviewData

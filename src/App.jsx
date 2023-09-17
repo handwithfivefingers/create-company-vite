@@ -12,6 +12,7 @@ import { CommonAction } from './store/actions'
 import 'moment/locale/vi'
 import 'animate.css'
 import './assets/css/styles.scss'
+import { FormProviderContext } from './context/FormProviderContext'
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -74,7 +75,6 @@ const RouterComponent = (props) => {
     item && dispatch(CommonAction.titleChange(item.title))
   }
 
-  console.log(route)
   if (!elementComp) return null
 
   return elementComp
@@ -93,11 +93,13 @@ function App() {
     <div className="App">
       <QueryClientProvider client={queryClient}>
         <ConfigProvider>
-          <RouterProvider>
-            <BrowserRouter>
-              <RouterComponent auth={auth} />
-            </BrowserRouter>
-          </RouterProvider>
+          <FormProviderContext>
+            <RouterProvider>
+              <BrowserRouter>
+                <RouterComponent auth={auth} />
+              </BrowserRouter>
+            </RouterProvider>
+          </FormProviderContext>
         </ConfigProvider>
       </QueryClientProvider>
     </div>

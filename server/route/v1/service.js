@@ -1,33 +1,22 @@
 const express = require('express')
-
-const { upload, requireSignin } = require('@middleware/index')
-
-const Province = require('@controller/Service/Province')
-
-const MailService = require('@controller/user/Sendmail')
-
-const PaymentService = require('@controller/Service/Payment')
-
-const FileTemplateService = require('@controller/Service/FileTemplate')
-
-const PuppeteerController = require('@controller/Service/Puppeteer')
-
-const { validateIPNVnpay } = require('../../middleware')
+const { upload, requireSignin, validateIPNVnpay } = require('@middleware')
+const MailService = require('@service/v1/user/mail.service')
+const PaymentController = require('@controller/v1/user/payment.controller')
+// const FileTemplateService = require('@controller/Service/FileTemplate')
+const PuppeteerController = require('@controller/v1/user/puppeteer.controller')
+const ProvinceController = require('@controller/v1/user/province.controller')
 
 const router = express.Router()
 
-router.post('/sendmail', upload.array('attachments', 5), new MailService().sendmailWithAttachments)
+router.post('/sendmail', upload.array('attachments', 5), new MailService().sendWithAttachments)
 
-router.post('/payment', requireSignin, new PaymentService().testPayment)
+// router.post('/payment', requireSignin, new PaymentService().testPayment)
+router.get('/return_vnp', requireSignin, new PaymentController().getURLReturn)
 
-router.get('/return_vnp', requireSignin, new PaymentService().getUrlReturn)
+router.get('/service/payment/ipn_url', validateIPNVnpay, new PaymentController().getIPNUrl)
 
-router.post('/service/order', new FileTemplateService().checkingOrder)
+router.get('/service/province', requireSignin, new ProvinceController().onGetProvince)
 
-router.get('/service/payment/ipn_url', validateIPNVnpay, new PaymentService().getIPNUrl)
-
-router.get('/service/province', requireSignin, new Province().getProvince)
-
-router.post('/service/search', requireSignin, new PuppeteerController().search)
+router.post('/service/search', requireSignin, new PuppeteerController().onSearch)
 
 module.exports = router

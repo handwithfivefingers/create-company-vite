@@ -5,6 +5,6 @@ const { ReadFile } = require('@controller/admin/FileManager')
 const router = express.Router()
 
 //Get
-router.get('/file', upload.none(), ReadFile)
+router.get('/', upload.none(), ReadFile)
 
 module.exports = router

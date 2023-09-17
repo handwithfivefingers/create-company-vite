@@ -1,13 +1,29 @@
-const { CareerCategory } = require('@model')
+const { CareerCategory, Career } = require('@model')
+const { successHandler } = require('@response')
+const { errHandler } = require('@response')
 
 module.exports = class CareerCategoryService {
-  constructor() {}
-  onGetCareerCate = async (req, res) => {
+  getCareerCategory = async (req, res) => {
     try {
-      return await CareerCategory.find({ delete_flag: { $ne: 1 } })
+      let _cate = await CareerCategory.find({ delete_flag: { $ne: 1 } })
+
+      // return successHandler(_cate, res)
+      return _cate
     } catch (err) {
-      console.log('CareerCategoryService onGetCareerCate error :::', err)
-      //   return errHandler(err, res)
+      console.log(err)
+      throw err
+    }
+  }
+
+  getSingleCareerCategory = async (req, res) => {
+    try {
+      let { id } = req.params
+
+      let _cate = await Career.find({
+        category: { $all: id },
+      })
+      return _cate
+    } catch (err) {
       throw err
     }
   }

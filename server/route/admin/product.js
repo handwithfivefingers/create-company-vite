@@ -1,21 +1,18 @@
 const express = require('express')
 
-const { upload, requireSignin } = require('@middleware')
-
-const SettingClass = require('@controller/user/Setting')
 const ProductAdmin = require('@controller/admin/Product')
 
 const { getProduct, getSingleProduct, createProduct, updateProduct, deleteProduct } = new ProductAdmin()
 
 const router = express.Router()
 
-router.get('/product', requireSignin, getProduct)
+router.get('/', getProduct)
 
-router.post('/product', requireSignin, createProduct)
+router.post('/', createProduct)
 
-router.delete('/product/:_id', requireSignin, deleteProduct)
+router.delete('/:_id', deleteProduct)
 
-router.get('/product/:_id', requireSignin, getSingleProduct)
+router.get('/:_id', getSingleProduct)
 
-router.post('/product/:_id', requireSignin, updateProduct)
+router.post('/:_id', updateProduct)
 module.exports = router

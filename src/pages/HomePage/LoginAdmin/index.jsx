@@ -15,15 +15,7 @@ const LoginForm = () => {
 
   useEffect(() => {
     if (status) {
-      let listHistory = route.listHistory
-      if (listHistory.length) {
-        let nextNavigate = listHistory[listHistory.length - 1]
-        if (location.pathname.includes(nextNavigate.from)) {
-          navigate(role)
-        } else navigate(nextNavigate.from)
-      } else {
-        navigate(role)
-      }
+      handleNavigate()
     }
   }, [status])
 
@@ -35,16 +27,31 @@ const LoginForm = () => {
     }
   }, [location.state])
 
+  const handleNavigate = () => {
+    let listHistory = route.listHistory
+    if (listHistory.length) {
+      let nextNavigate = listHistory[listHistory.length - 1]
+      if (location.pathname.includes(nextNavigate.from)) {
+        navigate(`/${role}`)
+      } else navigate(nextNavigate.from)
+    } else {
+      navigate(`/${role}`)
+    }
+  }
+
   const onFinish = async (value) => {
     try {
       setLoading(true)
-      console.log(value)
       const resp = await AuthService.onLoginWithAdmin(value)
-      console.log('resp', resp)
+      if (resp.data.data) {
+        const { data } = resp.data
+        // navigate(`/${data?.role}`)
+        window.location.href = '/'
+      }
     } catch (error) {
       console.log('error', error)
     } finally {
-      //   setLoading(false)
+      setLoading(false)
     }
   }
 
@@ -52,13 +59,15 @@ const LoginForm = () => {
     <div className="p-5">
       <Card title="Đăng nhập với Admin" className={styles.card} style={{ width: 350 }}>
         <Form layout="vertical" onFinish={onFinish} ref={formRef}>
-          <Form.Item name="phone">
+          <Form.Item name="phone" label="Tên đăng nhập">
             <Input />
           </Form.Item>
-          <Form.Item name="password">
+          <Form.Item name="password" label="Mật khẩu">
             <Input.Password />
           </Form.Item>
-          <Button htmlType="submit">Clicked</Button>
+          <Button htmlType="submit" type="primary">
+            Đăng nhập
+          </Button>
         </Form>
       </Card>
     </div>

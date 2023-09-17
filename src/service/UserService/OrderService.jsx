@@ -14,6 +14,7 @@ const OrderService = {
     return axios.post(api_path.payment, params)
   },
   getOrderById: (id) => axios.get(api_path.getOrder + '/' + id),
+  deleteOrder: (id) => axios.delete(api_path.getOrder + '/' + id),
 }
 
 export default OrderService

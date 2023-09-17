@@ -5,7 +5,10 @@ import { forwardRef, useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import styles from './styles.module.scss'
 import TamNgungKinhDoanh from './TamNgungKinhDoanh'
+import { VALIDATE_MESSAGE } from '@/constant/InputValidate'
+
 const TamHoanForm = forwardRef((props, ref) => {
+  const [PendingForm] = Form.useForm()
   const [selectType, setSelectType] = useState({
     type: 1,
     value: '',
@@ -72,11 +75,12 @@ const TamHoanForm = forwardRef((props, ref) => {
   }
 
   return (
-    <Form ref={ref} layout="vertical">
+    <Form ref={ref} layout="vertical" form={PendingForm}>
       <Form.Item
         name="category"
         label="Chọn loại hình doanh nghiệp"
         required
+        validateMessages={VALIDATE_MESSAGE}
         className={clsx(styles.current, {
           [styles.active]: props.current === 0,
         })}

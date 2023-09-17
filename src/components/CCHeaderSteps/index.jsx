@@ -4,16 +4,17 @@ import React from 'react'
 import { useSelector } from 'react-redux'
 import styles from './styles.module.scss'
 import { useStepData, useStepAPI } from '@/context/StepProgressContext'
+const styleProps = {
+  ['--animate-duration']: `0.5s`,
+  ['--animate-delay']: `0.3s`,
+}
 const CCSteps = (props) => {
   const collapsed = useSelector((state) => state.commonReducer.collapsed)
   const { steps, currentStep } = useStepData()
   const { updateStep } = useStepAPI()
   const offset = steps?.length
-
-  const styleProps = {
-    ['--animate-duration']: `0.5s`,
-    ['--animate-delay']: `0.3s`,
-  }
+  
+  console.log(steps)
   return (
     <Card className={clsx([styles.cardHeader, { [styles.collapsed]: collapsed }])}>
       <div className={styles.listStep} style={{ '--offset': offset }}>

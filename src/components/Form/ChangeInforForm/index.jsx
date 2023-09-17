@@ -18,6 +18,17 @@ import TangVonDieuLe from './TangVonDieuLe'
 import TenDoanhNghiep from './TenDoanhNghiep'
 import { useStepAPI, useStepData } from '../../../context/StepProgressContext'
 
+const TYPE_NAME = {
+  1: ['change_info', 'location'],
+  2: ['change_info', 'legal_representative'],
+  3: ['change_info', 'name'],
+  4: ['change_info', 'down_authorized_capital'],
+  5: ['change_info', 'up_authorized_capital'],
+  6: ['change_info', 'transfer_contract'],
+  7: ['change_info', 'company_career'],
+  10: ['change_info', 'tax'],
+}
+
 const ChangeInforForm = forwardRef((props, ref) => {
   const [productSelect, setProductSelect] = useState('')
 
@@ -69,8 +80,6 @@ const ChangeInforForm = forwardRef((props, ref) => {
 
     let { category, products, data } = state
 
-    console.log(state)
-
     if (!category) return
 
     if (products) _data.products = products
@@ -98,7 +107,6 @@ const ChangeInforForm = forwardRef((props, ref) => {
 
         let shallowUpdateInfo = getInformationProps(update_info)
 
-        console.log('base_inform', base_inform)
         change_info = {
           ...restInfo,
           base_inform,
@@ -240,8 +248,6 @@ const ChangeInforForm = forwardRef((props, ref) => {
     return shallowUpdate
   }
 
-  const getBaseInformationData = (data) => {}
-
   const checkType = (type, i, ref) => {
     switch (type) {
       case '2':
@@ -350,22 +356,27 @@ const ChangeInforForm = forwardRef((props, ref) => {
       {
         title: 'Bước 1',
         desc: 'Chọn loại hình doanh nghiệp',
+        field: ['category'],
       },
       {
         title: `Bước 2`,
         desc: 'Thông tin chung',
+        field: ['change_info', 'base_inform'],
       },
     ]
 
+    console.log('opt', opt)
+
     for (let i = 0; i < opt.length; i++) {
-      data.push({ desc: opt[i].children, title: `Bước ${i + 3}` })
+      data.push({ desc: opt[i].children, title: `Bước ${i + 3}`, field: TYPE_NAME[opt[i].type] })
     }
 
     data.push({
       title: `Bước ${opt.length > 0 ? opt.length + 3 : data.length + 1}`,
       desc: 'Xem lại',
+      field: ['change_info', 'preview'],
     })
-
+    console.log('data', data)
     onCreateStep(data)
   }
 
@@ -376,18 +387,18 @@ const ChangeInforForm = forwardRef((props, ref) => {
   }
 
   const fetchProduct = async (_id) => {
-    let res
-
     try {
       let { parentId } = props.data
 
-      res = await ProductService.getProduct({ _id: parentId, _pId: _id })
-
+      const res = await ProductService.getProduct({ _id: parentId, _pId: _id })
       let { data } = res.data
-
-      setData(data)
+      const nextData = data.map((item) => {
+        let newObject = { ...item, field: TYPE_NAME[item.type] }
+        return newObject
+      })
+      setData(nextData)
     } catch (err) {
-    } finally {
+      console.log('fetchProduct error', err)
     }
   }
 

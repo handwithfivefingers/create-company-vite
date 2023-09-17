@@ -90,7 +90,6 @@ const RegisterForm = ({ hidden }) => {
   )
 }
 const OTPInput = ({ hidden }) => {
-  const [otpValue, setOTPValue] = useState('')
   const [_, setParams] = useSearchParams()
   const handleRemoveParams = () => {
     setParams('')

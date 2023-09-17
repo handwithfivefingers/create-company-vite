@@ -3,7 +3,7 @@ const env = require('dotenv')
 const express = require('express')
 
 // const app = express()
-
+const helmet = require('helmet')
 const cors = require('cors')
 
 const cookieParser = require('cookie-parser')
@@ -46,7 +46,7 @@ module.exports = class ConfigApp {
 
   onLoadConfig = () => {
     this.app.set('trust proxy', true)
-
+    this.app.use(helmet())
     this.app.use(express.json())
     this.app.use(cookieParser())
     return this

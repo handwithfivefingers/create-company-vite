@@ -1,20 +1,16 @@
 const express = require('express')
 
 const { upload, requireSignin } = require('@middleware')
-
-// const { fetchTemplate, editTemplate, createTemplate, deleteTemplate } = require('@controller/admin')
-const TemplateAdmin = require('@controller/admin/Template')
-
-const TemplateMail = new TemplateAdmin()
+const TemplateController = require('@controller/v1/admin/template.controller')
 
 const router = express.Router()
 
-router.get('/admin/template', requireSignin, upload.none(), TemplateMail.fetchTemplate)
+router.get('/admin/template', new TemplateController().onGetTemplate)
 
-router.post('/admin/template', requireSignin, upload.none(), TemplateMail.createTemplate)
+router.post('/admin/template', new TemplateController().onCreateTemplate)
 
-router.post('/admin/template/edit/:id', requireSignin, upload.none(), TemplateMail.editTemplate)
+router.post('/admin/template/edit/:id', new TemplateController().onUpdateTemplate)
 
-router.post('/admin/template/delete/:id', requireSignin, upload.none(), TemplateMail.deleteTemplate)
+router.post('/admin/template/delete/:id', new TemplateController().onDeleteTemplate)
 
 module.exports = router

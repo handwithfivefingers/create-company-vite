@@ -96,6 +96,8 @@ const TamNgungKinhDoanh = forwardRef(({ type, current, index }, ref) => {
         label="Nhập tên doanh nghiệp"
         placeholder="CÔNG TY TNHH DỊCH VỤ TƯ VẤN WARREN B"
         onChange={(e) => handleChange(e, [...BASE_FORM, 'company_name'])}
+        required
+        message="B2. Vui lòng Nhập tên doanh nghiệp"
       />
       <CCInput name={[...BASE_FORM, 'mst']} label="Mã số doanh nghiệp hoặc Mã số thuế" placeholder="0316184427" />
 

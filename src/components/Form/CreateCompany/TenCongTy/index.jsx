@@ -50,7 +50,7 @@ const TenCongTy = forwardRef((props, ref) => {
 
   let timeout
 
-  const { BASE_FORM, current } = props
+  const { BASE_FORM} = props
 
   const [companyData, setCompanyData] = useState([])
 

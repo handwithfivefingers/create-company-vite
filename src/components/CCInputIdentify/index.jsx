@@ -120,7 +120,7 @@ const CCInputProviderIdentify = ({ name, label, placeholder, indentifyType, ...p
                 type="select"
                 name={name}
                 placeholder="Bấm vào đây"
-                options={province.map(({ name }) => ({ label: name, value: name }))}
+                options={province?.map(({ name }) => ({ label: name, value: name }))}
                 {...props}
               />
             </div>

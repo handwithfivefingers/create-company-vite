@@ -4,7 +4,6 @@ import clsx from 'clsx'
 import { forwardRef, Suspense } from 'react'
 import { useLocation } from 'react-router-dom'
 import styles from './styles.module.scss'
-// const PreviewData = lazy(() => import('@/components/Form/PreviewData'))
 import PreviewData from '@/components/Form/PreviewData'
 import { useStepAPI } from '@/context/StepProgressContext'
 import { useStepData } from '@/context/StepProgressContext'
@@ -54,7 +53,7 @@ const CreateCompanyPages = forwardRef((props, ref) => {
 
         {currentStep === 7 && <PreviewData key={['preview', 'create_company']} ref={ref} />}
 
-        <div className={'card-boxShadow flex flex__spacing-4'} style={{ position: 'sticky', bottom: 0 }}>
+        <div className={'card-boxShadow flex flex__spacing-4'} style={{ position: 'sticky', top: 0 }}>
           {currentStep > 0 && (
             <Button onClick={onPrevStep} type="dashed">
               Quay lại

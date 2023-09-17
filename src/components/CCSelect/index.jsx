@@ -1,5 +1,5 @@
 import CCInput from '@/components/CCInput'
-import { htmlContent, onSetFields } from '@/helper/Common'
+import { htmlContent } from '@/helper/Common'
 import { useFetch } from '@/helper/Hook'
 import { Col, Form, Input, Radio, Row, Select, Space } from 'antd'
 import { isEqual } from 'lodash-es'
@@ -180,25 +180,27 @@ const SelectProvince = (props) => {
   )
 }
 
-const SelectTitle = forwardRef((props, ref) => {
+const SelectTitle = (props) => {
   const [inpShow, setInpShow] = useState(false)
-
+  const formInstance = Form.useFormInstance()
   useEffect(() => {
     let pathName = props.name
     if (props.pathName) {
       pathName = props.pathName
     }
-    let val = ref.current.getFieldValue([...pathName])
-  }, [ref])
+    let val = formInstance.getFieldValue([...pathName])
+  }, [])
   const handleSelect = (val, opt) => {
     if (val === 1) {
       setInpShow(true)
     } else {
-      ref.current.setFields([{ name: [...props.name], value: val }])
+      formInstance.setFields([{ name: [...props.name], value: val }])
       setInpShow(false)
     }
   }
-
+  const handleInputChange = (e) => {
+    formInstance.setFields([{ name: [...props.name], value: e.target.value }])
+  }
   return (
     <Form.Item
       name={[...props.name]}
@@ -211,7 +213,7 @@ const SelectTitle = forwardRef((props, ref) => {
           <Select placeholder={props.placeholder} onChange={(val, opt) => handleSelect(val, opt)}>
             {(props.options &&
               props?.options?.map((option, i) => (
-                <Option value={option.value} key={[option.value, i, Math.random()]}>
+                <Option value={option.value} key={['CC_Select', option.value, i]}>
                   {option.name}
                 </Option>
               ))) ||
@@ -219,33 +221,39 @@ const SelectTitle = forwardRef((props, ref) => {
             <Option value={1}>Khác</Option>
           </Select>
         </Col>
-        <Col span={inpShow ? 16 : 0}>
-          {inpShow && (
-            <Input onChange={(e) => ref.current.setFields([{ name: [...props.name], value: e.target.value }])} />
-          )}
-        </Col>
+        <Col span={inpShow ? 16 : 0}>{inpShow && <Input onChange={handleInputChange} />}</Col>
       </Row>
     </Form.Item>
   )
-})
+}
 
-const SelectPersonType = forwardRef((props, ref) => {
+const SelectPersonType = (props) => {
   const [select, SetSelect] = useState(1)
   const [input, SetInput] = useState('')
+  const formInstance = Form.useFormInstance()
   const DEFAULT_SELECT = 'Kinh'
 
   useEffect(() => {
     let pathName = props.data?.pathName || props.name
-    let value = props.data?.value || ref?.current?.getFieldValue([...pathName])
+    let value = props.data?.value || formInstance?.getFieldValue([...pathName])
     if (value && value !== DEFAULT_SELECT) {
       SetSelect(2)
       SetInput(value)
-      onSetFields(pathName, value, ref)
+      onSetFields(pathName, value)
     } else {
       SetSelect(1)
-      onSetFields(pathName, DEFAULT_SELECT, ref)
+      onSetFields(pathName, DEFAULT_SELECT)
     }
   }, [props])
+
+  const onSetFields = (pathName, value) => {
+    formInstance.setFields([
+      {
+        name: pathName,
+        value,
+      },
+    ])
+  }
 
   const handleSelect = (val, opt) => {
     let pathName = props.name
@@ -253,7 +261,7 @@ const SelectPersonType = forwardRef((props, ref) => {
       pathName = props.data.pathName
     }
     if (val === 1) {
-      ref.current.setFields([{ name: [...pathName], value: DEFAULT_SELECT }])
+      formInstance.setFields([{ name: [...pathName], value: DEFAULT_SELECT }])
       SetSelect(1)
     } else SetSelect(2)
   }
@@ -264,7 +272,7 @@ const SelectPersonType = forwardRef((props, ref) => {
       pathName = props.data.pathName
     }
     SetInput(e.target.value)
-    ref.current.setFields([{ name: [...pathName], value: e.target.value }])
+    formInstance.setFields([{ name: [...pathName], value: e.target.value }])
   }
   return (
     <Form.Item
@@ -276,18 +284,16 @@ const SelectPersonType = forwardRef((props, ref) => {
     >
       <Row>
         <Col span={select === 2 ? 8 : 24} style={{ padding: 0 }}>
-          <Select value={select} placeholder={props.placeholder} onChange={(val, opt) => handleSelect(val, opt)}>
+          <Select value={select} placeholder={props.placeholder} onChange={handleSelect}>
             <Option value={1}>{DEFAULT_SELECT}</Option>
             <Option value={2}>Khác</Option>
           </Select>
         </Col>
-        <Col span={select === 2 ? 16 : 0}>
-          {select === 2 && <Input value={input} onChange={(e) => handleInputChange(e)} />}
-        </Col>
+        <Col span={select === 2 ? 16 : 0}>{select === 2 && <Input value={input} onChange={handleInputChange} />}</Col>
       </Row>
     </Form.Item>
   )
-})
+}
 
 const SelectDocProvide = (props) => {
   const [select, SetSelect] = useState(1)
@@ -362,14 +368,22 @@ const SelectDocProvide = (props) => {
   )
 }
 
-const RadioAddress = forwardRef((props, ref) => {
-  const { prevField, nextField } = props
+const RadioAddress = (props) => {
+  const { prevField, nextField, formName } = props
 
   const [radio, setRadio] = useState(null)
-
+  const formInstance = Form.useFormInstance()
+  const onSetFields = (pathName, value) => {
+    formInstance.setFields([
+      {
+        name: pathName,
+        value,
+      },
+    ])
+  }
   useEffect(() => {
-    let prevData = ref.current.getFieldValue(prevField)
-    let nextData = ref.current.getFieldValue(nextField)
+    let prevData = formInstance.getFieldValue(prevField)
+    let nextData = formInstance.getFieldValue(nextField)
     if (isEqual(prevData, nextData) && nextData) {
       setRadio(1)
     } else if (!nextData) {
@@ -381,29 +395,28 @@ const RadioAddress = forwardRef((props, ref) => {
 
   const onRadioChange = (e) => {
     setRadio(e.target.value)
-
     if (e.target.value === 1) {
-      let val = ref.current.getFieldValue(prevField)
-
-      onSetFields(nextField, val, ref)
+      let val = formInstance.getFieldValue(prevField)
+      onSetFields(nextField, val)
     }
+  }
+  const shoudItemUpdate = () => {
+    let canChange = radio === 1
+    if (canChange) {
+      let prevData = formInstance.getFieldValue(prevField)
+      let nextData = formInstance.getFieldValue(nextField)
+
+      if (!isEqual(prevData, nextData)) {
+        onSetFields(nextField, prevData)
+      }
+    }
+    return !canChange
   }
   return (
     <Form.Item
       label={htmlContent(props?.label || '<b>Địa chỉ liên lạc <i>(ĐDPL)</i><b>')}
       className={styles.newLine}
-      shouldUpdate={() => {
-        let canChange = radio === 1
-        if (canChange) {
-          let prevData = ref.current.getFieldValue(prevField)
-          let nextData = ref.current.getFieldValue(nextField)
-
-          if (!isEqual(prevData, nextData)) {
-            onSetFields(nextField, prevData, ref)
-          }
-        }
-        return !canChange
-      }}
+      shouldUpdate={shoudItemUpdate}
       rules={[{ required: props?.required }]}
       required={props?.required}
     >
@@ -433,7 +446,7 @@ const RadioAddress = forwardRef((props, ref) => {
       }}
     </Form.Item>
   )
-})
+}
 
 const CCSelect = {
   SelectProvince,

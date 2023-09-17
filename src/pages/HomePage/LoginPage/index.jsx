@@ -64,9 +64,9 @@ export default function LoginPage() {
     if (listHistory.length) {
       let nextNavigate = listHistory[listHistory.length - 1]
       if (listExcludes.includes(nextNavigate.from)) navigate(nextNavigate.from)
-      else navigate(role)
+      else navigate(`/${role}`)
     } else {
-      navigate(role)
+      navigate(`/${role}`)
     }
   }
 

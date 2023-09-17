@@ -1,20 +1,11 @@
 const { LoginService } = require('@service')
 
+// Flow Login
+// 1: onHandleGetOTPForLogin -> Generate OTP
+// 1.1: 
+// 2: onHandleLogin -> Login
 module.exports = class LoginController {
   constructor() {}
-
-  onHandleLogin = async (req, res) => {
-    try {
-      const { data, authenticate, callbackUrl } = await new LoginService().loginUserWithOtp(req, res)
-
-      return res.status(200).json({ data, authenticate, callbackUrl })
-    } catch (error) {
-      return res.status(400).json({
-        ...error,
-      })
-    }
-  }
-
   onHandleGetOTPForLogin = async (req, res) => {
     try {
       const data = await new LoginService().getUserOTPForLogin(req, res)
@@ -22,6 +13,17 @@ module.exports = class LoginController {
       return res.status(200).json({
         data,
       })
+    } catch (error) {
+      return res.status(400).json({
+        ...error,
+      })
+    }
+  }
+
+  onHandleLogin = async (req, res) => {
+    try {
+      const { data, authenticate, callbackUrl } = await new LoginService().loginUserWithOtp(req, res)
+      return res.status(200).json({ data, authenticate, callbackUrl })
     } catch (error) {
       return res.status(400).json({
         ...error,

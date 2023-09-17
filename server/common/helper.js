@@ -1,26 +1,18 @@
 const path = require('path')
 const fs = require('fs')
 const PizZip = require('pizzip')
-
 const Docxtemplater = require('docxtemplater')
-
 const shortid = require('shortid')
-
 const { assign, last, filter, ...lodash } = require('lodash')
-
 const libre = require('libreoffice-convert')
-
 const qs = require('query-string')
-
 const crypto = require('crypto')
-
 const moment = require('moment')
-
 const expressions = require('./expression')
-
 const otpGenerator = require('otp-generator')
-
 const jwt = require('jsonwebtoken')
+const { PRODUCT_CODE } = require('@constant/product_code')
+const { PAYMENT_TYPE_CODE } = require('@constant/payment')
 
 const { Setting } = require('../model')
 
@@ -372,6 +364,21 @@ const isFunction = (fnName) => {
   return fnName && typeof fnName === 'function'
 }
 
+const generatePaymentCode = ({ data, paymentDate, paymentType }) => {
+  try {
+    let code = ''
+    let type = PAYMENT_TYPE_CODE[paymentType]
+    if (data.create_company) code = PRODUCT_CODE['create_company']
+    else if (data.change_info) code = PRODUCT_CODE['change_info']
+    else if (data.pending) code = PRODUCT_CODE['pending']
+    else if (data.dissolution) code = PRODUCT_CODE['dissolution']
+
+    return [type, code, `${paymentDate.unix()}`.slice(-6)].join('-')
+  } catch (error) {
+    throw error
+  }
+}
+
 module.exports = {
   sortObject,
   getVpnParams,
@@ -386,4 +393,5 @@ module.exports = {
   generateToken,
   getTemplateMail,
   isFunction,
+  generatePaymentCode,
 }

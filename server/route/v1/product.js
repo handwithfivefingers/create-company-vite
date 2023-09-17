@@ -1,17 +1,17 @@
 const express = require('express')
 
-const { upload, requireSignin } = require('@middleware')
+const { caching, cachingGroup } = require('@middleware/cache')
 
 const router = express.Router()
 
-const ProductClass = require('@controller/user/Product')
+const ProductController = require('@controller/v1/user/product.controller')
 
-const { createProduct, editProduct, fetchProduct, deleteProduct, getProductBySlug } = new ProductClass()
+// const { createProduct, editProduct, fetchProduct, deleteProduct, getProductBySlug } = new ProductClass()
 
-router.post('/product/create', requireSignin, upload.none(), createProduct)
+router.get('/', caching('1 day'), cachingGroup, new ProductController().onGetProduct)
 
-router.get('/product', requireSignin, upload.none(), fetchProduct)
+router.post('/create', new ProductController().onCreateProduct)
 
-router.get('/product/:slug', requireSignin, upload.none(), getProductBySlug)
+router.get('/:slug', caching('1 day'), cachingGroup, new ProductController().onGetProductBySlug)
 
 module.exports = router

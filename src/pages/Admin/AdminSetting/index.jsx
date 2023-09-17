@@ -4,7 +4,7 @@ import { onSetFields } from '@/helper/Common'
 import AdminMailService from '@/service/AdminService/AdminMailService'
 import AdminSettingService from '@/service/AdminService/AdminSettingService'
 import { Button, Form, message, Tabs, Row, Col, Select } from 'antd'
-import  { forwardRef, useEffect, useRef, useState } from 'react'
+import { forwardRef, useEffect, useRef, useState } from 'react'
 import styles from './styles.module.scss'
 const { TabPane } = Tabs
 
@@ -98,7 +98,7 @@ const SettingMail = forwardRef((props, ref) => {
             })}
           </Select>
         </Form.Item>
-{/* 
+        {/* 
         <CCInput type="select" label={'Mail Quên mật khẩu'} name="mailForgotPass" options={getOptions()} />
 
         <CCInput type="select" label={'Mail hồ sơ sau khi thanh toán'} name="mailPayment" options={getOptions()} />
@@ -164,8 +164,7 @@ const AdminSetting = () => {
     try {
       setLoading(true)
       let res = await AdminSettingService.getSetting()
-      let { data } = res.data
-      setSettingMail(data)
+      setSettingMail(res.data)
     } catch (err) {
       console.log(err)
     } finally {

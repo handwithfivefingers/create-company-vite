@@ -19,6 +19,15 @@ const onSetFields = (pathName, val, ref, upper = false) => {
   ])
 }
 
+const onSetFieldsWithInstance = (pathName, val, instance, upper = false) => {
+  instance.setFields([
+    {
+      name: [...pathName],
+      value: upper ? val.toUpperCase() : val,
+    },
+  ])
+}
+
 const number_format = (number) => {
   // console.log(number)
   return new Intl.NumberFormat().format(number)
@@ -150,6 +159,7 @@ export {
   makeid,
   checkVariable,
   onSetFields,
+  onSetFieldsWithInstance,
   numToWord,
   htmlContent,
 }

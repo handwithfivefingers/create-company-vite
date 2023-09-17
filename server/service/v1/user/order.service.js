@@ -7,37 +7,18 @@ const { isFunction } = require('../../../common/helper')
 
 module.exports = class OrderService {
   PAGE_SIZE = 10
-  // Get getOrdersFromUser
-  //   getOrdersFromUser = async (req, res) => {
-  //     try {
-  //       let _order = await Order.find({ orderOwner: req.id })
-  //         .populate('category', 'name type')
-  //         .populate('products', 'name')
-  //         .populate('orderOwner', 'name')
-  //         .select('-orderInfo')
-  //         .sort('-createdAt')
-
-  //       let count = _order.length
-
-  //       return successHandler({ _order, count }, res)
-  //     } catch (err) {
-  //       console.log('getOrdersFromUser error')
-  //       return errHandler(err, res)
-  //     }
-  //   }
 
   getOrder = async (req) => {
     try {
-      let _order = await Order.find({ orderOwner: req.id })
+      let _order = await Order.find({ orderOwner: req.id, delete_flag: 0 })
         .populate('category', 'name type')
         .populate('products', 'name')
-        .populate('orderOwner', 'name')
-        .select('-orderInfo')
+        .select('-orderInfo -__v -delete_flag -name -files -updatedAt')
         .sort('-createdAt')
       let count = _order.length
-      //   return successHandler({ _order, count }, res)
       return { data: _order, count }
     } catch (error) {
+      console.log('getOrder error', error)
       throw error
     }
   }
@@ -82,14 +63,11 @@ module.exports = class OrderService {
       let newData = {
         data,
         orderOwner: req.id,
-        name: shortid.generate(),
         category: category._id || category.value,
         products,
         files,
         price,
       }
-
-      newData.slug = newData.name + '-' + shortid.generate()
 
       const _save = new Order(newData)
 
@@ -136,6 +114,16 @@ module.exports = class OrderService {
       console.log('updateOrder error', error)
       throw error
     }
+  }
+
+  deleteOrder = async (req) => {
+    try {
+      const _id = req.params._id
+
+      await Order.updateOne({ _id, orderOwner: req.id }, { delete_flag: 1 }, { new: true })
+
+      return { message: 'Delete success' }
+    } catch (error) {}
   }
 
   calcPrice = async (cateID) => {

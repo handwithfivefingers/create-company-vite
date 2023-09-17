@@ -8,8 +8,8 @@ const User = new UserManageAdmin()
 
 const router = express.Router()
 
-router.post('/user', requireSignin, User.fetchUser)
+router.post('/', requireSignin, User.fetchUser)
 
-router.post('/delete/:id', requireSignin, User.deleteUser)
+router.delete('/:id', requireSignin, User.deleteUser)
 
 module.exports = router

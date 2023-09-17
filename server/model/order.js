@@ -1,10 +1,6 @@
 const mongoose = require('mongoose')
 
 module.exports = {
-  name: {
-    type: String,
-    required: true,
-  },
   price: {
     type: Number,
     required: true,
@@ -32,7 +28,6 @@ module.exports = {
       ref: 'Product',
     },
   ],
-
   data: {
     create_company: {
       type: Object,

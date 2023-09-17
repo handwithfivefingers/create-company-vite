@@ -1,5 +1,6 @@
 const puppeteer = require('puppeteer')
 const moment = require('moment')
+
 const minimal_args = [
   '--autoplay-policy=user-gesture-required',
   '--disable-background-networking',
@@ -46,15 +47,13 @@ const blocked_domains = [
   'googletagservices.com',
 ]
 
-module.exports = class PuppeteerController {
-  startBrowser = async (url) => {
+module.exports = class PuppeteerService {
+  startBrowser = async (req, res) => {
     let browser
     let page
     try {
       browser = await puppeteer.launch({ headless: true, args: minimal_args })
-
       page = await browser.newPage()
-      
       await page.setExtraHTTPHeaders({
         'user-agent':
           'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36',
@@ -110,7 +109,7 @@ module.exports = class PuppeteerController {
 
       if (!query) throw { message: 'Invalid query string' }
 
-      console.log('waiting for Query')
+      // console.log('waiting for Query')
 
       const listQuery = [
         '#main section .container table.table-taxinfo thead span',
@@ -119,24 +118,24 @@ module.exports = class PuppeteerController {
 
       if (!isBrowserReady) throw { message: 'Browser was error' }
 
-      this.catchScreenShot(page)
-      setTimeout(() => {
-        this.catchScreenShot(page)
-      }, 10000)
+      // this.catchScreenShot(page)
+      // setTimeout(() => {
+      //   this.catchScreenShot(page)
+      // }, 10000)
       await page.waitForSelector(selector)
 
-      console.log('Founded Input')
+      // console.log('Founded Input')
 
       await page.$eval(selector, (el, v) => (el.value = v), query)
 
       await page.click(actionSelector)
 
-      console.log('begin search modal-inform')
+      // console.log('begin search modal-inform')
 
       await this.delay(250)
 
       let isModalShow = await page.evaluate((value) => {
-        console.log('search Modal')
+        // console.log('search Modal')
 
         let modal = document.querySelector('#modal-inform')
 
@@ -153,11 +152,11 @@ module.exports = class PuppeteerController {
         throw isModalShow
       }
 
-      console.log('begin Navigation')
+      // console.log('begin Navigation')
 
       await page.waitForSelector(mainContent, { timeout: 2000 })
 
-      console.log('begin search item')
+      // console.log('begin search item')
 
       const text = await page.evaluate((v) => {
         let html = []
@@ -172,16 +171,24 @@ module.exports = class PuppeteerController {
         return html
       }, listQuery)
 
-      return res.status(200).json({
-        message: 'done',
+      // return res.status(200).json({
+      //   message: 'done',
+      //   data: text,
+      // })
+      return {
+        message: 'Search company success',
         data: text,
-      })
+      }
     } catch (error) {
       console.log('search error: ' + JSON.stringify(error, null, 2))
 
-      return res.status(400).json({
-        error,
-      })
+      // return res.status(400).json({
+      //   error,
+      // })
+      return {
+        message: 'Search company Error',
+        data: error,
+      }
     } finally {
       browser.close()
     }

@@ -6,6 +6,7 @@ import clsx from 'clsx'
 import styles from './styles.module.scss'
 import { useFetch } from '../../../helper/Hook'
 import { StepProgressProvider } from '@/context/StepProgressContext'
+import { useFormAPI } from '../../../context/FormProviderContext'
 
 const UserProductPage = (props) => {
   const [product, setProduct] = useState([])
@@ -13,6 +14,12 @@ const UserProductPage = (props) => {
     cacheName: ['userOrder'],
     fn: () => CategoryService.getCategories(),
   })
+
+  const { resetDefault } = useFormAPI()
+
+  useEffect(() => {
+    resetDefault()
+  }, [])
 
   useEffect(() => {
     if (data && status === 'success') {

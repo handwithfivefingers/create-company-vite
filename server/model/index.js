@@ -1,15 +1,3 @@
-const user = require('./user')
-// const company = require("./company");
-const order = require('./order')
-const category = require('./category')
-const career = require('./career')
-const product = require('./product')
-const template = require('./template')
-const setting = require('./setting')
-const log = require('./log')
-const careerCategory = require('./careerCategory')
-const otp = require('./otp')
-
 const bcrypt = require('bcryptjs')
 const mongoose = require('mongoose')
 
@@ -17,26 +5,28 @@ const { Schema } = mongoose
 
 // // Step 1 : Create Schema
 
-const userSchema = new Schema({ ...user }, { timestamps: true })
-// const companySchema = new Schema({ ...company }, { timestamps: true });
-const orderSchema = new Schema({ ...order }, { timestamps: true })
-const categorySchema = new Schema({ ...category }, { timestamps: true })
-const careerSchema = new Schema({ ...career }, { timestamps: true })
-const productSchema = new Schema({ ...product }, { timestamps: true })
-const settingSchema = new Schema({ ...setting }, { timestamps: true })
-const logSchema = new Schema({ ...log }, { timestamps: true })
-const careerCategorySchema = new Schema({ ...careerCategory }, { timestamps: true })
+const userSchema = new Schema(require('./user'), { timestamps: true })
+const orderSchema = new Schema(require('./order'), { timestamps: true })
+const categorySchema = new Schema(require('./category'), { timestamps: true })
+const careerSchema = new Schema(require('./career'), { timestamps: true })
+const productSchema = new Schema(require('./product'), { timestamps: true })
+const settingSchema = new Schema(require('./setting'), { timestamps: true })
+const logSchema = new Schema(require('./log'), { timestamps: true })
+const careerCategorySchema = new Schema(require('./careerCategory'), { timestamps: true })
 
-const templateSchema = new Schema({ ...template }, { timestamps: true, collation: { locale: 'en_US', strength: 1 } })
+const templateSchema = new Schema(require('./template'), {
+  timestamps: true,
+  collation: { locale: 'en_US', strength: 1 },
+})
 
-const otpSchema = new Schema({ ...otp }, { timestamps: true })
+const otpSchema = new Schema(require('./otp'), { timestamps: true })
+
+const transactionSchema = new Schema(require('./transaction'), { timestamps: true })
 
 // // Step 2 : Create Methods - Function
 
 userSchema.method({
   authenticate: async function (password) {
-    // console.log(this);
-    // console.log(password, this.hash_password)
     return await bcrypt.compare(password, this.hash_password)
   },
 })
@@ -53,14 +43,9 @@ const Setting = mongoose.model('Setting', settingSchema)
 const Log = mongoose.model('Log', logSchema)
 const CareerCategory = mongoose.model('careerCategory', careerCategorySchema)
 const OTP = mongoose.model('OTP', otpSchema)
+const Transaction = mongoose.model('Transaction', transactionSchema)
 
 // // Step 4 : Create Virtual Field - Reference
-
-// orderSchema.virtual("products", {
-//   ref: "Product",
-//   localField: "data.create_company.approve.company_main_career.value",
-//   foreignField: "_id",
-// });
 
 orderSchema.virtual('main_career', {
   ref: 'Career',
@@ -101,4 +86,5 @@ module.exports = {
   Product,
   CareerCategory,
   OTP,
+  Transaction,
 }
