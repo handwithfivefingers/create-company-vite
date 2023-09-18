@@ -39,8 +39,6 @@
     "html-react-parser": "^1.4.5",
     "lodash-es": "^4.17.21",
     "moment": "^2.29.1",
-    "node-worker-threads-pool": "^1.5.1",
-    "otp-generator": "^4.0.0",
     "rc-virtual-list": "^3.4.8",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -54,6 +52,8 @@
   },
   "devDependencies": {
     "@tanstack/react-query-devtools": "^4.0.10",
+    "node-worker-threads-pool": "^1.5.1",
+    "otp-generator": "^4.0.0",
     "@types/react": "^18.0.15",
     "@types/react-dom": "^18.0.6",
     "@vitejs/plugin-react": "^2.1.0",

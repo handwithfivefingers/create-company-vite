@@ -1,7 +1,6 @@
 const fs = require('fs')
 const { removeFile, errHandler } = require('@response')
 const { TemplateMail, Order } = require('@model')
-const { auth } = require('googleapis').google
 const nodeMailer = require('nodemailer')
 const dotenv = require('dotenv')
 const { removeListFiles } = require('@common/helper')
@@ -21,35 +20,28 @@ const {
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0'
 
 module.exports = class MailService {
-  oAuth2Client
   mailConfig = {}
   constructor() {
-    this.getAUTHConfig().then((res) => {
-      this.mailConfig = {
-        service: 'gmail',
-        auth: res,
-      }
-    })
+    this.mailConfig = {
+      service: 'gmail',
+      auth: this.getAUTHConfig(),
+    }
   }
 
-  getAUTHConfig = async () => {
+  getAUTHConfig = () => {
+    return {
+      user: MAIL_NAME,
+      pass: process.env.GMAIL_APP_PASSWORD,
+    }
     if (process.env.NODE_ENV === 'development') {
       return {
         user: 'handgod1995@gmail.com',
         pass: process.env.APP_PASSWORD,
       }
     } else {
-      this.oAuth2Client = new auth.OAuth2(CLIENT_ID, CLIENT_SECRET, REFRESH_URI)
-      this.oAuth2Client.setCredentials({ refresh_token: REFRESH_TOKEN })
-      const accessToken = await this.oAuth2Client.getAccessToken()
       return {
-        type: 'OAUTH2',
         user: MAIL_NAME,
-        pass: MAIL_PASSWORD,
-        clientId: CLIENT_ID,
-        clientSecret: CLIENT_SECRET,
-        refreshToken: REFRESH_TOKEN,
-        accessToken,
+        pass: process.env.GMAIL_APP_PASSWORD,
       }
     }
   }

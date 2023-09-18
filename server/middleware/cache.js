@@ -18,8 +18,11 @@ const cachingGroup = (req, res, next) => {
   next()
 }
 
-const clearCachingGroup = ({ url, method }) => {
-  const cacheName = JSON.stringify({ url, method })
+const clearCachingGroup = (req) => {
+  const cacheName = JSON.stringify({
+    url: req.originalUrl,
+    method: req.method,
+  })
   apicache.clear(cacheName)
 }
 
