@@ -1,5 +1,31 @@
-require('module-alias/register')
+// require('module-alias/register')
 
+const moduleAlias = require('module-alias')
+
+moduleAlias.addAliases({
+  '@server': `${__dirname}/server`,
+  '@controller': `${__dirname}/server/controller`,
+  '@middleware': `${__dirname}/server/middleware`,
+  '@route': `${__dirname}/server/route`,
+  '@model': `${__dirname}/server/model`,
+  '@response': `${__dirname}/server/response`,
+  '@constant': `${__dirname}/server/constant`,
+  '@common': `${__dirname}/server/common`,
+  '@service': `${__dirname}/server/service`,
+  '@uploads': `${__dirname}/uploads`,
+})
+// "_moduleAliases": {
+//   "@server": "./server",
+//   "@controller": "./server/controller",
+//   "@middleware": "./server/middleware",
+//   "@route": "./server/route",
+//   "@model": "./server/model",
+//   "@response": "./server/response",
+//   "@constant": "./server/constant",
+//   "@common": "./server/common",
+//   "@service": "./server/service",
+//   "@uploads": "./uploads"
+// },
 const express = require('express')
 
 const app = express()
@@ -34,7 +60,7 @@ onInit()
 
 app.listen(RUNTIME_PORT, async () => {
   await connectDB()
-  
+
   onConvertFiles()
   onBackupDB()
   onGenSSL()
