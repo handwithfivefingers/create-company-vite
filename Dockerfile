@@ -12,4 +12,7 @@ COPY . .
 
 RUN npm run build
 
+# For Deployment
+RUN npm run module-alias 
+
 CMD ["npm", "start"]
