@@ -55,10 +55,12 @@ module.exports = class MailService {
       //sending
       // let attachments = validateFile(req.files) || []
 
+      console.log('attachments', attachments)
+
       let validatedAttachments = this.validateFile(attachments)
 
       let params = {
-        from: from || MAIL_NAME,
+        from: `Thành lập công ty <${from || MAIL_NAME}>`, // sender address
         to,
         subject,
         html,
@@ -80,7 +82,7 @@ module.exports = class MailService {
 
     try {
       let params = {
-        from: from || MAIL_NAME, // sender address
+        from: `Thành lập công ty <${from || MAIL_NAME}>`, // sender address
         to,
         attachments: attachmentsPath,
         subject, // Subject line
@@ -99,7 +101,7 @@ module.exports = class MailService {
       }
       throw err
     } finally {
-      await Order.updateOne({ _id: rest._id }, { send: 1 })
+      // await Order.updateOne({ _id: rest._id }, { send: 1 })
     }
   }
 
@@ -118,8 +120,7 @@ module.exports = class MailService {
   sendMail = async ({ from, to, subject, html }) => {
     try {
       let params = {
-        from: from || MAIL_NAME,
-        to,
+        from: `Thành lập công ty <${from || MAIL_NAME}>`, // sender address        to,
         subject,
         html,
       }
@@ -134,9 +135,11 @@ module.exports = class MailService {
 
   validateFile = async (files) => {
     try {
+      if (!files) return []
+
       let attachments = []
 
-      let isPDF = files.some((item) => item.mimetype === 'application/pdf')
+      let isPDF = files?.some((item) => item.mimetype === 'application/pdf')
 
       if (!isPDF) {
         await files.map(({ path }) => removeFile(path))
@@ -154,7 +157,7 @@ module.exports = class MailService {
   }
 
   convertPath = (filesPath) => {
-    let result = filesPath.map(({ pdfFile, name }) => {
+    let result = filesPath?.map(({ pdfFile, name }) => {
       let fileSplit = pdfFile.split('.')
 
       let ext = fileSplit[fileSplit.length - 1]
@@ -162,6 +165,6 @@ module.exports = class MailService {
       return { path: pdfFile, filename: `${name}.${ext}` }
     })
 
-    return result
+    return result || []
   }
 }

@@ -21,7 +21,7 @@ module.exports = class TestService {
     try {
       let _order = await Order.findOne({ _id: req.body._id }).populate('orderOwner', 'email')
 
-      if (_order) return this.handleConvertFile(_order, req, res)
+      if (_order) return this.handleConvertFile({ order: _order, req, res })
 
       return res.status(200).json({ data: [] })
     } catch (err) {
@@ -31,14 +31,14 @@ module.exports = class TestService {
     }
   }
 
-  handleConvertFile = async (order, req, res) => {
+  handleConvertFile = async ({ order, req, res }) => {
     // handle Single File
     let attachments = []
 
     try {
       let { files, data } = order
 
-      let mailParams = await this.getMailContent(order)
+      let mailParams = await this.getMailContent({ _id: order.id, email: order.orderOwner?.email })
 
       files = uniqBy(files, 'name').filter((item) => item)
 
@@ -52,44 +52,38 @@ module.exports = class TestService {
 
         mailParams.filesPath = attachments
 
-        await sendWithAttachments({ ...mailParams, html: mailParams.content })
+        await new MailService().sendWithFilesPath(mailParams)
 
-        return res.status(200).json({ message: 'ok' })
+        return { message: 'ok' }
       }
-
-      return res.status(400).json({
-        error: 'Files not found',
-      })
+      throw new Error('Files not found')
     } catch (err) {
       console.log('handleConvertFile error', err)
-
       // attachments.length > 0 && (await removeListFiles(attachments, true))
-
-      return errHandler(err, res)
+      throw err
     } finally {
       // await removeListFiles(attachments)
     }
   }
 
-  getMailContent = async (order) => {
+  getMailContent = async ({ _id, email }) => {
     let _setting = await Setting.find().populate('mailRegister mailPayment') // -> _setting
     let mailParams
     mailParams = {
       email: 'handgod1995@gmail.com',
       removeFiles: true,
       send: 1,
-      _id: order._id,
-      type: 'path',
+      _id: _id,
     }
     if (_setting) {
       let { mailPayment } = _setting[0]
       let { subject, content } = mailPayment
       mailParams.subject = subject
-      mailParams.content = content
-      mailParams.email = order.orderOwner?.email
+      mailParams.html = content
+      mailParams.to = email
     } else {
       mailParams.subject = 'Testing auto generate files'
-      mailParams.content = 'Testing auto generate files'
+      mailParams.html = 'Testing auto generate files'
     }
     return mailParams
   }

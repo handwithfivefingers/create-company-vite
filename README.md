@@ -159,3 +159,21 @@ update Dev branch
 
 ###     "mammoth": "^1.4.21",
 
+
+
+### Docker Config
+
+## Create Volume
+```
+docker volume create [Volume Name]
+```
+
+## Build Image
+```
+docker build -t [Image Name] Dockerfile .
+```
+
+## Start Container With Image
+```
+docker run -it --name [Container Name] -p 3001:3001 [Image Name]
+```
