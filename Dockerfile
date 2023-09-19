@@ -13,6 +13,6 @@ COPY . .
 RUN npm run build
 
 # For Deployment
-RUN npm run module-alias 
+RUN npm install module-alias 
 
 CMD ["npm", "start"]
