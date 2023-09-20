@@ -8,17 +8,10 @@ const { removeListFiles } = require('@common/helper')
 // *Useful for getting environment vairables
 dotenv.config()
 
-const {
-  GG_REFRESH_TOKEN: REFRESH_TOKEN,
-  GG_REFRESH_URI: REFRESH_URI,
-  GG_EMAIL_CLIENT_ID: CLIENT_ID,
-  GG_EMAIL_CLIENT_SECRET: CLIENT_SECRET,
-  MAIL_NAME,
-  MAIL_PASSWORD,
-} = process.env
+const { MAIL_NAME } = process.env
 
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0'
-
+const EMAIL_FROM_NAME = 'ThanhlapcongtyOnline'
 module.exports = class MailService {
   mailConfig = {}
   constructor() {
@@ -53,27 +46,21 @@ module.exports = class MailService {
   sendWithAttachments = async ({ attachments, from, to, subject, html }) => {
     try {
       //sending
-      // let attachments = validateFile(req.files) || []
-
-      console.log('attachments', attachments)
-
       let validatedAttachments = this.validateFile(attachments)
-
       let params = {
-        from: `Thành lập công ty <${from || MAIL_NAME}>`, // sender address
+        from: {
+          address: from || MAIL_NAME,
+          name: EMAIL_FROM_NAME,
+        },
         to,
         subject,
         html,
         attachments: validatedAttachments,
       }
-
       let transport = await this.createTransport()
-
       return transport.sendMail(params)
     } catch (err) {
       throw err
-    } finally {
-      // await removeListFiles(attachments, true)
     }
   }
 
@@ -82,7 +69,10 @@ module.exports = class MailService {
 
     try {
       let params = {
-        from: `Thành lập công ty <${from || MAIL_NAME}>`, // sender address
+        from: {
+          address: from || MAIL_NAME,
+          name: EMAIL_FROM_NAME,
+        },
         to,
         attachments: attachmentsPath,
         subject, // Subject line
@@ -93,34 +83,19 @@ module.exports = class MailService {
 
       return transport.sendMail(params)
     } catch (err) {
-      console.log('withFilesPath failed ', err)
-      for (let attach of attachments) {
-        if (fs.existsSync(attach.pdfFile)) {
-          fs.unlinkSync(attach.path)
-        }
-      }
+      console.log('sendMail success')
       throw err
-    } finally {
-      // await Order.updateOne({ _id: rest._id }, { send: 1 })
-    }
-  }
-
-  sendMailWithCron = async ({ ...rest }) => {
-    try {
-      let params = {
-        adminEmail: from || MAIL_NAME,
-        ...rest,
-      }
-      await this.sendWithFilesPath(params)
-    } catch (err) {
-      console.log('cronMail error', err)
     }
   }
 
   sendMail = async ({ from, to, subject, html }) => {
     try {
       let params = {
-        from: `Thành lập công ty <${from || MAIL_NAME}>`, // sender address        to,
+        from: {
+          address: from || MAIL_NAME,
+          name: EMAIL_FROM_NAME,
+        },
+        to,
         subject,
         html,
       }

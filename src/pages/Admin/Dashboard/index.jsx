@@ -105,7 +105,6 @@ const AdminDashboard = () => {
                         )}, Ip Connection: ${item.ip}`}
                         description={
                           <span style={{ wordBreak: 'break-word' }}>
-                            {/* {item?.slice(29)} */}
                             <pre
                               style={{
                                 wordBreak: 'break-word',

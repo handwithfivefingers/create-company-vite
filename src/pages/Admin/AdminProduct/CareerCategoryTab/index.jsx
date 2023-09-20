@@ -175,7 +175,7 @@ const CareerCategoryTab = forwardRef((props, ref) => {
             width="100px"
             render={(val, record, i) => (
               <Space>
-                <Button onClick={(e) => onHandleUpdateCareerCategory(record)} icon={<FormOutlined />} />
+                <Button type="primary" onClick={(e) => onHandleUpdateCareerCategory(record)} icon={<FormOutlined />} />
                 <Popconfirm
                   placement="topRight"
                   title={'Bạn có muốn xoá ?'}

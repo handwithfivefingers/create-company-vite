@@ -21,7 +21,6 @@ import Policy from '../pages/User/Policy'
 import LoginForm from '@/pages/HomePage/LoginPage/Login'
 import LoginAdmin from '@/pages/HomePage/LoginAdmin'
 import Checkout from '@/pages/User/Checkout'
-
 const AdminDashboard = lazy(() => import('@/pages/Admin/Dashboard'))
 const AdminMail = lazy(() => import('@/pages/Admin/AdminMail'))
 const AdminOrder = lazy(() => import('@/pages/Admin/AdminOrder'))
@@ -35,8 +34,9 @@ const UserProductItem = lazy(() => import('@/pages/User/Product/ProductItem'))
 const UserOrder = lazy(() => import('@/pages/User/Order'))
 const UserProfile = lazy(() => import('@/pages/User/Profile'))
 
-const CCResult = lazy(() => import('@/pages/User/Result'))
 const AdminAbout = lazy(() => import('@/pages/Admin/AdminAbout'))
+const AdminTransaction = lazy(() => import('@/pages/Admin/AdminTransaction'))
+const CCResult = lazy(() => import('@/pages/User/Result'))
 
 export const AdminRouter = [
   {
@@ -53,6 +53,11 @@ export const AdminRouter = [
     path: '/admin/order',
     name: 'Orders',
     icon: <RiChatPollLine />,
+  },
+  {
+    path: '/admin/transaction',
+    name: 'Quản lý thanh toán',
+    icon: <RiBarChartFill />,
   },
   {
     path: '/admin/user',
@@ -156,6 +161,12 @@ export const LAYOUT_ROUTER = ({ status, role }) => [
                 element: <ClassComponentText />,
               },
             ],
+          },
+          {
+            path: 'transaction',
+            title: 'Quản lý thanh toán',
+            icon: <RiBarChartFill />,
+            element: <AdminTransaction />,
           },
           {
             path: 'user',

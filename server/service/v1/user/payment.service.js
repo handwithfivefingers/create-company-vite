@@ -190,11 +190,14 @@ module.exports = class PaymentService {
 
   createTransaction = async (req) => {
     try {
-      const { orderId, paymentType } = req.body
+      const { orderId, paymentType, name, address, phone } = req.body
+
       const _order = await Order.findOne({ _id: orderId })
+
       if (!_order) throw { message: 'Order not found' }
 
       const today = moment().locale('vi')
+
       const dateUnix = today.unix()
 
       const models = new Transaction({
@@ -202,19 +205,50 @@ module.exports = class PaymentService {
         paymentType: Number(paymentType),
         paymentDate: dateUnix,
         paymentCode: generatePaymentCode({ data: _order.data, paymentDate: today, paymentType }),
+        deliveryInformation: {
+          name,
+          address,
+          phone,
+        },
       })
 
       const resp = await models.save()
+
+      _order.transactionId = resp._id
+
+      await _order.save()
 
       return { message: 'API done', transactionId: resp._id }
     } catch (error) {
       throw error
     }
   }
+
   getTransaction = async () => {
     try {
       const _trans = await Transaction.find().populate('orderId')
       return _trans
+    } catch (error) {
+      throw error
+    }
+  }
+
+  callBackTransaction = async (req) => {
+    try {
+      const { orderInfo, _id } = req.body
+
+      const _transaction = await Transaction.findOne({ _id })
+
+      _transaction.orderInfo = orderInfo
+      _transaction.isPayment = true
+
+      await _transaction.save()
+
+      return {
+        message: 'Update Transaction success',
+      }
+
+      // await _transaction.
     } catch (error) {
       throw error
     }

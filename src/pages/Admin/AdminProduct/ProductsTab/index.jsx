@@ -162,7 +162,7 @@ const ProductsTab = forwardRef((props, ref) => {
             render={(val, record, i) => {
               return (
                 <Space>
-                  <Button onClick={(e) => onHandleEditProduct(record)} icon={<FormOutlined />} />
+                  <Button type="primary" onClick={(e) => onHandleEditProduct(record)} icon={<FormOutlined />} />
                   <Popconfirm
                     placement="topRight"
                     title={'Bạn có muốn xoá ?'}

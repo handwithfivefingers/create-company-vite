@@ -48,4 +48,13 @@ module.exports = class PaymentController {
       })
     }
   }
+
+  callBackTransaction = async (req, res) => {
+    try {
+      const data = await new PaymentService().callBackTransaction(req)
+      return res.status(200).json(data)
+    } catch (error) {
+      return res.status(400).json({ error })
+    }
+  }
 }

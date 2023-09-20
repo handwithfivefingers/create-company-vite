@@ -17,11 +17,6 @@ module.exports = {
       type: String,
     },
   },
-  payment: {
-    type: Number,
-    enum: [0, 1],
-    default: 0,
-  },
   products: [
     {
       type: mongoose.Schema.Types.ObjectId,
@@ -45,9 +40,6 @@ module.exports = {
       type: Object,
     },
   },
-  orderInfo: {
-    type: Object,
-  },
   category: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Category',
@@ -66,5 +58,9 @@ module.exports = {
     type: Number,
     enum: [0, 1],
     default: 0,
+  },
+  transactionId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Transaction',
   },
 }

@@ -1,10 +1,12 @@
-import AdminHeader from '@/components/Admin/AdminHeader'
 import CCPagination from '@/components/CCPagination'
 import AdminUserService from '@/service/AdminService/AdminUserService'
 import { Button, message, Modal, Table } from 'antd'
 import clsx from 'clsx'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, lazy } from 'react'
 import styles from './styles.module.scss'
+import SuspendComponent from '@/components/SuspenseComponent'
+
+const AdminHeader = lazy(() => import('@/components/Admin/AdminHeader'))
 const AdminUser = () => {
   const [loading, setLoading] = useState(false)
   const [data, setData] = useState([])
@@ -67,7 +69,9 @@ const AdminUser = () => {
 
   return (
     <>
-      <AdminHeader title="Quản lý người dùng" />
+      <SuspendComponent>
+        <AdminHeader title="Quản lý người dùng" />
+      </SuspendComponent>
       <div className={styles.contentWrapper}>
         <div className={clsx([styles.tableWrapper, 'box__shadow'])}>
           <Table

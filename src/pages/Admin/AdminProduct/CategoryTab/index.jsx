@@ -117,7 +117,7 @@ const CategoryTab = forwardRef((props, ref) => {
             render={(val, record, i) => {
               return (
                 <Space>
-                  <Button onClick={(e) => onHandleUpdateCategory(record)} icon={<FormOutlined />} />
+                  <Button type="primary" onClick={(e) => onHandleUpdateCategory(record)} icon={<FormOutlined />} />
 
                   <Popconfirm
                     placement="topRight"

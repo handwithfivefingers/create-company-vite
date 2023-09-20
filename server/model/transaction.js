@@ -18,10 +18,27 @@ module.exports = {
     type: String,
     require: true,
   },
-  orderInfo: {},
   isPayment: {
     type: Boolean,
     require: true,
     default: false,
+  },
+  deliveryInformation: {
+    name: {
+      type: String,
+      require: true,
+    },
+    address: {
+      type: String,
+      require: true,
+    },
+    phone: {
+      type: String,
+      require: true,
+    },
+  },
+  orderInfo: {
+    default: {},
+    // Information when callback from 3-party Payment <---
   },
 }

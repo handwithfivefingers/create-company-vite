@@ -193,14 +193,23 @@ const AdminSetting = () => {
   return (
     <>
       <AdminHeader title="Cài đặt" />
-
+      {/* 
       <Tabs defaultActiveKey="1">
         {tabList.map((tab, i) => (
           <TabPane tab={tab.name} key={[tab.name, i]} className={styles.container}>
             {tab.content}
           </TabPane>
         ))}
-      </Tabs>
+      </Tabs> */}
+      <div className={styles.grid}>
+        <div className={styles.gridItem}>{/* <Icon */}
+        
+        
+        </div>
+        <div className={styles.gridItem}>Template Mail</div>
+        <div className={styles.gridItem}></div>
+        <div className={styles.gridItem}></div>
+      </div>
     </>
   )
 }

@@ -11,13 +11,8 @@ import CareerTab from './CareerTab'
 import CategoryTab from './CategoryTab'
 import ProductsTab from './ProductsTab'
 
-import clsx from 'clsx'
-import CCPagination from '@/components/CCPagination'
-
 import { useSelector } from 'react-redux'
-const { useBreakpoint } = Grid
 
-const { TabPane } = Tabs
 const AdminProduct = (props) => {
   const [activeTabs, setActiveTabs] = useState('1')
   const productRef = useRef()
@@ -137,3 +132,5 @@ const AdminProduct = (props) => {
 }
 
 export default AdminProduct
+
+

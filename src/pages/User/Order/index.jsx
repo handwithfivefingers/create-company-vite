@@ -8,7 +8,7 @@ import moment from 'moment'
 import { useEffect, useState } from 'react'
 import { useNavigate, useOutletContext } from 'react-router-dom'
 import styles from './styles.module.scss'
-
+import { PAYMENT_TYPE_CODE } from '@/constant/Payment'
 const UserOrder = () => {
   const { animateClass } = useOutletContext()
 
@@ -110,7 +110,7 @@ const UserOrder = () => {
       getScreenData()
     }
   }
-  
+
   const pagiConfigs = {
     current: current,
     total: data?.count,
@@ -138,7 +138,7 @@ const UserOrder = () => {
         >
           <Table.Column
             align="center"
-            title="Mã đơn hàng"
+            title="Mã đơn"
             dataIndex="per_main"
             render={(val, record, i) => {
               return record._id
@@ -154,6 +154,7 @@ const UserOrder = () => {
               return <span style={{ display: 'block', width: '150px' }}>{number_format(record?.price)} VND</span>
             }}
           />
+
           <Table.Column
             align="center"
             title="Ngày tạo"
@@ -167,10 +168,18 @@ const UserOrder = () => {
           />
           <Table.Column
             align="center"
+            title="Cổng thanh toán"
+            dataIndex=""
+            render={(val, record, i) => {
+              return (record?.transactionId?.paymentType && PAYMENT_TYPE_CODE[record?.transactionId?.paymentType]) || '-'
+            }}
+          />
+          <Table.Column
+            align="center"
             title="Thanh toán"
             dataIndex=""
             render={(val, record, i) => {
-              return record?.payment === 1 ? (
+              return record?.transactionId?.isPayment ? (
                 <Tag color="green">Đã thanh toán</Tag>
               ) : (
                 <Tag color="volcano">Chưa thanh toán</Tag>
@@ -180,7 +189,7 @@ const UserOrder = () => {
 
           <Table.Column
             align="center"
-            width={88}
+            width={100}
             render={(v, record, i) => (
               <div className={styles.btnGroup}>
                 {record.payment ? (

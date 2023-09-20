@@ -136,11 +136,11 @@ const CareerTab = forwardRef((props, ref) => {
           />
           <Table.Column title="Mã ngành" render={(val, record, i) => record.code} />
           <Table.Column
-            width={80}
+            width={100}
             title=""
             render={(val, record, i) => (
               <Space>
-                <Button onClick={(e) => onCareerEdit(record)} icon={<FormOutlined />} />
+                <Button type="primary" onClick={(e) => onCareerEdit(record)} icon={<FormOutlined />} />
                 <Popconfirm
                   placement="topRight"
                   title={'Bạn có muốn xoá ?'}

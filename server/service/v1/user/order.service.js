@@ -1,5 +1,3 @@
-const shortid = require('shortid')
-const { successHandler } = require('@response')
 const { Order, Category } = require('@model')
 const { getListFiles } = require('@constant/File')
 const { uniqBy } = require('lodash')
@@ -13,7 +11,8 @@ module.exports = class OrderService {
       let _order = await Order.find({ orderOwner: req.id, delete_flag: 0 })
         .populate('category', 'name type')
         .populate('products', 'name')
-        .select('-orderInfo -__v -delete_flag -name -files -updatedAt')
+        .populate('transactionId', 'isPayment paymentType paymentCode deliveryInformation')
+        .select('-send -__v -delete_flag -name -files -updatedAt')
         .sort('-createdAt')
       let count = _order.length
       return { data: _order, count }
@@ -26,7 +25,7 @@ module.exports = class OrderService {
   getOrderById = async (req) => {
     try {
       const _id = req.params
-      const _order = await Order.findOne({ _id })
+      const _order = await Order.findOne({ _id, orderOwner: req.id })
         .populate({
           path: 'category',
           select: 'name price type',
@@ -73,14 +72,12 @@ module.exports = class OrderService {
 
       const dataSaved = await _save.save()
 
-      //   return successHandler(_obj, res)
       return {
         _id: dataSaved._id,
         orderOwner: dataSaved.orderOwner,
       }
     } catch (err) {
       console.log('createOrders error', err)
-      //   return errHandler(err, res)
       throw err
     }
   }
@@ -108,7 +105,6 @@ module.exports = class OrderService {
 
       await Order.updateOne({ _id }, _updateObject, { new: true })
 
-      //   return successHandler({ message: 'Updated Success' }, res)
       return { message: 'Updated Success' }
     } catch (error) {
       console.log('updateOrder error', error)
@@ -123,7 +119,9 @@ module.exports = class OrderService {
       await Order.updateOne({ _id, orderOwner: req.id }, { delete_flag: 1 }, { new: true })
 
       return { message: 'Delete success' }
-    } catch (error) {}
+    } catch (error) {
+      throw error
+    }
   }
 
   calcPrice = async (cateID) => {

@@ -1,6 +1,5 @@
 const { Order, Setting } = require('@model')
 const { flattenObject, convertFile, removeListFiles } = require('@common/helper')
-const { createLog } = require('@response')
 const { uniqBy } = require('lodash')
 const cron = require('node-cron')
 const MailService = require('@service/v1/user/mail.service')
@@ -9,27 +8,14 @@ const fs = require('fs')
 const moment = require('moment')
 const path = require('path')
 const { execSync: exec, fork } = require('child_process')
+const LogService = require('./log.service')
 
 module.exports = class CronjobService {
   cronConvertFiles = (timing = '* * * * *') => {
     console.log(`cronConvertFiles Time: ${timing}`)
-    return cron.schedule(
-      timing,
-      async () => {
-        try {
-          let _order = await Order.findOne({ $and: [{ payment: 1, send: 0, delete_flag: { $ne: 1 } }] }).populate(
-            'orderOwner',
-            'email',
-          )
-          if (_order) return this.handleConvertFile(_order)
-        } catch (error) {
-          console.log('error scheduled', error)
-        }
-      },
-      {
-        scheduled: false,
-      },
-    )
+    return cron.schedule(timing, this.handleConvertFile, {
+      scheduled: false,
+    })
   }
   cronBackupDB = (timing = '0 0 12 * *') => {
     console.log(`cronBackupDB Time: ${timing}`)
@@ -67,45 +53,60 @@ module.exports = class CronjobService {
     })
   }
 
-  handleConvertFile = async (order) => {
+  handleConvertFile = async () => {
     // handle Single File
     let attachments = []
-
+    let orderId
     try {
+      const order = await Order.findOne({ $and: [{ send: 0, delete_flag: { $ne: 1 } }] })
+        .populate('orderOwner', 'email')
+        .populate('transactionId', 'isPayment')
+
+      if (!order) throw new Error('No Order Founded')
+      orderId = order._id
       let { files, data } = order
 
       let mailParams = await this.getMailContent(order)
 
       files = uniqBy(files, 'name').filter((item) => item)
 
-      if (files) {
-        let _contentOrder = flattenObject(data)
+      if (!files.length) throw new Error('Dont have any file')
 
-        for (let file of files) {
-          let pdfFile = await convertFile(file, _contentOrder)
+      let _contentOrder = flattenObject(data)
 
-          attachments.push({ pdfFile, name: file.name })
-        }
+      for (let file of files) {
+        let pdfFile = await convertFile(file, _contentOrder)
 
-        mailParams.filesPath = attachments
-
-        console.log('mailParams', mailParams)
-        await new MailService().sendMailWithCron(mailParams)
-
-        return console.log('Cronjob success')
+        attachments.push({ pdfFile, name: file.name })
       }
 
-      return console.log('Cronjob error')
+      mailParams.filesPath = attachments
+
+      const mailer = await new MailService().sendWithFilesPath(mailParams)
+
+      await new LogService().createLog({
+        ip: 'Cronjob',
+        url: 'Cronjob',
+        request: 'Cronjob',
+        response: mailer,
+      })
+
+      return console.log('Cronjob success')
     } catch (err) {
-      console.log('handleConvertFile error', err)
-
-      await createLog(err)
-
-      await Order.updateOne({ _id: order._id }, { send: 1 })
-
-      await removeListFiles(attachments)
-
-      throw err
+      if (orderId) {
+        await new LogService().createLog({
+          ip: 'Cronjob',
+          url: 'Cronjob',
+          request: 'Cronjob',
+          response: mailer,
+        })
+        console.log('Cronjob Convert file error', err)
+      }
+    } finally {
+      if (orderId) {
+        await Order.updateOne({ _id: order._id }, { send: 1 })
+        await removeListFiles(attachments)
+      }
     }
   }
 
@@ -113,11 +114,8 @@ module.exports = class CronjobService {
     let _setting = await Setting.find().populate('mailPayment') // -> _setting
     let mailParams
     mailParams = {
-      email: order.orderOwner?.email || 'handgod1995@gmail.com',
-      removeFiles: true,
-      send: 1,
+      to: order.orderOwner?.email || 'handgod1995@gmail.com',
       _id: order._id,
-      type: 'path',
     }
 
     if (_setting) {
@@ -126,10 +124,10 @@ module.exports = class CronjobService {
       let { subject, content } = mailPayment
 
       mailParams.subject = subject
-      mailParams.content = content
+      mailParams.html = content
     } else {
       mailParams.subject = 'Testing auto generate files'
-      mailParams.content = 'Testing auto generate files'
+      mailParams.html = 'Testing auto generate files'
     }
     return mailParams
   }

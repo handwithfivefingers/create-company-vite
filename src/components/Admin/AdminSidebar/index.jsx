@@ -17,11 +17,6 @@ const AdminSidebar = () => {
   const dispatch = useDispatch()
   let navigate = useNavigate()
   let location = useLocation()
-
-  // const onCollapse = (collapsed) => {
-  //   setCollapse(collapsed)
-  // }
-
   const collapsed = useSelector((state) => state.commonReducer.collapsed)
   const signOut = async () => {
     await dispatch(AuthAction.AuthLogout())

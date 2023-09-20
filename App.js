@@ -14,18 +14,7 @@ moduleAlias.addAliases({
   '@service': `${__dirname}/server/service`,
   '@uploads': `${__dirname}/uploads`,
 })
-// "_moduleAliases": {
-//   "@server": "./server",
-//   "@controller": "./server/controller",
-//   "@middleware": "./server/middleware",
-//   "@route": "./server/route",
-//   "@model": "./server/model",
-//   "@response": "./server/response",
-//   "@constant": "./server/constant",
-//   "@common": "./server/common",
-//   "@service": "./server/service",
-//   "@uploads": "./uploads"
-// },
+
 const express = require('express')
 
 const app = express()

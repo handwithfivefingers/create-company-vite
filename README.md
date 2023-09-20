@@ -113,11 +113,14 @@ uploads
                 file docx dành riêng cho cp
 
 ```
-### Note 
+
+### Note
+
 ```
 Get Data from MST
 
 ```
+
 ### PM2
 
 ```
@@ -148,32 +151,37 @@ pm2 delete ecosystem.config.js
 
 ```
 https://github.com/hienvd/clean-code-javascript
-
-// 8502505778 - Nguyễn Thị Khánh Chung
-
-
+<!-- Test API Crawler -->
+Input: 8502505778
+Result: Nguyễn Thị Khánh Chung
 ```
 
 update Dev branch
 
-
-###     "mammoth": "^1.4.21",
-
-
+### "mammoth": "^1.4.21",
 
 ### Docker Config
 
 ## Create Volume
+
 ```
 docker volume create [Volume Name]
 ```
 
 ## Build Image
+
 ```
 docker build -t [Image Name] Dockerfile .
 ```
 
 ## Start Container With Image
+
 ```
 docker run -it --name [Container Name] -p 3001:3001 [Image Name]
+```
+
+## Access Container Terminal
+
+```
+docker-compose run [Container Name] sh
 ```

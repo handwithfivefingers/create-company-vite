@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { UserRouter } from '../../../constant/Route'
 import styles from './styles.module.scss'
+import { useMemo } from 'react'
 
 const { Sider } = Layout
 
@@ -45,6 +46,31 @@ const UserSidebar = (props) => {
     await dispatch(AuthAction.AuthLogout())
     navigate('/')
   }
+
+  const openHomePage = () => {
+    window.open('https://thanhlapcongtyonline.vn/', '_blank')
+  }
+  const handleMenuItemClick = ({ key }) => {
+    if (key === '/logout') return signOut()
+    if (key === '/') return openHomePage()
+    else navigate(key)
+  }
+
+  const menuItems = useMemo(() => {
+    return [
+      {
+        key: '/',
+        label: 'Trang chủ',
+        icon: <PieChartOutlined />,
+      },
+      ...UserRouter.map((item) => ({ ...item, label: item.title, key: item.path })),
+      {
+        key: '/logout',
+        icon: <DesktopOutlined />,
+        label: 'Đăng xuất',
+      },
+    ]
+  }, [])
   return (
     <>
       <Sider
@@ -58,21 +84,14 @@ const UserSidebar = (props) => {
         className={clsx([styles.sidebar, 'box__shadow'])}
       >
         <div className="logo" style={{ height: 64 }} />
-        <Menu theme="light" mode="inline" defaultSelectedKeys={[current]} selectedKeys={[current]}>
-          <Menu.Item
-            key={'/'}
-            icon={<PieChartOutlined />}
-            onClick={() => window.open('https://thanhlapcongtyonline.vn/', '_blank')}
-          >
-            <a>Trang chủ</a>
-          </Menu.Item>
-
-          {renderSidebar(UserRouter)}
-
-          <Menu.Item key="/logout" onClick={() => signOut()} icon={<DesktopOutlined />}>
-            <a>Đăng xuất</a>
-          </Menu.Item>
-        </Menu>
+        <Menu
+          theme="light"
+          mode="inline"
+          defaultSelectedKeys={[current]}
+          selectedKeys={[current]}
+          items={menuItems}
+          onClick={handleMenuItemClick}
+        />
       </Sider>
     </>
   )

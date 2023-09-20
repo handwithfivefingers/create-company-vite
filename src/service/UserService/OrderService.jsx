@@ -1,20 +1,18 @@
 import axios from '../../config/axios'
 
 const api_path = {
-  getOrder: '/order',
+  order: '/order',
   payment: '/payment',
   career: '/career',
+  transaction: '/order/payment',
 }
 
 const OrderService = {
-  getOrders: () => {
-    return axios.get(api_path.getOrder)
-  },
-  Payment: (params) => {
-    return axios.post(api_path.payment, params)
-  },
-  getOrderById: (id) => axios.get(api_path.getOrder + '/' + id),
-  deleteOrder: (id) => axios.delete(api_path.getOrder + '/' + id),
+  getOrders: () => axios.get(api_path.order),
+  Payment: (params) => axios.post(api_path.payment, params),
+  getOrderById: (id) => axios.get(api_path.order + '/' + id),
+  deleteOrder: (id) => axios.delete(api_path.order + '/' + id),
+  createTransaction: (params) => axios.post(api_path.transaction, params),
 }
 
 export default OrderService

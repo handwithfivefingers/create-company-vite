@@ -33,7 +33,7 @@ export default defineConfig(({ command, mode }) => {
     //   jsxInject: ``,
     // },
     build: {
-      outDir: 'dist-build',
+      outDir: 'dist',
       minify: 'esbuild',
       sourcemap: false,
       treeshake: true,

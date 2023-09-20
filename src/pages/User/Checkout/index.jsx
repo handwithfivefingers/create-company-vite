@@ -1,11 +1,11 @@
-import OrderService from '@/service/UserService/OrderService'
-import { Card, Col, Divider, List, Row, Descriptions, Form, Button, Radio, Space } from 'antd'
-import React, { useEffect, useState } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
-import styles from './styles.module.scss'
-import { CHANGE_INFO_FORM, CREATE_COMPANY_FORM, DISSOLUTION_FORM, PENDING_FORM } from '../../../constant/FormConstant'
 import CCInput from '@/components/CCInput'
 import { number_format } from '@/helper/Common'
+import OrderService from '@/service/UserService/OrderService'
+import { Button, Card, Col, Descriptions, Form, List, Radio, Row, Space, message } from 'antd'
+import React, { useEffect, useState } from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
+import { CHANGE_INFO_FORM, CREATE_COMPANY_FORM, DISSOLUTION_FORM, PENDING_FORM } from '../../../constant/FormConstant'
+import styles from './styles.module.scss'
 
 const Checkout = () => {
   const { slug } = useParams()
@@ -26,6 +26,7 @@ const Checkout = () => {
       setData(resp.data.data)
     } catch (error) {
       console.log('error', error)
+      navigate('/404')
     }
   }
 
@@ -38,11 +39,9 @@ const Checkout = () => {
     }
     return <div>{result}</div>
   }
-
-  console.log('data', data)
   const getListInfo = (data) => {
     if (data) {
-      if (data?.create_company) return Object.keys(data?.change_info).map((key) => CREATE_COMPANY_FORM[key]?.title)
+      if (data?.create_company) return Object.keys(data?.create_company).map((key) => CREATE_COMPANY_FORM[key]?.title)
       else if (data?.change_info) return Object.keys(data?.change_info).map((key) => CHANGE_INFO_FORM[key]?.title)
       else if (data?.dissolution) return Object.keys(data?.dissolution).map((key) => DISSOLUTION_FORM[key]?.title)
       else if (data?.pending) return Object.keys(data?.pending).map((key) => PENDING_FORM[key]?.title)
@@ -50,14 +49,29 @@ const Checkout = () => {
     return []
   }
 
-  const handleFinish = (value) => {
-    console.log(value)
+  const handleFinish = async ({ name, address, phone, paymentType }) => {
+    try {
+      const params = { name, address, phone: `+84${phone}`, paymentType, orderId: slug }
+      const resp = await OrderService.createTransaction(params)
+      if (resp.status === 200) {
+        message.success('Tạo đơn hàng thành công')
+      }
+    } catch (error) {
+      console.log('error', error)
+      message.error('Tạo đơn hàng thất bại')
+    }
   }
 
   return (
     <div className={styles.mainContent}>
       <div className="cc-scroll">
-        <Form form={form} name="delivery_information" layout="vertical" onFinish={handleFinish}>
+        <Form
+          form={form}
+          name="delivery_information"
+          layout="vertical"
+          onFinish={handleFinish}
+          onFinishFailed={(error) => console.log('error', error)}
+        >
           <Row gutter={[0, 12]}>
             <Col span={16}>
               <Row gutter={[12, 12]}>
@@ -66,13 +80,20 @@ const Checkout = () => {
                     <Form.Item label="Thông tin người nhận hồ sơ">
                       <CCInput name="name" label="Họ và tên" />
                       <CCInput name="address" label="Địa chỉ" />
-                      <CCInput name="phone" label="Số điện thoại" />
+                      <CCInput
+                        type="number"
+                        name="phone"
+                        label="Số điện thoại"
+                        maxLength={10}
+                        addonBefore={<span style={{ fontSize: 16 }}>+84</span>}
+                        style={{ width: '100%' }}
+                      />
                     </Form.Item>
                   </Card>
                 </Col>
                 <Col span={24}>
                   <Card className={'box__shadow'}>
-                    <Form.Item label="Hình thức thanh toán" name="payment_type">
+                    <Form.Item label="Hình thức thanh toán" name="paymentType">
                       <Radio.Group>
                         <Space direction="vertical">
                           <Radio value={1}>Chuyển khoản</Radio>
