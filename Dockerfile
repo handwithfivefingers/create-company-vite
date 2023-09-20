@@ -1,3 +1,4 @@
+# Build Stage
 FROM node:18 as BASE
 
 WORKDIR /app
@@ -10,24 +11,11 @@ COPY . ./
 
 RUN npm run build
 
+# Run Stage
 FROM bcgovimages/alpine-node-libreoffice
 
 COPY --from=BASE /app/ .
-# WORKDIR /app
 
-# COPY package.json ./
-
-# # COPY .env ./
-
-# RUN npm install 
-
-# # For Deployment
-
-# COPY . .
-
-# RUN yarn add module-alias --ignore-engines
-
-# RUN npm run build
-
+EXPOSE 3001
 
 CMD ["npm", "start"]

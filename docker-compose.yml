@@ -1,10 +1,15 @@
 version: '3'
 services:
-    cc-service:
-        build: .
-        ports: 
-          - 0.0.0.0:3001:3001
-        volumes:
-          - .:/app
-        env_file:
-          - .env
+  cc-service:
+    build: .
+    ports:
+      - 3001:3001
+    volumes:
+      - .:/app
+    env_file:
+      - .env
+    networks:
+      - app_network
+networks:
+  app_network:
+    driver: bridge
