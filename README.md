@@ -183,5 +183,5 @@ docker run -it --name [Container Name] -p 3001:3001 [Image Name]
 ## Access Container Terminal
 
 ```
-docker-compose run [Container Name] sh
+docker-compose run [Service Name] sh
 ```

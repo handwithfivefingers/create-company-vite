@@ -8,11 +8,12 @@ COPY .env ./
 
 RUN npm install ci
 
+# For Deployment
+RUN npm install module-alias 
+
 COPY . .
 
 RUN npm run build
 
-# For Deployment
-RUN npm install module-alias 
 
 CMD ["npm", "start"]
