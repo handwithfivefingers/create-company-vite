@@ -1,7 +1,7 @@
 README.md
 # node_modules/
 .git
-.env
+# .env
 package-lock.*
 docs
 !index.html
