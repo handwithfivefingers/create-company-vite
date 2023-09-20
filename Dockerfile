@@ -3,9 +3,9 @@ FROM node:18 as BASE
 
 WORKDIR /app
 
-COPY package.json ./
-
 COPY .env ./
+
+COPY package.json ./
 
 RUN npm install 
 
@@ -18,7 +18,7 @@ FROM bcgovimages/alpine-node-libreoffice
 
 COPY --from=BASE /app/ .
 
-COPY .env ./
+COPY --from=BASE /app/.env .
 
 EXPOSE 3000
 
