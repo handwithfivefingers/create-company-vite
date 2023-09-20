@@ -1,19 +1,33 @@
-# docker pull bcgovimages/alpine-node-libreoffice
-FROM bcgovimages/alpine-node-libreoffice
+FROM node:18 as BASE
+
 WORKDIR /app
 
 COPY package.json ./
 
-COPY .env ./
+RUN npm install 
 
-RUN npm install ci
-
-# For Deployment
-RUN npm install module-alias 
-
-COPY . .
+COPY . ./
 
 RUN npm run build
+
+FROM bcgovimages/alpine-node-libreoffice
+
+COPY --from=BASE /app/ .
+# WORKDIR /app
+
+# COPY package.json ./
+
+# # COPY .env ./
+
+# RUN npm install 
+
+# # For Deployment
+
+# COPY . .
+
+# RUN yarn add module-alias --ignore-engines
+
+# RUN npm run build
 
 
 CMD ["npm", "start"]

@@ -3,8 +3,8 @@ services:
     cc-service:
         build: .
         ports: 
-          - 3001:3001
+          - 0.0.0.0:3001:3001
         volumes:
           - .:/app
-        extra_hosts:
-          - "host.docker.internal:host-gateway"
+        env_file:
+          - .env
