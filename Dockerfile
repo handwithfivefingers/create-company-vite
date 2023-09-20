@@ -16,6 +16,6 @@ FROM bcgovimages/alpine-node-libreoffice
 
 COPY --from=BASE /app/ .
 
-EXPOSE 3001
+EXPOSE 3000
 
 CMD ["npm", "start"]
