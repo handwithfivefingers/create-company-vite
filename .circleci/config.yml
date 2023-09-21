@@ -1,34 +1,44 @@
 version: 2.1
 orbs:
-  node: circleci/node@3.0.0
-jobs:
-  build:
-    docker:
-      # specify the version you desire here
-      # documented at https://circleci.com/docs/2.0/circleci-images/
-      # sử dụng môi trường chạy nodejs thông quan docker
-      - image: circleci/node:18
-    working_directory: ~/create-company-vite
+  node: circleci/node@5.0.2
+  heroku: circleci/heroku@1.2.6
 
+jobs:
+  build_and_test:
+    executor: node/default
     steps:
       - checkout
-      # khôi phục lại folder chứa package (v1-dependencies) dựa vào file (package-lock.json)
-      - run: echo "BUILD TESTING"
-  deploy:
-    machine:
+      - node/install-packages:
+          pkg-manager: yarn
+      - run:
+          command: yarn test
+          name: Run tests
+      - run:
+          command: yarn build
+          name: Build app
+      - persist_to_workspace:
+          root: ~/create-company-vite
+          paths:
+            - .
+
+  deploy: # this can be any name you choose
+    machine: 
       enabled: true
     steps:
       - add_ssh_keys:
           fingerprints:
-            - 'a9:b8:dc:df:d6:32:fe:9c:11:66:5a:54:fc:4e:b3:ab'
+            - "a9:b8:dc:df:d6:32:fe:9c:11:66:5a:54:fc:4e:b3:ab"
       - run:
-        name: Pull Code and Start Service
-        command: ssh -oStrictHostKeyChecing=no root@103.57.221.122 -p 24700 "cd /var/www/html/create-company-vite; git pull; docker-compose build; docker-compose up -d"
+          name: pull code and start api_services
+          command: ssh -oStrictHostKeyChecking=no root@103.57.221.122 -p 24700 "cd /var/www/html/create-company-vite; git pull; docker-compose build; docker-compose up -d"
+
 workflows:
-  cc-flows:
+  test_my_app:
     jobs:
+      - build_and_test
       - deploy:
+          requires:
+            - build_and_test # only deploy if the build_and_test job has completed
           filters:
             branches:
-              only:
-                - main
+              only: main # only deploy when on main
