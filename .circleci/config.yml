@@ -2,6 +2,18 @@ version: 2.1
 orbs:
   node: circleci/node@3.0.0
 jobs:
+  build:
+    docker:
+      # specify the version you desire here
+      # documented at https://circleci.com/docs/2.0/circleci-images/
+      # sử dụng môi trường chạy nodejs thông quan docker
+      - image: circleci/node:18
+    working_directory: ~/create-company-vite
+
+    steps:
+      - checkout
+      # khôi phục lại folder chứa package (v1-dependencies) dựa vào file (package-lock.json)
+      - run: echo "BUILD TESTING"
   deploy:
     machine:
       enabled: true
