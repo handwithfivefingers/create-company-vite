@@ -48,7 +48,7 @@ const blocked_domains = [
 ]
 
 module.exports = class PuppeteerService {
-  startBrowser = async (req, res) => {
+  startBrowser = async (req) => {
     let browser
     let page
     try {
@@ -58,18 +58,26 @@ module.exports = class PuppeteerService {
         executablePath: '/usr/bin/chromium-browser',
       })
       page = await browser.newPage()
+      console.log(req.headers)
+      const headersClone = JSON.parse(JSON.stringify(req.headers))
+      delete headersClone['host']
+      delete headersClone['connection']
+      delete headersClone['access-control-allow-origin']
+      delete headersClone['cookie']
+      delete headersClone['referer']
+      delete headersClone['origin']
+
       await page.setExtraHTTPHeaders({
-        'user-agent':
-          'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36',
-        'upgrade-insecure-requests': '1',
-        accept: 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8',
-        'accept-encoding': 'gzip, deflate, br',
-        'accept-language': 'en-US,en;q=0.9,en;q=0.8',
+        // ...headersClone,
+        'user-agent': headersClone['user-agent'],
+        accept: headersClone['accept'] || 'application/json',
+        'accept-encoding': headersClone['accept-encoding'] || 'gzip, deflate, br',
+        'accept-language': headersClone['accept-language'] || 'en,vi-VN;q=0.9,vi;q=0.8,en-US;q=0.7,ja;q=0.6',
       })
 
       await this.blockUnnessesaryRequest(page)
 
-      console.log('Already blocked domain')
+      // console.log('Already blocked domain')
 
       await page.goto('https://masothue.com/')
 
@@ -99,7 +107,7 @@ module.exports = class PuppeteerService {
   search = async (req, res) => {
     let browser
     try {
-      const { page, browser: brows, status: isBrowserReady } = await this.startBrowser()
+      const { page, browser: brows, status: isBrowserReady } = await this.startBrowser(req)
 
       browser = brows
 
@@ -113,7 +121,7 @@ module.exports = class PuppeteerService {
 
       if (!query) throw { message: 'Invalid query string' }
 
-      // console.log('waiting for Query')
+      console.log('waiting for Query')
 
       const listQuery = [
         '#main section .container table.table-taxinfo thead span',
@@ -162,7 +170,7 @@ module.exports = class PuppeteerService {
 
       // console.log('begin search item')
 
-      const text = await page.evaluate((v) => {
+      const data = await page.evaluate((v) => {
         let html = []
         for (let i = 0; i < v.length; i++) {
           let itemQuery = v[i]
@@ -175,21 +183,13 @@ module.exports = class PuppeteerService {
         return html
       }, listQuery)
 
-      // return res.status(200).json({
-      //   message: 'done',
-      //   data: text,
-      // })
       return {
         message: 'Search company success',
-        data: text,
+        data,
       }
     } catch (error) {
       console.log('search error: ' + JSON.stringify(error, null, 2))
-
-      // return res.status(400).json({
-      //   error,
-      // })
-      return {
+      throw {
         message: 'Search company Error',
         data: error,
       }
