@@ -1,33 +1,28 @@
 version: 2.1
 orbs:
   node: circleci/node@5.0.2
-  heroku: circleci/heroku@1.2.6
-
 jobs:
   build_and_test:
     executor: node/default
     steps:
       - checkout
+      - run: sudo npm install -g npm@latest
       - node/install-packages:
-          pkg-manager: npm
-      - run:
-          command: npm run test
-          name: Run tests
-      - run:
-          command: npm run build
-          name: Build app
+          cache-path: ~/create-company-vite/node_modules
+          override-ci-command: npm install
+      - run: npm run test
       - persist_to_workspace:
           root: ~/create-company-vite
           paths:
             - .
 
   deploy: # this can be any name you choose
-    machine: 
+    machine:
       enabled: true
     steps:
       - add_ssh_keys:
           fingerprints:
-            - "a9:b8:dc:df:d6:32:fe:9c:11:66:5a:54:fc:4e:b3:ab"
+            - 'a9:b8:dc:df:d6:32:fe:9c:11:66:5a:54:fc:4e:b3:ab'
       - run:
           name: pull code and start api_services
           command: ssh -oStrictHostKeyChecking=no root@103.57.221.122 -p 24700 "cd /var/www/html/create-company-vite; git pull; docker-compose build; docker-compose up -d"
