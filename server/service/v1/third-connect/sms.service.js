@@ -1,13 +1,17 @@
 const axios = require('axios')
 const http = require('http')
 const https = require('https')
+const LogService = require('../user/log.service')
 module.exports = class SMSService {
   constructor() {
     this.speedSMSToken = 'av6HwCEfUmaLNEGaZxdbZ_XLgyFagIL7'
+    this.BASE_URL = 'https://api.speedsms.vn'
+    this.BASE_PATH = '/index.php/sms/send'
   }
 
   sendSMS = function ({ phones, content, type, sender }) {
-    var url = 'api.speedsms.vn'
+    const url = 'api.speedsms.vn'
+    let response
     var params = JSON.stringify({
       to: phones,
       content: content,
@@ -43,7 +47,7 @@ module.exports = class SMSService {
         }
       })
     })
-
+    // new LogService().createLogs({ url: 'Send SMS', ip: 'Send SMS', request:  req, response: })
     req.on('error', function (e) {
       console.log('send sms failed: ' + e)
     })
@@ -51,43 +55,16 @@ module.exports = class SMSService {
     req.write(params)
     req.end()
   }
-  // sendSMS = async ({ phone, content, type, sender }) => {
-  //   try {
-  //     let url = 'https://api.speedsms.vn' + '/index.php/sms/send'
-  //     let buf = new Buffer.from(this.speedSMSToken + ':x')
-  //     let auth = 'Basic ' + buf.toString('base64')
 
-  //     console.log(auth)
-  //     const result = ''
-  //     // const result = await axios({
-  //     //   method: 'post',
-  //     //   url,
-  //     //   data: JSON.stringify({
-  //     //     phone,
-  //     //     content,
-  //     //     type,
-  //     //     sender,
-  //     //   }),
-  //     //   headers: {
-  //     //     'Content-Type': 'application/json',
-  //     //     Authorization: auth,
-  //     //   },
-  //     // })
-
-  //     // const result = await axios.post(
-  //     //   url,
-  //     //   { phone, content, type, sender },
-  //     //   {
-  //     //     headers: {
-  //     //       'Content-Type': 'application/json',
-  //     //       Authorization: auth,
-  //     //     },
-  //     //   },
-  //     // )
-  //     return result
-  //   } catch (error) {
-  //     console.log('sendSMS error', error)
-  //     throw error
-  //   }
-  // }
+  sms = async ({ to, content, sms_type, sender }) => {
+    try {
+      const params = {
+        to,
+        content,
+        sms_type,
+        sender,
+      }
+      const resp = await axios.post()
+    } catch (error) {}
+  }
 }

@@ -1,0 +1,41 @@
+version: 2.1
+orbs:
+  node: circleci/node@3.0.0
+jobs:
+  # build:
+  #   docker:
+  #     # specify the version you desire here
+  #     # documented at https://circleci.com/docs/2.0/circleci-images/
+  #     # sử dụng môi trường chạy nodejs thông quan docker
+  #     - image: circleci/node:18
+
+  #   working_directory: ~/create-company-vite
+
+  #   steps:
+  #     - checkout
+  #     # khôi phục lại folder chứa package (v1-dependencies) dựa vào file (package-lock.json)
+  #     - restore_cache:
+  #         keys:
+  #           - v1-dependencies-
+  #           # fallback to using the latest cache if no exact match is found
+  #           - v1-dependencies-
+  #     - run: docker-compose build
+  deploy:
+    machine:
+      enabled: true
+    steps:
+      - add_ssh_keys:
+          fingerprints: 
+            - "a9:b8:dc:df:d6:32:fe:9c:11:66:5a:54:fc:4e:b3:ab"
+      - run:
+        name: Pull Code and Start Service
+        command: ssh -oStrictHostKeyChecing=no root@103.57.221.122 -p 24700 "cd /var/www/html/create-company-vite; git pull; docker-compose build; docker-compose up -d"
+workflows:
+  cc-flows:
+    jobs:
+      - deploy:
+          filters:
+            branches:
+              only:
+                - main
+
