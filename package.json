@@ -8,7 +8,8 @@
     "dev-f": "vite --host",
     "dev-s": "nodemon --trace-deprecation App.js",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test":"node test.js"
   },
   "dependencies": {
     "@pdftron/webviewer": "^8.3.0",
