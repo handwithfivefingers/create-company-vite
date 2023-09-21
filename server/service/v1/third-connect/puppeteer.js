@@ -52,7 +52,11 @@ module.exports = class PuppeteerService {
     let browser
     let page
     try {
-      browser = await puppeteer.launch({ headless: true, args: minimal_args })
+      browser = await puppeteer.launch({
+        headless: true,
+        args: minimal_args,
+        executablePath: '/usr/bin/chromium-browser',
+      })
       page = await browser.newPage()
       await page.setExtraHTTPHeaders({
         'user-agent':

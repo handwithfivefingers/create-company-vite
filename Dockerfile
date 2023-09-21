@@ -22,4 +22,11 @@ COPY --from=BASE /app/.env .
 
 EXPOSE 3000
 
+# MUST  Install Chromium Core
+RUN apk add --no-cache \
+      udev \
+      ttf-freefont \
+      chromium
+
+
 CMD ["npm", "start"]
