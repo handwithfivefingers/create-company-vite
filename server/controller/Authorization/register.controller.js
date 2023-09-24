@@ -1,4 +1,4 @@
-const { RegisterService } = require('@service')
+const RegisterService = require('@service/authorization/register.service')
 
 module.exports = class RegisterController {
   constructor() {}
@@ -11,6 +11,7 @@ module.exports = class RegisterController {
         message,
       })
     } catch (error) {
+      console.log('error', error)
       return res.status(400).json({
         ...error,
       })

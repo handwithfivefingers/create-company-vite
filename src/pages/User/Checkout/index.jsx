@@ -11,7 +11,7 @@ import styles from './styles.module.scss'
 const Checkout = () => {
   const { slug } = useParams()
   const navigate = useNavigate()
-
+  const [loading, setLoading] = useState(false)
   if (!slug) navigate('/404')
 
   const [data, setData] = useState()
@@ -23,11 +23,14 @@ const Checkout = () => {
 
   const getScreenData = async (id) => {
     try {
+      setLoading(true)
       const resp = await OrderService.getOrderById(id)
       setData(resp.data.data)
     } catch (error) {
       console.log('error', error)
       navigate('/404')
+    } finally {
+      setLoading(true)
     }
   }
 
@@ -37,8 +40,16 @@ const Checkout = () => {
       result = 'Thay đổi thông tin'
     } else if (data?.create_company) {
       result = 'Thành lập công ty'
+    } else if (data?.pending) {
+      result = 'Tạm ngưng'
+    } else if (data?.dissolution) {
+      result = 'Giải thể'
     }
-    return <div>{result}</div>
+    return (
+      <div>
+        <b>{result}</b>
+      </div>
+    )
   }
   const getListInfo = (data) => {
     if (data) {
@@ -52,14 +63,17 @@ const Checkout = () => {
 
   const handleFinish = async ({ name, address, phone, paymentType }) => {
     try {
+      setLoading(true)
       const params = { name, address, phone: `+84${phone}`, paymentType, orderId: slug }
       const resp = await OrderService.createTransaction(params)
       if (resp.status === 200) {
-        message.success('Tạo đơn hàng thành công')
+        message.success('Tạo hóa đơn thành công')
       }
     } catch (error) {
       console.log('error', error)
       message.error('Tạo đơn hàng thất bại')
+    } finally {
+      setLoading(false)
     }
   }
   const getContent = () => {
@@ -191,8 +205,8 @@ const Checkout = () => {
                   </Card>
                 </Col>
                 <Col span={24} className="d-flex justify-content-end">
-                  <Button type="primary" htmlType="submit">
-                    Thanh toán{' '}
+                  <Button type="primary" htmlType="submit" loading={loading}>
+                    Thanh toán
                   </Button>
                 </Col>
               </Row>

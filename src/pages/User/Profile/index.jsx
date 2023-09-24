@@ -129,8 +129,23 @@
 
 // export default UserProfile
 
+import { Card, Grid, Row, Col } from 'antd'
+import { useNavigate, useOutletContext } from 'react-router-dom'
+const { useBreakpoint } = Grid
 const UserProfile = () => {
-  return 'User Profile'
+  const { animateClass } = useOutletContext()
+  const navigate = useNavigate()
+  const screen = useBreakpoint()
+  return (
+    <Row className={animateClass ?? animateClass} gutter={[8, 8]}>
+      <Col lg={8} sm={24} xs={24} md={12} order={!screen.md ? 1 : 0}>
+        <Card title="" className={'box__shadow '} style={{ height: '100%' }}></Card>
+      </Col>
+      <Col lg={16} sm={24} xs={24} md={12} className={screen.md ? 'p-l-8' : ''}>
+        <Card title="" className={'box__shadow '} style={{ height: '100%' }}></Card>
+      </Col>
+    </Row>
+  )
 }
 
 export default UserProfile

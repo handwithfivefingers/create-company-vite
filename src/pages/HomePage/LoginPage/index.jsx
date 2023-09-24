@@ -122,21 +122,24 @@ export default function LoginPage() {
   const onFinish = async (value) => {
     try {
       setLoading(true)
-
       if (step === 2) {
         onRegisterAndRemoveOldAccount(value)
       } else if (step === 1) {
         const { status: userExist, message: msg } = await isUserExist(value)
-        if (userExist) {
-          if (msg) {
-            message.error(msg)
-          } else
-            setModal({
-              open: true,
-              component: <AlertNotify onRegister={onRegisterWithSMS} onLogin={onLogin} loading={loading} />,
-            })
-        } else {
-          await onHandleRegister()
+        if (!userExist) {
+          const result = await sendOTP()
+          message.success(result.data.message)
+          let newParams = {
+            verifyOTP: 1,
+          }
+          return setParams(newParams)
+        }
+        if (msg) message.error(msg)
+        else {
+          setModal({
+            open: true,
+            component: <AlertNotify onRegister={onRegisterWithSMS} onLogin={onLogin} loading={loading} />,
+          })
         }
       }
     } catch (error) {

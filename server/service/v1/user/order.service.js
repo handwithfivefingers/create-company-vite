@@ -76,6 +76,7 @@ module.exports = class OrderService {
       return {
         _id: dataSaved._id,
         orderOwner: dataSaved.orderOwner,
+        message: 'Tạo đơn hàng thành công'
       }
     } catch (err) {
       console.log('createOrders error', err)

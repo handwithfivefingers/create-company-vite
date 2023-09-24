@@ -13,7 +13,7 @@ module.exports = class LoginService {
   getUserOTPForLogin = async (req, res) => {
     let logs = {
       url: '/v1/login-otp',
-      ip: req.originalURL,
+      ip: req.originalUrl,
       request: {},
       response: {},
     }
@@ -34,12 +34,9 @@ module.exports = class LoginService {
 
       if (_otp) {
         const createdDate = _otp._doc.createdAt
-        // moment()
         const currentTime = new Date().getTime()
         const createDate = new Date(createdDate).getTime()
-
         if ((currentTime - createDate) / 1000 < 60) throw { message: 'OTP đã được gửi, vui lòng thử lại sau' }
-
         await _otp.remove()
       }
 
@@ -140,11 +137,7 @@ module.exports = class LoginService {
       const { phone, email, type } = req.body
 
       let _user
-      // _user = await User.find({ email, delete_flag: 0 })
 
-      // if (_user.length && _user.some((user) => user.phone !== phone)) {
-      //   throw { message: 'Email đã có người đăng kí với số điện thoại khác, vui lòng thử lại email khác', status: true }
-      // }
 
       if (+type === 1) {
         _user = await User.findOne({ phone, email })

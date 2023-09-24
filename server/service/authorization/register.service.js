@@ -4,6 +4,7 @@ const bcrypt = require('bcryptjs')
 const SMSService = require('../v1/third-connect/sms.service')
 const { generateOTP, generateToken } = require('../../common/helper')
 const MailService = require('@service/v1/user/mail.service')
+const LogService = require('../v1/user/log.service')
 
 const OTP_TYPE = {
   1: 'SMS',
@@ -11,6 +12,13 @@ const OTP_TYPE = {
 }
 module.exports = class RegiserService {
   getUserOTPForRegister = async (req, res) => {
+    let logs = {
+      url: '/v1/register-otp',
+      ip: req.originalUrl,
+      request: {},
+      response: {},
+    }
+
     try {
       const { email, phone, type } = req.body
 
@@ -25,7 +33,13 @@ module.exports = class RegiserService {
 
       _otp = await OTP.findOne({ phone, type, delete_flag: 0 })
 
-      if (_otp) throw { message: msg.otpError }
+      if (_otp) {
+        const createdDate = _otp._doc.createdAt
+        const currentTime = new Date().getTime()
+        const createDate = new Date(createdDate).getTime()
+        if ((currentTime - createDate) / 1000 < 60) throw { message: msg.otpError }
+        await _otp.remove()
+      }
 
       let past3Min = new Date(new Date().getTime() - 180 * 1000)
 
@@ -42,16 +56,13 @@ module.exports = class RegiserService {
       await otpObj.save()
 
       if (type === OTP_TYPE[1]) {
-        const TYPE_SENDER = 3
-        const SENDER = 'SPEEDSMS'
-
-        await new SMSService().sendSMS({
-          phones: [phone],
-          content: `Ma xac thuc SPEEDSMS cua ban la ${otpObj.otp}`,
-          type: TYPE_SENDER,
-          sender: SENDER,
-        })
-
+        const params = {
+          phone,
+          code: otpObj.otp,
+        }
+        const resp = await new SMSService().sendESMS(params)
+        logs.request = params
+        logs.response = resp
         message = 'OTP đã được gửi qua tài khoản Số điện thoại của bạn !'
       } else if (type === OTP_TYPE[2]) {
         let mailTemplate = {
@@ -60,11 +71,15 @@ module.exports = class RegiserService {
         }
 
         let mailParams = {
-          email: email,
+          to: email,
           ...mailTemplate,
         }
 
-        await new MailService().sendMail(mailParams)
+        const resp = await new MailService().sendMail(mailParams)
+
+        logs.request = mailParams
+        logs.response = resp
+        console.log('resp',resp)
 
         message = 'OTP đã được gửi qua tài khoản email của bạn !'
       }
@@ -73,13 +88,14 @@ module.exports = class RegiserService {
     } catch (error) {
       console.log('getUserOTPForLogin error', error)
       throw error
+    } finally {
+      await new LogService().createLogs(logs)
     }
   }
 
   registerUser = async (req, res) => {
     try {
       const { phone, email, otp, deleteOldUser } = req.body
-      // console.log('register', req.body)
       let _OTP
       if (otp) {
         _OTP = await OTP.findOne({ phone, email, otp, delete_flag: 0 })

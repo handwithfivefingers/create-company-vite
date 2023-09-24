@@ -85,7 +85,7 @@ const UserProductItem = (props) => {
         res = await ProductService.createOrder(params)
       }
 
-      const { data } = resp.data
+      const { data } = res.data
       if (res.status === 200) {
         message.success(data.message)
         return navigate('/user/san-pham')
