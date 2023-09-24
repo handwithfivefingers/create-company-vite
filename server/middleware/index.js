@@ -120,4 +120,5 @@ module.exports = {
   requireSignin,
   TrackingApi,
   validateIPNVnpay,
+  ...require('./limit'),
 }

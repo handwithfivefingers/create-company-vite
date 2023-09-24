@@ -2,13 +2,16 @@ import CCPagination from '@/components/CCPagination'
 import { number_format } from '@/helper/Common'
 import OrderService from '@/service/UserService/OrderService'
 import { FormOutlined, DeleteOutlined } from '@ant-design/icons'
-import { Button, Table, Tag, Tooltip, Popconfirm, message } from 'antd'
+import { Button, Table, Tag, Tooltip, Popconfirm, message, Modal, Spin } from 'antd'
 import clsx from 'clsx'
 import moment from 'moment'
-import { useEffect, useState } from 'react'
+import { Suspense, lazy, useEffect, useState, useRef } from 'react'
 import { useNavigate, useOutletContext } from 'react-router-dom'
 import styles from './styles.module.scss'
 import { PAYMENT_TYPE_CODE } from '@/constant/Payment'
+
+const TransactionModal = lazy(() => import('@/components/Modal/TransactionModal'))
+
 const UserOrder = () => {
   const { animateClass } = useOutletContext()
 
@@ -17,6 +20,8 @@ const UserOrder = () => {
   const [data, setData] = useState([])
 
   const [current, setCurrent] = useState(1)
+
+  const modalRef = useRef()
 
   let navigate = useNavigate()
 
@@ -110,7 +115,11 @@ const UserOrder = () => {
       getScreenData()
     }
   }
-
+  const onTransactionClick = (data) => {
+    console.log('transaction', data)
+    modalRef.current.openModal()
+    modalRef.current.onSetData({ ...data.transactionId, price: data.price })
+  }
   const pagiConfigs = {
     current: current,
     total: data?.count,
@@ -139,6 +148,7 @@ const UserOrder = () => {
           <Table.Column
             align="center"
             title="Mã đơn"
+            fixed="left"
             dataIndex="per_main"
             render={(val, record, i) => {
               return record._id
@@ -146,6 +156,16 @@ const UserOrder = () => {
           />
 
           <Table.Column align="left" title="Dịch vụ" dataIndex="" render={renderService} width={250} />
+
+          <Table.Column
+            align="center"
+            title="Ngày tạo"
+            render={(val, record, i) => {
+              return (
+                <span style={{ display: 'block', width: '80px' }}>{moment(record.createdAt).format('DD/MM/YYYY')}</span>
+              )
+            }}
+          />
 
           <Table.Column
             align="center"
@@ -157,21 +177,34 @@ const UserOrder = () => {
 
           <Table.Column
             align="center"
-            title="Ngày tạo"
+            title="Hóa đơn"
             render={(val, record, i) => {
+              const isHaveTransaction = record?.transactionId?.paymentType
+              if (!isHaveTransaction) return '-'
               return (
-                <span style={{ display: 'block', width: '150px' }}>
-                  {moment(record.createdAt).format('HH:mm DD-MM-YYYY')}
-                </span>
+                <Button
+                  style={{ display: 'block', width: '150px' }}
+                  onClick={() => onTransactionClick(record)}
+                  type="primary"
+                >
+                  {record?.transactionId?.paymentCode || '-'}
+                </Button>
               )
             }}
           />
           <Table.Column
             align="center"
             title="Cổng thanh toán"
+            style={{ width: 150 }}
             dataIndex=""
             render={(val, record, i) => {
-              return (record?.transactionId?.paymentType && PAYMENT_TYPE_CODE[record?.transactionId?.paymentType]) || '-'
+              const isHaveTransaction = record?.transactionId?.paymentType
+              if (!isHaveTransaction) return '-'
+              return (
+                <span style={{ display: 'block', width: '150px' }}>
+                  {PAYMENT_TYPE_CODE[record?.transactionId?.paymentType]}
+                </span>
+              )
             }}
           />
           <Table.Column
@@ -227,6 +260,9 @@ const UserOrder = () => {
             )}
           />
         </Table>
+        <Suspense fallback={<Spin />}>
+          <TransactionModal ref={modalRef} />
+        </Suspense>
       </div>
       <div className={styles.pagination}>
         <CCPagination {...pagiConfigs} />

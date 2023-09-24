@@ -97,8 +97,10 @@ const ChangeInforForm = forwardRef((props, ref) => {
       if (change_info) {
         let { legal_representative, transfer_contract, base_inform, update_info, ...restInfo } = change_info
 
+        console.log('base_inform', base_inform)
         if (base_inform) {
           base_inform.mst_provide = moment(base_inform?.mst_provide, 'YYYY-MM-DD')
+          base_inform.mst_place_provide = { ...base_inform.mst_place_provide }
         }
 
         let shallowLegalInformation = getLegalInformationProps(legal_representative)

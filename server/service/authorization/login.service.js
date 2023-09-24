@@ -3,6 +3,7 @@ const { OTP, User } = require('@model')
 const SMSService = require('@service/v1/third-connect/sms.service')
 const MailService = require('@service/v1/user/mail.service')
 const bcrypt = require('bcryptjs')
+const LogService = require('../v1/user/log.service')
 
 const OTP_TYPE = {
   1: 'SMS',
@@ -10,6 +11,12 @@ const OTP_TYPE = {
 }
 module.exports = class LoginService {
   getUserOTPForLogin = async (req, res) => {
+    let logs = {
+      url: '/v1/login-otp',
+      ip: req.originalURL,
+      request: {},
+      response: {},
+    }
     try {
       const { email, phone, type } = req.body
 
@@ -25,7 +32,16 @@ module.exports = class LoginService {
 
       if (!_user) throw { message: 'Số điện thoại hoặc email không chính xác' }
 
-      if (_otp) throw { message: 'OTP đã được gửi, vui lòng thử lại sau' }
+      if (_otp) {
+        const createdDate = _otp._doc.createdAt
+        // moment()
+        const currentTime = new Date().getTime()
+        const createDate = new Date(createdDate).getTime()
+
+        if ((currentTime - createDate) / 1000 < 60) throw { message: 'OTP đã được gửi, vui lòng thử lại sau' }
+
+        await _otp.remove()
+      }
 
       let past3Min = new Date(new Date().getTime() - 180 * 1000)
 
@@ -42,16 +58,13 @@ module.exports = class LoginService {
       await otpObj.save()
 
       if (type === OTP_TYPE[1]) {
-        const TYPE_SENDER = 3
-        const SENDER = 'SPEEDSMS'
-
-        await new SMSService().sendSMS({
-          phones: [phone],
-          content: `Ma xac thuc SPEEDSMS cua ban la ${otpObj.otp}`,
-          type: TYPE_SENDER,
-          sender: SENDER,
-        })
-
+        const params = {
+          phone,
+          code: otpObj.otp,
+        }
+        const resp = await new SMSService().sendESMS(params)
+        logs.request = params
+        logs.response = resp
         message = 'OTP đã được gửi qua tài khoản Số điện thoại của bạn !'
       } else if (type === OTP_TYPE[2]) {
         let mailTemplate = {
@@ -64,15 +77,21 @@ module.exports = class LoginService {
           ...mailTemplate,
         }
 
-        await new MailService().sendMail(mailParams)
+        const resp = await new MailService().sendMail(mailParams)
+
+        logs.request = mailParams
+        logs.response = resp
 
         message = 'OTP đã được gửi qua tài khoản email của bạn !'
       }
 
       return { message }
     } catch (error) {
+      logs.response = error
       console.log('getUserOTPForLogin error', error)
       throw error
+    } finally {
+      await new LogService().createLogs(logs)
     }
   }
 
@@ -87,7 +106,7 @@ module.exports = class LoginService {
         _user = await User.findOne({ phone, delete_flag: 0 })
       }
 
-      if (!_otp) throw { message: 'OTP đã hết hạn' }
+      if (!_otp) throw { message: 'OTP không chính xác hoặc đã hết hạn' }
 
       if (!_user) throw { message: 'Tài khoản không đúng' }
 

@@ -34,6 +34,7 @@
     "html-react-parser": "^1.4.5",
     "lodash-es": "^4.17.21",
     "moment": "^2.29.1",
+    "nodemon": "^2.0.15",
     "rc-virtual-list": "^3.4.8",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -43,8 +44,7 @@
     "redux": "^4.2.0",
     "redux-thunk": "^2.4.1",
     "sass": "^1.45.1",
-    "vn-num2words": "^1.0.4",
-    "nodemon": "^2.0.15"
+    "vn-num2words": "^1.0.4"
   },
   "devDependencies": {
     "@tanstack/react-query-devtools": "^4.0.10",
@@ -60,6 +60,7 @@
     "docxtemplater": "^3.32.4",
     "dotenv": "^16.0.0",
     "express": "^4.17.2",
+    "express-rate-limit": "^7.0.1",
     "helmet": "^7.0.0",
     "jsonwebtoken": "^8.5.1",
     "libreoffice-convert": "^1.3.8",

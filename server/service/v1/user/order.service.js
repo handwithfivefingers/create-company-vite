@@ -31,6 +31,7 @@ module.exports = class OrderService {
           select: 'name price type',
         })
         .populate('products')
+        .populate('transactionId')
         .select('-send -__v -files -delete_flag -createdAt')
       if (!_order) throw { message: 'Order not found' }
       return {

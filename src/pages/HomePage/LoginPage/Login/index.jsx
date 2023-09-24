@@ -25,7 +25,7 @@ const LoginForm = () => {
       if (listHistory.length) {
         let nextNavigate = listHistory[listHistory.length - 1]
         if (location.pathname.includes(nextNavigate.from)) {
-          navigate(role)
+          navigate(`/${role}`)
         } else navigate(nextNavigate.from)
       } else {
         navigate(role)
@@ -55,6 +55,7 @@ const LoginForm = () => {
   const sendOTP = async (formData) => {
     return (await AuthService.getLoginOTP(formData)).data
   }
+
   const onHandleSendOTPByEmail = async () => {
     try {
       setLoading(true)
@@ -76,18 +77,20 @@ const LoginForm = () => {
       const { phone, email } = formRef.current.getFieldsValue(true)
       const type = 'SMS'
       const data = await sendOTP({ phone, email, type })
-      // console.log('onHandleSendOTPBySMS data', data)
       message.success(data.data.message)
       data && setStep(2)
     } catch (error) {
-      // console.log(error)
-      message.error(error.response.data.message)
+      if (error.response?.status === 429) {
+        message.error('Request quá số lần cho phép, vui lòng thử lại sau 1 phút')
+      } else {
+        message.error(error.response.data.message)
+      }
     } finally {
       setLoading(false)
     }
   }
 
-  const onHandleSendOTP = async () => {
+  const onHandleSendOTP = () => {
     switch (typeVerify) {
       case TYPE_VERIFY['EMAIL']:
         return onHandleSendOTPByEmail()
@@ -120,6 +123,19 @@ const LoginForm = () => {
     message.error(listMess)
   }
 
+  const onResend = async () => {
+    try {
+      setLoading(true)
+      const { phone, email } = formRef.current.getFieldsValue(true)
+      const type = 'SMS'
+      await sendOTP({ phone, email, type })
+    } catch (error) {
+      message.error(error.response.data.message)
+    } finally {
+      setLoading(false)
+    }
+  }
+
   const renderFieldByStep = useMemo(() => {
     let html = null
 
@@ -148,28 +164,12 @@ const LoginForm = () => {
               <Button type="primary" loading={loading} block onClick={onHandleSendOTP}>
                 Xác thực
               </Button>
-              {/* <span>Hoặc</span>
-              <a type="primary" loading={loading} block onClick={toggleVerify}>
-                Xác thực qua {typeVerify === TYPE_VERIFY['EMAIL'] ? 'Số điện thoại' : 'Email'}
-              </a> */}
             </div>
           </Form.Item>
         </>
       )
     } else if (step === 2) {
-      html = (
-        <>
-          <Form.Item name={['otp']} label="Mã OTP" rules={[{ required: true, message: 'OTP là bắt buộc' }]}>
-            <Input maxLength={6} />
-          </Form.Item>
-
-          <Form.Item>
-            <Button type="primary" loading={loading} block onClick={onFinish}>
-              Xác thực
-            </Button>
-          </Form.Item>
-        </>
-      )
+      html = <VerifyOTP loading={loading} onFinish={onFinish} onResend={onResend} />
     }
 
     return html
@@ -191,4 +191,51 @@ const LoginForm = () => {
   )
 }
 
+let timer
+
+const VerifyOTP = ({ loading, onFinish, onResend }) => {
+  const [count, setCount] = useState(60)
+  const [hide, setHide] = useState(false)
+  const handleResendOTP = () => {
+    setHide(true)
+    onResend()
+  }
+
+  useEffect(() => {
+    timer = setInterval(() => {
+      updateCount()
+    }, 1000)
+    return () => clearInterval(timer)
+  }, [])
+
+  useEffect(() => {
+    if (count <= 0) {
+      clearInterval(timer)
+    }
+  }, [count])
+
+  const updateCount = () => {
+    setCount((prev) => {
+      let nextState = prev - 1
+      return nextState
+    })
+  }
+  return (
+    <>
+      <Form.Item name={['otp']} label="Mã OTP" rules={[{ required: true, message: 'OTP là bắt buộc' }]}>
+        <Input maxLength={6} />
+      </Form.Item>
+
+      <Form.Item>
+        <Button type="primary" loading={loading} block onClick={onFinish}>
+          Xác thực
+        </Button>
+
+        <Button onClick={handleResendOTP} type={count > 0 ? 'text' : 'link'} disabled={count > 0} block>
+          Gửi lại {count > 0 && count}
+        </Button>
+      </Form.Item>
+    </>
+  )
+}
 export default LoginForm

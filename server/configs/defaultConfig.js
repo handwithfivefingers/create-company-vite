@@ -45,7 +45,7 @@ module.exports = class ConfigApp {
   }
 
   onLoadConfig = () => {
-    this.app.set('trust proxy', true)
+    this.app.set('trust proxy', 1)
     this.app.use(helmet())
     this.app.use(express.json())
     this.app.use(cookieParser())

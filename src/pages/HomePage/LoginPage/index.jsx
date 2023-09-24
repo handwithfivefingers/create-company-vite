@@ -34,8 +34,6 @@ export default function LoginPage() {
 
   const [step, setStep] = useState(1)
 
-  const inputRef = useRef()
-
   const navigate = useNavigate()
 
   const dispatch = useDispatch()
@@ -46,10 +44,6 @@ export default function LoginPage() {
     if (route.to && status) {
       navigate(route.to)
     }
-    // formRef.current.setFieldsValue({
-    //   email: 'handgod1995@gmail.com',
-    //   phone: '0798341239',
-    // })
   }, [])
 
   useEffect(() => {

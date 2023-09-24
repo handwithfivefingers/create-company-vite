@@ -6,11 +6,10 @@ import { useStepData } from '@/context/StepProgressContext'
 import { htmlContent, onSetFields } from '@/helper/Common'
 import { Col, Form, InputNumber, Row, Select, Spin } from 'antd'
 import clsx from 'clsx'
-import React, { Suspense, forwardRef, lazy, memo, useMemo, useState } from 'react'
+import React, { Suspense, forwardRef, lazy, memo, useMemo, useState, useEffect } from 'react'
 import styles from './styles.module.scss'
 import GlobalService from '@/service/GlobalService'
 import { useFetch } from '@/helper/Hook'
-import { useEffect } from 'react'
 
 const CCListFormV2 = lazy(() =>
   import('@/components/CCListForm').then(({ default: module }) => ({ default: module.V2 })),
@@ -62,7 +61,7 @@ const BaseInformation = forwardRef((props, ref) => {
         </Col>
 
         <Col lg={12} md={24} sm={24} xs={24}>
-          <SelectDoc name={['change_info', 'base_inform', 'mst_place_provide']} label="Nơi cấp" required />
+          <SelectDoc baseName={['change_info', 'base_inform', 'mst_place_provide']} label="Nơi cấp" required />
         </Col>
 
         <Col span={24}>
@@ -184,7 +183,7 @@ const BoardMembersCoopMember = memo(({ BASE_FORM }) => {
       setDefaultLength(length)
     }
   }, [])
-  
+
   const handleShowLabel = (position) => {
     if (position > 2) return `Cổ đông dự họp ${position - 2}`
     if (position > 0) return `Thành viên HĐQT ${position}`
@@ -251,22 +250,26 @@ const BoardMembersCoopMember = memo(({ BASE_FORM }) => {
   )
 })
 
-const SelectDoc = ({ name, label, required }) => {
-  const [state, setState] = useState(1)
-
+const SelectDoc = ({ baseName, label }) => {
   const { data: province } = useFetch({
     cacheName: ['careerData', 'province'],
     fn: () => GlobalService.getProvince(),
   })
 
+  const formInstance = Form.useFormInstance()
+
+  const watchType = Form.useWatch([...baseName, 'type'], formInstance)
+  const watchValue = Form.useWatch([...baseName, 'value'], formInstance)
+
+  console.log('watchValue', watchValue)
+
   return (
     <Form.Item label={label}>
-      <Row gutter={12}>
+      <Row gutter={[8]}>
         <Col span={12}>
-          <Form.Item>
+          <Form.Item name={[...baseName, 'type']}>
             <Select
-              value={state}
-              onChange={(value) => setState(value)}
+              defaultValue={1}
               options={[
                 {
                   label: 'Phòng Đăng ký kinh doanh thuộc Sở Kế hoạch và đầu tư tỉnh',
@@ -281,17 +284,14 @@ const SelectDoc = ({ name, label, required }) => {
           </Form.Item>
         </Col>
         <Col span={12}>
-          <Form.Item name={name} noStyle>
-            {state === 1 && (
-              <CCInput
-                type="select"
-                options={province?.map(({ name }) => ({ label: name, value: name }))}
-                required
-                placeholder="Chọn tỉnh/thành"
-              />
-            )}
-            {state === 2 && <CCInput required placeholder="Nhập vào đây" />}
-          </Form.Item>
+          <CCInput
+            name={[...baseName, 'value']}
+            type={!watchType || watchType != 2 ? 'select' : 'text'}
+            options={!watchType || watchType != 2 ? province?.map(({ name }) => ({ label: name, value: name })) : []}
+            required
+            placeholder={!watchType || watchType != 2 ? 'Chọn tỉnh/thành' : 'Nhập vào đây'}
+            key={[...baseName, 'value']}
+          />
         </Col>
       </Row>
     </Form.Item>

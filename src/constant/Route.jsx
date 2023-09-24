@@ -91,11 +91,11 @@ export const UserRouter = [
     title: 'Đơn hàng',
     icon: <RiChatPollLine />,
   },
-  {
-    path: '/user/transaction',
-    title: 'Hóa đơn',
-    icon: <BsCreditCard2Front />,
-  },
+  // {
+  //   path: '/user/transaction',
+  //   title: 'Hóa đơn',
+  //   icon: <BsCreditCard2Front />,
+  // },
   {
     path: '/user/profile',
     title: 'Tài khoản',
@@ -248,12 +248,12 @@ export const LAYOUT_ROUTER = ({ status, role }) => [
           icon: <RiChatPollLine />,
           element: <UserOrder />,
         },
-        {
-          path: 'transaction',
-          title: 'Orders',
-          icon: <BsCreditCard2Front />,
-          element: <UserTransaction />,
-        },
+        // {
+        //   path: 'transaction',
+        //   title: 'Orders',
+        //   icon: <BsCreditCard2Front />,
+        //   element: <UserTransaction />,
+        // },
         {
           path: 'policy',
           title: 'Chính sách hoàn / huỷ',

@@ -4,4 +4,10 @@ const PAYMENT_TYPE_CODE = {
   3: 'MOMO',
 }
 
-export { PAYMENT_TYPE_CODE }
+const PAYMENT_TYPE = {
+  TS: 1, //Transfer
+  VP: 2, // Vnpay
+  MO: 3, //Momo
+}
+
+export { PAYMENT_TYPE_CODE, PAYMENT_TYPE }

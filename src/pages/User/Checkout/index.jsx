@@ -5,6 +5,7 @@ import { Button, Card, Col, Descriptions, Form, List, Radio, Row, Space, message
 import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { CHANGE_INFO_FORM, CREATE_COMPANY_FORM, DISSOLUTION_FORM, PENDING_FORM } from '../../../constant/FormConstant'
+import VNPAY_LOGO from '@/assets/img/vnpay.png'
 import styles from './styles.module.scss'
 
 const Checkout = () => {
@@ -60,6 +61,68 @@ const Checkout = () => {
       console.log('error', error)
       message.error('Tạo đơn hàng thất bại')
     }
+  }
+  const getContent = () => {
+    // Transfer
+    if (data.transactionId.paymentType === 1) {
+      return (
+        <>
+          <Card className={'box__shadow'}>
+            <Descriptions title="Thông tin chuyển khoản">
+              <Descriptions.Item label="Tên"></Descriptions.Item>
+              <Descriptions.Item label="Ngân hàng"></Descriptions.Item>
+              <Descriptions.Item label="Số tài khoản"></Descriptions.Item>
+            </Descriptions>
+          </Card>
+        </>
+      )
+    } else if (data.transactionId.paymentType === 2) {
+      return (
+        <>
+          <Card className={'box__shadow'}>
+            <Descriptions title="Thông tin chuyển khoản" />
+            <div className={styles.grid}>
+              <div className={styles.imgBlock}>
+                <img src={VNPAY_LOGO} />
+              </div>
+              <Button type="primary">Thanh toán bằng VN-PAY</Button>
+            </div>
+          </Card>
+        </>
+      )
+    } else if (data.transactionId.paymentType === 3) {
+      return (
+        <>
+          <Card className={'box__shadow'}>
+            <Descriptions title="Thông tin chuyển khoản" />
+            <div className={styles.grid}>
+              <div className={styles.imgBlock}>
+                <img src={VNPAY_LOGO} />
+              </div>
+              <Button type="primary">Thanh toán bằng MOMO</Button>
+            </div>
+          </Card>
+        </>
+      )
+    } else
+      return (
+        <>
+          <Card className={'box__shadow'}>
+            <Descriptions title="Trạng thái đơn hàng không đúng, vui lòng liên hệ admin"></Descriptions>
+          </Card>
+        </>
+      )
+  }
+  if (data?.transactionId) {
+    return (
+      <div className={styles.mainContent}>
+        <div className="cc-scroll">
+          {data?.transactionId.isPayment && 'Đơn hàng đã được thanh toán'}
+
+          {!data.transactionId.isPayment && getContent()}
+        </div>
+      </div>
+    )
   }
 
   return (

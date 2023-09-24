@@ -309,7 +309,7 @@ export default function ChangeInfoPreview(props) {
               <Form.Item label={<Text type="secondary">{t['mst']}</Text>}>{base_inform?.mst}</Form.Item>
 
               <Form.Item label={<Text type="secondary">{t['doc_place_provide']}</Text>}>
-                {base_inform?.mst_place_provide}
+                {base_inform?.mst_place_provide.value}
               </Form.Item>
 
               {base_inform?.location && (
