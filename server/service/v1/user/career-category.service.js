@@ -27,4 +27,16 @@ module.exports = class CareerCategoryService {
       throw err
     }
   }
+  onGetListCareerCategory = async (req, res) => {
+    try {
+      const { category } = req.body
+      console.log(category)
+      let _cate = await Career.find({
+        category: { $in: category },
+      })
+      return _cate
+    } catch (err) {
+      throw err
+    }
+  }
 }

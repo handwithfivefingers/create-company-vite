@@ -1,9 +1,11 @@
 import CCInput from '@/components/CCInput'
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons'
 import { Button, Col, Form, InputNumber, Row, Space } from 'antd'
-import React, { forwardRef, useEffect, memo } from 'react'
-import { numToWord, onSetFields } from '../../helper/Common'
+import React, { forwardRef, memo, useEffect, Children, isValidElement, cloneElement } from 'react'
+import { numToWord } from '../../helper/Common'
 import styles from './styles.module.scss'
+import { useState } from 'react'
+import { useMemo } from 'react'
 
 const CCListForm = forwardRef((props, ref) => {
   const { BASE_FORM, listForm, listName, btnText, formLength, defaultLength } = props
@@ -54,14 +56,12 @@ const CCListForm = forwardRef((props, ref) => {
 
       let upperLetter = transform.charAt(0).toUpperCase() + transform.slice(1)
 
-      // onSetFields(fieldConvet, upperLetter, ref)
       setFields(fieldConvet, upperLetter)
     }, 1000)
   }
 
   const renderListform = (listForm, field, fieldIndex) => {
     let xhtml = null
-    console.log('listForm', listForm)
     xhtml = listForm.map((formItem, formIndex) => {
       let { options } = formItem
       let column = options?.column
@@ -135,7 +135,7 @@ const CCListForm = forwardRef((props, ref) => {
   }
 
   return (
-    <Form.Item label={<h4>{props?.label}</h4>}>
+    <Form.Item label={<h3>{props?.label}</h3>}>
       <Row gutter={[16, 12]}>
         {listForm && (
           <Form.List name={[...BASE_FORM, listName]} key={`form_lists_${[...BASE_FORM, listName].join('_')}`}>
@@ -150,7 +150,12 @@ const CCListForm = forwardRef((props, ref) => {
                     {renderListform(listForm, field, i)}
                   </FormListBody>
                 ))}
-                <FormListFooter isValid={fields.length >= formLength} btnText={btnText} add={add} key={`form_item_footer`}/>
+                <FormListFooter
+                  isValid={fields.length >= formLength}
+                  btnText={btnText}
+                  add={add}
+                  key={`form_item_footer`}
+                />
               </React.Fragment>
             )}
           </Form.List>
@@ -204,5 +209,109 @@ const FormListItemDate = ({ column, name, label, layout, placeholder, type }) =>
     </Col>
   )
 }
+
+const CCListFormV2 = ({ label, children, maxLength, formName, column, defaultLength = 1, addText }) => {
+  const [length, setLength] = useState(defaultLength)
+
+  const formInstance = Form.useFormInstance()
+
+  useEffect(() => {
+    window.form = formInstance // Debug only
+    
+  }, [])
+
+  const groupName = (val, position) => {
+    if (!!val) {
+      if (Array.isArray(val)) {
+        return [...formName, position, ...val]
+      } else if (typeof val === 'string') {
+        return [...formName, position, val]
+      } else {
+        console.error('Form Name must be a String or Array')
+        return [...formName, position]
+      }
+    }
+    return [...formName, position]
+  }
+
+  const add = () => {
+    if (length >= maxLength) {
+      return
+    }
+    let next = length + 1
+    setLength(next)
+  }
+
+  const remove = (position) => {
+    if (length >= 1) {
+      const nextState = length - 1
+      setLength(nextState)
+      if (length > 1) {
+        const currentData = formInstance.getFieldValue([...formName])
+        currentData.splice(position, 1)
+        formInstance.setFields([
+          {
+            name: [...formName],
+            value: currentData,
+          },
+        ])
+      }
+    } else return
+  }
+
+  const ModifyChildren = useMemo(() => {
+    const nestChildren = Array(length).fill(children)
+
+    return nestChildren.map((childs, index) => {
+      return (
+        <Col span={column} key={`list_form_v2_field_${index}`}>
+          {Children.map(childs, (child) => {
+            if (isValidElement(child)) {
+              const extendProps = {
+                name: groupName(child.props?.name, index),
+                position: index,
+              }
+
+              if (typeof child.props?.label === 'function') {
+                extendProps['label'] = child.props?.label(index)
+              }
+              return cloneElement(child, extendProps)
+            }
+          })}
+
+          {length > 1 && (
+            <Button
+              onClick={() => remove(index)}
+              icon={<MinusCircleOutlined />}
+              type="text"
+              style={{ display: 'flex', margin: '0 auto' }}
+            />
+          )}
+        </Col>
+      )
+    })
+  }, [length])
+
+  return (
+    <Form.Item label={<h3>{label}</h3>}>
+      <Row gutter={[16, 12]}>
+        {ModifyChildren}
+
+        {length < maxLength && (
+          <Col span={12}>
+            <Form.Item label=" ">
+              <Button onClick={add} type="dashed" style={{ width: '100%' }} icon={<PlusOutlined />}>
+                {addText}
+              </Button>
+            </Form.Item>
+          </Col>
+        )}
+      </Row>
+    </Form.Item>
+  )
+}
+
+CCListFormV2.displayName = 'CCListFormVersion2'
+CCListForm.V2 = CCListFormV2
 
 export default CCListForm

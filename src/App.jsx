@@ -14,6 +14,7 @@ import 'animate.css'
 import './assets/css/styles.scss'
 import { FormProviderContext } from './context/FormProviderContext'
 
+
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -28,6 +29,7 @@ ConfigProvider.config({
     primaryColor: '#cd2027',
   },
 })
+
 message.config({
   duration: 5,
 })
@@ -36,7 +38,6 @@ moment.defaultFormat = 'DD/MM/YYYY'
 moment.locale('vi')
 
 moment().utcOffset('+07:00')
-
 const RouterComponent = (props) => {
   let location = useLocation()
 

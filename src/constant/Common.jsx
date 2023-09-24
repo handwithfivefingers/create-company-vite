@@ -192,6 +192,16 @@ export const SELECT = {
       value: 'Chủ tịch công ty, Giám đốc hoặc Tổng Giám đốc',
     },
   ],
+  PRESENT_CASE: [
+    {
+      name: 'Đại diện phần vốn góp bởi Người đại diện theo pháp luật của Chủ sở hữu',
+      value: 1,
+    },
+    {
+      name: 'Đại diện phần vốn góp bởi Người đại diện phần vốn góp',
+      value: 2,
+    },
+  ],
 }
 
 export const IDENTIFY_NUMBER = {

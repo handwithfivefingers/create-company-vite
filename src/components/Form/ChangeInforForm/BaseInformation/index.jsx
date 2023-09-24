@@ -4,17 +4,23 @@ import CCListForm from '@/components/CCListForm'
 import { PENDING_FORM } from '@/constant/FormConstant'
 import { useStepData } from '@/context/StepProgressContext'
 import { htmlContent, onSetFields } from '@/helper/Common'
-import { Col, Form, InputNumber, Row, Select } from 'antd'
+import { Col, Form, InputNumber, Row, Select, Spin } from 'antd'
 import clsx from 'clsx'
-import React, { forwardRef, memo, useMemo, useState } from 'react'
+import React, { Suspense, forwardRef, lazy, memo, useMemo, useState } from 'react'
 import styles from './styles.module.scss'
 import GlobalService from '@/service/GlobalService'
 import { useFetch } from '@/helper/Hook'
+import { useEffect } from 'react'
+
+const CCListFormV2 = lazy(() =>
+  import('@/components/CCListForm').then(({ default: module }) => ({ default: module.V2 })),
+)
 
 const BASE_FORM = ['change_info', 'base_inform']
 
 const BaseInformation = forwardRef((props, ref) => {
   const { currentStep } = useStepData()
+
   const renderFormByType = useMemo(() => {
     if (+props.type === 2) return <BoardMembers2Member BASE_FORM={BASE_FORM} key={`board_members`} />
     else if (+props.type === 3) return <BoardMembersCoopMember BASE_FORM={BASE_FORM} key={`board_members`} />
@@ -155,7 +161,7 @@ const BoardMembers2Member = memo(({ BASE_FORM, ...props }) => {
   return (
     <Col span={24}>
       <CCListForm
-        label="Hội dồng quản trị"
+        label="Hội đồng thành viên"
         BASE_FORM={BASE_FORM}
         listForm={listForm}
         formLength={5}
@@ -167,68 +173,81 @@ const BoardMembers2Member = memo(({ BASE_FORM, ...props }) => {
   )
 })
 
-const BoardMembersCoopMember = memo(({ BASE_FORM, ...props }) => {
-  const listForm = [
-    {
-      label: 'Tên Chủ tịch HĐQT',
-      placeholder: 'NGUYỄN VĂN A',
-      name: ['president'],
-      onChange: true,
-      options: {
-        toUpperCase: true,
-        compare: {
-          end: 5,
-          index: 2,
-        },
-        customLabel: 'Thành viên HĐQT ',
+const BoardMembersCoopMember = memo(({ BASE_FORM }) => {
+  const [defaultLength, setDefaultLength] = useState(3)
+
+  const formInstance = Form.useFormInstance()
+  useEffect(() => {
+    const data = formInstance.getFieldsValue(true)
+    if (data.change_info?.base_inform?.list_president) {
+      const length = data.change_info?.base_inform?.list_president?.length
+      setDefaultLength(length)
+    }
+  }, [])
+  
+  const handleShowLabel = (position) => {
+    if (position > 2) return `Cổ đông dự họp ${position - 2}`
+    if (position > 0) return `Thành viên HĐQT ${position}`
+    return 'Tên Chủ tịch HĐQT'
+  }
+
+  const handleNameChange = ({ event, path, upper = false }) => {
+    const position = event.target.getAttribute('position')
+    const value = event.target.value
+    const val = (upper && value.toUpperCase()) || value
+    formInstance.setFields([
+      {
+        name: [...BASE_FORM, 'list_president', position, path],
+        value: val,
       },
-    },
-    {
-      label: 'Cổ phần đang sở hữu',
-      placeholder: '80,000,000',
-      name: ['capital'],
-      options: {
-        column: 12,
-        layout: 'horizontal',
-        format: true,
-        formatter: (v) => `${new Intl.NumberFormat('en-US').format(v.replace(/,/g, ''))}`,
-      },
-    },
-    // {
-    //   label: 'Chiếm % vốn điều lệ',
-    //   placeholder: '80',
-    //   name: ['capital_percent'],
-    //   options: {
-    //     column: 12,
-    //     layout: 'horizontal',
-    //     format: true,
-    //     formatter: (v) => `${v.replace('%', '')}%`,
-    //     max: 100,
-    //     min: 0,
-    //     length: 3,
-    //   },
-    // },
-  ]
+    ])
+  }
+
   return (
-    <Col span={24}>
-      <CCListForm
-        label="Đại hội đồng cổ đông"
-        BASE_FORM={BASE_FORM}
-        listForm={listForm}
-        formLength={5}
-        defaultLength={3}
-        btnText="Thêm thành viên HĐQT (nếu có)"
-        listName="list_president"
-      />
-      <Form.Item label="Tổng số vốn điều lệ" name={[...BASE_FORM, 'total_capital']}>
-        <InputNumber
-          placeholder="100,000,000"
-          // stringMode
-          formatter={(v) => `${new Intl.NumberFormat('en-US').format(v.replace(/,/g, ''))}`}
-          style={{ width: '100%' }}
-        />
-      </Form.Item>
-    </Col>
+    <Suspense fallback={<Spin />}>
+      <Col span={24}>
+        {defaultLength && (
+          <CCListFormV2
+            label="Đại hội đồng cổ đông"
+            formName={[...BASE_FORM, 'list_president']}
+            column={12}
+            addText="Thêm thành viên HĐQT (nếu có)"
+            removeText=""
+            defaultLength={defaultLength}
+            maxLength={5}
+          >
+            <CCInput
+              label={handleShowLabel}
+              name={'president'}
+              placeholder={'NGUYỄN VĂN A'}
+              onChange={(e) =>
+                handleNameChange({
+                  event: e,
+                  path: 'president',
+                  upper: true,
+                })
+              }
+            />
+
+            <Form.Item label={'Cổ phần đang sở hữu'} name={'capital'}>
+              <InputNumber
+                style={{ width: '100%' }}
+                placeholder={'80,000,000'}
+                stringMode={true}
+                formatter={(v) => `${new Intl.NumberFormat('en-US').format(v.replace(/,/g, ''))}`}
+              />
+            </Form.Item>
+          </CCListFormV2>
+        )}
+        <Form.Item label="Tổng số vốn điều lệ" name={[...BASE_FORM, 'total_capital']}>
+          <InputNumber
+            placeholder="100,000,000"
+            formatter={(v) => `${new Intl.NumberFormat('en-US').format(v.replace(/,/g, ''))}`}
+            style={{ width: '100%' }}
+          />
+        </Form.Item>
+      </Col>
+    </Suspense>
   )
 })
 

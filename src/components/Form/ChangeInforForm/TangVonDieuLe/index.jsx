@@ -8,9 +8,10 @@ const BASE_FORM = ['change_info', 'up_authorized_capital']
 
 const TangVonDieuLe = forwardRef((props, ref) => {
   useEffect(() => {
-    if (ref) {
-      onSetFields(['change_info', 'up_authorized_capital', 'type'], 'Tăng vốn góp', ref)
-    }
+    window.form = ref.current
+    // if (ref) {
+    //   onSetFields(['change_info', 'up_authorized_capital', 'type'], 'Tăng vốn góp', ref)
+    // }
   }, [ref])
 
   let timer
@@ -27,6 +28,8 @@ const TangVonDieuLe = forwardRef((props, ref) => {
     }, 500)
   }
 
+  console.log('props', props)
+
   return (
     <Form.Item
       label={<h3>Đăng ký thay đổi vốn điều lệ</h3>}
@@ -35,8 +38,23 @@ const TangVonDieuLe = forwardRef((props, ref) => {
       })}
     >
       <Row gutter={[16, 0]}>
+        <Col md={24}>
+          {props.type === 1 && (
+            <CCInput.Select
+              label="Hình thức tăng vốn"
+              name={[...BASE_FORM, 'type']}
+              options={[
+                { name: 'Chủ sở hữu công ty góp thêm vốn', value: 1 },
+                { name: 'Huy động thêm vốn góp của người khác', value: 2 },
+              ]}
+            />
+          )}
+        </Col>
         <Col lg={12} md={24} sm={24} xs={24}>
-          <Form.Item name={[...BASE_FORM, 'base_val', 'num']} label={htmlContent('Vốn điều lệ đã đăng ký <i>(bằng số)</i>')}>
+          <Form.Item
+            name={[...BASE_FORM, 'base_val', 'num']}
+            label={htmlContent('Vốn điều lệ đã đăng ký <i>(bằng số)</i>')}
+          >
             <InputNumber
               formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
               style={{ width: '100%' }}
@@ -46,10 +64,16 @@ const TangVonDieuLe = forwardRef((props, ref) => {
           </Form.Item>
         </Col>
         <Col lg={12} md={24} sm={24} xs={24}>
-          <CCInput label={htmlContent('Vốn điều lệ đã đăng ký <i>(bằng chữ)</i>')} name={[...BASE_FORM, 'base_val', 'char']} />
+          <CCInput
+            label={htmlContent('Vốn điều lệ đã đăng ký <i>(bằng chữ)</i>')}
+            name={[...BASE_FORM, 'base_val', 'char']}
+          />
         </Col>
         <Col lg={12} md={24} sm={24} xs={24}>
-          <Form.Item name={[...BASE_FORM, 'new_base_val', 'num']} label={htmlContent('Vốn điều lệ sau khi tăng <i>(bằng số)</i>')}>
+          <Form.Item
+            name={[...BASE_FORM, 'new_base_val', 'num']}
+            label={htmlContent('Vốn điều lệ sau khi tăng <i>(bằng số)</i>')}
+          >
             <InputNumber
               formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
               style={{ width: '100%' }}
@@ -59,7 +83,10 @@ const TangVonDieuLe = forwardRef((props, ref) => {
           </Form.Item>
         </Col>
         <Col lg={12} md={24} sm={24} xs={24}>
-          <CCInput label={htmlContent('Vốn điều lệ sau khi tăng <i>(bằng chữ)</i>')} name={[...BASE_FORM, 'new_base_val', 'char']} />
+          <CCInput
+            label={htmlContent('Vốn điều lệ sau khi tăng <i>(bằng chữ)</i>')}
+            name={[...BASE_FORM, 'new_base_val', 'char']}
+          />
         </Col>
       </Row>
     </Form.Item>

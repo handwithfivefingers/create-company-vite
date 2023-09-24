@@ -28,6 +28,9 @@ const GlobalService = {
   getSingleCareerCategory: (id) => {
     return axios.get(api_path.getSingleCareerCate + '/' + id)
   },
+  getListCareerByCategory: (params) => {
+    return axios.post(api_path.getSingleCareerCate, params)
+  },
 }
 
 export default GlobalService

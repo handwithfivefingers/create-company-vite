@@ -9,6 +9,8 @@ import {
   RiChatPollLine,
   RiMailSettingsFill,
 } from 'react-icons/ri'
+
+import { BsCreditCard2Front } from 'react-icons/bs'
 import { Navigate } from 'react-router-dom'
 
 import Admin from '@/pages/Admin'
@@ -21,6 +23,7 @@ import Policy from '../pages/User/Policy'
 import LoginForm from '@/pages/HomePage/LoginPage/Login'
 import LoginAdmin from '@/pages/HomePage/LoginAdmin'
 import Checkout from '@/pages/User/Checkout'
+
 const AdminDashboard = lazy(() => import('@/pages/Admin/Dashboard'))
 const AdminMail = lazy(() => import('@/pages/Admin/AdminMail'))
 const AdminOrder = lazy(() => import('@/pages/Admin/AdminOrder'))
@@ -37,6 +40,7 @@ const UserProfile = lazy(() => import('@/pages/User/Profile'))
 const AdminAbout = lazy(() => import('@/pages/Admin/AdminAbout'))
 const AdminTransaction = lazy(() => import('@/pages/Admin/AdminTransaction'))
 const CCResult = lazy(() => import('@/pages/User/Result'))
+const UserTransaction = lazy(() => import('@/pages/User/Transaction'))
 
 export const AdminRouter = [
   {
@@ -77,11 +81,6 @@ export const AdminRouter = [
 ]
 
 export const UserRouter = [
-  // {
-  //   path: '/user',
-  //   title: 'Dashboard',
-  //   icon: <RiBankLine />,
-  // },
   {
     path: '/user/san-pham',
     title: 'Sản phẩm',
@@ -91,6 +90,11 @@ export const UserRouter = [
     path: '/user/order',
     title: 'Đơn hàng',
     icon: <RiChatPollLine />,
+  },
+  {
+    path: '/user/transaction',
+    title: 'Hóa đơn',
+    icon: <BsCreditCard2Front />,
   },
   {
     path: '/user/profile',
@@ -243,6 +247,12 @@ export const LAYOUT_ROUTER = ({ status, role }) => [
           title: 'Orders',
           icon: <RiChatPollLine />,
           element: <UserOrder />,
+        },
+        {
+          path: 'transaction',
+          title: 'Orders',
+          icon: <BsCreditCard2Front />,
+          element: <UserTransaction />,
         },
         {
           path: 'policy',

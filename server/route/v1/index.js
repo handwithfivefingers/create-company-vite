@@ -14,6 +14,7 @@ router.use('/order/payment', require('./payment'))
 router.use('/order', requireSignin, require('./order'))
 router.use('/', require('./service'))
 router.use('/test', require('./test'))
+router.use('/transaction', requireSignin, require('./transaction'))
 
 router.use('/', MailRoute)
 

@@ -1,0 +1,36 @@
+.btnGroup {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  button {
+    width: 28px;
+    height: 28px;
+    box-shadow: 0 12px 24px -16px #333;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    opacity: 0.75;
+    transition: all 0.15s;
+    &:hover {
+      opacity: 1;
+    }
+  }
+}
+
+.orderWrapper {
+  display: grid;
+  grid-template-rows: calc(100vh - 40px - 62px - 38px - 24px) 40px;
+  gap: 12px;
+  @media (max-width: 767px) {
+    grid-template-rows: calc(100vh - 40px - 62px - 38px) 40px;
+  }
+  table {
+    background-color: #fff;
+  }
+}
+
+.pagination {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}

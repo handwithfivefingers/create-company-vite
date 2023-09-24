@@ -1,0 +1,22 @@
+version: '3.1'
+services:
+  cc-service:
+    build:
+      context: ./
+      dockerfile: ./docker/development/Dockerfile
+    ports:
+      - 3000-3003:3000-3003
+    volumes:
+      - .:/app:consistent
+      - ./src:/app/src:consistent
+      - ./server:/app/server:consistent
+    env_file:
+      - .env
+    environment:
+      - WATCHFILES_FORCE_POLLING=true
+    networks:
+      - app_network
+    restart: always
+networks:
+  app_network:
+    driver: bridge

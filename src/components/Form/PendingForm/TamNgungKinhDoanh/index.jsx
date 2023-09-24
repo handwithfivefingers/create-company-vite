@@ -50,13 +50,13 @@ const TamNgungKinhDoanh = forwardRef(({ type, current, index }, ref) => {
             </Form.Item>
             <BoardMembersCoopMember BASE_FORM={BASE_FORM} ref={ref} />
 
-            <Form.Item label="Tổng số vốn điều lệ" name={[...BASE_FORM, 'total_capital']}>
+            {/* <Form.Item label="Tổng số vốn điều lệ" name={[...BASE_FORM, 'total_capital']}>
               <InputNumber
                 placeholder="100,000,000"
                 formatter={(v) => `${new Intl.NumberFormat('en-US').format(v.replace(/,/g, ''))}`}
                 style={{ width: '100%' }}
               />
-            </Form.Item>
+            </Form.Item> */}
           </>
         )
       } else if (+type === 2) {
@@ -227,7 +227,7 @@ const BoardMembersCoopMember = forwardRef((props, ref) => {
   }
 
   return (
-    <Form.Item label="Đại hội đồng cổ đông">
+    <Form.Item label="Hội đồng quản trị">
       <Row gutter={[16, 12]}>
         {formList?.map((item, index) => {
           return (

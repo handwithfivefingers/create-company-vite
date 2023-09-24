@@ -5,6 +5,7 @@ import { useLocation } from 'react-router-dom'
 import GiaiThe from './GiaiThe'
 import styles from './styles.module.scss'
 import { VALIDATE_MESSAGE } from '@/constant/InputValidate'
+import moment from 'moment'
 
 const Dissolution = forwardRef((props, ref) => {
   const [selectType, setSelectType] = useState()
@@ -55,7 +56,19 @@ const Dissolution = forwardRef((props, ref) => {
   }
 
   return (
-    <Form ref={ref} layout="vertical" validateMessages={VALIDATE_MESSAGE}>
+    <Form
+      ref={ref}
+      layout="vertical"
+      validateMessages={VALIDATE_MESSAGE}
+      initialValues={{
+        dissolution: {
+          approve: {
+            dissolution_number: moment().format('MM/YYYY[/QĐ]'),
+            dissolution_date: moment(),
+          },
+        },
+      }}
+    >
       <Form.Item
         name="category"
         label="Chọn loại hình doanh nghiệp"

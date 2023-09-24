@@ -20,4 +20,12 @@ module.exports = class CareerCategoryController {
       return errHandler(error, res)
     }
   }
+  onHandleGetListCareerCategory = async (req, res) => {
+    try {
+      const data = await new CareerCategoryService().onGetListCareerCategory(req)
+      return successHandler(data, res)
+    } catch (error) {
+      return errHandler(error, res)
+    }
+  }
 }

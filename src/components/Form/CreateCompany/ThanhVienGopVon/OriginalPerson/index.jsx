@@ -21,6 +21,7 @@ const OriginalPerson = forwardRef((props, ref) => {
   return (
     <div className={styles.groupInput}>
       {/* START Nhập thông tin của tổ chức */}
+      <CCInput.Select options={SELECT.PRESENT_CASE} name={[...BASE_FORM, 'present_case']} label="Trường hợp đại diện" />
       {type && type !== 1 && (
         <Form.Item name={[...BASE_FORM, 'capital']} label="Số tiền góp vốn" placeholder="Số tiền góp vốn" required>
           <InputNumber
@@ -100,7 +101,7 @@ const OriginalPerson = forwardRef((props, ref) => {
         placeholder="Bấm vào đây"
         required
       />
-    
+
       <CCInputTypeIdentify name={[...BASE_FORM, 'doc_type']} required />
 
       <CCInputNumberIdentify indentifyType={doctypeWatch} name={[...BASE_FORM, 'doc_code']} required />

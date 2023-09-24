@@ -1,5 +1,5 @@
 # Build Stage
-FROM node:18 as BASE
+FROM node:18 as BUILD
 
 WORKDIR /app
 
@@ -16,9 +16,9 @@ RUN npm run build
 # Run Stage
 FROM bcgovimages/alpine-node-libreoffice
 
-COPY --from=BASE /app/ .
+COPY --from=BUILD /app/ .
 
-COPY --from=BASE /app/.env .
+COPY --from=BUILD /app/.env .
 
 EXPOSE 3000
 
@@ -30,3 +30,4 @@ RUN apk add --no-cache \
 
 
 CMD ["npm", "start"]
+# CMD [./script.sh]

@@ -107,7 +107,11 @@ const GiaiThe = forwardRef((props, ref) => {
           />
         </Col>
         <Col lg={12} md={24} sm={24} xs={24}>
-          <CCInput name={[...BASE_FORM, 'dissolution_number']} label="Số quyết định giải thể" style={{ width: '100%' }} />
+          <CCInput
+            name={[...BASE_FORM, 'dissolution_number']}
+            label="Số quyết định giải thể"
+            style={{ width: '100%' }}
+          />
         </Col>
         <Col lg={12} md={24} sm={24} xs={24}>
           <CCInput type="date" name={[...BASE_FORM, 'dissolution_date']} label="Ngày quyết định giải thể" />
@@ -186,7 +190,7 @@ const BoardMembersCoopMember = forwardRef((props, ref) => {
               <Card
                 className="box__shadow"
                 size="small"
-                title={index === 0 ? 'Tên Chủ tịch HĐQT' : `Tên thành viên HĐQT ${index}`}
+                title={index === 0 ? 'Tên Chủ tịch HĐQT' : `Tên Cổ đông thứ ${index}`}
                 extra={[<RemoveFormBtn inValid={formList.length <= 3} onClick={() => removeItem(index)} />]}
               >
                 <Row>

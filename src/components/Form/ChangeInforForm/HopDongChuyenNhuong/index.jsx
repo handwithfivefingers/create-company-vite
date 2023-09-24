@@ -610,9 +610,10 @@ const OrganizationB = memo(({ fieldName, forwardRef }) => {
   )
 })
 
+let timer
+
 const FormType = ({ fieldName }) => {
   const formInstance = Form.useFormInstance()
-
   const setFields = (pathName, value, uppercase = false) => {
     formInstance.setFields([
       {

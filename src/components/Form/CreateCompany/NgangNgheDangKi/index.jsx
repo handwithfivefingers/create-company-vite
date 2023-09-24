@@ -8,41 +8,45 @@ import { useQuery } from '@tanstack/react-query'
 import { useStepData } from '@/context/StepProgressContext'
 
 const NgangNgheDangKi = forwardRef(({ BASE_FORM, className }, ref) => {
-  
   const { currentStep } = useStepData()
 
-  const [careerData, setCareerData] = useState([])
-  
-  const [selfSelect, setSelfSelect] = useState(null)
-
-  const queryConfig = {
-    // The query will not execute until the userId exists
-    enabled: selfSelect === 1,
-    staleTime: 60 * 1000, // 1 minute
-    refetchOnWindowFocus: true,
-  }
+  const { data: careerCategory } = useFetch({
+    cacheName: ['careerCate'],
+    fn: () => GlobalService.getCareerCategory(),
+  })
 
   const formInstance = Form.useFormInstance()
 
-  const { status, data } = useQuery(
+  const watchCompanyCareerType = Form.useWatch([...BASE_FORM, 'company_career_type'], formInstance)
+  const watchCompanyCareerGroup = Form.useWatch([...BASE_FORM, 'company_career_group'], formInstance)
+  const [data, setData] = useState([])
+  useEffect(() => {
+    getListCareerByCategory()
+  },[])
+  useEffect(() => {
+    if (watchCompanyCareerGroup) {
+      getListCareerByCategory()
+    }
+  }, [watchCompanyCareerGroup])
+
+  const getListCareerByCategory = async () => {
+    try {
+      const res = await GlobalService.getListCareerByCategory({ category: watchCompanyCareerGroup })
+      setData(res.data.data)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+  const { data: careerData } = useQuery(
     ['career'],
     async () => {
       let res = await GlobalService.fetchCareer()
       return res.data.data
     },
-    queryConfig,
+    {
+      enabled: watchCompanyCareerType === 1,
+    },
   )
-
-  const { data: careerCate } = useFetch({
-    cacheName: ['careerCate'],
-    fn: () => GlobalService.getCareerCategory(),
-  })
-
-  useEffect(() => {
-    if (data && status === 'success') {
-      setCareerData(data)
-    }
-  }, [data, selfSelect])
 
   const handleChange = (pathName, opt) => {
     let value
@@ -57,22 +61,6 @@ const NgangNgheDangKi = forwardRef(({ BASE_FORM, className }, ref) => {
         value,
       },
     ])
-  }
-
-  const handleCareerCateSelected = async (_id, opt) => {
-    try {
-      let res = await GlobalService.getSingleCareerCategory(_id)
-      let { data } = res.data
-      setCareerData(data)
-      // let dataFormatted = data.map(({ code, name, _id }) => ({ code, name, value: _id }))
-      // formInstance.setFieldValue([...BASE_FORM, 'company_opt_career'], dataFormatted)
-    } catch (err) {
-      console.log(err)
-    }
-  }
-
-  const handleSelfSelectCareer = (val) => {
-    setSelfSelect(val)
   }
 
   const handleFilterOptions = (input, option) => {
@@ -101,30 +89,32 @@ const NgangNgheDangKi = forwardRef(({ BASE_FORM, className }, ref) => {
           <Form.Item
             label="Vui lòng chọn"
             required
+            name={[...BASE_FORM, 'company_career_type']}
             rules={[{ required: true, message: 'Vui lòng chọn ngành nghề đăng kí' }]}
           >
-            <Select placeholder="Bấm vào đây" onChange={handleSelfSelectCareer}>
+            <Select placeholder="Bấm vào đây">
               <Select.Option value={1}>Tự chọn ngành nghề</Select.Option>
               <Select.Option value={2}>Chọn theo lĩnh vực đề xuất</Select.Option>
             </Select>
           </Form.Item>
         </Col>
-        {selfSelect && selfSelect === 2 && (
+        {watchCompanyCareerType === 2 && (
           <Col span={24}>
             <Form.Item
               label="Chọn nhóm ngành nghề"
               required
               rules={[{ required: true, message: 'Vui lòng chọn nhóm ngành nghề' }]}
+              name={[...BASE_FORM, 'company_career_group']}
             >
               <Select
                 showSearch
                 allowClear
                 optionFilterProp="children"
                 filterOption={handleFilterOptions}
-                onChange={handleCareerCateSelected}
                 placeholder="Gõ nhóm ngành liên quan"
+                mode="multiple"
               >
-                {careerCate?.map(({ name, _id }) => {
+                {careerCategory?.map(({ name, _id }) => {
                   return (
                     <Select.Option value={_id} key={_id}>
                       {name}
@@ -136,7 +126,7 @@ const NgangNgheDangKi = forwardRef(({ BASE_FORM, className }, ref) => {
           </Col>
         )}
 
-        {careerData?.length > 0 && (
+        {!!watchCompanyCareerType && (
           <>
             <Col span={24}>
               <Form.Item name={[...BASE_FORM, 'company_main_career']} label="Chọn ngành nghề kinh doanh chính">
@@ -150,7 +140,7 @@ const NgangNgheDangKi = forwardRef(({ BASE_FORM, className }, ref) => {
                   required
                   rules={[{ required: true, message: 'Vui lòng chọn nhóm ngành nghề' }]}
                 >
-                  {careerData?.map((item) => (
+                  {data?.map((item) => (
                     <Select.Option key={item._id} value={item._id} code={item.code} name={item.name}>
                       {item.code} - {item.name}
                     </Select.Option>
@@ -158,6 +148,7 @@ const NgangNgheDangKi = forwardRef(({ BASE_FORM, className }, ref) => {
                 </Select>
               </Form.Item>
             </Col>
+
             <Col span={24}>
               <Form.Item name={[...BASE_FORM, 'company_opt_career']} label="Chọn thêm ngành nghề kinh doanh">
                 <Select
@@ -170,7 +161,7 @@ const NgangNgheDangKi = forwardRef(({ BASE_FORM, className }, ref) => {
                   placeholder="Gõ tên ngành hoặc mã ngành"
                   filterOption={handleFilterOptions}
                 >
-                  {data?.map((item) => (
+                  {careerData?.map((item) => (
                     <Select.Option
                       key={'company_opt_career' + item._id}
                       value={item._id}

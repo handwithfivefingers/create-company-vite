@@ -364,9 +364,6 @@ const ChangeInforForm = forwardRef((props, ref) => {
         field: ['change_info', 'base_inform'],
       },
     ]
-
-    console.log('opt', opt)
-
     for (let i = 0; i < opt.length; i++) {
       data.push({ desc: opt[i].children, title: `Bước ${i + 3}`, field: TYPE_NAME[opt[i].type] })
     }
@@ -376,7 +373,6 @@ const ChangeInforForm = forwardRef((props, ref) => {
       desc: 'Xem lại',
       field: ['change_info', 'preview'],
     })
-    console.log('data', data)
     onCreateStep(data)
   }
 

@@ -110,6 +110,13 @@ const ThanhVienGopVon = forwardRef(({ data, ...props }, ref) => {
     setRender(!_render)
   }
 
+  const getMemberLabel = (i) => {
+    if (data?.type === 3) {
+      return `Cổ đông sáng lập ${data?.type !== 1 && ` thứ ${i + 1}`}`
+    }
+    return `Thành viên góp vốn ${data?.type !== 1 && ` thứ ${i + 1}`}`
+  }
+
   return (
     <Form.Item
       className={clsx([
@@ -135,7 +142,7 @@ const ThanhVienGopVon = forwardRef(({ data, ...props }, ref) => {
               <Form.Item
                 label={
                   <div className={styles.label}>
-                    <div className={styles.title}>Thành viên góp vốn {data?.type !== 1 && ` thứ ${i + 1}`}</div>
+                    <div className={styles.title}>{getMemberLabel(i)}</div>
                     <Button
                       type="text"
                       shape="circle"

@@ -7,7 +7,7 @@ const { RangePicker } = DatePicker
 
 const CCInput = forwardRef((props, ref) => {
   const { name, label, value, onChange, style, placeholder, ...rest } = props
-  const [optional, setOptional] = useState([])
+  const [options, setOptions] = useState([])
 
   const handleOptions = () => {
     let option
@@ -17,7 +17,7 @@ const CCInput = forwardRef((props, ref) => {
       option = props?.options
     }
 
-    setOptional(option)
+    setOptions(option)
   }
 
   switch (props.type) {
@@ -62,7 +62,7 @@ const CCInput = forwardRef((props, ref) => {
     case 'date-range':
       return <InputDateRange {...props} />
     case 'select':
-      return <InputSelect name={name} label={label} {...props} optional={optional} handleOptions={handleOptions} />
+      return <InputSelect name={name} label={label} {...props} options={options} handleOptions={handleOptions} />
     default:
       if (props?.layout === 'horizontal') {
         return (
@@ -127,6 +127,7 @@ const InputPassword = (props) => {
     </Form.Item>
   )
 }
+
 const InputText = ({ value, name, label, style, ...rest }) => {
   return (
     <Form.Item
@@ -145,12 +146,13 @@ const InputText = ({ value, name, label, style, ...rest }) => {
         autoComplete={rest?.autocomplete || 'off'}
         value={rest?.value}
         maxLength={rest?.maxLength}
+        {...rest}
       />
     </Form.Item>
   )
 }
 
-const InputSelect = ({ name, label, optional, handleOptions, prefix, ...props }) => {
+const InputSelect = ({ name, label, options, handleOptions, prefix, ...props }) => {
   return (
     <Form.Item
       name={name}
@@ -169,7 +171,7 @@ const InputSelect = ({ name, label, optional, handleOptions, prefix, ...props })
         autoComplete="off"
         value={props?.value}
       >
-        {optional?.map((item, i) => {
+        {options?.map((item, i) => {
           return (
             <Select.Option value={item.value} key={item.key ? item.key : [name, i, item.value]}>
               {item.name}
@@ -261,5 +263,9 @@ const InputDateRange = (props) => {
     </>
   )
 }
+
+CCInput.Select = InputSelect
+CCInput.Date = InputDate
+CCInput.Text = InputText
 
 export default CCInput

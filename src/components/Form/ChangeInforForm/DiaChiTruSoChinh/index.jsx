@@ -9,10 +9,25 @@ import { htmlContent } from '@/helper/Common'
 import clsx from 'clsx'
 
 import styles from '../DaiDienPhapLuat/styles.module.scss'
+import { useEffect } from 'react'
 
 const BASE_FORM = ['change_info', 'location']
 
 const DiaChiTruSoChinh = forwardRef((props, ref) => {
+  const formInstance = Form.useFormInstance()
+
+  const watchCity = Form.useWatch([...BASE_FORM, 'old', 'city'], formInstance)
+  const watchDistrict = Form.useWatch([...BASE_FORM, 'old', 'district'], formInstance)
+  const watchTown = Form.useWatch([...BASE_FORM, 'old', 'town'], formInstance)
+  const watchAddress = Form.useWatch([...BASE_FORM, 'old', 'address'], formInstance)
+  useEffect(() => {
+    if (watchCity) formInstance.setFields([{ name: [...BASE_FORM, 'new_location', 'city'], value: watchCity }])
+    if (watchDistrict)
+      formInstance.setFields([{ name: [...BASE_FORM, 'new_location', 'district'], value: watchDistrict }])
+    if (watchTown) formInstance.setFields([{ name: [...BASE_FORM, 'new_location', 'town'], value: watchTown }])
+    if (watchAddress) formInstance.setFields([{ name: [...BASE_FORM, 'new_location', 'address'], value: watchAddress }])
+  }, [watchCity, watchDistrict, watchTown, watchAddress])
+
   return (
     <Form.Item
       label={<h3>Đăng ký thay đổi địa chỉ trụ sở chính</h3>}
