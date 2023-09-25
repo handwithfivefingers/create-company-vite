@@ -13,7 +13,7 @@ module.exports = class LoginService {
   getUserOTPForLogin = async (req, res) => {
     let logs = {
       url: '/v1/login-otp',
-      ip: req.originalUrl,
+      ip: req.remoteAddress,
       request: {},
       response: {},
     }
@@ -137,7 +137,6 @@ module.exports = class LoginService {
       const { phone, email, type } = req.body
 
       let _user
-
 
       if (+type === 1) {
         _user = await User.findOne({ phone, email })

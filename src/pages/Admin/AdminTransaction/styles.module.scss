@@ -1,0 +1,59 @@
+@import '@/assets/css/custom';
+.searchForm {
+  display: grid;
+  grid-template-columns: repeat(3, auto);
+  // gap: 4px;
+  align-items: center;
+  :global {
+    .ant-row.ant-form-item {
+      margin: 0;
+    }
+  }
+}
+
+.inline {
+  @extend .inline;
+  display: table-cell;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.inpSearch {
+  input {
+    height: unset;
+  }
+}
+
+.tableWrapper {
+  overflow: overlay !important;
+  background-color: #fff;
+
+  table {
+    background-color: #fff;
+    thead {
+      position: sticky;
+      top: 0;
+      z-index: 1;
+    }
+  }
+}
+
+.pagination {
+  display: flex;
+  // padding: 8px 0;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.contentWrapper {
+  display: grid;
+  // grid-template-rows: ;
+  grid-template-rows: 50px 1fr 50px;
+}

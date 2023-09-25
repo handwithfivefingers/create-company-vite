@@ -60,7 +60,7 @@ export const AdminRouter = [
   },
   {
     path: '/admin/transaction',
-    name: 'Quản lý thanh toán',
+    name: 'Hóa đơn',
     icon: <RiBarChartFill />,
   },
   {

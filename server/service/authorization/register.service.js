@@ -14,7 +14,7 @@ module.exports = class RegiserService {
   getUserOTPForRegister = async (req, res) => {
     let logs = {
       url: '/v1/register-otp',
-      ip: req.originalUrl,
+      ip: req.remoteAddress,
       request: {},
       response: {},
     }
