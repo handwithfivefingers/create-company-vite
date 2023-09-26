@@ -1,13 +1,10 @@
-const { existHandler, successHandler, errHandler, permisHandler, deletedHandler } = require('../../../response')
-const { User } = require('../../../model')
-const _ = require('lodash')
+const { User } = require('@model')
+const BaseAdminService = require('@common/baseService')
 
-module.exports = class UserManageAdmin {
+module.exports = class UserService extends BaseAdminService {
   PAGE_SIZE = 10
 
-  constructor() {}
-
-  fetchUser = async (req, res) => {
+  getUser = async (req) => {
     try {
       const { page, ...condition } = req.body
 
@@ -20,24 +17,21 @@ module.exports = class UserManageAdmin {
         .sort('-createdAt')
 
       let count = await User.find({ delete_flag: { $ne: 1 }, _id: { $ne: req.id } }).countDocuments()
-
-      return successHandler({ _user, count, current_page: page || 1 }, res)
+      return { _user, count, current_page: page || 1 }
     } catch (e) {
-      console.log('error stack', e)
-      return errHandler(e, res)
+      throw e
     }
   }
 
-  deleteUser = async (req, res) => {
-    let { id } = req.params
-
+  deleteUser = async (req) => {
     try {
+      let { id } = req.params
       let _user = await User.findOneAndUpdate({ _id: id }, { delete_flag: 1 })
 
-      if (_user) return deletedHandler(_user, res)
+      return _user
     } catch (err) {
       console.log(err)
-      return errHandler(err, res)
+      throw err
     }
   }
 }

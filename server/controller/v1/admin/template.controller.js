@@ -4,7 +4,7 @@ const TemplateService = require('../../../service/v1/admin/template.service')
 module.exports = class TemplateController {
   onGetTemplate = async (req, res) => {
     try {
-      const data = await new TemplateService().onGetTemplate(req, res)
+      const data = await new TemplateService(req).onGetTemplate(req, res)
       return successHandler(data, res)
     } catch (error) {
       return errHandler(error, res)
@@ -12,7 +12,7 @@ module.exports = class TemplateController {
   }
   onCreateTemplate = async (req, res) => {
     try {
-      const data = await new TemplateService().onCreateTemplate(req, res)
+      const data = await new TemplateService(req).onCreateTemplate(req, res)
       return successHandler(data, res)
     } catch (error) {
       return errHandler(error, res)
@@ -20,7 +20,7 @@ module.exports = class TemplateController {
   }
   onUpdateTemplate = async (req, res) => {
     try {
-      const data = await new TemplateService().onUpdateTemplate(req, res)
+      const data = await new TemplateService(req).onUpdateTemplate(req, res)
 
       return successHandler(data, res)
     } catch (error) {
@@ -29,7 +29,7 @@ module.exports = class TemplateController {
   }
   onDeleteTemplate = async (req, res) => {
     try {
-      const data = await new TemplateService().onDeleteTemplate(req, res)
+      const data = await new TemplateService(req).onDeleteTemplate(req, res)
       return successHandler(data, res)
     } catch (error) {
       return errHandler(error, res)

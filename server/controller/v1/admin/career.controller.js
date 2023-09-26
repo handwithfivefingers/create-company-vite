@@ -11,14 +11,7 @@ module.exports = class AdminCareerController {
       return errHandler(error, res)
     }
   }
-  // onHandleGetById = async (req, res) => {
-  //   try {
-  //     const data = await new AdminCareerService().getCareerCateById(req, res)
-  //     return successHandler(data, res)
-  //   } catch (error) {
-  //     return errHandler(error, res)
-  //   }
-  // }
+
   onHandleCreate = async (req, res) => {
     try {
       const data = await new AdminCareerService().createCareer(req)

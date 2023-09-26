@@ -4,7 +4,7 @@ const { AdminCategoryService } = require('@service')
 module.exports = class AdminCategoryController {
   onHandleGetCategory = async (req, res) => {
     try {
-      const data = await new AdminCategoryService().getCategory()
+      const data = await new AdminCategoryService(req).getCategory()
       return successHandler(data, res)
     } catch (error) {
       return errHandler(error, res)
@@ -12,7 +12,7 @@ module.exports = class AdminCategoryController {
   }
   onHandleCreateCategory = async (req, res) => {
     try {
-      const data = await new AdminCategoryService().createCategory(req)
+      const data = await new AdminCategoryService(req).createCategory(req)
       return successHandler(data, res)
     } catch (error) {
       return errHandler(error, res)
@@ -20,7 +20,7 @@ module.exports = class AdminCategoryController {
   }
   onHandleUpdateCategory = async (req, res) => {
     try {
-      const data = await new AdminCategoryService().updateCategory(req)
+      const data = await new AdminCategoryService(req).updateCategory(req)
       return successHandler(data, res)
     } catch (error) {
       return errHandler(error, res)
@@ -28,7 +28,7 @@ module.exports = class AdminCategoryController {
   }
   onHandleDeleteCategory = async (req, res) => {
     try {
-      const data = await new AdminCategoryService().hardDelete(req)
+      const data = await new AdminCategoryService(req).hardDelete(req)
       return successHandler(data, res)
     } catch (error) {
       return errHandler(error, res)

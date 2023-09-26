@@ -1,9 +1,7 @@
 const express = require('express')
 const router = express.Router()
-const Logs = require('@controller/admin/Logs')
-
-const LogsFunc = new Logs()
+const LogController = require('@controller/v1/admin/log.controller')
 //Get
-router.get('/', LogsFunc.getLogs)
+router.get('/', new LogController().onGetLogs)
 
 module.exports = router

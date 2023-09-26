@@ -1,6 +1,7 @@
 const { Career } = require('@model')
+const BaseAdminService = require('@common/baseService')
 
-module.exports = class AdminCareerService {
+module.exports = class AdminCareerService extends BaseAdminService  {
   createCareer = async (req, res) => {
     try {
       const career = await Career.findOne({

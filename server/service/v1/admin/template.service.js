@@ -1,15 +1,7 @@
-const {
-  existHandler,
-  successHandler,
-  errHandler,
-  deletedHandler,
-  updatedHandler,
-  createdHandler,
-} = require('@response')
 const { TemplateMail } = require('@model')
-const _ = require('lodash')
+const BaseAdminService = require('@common/baseService')
 
-module.exports = class TemplateService {
+module.exports = class TemplateService extends BaseAdminService {
   PAGE_SIZE = 10
 
   constructor() {}

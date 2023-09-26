@@ -1,8 +1,9 @@
 const { Career, CareerCategory } = require('@model')
 const { errHandler, successHandler } = require('@response')
+const BaseAdminService = require('@common/baseService')
 // Fetch data
 
-module.exports = class AdminCareerCategoryService {
+module.exports = class AdminCareerCategoryService extends BaseAdminService {
   getCareerCate = async () => {
     try {
       let _cate = await CareerCategory.find({ delete_flag: { $ne: 1 } })

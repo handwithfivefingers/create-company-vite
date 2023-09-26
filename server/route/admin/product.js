@@ -1,18 +1,14 @@
 const express = require('express')
-
-const ProductAdmin = require('@controller/admin/Product')
-
-const { getProduct, getSingleProduct, createProduct, updateProduct, deleteProduct } = new ProductAdmin()
-
 const router = express.Router()
 
-router.get('/', getProduct)
+const AdminProductController = require('@controller/v1/admin/product.controller')
 
-router.post('/', createProduct)
+router.get('/', new AdminProductController().getProduct)
 
-router.delete('/:_id', deleteProduct)
+router.post('/', new AdminProductController().createProduct)
 
-router.get('/:_id', getSingleProduct)
+router.post('/:_id', new AdminProductController().updateProduct)
 
-router.post('/:_id', updateProduct)
+router.delete('/:_id', new AdminProductController().deleteProduct)
+
 module.exports = router

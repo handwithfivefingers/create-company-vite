@@ -1,8 +1,9 @@
 import CCInput from '@/components/CCInput'
 import { number_format } from '@/helper/Common'
 import OrderService from '@/service/UserService/OrderService'
-import { Button, Card, Col, Descriptions, Form, List, Radio, Row, Space, message } from 'antd'
+import { Alert, Button, Card, Col, Descriptions, Form, List, Radio, Row, Space, message, notification } from 'antd'
 import React, { useEffect, useState } from 'react'
+import { MdOutlineCopyAll } from 'react-icons/md'
 import { useNavigate, useParams } from 'react-router-dom'
 import { CHANGE_INFO_FORM, CREATE_COMPANY_FORM, DISSOLUTION_FORM, PENDING_FORM } from '../../../constant/FormConstant'
 import VNPAY_LOGO from '@/assets/img/vnpay.png'
@@ -30,7 +31,7 @@ const Checkout = () => {
       console.log('error', error)
       navigate('/404')
     } finally {
-      setLoading(true)
+      setLoading(false)
     }
   }
 
@@ -74,21 +75,83 @@ const Checkout = () => {
       message.error('Tạo đơn hàng thất bại')
     } finally {
       setLoading(false)
+      getScreenData(slug)
     }
+  }
+
+  const handleCopy = (num) => {
+    navigator.clipboard.writeText(num)
+    notification.success({
+      placement: 'bottomRight',
+      message: 'Đã sao chép',
+    })
   }
   const getContent = () => {
     // Transfer
     if (data.transactionId.paymentType === 1) {
       return (
-        <>
-          <Card className={'box__shadow'}>
-            <Descriptions title="Thông tin chuyển khoản">
-              <Descriptions.Item label="Tên"></Descriptions.Item>
-              <Descriptions.Item label="Ngân hàng"></Descriptions.Item>
-              <Descriptions.Item label="Số tài khoản"></Descriptions.Item>
-            </Descriptions>
-          </Card>
-        </>
+        <Row gutter={[12, 12]}>
+          <Col lg={{ span: 16, order: 1 }} md={{ span: 24, order: 2 }} sm={{ span: 24, order: 2 }}>
+            <Card className={'box__shadow'}>
+              <Descriptions title="Thông tin chuyển khoản">
+                <Descriptions.Item span={24} label="Tên">
+                  Trương Biện Kim Tuyền
+                </Descriptions.Item>
+                <Descriptions.Item span={24} label="Ngân hàng">
+                  Techcombank
+                </Descriptions.Item>
+                <Descriptions.Item span={24} label="Số tài khoản">
+                  <Button
+                    onClick={() => handleCopy('19032272332029')}
+                    type="text"
+                    style={{ display: 'flex', alignItems: 'center', gap: 12, padding: 0, height: 22 }}
+                  >
+                    1903 2272 3320 29
+                    <MdOutlineCopyAll fontSize={16} />
+                  </Button>
+                </Descriptions.Item>
+                <Descriptions.Item label="QR code" span={24}></Descriptions.Item>
+                <Descriptions.Item span={24}>
+                  <div className={styles.imgBlock} style={{ margin: '0 auto' }}>
+                    <img src="/public/QR_new.jpg" width={400} />
+                  </div>
+                </Descriptions.Item>
+              </Descriptions>
+            </Card>
+          </Col>
+          <Col lg={{ span: 8, order: 2 }} md={{ span: 24, order: 1 }} sm={{ span: 24, order: 1 }}>
+            <Card className={'box__shadow'}>
+              <Descriptions title="Nội dung chuyển khoản">
+                <Descriptions.Item label="Nội dung" span={24}>
+                  <Button
+                    onClick={() => handleCopy(data?.transactionId?.paymentCode)}
+                    type="text"
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      margin: 0,
+                      padding: 0,
+                      lineHeight: 1,
+                      gap: 12,
+                      height: 22,
+                    }}
+                  >
+                    <b>{data?.transactionId?.paymentCode}</b>
+                    <MdOutlineCopyAll fontSize={16} />
+                  </Button>
+                </Descriptions.Item>
+                <Descriptions.Item label="Số tiền" span={24}>
+                  <b>{number_format(data?.price)} đ</b>
+                </Descriptions.Item>
+              </Descriptions>
+            </Card>
+
+            <Alert
+              message="Chúng tôi sẽ cập nhật trạng thái khi nhận được thông tin. Nếu gặp vấn đề, xin vui lòng liên hệ hotline"
+              style={{ marginTop: 8 }}
+            />
+          </Col>
+        </Row>
       )
     } else if (data.transactionId.paymentType === 2) {
       return (
@@ -127,6 +190,7 @@ const Checkout = () => {
         </>
       )
   }
+
   if (data?.transactionId) {
     return (
       <div className={styles.mainContent}>

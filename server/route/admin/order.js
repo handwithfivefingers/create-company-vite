@@ -1,19 +1,13 @@
 const express = require('express')
-
-const OrderAdmin = require('@controller/admin/Order')
-
 const router = express.Router()
+const OrderAdmin = require('@controller/v1/admin/order.controller')
 
 // Admin Router
 
-const OrderAdminRouter = new OrderAdmin()
+router.get('/', new OrderAdmin().getOrders)
 
-router.post('/delete/:id', OrderAdminRouter.deleteOrder)
+router.get('/:id', new OrderAdmin().getOrderByID)
 
-router.post('/delete_all', OrderAdminRouter.reforceDelete)
-
-router.get('/', OrderAdminRouter.getOrders)
-
-router.get('/:id', OrderAdminRouter.getOrderByID)
+router.delete('/:id', new OrderAdmin().deleteOrder)
 
 module.exports = router

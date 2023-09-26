@@ -1,7 +1,6 @@
 const { Transaction } = require('@model')
-module.exports = class AdminTransactionService {
-  constructor() {}
-
+const BaseAdminService = require('@common/baseService')
+module.exports = class AdminTransactionService extends BaseAdminService {
   getTransaction = async (req) => {
     try {
       const { paymentCode, dateFrom, dateTo } = req.query
@@ -59,16 +58,34 @@ module.exports = class AdminTransactionService {
             price: '$order.price',
             isPayment: '$isPayment',
             data: '$order.data',
+            deliveryInformation: '$deliveryInformation',
           },
         },
         {
           $sort: {
-            createdAt: 1,
+            createdAt: -1,
           },
         },
       ])
       return newData
     } catch (error) {
+      throw error
+    }
+  }
+
+  updateTransaction = async (req) => {
+    try {
+      const { isPayment, deliveryInformation } = req.body
+      const { _id } = req.params
+      console.log('_id', _id)
+      const _trans = await Transaction.findById(_id)
+      if (!_trans) throw new Error('Transaction doesnt exists')
+      _trans.isPayment = isPayment
+      _trans.deliveryInformation = deliveryInformation
+      await _trans.save()
+      return true
+    } catch (error) {
+      console.log('error', error)
       throw error
     }
   }

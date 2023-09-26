@@ -1,8 +1,9 @@
 const { Category } = require('@model')
 const { default: slugify } = require('slugify')
 // Fetch data
+const BaseAdminService = require('@common/baseService')
 
-module.exports = class AdminCategoryService {
+module.exports = class AdminCategoryService extends BaseAdminService{
   createCategory = async (req, res) => {
     try {
       let { name, parentCategory, type, price, desc } = req.body

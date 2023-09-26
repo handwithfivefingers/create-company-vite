@@ -1,6 +1,7 @@
 const { Setting } = require('@model')
+const BaseAdminService = require('@common/baseService')
 
-module.exports = class SettingService {
+module.exports = class SettingService extends BaseAdminService{
   updateSetting = async (req, res) => {
     try {
       let { ...rest } = req.body

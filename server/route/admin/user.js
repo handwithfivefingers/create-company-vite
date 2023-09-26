@@ -1,15 +1,9 @@
 const express = require('express')
-
-const { upload, requireSignin } = require('@middleware')
-
-const UserManageAdmin = require('@controller/admin/User')
-
-const User = new UserManageAdmin()
-
 const router = express.Router()
+const UserController = require('@controller/v1/admin/user.controller')
 
-router.post('/', requireSignin, User.fetchUser)
+router.post('/', new UserController().onGetUser)
 
-router.delete('/:id', requireSignin, User.deleteUser)
+router.delete('/:id', new UserController().onDeleteUser)
 
 module.exports = router

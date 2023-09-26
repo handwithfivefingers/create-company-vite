@@ -1,16 +1,17 @@
 import AdminHeader from '@/components/Admin/AdminHeader'
 import { PAYMENT_TYPE_CODE } from '@/constant/Payment'
 import { number_format } from '@/helper/Common'
-import { Button, DatePicker, Form, Input, Space, Table, Tag } from 'antd'
+import { Button, DatePicker, Form, Input, Modal, Space, Table, Tag, Spin, message } from 'antd'
 import moment from 'moment'
-import React, { useEffect, useRef, useState } from 'react'
+import React, { Suspense, lazy, useEffect, useRef, useState } from 'react'
 import AdminTransactionService from '@/service/AdminService/AdminTransactionService'
 import styles from './styles.module.scss'
 
+const TransactionModal = lazy(() => import('@/components/Modal/UpdateTransactionModal'))
 function AdminTransaction() {
   const [loading, setLoading] = useState(false)
   const dataRef = useRef([])
-
+  const modalRef = useRef()
   useEffect(() => {
     getScreenData()
   }, [])
@@ -60,6 +61,30 @@ function AdminTransaction() {
   const onFilter = (value) => {
     getScreenData(value)
   }
+
+  const onDoubleClick = (record) => {
+    console.log('record', record)
+    modalRef.current.openModal()
+    modalRef.current.onSetData(record)
+  }
+
+  const onFinishScreen = async (value) => {
+    // console.log('finish', value)
+    try {
+      const data = await AdminTransactionService.updateTransaction(value)
+      message.success('Cập nhật thành công')
+      modalRef.current?.closeModal()
+      getScreenData()
+    } catch (error) {
+      const msg =
+        error.response?.data?.message ||
+        error.repsonse?.message ||
+        error?.message ||
+        'Đã có lỗi xảy ra, vui lòng liên hệ admin'
+      message.error(msg)
+    }
+  }
+
   return (
     <>
       <AdminHeader title="Quản lý Hóa đơn" />
@@ -73,7 +98,9 @@ function AdminTransaction() {
               <DatePicker.RangePicker placeholder={['Từ ngày ...', '...Đến ngày']} />
             </Form.Item>
             <Form.Item>
-              <Button type="primary" htmlType='submit'>Tìm kiếm</Button>
+              <Button type="primary" htmlType="submit">
+                Tìm kiếm
+              </Button>
             </Form.Item>
           </Space>
         </Form>
@@ -89,6 +116,11 @@ function AdminTransaction() {
             }}
             rowKey={(record) => record._id}
             pagination={false}
+            onRow={(record) => {
+              return {
+                onDoubleClick: () => onDoubleClick(record),
+              }
+            }}
           >
             <Table.Column align="center" title="Mã đơn" dataIndex="paymentCode" />
 
@@ -109,7 +141,7 @@ function AdminTransaction() {
               render={(val, record, i) => {
                 return (
                   <span style={{ display: 'block', width: '150px' }}>
-                    {moment(record.createdAt).format('HH:mm DD-MM-YYYY')}
+                    {moment(record.createdAt).format('DD/MM/YYYY HH:mm')}
                   </span>
                 )
               }}
@@ -129,15 +161,13 @@ function AdminTransaction() {
               }}
             />
           </Table>
+
+          <Suspense fallback={<Spin />}>
+            <TransactionModal ref={modalRef} onFinishScreen={onFinishScreen} />
+          </Suspense>
         </div>
 
         <div className={styles.pagination}>{/* <CCPagination {...pagiConfigs} /> */}</div>
-        {/* 
-        {childModal.visible && (
-          <Modal footer={null} onCancel={() => onClose()} visible={childModal.visible} width={childModal.width}>
-            {childModal.component}
-          </Modal>
-        )} */}
       </div>
     </>
   )

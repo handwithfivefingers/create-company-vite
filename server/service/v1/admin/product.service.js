@@ -1,36 +1,30 @@
 const { Product, Category } = require('@model')
 const { successHandler, errHandler } = require('@response')
+const BaseAdminService = require('@common/baseService')
 const slugify = require('slugify')
-module.exports = class ProductAdmin {
+module.exports = class ProductAdmin extends BaseAdminService {
   getProduct = async (req, res) => {
     try {
-      let { _id } = req.params // _id Category
-
       let _product = await Product.find({}).populate('categories')
+
       return { _product, count: _product.length }
-      return successHandler({ _product, count: _product.length }, res)
     } catch (error) {
       console.log(error)
       return errHandler(error, res)
     }
   }
 
-  getSingleProduct = async (req, res) => {
-    try {
-    } catch (error) {}
-  }
-
-  createProduct = async (req, res) => {
+  createProduct = async (req) => {
     try {
       const obj = {
         name: req.body.name.toString(),
         price: Number(req.body.price),
         slug: slugify(req.body.name),
-        categories: req.body.categories,
         type: req.body.type,
+        categories: req.body?.categories || [],
       }
 
-      let product = await Product.findOne({
+      const product = await Product.findOne({
         name: req.body.name,
       })
 
@@ -40,11 +34,9 @@ module.exports = class ProductAdmin {
 
       await _product.save()
 
-      // return successHandler([], res)
       return true
     } catch (err) {
       console.log('createProduct error', err)
-      // return errHandler(err, res)
       throw err
     }
   }
@@ -52,27 +44,16 @@ module.exports = class ProductAdmin {
   updateProduct = async (req, res) => {
     try {
       let { _id } = req.params
-
-      let { categories, name, price, type } = req.body
-
-      // if (!categories) throw { message: 'No categories provided' }
-
+      let { categories, name, price } = req.body
       let _update = {
         name,
         price,
-        type,
         categories,
       }
-
       await Product.updateOne({ _id }, _update, { new: true })
 
       return true
-      // return res.status(200).json({
-      //   message: ' ok',
-      // })
     } catch (error) {
-      console.log(error)
-      // return errHandler(error, res)
       throw err
     }
   }
@@ -91,8 +72,6 @@ module.exports = class ProductAdmin {
     } catch (err) {
       console.log('deleteProduct error')
       throw err
-
-      return errHandler(err, res)
     }
   }
 

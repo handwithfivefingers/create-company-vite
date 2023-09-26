@@ -1,10 +1,8 @@
 const express = require('express')
-const { upload, requireSignin } = require('@middleware')
-const { ReadFile } = require('@controller/admin/FileManager')
-
+const { upload } = require('@middleware')
 const router = express.Router()
-
+const FileController = require('@controller/v1/admin/file.controller')
 //Get
-router.get('/', upload.none(), ReadFile)
+router.get('/', upload.none(), new FileController().onReadFile)
 
 module.exports = router
