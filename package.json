@@ -15,7 +15,8 @@
     "dev-down": "docker-compose -f docker-compose.dev.yml down",
     "prod-build": "docker-compose -f docker-compose.prod.yml build",
     "prod-up": "docker-compose -f docker-compose.prod.yml up -d",
-    "prod-down": "docker-compose -f docker-compose.prod.yml down"
+    "prod-down": "docker-compose -f docker-compose.prod.yml down",
+    "dev:test": "node testLibreDocker"
   },
   "dependencies": {
     "@pdftron/webviewer": "^8.3.0",
@@ -30,11 +31,9 @@
     "antd": "^4.23.1",
     "axios": "^0.24.0",
     "clsx": "^1.1.1",
-    "framer-motion": "^7.3.2",
     "html-react-parser": "^1.4.5",
     "lodash-es": "^4.17.21",
     "moment": "^2.29.1",
-    "nodemon": "^2.0.15",
     "rc-virtual-list": "^3.4.8",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -48,9 +47,14 @@
   },
   "devDependencies": {
     "@tanstack/react-query-devtools": "^4.0.10",
-    "@types/react": "^18.0.15",
-    "@types/react-dom": "^18.0.6",
-    "@vitejs/plugin-react": "^2.1.0",
+    "@types/react": "^18.2.15",
+    "@types/react-dom": "^18.2.7",
+    "@vitejs/plugin-react": "^4.0.3",
+    "eslint": "^8.45.0",
+    "eslint-plugin-react": "^7.32.2",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-react-refresh": "^0.4.3",
+    "vite": "^4.4.5",
     "angular-expressions": "^1.1.5",
     "apicache": "^1.6.3",
     "bcryptjs": "^2.4.3",
@@ -78,7 +82,7 @@
     "rollup-plugin-visualizer": "^5.8.3",
     "sha256": "^0.2.0",
     "shortid": "^2.2.16",
-    "slugify": "^1.6.4",
-    "vite": "^3.1.8"
+    "nodemon": "^2.0.15",
+    "slugify": "^1.6.4"
   }
 }
