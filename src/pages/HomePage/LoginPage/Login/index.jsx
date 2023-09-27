@@ -28,7 +28,7 @@ const LoginForm = () => {
           navigate(`/${role}`)
         } else navigate(nextNavigate.from)
       } else {
-        navigate(role)
+        navigate(`/${role}`)
       }
     }
   }, [status])

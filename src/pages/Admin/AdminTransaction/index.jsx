@@ -59,7 +59,18 @@ function AdminTransaction() {
   }
 
   const onFilter = (value) => {
-    getScreenData(value)
+    console.log('value', value)
+    const { paymentCode, date } = value
+
+    const params = {}
+    if (paymentCode) params.paymentCode = paymentCode
+    if (date) {
+      const [dateFrom, dateTo] = date
+      params.dateFrom = moment(dateFrom).format('YYYY/MM/DD')
+      params.dateTo = moment(dateTo).format('YYYY/MM/DD')
+    }
+
+    getScreenData(params)
   }
 
   const onDoubleClick = (record) => {
@@ -69,7 +80,6 @@ function AdminTransaction() {
   }
 
   const onFinishScreen = async (value) => {
-    // console.log('finish', value)
     try {
       const data = await AdminTransactionService.updateTransaction(value)
       message.success('Cập nhật thành công')

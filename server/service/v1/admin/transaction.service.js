@@ -6,7 +6,7 @@ module.exports = class AdminTransactionService extends BaseAdminService {
       const { paymentCode, dateFrom, dateTo } = req.query
       const listQuery = {}
       if (paymentCode) {
-        listQuery.paymentCode = paymentCode
+        listQuery.$text = { $search: paymentCode }
       }
       if (dateFrom || dateTo) {
         const inDate = {}

@@ -3,9 +3,12 @@ import CCInput from '@/components/CCInput'
 import { onSetFields } from '@/helper/Common'
 import AdminMailService from '@/service/AdminService/AdminMailService'
 import AdminSettingService from '@/service/AdminService/AdminSettingService'
-import { Button, Form, message, Tabs, Row, Col, Select } from 'antd'
+import { Button, Form, message, Tabs, Row, Col, Select, Card } from 'antd'
 import { forwardRef, useEffect, useRef, useState } from 'react'
 import styles from './styles.module.scss'
+// const { use}
+import { useNavigate } from 'react-router-dom'
+import clsx from 'clsx'
 const { TabPane } = Tabs
 
 const ChangePassword = forwardRef((props, ref) => {
@@ -121,6 +124,7 @@ const AdminSetting = () => {
   const [loading, setLoading] = useState(false)
   const [options, setOptions] = useState([])
   const [settingMail, setSettingMail] = useState({})
+  const navigate = useNavigate()
 
   useEffect(() => {
     fetchTemplateMail()
@@ -202,13 +206,12 @@ const AdminSetting = () => {
         ))}
       </Tabs> */}
       <div className={styles.grid}>
-        <div className={styles.gridItem}>{/* <Icon */}
-        
-        
-        </div>
-        <div className={styles.gridItem}>Template Mail</div>
-        <div className={styles.gridItem}></div>
-        <div className={styles.gridItem}></div>
+        <Card className={clsx('box__shadow', styles.gridItem)} onClick={() => navigate('./payment')}>
+          Thanh toán
+        </Card>
+        <Card className={clsx('box__shadow', styles.gridItem)}> Template Mail</Card>
+        {/* <Card className={clsx('box__shadow')}> Thanh toán</Card>
+        <Card className={clsx('box__shadow')}> Thanh toán</Card> */}
       </div>
     </>
   )

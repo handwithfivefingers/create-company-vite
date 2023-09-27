@@ -11,7 +11,7 @@ import {
 } from 'react-icons/ri'
 
 import { BsCreditCard2Front } from 'react-icons/bs'
-import { Navigate } from 'react-router-dom'
+import { Navigate, Outlet } from 'react-router-dom'
 
 import Admin from '@/pages/Admin'
 import HomePage from '@/pages/HomePage'
@@ -23,6 +23,7 @@ import Policy from '../pages/User/Policy'
 import LoginForm from '@/pages/HomePage/LoginPage/Login'
 import LoginAdmin from '@/pages/HomePage/LoginAdmin'
 import Checkout from '@/pages/User/Checkout'
+import SettingPayment from '../pages/Admin/AdminSetting/Payment'
 
 const AdminDashboard = lazy(() => import('@/pages/Admin/Dashboard'))
 const AdminMail = lazy(() => import('@/pages/Admin/AdminMail'))
@@ -40,7 +41,6 @@ const UserProfile = lazy(() => import('@/pages/User/Profile'))
 const AdminAbout = lazy(() => import('@/pages/Admin/AdminAbout'))
 const AdminTransaction = lazy(() => import('@/pages/Admin/AdminTransaction'))
 const CCResult = lazy(() => import('@/pages/User/Result'))
-const UserTransaction = lazy(() => import('@/pages/User/Transaction'))
 
 export const AdminRouter = [
   {
@@ -188,7 +188,20 @@ export const LAYOUT_ROUTER = ({ status, role }) => [
             path: 'setting',
             title: 'Cài đặt',
             icon: <RiAdminFill />,
-            element: <AdminSetting />,
+            // element: <AdminSetting />,
+            element: <Outlet />,
+            children: [
+              {
+                path: '',
+                index: true,
+                element: <AdminSetting />,
+              },
+              {
+                path: 'payment',
+                title: 'Thanh toán',
+                element: <SettingPayment />,
+              },
+            ],
           },
           {
             path: 'about',
@@ -248,12 +261,7 @@ export const LAYOUT_ROUTER = ({ status, role }) => [
           icon: <RiChatPollLine />,
           element: <UserOrder />,
         },
-        // {
-        //   path: 'transaction',
-        //   title: 'Orders',
-        //   icon: <BsCreditCard2Front />,
-        //   element: <UserTransaction />,
-        // },
+
         {
           path: 'policy',
           title: 'Chính sách hoàn / huỷ',
