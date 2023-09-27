@@ -32,7 +32,6 @@ global.__basedir = __dirname
 const { NODE_ENV, PORT, DEV_PORT } = process.env
 
 const RUNTIME_PORT = NODE_ENV === 'development' ? DEV_PORT || 3001 : PORT
-
 const { initEnvLoaded } = new LoadEnv()
 
 const { connectDB } = new db()
@@ -44,15 +43,11 @@ const { onConvertFiles, onBackupDB, onGenSSL } = new Cronjob()
 initEnvLoaded()
 
 onInit()
-
-// Cron running ;
-
 app.listen(RUNTIME_PORT, async () => {
   await connectDB()
-
   onConvertFiles()
   onBackupDB()
   onGenSSL()
-  
   console.log(`Server is running on Port ${RUNTIME_PORT}`)
+  console.log('???')
 })

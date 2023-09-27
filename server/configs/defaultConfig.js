@@ -41,7 +41,11 @@ module.exports = class ConfigApp {
   }
 
   onInit = () => {
-    this.onLoadConfig().onLoadUploadConfigs().onLoadRouter().onLoadSourceHTML().onHandlerError()
+    this.onLoadConfig()
+    this.onLoadUploadConfigs()
+    this.onLoadSourceHTML()
+    this.onLoadRouter()
+    this.onHandlerError()
   }
 
   onLoadConfig = () => {
@@ -54,13 +58,13 @@ module.exports = class ConfigApp {
 
   onLoadUploadConfigs = () => {
     this.app.use('/public', cors(corsOptions), express.static(path.join(global.__basedir, 'uploads')))
-
     this.app.use('/robots.txt', (req, res) => {
       let robotFile = path.join(global.__basedir, 'uploads', 'robots.txt')
       res.sendFile(robotFile)
     })
     return this
   }
+
   onLoadRouter = () => {
     this.app.use('/git', GitRouter)
     this.app.use('/api', cors(corsOptions), TrackingApi, AppRouter)
@@ -69,7 +73,6 @@ module.exports = class ConfigApp {
 
   onLoadSourceHTML = () => {
     this.app.use(express.static(path.join(global.__basedir, 'dist')))
-
     if (NODE_ENV !== 'development') {
       this.app.get('/*', cors(corsOptions), (req, res) => {
         res.sendFile(path.join(global.__basedir, 'dist', 'index.html'))
@@ -78,6 +81,7 @@ module.exports = class ConfigApp {
 
     return this
   }
+  
   onHandlerError = () => {
     this.app.use((err, req, res, next) => {
       res.status(500).send({

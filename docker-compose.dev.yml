@@ -8,8 +8,6 @@ services:
       - 3000-3003:3000-3003
     volumes:
       - .:/app:consistent
-      - ./src:/app/src:consistent
-      - ./server:/app/server:consistent
     env_file:
       - .env
     environment:

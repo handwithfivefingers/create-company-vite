@@ -3,12 +3,11 @@
 // import UserSidebar from '@/components/User/UserSidebar'
 import { Layout } from 'antd'
 import clsx from 'clsx'
-import { AnimatePresence, domAnimation, LazyMotion } from 'framer-motion'
-import { Children, cloneElement, memo, lazy } from 'react'
+import { lazy, memo } from 'react'
 import { FcInfo } from 'react-icons/fc'
-import { Link, Navigate, useLocation } from 'react-router-dom'
-import styles from './styles.module.scss'
+import { Link, Navigate } from 'react-router-dom'
 import SuspendComponent from '../SuspenseComponent'
+import styles from './styles.module.scss'
 
 const AdminSidebar = lazy(() => import('@/components/Admin/AdminSidebar'))
 const UserSidebar = lazy(() => import('@/components/User/UserSidebar'))
@@ -30,13 +29,7 @@ export default function WithAuth(Component, role) {
           </SuspendComponent>
           <Layout className={clsx(['site-layout', styles.adminSiteLayout])}>
             <Content className={clsx([styles.adminMainContent])}>
-              <LazyMotion features={domAnimation} strict>
-                <AnimatePresence mode="wait">
-                  <Clone {...props}>
-                    <Component />
-                  </Clone>
-                </AnimatePresence>
-              </LazyMotion>
+              <Component {...props} />
             </Content>
 
             <Footer style={{ textAlign: 'center' }} className={styles.footer}>
@@ -60,15 +53,8 @@ export default function WithAuth(Component, role) {
             <SuspendComponent>
               <UserHeader className="site-layout-background" />
             </SuspendComponent>
-            <LazyMotion features={domAnimation}>
-              <AnimatePresence>
-                <Clone {...props}>
-                  <Component {...props} />
-                </Clone>
-              </AnimatePresence>
-            </LazyMotion>
+            <Component {...props} />
           </Content>
-          {/* <Footer style={{ textAlign: 'center' }}>©2019 Created by Truyenmai</Footer> */}
           <Footer style={{ textAlign: 'center' }}>{new Date().getFullYear()} © thanhlapcongtyonline.vn</Footer>
         </Layout>
       </Layout>
@@ -78,11 +64,3 @@ export default function WithAuth(Component, role) {
   return memo(Authenticated)
 }
 
-const Clone = (props) => {
-  let location = useLocation()
-  let { children, ...rest } = props
-
-  return Children.map(children, (child) => {
-    return cloneElement(child, { ...rest, ...child.props, key: location.pathname })
-  })
-}
