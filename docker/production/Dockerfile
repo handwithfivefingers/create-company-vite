@@ -42,6 +42,8 @@ COPY . .
 
 RUN npm run build
 
+ENV NODE_OPTIONS=--max_old_space_size=2048
+
 CMD ["npm", "start"]
 
 # CMD [./script.sh]

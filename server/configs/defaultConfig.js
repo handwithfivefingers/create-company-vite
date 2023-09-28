@@ -43,8 +43,8 @@ module.exports = class ConfigApp {
   onInit = () => {
     this.onLoadConfig()
     this.onLoadUploadConfigs()
-    this.onLoadSourceHTML()
     this.onLoadRouter()
+    this.onLoadSourceHTML()
     this.onHandlerError()
   }
 
