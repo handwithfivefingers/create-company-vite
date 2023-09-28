@@ -1,35 +1,3 @@
-# # Build Stage
-# FROM node:18 as BUILD
-
-# WORKDIR /app
-
-# COPY .env ./
-
-# COPY package.json ./
-
-# RUN npm install 
-
-# COPY . ./
-
-# RUN npm run build
-
-# # Run Stage
-# FROM bcgovimages/alpine-node-libreoffice
-
-# COPY --from=BUILD /app/ .
-
-# COPY --from=BUILD /app/.env .
-
-# EXPOSE 3000
-
-# # MUST  Install Chromium Core
-# RUN apk add --no-cache \
-#       udev \
-#       ttf-freefont \
-#       chromium
-
-
-# CMD ["npm", "start"]
 FROM docker.io/hdme1995/node-18-alpine-libreoffice-with-chrome
 
 COPY .env ./
@@ -40,10 +8,8 @@ RUN npm install
 
 COPY . .
 
-RUN npm run build
-
 ENV NODE_OPTIONS=--max_old_space_size=2048
 
-CMD ["npm", "start"]
+RUN npm run build
 
-# CMD [./script.sh]
+CMD ["npm", "start"]
