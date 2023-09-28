@@ -5,6 +5,13 @@
   }
 }
 
+.pagination {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 4px 0;
+}
+
 .tableWrapper {
   display: flex;
   width: 100%;
@@ -20,11 +27,4 @@
       z-index: 1;
     }
   }
-}
-
-.pagination {
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  padding: 4px 0;
 }

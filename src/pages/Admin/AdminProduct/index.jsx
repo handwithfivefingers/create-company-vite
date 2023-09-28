@@ -14,7 +14,7 @@ import ProductsTab from './ProductsTab'
 import { useSelector } from 'react-redux'
 
 const AdminProduct = (props) => {
-  const [activeTabs, setActiveTabs] = useState('1')
+  const [activeTabs, setActiveTabs] = useState(1)
   const productRef = useRef()
 
   // Career
@@ -52,85 +52,42 @@ const AdminProduct = (props) => {
     }
   }
 
-  const renderExtra = () => {
-    let xhtml = null
-
-    xhtml = (
-      <div className={styles.extraAction}>
-        <Button
-          type="dashed"
-          onClick={() => {
-            setActiveTabs('1')
-            onHandleCreateCategory()
-          }}
-          icon={<PlusSquareOutlined />}
-        >
-          Thêm danh mục
-        </Button>
-        <Button
-          type="dashed"
-          onClick={() => {
-            setActiveTabs('2')
-            onHandleAddProduct()
-          }}
-          icon={<PlusSquareOutlined />}
-        >
-          Thêm sản phẩm
-        </Button>
-        <Button
-          type="dashed"
-          onClick={() => {
-            setActiveTabs('3')
-            onHandleAddCareerCategory()
-          }}
-          icon={<PlusSquareOutlined />}
-        >
-          Thêm danh mục ngành nghề
-        </Button>
-        <Button
-          type="dashed"
-          onClick={() => {
-            setActiveTabs('4')
-            onHandleAddCareer()
-          }}
-          icon={<PlusSquareOutlined />}
-        >
-          Thêm ngành nghề
-        </Button>
-      </div>
-    )
-
-    return xhtml
-  }
-
   const { collapsed } = useSelector((state) => state.commonReducer)
+
+  const listPanel = [
+    {
+      key: 1,
+      label: 'Danh mục',
+      children: <CategoryTab />,
+    },
+    {
+      key: 2,
+      label: 'Sản phẩm',
+      children: <ProductsTab />,
+    },
+    {
+      key: 3,
+      label: 'Danh mục Ngành nghề',
+      children: <CareerCategoryTab />,
+    },
+    {
+      key: 4,
+      label: 'Ngành nghề',
+      children: <CareerTab />,
+    },
+  ]
   return (
     <>
-      <AdminHeader title="Quản lý sản phẩm" extra={renderExtra()} />
-
+      <AdminHeader title="Quản lý sản phẩm" />
       <Tabs
         className={styles.tabsPanel}
         activeKey={activeTabs}
         onChange={(key) => setActiveTabs(key)}
         style={{ width: collapsed ? 'calc(100vw - 62px)' : 'calc(100vw - 236px)' }}
-      >
-        <Tabs.TabPane tab={'Danh mục'} key={1} className="tabContent">
-          <CategoryTab ref={productRef} />
-        </Tabs.TabPane>
-        <Tabs.TabPane tab={'Sản phẩm'} key={2} className="tabContent">
-          <ProductsTab ref={productRef} />
-        </Tabs.TabPane>
-        <Tabs.TabPane tab={'Danh mục Ngành nghề'} key={3} className="tabContent">
-          <CareerCategoryTab ref={productRef} />
-        </Tabs.TabPane>
-        <Tabs.TabPane tab={'Ngành nghề'} key={4} className="tabContent">
-          <CareerTab ref={productRef} />
-        </Tabs.TabPane>
-      </Tabs>
+        items={listPanel}
+      />
     </>
   )
 }
 
 export default AdminProduct
-
-

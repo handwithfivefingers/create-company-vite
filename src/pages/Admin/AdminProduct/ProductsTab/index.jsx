@@ -1,22 +1,12 @@
-import { Button, Drawer, Popconfirm, Space, Table } from 'antd'
-import {
-  FormOutlined,
-  MinusSquareOutlined,
-  PlusSquareOutlined,
-  DeleteOutlined,
-  SearchOutlined,
-  BarsOutlined,
-  MoreOutlined,
-} from '@ant-design/icons'
-import AdminProductService from '@/service/AdminService/AdminProductService'
-import { useFetch } from '../../../../helper/Hook'
-import React, { useEffect, useState, memo } from 'react'
-import { number_format } from '../../../../helper/Common'
-import FormProduct from './ProductForm'
-import { forwardRef } from 'react'
-import { useImperativeHandle } from 'react'
-import styles from './styles.module.scss'
 import CCPagination from '@/components/CCPagination'
+import AdminProductService from '@/service/AdminService/AdminProductService'
+import { FormOutlined, MinusSquareOutlined, PlusSquareOutlined } from '@ant-design/icons'
+import { Button, Drawer, Popconfirm, Space, Table } from 'antd'
+import React, { forwardRef, memo, useState } from 'react'
+import { number_format } from '../../../../helper/Common'
+import { useFetch } from '../../../../helper/Hook'
+import FormProduct from './ProductForm'
+import styles from './styles.module.scss'
 
 const ProductsTab = forwardRef((props, ref) => {
   const [childModal, setChildModal] = useState({
@@ -28,34 +18,18 @@ const ProductsTab = forwardRef((props, ref) => {
 
   const {
     data: product,
-    isLoading: productLoading,
-    status: productStatus,
+    isLoading,
     refetch,
   } = useFetch({
     cacheName: ['adminProduct', 'product'],
     fn: () => AdminProductService.getProduct(),
   })
 
-  useImperativeHandle(
-    ref,
-    () => ({
-      addProduct: () => onHandleAddProduct(product),
-    }),
-    [product],
-  )
-
-  const onHandleAddProduct = (prod) => {
+  const onHandleAddProduct = () => {
     setChildModal({
       visible: true,
       width: '50%',
-      component: (
-        <FormProduct
-          onFinishScreen={() => {
-            refetch()
-            closeModal()
-          }}
-        />
-      ),
+      component: <FormProduct onFinishScreen={onFinish} />,
     })
   }
 
@@ -64,17 +38,13 @@ const ProductsTab = forwardRef((props, ref) => {
       setChildModal({
         visible: true,
         width: '50%',
-        component: (
-          <FormProduct
-            data={record}
-            onFinishScreen={() => {
-              refetch()
-              closeModal()
-            }}
-          />
-        ),
+        component: <FormProduct data={record} onFinishScreen={onFinish} />,
       })
     }
+  }
+  const onFinish = () => {
+    refetch()
+    closeModal()
   }
 
   const deleteProducts = async (record) => {
@@ -114,7 +84,7 @@ const ProductsTab = forwardRef((props, ref) => {
           bordered
           size="small"
           loading={{
-            spinning: productLoading,
+            spinning: isLoading,
             tip: 'Loading...',
             delay: 100,
           }}
@@ -157,7 +127,11 @@ const ProductsTab = forwardRef((props, ref) => {
           />
 
           <Table.Column
-            title=""
+            title={
+              <div style={{ display: 'flex', justifyContent: 'center' }}>
+                <Button type="dashed" onClick={onHandleAddProduct} icon={<PlusSquareOutlined />} />
+              </div>
+            }
             width="100px"
             render={(val, record, i) => {
               return (
@@ -183,7 +157,7 @@ const ProductsTab = forwardRef((props, ref) => {
         <CCPagination {...pagiConfigs} />
       </div>
 
-      <Drawer visible={childModal.visible} width={childModal.width} onClose={closeModal} destroyOnClose>
+      <Drawer open={childModal.visible} width={childModal.width} onClose={closeModal} destroyOnClose>
         {childModal.component}
       </Drawer>
     </>

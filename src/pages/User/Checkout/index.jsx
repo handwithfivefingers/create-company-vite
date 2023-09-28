@@ -86,6 +86,7 @@ const Checkout = () => {
       message: 'Đã sao chép',
     })
   }
+
   const getContent = () => {
     // Transfer
     if (data.transactionId.paymentType === 1) {
@@ -95,25 +96,25 @@ const Checkout = () => {
             <Card className={'box__shadow'}>
               <Descriptions title="Thông tin chuyển khoản">
                 <Descriptions.Item span={24} label="Tên">
-                  Trương Biện Kim Tuyền
+                  VND-TGTT-CT TNHH DVTV WARREN B
                 </Descriptions.Item>
                 <Descriptions.Item span={24} label="Ngân hàng">
                   Techcombank
                 </Descriptions.Item>
                 <Descriptions.Item span={24} label="Số tài khoản">
                   <Button
-                    onClick={() => handleCopy('19032272332029')}
+                    onClick={() => handleCopy('19035988579016')}
                     type="text"
                     style={{ display: 'flex', alignItems: 'center', gap: 12, padding: 0, height: 22 }}
                   >
-                    1903 2272 3320 29
+                    1903 5988 5790 16
                     <MdOutlineCopyAll fontSize={16} />
                   </Button>
                 </Descriptions.Item>
                 <Descriptions.Item label="QR code" span={24}></Descriptions.Item>
                 <Descriptions.Item span={24}>
                   <div className={styles.imgBlock} style={{ margin: '0 auto' }}>
-                    <img src="/public/QR_new.jpg" width={400} />
+                    <img src="/public/cc_qr_new.jpg" width={400} />
                   </div>
                 </Descriptions.Item>
               </Descriptions>
@@ -238,8 +239,8 @@ const Checkout = () => {
                       <Radio.Group>
                         <Space direction="vertical">
                           <Radio value={1}>Chuyển khoản</Radio>
-                          <Radio value={2}>Qua Momo</Radio>
-                          <Radio value={3}>Qua VN-PAY</Radio>
+                          <Radio value={2} disabled>Qua Momo ( đang phát triển )</Radio>
+                          <Radio value={3} disabled>Qua VN-PAY ( đang phát triển )</Radio>
                         </Space>
                       </Radio.Group>
                     </Form.Item>

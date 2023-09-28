@@ -1,16 +1,14 @@
 import CCPagination from '@/components/CCPagination'
 import AdminProductService from '@/service/AdminService/AdminProductService'
-import { FormOutlined, MinusSquareOutlined } from '@ant-design/icons'
+import { FormOutlined, MinusSquareOutlined, PlusSquareOutlined } from '@ant-design/icons'
 import { Button, Drawer, Input, message, Popconfirm, Space, Table } from 'antd'
 import moment from 'moment'
-import React, { forwardRef, useEffect, useImperativeHandle, useState } from 'react'
+import React, { useState } from 'react'
 import { useFetch } from '../../../../helper/Hook'
 import CareerCategoryForm from './CareerCategoryForm'
 import styles from './styles.module.scss'
 
-const CareerCategoryTab = forwardRef((props, ref) => {
-  const [data, setData] = useState([])
-
+const CareerCategoryTab = (props) => {
   const [current, setCurrent] = useState(1)
 
   const [childModal, setChildModal] = useState({
@@ -21,8 +19,7 @@ const CareerCategoryTab = forwardRef((props, ref) => {
 
   const {
     data: careerCategory,
-    isLoading: careerCategoryLoading,
-    status,
+    isLoading,
     refetch: careerCategoryRefetch,
   } = useFetch({
     cacheName: ['adminProduct', 'careerCategory'],
@@ -34,37 +31,18 @@ const CareerCategoryTab = forwardRef((props, ref) => {
     fn: () => AdminProductService.getCareer(),
   })
 
-  useEffect(() => {
-    if (status === 'success' && careerCategory) {
-      setData((state) => {
-        let { data } = careerCategory
-        let sliceData = careerCategory?.data?.slice((current - 1) * 10, (current - 1) * 10 + 10)
-        return sliceData
-      })
-    }
-  }, [current, props])
+  const addCareerCategory = () => {
+    setChildModal({
+      visible: true,
+      width: '50%',
+      component: <CareerCategoryForm data={career} onFinishScreen={onFinish} />,
+    })
+  }
 
-  useImperativeHandle(
-    ref,
-    () => ({
-      addCareerCategory: () => {
-        setChildModal({
-          visible: true,
-          width: '50%',
-          component: (
-            <CareerCategoryForm
-              data={career}
-              onFinishScreen={() => {
-                careerCategoryRefetch()
-                closeModal()
-              }}
-            />
-          ),
-        })
-      },
-    }),
-    [career],
-  )
+  const onFinish = () => {
+    careerCategoryRefetch()
+    closeModal()
+  }
 
   /**
    *
@@ -123,7 +101,7 @@ const CareerCategoryTab = forwardRef((props, ref) => {
             (current - 1) * pagiConfigs.pageSize,
             (current - 1) * pagiConfigs.pageSize + pagiConfigs.pageSize,
           )}
-          loading={careerCategoryLoading}
+          loading={isLoading}
           rowKey={(record) => record._uuid || record._id || Math.random()}
           size="small"
           bordered
@@ -172,6 +150,11 @@ const CareerCategoryTab = forwardRef((props, ref) => {
           <Table.Column title="ID" render={(val, record, i) => record._id} />
 
           <Table.Column
+            title={
+              <div style={{ display: 'flex', justifyContent: 'center' }}>
+                <Button type="dashed" onClick={addCareerCategory} icon={<PlusSquareOutlined />} />
+              </div>
+            }
             width="100px"
             render={(val, record, i) => (
               <Space>
@@ -199,6 +182,6 @@ const CareerCategoryTab = forwardRef((props, ref) => {
       </Drawer>
     </>
   )
-})
+}
 
 export default CareerCategoryTab

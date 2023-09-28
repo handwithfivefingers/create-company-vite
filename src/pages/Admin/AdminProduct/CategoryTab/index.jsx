@@ -6,9 +6,9 @@ import { number_format } from '../../../../helper/Common'
 import { useFetch } from '../../../../helper/Hook'
 import NewCategory from './NewCategory'
 import styles from './styles.module.scss'
-const CategoryTab = forwardRef((props, ref) => {
-  const [cateData, setCateData] = useState([])
+import { PlusSquareOutlined } from '@ant-design/icons'
 
+const CategoryTab = (props) => {
   const [childModal, setChildModal] = useState({
     visible: false,
     width: 0,
@@ -17,36 +17,24 @@ const CategoryTab = forwardRef((props, ref) => {
 
   const {
     data: category,
-    isLoading: categoryLoading,
-    status: categoryStatus,
-    refetch: cateRefetch,
+    isLoading,
+    refetch,
   } = useFetch({
     cacheName: ['adminProduct', 'category'],
     fn: () => AdminProductService.getCategory(),
   })
 
-  useImperativeHandle(
-    ref,
-    () => ({
-      addCategory: () => createCategory(category),
-    }),
-    [category],
-  )
-
-  const createCategory = (cate) => {
+  const createCategory = () => {
     setChildModal({
       visible: true,
       width: '50%',
-      component: (
-        <NewCategory
-          category={cate}
-          onFinishScreen={() => {
-            cateRefetch()
-            closeModal()
-          }}
-        />
-      ),
+      component: <NewCategory category={category} onFinishScreen={onFinish} />,
     })
+  }
+
+  const onFinish = () => {
+    refetch()
+    closeModal()
   }
 
   const onHandleDeleteCategory = async ({ _id }) => {
@@ -59,7 +47,7 @@ const CategoryTab = forwardRef((props, ref) => {
       console.log(err)
       message.error(res.response.data?.message || res.message)
     } finally {
-      cateRefetch()
+      refetch()
     }
   }
 
@@ -67,16 +55,7 @@ const CategoryTab = forwardRef((props, ref) => {
     setChildModal({
       visible: true,
       width: '50%',
-      component: (
-        <NewCategory
-          data={record}
-          category={category}
-          onFinishScreen={() => {
-            cateRefetch()
-            closeModal()
-          }}
-        />
-      ),
+      component: <NewCategory data={record} category={category} onFinishScreen={onFinish} />,
     })
   }
 
@@ -92,7 +71,7 @@ const CategoryTab = forwardRef((props, ref) => {
       <div className={styles.tableWrapper}>
         <Table
           loading={{
-            spinning: categoryLoading,
+            spinning: isLoading,
             tip: 'Loading...',
             delay: 100,
           }}
@@ -112,7 +91,11 @@ const CategoryTab = forwardRef((props, ref) => {
           />
           <Table.Column title="Loại" width="100px" render={(val, record, index) => record.type} />
           <Table.Column
-            title=""
+            title={
+              <div style={{ display: 'flex', justifyContent: 'center' }}>
+                <Button type="dashed" onClick={createCategory} icon={<PlusSquareOutlined />} />
+              </div>
+            }
             width="100px"
             render={(val, record, i) => {
               return (
@@ -139,6 +122,6 @@ const CategoryTab = forwardRef((props, ref) => {
       </Drawer>
     </>
   )
-})
+}
 
 export default CategoryTab

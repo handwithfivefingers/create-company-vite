@@ -1,6 +1,6 @@
 import CCPagination from '@/components/CCPagination'
 import AdminProductService from '@/service/AdminService/AdminProductService'
-import { FormOutlined, MinusSquareOutlined } from '@ant-design/icons'
+import { FormOutlined, MinusSquareOutlined, PlusSquareOutlined } from '@ant-design/icons'
 import { Button, Drawer, Input, message, Popconfirm, Space, Table } from 'antd'
 import { forwardRef, useImperativeHandle, useState } from 'react'
 import { useFetch } from '../../../../helper/Hook'
@@ -17,49 +17,28 @@ const CareerTab = forwardRef((props, ref) => {
   const {
     data: careerData,
     isLoading,
-    status,
     refetch,
   } = useFetch({
     cacheName: ['adminProduct', 'career'],
     fn: () => AdminProductService.getCareer(),
   })
 
-  useImperativeHandle(
-    ref,
-    () => ({
-      addCareer: () => handleAddCareer(),
-    }),
-    [],
-  )
-
   const handleAddCareer = () => {
     setChildModal({
       visible: true,
       width: '50%',
-      component: (
-        <CareerForm
-          onFinishScreen={() => {
-            refetch()
-            closeModal()
-          }}
-        />
-      ),
+      component: <CareerForm onFinishScreen={onFinish} />,
     })
   }
-
+  const onFinish = () => {
+    refetch()
+    closeModal()
+  }
   const onCareerEdit = (record) => {
     setChildModal({
       visible: true,
       width: '50%',
-      component: (
-        <CareerForm
-          data={record}
-          onFinishScreen={() => {
-            refetch()
-            closeModal()
-          }}
-        />
-      ),
+      component: <CareerForm data={record} onFinishScreen={onFinish} />,
     })
   }
 
@@ -137,7 +116,11 @@ const CareerTab = forwardRef((props, ref) => {
           <Table.Column title="Mã ngành" render={(val, record, i) => record.code} />
           <Table.Column
             width={100}
-            title=""
+            title={
+              <div style={{ display: 'flex', justifyContent: 'center' }}>
+                <Button type="dashed" onClick={handleAddCareer} icon={<PlusSquareOutlined />} />
+              </div>
+            }
             render={(val, record, i) => (
               <Space>
                 <Button type="primary" onClick={(e) => onCareerEdit(record)} icon={<FormOutlined />} />
@@ -159,7 +142,7 @@ const CareerTab = forwardRef((props, ref) => {
       <div className={styles.pagination}>
         <CCPagination {...pagiConfigs} className={styles.pagi} />
       </div>
-      <Drawer visible={childModal.visible} width={childModal.width} onClose={closeModal} destroyOnClose>
+      <Drawer open={childModal.visible} width={childModal.width} onClose={closeModal} destroyOnClose>
         {childModal.component}
       </Drawer>
     </>

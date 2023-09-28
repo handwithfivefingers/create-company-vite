@@ -1,6 +1,6 @@
 module.exports = class BaseAdminService {
-  constructor(req) {
-    if (req.role !== 'admin') throw { message: 'Bạn không có quyền truy cập' }
+  constructor({ role }) {
+    if (role !== 'admin') throw { message: 'Bạn không có quyền truy cập' }
     return this
   }
 }

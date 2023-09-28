@@ -27,7 +27,6 @@ const requireSignin = async (req, res, next) => {
     if (!token) throw { message: 'Authorization required' }
 
     const decoded = await jwt.verify(token, process.env.SECRET)
-
     if (decoded) {
       let { _id, role, updatedAt } = decoded
 
@@ -38,13 +37,9 @@ const requireSignin = async (req, res, next) => {
       const newToken = jwt.sign({ _id, role, updatedAt }, process.env.SECRET, {
         expiresIn: process.env.EXPIRE_TIME,
       })
-
       req.role = decoded.role
-
       req.id = decoded._id
-
       var hour = 3600000
-
       res.cookie('sessionId', newToken, {
         maxAge: 2 * 24 * hour,
         httpOnly: true,

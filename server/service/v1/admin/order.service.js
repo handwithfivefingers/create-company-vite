@@ -17,6 +17,7 @@ module.exports = class OrderService extends BaseAdminService {
           path: 'orderOwner',
           select: 'name email',
         })
+        .populate('transactionId', 'isPayment paymentType paymentCode deliveryInformation')
         .select('-orderInfo')
         .sort('-createdAt')
 

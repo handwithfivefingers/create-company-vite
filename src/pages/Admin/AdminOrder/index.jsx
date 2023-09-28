@@ -10,8 +10,6 @@ import AdminHeader from '../../../components/Admin/AdminHeader'
 import { useFetch } from '../../../helper/Hook'
 import styles from './styles.module.scss'
 const AdminOrder = () => {
-  const [loading, setLoading] = useState(false)
-
   const [orderData, setOrderData] = useState([])
 
   const [childModal, setChildModal] = useState({
@@ -19,6 +17,7 @@ const AdminOrder = () => {
     component: null,
     width: 0,
   })
+
   const [current, setCurrent] = useState(1)
 
   const navigate = useNavigate()
@@ -33,7 +32,6 @@ const AdminOrder = () => {
     total: data?.count,
     pageSize: 10,
     onChange: (current, pageSize) => {
-      console.log('current', current)
       setCurrent(current)
     },
   }
@@ -41,9 +39,7 @@ const AdminOrder = () => {
   useEffect(() => {
     if (status === 'success' && data) {
       setOrderData((state) => {
-        let { _order } = data
-
-        let sliceData = _order?.slice(
+        let sliceData = data?.data?.slice(
           (current - 1) * pagiConfigs.pageSize,
           (current - 1) * pagiConfigs.pageSize + pagiConfigs.pageSize,
         )
@@ -66,48 +62,6 @@ const AdminOrder = () => {
       refetch()
     }
   }
-
-  // const checkProgress = (record) => {
-  //   setChildModal({
-  //     visible: true,
-  //     width: '100%',
-  //     component: (
-  //       <Tracking
-  //         data={record}
-  //         onFinishScreen={(attachments, content, email) => {
-  //           handleSendMailWithAttach(attachments, content, email)
-  //           onClose()
-  //         }}
-  //       />
-  //     ),
-  //   })
-  // }
-
-  // const handleSendMailWithAttach = async (attachments, content, email) => {
-  //   try {
-  //     setLoading(true)
-
-  //     const form = new FormData()
-
-  //     attachments?.fileList?.map((item) => {
-  //       form.append('attachments', item.originFileObj)
-  //     })
-
-  //     form.append('content', content)
-
-  //     form.append('email', email)
-
-  //     let res = await axios.post('/api/sendmail', form)
-
-  //     let msg = res.data.message
-
-  //     message.success(`${msg} -> Email: ${[res.data.info.accepted].join('')}`)
-  //   } catch (err) {
-  //     console.log(err)
-  //   } finally {
-  //     setLoading(false)
-  //   }
-  // }
 
   const onClose = useCallback(() => {
     setChildModal({
@@ -166,7 +120,7 @@ const AdminOrder = () => {
     navigate(`/user/san-pham/${url}`, { state: { ...record } })
   }
   const renderDate = (record) => {
-    let result = moment(record.createdAt).format('HH:mm DD-MM-YYYY ')
+    let result = moment(record.createdAt).format('DD/MM/YYYY HH:mm')
     return <span style={{ display: 'block', width: 120 }}>{result}</span>
   }
 
@@ -262,6 +216,7 @@ const AdminOrder = () => {
       <div className={styles.contentWrapper}>
         <div className={styles.tableWrapper}>
           <Table
+            size="small"
             dataSource={orderData}
             loading={{
               spinning: isLoading,
@@ -272,12 +227,16 @@ const AdminOrder = () => {
             className="table"
             pagination={false}
             rowKey={(record) => record._id || makeid(9)}
+            scroll={{
+              x: 1650,
+            }}
           >
             <Table.Column
-              title="Đơn hàng"
+              title="Mã đơn"
               width={210}
               render={(val, record, i) => record?._id}
               {...getColumnSearchProps(['_id'])}
+              fixed={'left'}
             />
             <Table.Column
               className={styles.inline}
@@ -286,17 +245,42 @@ const AdminOrder = () => {
               render={(val, record, i) => <span>{record?.orderOwner?.email}</span>}
               {...getColumnSearchProps(['orderOwner', 'email'])}
             />
-            <Table.Column title="Sản phẩm" render={renderProduct} />
-            <Table.Column title="Dịch vụ" width={210} render={renderService} />
+            <Table.Column title="Sản phẩm" render={renderProduct} width={175} />
+            <Table.Column title="Dịch vụ" width={275} render={renderService} />
+            <Table.Column
+              width={'150px'}
+              align="center"
+              title="Mã hóa đơn"
+              render={(val, record, i) => {
+                const isHaveTransaction = record?.transactionId?.paymentType
+                if (!isHaveTransaction) return '-'
+                return record?.transactionId?.paymentCode || '-'
+              }}
+            />
+
+            <Table.Column
+              align="center"
+              title="Thanh toán"
+              width="120px"
+              dataIndex=""
+              render={(val, record, i) => {
+                return record?.transactionId?.isPayment ? (
+                  <Tag color="green">Đã thanh toán</Tag>
+                ) : (
+                  <Tag color="volcano">Chưa thanh toán</Tag>
+                )
+              }}
+            />
+
+            <Table.Column title="Ngày tạo" width={150} render={(val, record, i) => renderDate(record)} />
+
             <Table.Column
               className={styles.inline}
               title="Giá tiền"
-              width="175px"
+              width="135px"
               render={(val, record, i) => <>{number_format(record?.price)} VND</>}
             />
-            <Table.Column title="Thanh toán" width={150} render={(val, record, i) => renderTag(record)} />
-            <Table.Column title="Ngày tạo" width={150} render={(val, record, i) => renderDate(record)} />
-            <Table.Column title="Thao tác" width={104} render={(val, record, i) => renderAction(record)} />
+            <Table.Column title="" width={120} render={(val, record, i) => renderAction(record)} />
           </Table>
         </div>
 

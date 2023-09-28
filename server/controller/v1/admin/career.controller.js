@@ -4,7 +4,7 @@ const { AdminCareerService } = require('@service')
 module.exports = class AdminCareerController {
   onHandleGet = async (req, res) => {
     try {
-      const data = await new AdminCareerService().getCareer()
+      const data = await new AdminCareerService(req).getCareer()
       return successHandler(data, res)
     } catch (error) {
       console.log(error)
@@ -14,7 +14,7 @@ module.exports = class AdminCareerController {
 
   onHandleCreate = async (req, res) => {
     try {
-      const data = await new AdminCareerService().createCareer(req)
+      const data = await new AdminCareerService(req).createCareer(req)
       return successHandler(data, res)
     } catch (error) {
       return errHandler(error, res)
@@ -22,7 +22,7 @@ module.exports = class AdminCareerController {
   }
   onHandleUpdate = async (req, res) => {
     try {
-      const data = await new AdminCareerService().updateCareer(req)
+      const data = await new AdminCareerService(req).updateCareer(req)
       return successHandler(data, res)
     } catch (error) {
       return errHandler(error, res)
@@ -30,7 +30,7 @@ module.exports = class AdminCareerController {
   }
   onHandleDelete = async (req, res) => {
     try {
-      const data = await new AdminCareerService().deleteCareer(req)
+      const data = await new AdminCareerService(req).deleteCareer(req)
       return successHandler(data, res)
     } catch (error) {
       return errHandler(error, res)
