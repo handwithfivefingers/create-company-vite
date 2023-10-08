@@ -1,25 +1,33 @@
 import axios from '../config/axios'
 
 const api_path = {
+  authenticate: '/auth',
+
+  logout: '/logout',
+
   register: '/register',
+
   registerOtp: '/register-otp',
-  getSession: '/auth/session',
-  checkUserExist: '/check-user',
+
   loginWithPhone: '/login-phone',
+
   loginOTP: '/login-otp',
+
   login: '/login',
-  forgotPassword: '/forgot-password',
-  checkOtp: '/check-otp',
-  resetPassword: '/reset-password',
+
   loginWithAdmin: '/login-admin',
+
+  checkUserExist: '/verification-user',
+  verifiResend: '/verification-resend',
+  verify: '/verification',
 }
 
 const AuthService = {
+  onAuthenticate: () => axios.post(api_path.authenticate),
+  onLogout: () => axios.post(api_path.logout),
   onRegister: (form) => axios.post(api_path.register, form),
 
   getRegisterOTP: (form) => axios.post(api_path.registerOtp, form),
-
-  getSession: () => axios.get(api_path.getSession),
 
   isUserExist: (form) => axios.post(api_path.checkUserExist, form),
 
@@ -29,13 +37,11 @@ const AuthService = {
 
   onLogin: (form) => axios.post(api_path.login, form),
 
-  forgotPassword: (form) => axios.post(api_path.forgotPassword, form),
-
-  checkOtp: (form) => axios.post(api_path.checkOtp, form),
-
-  resetPassword: (form) => axios.post(api_path.resetPassword, form),
-
   onLoginWithAdmin: (form) => axios.post(api_path.loginWithAdmin, form),
+
+  onVerify: (form) => axios.post(api_path.verify, form),
+
+  onVerifyResend: () => axios.post(api_path.verifiResend),
 }
 
 export default AuthService

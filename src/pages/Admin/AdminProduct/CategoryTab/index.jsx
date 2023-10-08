@@ -1,12 +1,11 @@
 import AdminProductService from '@/service/AdminService/AdminProductService'
-import { FormOutlined, MinusSquareOutlined } from '@ant-design/icons'
+import { FormOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons'
 import { Button, Drawer, message, Popconfirm, Space, Table } from 'antd'
 import React, { forwardRef, useImperativeHandle, useState } from 'react'
 import { number_format } from '../../../../helper/Common'
 import { useFetch } from '../../../../helper/Hook'
 import NewCategory from './NewCategory'
 import styles from './styles.module.scss'
-import { PlusSquareOutlined } from '@ant-design/icons'
 
 const CategoryTab = (props) => {
   const [childModal, setChildModal] = useState({
@@ -75,6 +74,10 @@ const CategoryTab = (props) => {
             tip: 'Loading...',
             delay: 100,
           }}
+          scroll={{
+            x: 1200,
+            y: 50 * 5,
+          }}
           dataSource={category}
           pagination={false}
           size="small"
@@ -93,14 +96,14 @@ const CategoryTab = (props) => {
           <Table.Column
             title={
               <div style={{ display: 'flex', justifyContent: 'center' }}>
-                <Button type="dashed" onClick={createCategory} icon={<PlusSquareOutlined />} />
+                <Button type="dashed" onClick={createCategory} icon={<FormOutlined />} />
               </div>
             }
             width="100px"
             render={(val, record, i) => {
               return (
                 <Space>
-                  <Button type="primary" onClick={(e) => onHandleUpdateCategory(record)} icon={<FormOutlined />} />
+                  <Button type="primary" onClick={(e) => onHandleUpdateCategory(record)} icon={<EditOutlined />} />
 
                   <Popconfirm
                     placement="topRight"
@@ -109,7 +112,7 @@ const CategoryTab = (props) => {
                     okText="Yes"
                     cancelText="No"
                   >
-                    <Button icon={<MinusSquareOutlined />} />
+                    <Button icon={<DeleteOutlined />} />
                   </Popconfirm>
                 </Space>
               )

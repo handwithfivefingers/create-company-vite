@@ -15,6 +15,7 @@ const Dissolution = forwardRef((props, ref) => {
   useEffect(() => {
     if (location.state) {
       initDataforEditing()
+      console.log('data', location.state.data)
     }
   }, [location])
 
@@ -25,6 +26,13 @@ const Dissolution = forwardRef((props, ref) => {
 
     let _data = {
       ...data,
+      dissolution: {
+        approve: {
+          ...data.dissolution.approve,
+          mst_provide: moment(data.dissolution.mst_provide),
+          dissolution_date: moment(data.dissolution.dissolution_date),
+        },
+      },
     }
 
     if (!category) return

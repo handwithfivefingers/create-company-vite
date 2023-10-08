@@ -4,7 +4,7 @@ const router = express.Router()
 
 const LoginController = require('@controller/Authorization/login.controller')
 const RegisterController = require('@controller/Authorization/register.controller')
-const ForgotPasswordController = require('@controller/Authorization/forgot-password.controller')
+const AuthenticateController = require('../../controller/Authorization/authenticate.controller')
 
 const apiLimitRate = limit({ maxRate: 1 })
 
@@ -15,25 +15,31 @@ const logOut = (req, res) => {
   })
 }
 
-router.post('/register', upload.none(), new RegisterController().onHandleRegister)
+//  DONE
 
 router.post('/register-otp', apiLimitRate, new RegisterController().onHandleGetRegisterOtp)
+//  DONE
 
 router.post('/login-otp', apiLimitRate, new LoginController().onHandleGetOTPForLogin)
 
-router.post('/login', new LoginController().onHandleLogin)
+// router.post('/login', new LoginController().onHandleLogin)
 
-router.post('/login-admin', upload.none(), new LoginController().onLoginAsAdmin)
+//  DONE
+router.post('/verification', new AuthenticateController().onHandleVerifyTokenToLoginOrRegister)
+//  DONE
+
+router.post('/verification-user', new AuthenticateController().onHandleVerifyUserExist)
+//
+
+router.post('/verification-resend', new AuthenticateController().onHandleVerificationResend)
+
+//  DONE
 
 router.post('/auth', requireSignin, new LoginController().onHandleVerifyToken)
 
-router.post('/check-user', new LoginController().onCheckUserExist)
-
-router.post('/forgot-password', new ForgotPasswordController().onHandleForgotPassword)
-
-router.post('/check-otp', new ForgotPasswordController().onHandleValiteOTP)
-
-router.post('/reset-password', new ForgotPasswordController().onHandleResetPassword)
+//  Readable
+router.post('/login-admin', upload.none(), new LoginController().onLoginAsAdmin)
+//  DONE
 
 router.post('/logout', logOut)
 

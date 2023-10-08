@@ -2,9 +2,10 @@ const shortid = require('shortid')
 const { User, OTP } = require('../../model')
 const bcrypt = require('bcryptjs')
 const SMSService = require('../v1/third-connect/sms.service')
-const { generateOTP, generateToken } = require('../../common/helper')
+const { generateOTP, generateToken, verifyToken } = require('../../common/helper')
 const MailService = require('@service/v1/user/mail.service')
 const LogService = require('../v1/user/log.service')
+const jwt = require('jsonwebtoken')
 
 const OTP_TYPE = {
   1: 'SMS',
@@ -20,7 +21,7 @@ module.exports = class RegiserService {
     }
 
     try {
-      const { email, phone, type } = req.body
+      const { email, phone, type, deleteOldUser } = req.body
 
       const msg = {
         phoneError: 'Số điện thoại không chính xác',
@@ -79,12 +80,12 @@ module.exports = class RegiserService {
 
         logs.request = mailParams
         logs.response = resp
-        console.log('resp',resp)
+        console.log('resp', resp)
 
         message = 'OTP đã được gửi qua tài khoản email của bạn !'
       }
 
-      return { message }
+      return { message, email, phone, deleteOldUser }
     } catch (error) {
       console.log('getUserOTPForLogin error', error)
       throw error
@@ -95,7 +96,8 @@ module.exports = class RegiserService {
 
   registerUser = async (req, res) => {
     try {
-      const { phone, email, otp, deleteOldUser } = req.body
+      const { otp, deleteOldUser } = req.body
+
       let _OTP
       if (otp) {
         _OTP = await OTP.findOne({ phone, email, otp, delete_flag: 0 })
@@ -139,6 +141,25 @@ module.exports = class RegiserService {
     } catch (err) {
       console.log('Register Error', err)
       throw err
+    }
+  }
+
+  onRegister = async ({ phone, email }) => {
+    try {
+      const password = Math.random().toString(36).slice(-8)
+      const hash_password = await bcrypt.hash(password, 10)
+      const userName = shortid()
+      const _user = new User({
+        phone,
+        email,
+        hash_password,
+        name: userName,
+      })
+      const _save = await _user.save()
+      const { role, _id, updatedAt } = _save
+      return { role, _id, updatedAt }
+    } catch (error) {
+      throw error
     }
   }
 

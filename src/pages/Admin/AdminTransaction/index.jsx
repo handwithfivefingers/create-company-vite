@@ -124,6 +124,10 @@ function AdminTransaction() {
               tip: 'Loading...',
               delay: 100,
             }}
+            scroll={{
+              x: 1100,
+              y: 50 * 10,
+            }}
             rowKey={(record) => record._id}
             pagination={false}
             onRow={(record) => {
@@ -132,7 +136,7 @@ function AdminTransaction() {
               }
             }}
           >
-            <Table.Column align="center" title="Mã đơn" dataIndex="paymentCode" />
+            <Table.Column align="center" title="Mã đơn" dataIndex="paymentCode" fixed="left" />
 
             <Table.Column align="left" title="Dịch vụ" dataIndex="" render={renderService} width={250} />
 

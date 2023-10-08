@@ -1,6 +1,6 @@
 import CCPagination from '@/components/CCPagination'
 import AdminProductService from '@/service/AdminService/AdminProductService'
-import { FormOutlined, MinusSquareOutlined, PlusSquareOutlined } from '@ant-design/icons'
+import { DeleteOutlined, EditOutlined, FormOutlined } from '@ant-design/icons'
 import { Button, Drawer, Popconfirm, Space, Table } from 'antd'
 import React, { forwardRef, memo, useState } from 'react'
 import { number_format } from '../../../../helper/Common'
@@ -88,6 +88,7 @@ const ProductsTab = forwardRef((props, ref) => {
             tip: 'Loading...',
             delay: 100,
           }}
+          scroll={{ x: 768, y: 50 * 8 }}
           dataSource={product?._product?.slice(
             (current - 1) * pagiConfigs.pageSize,
             (current - 1) * pagiConfigs.pageSize + pagiConfigs.pageSize,
@@ -129,14 +130,14 @@ const ProductsTab = forwardRef((props, ref) => {
           <Table.Column
             title={
               <div style={{ display: 'flex', justifyContent: 'center' }}>
-                <Button type="dashed" onClick={onHandleAddProduct} icon={<PlusSquareOutlined />} />
+                <Button type="dashed" onClick={onHandleAddProduct} icon={<FormOutlined />} />
               </div>
             }
             width="100px"
             render={(val, record, i) => {
               return (
                 <Space>
-                  <Button type="primary" onClick={(e) => onHandleEditProduct(record)} icon={<FormOutlined />} />
+                  <Button type="primary" onClick={(e) => onHandleEditProduct(record)} icon={<EditOutlined />} />
                   <Popconfirm
                     placement="topRight"
                     title={'Bạn có muốn xoá ?'}
@@ -144,7 +145,7 @@ const ProductsTab = forwardRef((props, ref) => {
                     okText="Yes"
                     cancelText="No"
                   >
-                    <Button icon={<MinusSquareOutlined />} />
+                    <Button icon={<DeleteOutlined />} />
                   </Popconfirm>
                 </Space>
               )

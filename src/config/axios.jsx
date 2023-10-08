@@ -1,7 +1,8 @@
 import axios from 'axios'
 import store from '@/store'
-import { AuthAction } from '@/store/actions'
+import { AuthAPIS } from '@/store/actions/auth.actions'
 import { notification } from 'antd'
+import AuthService from '../service/AuthService'
 const instance = axios.create({
   baseURL:
     import.meta.env.MODE === 'development'
@@ -34,7 +35,12 @@ instance.interceptors.response.use(
     if (err.response.status === 401) {
       if (!window.navigator?.onLine) {
         notification.warn({ message: 'Đường truyền không ổn định, vui lòng kiểm tra lại đường truyền' })
-      } else store.dispatch(AuthAction.AuthLogout())
+      } else {
+        AuthService.onLogout().finally(() => {
+          console.log('Logout')
+          store.dispatch(AuthAPIS.AuthLogout())
+        })
+      }
     }
     return Promise.reject(err)
   },

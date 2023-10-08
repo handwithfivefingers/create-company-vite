@@ -38,6 +38,7 @@ moment.defaultFormat = 'DD/MM/YYYY'
 moment.locale('vi')
 
 moment().utcOffset('+07:00')
+
 const RouterComponent = (props) => {
   let location = useLocation()
 

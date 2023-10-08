@@ -1,19 +1,15 @@
 import CCPagination from '@/components/CCPagination'
 import AdminProductService from '@/service/AdminService/AdminProductService'
-import { FormOutlined, MinusSquareOutlined, PlusSquareOutlined } from '@ant-design/icons'
-import { Button, Drawer, Input, message, Popconfirm, Space, Table } from 'antd'
-import { forwardRef, useImperativeHandle, useState } from 'react'
+import { FormOutlined, DeleteOutlined, EditOutlined } from '@ant-design/icons'
+import { Button, Drawer, Form, Input, message, Popconfirm, Space, Table } from 'antd'
+import { forwardRef, useImperativeHandle, useRef, useState, useEffect } from 'react'
 import { useFetch } from '../../../../helper/Hook'
 import CareerForm from './CarrerForm'
 import styles from './styles.module.scss'
 const CareerTab = forwardRef((props, ref) => {
   const [current, setCurrent] = useState(1)
-
-  const [childModal, setChildModal] = useState({
-    visible: false,
-    width: 0,
-    component: null,
-  })
+  const modalRef = useRef()
+  const [dataFilter, setDataFilter] = useState([])
   const {
     data: careerData,
     isLoading,
@@ -24,22 +20,18 @@ const CareerTab = forwardRef((props, ref) => {
   })
 
   const handleAddCareer = () => {
-    setChildModal({
-      visible: true,
-      width: '50%',
-      component: <CareerForm onFinishScreen={onFinish} />,
-    })
+    modalRef.current.onToggleModal()
+    modalRef.current.onSetComponent(<CareerForm onFinishScreen={onFinish} />)
   }
+
   const onFinish = () => {
     refetch()
-    closeModal()
+    modalRef.current.closeModal()
   }
+
   const onCareerEdit = (record) => {
-    setChildModal({
-      visible: true,
-      width: '50%',
-      component: <CareerForm data={record} onFinishScreen={onFinish} />,
-    })
+    modalRef.current.onToggleModal()
+    modalRef.current.onSetComponent(<CareerForm onFinishScreen={onFinish} data={record} />)
   }
 
   const deleteCareer = async ({ _id }) => {
@@ -54,76 +46,69 @@ const CareerTab = forwardRef((props, ref) => {
       refetch()
     }
   }
-
-  const closeModal = () => {
-    setChildModal({
-      ...childModal,
-      visible: false,
-    })
+  const onHandleFilter = ({ name }) => {
+    if (!name) {
+      setDataFilter(careerData?.data)
+      // setCurrent
+    } else {
+      const nextData = careerData?.data.filter(
+        ({ name: itemName, code }) => itemName?.toLowerCase().includes(name?.toLowerCase()) || code.includes(name),
+      )
+      setDataFilter(nextData)
+      setCurrent(1)
+    }
   }
+
+  useEffect(() => {
+    if (careerData?.data) {
+      setDataFilter(careerData.data)
+    }
+  }, [isLoading])
 
   const pagiConfigs = {
     current: current,
-    total: careerData?.count,
+    total: dataFilter?.length,
     showSizeChanger: false,
     pageSize: 10,
     onChange: (current, pageSize) => setCurrent(current),
   }
+
   return (
     <>
       <div className={styles.tableWrapper}>
+        <div className={styles.filter}>
+          <FilterTab onHandleFilter={onHandleFilter} />
+        </div>
+
         <Table
           dataSource={
-            careerData?.data?.slice(
+            dataFilter?.slice(
               (current - 1) * pagiConfigs.pageSize,
               (current - 1) * pagiConfigs.pageSize + pagiConfigs.pageSize,
             ) || []
           }
-          rowKey={(record) => record._uuid || record._id}
+          scroll={{
+            x: 500,
+            y: 50 * 8,
+          }}
+          rowKey={(record) => record._id}
           size="small"
           bordered
           pagination={false}
           loading={isLoading}
         >
-          <Table.Column
-            title="Tên ngành"
-            dataIndex={'name'}
-            filterSearch
-            onFilter={(value, record) => record['name'].toString().toLowerCase().includes(value.toLowerCase())}
-            filterDropdown={({ confirm, clearFilters, filters, prefixCls, selectedKeys, setSelectedKeys, visible }) => {
-              return (
-                <div style={{ padding: 8 }}>
-                  <Input.Search
-                    placeholder={`Search 'name'`}
-                    value={selectedKeys[0]}
-                    onPressEnter={(e) => {
-                      setSelectedKeys(e.target.value ? [e.target.value] : [])
-                      confirm()
-                    }}
-                    onSearch={(val) => {
-                      setSelectedKeys(val ? [val] : [])
-                      confirm()
-                    }}
-                    allowClear
-                    className={styles.inpSearch}
-                    enterButton
-                  />
-                </div>
-              )
-            }}
-            render={(val, record, i) => record.name}
-          />
-          <Table.Column title="Mã ngành" render={(val, record, i) => record.code} />
+          <Table.Column title="Tên ngành" dataIndex={'name'} />
+          <Table.Column title="Mã ngành" dataIndex={'code'} />
           <Table.Column
             width={100}
             title={
               <div style={{ display: 'flex', justifyContent: 'center' }}>
-                <Button type="dashed" onClick={handleAddCareer} icon={<PlusSquareOutlined />} />
+                <Button type="dashed" onClick={handleAddCareer} icon={<FormOutlined />} />
               </div>
             }
             render={(val, record, i) => (
               <Space>
-                <Button type="primary" onClick={(e) => onCareerEdit(record)} icon={<FormOutlined />} />
+                <Button type="primary" onClick={(e) => onCareerEdit(record)} icon={<EditOutlined />} />
                 <Popconfirm
                   placement="topRight"
                   title={'Bạn có muốn xoá ?'}
@@ -131,7 +116,7 @@ const CareerTab = forwardRef((props, ref) => {
                   okText="Yes"
                   cancelText="No"
                 >
-                  <Button icon={<MinusSquareOutlined />} />
+                  <Button icon={<DeleteOutlined />} />
                 </Popconfirm>
               </Space>
             )}
@@ -142,10 +127,67 @@ const CareerTab = forwardRef((props, ref) => {
       <div className={styles.pagination}>
         <CCPagination {...pagiConfigs} className={styles.pagi} />
       </div>
-      <Drawer open={childModal.visible} width={childModal.width} onClose={closeModal} destroyOnClose>
-        {childModal.component}
-      </Drawer>
+      <CareerModal ref={modalRef} />
     </>
   )
 })
+
 export default CareerTab
+
+const CareerModal = forwardRef((props, ref) => {
+  const [childModal, setChildModal] = useState({
+    visible: false,
+    width: 0,
+    component: null,
+  })
+  useImperativeHandle(
+    ref,
+    () => {
+      return {
+        onToggleModal,
+        onSetComponent,
+        closeModal,
+      }
+    },
+    [],
+  )
+
+  const onToggleModal = () => {
+    setChildModal((prev) => ({
+      ...prev,
+      visible: !prev.visible,
+      width: '50%',
+    }))
+  }
+  const onSetComponent = (comp) => {
+    setChildModal((prev) => ({ ...prev, component: comp }))
+  }
+  const closeModal = () => {
+    setChildModal({
+      ...childModal,
+      visible: false,
+    })
+  }
+  return (
+    <Drawer open={childModal.visible} width={childModal.width} onClose={closeModal} destroyOnClose>
+      {childModal.component}
+    </Drawer>
+  )
+})
+const FilterTab = ({ onHandleFilter }) => {
+  const [form] = Form.useForm()
+  const onFinish = (val) => {
+    console.log('val', val)
+    onHandleFilter(val)
+  }
+  return (
+    <Form name="form" form={form} className={styles.filterForm} onFinish={onFinish}>
+      <Form.Item name="name">
+        <Input placeHolder="Tên ngành - Mã ngành" />
+      </Form.Item>
+      <Form.Item>
+        <Button htmlType="submit">Tìm kiếm</Button>
+      </Form.Item>
+    </Form>
+  )
+}

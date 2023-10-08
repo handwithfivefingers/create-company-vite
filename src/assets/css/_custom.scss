@@ -127,27 +127,14 @@ $bg: #fff;
   overflow: overlay;
   .ant-tabs-content {
     height: 100%;
-    .ant-tabs-tabpane {
-      // display: grid;
-      height: calc(100vh - 46px - 24px - 72px - 40px - 80px);
-      [class*='tableWrapper'] {
-        height: calc(100vh - 46px - 24px - 72px - 40px - 80px);
-        @media (max-width: 767px) {
-          height: calc(100vh - 46px - 72px - 40px - 80px);
-        }
-      }
-    }
+    // .ant-tabs-tabpane {
+    //   height: calc(100vh - 46px - 24px - 72px - 40px - 80px);
+    //   [class*='tableWrapper'] {
+    //     height: calc(100vh - 46px - 24px - 72px - 40px - 80px);
+    //     @media (max-width: 767px) {
+    //       height: calc(100vh - 46px - 72px - 40px - 80px);
+    //     }
+    //   }
+    // }
   }
 }
-// .ant-collapse-item {
-//   .ant-collapse-header {
-//     @extend .stickyTopBottom;
-//   }
-// }
-// .stickyTopBottom {
-//   position: sticky;
-//   top: 0;
-//   bottom:90px;
-//   z-index: 9;
-//   background: #fff;
-// }

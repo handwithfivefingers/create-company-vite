@@ -29,7 +29,6 @@ export const FIELD_RULE = {
     {
       validator: (_, value) => {
         if (value && value.match(/([^0-9])/)) {
-          console.log('value')
           return Promise.reject(new Error('Số điện thoại định dạng không đúng'))
         } else {
           return Promise.resolve()

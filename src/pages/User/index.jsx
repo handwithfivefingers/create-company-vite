@@ -1,10 +1,10 @@
 import WithAuth from '@/components/HOC/WithAuth'
-import { Space, Spin } from 'antd'
-import { Suspense, useEffect, useState, memo } from 'react'
-import { Outlet } from 'react-router-dom'
+import { StepProgressProvider } from '@/context/StepProgressContext'
 import { useFetch } from '@/helper/Hook'
 import ProfileService from '@/service/UserService/ProfileService'
-import { StepProgressProvider } from '@/context/StepProgressContext'
+import { Space, Spin } from 'antd'
+import { Suspense, memo, useEffect, useState } from 'react'
+import { Outlet } from 'react-router-dom'
 
 const User = () => {
   return (

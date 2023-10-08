@@ -1,6 +1,6 @@
 import CCPagination from '@/components/CCPagination'
 import AdminProductService from '@/service/AdminService/AdminProductService'
-import { FormOutlined, MinusSquareOutlined, PlusSquareOutlined } from '@ant-design/icons'
+import { FormOutlined, DeleteOutlined, EditOutlined } from '@ant-design/icons'
 import { Button, Drawer, Input, message, Popconfirm, Space, Table } from 'antd'
 import moment from 'moment'
 import React, { useState } from 'react'
@@ -105,7 +105,10 @@ const CareerCategoryTab = (props) => {
           rowKey={(record) => record._uuid || record._id || Math.random()}
           size="small"
           bordered
-          // scroll={{ x: 768 }}
+          scroll={{
+            x: 500,
+            y: 50 * 8,
+          }}
           pagination={false}
         >
           <Table.Column
@@ -142,23 +145,21 @@ const CareerCategoryTab = (props) => {
             title="Ngày tạo"
             render={(val, record, i) => (
               <span style={{ width: '200px', display: 'block' }}>
-                {moment(record.createdAt).format('[Ngày] DD [Tháng] MM [Năm] YYYY')}
+                {moment(record.createdAt).format('DD/MM/YYYY')}
               </span>
             )}
           />
 
-          <Table.Column title="ID" render={(val, record, i) => record._id} />
-
           <Table.Column
             title={
               <div style={{ display: 'flex', justifyContent: 'center' }}>
-                <Button type="dashed" onClick={addCareerCategory} icon={<PlusSquareOutlined />} />
+                <Button type="dashed" onClick={addCareerCategory} icon={<FormOutlined />} />
               </div>
             }
             width="100px"
             render={(val, record, i) => (
               <Space>
-                <Button type="primary" onClick={(e) => onHandleUpdateCareerCategory(record)} icon={<FormOutlined />} />
+                <Button type="primary" onClick={(e) => onHandleUpdateCareerCategory(record)} icon={<EditOutlined />} />
                 <Popconfirm
                   placement="topRight"
                   title={'Bạn có muốn xoá ?'}
@@ -166,7 +167,7 @@ const CareerCategoryTab = (props) => {
                   okText="Yes"
                   cancelText="No"
                 >
-                  <Button icon={<MinusSquareOutlined />} />
+                  <Button icon={<DeleteOutlined />} />
                 </Popconfirm>
               </Space>
             )}

@@ -1,8 +1,10 @@
 import { Result, Button } from 'antd'
-import { useNavigate } from 'react-router-dom'
-
+import { Navigate, useNavigate } from 'react-router-dom'
+import { useAuthStore } from '@/store/reducer'
 function Error() {
   let navigate = useNavigate()
+  const { status } = useAuthStore()
+  if (!status) return <Navigate to="/" />
   return (
     <Result
       status="404"

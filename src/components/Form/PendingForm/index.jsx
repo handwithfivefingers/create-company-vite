@@ -9,17 +9,21 @@ import { VALIDATE_MESSAGE } from '@/constant/InputValidate'
 
 const TamHoanForm = forwardRef((props, ref) => {
   const [PendingForm] = Form.useForm()
+
   const [selectType, setSelectType] = useState({
     type: 1,
     value: '',
     name: '',
   })
+
   const location = useLocation()
+
   useEffect(() => {
     if (location.state) {
       initDataforEditing()
     }
   }, [location])
+  
   const initDataforEditing = () => {
     let { state } = location
 

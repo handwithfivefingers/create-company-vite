@@ -45,7 +45,6 @@ const LoginForm = () => {
       const resp = await AuthService.onLoginWithAdmin(value)
       if (resp.data.data) {
         const { data } = resp.data
-        // navigate(`/${data?.role}`)
         window.location.href = '/'
       }
     } catch (error) {

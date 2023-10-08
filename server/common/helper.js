@@ -265,61 +265,6 @@ const findNestedObj = (entireObj, { ...rest }) => {
   return foundObj
 }
 
-const filterData = (data = null) => {
-  if (data) {
-    return data.map((item) => ({
-      name: item.name,
-      price: item?.price,
-      type: item?.type,
-      _id: item?._id,
-      slug: item?.slug,
-      categories: filterData(item?.categories),
-      parentId: item?.parentId || [],
-    }))
-  } else return null
-}
-
-const filterCaregories = (prevData) => {
-  let data = []
-
-  let parent
-  let children
-
-  parent = prevData.filter((item) => item.parentId.length == 0)
-  children = prevData.filter((item) => item.parentId.length > 0)
-
-  for (let p of parent) {
-    data.push({
-      name: p?.name,
-      price: p?.price,
-      type: p?.type,
-      _id: p?._id,
-      slug: p?.slug,
-      categories: p?.categories,
-      children: [],
-    })
-  }
-
-  if (children.length > 0) {
-    children.map((child) => {
-      const current = handleCheckChildren(child, data)
-      data = current
-    })
-  }
-  return data
-}
-
-const handleCheckChildren = (child, data) => {
-  return data.map((item) => {
-    if (lodash.some(child.parentId, { _id: item._id })) {
-      item.children.push({ ...child })
-      return item
-    } else {
-      return item
-    }
-  })
-}
-
 const convertString = (str) => {
   return (
     str
@@ -339,13 +284,21 @@ const generateOTP = (length = 6) => {
   })
 }
 
-const generateToken = async (obj, res) => {
+const signToken = (obj, config) => {
+  return jwt.sign(obj, process.env.SECRET, config)
+}
+const verifyToken = async (token) => {
+  if (!token) throw new Error('Token doesnt exist')
+  return jwt.verify(token, process.env.SECRET)
+}
+
+const generateToken = async (obj, res, cookieName = 'sessionId') => {
   const token = await jwt.sign(obj, process.env.SECRET, {
     expiresIn: process.env.EXPIRE_TIME,
   })
   var hour = 3600000
 
-  res.cookie('sessionId', token, {
+  res.cookie(cookieName, token, {
     maxAge: 2 * 24 * hour,
     httpOnly: true,
   })
@@ -386,12 +339,11 @@ module.exports = {
   convertFile,
   removeListFiles,
   findNestedObj,
-  filterData,
-  filterCaregories,
-  handleCheckChildren,
   generateOTP,
   generateToken,
   getTemplateMail,
   isFunction,
   generatePaymentCode,
+  signToken,
+  verifyToken,
 }

@@ -38,13 +38,11 @@ const AdminOrder = () => {
 
   useEffect(() => {
     if (status === 'success' && data) {
-      setOrderData((state) => {
-        let sliceData = data?.data?.slice(
-          (current - 1) * pagiConfigs.pageSize,
-          (current - 1) * pagiConfigs.pageSize + pagiConfigs.pageSize,
-        )
-        return sliceData
-      })
+      const nextState = data?.data?.slice(
+        (current - 1) * pagiConfigs.pageSize,
+        (current - 1) * pagiConfigs.pageSize + pagiConfigs.pageSize,
+      )
+      setOrderData(nextState)
     }
   }, [current, data])
 
@@ -102,6 +100,7 @@ const AdminOrder = () => {
     )
     return xhtml
   }
+
   const handleEditRecord = (record) => {
     let { data } = record
     let url = null
@@ -119,6 +118,7 @@ const AdminOrder = () => {
 
     navigate(`/user/san-pham/${url}`, { state: { ...record } })
   }
+
   const renderDate = (record) => {
     let result = moment(record.createdAt).format('DD/MM/YYYY HH:mm')
     return <span style={{ display: 'block', width: 120 }}>{result}</span>
@@ -229,6 +229,7 @@ const AdminOrder = () => {
             rowKey={(record) => record._id || makeid(9)}
             scroll={{
               x: 1650,
+              y: 50 * 10,
             }}
           >
             <Table.Column
@@ -236,7 +237,6 @@ const AdminOrder = () => {
               width={210}
               render={(val, record, i) => record?._id}
               {...getColumnSearchProps(['_id'])}
-              fixed={'left'}
             />
             <Table.Column
               className={styles.inline}

@@ -1,13 +1,15 @@
-import { AuthAction, CommonAction } from '@/store/actions'
+import { CommonAction } from '@/store/actions'
+import { AuthAPIS } from '@/store/actions/auth.actions'
 import { CaretLeftOutlined, CaretRightOutlined, DesktopOutlined, PieChartOutlined } from '@ant-design/icons'
 import { Layout, Menu } from 'antd'
 import clsx from 'clsx'
 import { memo, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Link, useLocation, useNavigate } from 'react-router-dom'
+import { Link, Navigate, useLocation, useNavigate } from 'react-router-dom'
 import { UserRouter } from '../../../constant/Route'
 import styles from './styles.module.scss'
 import { useMemo } from 'react'
+import AuthService from '../../../service/AuthService'
 
 const { Sider } = Layout
 
@@ -43,13 +45,15 @@ const UserSidebar = (props) => {
   }
 
   const signOut = async () => {
-    await dispatch(AuthAction.AuthLogout())
+    await AuthService.onLogout()
     navigate('/')
+    dispatch(AuthAPIS.AuthLogout())
   }
 
   const openHomePage = () => {
     window.open('https://thanhlapcongtyonline.vn/', '_blank')
   }
+
   const handleMenuItemClick = ({ key }) => {
     if (key === '/logout') return signOut()
     if (key === '/') return openHomePage()

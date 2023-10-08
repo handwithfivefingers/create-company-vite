@@ -5,10 +5,21 @@ module.exports = class ProfileService {
 
   onHandleGetProfile = async (req, res) => {
     try {
-      const _user = await User.findOne({ _id: req.id }).select('-hash_password')
+      const _user = await User.findOne({ _id: req.id }).select('-hash_password -role -delete_flag')
       return _user
     } catch (error) {
       console.log('Profile Service onHandleGetProfile error ::: ', error)
+      throw error
+    }
+  }
+  onHandleUpdateProfile = async (req, res) => {
+    try {
+      const { email, phone, name } = req.body
+
+      await User.updateOne({ _id: req.params._id }, { email, phone, name }, { new: true })
+
+      return true
+    } catch (error) {
       throw error
     }
   }

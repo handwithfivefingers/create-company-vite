@@ -17,13 +17,13 @@ import Admin from '@/pages/Admin'
 import HomePage from '@/pages/HomePage'
 import User from '@/pages/User'
 import Error from '@/pages/_error'
-import ForgotPassword from '../pages/HomePage/ForgotPassword'
 import LoginPage from '../pages/HomePage/LoginPage'
 import Policy from '../pages/User/Policy'
 import LoginForm from '@/pages/HomePage/LoginPage/Login'
 import LoginAdmin from '@/pages/HomePage/LoginAdmin'
 import Checkout from '@/pages/User/Checkout'
 import SettingPayment from '../pages/Admin/AdminSetting/Payment'
+import Verify from '../pages/HomePage/LoginPage/Verify'
 
 const AdminDashboard = lazy(() => import('@/pages/Admin/Dashboard'))
 const AdminMail = lazy(() => import('@/pages/Admin/AdminMail'))
@@ -124,12 +124,12 @@ export const LAYOUT_ROUTER = ({ status, role }) => [
         element: <LoginAdmin />,
       },
       {
-        path: '/forgot-password',
-        element: <ForgotPassword />,
-      },
-      {
         path: '/login',
         element: <LoginForm />,
+      },
+      {
+        path: '/verification',
+        element: <Verify />,
       },
     ],
   },
@@ -285,7 +285,7 @@ export const LAYOUT_ROUTER = ({ status, role }) => [
         },
       ]
     ) : (
-      <Navigate to="/404" />
+      <Navigate to="/" />
     ),
   },
   {
