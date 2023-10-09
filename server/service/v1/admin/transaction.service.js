@@ -108,7 +108,7 @@ module.exports = class AdminTransactionService extends BaseAdminService {
         console.log('productName', attachments)
 
         // const attachments = this.getAttachmentForPaymentSuccess({ type, data })
-        this.sendMailWhenPaymentSuccess({ order: _trans?.orderId, attachments, req, productData })
+        // this.sendMailWhenPaymentSuccess({ order: _trans?.orderId, attachments, req, productData })
       }
       await session.commitTransaction()
       session.endSession()
@@ -178,17 +178,6 @@ module.exports = class AdminTransactionService extends BaseAdminService {
   }
   getAttachmentForPaymentSuccess = async (productData, type) => {
     try {
-      // if(productName ===)
-      // switch (productName) {
-      //   case 'Thành lập doanh nghiệp':
-      //     return
-      //   case 'Thay đổi thông tin':
-      //     return
-      //   case 'Tạm hoãn':
-      //     return
-      //   case 'Giải thể':
-      //     return
-      // }
       const TLDN = {
         1_1: {
           fileName: 'Cá nhân - 1 Thành viên.doc',
