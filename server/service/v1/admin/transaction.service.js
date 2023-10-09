@@ -191,47 +191,47 @@ module.exports = class AdminTransactionService extends BaseAdminService {
       // }
       const TLDN = {
         1_1: {
-          fileName: 'Cá nhân - 1 Thành viên',
+          fileName: 'Cá nhân - 1 Thành viên.doc',
           path: path.join(global.__basedir, 'uploads', 'files', 'paymentSuccess', 'Create', '1TV-CaNhan.doc'),
         },
         1_2: {
-          fileName: 'Tổ chức - 1 Thành viên',
+          fileName: 'Tổ chức - 1 Thành viên.doc',
           path: path.join(global.__basedir, 'uploads', 'files', 'paymentSuccess', 'Create', '1TV-ToChuc.doc'),
         },
         2: {
-          fileName: '2 Thành viên',
+          fileName: '2 Thành viên.doc',
           path: path.join(global.__basedir, 'uploads', 'files', 'paymentSuccess', 'Create', '2TV.doc'),
         },
         3: {
-          fileName: 'Cổ phần',
+          fileName: 'Cổ phần.doc',
           path: path.join(global.__basedir, 'uploads', 'files', 'paymentSuccess', 'Create', 'CoPhan.doc'),
         },
       }
       const TH = {
         1: {
-          filename: '1 Thành viên',
+          filename: '1 Thành viên.doc',
           path: path.join(global.__basedir, 'uploads', 'files', 'paymentSuccess', 'Pending', '1TV.doc'),
         },
         2: {
-          filename: '2 Thành viên',
+          filename: '2 Thành viên.doc',
           path: path.join(global.__basedir, 'uploads', 'files', 'paymentSuccess', 'Pending', '2TV.doc'),
         },
         3: {
-          filename: 'Cổ phần',
+          filename: 'Cổ phần.doc',
           path: path.join(global.__basedir, 'uploads', 'files', 'paymentSuccess', 'Pending', 'CoPhan.doc'),
         },
       }
       const GT = {
         1: {
-          filename: '1 Thành viên',
+          filename: '1 Thành viên.doc',
           path: path.join(global.__basedir, 'uploads', 'files', 'paymentSuccess', 'Dissolution', '1TV.doc'),
         },
         2: {
-          filename: '2 Thành viên',
+          filename: '2 Thành viên.doc',
           path: path.join(global.__basedir, 'uploads', 'files', 'paymentSuccess', 'Dissolution', '2TV.doc'),
         },
         3: {
-          filename: 'Cổ phần',
+          filename: 'Cổ phần.doc',
           path: path.join(global.__basedir, 'uploads', 'files', 'paymentSuccess', 'Dissolution', 'CoPhan.doc'),
         },
       }
