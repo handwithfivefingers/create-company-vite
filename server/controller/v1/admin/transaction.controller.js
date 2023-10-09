@@ -21,6 +21,7 @@ module.exports = class AdminTransactionController {
         data,
       })
     } catch (error) {
+      console.log('onUpdateTransaction function error', error)
       return res.status(400).json({
         error,
       })

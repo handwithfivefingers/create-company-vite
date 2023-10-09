@@ -43,10 +43,13 @@ module.exports = class MailService {
     return nodeMailer.createTransport(this.mailConfig)
   }
 
-  sendWithAttachments = async ({ attachments, from, to, subject, html }) => {
+  sendWithAttachments = async ({ attachments, from, to, subject, html, skipValidate = false }) => {
     try {
       //sending
-      let validatedAttachments = this.validateFile(attachments)
+      let validatedAttachments = attachments
+      if (!skipValidate) {
+        validatedAttachments = this.validateFile(attachments)
+      }
       let params = {
         from: {
           address: from || MAIL_NAME,
@@ -88,7 +91,7 @@ module.exports = class MailService {
     }
   }
 
-  sendMail = async ({ from, to, subject, html }) => {
+  sendMail = async ({ from, to, subject, html, attachments }) => {
     try {
       let params = {
         from: {
@@ -98,6 +101,7 @@ module.exports = class MailService {
         to,
         subject,
         html,
+        attachments,
       }
 
       let transport = await this.createTransport()

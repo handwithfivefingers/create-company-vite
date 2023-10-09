@@ -1,7 +1,7 @@
 const { Setting } = require('@model')
 const BaseAdminService = require('@common/baseService')
 
-module.exports = class SettingService extends BaseAdminService{
+module.exports = class SettingService extends BaseAdminService {
   updateSetting = async (req, res) => {
     try {
       let { ...rest } = req.body
@@ -30,10 +30,8 @@ module.exports = class SettingService extends BaseAdminService{
   }
 
   getSetting = async (req, res) => {
-    if (req.role !== 'admin') return permisHandler(res)
     try {
       const listPopulate = ['mailRegister', 'mailPayment', 'mailPaymentSuccess', 'mailForgotPass']
-
       let _setting = await Setting.findOne({ userOwner: req.id }).populate(listPopulate).select(listPopulate)
       return _setting
     } catch (err) {

@@ -207,7 +207,7 @@ const AdminSetting = () => {
         <Card className={clsx('box__shadow', styles.gridItem)} onClick={() => navigate('./payment')}>
           Thanh toán
         </Card>
-        <Card className={clsx('box__shadow', styles.gridItem)}> Template Mail</Card>
+        <Card className={clsx('box__shadow', styles.gridItem)} onClick={() => navigate('./mail')}> Template Mail</Card>
         {/* <Card className={clsx('box__shadow')}> Thanh toán</Card>
         <Card className={clsx('box__shadow')}> Thanh toán</Card> */}
       </div>

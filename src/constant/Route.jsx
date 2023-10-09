@@ -22,7 +22,6 @@ import Policy from '../pages/User/Policy'
 import LoginForm from '@/pages/HomePage/LoginPage/Login'
 import LoginAdmin from '@/pages/HomePage/LoginAdmin'
 import Checkout from '@/pages/User/Checkout'
-import SettingPayment from '../pages/Admin/AdminSetting/Payment'
 import Verify from '../pages/HomePage/LoginPage/Verify'
 
 const AdminDashboard = lazy(() => import('@/pages/Admin/Dashboard'))
@@ -40,6 +39,9 @@ const UserProfile = lazy(() => import('@/pages/User/Profile'))
 
 const AdminAbout = lazy(() => import('@/pages/Admin/AdminAbout'))
 const AdminTransaction = lazy(() => import('@/pages/Admin/AdminTransaction'))
+const SettingPayment = lazy(() => import('@/pages/Admin/AdminSetting/Payment'))
+const SettingMail = lazy(() => import('@/pages/Admin/AdminSetting/Mail'))
+
 const CCResult = lazy(() => import('@/pages/User/Result'))
 
 export const AdminRouter = [
@@ -200,6 +202,11 @@ export const LAYOUT_ROUTER = ({ status, role }) => [
                 path: 'payment',
                 title: 'Thanh toán',
                 element: <SettingPayment />,
+              },
+              {
+                path: 'mail',
+                title: 'Email',
+                element: <SettingMail />,
               },
             ],
           },
