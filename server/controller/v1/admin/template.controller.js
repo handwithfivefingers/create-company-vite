@@ -1,5 +1,5 @@
 const { successHandler, errHandler } = require('@response')
-const TemplateService = require('../../../service/v1/admin/template.service')
+const TemplateService = require('@service/v1/admin/template.service')
 
 module.exports = class TemplateController {
   onGetTemplate = async (req, res) => {
@@ -7,6 +7,7 @@ module.exports = class TemplateController {
       const data = await new TemplateService(req).onGetTemplate(req, res)
       return successHandler(data, res)
     } catch (error) {
+      console.log('error', error)
       return errHandler(error, res)
     }
   }

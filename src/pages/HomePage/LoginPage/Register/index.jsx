@@ -76,15 +76,7 @@ const RegisterProvider = () => {
   return (
     <div className={clsx([styles.registerWrap, 'container'])}>
       <Spin spinning={loading}>
-        <Form
-          form={form}
-          onFinish={onFinish}
-          layout="vertical"
-          initialValues={{
-            email: 'handgod1995@gmail.com',
-            phone: '798341239',
-          }}
-        >
+        <Form form={form} onFinish={onFinish} layout="vertical">
           <Text>Vui lòng nhập thông tin liên hệ dưới đây để nhận được bộ hồ sơ đầy đủ và nhanh chóng</Text>
 
           <Form.Item label="Email" name="email" validateTrigger={['onBlur']} rules={FIELD_RULE.EMAIL}>

@@ -1,33 +1,26 @@
 const { TemplateMail } = require('@model')
 const BaseAdminService = require('@common/baseService')
 
+const PAGE_SIZE = 10
 module.exports = class TemplateService extends BaseAdminService {
-  PAGE_SIZE = 10
-
-  constructor() {}
-
   onGetTemplate = async (req, res) => {
-    const { page, get } = req.query
-
-    let current_page = (Number(page) - 1) * this.PAGE_SIZE
-
     try {
       let _template = []
       let count = await TemplateMail.countDocuments()
-
+      const { page } = req.query
+      let current_page = (Number(page) - 1) * PAGE_SIZE
       if (page) {
         _template = await TemplateMail.find({})
           .select('_id name content subject')
           .skip(current_page)
-          .limit(this.PAGE_SIZE)
+          .limit(PAGE_SIZE)
           .sort('-createdAt')
       } else {
         _template = await TemplateMail.find({}).select('_id name content subject').sort('-createdAt')
       }
-      // return successHandler({ _template, count }, res)
       return { _template, count }
     } catch (err) {
-      // return errHandler(err, res)
+      console.log('error', err)
       throw err
     }
   }

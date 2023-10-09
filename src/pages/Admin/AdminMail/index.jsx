@@ -97,7 +97,7 @@ function ListTemplateMail(props) {
       if (res.data.status === 200) {
         message.success(res.data.message)
       }
-    } catch (err) {
+    } catch (err) { 
       console.log(err)
     } finally {
       setLoading(false)

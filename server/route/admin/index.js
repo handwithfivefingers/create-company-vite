@@ -13,6 +13,7 @@ router.use('/career_cate', requireSignin, require('./careerCate'))
 router.use('/career', requireSignin, require('./career'))
 router.use('/category', requireSignin, require('./category'))
 router.use('/transaction', requireSignin, require('./transaction'))
+router.use('/template', requireSignin, require('./template'))
 
 module.exports = {
   MailRoute,

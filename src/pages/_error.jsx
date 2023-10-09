@@ -3,7 +3,7 @@ import { Navigate, useNavigate } from 'react-router-dom'
 import { useAuthStore } from '@/store/reducer'
 function Error() {
   let navigate = useNavigate()
-  const { status } = useAuthStore()
+  const { status, role } = useAuthStore()
   if (!status) return <Navigate to="/" />
   return (
     <Result
@@ -11,7 +11,7 @@ function Error() {
       title="404"
       subTitle="Sorry, the page you visited does not exist."
       extra={
-        <Button type="primary" onClick={() => navigate('/')}>
+        <Button type="primary" onClick={() => navigate(`/${role}`)}>
           Back Home
         </Button>
       }

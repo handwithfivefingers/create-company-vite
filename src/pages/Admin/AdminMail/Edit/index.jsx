@@ -4,8 +4,10 @@ import { useRouter } from 'next/router'
 import { useState } from 'react'
 import { RiArrowGoBackFill } from 'react-icons/ri'
 import CCEditor from '../../../../components/Editor'
+import { lazy } from 'react'
 import axios from '../../../../config/axios'
 import styles from './styles.module.scss'
+import AdminMailService from '../../../../service/AdminService/AdminMailService'
 
 export default function EditMail() {
   const [name, setName] = useState()
@@ -22,12 +24,9 @@ export default function EditMail() {
     if (!name) return
     if (!content) return
     setLoading(true)
-    axios
-      .post('/admin/template/create', { name, subject, content })
+    AdminMailService.addTemplate({ name, subject, content })
       .then((res) => {
-        if (res.data.status === 201) {
-          message.success(res.data.message)
-        } else message.error(res.data.message)
+        message.error(res.data.message)
       })
       .finally(() => {
         setLoading(false)

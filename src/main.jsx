@@ -4,7 +4,7 @@ import App from './App'
 import store from './store'
 import { Provider } from 'react-redux'
 
-window.store = store
+// window.store = store
 
 const ROOT = document.getElementById('root')
 

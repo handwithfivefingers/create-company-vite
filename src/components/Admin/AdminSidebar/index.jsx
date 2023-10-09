@@ -106,6 +106,7 @@ const AdminSidebar = () => {
     },
   ]
 
+  console.log('collapsed', collapsed)
   return (
     <>
       <Sider
@@ -115,10 +116,27 @@ const AdminSidebar = () => {
         collapsed={collapsed}
         reverseArrow={true}
         breakpoint={'md'}
-        trigger={<div className={styles.trigger}>{!collapse ? <CaretLeftOutlined /> : <CaretRightOutlined />}</div>}
+        trigger={
+          !collapse ? (
+            <div className={styles.trigger}>
+              <CaretLeftOutlined />
+            </div>
+          ) : (
+            <div className={styles.trigger}>
+              <CaretRightOutlined />
+            </div>
+          )
+        }
         className={clsx([styles.sidebar, 'box__shadow'])}
       >
-        <div className="logo" style={{ height: 65 }} />
+        <div
+          className={clsx(styles.logo, {
+            [styles.logoCollapsed]: collapsed,
+          })}
+          style={{ height: 65 }}
+        >
+          <img src={collapsed ? '/favicon.png' : '/logo_1.png'} height={65} />
+        </div>
 
         <Menu items={ListMenu} theme="light" defaultSelectedKeys={[current]} selectedKeys={[current]} mode="inline" />
       </Sider>

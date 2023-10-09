@@ -1,18 +1,18 @@
 import LoadingScreen from '@/components/LoadingScreen'
 import { RouterProvider, useRouterAPI, useRouterData } from '@/helper/Context'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import 'animate.css'
 import { ConfigProvider, message } from 'antd'
 import moment from 'moment'
-import { useContext, useEffect, useState } from 'react'
+import 'moment/locale/vi'
+import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { BrowserRouter, useLocation, useRoutes } from 'react-router-dom'
+import './assets/css/styles.scss'
 import { LAYOUT_ROUTER, UserRouter } from './constant/Route'
+import { FormProviderContext } from './context/FormProviderContext'
 import { useAuth, useDetectLocation } from './helper/Hook'
 import { CommonAction } from './store/actions'
-import 'moment/locale/vi'
-import 'animate.css'
-import './assets/css/styles.scss'
-import { FormProviderContext } from './context/FormProviderContext'
 
 
 const queryClient = new QueryClient({

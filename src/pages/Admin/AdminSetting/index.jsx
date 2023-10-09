@@ -3,13 +3,11 @@ import CCInput from '@/components/CCInput'
 import { onSetFields } from '@/helper/Common'
 import AdminMailService from '@/service/AdminService/AdminMailService'
 import AdminSettingService from '@/service/AdminService/AdminSettingService'
-import { Button, Form, message, Tabs, Row, Col, Select, Card } from 'antd'
-import { forwardRef, useEffect, useRef, useState } from 'react'
-import styles from './styles.module.scss'
-// const { use}
-import { useNavigate } from 'react-router-dom'
+import { Button, Card, Col, Form, Row, Select, message } from 'antd'
 import clsx from 'clsx'
-const { TabPane } = Tabs
+import { forwardRef, useEffect, useRef, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import styles from './styles.module.scss'
 
 const ChangePassword = forwardRef((props, ref) => {
   return (
