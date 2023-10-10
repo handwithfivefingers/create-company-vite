@@ -7,6 +7,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { useRouterData } from '../../../../helper/Context'
 import { useAuthStore } from '../../../../store/reducer'
 import styles from './styles.module.scss'
+import { getPhoneNumber } from '../../../../helper/Common'
 
 const LoginForm = () => {
   const [loading, setLoading] = useState(false)
@@ -65,8 +66,9 @@ const LoginForm = () => {
   const onHandleSendOTPByEmail = async () => {
     try {
       const { phone, email } = formRef.current.getFieldsValue(true)
+      const phoneNum = getPhoneNumber(phone)
       const type = 'EMAIL'
-      const data = await sendOTP({ phone: `0${phone}`, email, type })
+      const data = await sendOTP({ phone: phoneNum, email, type })
       message.success(data.data.message)
       navigate('/verification')
     } catch (error) {

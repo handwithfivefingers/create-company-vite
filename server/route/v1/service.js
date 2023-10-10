@@ -8,7 +8,7 @@ const ProvinceController = require('@controller/v1/user/province.controller')
 
 const router = express.Router()
 
-router.post('/sendmail', upload.array('attachments', 5), new MailService().sendWithAttachments)
+// router.post('/sendmail', upload.array('attachments', 5), new MailService().sendWithAttachments)
 
 // router.post('/payment', requireSignin, new PaymentService().testPayment)
 router.get('/return_vnp', requireSignin, new PaymentController().getURLReturn)

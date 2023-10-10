@@ -5,6 +5,7 @@ import styles from './styles.module.scss'
 import AuthService from '../../../../service/AuthService'
 import { FIELD_RULE } from '../../../../constant/pages/Login'
 import { useNavigate } from 'react-router-dom'
+import { getPhoneNumber } from '../../../../helper/Common'
 const { Text } = Typography
 
 const RegisterProvider = () => {
@@ -14,15 +15,23 @@ const RegisterProvider = () => {
   const navigate = useNavigate()
 
   const isUserExist = async ({ phone, email, type = undefined }) => {
-    return (await AuthService.isUserExist({ phone, email, type }))?.data
+    const params = { phone, email }
+    if (type) params.type = type
+    return (await AuthService.isUserExist(params))?.data
   }
 
-  const sendOTP = async ({ type = 'EMAIL', deleteOldUser = false }) => {
+  const sendOTP = async ({ type, deleteOldUser, phone, email }) => {
     try {
-      const { phone, email } = form.getFieldsValue(true)
-      const resp = await AuthService.getRegisterOTP({ phone, email, type, deleteOldUser })
+      const params = {
+        phone,
+        email,
+        deleteOldUser: deleteOldUser || false,
+        type: type || 'EMAIL',
+      }
+      const resp = await AuthService.getRegisterOTP(params)
       return resp.data
     } catch (error) {
+      console.log('sendOTP', error)
       throw error
     }
   }
@@ -30,9 +39,13 @@ const RegisterProvider = () => {
   const onFinish = async ({ email, phone }) => {
     try {
       setLoading(true)
-      const { status: userExist, message: msg } = await isUserExist({ email, phone: `0${phone}` })
+      const phoneNum = getPhoneNumber(phone)
+      console.log('phoneNum', phoneNum)
+      const { status: userExist, message: msg } = await isUserExist({ email, phone: phoneNum })
+
       if (!userExist) {
-        const result = await sendOTP()
+        const result = await sendOTP({ phone: phoneNum, email })
+        console.log('result', result)
         message.success(result.data.message)
         navigate('/verification')
         if (msg) message.error(msg)
@@ -44,7 +57,7 @@ const RegisterProvider = () => {
         )
       }
     } catch (error) {
-      console.log('error')
+      console.log('onFinish error', error)
       message.error(error.toString())
     } finally {
       setLoading(false)
@@ -54,7 +67,12 @@ const RegisterProvider = () => {
   const onRegistrationAndRemoveOldAccount = async () => {
     try {
       setLoading(true)
-      const result = await sendOTP({ deleteOldUser: true })
+
+      const phone = form.getFieldValue('phone')
+      const email = form.getFieldValue('email')
+      const phoneNum = getPhoneNumber(phone)
+
+      const result = await sendOTP({ deleteOldUser: true, phone: phoneNum, email })
       message.success(result.data.message)
       modalRef.current.onToggle()
       navigate('/verification')

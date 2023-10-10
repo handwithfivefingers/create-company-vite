@@ -1,23 +1,8 @@
 const jwt = require('jsonwebtoken')
-const shortid = require('shortid')
-
-const path = require('path')
-const multer = require('multer')
 const { authFailedHandler, errHandler } = require('@response')
 const { User, Log } = require('../model')
 const apicache = require('apicache')
 const VNPWHITELIST = require('../constant/VnpayWhitelist')
-
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, path.join(path.dirname(global.__basedir), 'uploads'))
-  },
-  filename: function (req, file, cb) {
-    cb(null, shortid.generate() + '-' + file.originalname)
-  },
-})
-
-const upload = multer({ storage })
 
 const requireSignin = async (req, res, next) => {
   try {
@@ -111,7 +96,6 @@ const validateIPNVnpay = async (req, res, next) => {
 }
 
 module.exports = {
-  upload,
   requireSignin,
   TrackingApi,
   validateIPNVnpay,

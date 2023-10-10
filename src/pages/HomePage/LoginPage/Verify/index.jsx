@@ -7,19 +7,13 @@ import { useDispatch } from 'react-redux'
 import { AuthAPIS } from '@/store/actions/auth.actions'
 
 let timer
-const NUM_LIMIT = 10
+const NUM_LIMIT = 60
 export default function Verify() {
   const [form] = Form.useForm()
   const [loading, setLoading] = useState(false)
   const navigate = useNavigate()
   const [count, setCount] = useState(NUM_LIMIT)
   const dispatch = useDispatch()
-  // useEffect(() => {
-  //   timer = setInterval(() => {
-  //     updateCount()
-  //   }, 1000)
-  //   return () => clearInterval(timer)
-  // }, [])
 
   useEffect(() => {
     if (count <= 0) {

@@ -38,7 +38,7 @@ router.post('/verification-resend', new AuthenticateController().onHandleVerific
 router.post('/auth', requireSignin, new LoginController().onHandleVerifyToken)
 
 //  Readable
-router.post('/login-admin', upload.none(), new LoginController().onLoginAsAdmin)
+router.post('/login-admin', new LoginController().onLoginAsAdmin)
 //  DONE
 
 router.post('/logout', logOut)

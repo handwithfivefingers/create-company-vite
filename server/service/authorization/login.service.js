@@ -36,7 +36,8 @@ module.exports = class LoginService {
         const createdDate = _otp._doc.createdAt
         const currentTime = new Date().getTime()
         const createDate = new Date(createdDate).getTime()
-        if ((currentTime - createDate) / 1000 < 60) throw { message: 'OTP đã được gửi, vui lòng thử lại sau' }
+        if ((currentTime - createDate) / 1000 < 60)
+          throw { message: 'OTP đã được tạo gửi qua, vui lòng thử lại sau ít phút' }
         await _otp.remove()
       }
 
@@ -62,7 +63,7 @@ module.exports = class LoginService {
         const resp = await new SMSService().sendESMS(params)
         logs.request = params
         logs.response = resp
-        message = 'OTP đã được gửi qua tài khoản Số điện thoại của bạn !'
+        message = 'Chúng tôi đã gửi mã OTP qua số điện thoại, vui lòng kiểm tra tin nhắn !'
       } else if (type === OTP_TYPE[2]) {
         let mailTemplate = {
           html: `Mã xác thực của bạn là: ${otpObj.otp}`,
@@ -75,7 +76,7 @@ module.exports = class LoginService {
         const resp = await new MailService().sendMail(mailParams)
         logs.request = mailParams
         logs.response = resp
-        message = 'OTP đã được gửi qua tài khoản email của bạn !'
+        message = 'Chúng tôi đã gửi mã OTP qua email, vui lòng kiểm tra hộp thư !'
       }
 
       return { message, email: _user.email, phone: _user.phone }

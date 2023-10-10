@@ -148,6 +148,12 @@ const htmlContent = (content) => (
     }}
   />
 )
+const getPhoneNumber = (phoneNum) => {
+  const newPhone = phoneNum.split('')
+  if (newPhone[0] == 0) newPhone.shift()
+  const phoneStr = `0${newPhone.join('')}`
+  return phoneStr
+}
 export {
   number_format,
   renderSkeleton,
@@ -162,4 +168,5 @@ export {
   onSetFieldsWithInstance,
   numToWord,
   htmlContent,
+  getPhoneNumber,
 }
