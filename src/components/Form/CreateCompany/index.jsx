@@ -92,12 +92,15 @@ const CreateCompany = forwardRef(({ data }, formRef) => {
       if (approve) {
         let { origin_person, legal_respon } = approve
         if (origin_person) {
-          origin_person = origin_person?.map(({ birth_day, doc_time_provide, organization, ...item }) => {
+          origin_person = origin_person?.map(({ birth_day, doc_time_provide, doc_outdate, organization, ...item }) => {
             let obj = {
               ...item,
-              birth_day: moment(birth_day, 'YYYY-MM-DD'),
-              doc_time_provide: moment(doc_time_provide, 'YYYY-MM-DD'),
             }
+
+            if (doc_outdate) obj.doc_time_provide = moment(doc_outdate, 'YYYY-MM-DD')
+            if (birth_day) obj.doc_time_provide = moment(birth_day, 'YYYY-MM-DD')
+            if (doc_time_provide) obj.doc_time_provide = moment(doc_time_provide, 'YYYY-MM-DD')
+
             if (organization) {
               obj.organization = {
                 ...organization,
@@ -110,12 +113,22 @@ const CreateCompany = forwardRef(({ data }, formRef) => {
         }
 
         if (legal_respon) {
-          legal_respon = legal_respon.map(({ birth_day, doc_time_provide, ...item }) => {
-            return {
+          legal_respon = legal_respon.map(({ birth_day, doc_time_provide, doc_outdate, ...item }) => {
+            let obj = {
               ...item,
-              birth_day: moment(birth_day, 'YYYY-MM-DD'),
-              doc_time_provide: moment(doc_time_provide, 'YYYY-MM-DD'),
             }
+
+            if (doc_time_provide) {
+              obj.doc_time_provide = moment(doc_time_provide, 'YYYY-MM-DD')
+            }
+            if (doc_time_provide) {
+              obj.birth_day = moment(doc_time_provide, 'YYYY-MM-DD')
+            }
+            if (doc_outdate) {
+              obj.doc_outdate = moment(doc_outdate, 'YYYY-MM-DD')
+            }
+
+            return obj
           })
         }
         approve = {
@@ -128,7 +141,7 @@ const CreateCompany = forwardRef(({ data }, formRef) => {
         approve,
       }
     }
-
+    console.log('_data', _data)
     formRef.current?.setFieldsValue({
       ..._data,
     })
