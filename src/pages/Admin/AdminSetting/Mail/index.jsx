@@ -47,13 +47,13 @@ const SettingMail = (props) => {
       console.log(form.getFieldsValue())
     }
   }
-
-  console.log('mailOptions', mailOptions)
+  const onFinish = (val) => {}
+  
   return (
     <>
       <AdminHeader title="Cài đặt > Email" />
       <Card className="box__shadow">
-        <Form onFinish={props.mailSubmit} layout="vertical" form={form}>
+        <Form onFinish={onFinish} layout="vertical" form={form}>
           <h3>Cài đặt mail</h3>
           <Form.Item label={'Mail đăng kí'} name="mailRegister">
             <Select options={mailOptions} fieldNames={{ label: 'name', value: '_id' }} />

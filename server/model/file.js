@@ -1,6 +1,9 @@
 module.exports = {
-  categoryName: {
+  fileName: {
     type: String,
+  },
+  fileCategory: {
+
   },
   files: [
     {

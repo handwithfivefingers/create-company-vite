@@ -41,6 +41,7 @@ const AdminAbout = lazy(() => import('@/pages/Admin/AdminAbout'))
 const AdminTransaction = lazy(() => import('@/pages/Admin/AdminTransaction'))
 const SettingPayment = lazy(() => import('@/pages/Admin/AdminSetting/Payment'))
 const SettingMail = lazy(() => import('@/pages/Admin/AdminSetting/Mail'))
+const SettingDocument = lazy(() => import('@/pages/Admin/AdminSetting/Document'))
 
 const CCResult = lazy(() => import('@/pages/User/Result'))
 
@@ -207,6 +208,11 @@ export const LAYOUT_ROUTER = ({ status, role }) => [
                 path: 'mail',
                 title: 'Email',
                 element: <SettingMail />,
+              },
+              {
+                path: 'document',
+                title: 'Email',
+                element: <SettingDocument />,
               },
             ],
           },
