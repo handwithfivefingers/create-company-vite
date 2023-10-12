@@ -45,7 +45,7 @@ const FormListPersonType = forwardRef((props, ref) => {
   }
 
   useEffect(() => {
-    let value = ref.current.getFieldsValue()
+    let value = ref.current?.getFieldsValue()
     setType(value?.category?.type)
   }, [props])
 

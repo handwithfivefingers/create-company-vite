@@ -23,6 +23,11 @@ export default defineConfig(({ command, mode }) => {
   let configs = {
     envPrefix: ['MAIL_', 'GG_', 'VITE_'],
     plugins: [react({})],
+    test: {
+      globals: true,
+      environment: 'jsdom',
+      setupFiles: [path.resolve(__dirname, 'src/test/setup/setup.js')],
+    },
     root: '.',
     resolve: {
       alias: [{ find: '@', replacement: path.resolve(__dirname, 'src') }],

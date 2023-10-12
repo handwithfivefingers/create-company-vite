@@ -15,7 +15,6 @@ const ThanhVienGopVon = forwardRef(({ data, ...props }, ref) => {
   const [_render, setRender] = useState(false)
   const location = useLocation()
   const { BASE_FORM } = props
-  const formIntances = Form.useFormInstance()
   // run 1
   useEffect(() => {
     let value = [...listForm] // default is 1
