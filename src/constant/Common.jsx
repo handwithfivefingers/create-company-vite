@@ -18,6 +18,7 @@ export const FormFieldText = {
   base_val: {
     char: 'Vốn điều lệ (bằng chữ)',
     num: 'Vốn điều lệ (bằng số)',
+    par_value_shares: 'Mệnh giá cổ phần'
   },
   company_core: {
     address: 'Địa chỉ trụ sở chính',

@@ -112,9 +112,9 @@ const ThanhVienGopVon = forwardRef(({ data, ...props }, ref) => {
 
   const getMemberLabel = (i) => {
     if (data?.type === 3) {
-      return `Cổ đông sáng lập ${data?.type !== 1 && ` thứ ${i + 1}`}`
+      return `Cổ đông sáng lập ${data?.type !== 1 ? ` thứ ${i + 1}` : ''}`
     }
-    return `Thành viên góp vốn ${data?.type !== 1 && ` thứ ${i + 1}`}`
+    return `Thành viên góp vốn ${data?.type !== 1 ? ` thứ ${i + 1}` : ''}`
   }
 
   return (
@@ -128,12 +128,14 @@ const ThanhVienGopVon = forwardRef(({ data, ...props }, ref) => {
       ])}
     >
       <Row gutter={[16, 12]}>
-        {listForm.length < 10 && data?.type !== 1 && (
+        {listForm.length < 10 && data?.type !== 1 ? (
           <Col span={24} style={{ position: 'sticky', top: '0', zIndex: 1 }}>
             <Button onClick={addItem} icon={<PlusOutlined />} type="primary">
               Thêm thành viên góp vốn
             </Button>
           </Col>
+        ) : (
+          ''
         )}
 
         {listForm.map((item, i) => {

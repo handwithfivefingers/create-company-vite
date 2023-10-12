@@ -16,8 +16,6 @@ router.use('/', require('./service'))
 router.use('/test', require('./test'))
 router.use('/transaction', requireSignin, require('./transaction'))
 
-router.use('/file', require('./file-handle'))
-
 router.use('/', MailRoute)
 
 module.exports = router

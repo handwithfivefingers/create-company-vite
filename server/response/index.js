@@ -15,13 +15,10 @@ const authFailedHandler = (res) => {
   })
 }
 
-const errHandler = async (err, res) => {
-  let message = 'Đã có lỗi xảy ra, vui lòng thử lại sau!'
-
-  let error = { error: err, message }
-
+const errHandler = async (error, res) => {
   return res.status(400).json({
-    ...error,
+    message: error.toString() || message,
+    stack: error.stack,
     status: 400,
     success: false,
   })

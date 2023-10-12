@@ -1,4 +1,5 @@
 import { useQuery } from '@tanstack/react-query'
+import { useMemo } from 'react'
 
 const useFetch = ({
   cacheName,
@@ -9,6 +10,7 @@ const useFetch = ({
   staleTime = 60 * 1000,
   refetchOnWindowFocus = true,
   refetchInterval = false,
+  deps = [],
 }) => {
   const { data, isFetching, isLoading, status, refetch } = useQuery(cacheName, async () => await getScreenData(), {
     staleTime, // 1 minute
@@ -31,8 +33,17 @@ const useFetch = ({
     }
   }
 
-  return { data, isLoading, status, refetch, isFetching }
-  
+  const response = useMemo(() => {
+    return {
+      data,
+      isFetching,
+      isLoading,
+      status,
+      refetch,
+    }
+  }, [data, isFetching, isLoading, status, ...deps])
+
+  return response
 }
 
 export { useFetch }

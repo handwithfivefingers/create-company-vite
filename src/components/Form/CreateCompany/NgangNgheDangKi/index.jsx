@@ -6,47 +6,45 @@ import styles from '../CreateCompany.module.scss'
 import { useFetch } from '@/helper/Hook'
 import { useQuery } from '@tanstack/react-query'
 import { useStepData } from '@/context/StepProgressContext'
-
+let _mounted = false
 const NgangNgheDangKi = forwardRef(({ BASE_FORM, className }, ref) => {
   const { currentStep } = useStepData()
+  const formInstance = Form.useFormInstance()
+  const watchCompanyCareerType = Form.useWatch([...BASE_FORM, 'company_career_type'], formInstance)
+  const watchCompanyCareerGroup = Form.useWatch([...BASE_FORM, 'company_career_group'], formInstance)
+  const [data, setData] = useState([])
 
-  const { data: careerCategory } = useFetch({
+  const { data: careerCategory, refetch } = useFetch({
     cacheName: ['careerCate'],
     fn: () => GlobalService.getCareerCategory(),
   })
 
-  const formInstance = Form.useFormInstance()
-
-  const watchCompanyCareerType = Form.useWatch([...BASE_FORM, 'company_career_type'], formInstance)
-  const watchCompanyCareerGroup = Form.useWatch([...BASE_FORM, 'company_career_group'], formInstance)
-  const [data, setData] = useState([])
   useEffect(() => {
-    getListCareerByCategory()
-  },[])
-  useEffect(() => {
-    if (watchCompanyCareerGroup) {
+    if (!_mounted) {
+      getListCareerByCategory()
+      _mounted = true
+    } else if (watchCompanyCareerGroup || watchCompanyCareerType) {
       getListCareerByCategory()
     }
-  }, [watchCompanyCareerGroup])
+  }, [watchCompanyCareerGroup, watchCompanyCareerType])
 
   const getListCareerByCategory = async () => {
     try {
-      const res = await GlobalService.getListCareerByCategory({ category: watchCompanyCareerGroup })
-      setData(res.data.data)
+      let resp
+      if (watchCompanyCareerType !== 1) {
+        resp = await GlobalService.getListCareerByCategory({ category: watchCompanyCareerGroup })
+      } else {
+        resp = await GlobalService.getListCareerByCategory()
+      }
+      setData(resp.data.data)
     } catch (error) {
       console.log(error)
     }
   }
-  const { data: careerData } = useQuery(
-    ['career'],
-    async () => {
-      let res = await GlobalService.fetchCareer()
-      return res.data.data
-    },
-    {
-      enabled: watchCompanyCareerType === 1,
-    },
-  )
+  const { data: careerData } = useQuery(['career'], async () => {
+    let res = await GlobalService.fetchCareer()
+    return res.data.data
+  })
 
   const handleChange = (pathName, opt) => {
     let value
@@ -72,7 +70,9 @@ const NgangNgheDangKi = forwardRef(({ BASE_FORM, className }, ref) => {
     }
     return children.toLowerCase()?.indexOf(searchString) >= 0
   }
-
+  const handleChangeCareerType = () => {
+    refetch()
+  }
   return (
     <Form.Item
       label={<h2>Ngành nghề đăng kí kinh doanh</h2>}
@@ -92,7 +92,7 @@ const NgangNgheDangKi = forwardRef(({ BASE_FORM, className }, ref) => {
             name={[...BASE_FORM, 'company_career_type']}
             rules={[{ required: true, message: 'Vui lòng chọn ngành nghề đăng kí' }]}
           >
-            <Select placeholder="Bấm vào đây">
+            <Select placeholder="Bấm vào đây" onChange={handleChangeCareerType}>
               <Select.Option value={1}>Tự chọn ngành nghề</Select.Option>
               <Select.Option value={2}>Chọn theo lĩnh vực đề xuất</Select.Option>
             </Select>

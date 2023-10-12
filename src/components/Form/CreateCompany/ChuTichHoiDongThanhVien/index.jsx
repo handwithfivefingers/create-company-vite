@@ -106,9 +106,9 @@ const ChuTichHoiDongThanhVien = forwardRef((props, ref) => {
             />
           </Col>
 
-          <Col lg={12} md={12} sm={24} xs={24}>
+          {/* <Col lg={12} md={12} sm={24} xs={24}>
             <CCInputOutdateIdentify name={[...BASE_FORM, 'per_main', 'doc_outdate']} indentifyType={doctypeWatch} />
-          </Col>
+          </Col> */}
 
           <Col lg={12} md={12} sm={24} xs={24}>
             <CCInputProviderIdentify
