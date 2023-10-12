@@ -45,7 +45,7 @@ const FormListPersonType = forwardRef((props, ref) => {
   }
 
   useEffect(() => {
-    let value = ref.current.getFieldsValue()
+    let value = ref.current?.getFieldsValue()
     setType(value?.category?.type)
   }, [props])
 
@@ -116,7 +116,7 @@ const FormListPersonType = forwardRef((props, ref) => {
           indentifyType={doctypeWatch}
         />
 
-        <CCInputOutdateIdentify name={[...BASE_FORM, 'legal_respon', i, 'doc_outdate']} indentifyType={doctypeWatch} />
+        {/* <CCInputOutdateIdentify name={[...BASE_FORM, 'legal_respon', i, 'doc_outdate']} indentifyType={doctypeWatch} /> */}
 
         <CCInputProviderIdentify
           name={[...BASE_FORM, 'legal_respon', i, 'doc_place_provide']}

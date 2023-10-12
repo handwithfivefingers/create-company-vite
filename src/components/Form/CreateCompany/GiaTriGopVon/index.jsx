@@ -1,5 +1,6 @@
 import CCInput from '@/components/CCInput'
 import { FormFieldText } from '@/constant/Common'
+import t from '@/constant/CommonText'
 import { numToWord } from '@/helper/Common'
 import { Col, Form, InputNumber, Row } from 'antd'
 import clsx from 'clsx'
@@ -57,11 +58,12 @@ const GiaTriGopVon = forwardRef((props, ref) => {
       <Col lg={12} md={12} sm={24} xs={24}>
         <Form.Item
           name={[...BASE_FORM, 'base_val', 'num']}
-          label={FormFieldText['base_val']['num']}
+          label={t.num}
           required
           rules={[{ required: true }]}
         >
           <InputNumber
+            step={1000}
             formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
             style={{ width: '100%' }}
             onChange={(e) => onInputChange(e)}
@@ -74,10 +76,20 @@ const GiaTriGopVon = forwardRef((props, ref) => {
         <CCInput
           type="text"
           name={[...BASE_FORM, 'base_val', 'char']}
-          label={'Vốn điều lệ (bằng chữ)'}
+          label={t.char}
           onChange={(e) => checkInputValidation(e)}
           required
         />
+      </Col>
+      <Col lg={12} md={12} sm={24} xs={24}>
+        <Form.Item name={[...BASE_FORM, 'base_val', 'par_value_shares']} label={t.par_value_shares}>
+          <InputNumber
+            type="text"
+            addonAfter={'đ / Cổ phần'}
+            step={1000}
+            formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+          />
+        </Form.Item>
       </Col>
     </Row>
   )

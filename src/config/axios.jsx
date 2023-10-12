@@ -32,7 +32,7 @@ instance.interceptors.response.use(
     return res
   },
   (err) => {
-    if (err.response.status === 401) {
+    if (err.response?.status === 401 || err?.status === 401) {
       if (!window.navigator?.onLine) {
         notification.warn({ message: 'Đường truyền không ổn định, vui lòng kiểm tra lại đường truyền' })
       } else {

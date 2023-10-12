@@ -3,6 +3,7 @@ import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import AuthService from '../../service/AuthService'
 import { useAuthStore } from '../../store/reducer'
+import { notification } from 'antd'
 
 const useAuth = () => {
   const authReducer = useAuthStore()
@@ -18,9 +19,13 @@ const useAuth = () => {
     }
   }
   useEffect(() => {
-    onAuthenticateUser()
+    if (!window.navigator?.onLine) {
+      return notification.error({ message: 'Kết nối mạng không ổn định, vui lòng thử lại sau' })
+    } else {
+      onAuthenticateUser()
+    }
   }, [])
-  
+
   return authReducer // status:true false, role: admin user
 }
 

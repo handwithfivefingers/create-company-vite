@@ -49,26 +49,26 @@ const blocked_domains = [
 
 module.exports = class PuppeteerService {
   startBrowser = async (req) => {
-    let browser
-    let page
     try {
-      browser = await puppeteer.launch({
+      const isDev = process.env.NODE_ENV === 'development'
+      const params = {
         headless: true,
         args: minimal_args,
-        executablePath: '/usr/bin/chromium-browser',
-      })
-      page = await browser.newPage()
-      console.log(req.headers)
+        ignoreDefaultArgs: ['--disable-extensions'],
+      }
+
+
+      if (!isDev) {
+        params['executablePath'] = '/usr/bin/chromium-browser'
+      }
+      console.log('params', params)
+
+      const browser = await puppeteer.launch(params)
+      const page = await browser.newPage()
+
       const headersClone = JSON.parse(JSON.stringify(req.headers))
-      delete headersClone['host']
-      delete headersClone['connection']
-      delete headersClone['access-control-allow-origin']
-      delete headersClone['cookie']
-      delete headersClone['referer']
-      delete headersClone['origin']
 
       await page.setExtraHTTPHeaders({
-        // ...headersClone,
         'user-agent': headersClone['user-agent'],
         accept: headersClone['accept'] || 'application/json',
         'accept-encoding': headersClone['accept-encoding'] || 'gzip, deflate, br',
@@ -86,8 +86,7 @@ module.exports = class PuppeteerService {
       return { page, browser, status: true }
     } catch (error) {
       console.log('openTab error' + error)
-
-      return { page, browser, status: false }
+      return { status: false }
     }
   }
 
@@ -108,7 +107,8 @@ module.exports = class PuppeteerService {
     let browser
     try {
       const { page, browser: brows, status: isBrowserReady } = await this.startBrowser(req)
-
+      if (!page) throw new Error('page not found')
+      if (!brows) throw new Error('browser not found')
       browser = brows
 
       let selector = 'input[name="q"]'
@@ -194,7 +194,7 @@ module.exports = class PuppeteerService {
         data: error,
       }
     } finally {
-      browser.close()
+      browser?.close()
     }
   }
 
