@@ -26,7 +26,7 @@ const db = require('./server/configs/db')
 const appConfig = require('./server/configs/defaultConfig')
 
 const LoadEnv = require('./server/configs/loadENV')
-
+const { exec } = require('child_process')
 global.__basedir = __dirname
 
 const { NODE_ENV, PORT, DEV_PORT } = process.env
@@ -44,6 +44,9 @@ initEnvLoaded()
 
 onInit()
 app.listen(RUNTIME_PORT, async () => {
+  exec('clear', (error, stdout, stder) => {
+    console.log('clear', error, stdout, stder)
+  })
   await connectDB()
   onConvertFiles()
   onBackupDB()

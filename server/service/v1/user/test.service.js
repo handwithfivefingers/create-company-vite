@@ -8,6 +8,8 @@ const { errHandler } = require('@server/response')
 
 const { flattenObject, convertFile } = require('@common/helper')
 
+const { generateDocs } = require('@common/odt.template')
+
 const { uniqBy } = require('lodash')
 
 libre.convertAsync = require('util').promisify(libre.convert)
@@ -38,10 +40,19 @@ module.exports = class TestService {
     try {
       let { files, data } = order
 
-      let mailParams = await this.getMailContent({ _id: order.id, email: order.orderOwner?.email })
+      // let mailParams = await this.getMailContent({ _id: order.id, email: order.orderOwner?.email })
 
       files = uniqBy(files, 'name').filter((item) => item)
 
+
+      // for (let file of files) {
+      //   const fileSplit = file.path.split('.')
+      //   const ext = fileSplit.splice(-1)
+      //   const filePath = [...fileSplit, 'odt'].join('.')
+      //   await generateDocs({ filePath: filePath, data, fileName: file.name })
+      // }
+      // return { message: 'ok' }
+      // return true
       if (files) {
         let _contentOrder = flattenObject(data)
 

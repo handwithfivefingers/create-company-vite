@@ -13,6 +13,7 @@ const otpGenerator = require('otp-generator')
 const jwt = require('jsonwebtoken')
 const { PRODUCT_CODE } = require('@constant/product_code')
 const { PAYMENT_TYPE_CODE } = require('@constant/payment')
+const docxConverter = require('docx-pdf')
 
 const { Setting } = require('../model')
 
@@ -163,9 +164,14 @@ const convertFile = async (file, data) => {
 
   let ext = '.pdf'
 
-  let pdfBuf = await libre.convertAsync(buffer, ext, undefined)
-  // console.log('converting')
-  let pdfFile = await saveFileAsDocx(pdfBuf, ext, file.name) // docx input
+  docxConverter(buffer, './output.pdf', (err, result) => {
+    if (err) console.log(err)
+    else console.log(result) // writes to file for us
+  })
+
+  // let pdfBuf = await libre.convertAsync(buffer, ext, undefined)
+  // // console.log('converting')
+  // let pdfFile = await saveFileAsDocx(pdfBuf, ext, file.name) // docx input
   // console.log('saving file')
   return pdfFile
 }
@@ -346,4 +352,5 @@ module.exports = {
   generatePaymentCode,
   signToken,
   verifyToken,
+  convertString,
 }
