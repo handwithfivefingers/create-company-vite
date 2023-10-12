@@ -43,7 +43,7 @@ const NguoiDaiDienPhapLuat = forwardRef(({ data, ...props }, ref) => {
   const scrollIntoField = () => {
     let len = listForm.length
     let pathName = [...BASE_FORM, 'legal_respon', len - 1, 'name']
-    ref.current.scrollToField(pathName, { behavior: 'smooth' })
+    ref.current?.scrollToField(pathName, { behavior: 'smooth' })
   }
 
   return (
@@ -134,7 +134,7 @@ const PeronalType = forwardRef((props, ref) => {
   }
 
   useEffect(() => {
-    let value = ref.current.getFieldValue([...BASE_FORM, 'legal_respon', index, 'name'])
+    let value = ref.current?.getFieldValue([...BASE_FORM, 'legal_respon', index, 'name'])
     let options = getPersonType()
 
     let valIndex = options.findIndex((item) => item.name === value)
