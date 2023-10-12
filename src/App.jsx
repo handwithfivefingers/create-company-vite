@@ -14,7 +14,6 @@ import { FormProviderContext } from './context/FormProviderContext'
 import { useAuth, useDetectLocation } from './helper/Hook'
 import { CommonAction } from './store/actions'
 
-
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -33,6 +32,7 @@ ConfigProvider.config({
 message.config({
   duration: 5,
 })
+
 moment.defaultFormat = 'DD/MM/YYYY'
 
 moment.locale('vi')
