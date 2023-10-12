@@ -52,7 +52,7 @@ module.exports = class TestService {
 
         mailParams.filesPath = attachments
 
-        await new MailService().sendWithFilesPath(mailParams)
+        // await new MailService().sendWithFilesPath(mailParams)
 
         return { message: 'ok' }
       }
