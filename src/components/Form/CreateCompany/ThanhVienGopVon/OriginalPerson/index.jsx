@@ -113,7 +113,7 @@ const OriginalPerson = forwardRef((props, ref) => {
         indentifyType={doctypeWatch}
       />
 
-      <CCInputOutdateIdentify name={[...BASE_FORM, 'doc_outdate']} indentifyType={doctypeWatch} />
+      {/* <CCInputOutdateIdentify name={[...BASE_FORM, 'doc_outdate']} indentifyType={doctypeWatch} /> */}
 
       <CCInputProviderIdentify name={[...BASE_FORM, 'doc_place_provide']} required indentifyType={doctypeWatch} />
 

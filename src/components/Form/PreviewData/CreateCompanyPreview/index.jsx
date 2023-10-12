@@ -23,8 +23,8 @@ export default function CreateCompanyPreview(props) {
           <Card title="Vốn điều lệ" className="box__shadow" size="small" style={{ margin: '0 0 20px 0' }}>
             <Form colon labelWrap labelAlign="left" labelCol={{ lg: 8, md: 12, sm: 24, xs: 24 }}>
               <Form.Item label={<Text type="secondary">{t['num']}</Text>}>{base_val?.num}</Form.Item>
-
               <Form.Item label={<Text type="secondary">{t['char']}</Text>}>{base_val?.char}</Form.Item>
+              <Form.Item label={<Text type="secondary">{t['par_value_shares']}</Text>}>{base_val?.par_value_shares}</Form.Item>
             </Form>
           </Card>
         )}

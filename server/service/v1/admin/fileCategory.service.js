@@ -25,7 +25,15 @@ module.exports = class AdminFileCategoryService extends BaseAdminService {
     try {
       let { name, parentId } = req.body
 
-      let _cate = await FileCategory.findOne({ name: req.body.name, delete_flag: 0 })
+      const queryParams = {
+        name: req.body.name,
+        delete_flag: 0,
+      }
+      if (parentId) {
+        queryParams.parentId = parentId
+      }
+
+      let _cate = await FileCategory.findOne(queryParams)
 
       if (_cate) throw 'Category already exists'
 
