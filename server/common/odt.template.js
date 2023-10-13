@@ -25,11 +25,12 @@ const generateDocs = async ({ filePath, data, fileName }) => {
 
 const carbonRendering = async ({ file, data, options, fileSave }) => {
   try {
-    console.log('data', JSON.stringify(data, null, 4))
+    // console.log('data', JSON.stringify(data, null, 4))
     const result = await new Promise((resolve, reject) => {
       try {
         carbone.render(file, data, options, (error, result) => {
           if (error) {
+            console.log('file Error', file)
             console.log('carbone Error', error.toString())
             reject(error)
           }

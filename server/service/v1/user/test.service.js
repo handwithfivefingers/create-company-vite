@@ -44,29 +44,40 @@ module.exports = class TestService {
 
       files = uniqBy(files, 'name').filter((item) => item)
 
-
-      // for (let file of files) {
-      //   const fileSplit = file.path.split('.')
-      //   const ext = fileSplit.splice(-1)
-      //   const filePath = [...fileSplit, 'odt'].join('.')
-      //   await generateDocs({ filePath: filePath, data, fileName: file.name })
-      // }
-      // return { message: 'ok' }
-      // return true
-      if (files) {
-        let _contentOrder = flattenObject(data)
-
-        for (let file of files) {
-          let pdfFile = await convertFile(file, _contentOrder)
-          attachments.push({ pdfFile, name: file.name })
-        }
-
-        mailParams.filesPath = attachments
-
-        // await new MailService().sendWithFilesPath(mailParams)
-
-        return { message: 'ok' }
+      const nextData = { ...data }
+      if (nextData?.create_company?.approve) {
+        nextData.create_company.approve.company_opt_career = nextData?.create_company?.approve?.company_opt_career?.map((item, i) => {
+          return {
+            i: i + 1,
+            name: item.name,
+            code: item.code,
+            content: i,
+          }
+        })
       }
+      console.log('nextData',JSON.stringify(nextData,null,4))
+      for (let file of files) {
+        const fileSplit = file.path.split('.')
+        const ext = fileSplit.splice(-1)
+        const filePath = [...fileSplit, 'odt'].join('.')
+        await generateDocs({ filePath: filePath, data:nextData, fileName: file.name })
+      }
+      return { message: 'ok' }
+      // return true
+      // if (files) {
+      //   let _contentOrder = flattenObject(data)
+
+      //   for (let file of files) {
+      //     let pdfFile = await convertFile(file, _contentOrder)
+      //     attachments.push({ pdfFile, name: file.name })
+      //   }
+
+      //   mailParams.filesPath = attachments
+
+      //   // await new MailService().sendWithFilesPath(mailParams)
+
+      //   return { message: 'ok' }
+      // }
       throw new Error('Files not found')
     } catch (err) {
       console.log('handleConvertFile error', err)
