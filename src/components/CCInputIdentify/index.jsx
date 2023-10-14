@@ -109,8 +109,7 @@ const CCInputProviderIdentify = ({ name, label, placeholder, indentifyType, ...p
           {...props}
         />
       )
-    }
-    if (indentifyType === 'Chứng minh nhân dân') {
+    } else if (indentifyType === 'Chứng minh nhân dân') {
       return (
         <Form.Item label={label || 'Nơi cấp'} required>
           <div className="d-flex" style={{ width: '100%', alignItems: 'end', flexWrap: 'wrap' }}>
@@ -133,7 +132,9 @@ const CCInputProviderIdentify = ({ name, label, placeholder, indentifyType, ...p
 }
 
 export {
-  CCInputDateProvideIdentify, CCInputNumberIdentify, CCInputOutdateIdentify,
-  CCInputProviderIdentify, CCInputTypeIdentify
+  CCInputDateProvideIdentify,
+  CCInputNumberIdentify,
+  CCInputOutdateIdentify,
+  CCInputProviderIdentify,
+  CCInputTypeIdentify,
 }
-

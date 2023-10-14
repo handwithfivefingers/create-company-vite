@@ -43,7 +43,6 @@ const GiaTriGopVon = forwardRef((props, ref) => {
       },
     ])
   }
-  console.log('rendered Gia tri gop von')
   return (
     <Row
       gutter={[16, 12]}
@@ -80,16 +79,6 @@ const GiaTriGopVon = forwardRef((props, ref) => {
           onChange={(e) => checkInputValidation(e)}
           required
         />
-      </Col>
-      <Col lg={12} md={12} sm={24} xs={24}>
-        <Form.Item name={[...BASE_FORM, 'base_val', 'par_value_shares']} label={t.par_value_shares}>
-          <InputNumber
-            type="text"
-            addonAfter={'đ / Cổ phần'}
-            step={1000}
-            formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-          />
-        </Form.Item>
       </Col>
     </Row>
   )

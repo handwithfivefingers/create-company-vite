@@ -5,8 +5,13 @@ import ProfileService from '@/service/UserService/ProfileService'
 import { Space, Spin } from 'antd'
 import { Suspense, memo, useEffect, useState } from 'react'
 import { Outlet } from 'react-router-dom'
+import GlobalService from '@/service/GlobalService'
 
 const User = () => {
+  useFetch({
+    cacheName: ['careerData', 'province'],
+    fn: () => GlobalService.getProvince(),
+  })
   return (
     <>
       <Suspense

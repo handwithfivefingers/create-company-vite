@@ -1,13 +1,21 @@
 import React from 'react'
-import { Skeleton, Typography, Tag } from 'antd'
+import { Skeleton, Typography, Tag, Button, notification } from 'antd'
 import styles from './styles.module.scss'
 import clsx from 'clsx'
 import { number_format } from '../../helper/Common'
-import { Link } from 'react-router-dom'
-const CardCategory = ({ data, className, customStyles }) => {
+import { Link, useNavigate } from 'react-router-dom'
+const CardCategory = ({ data, clickable, className, customStyles }) => {
+  const navigate = useNavigate()
+  const handleNavigate = () => {
+    if (clickable) {
+      navigate(`/user/san-pham/${data?.slug}`)
+    } else {
+      notification.warning({ message: 'Sản phẩm đang được hoàn thiện' })
+    }
+  }
   return (
-    <Link to={`/user/san-pham/${data?.slug}`}>
-      <div className={clsx([styles.card, className])} style={{ ...customStyles }}>
+    <a onClick={handleNavigate}>
+      <div className={clsx([styles.card, className, { [styles.blurry]: !clickable }])} style={{ ...customStyles }}>
         <div className={styles.cardIcon}>
           <Skeleton.Avatar size="large" active />
         </div>
@@ -30,7 +38,7 @@ const CardCategory = ({ data, className, customStyles }) => {
           </div>
         </div>
       </div>
-    </Link>
+    </a>
   )
 }
 

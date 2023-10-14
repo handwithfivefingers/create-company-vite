@@ -6,34 +6,64 @@ import { forwardRef, useEffect, useState } from 'react'
 import styles from '../CreateCompany.module.scss'
 import FormListPersonType from './FormListPersonal'
 import { useStepData } from '@/context/StepProgressContext'
-
+import { useLocation } from 'react-router-dom'
+import moment from 'moment'
+const listField = {
+  name: '',
+  title: '',
+  gender: '',
+  birth_day: '',
+  per_type: '',
+  current: '',
+  contact: '',
+  doc_type: '',
+  doc_code: '',
+  doc_time_provide: '',
+  doc_place_provide: '',
+}
 const NguoiDaiDienPhapLuat = forwardRef(({ data, ...props }, ref) => {
-  const {  BASE_FORM } = props
+  const { BASE_FORM } = props
   const { currentStep } = useStepData()
-
-  const [listForm, setListForm] = useState([])
+  const formInstance = Form.useFormInstance()
+  const [listForm, setListForm] = useState([{ ...listField }])
 
   const [present, setPresent] = useState([null, null, null])
 
   const [_render, setRender] = useState(false)
 
-  const listField = {
-    name: '',
-    title: '',
-    gender: '',
-    birth_day: '',
-    per_type: '',
-    current: '',
-    contact: '',
-    doc_type: '',
-    doc_code: '',
-    doc_time_provide: '',
-    doc_place_provide: '',
-  }
+  const location = useLocation()
 
   useEffect(() => {
-    addItem()
+    window.form = formInstance
   }, [])
+
+  useEffect(() => {
+    if (location.state) {
+      setTimeout(() => {
+        const { data } = location.state
+        const current = data.create_company?.approve?.legal_respon
+        setListForm(current)
+        if (current.length) {
+          current.map((legal, i) => {
+            console.log('runing setFields')
+            formInstance.setFields([
+              {
+                name: [...BASE_FORM, 'legal_respon', i],
+                value: {
+                  ...legal,
+                  doc_time_provide: legal?.doc_time_provide ? moment(legal?.doc_time_provide, 'YYYY-MM-DD') : null,
+                  birth_day: legal?.birth_day ? moment(legal?.birth_day, 'YYYY-MM-DD') : null,
+                  doc_outdate: legal?.doc_outdate ? moment(legal?.doc_outdate, 'YYYY-MM-DD') : null,
+                },
+              },
+            ])
+          })
+        }
+      }, currentStep * 1000)
+    }
+  }, [location])
+
+  // console.log('legalLengthWatch', legalLengthWatch)
 
   const addItem = () => {
     setListForm([...listForm, listField])
@@ -85,11 +115,12 @@ const NguoiDaiDienPhapLuat = forwardRef(({ data, ...props }, ref) => {
   )
 })
 
+let personalMounted = false
 const PeronalType = forwardRef((props, ref) => {
   const { index, handleForm, BASE_FORM, presentState } = props
 
   const { state: present, setState: setPresent } = presentState
-
+  const location = useLocation()
   const getPersonType = () => {
     let pathName = [...BASE_FORM, 'origin_person']
 
@@ -134,16 +165,26 @@ const PeronalType = forwardRef((props, ref) => {
   }
 
   useEffect(() => {
+    if (location.state) {
+      setTimeout(() => {
+        loadData()
+      }, 2000)
+    } else {
+      if (!personalMounted) {
+        loadData()
+        personalMounted = true
+      }
+    }
+  }, [location])
+
+  const loadData = () => {
     let value = ref.current?.getFieldValue([...BASE_FORM, 'legal_respon', index, 'name'])
     let options = getPersonType()
-
     let valIndex = options.findIndex((item) => item.name === value)
-
     if (valIndex !== -1) {
       onSetFields([...BASE_FORM, 'legal_respon', index, 'select_person'], options[valIndex].value, ref)
     }
-  }, [])
-
+  }
   return (
     <>
       <Form.Item
@@ -152,12 +193,7 @@ const PeronalType = forwardRef((props, ref) => {
         rules={[{ required: true, message: 'Chọn người đại diện là bắt buộc' }]}
       >
         {getPersonType() && (
-          <Select
-            onSelect={(e) => handleSelectPersonType(e, index)}
-            placeholder="Bấm vào đây"
-            autoComplete="off"
-            // value={present[index]}
-          >
+          <Select onSelect={(e) => handleSelectPersonType(e, index)} placeholder="Bấm vào đây" autoComplete="off">
             {getPersonType()?.map((item, i) => {
               return (
                 <Select.Option value={item.value} key={item.key ? item.key : [name, i, item.value]}>

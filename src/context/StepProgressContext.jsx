@@ -8,8 +8,6 @@ const initStepDataContext = {
 const StepProgressContext = createContext(initStepDataContext)
 
 const reducer = (state, action) => {
-  console.log(action.type)
-
   switch (action.type) {
     case 'createStep':
       return { ...state, steps: action.steps }

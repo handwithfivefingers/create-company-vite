@@ -76,6 +76,7 @@ const AdminProduct = (props) => {
       children: <CareerTab />,
     },
   ]
+  
   return (
     <>
       <AdminHeader title="Quản lý sản phẩm" />

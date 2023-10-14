@@ -64,11 +64,14 @@ const CreateCompany = forwardRef(({ data }, formRef) => {
   const [select, setSelect] = useState()
   const { currentStep } = useStepData()
   const [createCompanyForm] = Form.useForm()
+  const [reload, setReload] = useState(false)
   let location = useLocation()
 
   useEffect(() => {
     if (location?.state) {
+      // setTimeout(() => {
       initDataforEditing()
+      // }, 2000)
     }
   }, [location])
 
@@ -88,17 +91,20 @@ const CreateCompany = forwardRef(({ data }, formRef) => {
     }
 
     if (data) {
-      let approve = data?.create_company?.approve
+      const nextData = JSON.parse(JSON.stringify(data))
+      
+      let approve = nextData.create_company?.approve
+
       if (approve) {
         let { origin_person, legal_respon } = approve
+
         if (origin_person) {
           origin_person = origin_person?.map(({ birth_day, doc_time_provide, doc_outdate, organization, ...item }) => {
             let obj = {
               ...item,
             }
-
-            if (doc_outdate) obj.doc_time_provide = moment(doc_outdate, 'YYYY-MM-DD')
-            if (birth_day) obj.doc_time_provide = moment(birth_day, 'YYYY-MM-DD')
+            if (doc_outdate) obj.doc_outdate = moment(doc_outdate, 'YYYY-MM-DD')
+            if (birth_day) obj.birth_day = moment(birth_day, 'YYYY-MM-DD')
             if (doc_time_provide) obj.doc_time_provide = moment(doc_time_provide, 'YYYY-MM-DD')
 
             if (organization) {
@@ -107,46 +113,56 @@ const CreateCompany = forwardRef(({ data }, formRef) => {
                 doc_time_provide: moment(organization.doc_time_provide, 'YYYY-MM-DD'),
               }
             }
-
             return obj
           })
         }
 
-        if (legal_respon) {
-          legal_respon = legal_respon.map(({ birth_day, doc_time_provide, doc_outdate, ...item }) => {
-            let obj = {
-              ...item,
-            }
+        // if (legal_respon) {
+        //   legal_respon = legal_respon.map(({ birth_day, doc_time_provide, doc_outdate, ...item }) => {
+        //     let obj = {
+        //       ...item,
+        //     }
+        //     if (doc_time_provide) {
+        //       obj.doc_time_provide = moment(doc_time_provide, 'YYYY-MM-DD')
+        //     }
+        //     if (birth_day) {
+        //       obj.birth_day = moment(birth_day, 'YYYY-MM-DD')
+        //     }
+        //     if (doc_outdate) {
+        //       obj.doc_outdate = moment(doc_outdate, 'YYYY-MM-DD')
+        //     }
+        //     return obj
+        //   })
+        // }
 
-            if (doc_time_provide) {
-              obj.doc_time_provide = moment(doc_time_provide, 'YYYY-MM-DD')
-            }
-            if (doc_time_provide) {
-              obj.birth_day = moment(doc_time_provide, 'YYYY-MM-DD')
-            }
-            if (doc_outdate) {
-              obj.doc_outdate = moment(doc_outdate, 'YYYY-MM-DD')
-            }
+        // if (legal_respon?.length) {
+        //   let i = 0
+        //   for (let legal of legal_respon) {
+        //     console.log('legal', legal)
+        //     formRef.current.setFields([
+        //       {
+        //         name: [...BASE_FORM, 'legal_respon', i],
+        //         value: legal,
+        //       },
+        //     ])
+        //     i++
+        //   }
+        //   delete approve.legal_respon
+        // }
 
-            return obj
-          })
-        }
-        approve = {
-          ...approve,
-          origin_person,
-          legal_respon,
-        }
+        approve.origin_person = origin_person
+
+        delete approve.legal_respon
       }
       _data.create_company = {
         approve,
       }
     }
-    console.log('_data', _data)
-    formRef.current?.setFieldsValue({
-      ..._data,
-    })
+
+    formRef.current.setFieldsValue({ ..._data })
 
     setSelect({ type: category.type, value: category._id, name: category.name })
+    setReload(!reload)
   }
 
   const handleSelect = (v, opt, pathName) => {
@@ -184,7 +200,7 @@ const CreateCompany = forwardRef(({ data }, formRef) => {
       </Row>
     ))
     return html
-  }, [select])
+  }, [select, reload])
 
   const rowClassName = clsx([
     styles.hide,

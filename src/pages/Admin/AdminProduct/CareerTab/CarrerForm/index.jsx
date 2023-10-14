@@ -52,7 +52,7 @@ const CareerForm = (props) => {
         }}
       >
         <Form.Item name="name" label="Tên ngành">
-          <Input />
+          <Input.TextArea rows={5}/>
         </Form.Item>
         <Form.Item name="code" label="Mã ngành">
           <Input style={{ width: '100%' }} />

@@ -3,7 +3,7 @@ import CCSelect from '@/components/CCSelect'
 import { SELECT } from '@/constant/Common'
 import { htmlContent, onSetFields } from '@/helper/Common'
 import { Form, InputNumber } from 'antd'
-import { forwardRef } from 'react'
+import { forwardRef, useEffect } from 'react'
 import styles from './styles.module.scss'
 import CCInputBirthDay from '../../../../CCInputBirthDay'
 import {
@@ -13,11 +13,18 @@ import {
   CCInputOutdateIdentify,
   CCInputProviderIdentify,
 } from '@/components/CCInputIdentify'
+import { useLocation } from 'react-router-dom'
 
 const OriginalPerson = forwardRef((props, ref) => {
   const { BASE_FORM, type } = props
   const formInstance = Form.useFormInstance()
   const doctypeWatch = Form.useWatch([...BASE_FORM, 'doc_type'], formInstance)
+  const location = useLocation()
+  useEffect(() => {
+    const form = ref.current
+    window.form = form
+  }, [])
+
   return (
     <div className={styles.groupInput}>
       {/* START Nhập thông tin của tổ chức */}
