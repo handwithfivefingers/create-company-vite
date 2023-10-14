@@ -8,11 +8,19 @@ const { errHandler } = require('@server/response')
 
 const { flattenObject, convertFile } = require('@common/helper')
 
+const { generateDocs } = require('@common/odt.template')
+
 const { uniqBy } = require('lodash')
 
 libre.convertAsync = require('util').promisify(libre.convert)
 
 const { sendWithAttachments } = new MailService()
+const moment = require('moment')
+const indexString = {
+  0: 'a.',
+  1: 'b.',
+  2: 'c.',
+}
 
 module.exports = class TestService {
   testOrderProcessSuccess = async (req, res) => {
@@ -38,24 +46,31 @@ module.exports = class TestService {
     try {
       let { files, data } = order
 
-      let mailParams = await this.getMailContent({ _id: order.id, email: order.orderOwner?.email })
+      // let mailParams = await this.getMailContent({ _id: order.id, email: order.orderOwner?.email })
 
       files = uniqBy(files, 'name').filter((item) => item)
 
+      let nextData = {
+        ...data,
+        date: moment().format('DD'),
+        month: moment().format('MM'),
+        year: moment().format('YYYY'),
+      }
+
+      if (nextData?.create_company) {
+        nextData = this.getCreateCompanyData(nextData)
+      }
+
       if (files) {
-        let _contentOrder = flattenObject(data)
-
         for (let file of files) {
-          let pdfFile = await convertFile(file, _contentOrder)
-          attachments.push({ pdfFile, name: file.name })
+          const fileSplit = file.path.split('.')
+          const ext = fileSplit.splice(-1)
+          const filePath = [...fileSplit, 'odt'].join('.')
+          await generateDocs({ filePath: filePath, data: nextData, fileName: file.name })
         }
-
-        mailParams.filesPath = attachments
-
-        await new MailService().sendWithFilesPath(mailParams)
-
         return { message: 'ok' }
       }
+
       throw new Error('Files not found')
     } catch (err) {
       console.log('handleConvertFile error', err)
@@ -64,6 +79,67 @@ module.exports = class TestService {
     } finally {
       // await removeListFiles(attachments)
     }
+  }
+
+  getCreateCompanyData = (data) => {
+    const result = { ...data }
+
+    const getDocString = (item, isPersonal) => {
+      if (isPersonal) {
+        return `${item.doc_code} Ngày cấp: ${moment(item.doc_time_provide).format('DD/MM/YYYY')} Nơi cấp: ${
+          item.doc_place_provide
+        }`
+      }
+      return `${item.organization.mst}   Ngày cấp: ${moment(item.organization.doc_time_provide).format(
+        'DD/MM/YYYY',
+      )}   Nơi cấp: Sở kế hoạch và đầu tư ${item.organization.doc_place_provide.city}`
+    }
+
+    if (result?.create_company?.approve) {
+      result.create_company.approve.company_opt_career = result?.create_company?.approve?.company_opt_career?.map(
+        (item, i) => {
+          return {
+            i: i + 2,
+            name: item.name,
+            code: item.code,
+            content: '',
+          }
+        },
+      )
+    }
+
+    if (result?.create_company?.approve?.origin_person) {
+      result.create_company.approve.origin_person = result?.create_company?.approve?.origin_person?.map((item, i) => {
+        const isPersonal = item.present_person === 'personal'
+        const isOrg = item.present_person === 'organization'
+        return {
+          ...item,
+          index: i + 1,
+          originName: isPersonal ? item.name : isOrg ? item.organization?.name : '',
+          originGender: isPersonal ? item.gender : '',
+          originBirthday: isPersonal ? item.birth_day : '',
+          originNational: isPersonal ? 'Việt Nam' : '',
+          originPertype: isPersonal ? item.per_type : '',
+          originContact: isPersonal ? item.contact : isOrg ? item.organization.doc_place_provide : '',
+          originDocCode: getDocString(item, isPersonal),
+          originCapitalQuantity: item.capital / 10000,
+          originCapitalPercent: `${(item.capital / result?.create_company?.approve?.base_val?.num) * 100}%`,
+        }
+      })
+    }
+
+    if (result?.create_company?.approve?.legal_respon) {
+      const len = result.create_company.approve.legal_respon.length
+      result.create_company.approve.legal_respon = result.create_company.approve.legal_respon?.map((item, i) => {
+        return {
+          ...item,
+          index: i + 1,
+          indexString: len > 1 ? indexString[i] : '',
+        }
+      })
+      result.create_company.approve.legalLength = result.create_company.approve.legal_respon.length
+    }
+    return result
   }
 
   getMailContent = async ({ _id, email }) => {

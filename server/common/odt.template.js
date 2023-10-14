@@ -1,38 +1,57 @@
 const path = require('path')
 const fs = require('fs')
 const carbone = require('carbone')
-
+const shortid = require('shortid')
+const { convertString } = require('./helper')
 const options = {
   convertTo: 'pdf', //can be docx, txt, ...
 }
 
-const generateDocs = async ({ filePath }) => {
+const generateDocs = async ({ filePath, data, fileName }) => {
   try {
     // const writedPath = path.resolve(default_path, 'uploads', 'template', 'result.pdf')
     console.log('>>>> generateDocs', filePath)
-    const data = {
-      name: 'Truyen Mai',
-      birthday: '07/10/2023',
-      gender: 'Nam',
-    }
-    const pathGet = path.join('./', 'uploads', 'files', 'change_info', '2tv', 'change_info_File_Phuluc_I_6.odt')
-    const pathSave = path.join('./', 'uploads', 'template', 'result.pdf')
-    await carbonRendering({ file: pathGet, data, options, fileSave: pathSave })
+    const pathGet = path.join('./', 'uploads', filePath)
+
+    const pathSave = convertFileName({ ext: 'pdf', fileName })
+    console.log('pathSave', pathSave)
+    await carbonRendering({ file: pathGet, data: data, options, fileSave: pathSave })
+
     console.log('convert done')
   } catch (error) {
-    console.log('generate error', error)
+    console.log('generate error', error.toString())
   }
 }
+
 const carbonRendering = async ({ file, data, options, fileSave }) => {
-  return new Promise((resolve, reject) => {
-    carbone.render(file, data, options, (error, result) => {
-      if (error) reject(error)
-      fs.writeFile(fileSave, result, () => {
-        // process.exit()
-        resolve()
-      })
+  try {
+    // console.log('data', JSON.stringify(data, null, 4))
+    const result = await new Promise((resolve, reject) => {
+      try {
+        carbone.render(file, data, options, (error, result) => {
+          if (error) {
+            console.log('file Error', file)
+            console.log('carbone Error', error.toString())
+            reject(error)
+          }
+          fs.writeFile(path.join('./', fileSave), result, resolve)
+        })
+      } catch (error) {
+        throw error
+      }
     })
-  })
+    return result
+  } catch (error) {
+    console.log('carbonRendering error', error)
+    throw error
+  }
+}
+
+const convertFileName = ({ ext, fileName }) => {
+  let nameTrim = fileName.replace(/\s/g, '')
+  let name = convertString(nameTrim)
+  let filePath = path.join('./', '/uploads', 'template', `${shortid.generate()}-${name}.${ext}`)
+  return filePath
 }
 
 module.exports = {

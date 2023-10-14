@@ -39,7 +39,7 @@ const Personal = forwardRef((props, ref) => {
         required
       />
 
-      <CCInputBirthDay name={[...BASE_FORM, 'birth_day']} required inputReadOnly />
+      <CCInputBirthDay name={[...BASE_FORM, 'birth_day']} required />
 
       <CCInput
         type="select"

@@ -5,6 +5,7 @@ import store from '@/store'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { ConfigProvider } from 'antd'
 import { FormProviderContext } from '@/context/FormProviderContext'
+import { StepProgressProvider } from '@/context/StepProgressContext'
 import { BrowserRouter } from 'react-router-dom'
 
 const queryClient = new QueryClient({
@@ -28,7 +29,9 @@ const AllTheProviders = ({ children }) => {
       <QueryClientProvider client={queryClient}>
         <ConfigProvider>
           <FormProviderContext>
-            <BrowserRouter>{children}</BrowserRouter>
+            <StepProgressProvider>
+              <BrowserRouter>{children}</BrowserRouter>
+            </StepProgressProvider>
           </FormProviderContext>
         </ConfigProvider>
       </QueryClientProvider>

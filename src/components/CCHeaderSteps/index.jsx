@@ -14,7 +14,6 @@ const CCSteps = (props) => {
   const { updateStep } = useStepAPI()
   const offset = steps?.length
   
-  console.log(steps)
   return (
     <Card className={clsx([styles.cardHeader, { [styles.collapsed]: collapsed }])}>
       <div className={styles.listStep} style={{ '--offset': offset }}>

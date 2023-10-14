@@ -160,12 +160,10 @@ const flattenObject = (data) => {
 
 const convertFile = async (file, data) => {
   let buffer = await applyContent(file, data)
-
   let ext = '.pdf'
-
   let pdfBuf = await libre.convertAsync(buffer, ext, undefined)
-  // console.log('converting')
-  let pdfFile = await saveFileAsDocx(pdfBuf, ext, file.name) // docx input
+  // // console.log('converting')
+  // let pdfFile = await saveFileAsDocx(pdfBuf, ext, file.name) // docx input
   // console.log('saving file')
   return pdfFile
 }
@@ -346,4 +344,5 @@ module.exports = {
   generatePaymentCode,
   signToken,
   verifyToken,
+  convertString,
 }

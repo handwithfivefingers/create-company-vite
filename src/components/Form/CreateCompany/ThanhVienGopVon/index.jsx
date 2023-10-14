@@ -8,12 +8,14 @@ import OriginalPerson from './OriginalPerson'
 import Personal from './Personal'
 import styles from './styles.module.scss'
 import { useStepData } from '@/context/StepProgressContext'
+import moment from 'moment'
 
 const ThanhVienGopVon = forwardRef(({ data, ...props }, ref) => {
   const { currentStep } = useStepData()
   const [listForm, setListForm] = useState([{}])
   const [_render, setRender] = useState(false)
   const location = useLocation()
+  const formInstance = Form.useFormInstance()
   const { BASE_FORM } = props
   // run 1
   useEffect(() => {
@@ -47,13 +49,35 @@ const ThanhVienGopVon = forwardRef(({ data, ...props }, ref) => {
   // run 3
   useEffect(() => {
     if (location.state) {
-      let originPerson = ref.current.getFieldValue([...BASE_FORM, 'origin_person'])
-      if (originPerson?.length) {
-        setListForm(originPerson.map((_) => ({})))
-      }
-      setRender(!_render)
+      setTimeout(() => {
+        const data = location.state.data
+        const current = data.create_company?.approve?.origin_person
+        setListForm(current)
+        if (current.length) {
+          current.map((org, i) => {
+            formInstance.setFields([
+              {
+                name: [...BASE_FORM, 'origin_person', i],
+                value: {
+                  ...org,
+                  doc_outdate: org?.doc_outdate ? moment(org?.doc_outdate, 'YYYY-MM-DD') : null,
+                  birth_day: org?.birth_day ? moment(org?.birth_day, 'YYYY-MM-DD') : null,
+                  doc_time_provide: org?.doc_time_provide ? moment(org?.doc_time_provide, 'YYYY-MM-DD') : null,
+                  organization: {
+                    ...org.organization,
+                    doc_time_provide: org?.organization?.doc_time_provide
+                      ? moment(org?.organization?.doc_time_provide, 'YYYY-MM-DD')
+                      : null,
+                  },
+                },
+              },
+            ])
+          })
+        }
+      }, currentStep * 1000)
     }
-  }, [props.current, location])
+  }, [location])
+
 
   const renderPresentPerson = (index) => {
     let xhtml = null
