@@ -25,7 +25,7 @@ jobs:
             - 'a9:b8:dc:df:d6:32:fe:9c:11:66:5a:54:fc:4e:b3:ab'
       - run:
           name: pull code and start api_services
-          command: ssh root@103.57.221.122 -p 24700 "cd /var/www/html/create-company-vite; git pull; docker-compose -f docker-compose.prod.yml down; docker-compose -f docker-compose.prod.yml build; docker-compose -f docker-compose.prod.yml up -d"
+          command: ssh root@103.57.221.122 -p 24700 "cd /var/www/html/create-company-vite; docker-compose -f docker-compose.prod.yml down; git pull;  docker-compose -f docker-compose.prod.yml build; docker-compose -f docker-compose.prod.yml up -d"
 
 workflows:
   test_my_app:

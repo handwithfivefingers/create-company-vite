@@ -1,20 +1,34 @@
 version: '3.1'
+networks:
+  app_network:
+    driver: bridge
+
 services:
+  puppeteer-service:
+    build:
+      context: ./feature/puppeteer
+      dockerfile: ./Dockerfile
+    ports:
+      - 3002:3002
+    networks:
+      - app_network
+    # restart: always
   cc-service:
     build:
       context: ./
       dockerfile: ./docker/development/Dockerfile
     ports:
-      - 3000-3003:3000-3003
+      - 3000-3001:3000-3001
     volumes:
       - .:/app:consistent
     env_file:
       - .env
     environment:
       - WATCHFILES_FORCE_POLLING=true
+    links:
+      - puppeteer-service:puppeteer
+    depends_on:
+      - puppeteer-service
     networks:
       - app_network
-    restart: always
-networks:
-  app_network:
-    driver: bridge
+    # restart: always
