@@ -144,7 +144,7 @@ const NgangNgheDangKi = forwardRef(({ BASE_FORM, className }, ref) => {
                 name={[...BASE_FORM, 'company_opt_career']}
                 label={
                   <div>
-                    Chọn thêm ngành nghề kinh doanh <br />
+                    Chọn ngành nghề kinh doanh <br />
                     <Typography.Text type="danger" italic>
                       Nếu muốn bỏ bớt ngành vui lòng bấm dấu X
                     </Typography.Text>
@@ -182,18 +182,28 @@ const NgangNgheDangKi = forwardRef(({ BASE_FORM, className }, ref) => {
             </Col>
 
             <Col span={24}>
-              <Form.Item name={[...BASE_FORM, 'company_main_career']} label={'Chọn ngành nghề kinh doanh chính'}>
+              <Form.Item name={[...BASE_FORM, 'company_main_career']} 
+              // label={'Chọn ngành nghề kinh doanh chính (Giới hạn tối đa 1 ngành nghề chính)'}
+              label={
+                <div>
+                  Chọn ngành nghề kinh doanh chính <br />
+                  <Typography.Text italic>
+                  (Giới hạn tối đa 1 ngành nghề chính)
+                  </Typography.Text>
+                </div>
+              }
+              >
                 <Select
                   showSearch
                   allowClear
                   optionFilterProp="children"
                   filterOption={handleFilterOptions}
                   onChange={(val, opt) => handleChange([...BASE_FORM, 'company_main_career'], opt)}
-                  placeholder={
-                    <Typography.Text type="danger" italic style={{ fontSize: 14 }}>
-                      Vui lòng bấm vào đây để chọn thêm ngành
-                    </Typography.Text>
-                  }
+                  // placeholder={
+                  //   <Typography.Text italic style={{ fontSize: 14 }}>
+                  //     Chỉ chọn được duy nhất 1 ngành
+                  //   </Typography.Text>
+                  // }
                   required
                   rules={[{ required: true, message: 'Vui lòng chọn nhóm ngành nghề' }]}
                 >
