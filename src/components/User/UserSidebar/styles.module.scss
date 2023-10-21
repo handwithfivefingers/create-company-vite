@@ -12,4 +12,29 @@
   background-color: #fff !important;
   background: #fff;
   border-radius: 4px;
+  .logo {
+    position: relative;
+    &::before {
+      content: '';
+      display: block;
+      width: 100%;
+      padding-bottom: 32.5%;
+      min-height: 65px;
+    }
+    img {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+    }
+    &.logoCollapsed {
+      color: red($color: #000000);
+      overflow: hidden;
+      img {
+        transform: scale(0.8);
+        height: 52px;
+      }
+    }
+  }
 }

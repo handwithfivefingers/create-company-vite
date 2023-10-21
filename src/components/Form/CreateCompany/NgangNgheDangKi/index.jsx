@@ -1,4 +1,4 @@
-import { Col, Form, Row, Select } from 'antd'
+import { Col, Form, Row, Select, Tag } from 'antd'
 import clsx from 'clsx'
 import { forwardRef, useEffect, useState } from 'react'
 import GlobalService from '@/service/GlobalService'
@@ -6,7 +6,7 @@ import styles from '../CreateCompany.module.scss'
 import { useFetch } from '@/helper/Hook'
 import { useQuery } from '@tanstack/react-query'
 import { useStepData } from '@/context/StepProgressContext'
-let _mounted = false
+import { BsTags } from 'react-icons/bs'
 const NgangNgheDangKi = forwardRef(({ BASE_FORM, className }, ref) => {
   const { currentStep } = useStepData()
   const formInstance = Form.useFormInstance()
@@ -20,13 +20,21 @@ const NgangNgheDangKi = forwardRef(({ BASE_FORM, className }, ref) => {
   })
 
   useEffect(() => {
-    if (!_mounted) {
-      getListCareerByCategory()
-      _mounted = true
-    } else if (watchCompanyCareerGroup || watchCompanyCareerType) {
+    if (watchCompanyCareerGroup || watchCompanyCareerType) {
       getListCareerByCategory()
     }
   }, [watchCompanyCareerGroup, watchCompanyCareerType])
+
+  useEffect(() => {
+    if (watchCompanyCareerType === 2 && watchCompanyCareerGroup?.length && data?.length) {
+      formInstance.setFields([
+        {
+          name: [...BASE_FORM, 'company_opt_career'],
+          value: data.map((item) => ({ ...item, value: item._id, code: item.code, name: item.name })),
+        },
+      ])
+    }
+  }, [watchCompanyCareerGroup, watchCompanyCareerType, data])
 
   const getListCareerByCategory = async () => {
     try {
@@ -41,6 +49,7 @@ const NgangNgheDangKi = forwardRef(({ BASE_FORM, className }, ref) => {
       console.log(error)
     }
   }
+
   const { data: careerData } = useQuery(['career'], async () => {
     let res = await GlobalService.fetchCareer()
     return res.data.data
@@ -112,7 +121,9 @@ const NgangNgheDangKi = forwardRef(({ BASE_FORM, className }, ref) => {
                 optionFilterProp="children"
                 filterOption={handleFilterOptions}
                 placeholder="Gõ nhóm ngành liên quan"
-                mode="multiple"
+                mode="tags"
+                tagRender={tagRender}
+                showArrow
               >
                 {careerCategory?.map(({ name, _id }) => {
                   return (
@@ -128,6 +139,34 @@ const NgangNgheDangKi = forwardRef(({ BASE_FORM, className }, ref) => {
 
         {!!watchCompanyCareerType && (
           <>
+            <Col span={24}>
+              <Form.Item name={[...BASE_FORM, 'company_opt_career']} label="Chọn thêm ngành nghề kinh doanh">
+                <Select
+                  showSearch
+                  mode="tags"
+                  allowClear
+                  style={{ width: '100%' }}
+                  onChange={(val, opt) => handleChange([...BASE_FORM, 'company_opt_career'], opt)}
+                  optionFilterProp="children"
+                  placeholder="Gõ tên ngành hoặc mã ngành"
+                  filterOption={handleFilterOptions}
+                  tagRender={tagRender}
+                  showArrow
+                >
+                  {careerData?.map((item) => (
+                    <Select.Option
+                      key={'company_opt_career' + item._id}
+                      value={item._id}
+                      code={item.code}
+                      name={item.name}
+                    >
+                      {item.code}-{item.name}
+                    </Select.Option>
+                  ))}
+                </Select>
+              </Form.Item>
+            </Col>
+
             <Col span={24}>
               <Form.Item name={[...BASE_FORM, 'company_main_career']} label="Chọn ngành nghề kinh doanh chính">
                 <Select
@@ -148,32 +187,6 @@ const NgangNgheDangKi = forwardRef(({ BASE_FORM, className }, ref) => {
                 </Select>
               </Form.Item>
             </Col>
-
-            <Col span={24}>
-              <Form.Item name={[...BASE_FORM, 'company_opt_career']} label="Chọn thêm ngành nghề kinh doanh">
-                <Select
-                  showSearch
-                  mode="multiple"
-                  allowClear
-                  style={{ width: '100%' }}
-                  onChange={(val, opt) => handleChange([...BASE_FORM, 'company_opt_career'], opt)}
-                  optionFilterProp="children"
-                  placeholder="Gõ tên ngành hoặc mã ngành"
-                  filterOption={handleFilterOptions}
-                >
-                  {careerData?.map((item) => (
-                    <Select.Option
-                      key={'company_opt_career' + item._id}
-                      value={item._id}
-                      code={item.code}
-                      name={item.name}
-                    >
-                      {item.code}-{item.name}
-                    </Select.Option>
-                  ))}
-                </Select>
-              </Form.Item>
-            </Col>
           </>
         )}
       </Row>
@@ -181,4 +194,32 @@ const NgangNgheDangKi = forwardRef(({ BASE_FORM, className }, ref) => {
   )
 })
 
+const tagRender = (props) => {
+  const { label, closable, onClose } = props
+  const onPreventMouseDown = (event) => {
+    event.preventDefault()
+    event.stopPropagation()
+  }
+  return (
+    <Tag
+      color="purple"
+      onMouseDown={onPreventMouseDown}
+      closable={closable}
+      onClose={onClose}
+      style={{
+        marginRight: 3,
+        display: 'flex',
+        gap: 4,
+        overflow: 'hidden',
+        alignItems: 'center',
+        justifyContent: 'flex-start',
+        padding: 1,
+        margin: 1,
+      }}
+      icon={<BsTags fontSize={16} style={{ flex: 1, width: 16, height: 16 }} />}
+    >
+      {label}
+    </Tag>
+  )
+}
 export default NgangNgheDangKi
