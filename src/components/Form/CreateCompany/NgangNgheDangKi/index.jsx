@@ -1,4 +1,4 @@
-import { Col, Form, Row, Select, Tag } from 'antd'
+import { Button, Col, Form, Row, Select, Tag, Typography } from 'antd'
 import clsx from 'clsx'
 import { forwardRef, useEffect, useState } from 'react'
 import GlobalService from '@/service/GlobalService'
@@ -120,7 +120,7 @@ const NgangNgheDangKi = forwardRef(({ BASE_FORM, className }, ref) => {
                 allowClear
                 optionFilterProp="children"
                 filterOption={handleFilterOptions}
-                placeholder="Gõ nhóm ngành liên quan"
+                placeholder="Vui lòng bấm vào đây để chọn nhóm ngành liên quan"
                 mode="tags"
                 tagRender={tagRender}
                 showArrow
@@ -140,7 +140,17 @@ const NgangNgheDangKi = forwardRef(({ BASE_FORM, className }, ref) => {
         {!!watchCompanyCareerType && (
           <>
             <Col span={24}>
-              <Form.Item name={[...BASE_FORM, 'company_opt_career']} label="Chọn thêm ngành nghề kinh doanh">
+              <Form.Item
+                name={[...BASE_FORM, 'company_opt_career']}
+                label={
+                  <div>
+                    Chọn thêm ngành nghề kinh doanh <br />
+                    <Typography.Text type="danger" italic>
+                      Nếu muốn bỏ bớt ngành vui lòng bấm dấu X
+                    </Typography.Text>
+                  </div>
+                }
+              >
                 <Select
                   showSearch
                   mode="tags"
@@ -148,7 +158,11 @@ const NgangNgheDangKi = forwardRef(({ BASE_FORM, className }, ref) => {
                   style={{ width: '100%' }}
                   onChange={(val, opt) => handleChange([...BASE_FORM, 'company_opt_career'], opt)}
                   optionFilterProp="children"
-                  placeholder="Gõ tên ngành hoặc mã ngành"
+                  placeholder={
+                    <Typography.Text type="danger" italic style={{ fontSize: 14 }}>
+                      Vui lòng bấm vào đây để chọn thêm ngành
+                    </Typography.Text>
+                  }
                   filterOption={handleFilterOptions}
                   tagRender={tagRender}
                   showArrow
@@ -168,14 +182,18 @@ const NgangNgheDangKi = forwardRef(({ BASE_FORM, className }, ref) => {
             </Col>
 
             <Col span={24}>
-              <Form.Item name={[...BASE_FORM, 'company_main_career']} label="Chọn ngành nghề kinh doanh chính">
+              <Form.Item name={[...BASE_FORM, 'company_main_career']} label={'Chọn ngành nghề kinh doanh chính'}>
                 <Select
                   showSearch
                   allowClear
                   optionFilterProp="children"
                   filterOption={handleFilterOptions}
                   onChange={(val, opt) => handleChange([...BASE_FORM, 'company_main_career'], opt)}
-                  placeholder="Gõ tên ngành hoặc mã ngành"
+                  placeholder={
+                    <Typography.Text type="danger" italic style={{ fontSize: 14 }}>
+                      Vui lòng bấm vào đây để chọn thêm ngành
+                    </Typography.Text>
+                  }
                   required
                   rules={[{ required: true, message: 'Vui lòng chọn nhóm ngành nghề' }]}
                 >
@@ -213,7 +231,7 @@ const tagRender = (props) => {
         overflow: 'hidden',
         alignItems: 'center',
         justifyContent: 'flex-start',
-        padding: 1,
+        padding: '2px 4px',
         margin: 1,
       }}
       icon={<BsTags fontSize={16} style={{ flex: 1, width: 16, height: 16 }} />}

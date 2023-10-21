@@ -1,19 +1,18 @@
 import CCInput from '@/components/CCInput'
+import {
+  CCInputDateProvideIdentify,
+  CCInputNumberIdentify,
+  CCInputProviderIdentify,
+  CCInputTypeIdentify,
+} from '@/components/CCInputIdentify'
+import CCSelect from '@/components/CCSelect'
 import { SELECT } from '@/constant/Common'
 import { htmlContent, onSetFields } from '@/helper/Common'
 import { MinusCircleOutlined } from '@ant-design/icons'
 import { Button, Form } from 'antd'
 import { forwardRef, useEffect, useState } from 'react'
-import CCSelect from '@/components/CCSelect'
-import styles from '../../CreateCompany.module.scss'
 import CCInputBirthDay from '../../../../CCInputBirthDay'
-import {
-  CCInputTypeIdentify,
-  CCInputNumberIdentify,
-  CCInputDateProvideIdentify,
-  CCInputOutdateIdentify,
-  CCInputProviderIdentify,
-} from '@/components/CCInputIdentify'
+import styles from '../../CreateCompany.module.scss'
 
 const FormListPersonType = forwardRef((props, ref) => {
   const { i, presentState, listFormState, BASE_FORM } = props

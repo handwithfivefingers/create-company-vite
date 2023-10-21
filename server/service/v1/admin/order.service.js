@@ -1,8 +1,5 @@
-const shortid = require('shortid')
-const { Order, Category } = require('@model')
+const { Order } = require('@model')
 const BaseAdminService = require('@common/baseService')
-const { getListFiles } = require('@constant/File')
-const { uniqBy } = require('lodash')
 
 module.exports = class OrderService extends BaseAdminService {
   PAGE_SIZE = 10
@@ -57,3 +54,4 @@ module.exports = class OrderService extends BaseAdminService {
     }
   }
 }
+  

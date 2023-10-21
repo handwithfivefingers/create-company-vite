@@ -25,9 +25,10 @@ export default function CreateCompanyPreview(props) {
             <Form colon labelWrap labelAlign="left" labelCol={{ lg: 8, md: 12, sm: 24, xs: 24 }}>
               <Form.Item label={<Text type="secondary">{t['num']}</Text>}>{base_val?.num}</Form.Item>
               <Form.Item label={<Text type="secondary">{t['char']}</Text>}>{base_val?.char}</Form.Item>
-              <Form.Item label={<Text type="secondary">{t['par_value_shares']}</Text>}>
+              {/* <Form.Item label={<Text type="secondary">{t['par_value_shares']}</Text>}>
                 {base_val?.par_value_shares}
               </Form.Item>
+              */}
             </Form>
           </Card>
         )}
@@ -108,7 +109,7 @@ export default function CreateCompanyPreview(props) {
                       <Col lg={12} md={24}>
                         <Card className="box__shadow" size="small" title={`Thành viên góp vốn ${index + 1}`}>
                           <Form.Item label={<Text type="secondary">{t['company_name']}</Text>}>
-                            {item?.organization?.name} 
+                            {item?.organization?.name}
                           </Form.Item>
                           <Form.Item label={<Text type="secondary">{t['capital']}</Text>}>
                             {number_format(item?.capital)} đ
