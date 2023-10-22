@@ -7,15 +7,11 @@ import styles from './CustomHeader.module.scss'
 
 const CustomHeader = (props) => {
   return (
-    <>
-      <nav className={clsx([styles.headerMenu])}>
-        <div className={clsx([styles.container, 'container'])}>
-          <Link to={'/'}>
-            <Image height={80} src={Logo} alt="logo" preview={false} style={{ cursor: 'pointer' }} />
-          </Link>
-        </div>
-      </nav>
-    </>
+    <nav className={clsx([styles.headerMenu])}>
+      <Link to={'/'} className={styles.imgBlock}>
+        <img src={Logo} alt="logo" preview={false} />
+      </Link>
+    </nav>
   )
 }
 
