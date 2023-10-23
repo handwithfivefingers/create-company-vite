@@ -412,6 +412,7 @@ const RadioAddress = (props) => {
     }
     return !canChange
   }
+  console.log('props.label',props.label)
   return (
     <Form.Item
       label={htmlContent(props?.label || '<b>Địa chỉ liên lạc <i>(ĐDPL)</i><b>')}

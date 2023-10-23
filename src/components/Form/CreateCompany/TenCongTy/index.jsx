@@ -4,7 +4,7 @@ import ProductService from '@/service/UserService/ProductService'
 import { CaretRightOutlined } from '@ant-design/icons'
 import { Alert, Card, Col, Collapse, Form, Input, Row } from 'antd'
 import clsx from 'clsx'
-import { forwardRef, useState } from 'react'
+import { forwardRef, useState, useEffect } from 'react'
 import styles from '../CreateCompany.module.scss'
 import { useStepData } from '@/context/StepProgressContext'
 
@@ -46,15 +46,22 @@ const popData = {
 }
 
 const TenCongTy = forwardRef((props, ref) => {
+  const formInstance = Form.useFormInstance()
   const { currentStep } = useStepData()
+  const { BASE_FORM } = props
 
-  let timeout
-
-  const { BASE_FORM} = props
-
-  const [companyData, setCompanyData] = useState([])
-
+  const [companyData, setCompanyData] = useState()
   const [loading, setLoading] = useState(false)
+  const watchCompanyName = Form.useWatch([...BASE_FORM, 'core', 'name'], formInstance)
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      if (watchCompanyName?.length) {
+        getCompanyByName(watchCompanyName)
+      }
+    }, 700)
+    return () => clearTimeout(timeout)
+  }, [watchCompanyName])
 
   const getCompanyByName = async (val) => {
     if (val.length <= 4) {
@@ -76,15 +83,8 @@ const TenCongTy = forwardRef((props, ref) => {
     }
   }
 
-  const inputChange = ({ value, pathName, search = false } = {}) => {
+  const inputChange = ({ value, pathName } = {}) => {
     onSetFields(pathName, value, ref, true)
-
-    if (search) {
-      if (timeout) clearTimeout(timeout)
-      timeout = setTimeout(() => {
-        getCompanyByName(value)
-      }, 700)
-    }
   }
 
   return (
@@ -117,7 +117,9 @@ const TenCongTy = forwardRef((props, ref) => {
             name={[...BASE_FORM, 'core', 'name']}
             label="Tên công ty bằng Tiếng Việt"
             hasFeedback
-            validateStatus={loading ? 'validating' : companyData.length > 0 ? 'error' : 'success'}
+            validateStatus={
+              loading ? 'validating' : companyData?.length > 0 || !watchCompanyName?.length ? 'error' : 'success'
+            }
             rules={[
               {
                 required: true,
@@ -132,7 +134,6 @@ const TenCongTy = forwardRef((props, ref) => {
                 inputChange({
                   value: e.target.value,
                   pathName: [...BASE_FORM, 'core', 'name'],
-                  search: true,
                 })
               }
               rule

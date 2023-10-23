@@ -87,7 +87,15 @@ const UserSidebar = (props) => {
         trigger={<div className={styles.trigger}>{!collapsed ? <CaretLeftOutlined /> : <CaretRightOutlined />}</div>}
         className={clsx([styles.sidebar, 'box__shadow'])}
       >
-        <div className="logo" style={{ height: 64 }} />
+        {/* <div className="logo" style={{ height: 64 }} /> */}
+        <div
+          className={clsx(styles.logo, {
+            [styles.logoCollapsed]: collapsed,
+          })}
+          style={{ height: 65 }}
+        >
+          <img src={collapsed ? '/favicon.png' : '/logo_1.png'} height={65} />
+        </div>
         <Menu
           theme="light"
           mode="inline"

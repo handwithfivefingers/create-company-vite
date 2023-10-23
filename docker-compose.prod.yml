@@ -1,5 +1,18 @@
 version: '3.1'
+networks:
+  app_network:
+    driver: bridge
+
 services:
+  puppeteer-service:
+    build:
+      context: ./feature/puppeteer
+      dockerfile: ./Dockerfile
+    ports:
+      - 3002:3002
+    networks:
+      - app_network
+    # restart: always
   cc-service:
     build:
       context: ./
@@ -14,6 +27,3 @@ services:
     networks:
       - app_network
     restart: always
-networks:
-  app_network:
-    driver: bridge

@@ -23,7 +23,7 @@ const UserProductItem = (props) => {
 
   const [loading, setLoading] = useState(false)
 
-  const { onCreateStep } = useStepAPI()
+  const { onCreateStep, updateStep } = useStepAPI()
   const { steps } = useStepData()
 
   let params = useParams()
@@ -47,6 +47,7 @@ const UserProductItem = (props) => {
 
   useEffect(() => {
     dispatch(MessageAction.clearMessage())
+    updateStep(0)
   }, [])
 
   useEffect(() => {

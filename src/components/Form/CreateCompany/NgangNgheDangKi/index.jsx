@@ -1,4 +1,4 @@
-import { Col, Form, Row, Select } from 'antd'
+import { Button, Col, Form, Row, Select, Tag, Typography } from 'antd'
 import clsx from 'clsx'
 import { forwardRef, useEffect, useState } from 'react'
 import GlobalService from '@/service/GlobalService'
@@ -6,7 +6,7 @@ import styles from '../CreateCompany.module.scss'
 import { useFetch } from '@/helper/Hook'
 import { useQuery } from '@tanstack/react-query'
 import { useStepData } from '@/context/StepProgressContext'
-let _mounted = false
+import { BsTags } from 'react-icons/bs'
 const NgangNgheDangKi = forwardRef(({ BASE_FORM, className }, ref) => {
   const { currentStep } = useStepData()
   const formInstance = Form.useFormInstance()
@@ -20,13 +20,21 @@ const NgangNgheDangKi = forwardRef(({ BASE_FORM, className }, ref) => {
   })
 
   useEffect(() => {
-    if (!_mounted) {
-      getListCareerByCategory()
-      _mounted = true
-    } else if (watchCompanyCareerGroup || watchCompanyCareerType) {
+    if (watchCompanyCareerGroup || watchCompanyCareerType) {
       getListCareerByCategory()
     }
   }, [watchCompanyCareerGroup, watchCompanyCareerType])
+
+  useEffect(() => {
+    if (watchCompanyCareerType === 2 && watchCompanyCareerGroup?.length && data?.length) {
+      formInstance.setFields([
+        {
+          name: [...BASE_FORM, 'company_opt_career'],
+          value: data.map((item) => ({ ...item, value: item._id, code: item.code, name: item.name })),
+        },
+      ])
+    }
+  }, [watchCompanyCareerGroup, watchCompanyCareerType, data])
 
   const getListCareerByCategory = async () => {
     try {
@@ -41,6 +49,7 @@ const NgangNgheDangKi = forwardRef(({ BASE_FORM, className }, ref) => {
       console.log(error)
     }
   }
+
   const { data: careerData } = useQuery(['career'], async () => {
     let res = await GlobalService.fetchCareer()
     return res.data.data
@@ -111,8 +120,10 @@ const NgangNgheDangKi = forwardRef(({ BASE_FORM, className }, ref) => {
                 allowClear
                 optionFilterProp="children"
                 filterOption={handleFilterOptions}
-                placeholder="Gõ nhóm ngành liên quan"
-                mode="multiple"
+                placeholder="Vui lòng bấm vào đây để chọn nhóm ngành liên quan"
+                mode="tags"
+                tagRender={tagRender}
+                showArrow
               >
                 {careerCategory?.map(({ name, _id }) => {
                   return (
@@ -129,37 +140,32 @@ const NgangNgheDangKi = forwardRef(({ BASE_FORM, className }, ref) => {
         {!!watchCompanyCareerType && (
           <>
             <Col span={24}>
-              <Form.Item name={[...BASE_FORM, 'company_main_career']} label="Chọn ngành nghề kinh doanh chính">
+              <Form.Item
+                name={[...BASE_FORM, 'company_opt_career']}
+                label={
+                  <div>
+                    Chọn ngành nghề kinh doanh <br />
+                    <Typography.Text type="danger" italic>
+                      Nếu muốn bỏ bớt ngành vui lòng bấm dấu X
+                    </Typography.Text>
+                  </div>
+                }
+              >
                 <Select
                   showSearch
-                  allowClear
-                  optionFilterProp="children"
-                  filterOption={handleFilterOptions}
-                  onChange={(val, opt) => handleChange([...BASE_FORM, 'company_main_career'], opt)}
-                  placeholder="Gõ tên ngành hoặc mã ngành"
-                  required
-                  rules={[{ required: true, message: 'Vui lòng chọn nhóm ngành nghề' }]}
-                >
-                  {data?.map((item) => (
-                    <Select.Option key={item._id} value={item._id} code={item.code} name={item.name}>
-                      {item.code} - {item.name}
-                    </Select.Option>
-                  ))}
-                </Select>
-              </Form.Item>
-            </Col>
-
-            <Col span={24}>
-              <Form.Item name={[...BASE_FORM, 'company_opt_career']} label="Chọn thêm ngành nghề kinh doanh">
-                <Select
-                  showSearch
-                  mode="multiple"
+                  mode="tags"
                   allowClear
                   style={{ width: '100%' }}
                   onChange={(val, opt) => handleChange([...BASE_FORM, 'company_opt_career'], opt)}
                   optionFilterProp="children"
-                  placeholder="Gõ tên ngành hoặc mã ngành"
+                  placeholder={
+                    <Typography.Text type="danger" italic style={{ fontSize: 14 }}>
+                      Vui lòng bấm vào đây để chọn thêm ngành
+                    </Typography.Text>
+                  }
                   filterOption={handleFilterOptions}
+                  tagRender={tagRender}
+                  showArrow
                 >
                   {careerData?.map((item) => (
                     <Select.Option
@@ -174,6 +180,41 @@ const NgangNgheDangKi = forwardRef(({ BASE_FORM, className }, ref) => {
                 </Select>
               </Form.Item>
             </Col>
+
+            <Col span={24}>
+              <Form.Item name={[...BASE_FORM, 'company_main_career']} 
+              // label={'Chọn ngành nghề kinh doanh chính (Giới hạn tối đa 1 ngành nghề chính)'}
+              label={
+                <div>
+                  Chọn ngành nghề kinh doanh chính <br />
+                  <Typography.Text italic>
+                  (Giới hạn tối đa 1 ngành nghề chính)
+                  </Typography.Text>
+                </div>
+              }
+              >
+                <Select
+                  showSearch
+                  allowClear
+                  optionFilterProp="children"
+                  filterOption={handleFilterOptions}
+                  onChange={(val, opt) => handleChange([...BASE_FORM, 'company_main_career'], opt)}
+                  // placeholder={
+                  //   <Typography.Text italic style={{ fontSize: 14 }}>
+                  //     Chỉ chọn được duy nhất 1 ngành
+                  //   </Typography.Text>
+                  // }
+                  required
+                  rules={[{ required: true, message: 'Vui lòng chọn nhóm ngành nghề' }]}
+                >
+                  {data?.map((item) => (
+                    <Select.Option key={item._id} value={item._id} code={item.code} name={item.name}>
+                      {item.code} - {item.name}
+                    </Select.Option>
+                  ))}
+                </Select>
+              </Form.Item>
+            </Col>
           </>
         )}
       </Row>
@@ -181,4 +222,32 @@ const NgangNgheDangKi = forwardRef(({ BASE_FORM, className }, ref) => {
   )
 })
 
+const tagRender = (props) => {
+  const { label, closable, onClose } = props
+  const onPreventMouseDown = (event) => {
+    event.preventDefault()
+    event.stopPropagation()
+  }
+  return (
+    <Tag
+      color="purple"
+      onMouseDown={onPreventMouseDown}
+      closable={closable}
+      onClose={onClose}
+      style={{
+        marginRight: 3,
+        display: 'flex',
+        gap: 4,
+        overflow: 'hidden',
+        alignItems: 'center',
+        justifyContent: 'flex-start',
+        padding: '2px 4px',
+        margin: 1,
+      }}
+      icon={<BsTags fontSize={16} style={{ flex: 1, width: 16, height: 16 }} />}
+    >
+      {label}
+    </Tag>
+  )
+}
 export default NgangNgheDangKi

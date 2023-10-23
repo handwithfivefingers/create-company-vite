@@ -42,6 +42,7 @@ const ProductsTab = forwardRef((props, ref) => {
       })
     }
   }
+  
   const onFinish = () => {
     refetch()
     closeModal()

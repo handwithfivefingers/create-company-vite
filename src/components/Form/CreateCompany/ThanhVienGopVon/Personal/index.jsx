@@ -1,18 +1,17 @@
 import CCInput from '@/components/CCInput'
+import CCInputBirthDay from '@/components/CCInputBirthDay'
+import {
+  CCInputDateProvideIdentify,
+  CCInputNumberIdentify,
+  CCInputProviderIdentify,
+  CCInputTypeIdentify,
+} from '@/components/CCInputIdentify'
 import CCSelect from '@/components/CCSelect'
 import { SELECT } from '@/constant/Common'
 import { htmlContent, onSetFields } from '@/helper/Common'
 import { Form, InputNumber } from 'antd'
-import { forwardRef, useState } from 'react'
-import CCInputBirthDay from '@/components/CCInputBirthDay'
+import { forwardRef } from 'react'
 import styles from './styles.module.scss'
-import {
-  CCInputTypeIdentify,
-  CCInputNumberIdentify,
-  CCInputDateProvideIdentify,
-  CCInputOutdateIdentify,
-  CCInputProviderIdentify,
-} from '@/components/CCInputIdentify'
 
 const Personal = forwardRef((props, ref) => {
   const { BASE_FORM, type } = props
@@ -39,7 +38,7 @@ const Personal = forwardRef((props, ref) => {
         required
       />
 
-      <CCInputBirthDay name={[...BASE_FORM, 'birth_day']} required inputReadOnly />
+      <CCInputBirthDay name={[...BASE_FORM, 'birth_day']} required />
 
       <CCInput
         type="select"
@@ -78,6 +77,7 @@ const Personal = forwardRef((props, ref) => {
       </Form.Item>
 
       <CCSelect.RadioAddress
+        label={'<b>Địa chỉ liên lạc</b>'}
         prevField={[...BASE_FORM, 'current']}
         nextField={[...BASE_FORM, 'contact']}
         ref={ref}

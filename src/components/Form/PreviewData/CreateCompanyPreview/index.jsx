@@ -1,6 +1,7 @@
 import t from '@/constant/CommonText'
 import { Card, Col, Form, Row, Typography } from 'antd'
 import moment from 'moment'
+import { number_format } from '../../../../helper/Common'
 
 const { Text, Link } = Typography
 const PERSON_TYPE = {
@@ -24,7 +25,10 @@ export default function CreateCompanyPreview(props) {
             <Form colon labelWrap labelAlign="left" labelCol={{ lg: 8, md: 12, sm: 24, xs: 24 }}>
               <Form.Item label={<Text type="secondary">{t['num']}</Text>}>{base_val?.num}</Form.Item>
               <Form.Item label={<Text type="secondary">{t['char']}</Text>}>{base_val?.char}</Form.Item>
-              <Form.Item label={<Text type="secondary">{t['par_value_shares']}</Text>}>{base_val?.par_value_shares}</Form.Item>
+              {/* <Form.Item label={<Text type="secondary">{t['par_value_shares']}</Text>}>
+                {base_val?.par_value_shares}
+              </Form.Item>
+              */}
             </Form>
           </Card>
         )}
@@ -41,7 +45,9 @@ export default function CreateCompanyPreview(props) {
                       <Col lg={12} md={24} key={[item, index]}>
                         <Card className="box__shadow" size="small" title={`Thành viên góp vốn ${index + 1}`}>
                           <Form.Item label={<Text type="secondary">{t['name']}</Text>}>{item.name}</Form.Item>
-                          <Form.Item label={<Text type="secondary">{t['capital']}</Text>}>{item?.capital}</Form.Item>
+                          <Form.Item label={<Text type="secondary">{t['capital']}</Text>}>
+                            {number_format(item?.capital)} đ
+                          </Form.Item>
                           <Form.Item label={<Text type="secondary">{t['gender']}</Text>}>{item?.gender}</Form.Item>
                           <Form.Item label={<Text type="secondary">{t['birth_day']}</Text>}>
                             {moment(item?.birth_day).format('DD/MM/YYYY')}
@@ -104,6 +110,9 @@ export default function CreateCompanyPreview(props) {
                         <Card className="box__shadow" size="small" title={`Thành viên góp vốn ${index + 1}`}>
                           <Form.Item label={<Text type="secondary">{t['company_name']}</Text>}>
                             {item?.organization?.name}
+                          </Form.Item>
+                          <Form.Item label={<Text type="secondary">{t['capital']}</Text>}>
+                            {number_format(item?.capital)} đ
                           </Form.Item>
                           <Form.Item label={<Text type="secondary">{t['mst']}</Text>}>
                             {item?.organization?.mst}

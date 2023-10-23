@@ -1,25 +1,21 @@
 import CCPagination from '@/components/CCPagination'
 import { makeid, number_format } from '@/helper/Common'
 import AdminOrderService from '@/service/AdminService/AdminOrderService'
-import { DeleteOutlined, EyeOutlined, FormOutlined, SearchOutlined } from '@ant-design/icons'
-import { Button, Input, Modal, Popconfirm, Row, Space, Table, Tag, message } from 'antd'
+import { CheckCircleTwoTone, DeleteOutlined, FormOutlined, LoadingOutlined, SearchOutlined } from '@ant-design/icons'
+import { Button, Input, Popconfirm, Space, Table, Tag, message, notification } from 'antd'
 import moment from 'moment'
-import React, { useCallback, useEffect, useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import React, { useEffect, useRef, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import AdminHeader from '../../../components/Admin/AdminHeader'
+import MailStatusModal from '../../../components/Modal/MailStatusModal'
+import UpdateOrderModal from '../../../components/Modal/UpdateOrderModal'
 import { useFetch } from '../../../helper/Hook'
 import styles from './styles.module.scss'
 const AdminOrder = () => {
   const [orderData, setOrderData] = useState([])
-
-  const [childModal, setChildModal] = useState({
-    visible: false,
-    component: null,
-    width: 0,
-  })
-
   const [current, setCurrent] = useState(1)
-
+  const updateModalRef = useRef()
+  const statusModalRef = useRef()
   const navigate = useNavigate()
 
   const { data, isLoading, status, refetch } = useFetch({
@@ -61,32 +57,17 @@ const AdminOrder = () => {
     }
   }
 
-  const onClose = useCallback(() => {
-    setChildModal({
-      ...childModal,
-      visible: false,
-    })
-  }, [childModal])
+  const handleSetting = (record) => {
+    updateModalRef.current.setData(record)
+    updateModalRef.current.openModal()
+  }
 
   const renderAction = (record) => {
     let xhtml = null
 
     xhtml = (
       <Space>
-        <Button
-          type="primary"
-          icon={
-            <Link to={`/admin/order/${record?._id}`}>
-              <EyeOutlined />
-            </Link>
-          }
-        />
-        <Button
-          type="primary"
-          onClick={() => handleEditRecord(record)}
-          disabled={!record?.data}
-          icon={<FormOutlined />}
-        />
+        <Button type="primary" onClick={() => handleSetting(record)} disabled={!record?.data} icon={<FormOutlined />} />
         <Popconfirm
           placement="topRight"
           title={'Bạn có muốn xoá ?'}
@@ -101,7 +82,7 @@ const AdminOrder = () => {
     return xhtml
   }
 
-  const handleEditRecord = (record) => {
+  const onUpdateOrder = (record) => {
     let { data } = record
     let url = null
     for (let props in data) {
@@ -115,25 +96,21 @@ const AdminOrder = () => {
         url = 'thanh-lap-doanh-nghiep'
       }
     }
-
     navigate(`/user/san-pham/${url}`, { state: { ...record } })
+  }
+
+  const onUpdateStatus = (record) => {
+    // console.log('record', record)
+    statusModalRef.current.setData(record)
+    statusModalRef.current.openModal()
+  }
+  const onPreviewPDF = (record) => {
+    notification.info({ message: 'Chức năng đang phát triển' })
   }
 
   const renderDate = (record) => {
     let result = moment(record.createdAt).format('DD/MM/YYYY HH:mm')
     return <span style={{ display: 'block', width: 120 }}>{result}</span>
-  }
-
-  const renderTag = (record) => {
-    return record?.payment === 1 ? (
-      <Tag key={makeid(9)} color="green">
-        Đã thanh toán
-      </Tag>
-    ) : (
-      <Tag key={makeid(9)} color="volcano">
-        Chưa thanh toán
-      </Tag>
-    )
   }
 
   const renderProduct = (val, record, i) => {
@@ -196,16 +173,8 @@ const AdminOrder = () => {
 
   const renderService = (val, record, i) => {
     let html = []
-    if (record?.products) {
-      html = (
-        <Row gutter={[12, 4]}>
-          {record.products.map((item) => (
-            <Tag color="#108ee9" key={makeid(9)}>
-              {item.name}
-            </Tag>
-          ))}
-        </Row>
-      )
+    if (record?.category) {
+      html = <Tag color="#108ee9">{record?.category?.name}</Tag>
     }
     return html
   }
@@ -228,7 +197,7 @@ const AdminOrder = () => {
             pagination={false}
             rowKey={(record) => record._id || makeid(9)}
             scroll={{
-              x: 1650,
+              x: 1500,
               y: 50 * 10,
             }}
           >
@@ -246,7 +215,9 @@ const AdminOrder = () => {
               {...getColumnSearchProps(['orderOwner', 'email'])}
             />
             <Table.Column title="Sản phẩm" render={renderProduct} width={175} />
+            
             <Table.Column title="Dịch vụ" width={275} render={renderService} />
+
             <Table.Column
               width={'150px'}
               align="center"
@@ -258,6 +229,15 @@ const AdminOrder = () => {
               }}
             />
 
+            <Table.Column
+              className={styles.inline}
+              title="Tệp tài liệu"
+              align='center'
+              width="100px"
+              render={(val, record, i) =>
+                record?.fileReady ? <CheckCircleTwoTone twoToneColor="#52c41a" /> : <LoadingOutlined spin />
+              }
+            />
             <Table.Column
               align="center"
               title="Thanh toán"
@@ -271,16 +251,14 @@ const AdminOrder = () => {
                 )
               }}
             />
-
             <Table.Column title="Ngày tạo" width={150} render={(val, record, i) => renderDate(record)} />
-
             <Table.Column
               className={styles.inline}
               title="Giá tiền"
               width="135px"
               render={(val, record, i) => <>{number_format(record?.price)} VND</>}
             />
-            <Table.Column title="" width={120} render={(val, record, i) => renderAction(record)} />
+            <Table.Column title="" width={85} render={(val, record, i) => renderAction(record)} />
           </Table>
         </div>
 
@@ -288,11 +266,13 @@ const AdminOrder = () => {
           <CCPagination {...pagiConfigs} />
         </div>
 
-        {childModal.visible && (
-          <Modal footer={null} onCancel={() => onClose()} visible={childModal.visible} width={childModal.width}>
-            {childModal.component}
-          </Modal>
-        )}
+        <UpdateOrderModal
+          ref={updateModalRef}
+          onUpdateOrder={onUpdateOrder}
+          onUpdateStatus={onUpdateStatus}
+          onPreviewPDF={onPreviewPDF}
+        />
+        <MailStatusModal ref={statusModalRef} />
       </div>
     </>
   )
