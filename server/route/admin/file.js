@@ -7,5 +7,6 @@ const upload = require('@middleware/storage')
 router.get('/', new FileController().onGetFiles)
 
 router.post('/', upload.fields([{ name: 'uploadFiles', maxCount: 1 }]), new FileController().onUploadFiles)
+router.post('/:_id', upload.fields([{ name: 'uploadFiles', maxCount: 1 }]), new FileController().onEditFiles)
 
 module.exports = router

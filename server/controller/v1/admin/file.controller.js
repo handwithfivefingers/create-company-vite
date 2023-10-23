@@ -19,4 +19,13 @@ module.exports = class FileController {
       return errHandler(error, res)
     }
   }
+
+  onEditFiles = async (req, res) => {
+    try {
+      const data = await new FileService(req).onEditFiles(req)
+      return successHandler(data, res)
+    } catch (error) {
+      return errHandler(error, res)
+    }
+  }
 }

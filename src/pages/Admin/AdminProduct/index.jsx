@@ -16,6 +16,7 @@ import { useSelector } from 'react-redux'
 const AdminProduct = (props) => {
   const [activeTabs, setActiveTabs] = useState(1)
   const productRef = useRef()
+  const { collapsed } = useSelector((state) => state.commonReducer)
 
   // Career
 
@@ -51,8 +52,6 @@ const AdminProduct = (props) => {
       setTimeout(onHandleAddCareer, 1000)
     }
   }
-
-  const { collapsed } = useSelector((state) => state.commonReducer)
 
   const listPanel = [
     {

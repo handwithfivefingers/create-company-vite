@@ -84,15 +84,15 @@ const CategoryTab = (props) => {
           bordered
           rowKey={(record) => record._id}
         >
-          <Table.Column title="Danh mục" render={(val, record, index) => record.name} />
+          <Table.Column title="Danh mục" dateIndex="name" />
           <Table.Column
             title="Giá"
             width={'25%'}
-            render={(val, record, index) => {
+            render={(val, record) => {
               return `${number_format(record.price)} VND`
             }}
           />
-          <Table.Column title="Loại" width="100px" render={(val, record, index) => record.type} />
+          <Table.Column title="Loại" width="100px" dataIndex="type" />
           <Table.Column
             title={
               <div style={{ display: 'flex', justifyContent: 'center' }}>
@@ -100,7 +100,7 @@ const CategoryTab = (props) => {
               </div>
             }
             width="100px"
-            render={(val, record, i) => {
+            render={(val, record) => {
               return (
                 <Space>
                   <Button type="primary" onClick={(e) => onHandleUpdateCategory(record)} icon={<EditOutlined />} />
@@ -120,7 +120,7 @@ const CategoryTab = (props) => {
           />
         </Table>
       </div>
-      <Drawer visible={childModal.visible} width={childModal.width} onClose={closeModal} destroyOnClose>
+      <Drawer open={childModal.visible} width={childModal.width} onClose={closeModal} destroyOnClose>
         {childModal.component}
       </Drawer>
     </>

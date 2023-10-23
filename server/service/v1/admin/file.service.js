@@ -32,9 +32,9 @@ module.exports = class FileService extends BaseAdminService {
       t.startTransaction()
       const { fileName, fileCategory } = req.body
 
-      const isFileCategoryExist = await FileCategory.findOne({ _id: fileCategory, delete_flag: 0 })
+      // const isFileCategoryExist = await FileCategory.findOne({ _id: fileCategory, delete_flag: 0 })
 
-      if (!isFileCategoryExist) throw { message: 'Category doesnt exist' }
+      // if (!isFileCategoryExist) throw { message: 'Category doesnt exist' }
 
       const [file] = req.files.uploadFiles
 
@@ -50,7 +50,7 @@ module.exports = class FileService extends BaseAdminService {
         fileName,
         fileOriginalName,
         path: pathStorage,
-        fileCategory,
+        // fileCategory,
       })
 
       await _filesModels.save()
@@ -67,11 +67,54 @@ module.exports = class FileService extends BaseAdminService {
     }
   }
 
+  onEditFiles = async (req) => {
+    const t = await startSession()
+
+    try {
+      t.startTransaction()
+      const { _id } = req.params
+
+      const { fileName } = req.body
+      
+      const [file] = req.files.uploadFiles
+
+      const _file = await File.findById(_id)
+
+      console.log('_file', _file)
+
+      if (!_file) throw { message: 'File doesnt exist !' }
+
+      if (fileName) _file.fileName = fileName
+
+      if (file) {
+        const uploadPath = path.join(global.__basedir, 'uploads', 'document')
+        if (!fs.existsSync(uploadPath)) {
+          fs.mkdirSync(uploadPath)
+        }
+        const { pathStorage, fileOriginalName } = await this.saveFiles(file)
+        _file.fileOriginalName = fileOriginalName
+        _file.path = pathStorage
+      }
+
+      await _file.save()
+
+      await t.commitTransaction()
+
+      return { message: 'Upload file thành công' }
+    } catch (error) {
+      console.log('onUploadFiles error', error)
+      await t.abortTransaction()
+      throw error
+    } finally {
+      t.endSession()
+    }
+  }
+
   getListFiles = async (req) => {
     try {
-      const { fileCategory } = req.query
-      if (!fileCategory) throw new Error('fileCategory must be provided')
-      const files = await File.find({ delete_flag: 0, fileCategory: fileCategory })
+      // const { fileCategory } = req.query
+      // if (!fileCategory) throw new Error('fileCategory must be provided')
+      const files = await File.find({ delete_flag: 0 })
       return files
     } catch (error) {
       throw error

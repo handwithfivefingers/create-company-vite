@@ -5,9 +5,7 @@ import { Form, Select, Card, Space, Input, Button, InputNumber, message } from '
 import AdminProductService from '@/service/AdminService/AdminProductService'
 const NewCategory = (props) => {
   const { category, data } = props
-
   const [loading, setLoading] = useState(false)
-
   const formRef = useRef()
 
   const onFinish = async (val) => {
@@ -70,16 +68,7 @@ const NewCategory = (props) => {
         </Form.Item>
 
         <Form.Item name={['parentCategory']} label="Danh mục cha">
-          <Select allowClear>
-            {category &&
-              category?.map(({ name, _id }) => {
-                return (
-                  <Option value={_id} key={_id}>
-                    {name}
-                  </Option>
-                )
-              })}
-          </Select>
+          <Select allowClear options={category.map((item) => ({ label: item.name, value: item._id }))} />
         </Form.Item>
 
         <Form.Item name="type" label="Loại Danh mục" required>
@@ -87,12 +76,60 @@ const NewCategory = (props) => {
         </Form.Item>
 
         <Form.Item name={'price'} label="Giá tiền" placeholder="Giá tiền">
-          <InputNumber formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')} min={0} style={{ width: '100%' }} />
+          <InputNumber
+            formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+            min={0}
+            style={{ width: '100%' }}
+          />
         </Form.Item>
 
         <Form.Item name="desc" label="Mô tả">
           <Input.TextArea rows={4} placeholder="Nội dung" showCount style={{ resize: 'none' }} />
         </Form.Item>
+
+        <Form.Item name="fileRules" label="Điều kiện xuất file">
+          <Form.List name="fileRules">
+            {(fields, { add, remove }) => {
+              return fields.map((field, index) => {
+                return (
+                  <>
+                    <Input.Group compact>
+                      <Form.Item name={['condition', 0]}>
+                        <Input style={{ width: 100, textAlign: 'center' }} placeholder="Field cần so sánh" />
+                      </Form.Item>
+
+                      <Form.Item name={['condition', 1]}>
+                        <Select placeholder="Điều kiện">
+                          <Option value="===">Bằng</Option>
+                          <Option value="!==">Khác</Option>
+                        </Select>
+                      </Form.Item>
+                      <Form.Item name={['condition', 2]}>
+                        <Input placeholder="Giá trị mong muốn" />
+                      </Form.Item>
+                    </Input.Group>
+
+                    <Form.Item name="statement">
+                      <Select placeholder="Loại điều kiện">
+                        <Option value="some">Some</Option>
+                        <Option value="every">Every</Option>
+                      </Select>
+                    </Form.Item>
+
+                    <Form.Item name="then">
+                      <Select />
+                    </Form.Item>
+
+                    <Form.Item name="else">
+                      <Select />
+                    </Form.Item>
+                  </>
+                )
+              })
+            }}
+          </Form.List>
+        </Form.Item>
+        
         <Form.Item>
           <Space size="small" style={{ float: 'right' }}>
             <Button type="primary" htmlType="submit" loading={loading}>

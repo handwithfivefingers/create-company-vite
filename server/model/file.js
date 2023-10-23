@@ -12,10 +12,10 @@ module.exports = {
     type: String,
     required: true,
   },
-  fileCategory: {
-    type: Schema.Types.ObjectId,
-    ref: 'FileCategory',
-  },
+  // fileCategory: {
+  //   type: Schema.Types.ObjectId,
+  //   ref: 'FileCategory',
+  // },
   delete_flag: {
     type: Number,
     enum: [0, 1],
