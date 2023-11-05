@@ -13,6 +13,7 @@ import { LAYOUT_ROUTER, UserRouter } from './constant/Route'
 import { FormProviderContext } from './context/FormProviderContext'
 import { useAuth, useDetectLocation } from './helper/Hook'
 import { CommonAction } from './store/actions'
+import ZaloPlugin from './components/Zalo'
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -104,6 +105,7 @@ function App() {
           </FormProviderContext>
         </ConfigProvider>
       </QueryClientProvider>
+      <ZaloPlugin />
     </div>
   )
 }
