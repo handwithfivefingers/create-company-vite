@@ -1,5 +1,5 @@
 export const TYPE_VERIFY = {
-  PHONE: 'PHONE',
+  SMS: 'SMS',
   EMAIL: 'EMAIL',
 }
 

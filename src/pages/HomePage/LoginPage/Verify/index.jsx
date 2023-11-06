@@ -16,6 +16,10 @@ export default function Verify() {
   const dispatch = useDispatch()
 
   useEffect(() => {
+    checkToken()
+  }, [])
+
+  useEffect(() => {
     if (count <= 0) {
       clearInterval(timer)
     } else {
@@ -25,6 +29,15 @@ export default function Verify() {
     }
     return () => clearInterval(timer)
   }, [count])
+
+  const checkToken = async () => {
+    try {
+      const resp = await AuthService.checkTokenExist()
+      if (resp.status !== 200) navigate('/')
+    } catch (error) {
+      navigate('/')
+    }
+  }
 
   const updateCount = () => {
     setCount((prev) => {
@@ -96,7 +109,7 @@ export default function Verify() {
             style={{ minWidth: 175 }}
             loading={loading}
           >
-            Gửi lại {count > 0 && count}
+            Gửi lại qua email {count > 0 && count}
           </Button>
         </div>
       </Card>

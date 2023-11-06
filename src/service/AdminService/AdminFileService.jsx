@@ -7,6 +7,7 @@ const api_path = {
 
 const AdminFileService = {
   getFileCate: (params) => axios.get(api_path.fileCategory, params),
+  getFiles: () => axios.get(api_path.file),
   onUploadFiles: (params) => axios.post(api_path.file, params),
   onGetListFiles: (params) => axios.get(api_path.file, { params }),
 }

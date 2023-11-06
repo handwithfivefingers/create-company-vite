@@ -69,9 +69,9 @@ module.exports = class FileService extends BaseAdminService {
 
   getListFiles = async (req) => {
     try {
-      const { fileCategory } = req.query
-      if (!fileCategory) throw new Error('fileCategory must be provided')
-      const files = await File.find({ delete_flag: 0, fileCategory: fileCategory })
+      // const { fileCategory } = req.query
+      // if (!fileCategory) throw new Error('fileCategory must be provided')
+      const files = await File.find({ delete_flag: 0 })
       return files
     } catch (error) {
       throw error

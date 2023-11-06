@@ -20,15 +20,30 @@ services:
     ports:
       - 3000-3001:3000-3001
     volumes:
-      - .:/app:consistent
+      - ./server:/app/server
     env_file:
       - .env
     environment:
       - WATCHFILES_FORCE_POLLING=true
     links:
       - puppeteer-service:puppeteer
+    networks:
+      - app_network
+    # restart: always
+  cc-fe:
+    build:
+      context: ./
+      dockerfile: ./docker/development/Dockerfile.FE
+    ports:
+      - 3003:3003
+    volumes:
+      - .:/app
+      - /node_modules
+    env_file:
+      - .env
     depends_on:
       - puppeteer-service
+      - cc-service
     networks:
       - app_network
     # restart: always
