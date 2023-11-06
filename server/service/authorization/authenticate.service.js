@@ -17,29 +17,8 @@ module.exports = class AuthenticateService {
     try {
       const token = req.cookies['verifyToken']
       const decoded = await verifyToken(token)
-
       if (!decoded) throw decoded
-
-      const { email, phone, method, deleteOldUser } = decoded
-
-      console.log('decoded', decoded)
-
-      // throw new Error('Something went wrong')
-
-      const data = {
-        email,
-        phone,
-        deleteOldUser,
-        otp: req.body.otp,
-      }
-      //
-      let resp
-      if (method === METHOD['REGISTER']) {
-        resp = await this.onHandleRegister(req, res, data)
-      } else if (method === METHOD['LOGIN']) {
-        resp = await this.onHandleLogin(req, res, data)
-      }
-      return resp
+      return true
     } catch (error) {
       throw error
     }

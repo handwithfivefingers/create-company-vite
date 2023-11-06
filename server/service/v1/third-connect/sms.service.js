@@ -13,6 +13,10 @@ module.exports = class SMSService {
     this.BASE_PATH = '/index.php/sms/send'
   }
 
+  templateSMS = ({ otp, hotline = '0914990318' }) => {
+    return `(TLCT ONLINE) Nhap ma OTP ${otp} de xac thuc tai website app.thanhlapcongtyonline.vn . Chi tiet LH: ${hotline}. Quy khach vui long KHONG chia se ma voi ai.`
+  }
+
   sendSMS = function ({ phones, content, type, sender }) {
     const url = 'api.speedsms.vn'
     let response
@@ -72,18 +76,19 @@ module.exports = class SMSService {
     } catch (error) {}
   }
 
-  sendESMS = async ({ phone, code, Brandname = 'Baotrixemay', Unicode = 0 }) => {
+  sendESMS = async ({ phone, code, Brandname = 'TLCT ONLINE', Unicode = 0 }) => {
     try {
       const params = {
         ApiKey: ESMS.API_KEY,
         SecretKey: ESMS.SECRET_KEY,
-        Sandbox: process.env.NODE_ENV !== 'development' ? 0 : 1,
+        Sandbox: 0,
         SmsType: 2,
         Unicode,
         Brandname,
-        Content: `${code} la ma xac minh dang ky Baotrixemay cua ban`,
+        Content: this.templateSMS({ otp: code }),
         Phone: phone,
       }
+      console.log('sendESMS params', params)
       const url = 'http://rest.esms.vn/MainService.svc/json/SendMultipleMessage_V4_post_json/'
       const resp = await axios.post(url, { ...params })
       return resp.data

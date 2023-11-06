@@ -17,7 +17,6 @@ export default function HomePage() {
   const { status } = authData
 
   useEffect(() => {
-    console.log('HomePage useEffect')
     if (status) {
       if (route.to && !ROUTER_EXCLUDE.includes(route.to)) {
         navigate(route.to)
@@ -25,8 +24,6 @@ export default function HomePage() {
     }
   }, [status])
 
-  console.log('authData', authData)
-  console.log('route', route)
   if (!status) {
     return (
       <Layout style={{ background: '#fff', minHeight: '100vh' }}>

@@ -18,7 +18,9 @@ const api_path = {
   loginWithAdmin: '/login-admin',
 
   checkUserExist: '/verification-user',
+
   verifiResend: '/verification-resend',
+
   verify: '/verification',
 }
 

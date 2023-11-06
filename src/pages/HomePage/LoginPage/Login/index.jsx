@@ -14,12 +14,11 @@ const LoginForm = () => {
   const formRef = useRef()
   const { status, role } = useAuthStore()
   const route = useRouterData()
-  const [typeVerify, setTypeVerify] = useState(TYPE_VERIFY['EMAIL'])
+  const [typeVerify, setTypeVerify] = useState(TYPE_VERIFY['PHONE'])
   const navigate = useNavigate()
   const location = useLocation()
 
   useEffect(() => {
-    console.log('LoginForm useEffect')
     if (status) {
       let listHistory = route.listHistory
       if (listHistory.length) {
@@ -40,7 +39,18 @@ const LoginForm = () => {
       })
     }
   }, [location.state])
+  // useEffect(() => {
+  //   canVerify()
+  // }, [])
 
+  // const canVerify = async () => {
+  //   try {
+  //     const resp = await AuthService.onCanVerify()
+  //     if (resp.status !== 200) throw new Error('Token doesnt exists')
+  //   } catch (error) {
+  //     navigate('/')
+  //   }
+  // }
   const onFinish = async () => {
     try {
       setLoading(true)
@@ -80,8 +90,9 @@ const LoginForm = () => {
     try {
       const { phone, email } = formRef.current.getFieldsValue(true)
       const type = 'SMS'
-      const data = await sendOTP({ phone, email, type })
+      const data = await sendOTP({ phone: `${phone}`, email, type })
       message.success(data.data.message)
+      navigate('/verification')
     } catch (error) {
       if (error.response?.status === 429) {
         message.error('Request quá số lần cho phép, vui lòng thử lại sau 1 phút')

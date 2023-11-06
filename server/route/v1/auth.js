@@ -22,8 +22,6 @@ router.post('/register-otp', apiLimitRate, new RegisterController().onHandleGetR
 
 router.post('/login-otp', apiLimitRate, new LoginController().onHandleGetOTPForLogin)
 
-// router.post('/login', new LoginController().onHandleLogin)
-
 //  DONE
 router.post('/verification', new AuthenticateController().onHandleVerifyTokenToLoginOrRegister)
 //  DONE

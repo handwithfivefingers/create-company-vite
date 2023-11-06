@@ -14,7 +14,9 @@ export default function Verify() {
   const navigate = useNavigate()
   const [count, setCount] = useState(NUM_LIMIT)
   const dispatch = useDispatch()
-
+  useEffect(() => {
+    canVerify()
+  }, [])  
   useEffect(() => {
     if (count <= 0) {
       clearInterval(timer)
@@ -26,6 +28,14 @@ export default function Verify() {
     return () => clearInterval(timer)
   }, [count])
 
+  const canVerify = async () => {
+    try {
+      const resp = await AuthService.onVerify()
+      if (resp.status !== 200) throw new Error('Token doesnt exists')
+    } catch (error) {
+      navigate('/')
+    }
+  }
   const updateCount = () => {
     setCount((prev) => {
       let nextState = prev - 1
@@ -96,7 +106,7 @@ export default function Verify() {
             style={{ minWidth: 175 }}
             loading={loading}
           >
-            Gửi lại {count > 0 && count}
+            Gửi lại qua email {count > 0 && count}
           </Button>
         </div>
       </Card>

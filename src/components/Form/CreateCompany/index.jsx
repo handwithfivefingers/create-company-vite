@@ -117,39 +117,6 @@ const CreateCompany = forwardRef(({ data }, formRef) => {
           })
         }
 
-        // if (legal_respon) {
-        //   legal_respon = legal_respon.map(({ birth_day, doc_time_provide, doc_outdate, ...item }) => {
-        //     let obj = {
-        //       ...item,
-        //     }
-        //     if (doc_time_provide) {
-        //       obj.doc_time_provide = moment(doc_time_provide, 'YYYY-MM-DD')
-        //     }
-        //     if (birth_day) {
-        //       obj.birth_day = moment(birth_day, 'YYYY-MM-DD')
-        //     }
-        //     if (doc_outdate) {
-        //       obj.doc_outdate = moment(doc_outdate, 'YYYY-MM-DD')
-        //     }
-        //     return obj
-        //   })
-        // }
-
-        // if (legal_respon?.length) {
-        //   let i = 0
-        //   for (let legal of legal_respon) {
-        //     console.log('legal', legal)
-        //     formRef.current.setFields([
-        //       {
-        //         name: [...BASE_FORM, 'legal_respon', i],
-        //         value: legal,
-        //       },
-        //     ])
-        //     i++
-        //   }
-        //   delete approve.legal_respon
-        // }
-
         approve.origin_person = origin_person
 
         delete approve.legal_respon
