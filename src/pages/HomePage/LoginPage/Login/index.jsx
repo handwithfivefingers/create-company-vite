@@ -2,19 +2,18 @@ import { FIELD_RULE, TYPE_VERIFY } from '@/constant/pages/Login'
 import AuthService from '@/service/AuthService'
 import { Button, Card, Form, Input, message } from 'antd'
 import { useEffect, useRef, useState } from 'react'
-import { useDispatch } from 'react-redux'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
+import { getPhoneNumber } from '../../../../helper/Common'
 import { useRouterData } from '../../../../helper/Context'
 import { useAuthStore } from '../../../../store/reducer'
 import styles from './styles.module.scss'
-import { getPhoneNumber } from '../../../../helper/Common'
 
 const LoginForm = () => {
   const [loading, setLoading] = useState(false)
   const formRef = useRef()
   const { status, role } = useAuthStore()
   const route = useRouterData()
-  const [typeVerify, setTypeVerify] = useState(TYPE_VERIFY['PHONE'])
+  const [typeVerify, setTypeVerify] = useState(TYPE_VERIFY['SMS'])
   const navigate = useNavigate()
   const location = useLocation()
 
@@ -37,28 +36,20 @@ const LoginForm = () => {
       formRef.current.setFieldsValue({
         ...location.state,
       })
+    } else {
+      navigate('/')
     }
   }, [location.state])
-  // useEffect(() => {
-  //   canVerify()
-  // }, [])
 
-  // const canVerify = async () => {
-  //   try {
-  //     const resp = await AuthService.onCanVerify()
-  //     if (resp.status !== 200) throw new Error('Token doesnt exists')
-  //   } catch (error) {
-  //     navigate('/')
-  //   }
-  // }
   const onFinish = async () => {
     try {
       setLoading(true)
+
       switch (typeVerify) {
         case TYPE_VERIFY['EMAIL']:
           await onHandleSendOTPByEmail()
           break
-        case TYPE_VERIFY['PHONE']:
+        case TYPE_VERIFY['SMS']:
           await onHandleSendOTPBySMS()
           break
       }
@@ -77,8 +68,7 @@ const LoginForm = () => {
     try {
       const { phone, email } = formRef.current.getFieldsValue(true)
       const phoneNum = getPhoneNumber(phone)
-      const type = 'EMAIL'
-      const data = await sendOTP({ phone: phoneNum, email, type })
+      const data = await sendOTP({ phone: phoneNum, email, type: typeVerify })
       message.success(data.data.message)
       navigate('/verification')
     } catch (error) {
@@ -89,8 +79,8 @@ const LoginForm = () => {
   const onHandleSendOTPBySMS = async () => {
     try {
       const { phone, email } = formRef.current.getFieldsValue(true)
-      const type = 'SMS'
-      const data = await sendOTP({ phone: `${phone}`, email, type })
+      const phoneNum = getPhoneNumber(phone)
+      const data = await sendOTP({ phone: phoneNum, email, type: typeVerify })
       message.success(data.data.message)
       navigate('/verification')
     } catch (error) {

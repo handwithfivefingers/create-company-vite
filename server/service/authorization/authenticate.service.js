@@ -13,12 +13,38 @@ const METHOD = {
 module.exports = class AuthenticateService {
   constructor() {}
 
-  onVerifyToken = async (req, res) => {
+  isTokenExist = async (req) => {
     try {
       const token = req.cookies['verifyToken']
       const decoded = await verifyToken(token)
       if (!decoded) throw decoded
-      return true
+      return decoded
+    } catch (error) {
+      throw error
+    }
+  }
+
+  onVerifyToken = async (req, res) => {
+    try {
+      const decoded = await this.isTokenExist(req)
+
+      const { email, phone, method, deleteOldUser } = decoded
+
+      const data = {
+        email,
+        phone,
+        deleteOldUser,
+        otp: req.body.otp,
+      }
+      console.log('decoded', decoded)
+      //
+      let resp
+      if (method === METHOD['REGISTER']) {
+        resp = await this.onHandleRegister(req, res, data)
+      } else if (method === METHOD['LOGIN']) {
+        resp = await this.onHandleLogin(req, res, data)
+      }
+      return resp
     } catch (error) {
       throw error
     }

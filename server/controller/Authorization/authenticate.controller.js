@@ -42,4 +42,12 @@ module.exports = class AuthenticateController {
       })
     }
   }
+  onHandleVerifyToken = async (req, res) => {
+    try {
+      const data = await new AuthenticateService().isTokenExist(req)
+      if (data) return res.sendStatus(200)
+    } catch (error) {
+      return res.sendStatus(400)
+    }
+  }
 }

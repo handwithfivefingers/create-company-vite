@@ -14,9 +14,11 @@ export default function Verify() {
   const navigate = useNavigate()
   const [count, setCount] = useState(NUM_LIMIT)
   const dispatch = useDispatch()
+
   useEffect(() => {
-    canVerify()
-  }, [])  
+    checkToken()
+  }, [])
+
   useEffect(() => {
     if (count <= 0) {
       clearInterval(timer)
@@ -28,14 +30,15 @@ export default function Verify() {
     return () => clearInterval(timer)
   }, [count])
 
-  const canVerify = async () => {
+  const checkToken = async () => {
     try {
-      const resp = await AuthService.onVerify()
-      if (resp.status !== 200) throw new Error('Token doesnt exists')
+      const resp = await AuthService.checkTokenExist()
+      if (resp.status !== 200) navigate('/')
     } catch (error) {
       navigate('/')
     }
   }
+
   const updateCount = () => {
     setCount((prev) => {
       let nextState = prev - 1
