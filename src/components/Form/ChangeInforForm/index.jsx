@@ -1,10 +1,11 @@
 import { VALIDATE_MESSAGE } from '@/constant/InputValidate'
-import { onSetFields } from '@/helper/Common'
+import { onSetFieldsWithInstance } from '@/helper/Common'
 import { Form, Select } from 'antd'
 import clsx from 'clsx'
 import moment from 'moment'
 import React, { forwardRef, useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
+import { useStepAPI } from '../../../context/StepProgressContext'
 import ProductService from '../../../service/UserService/ProductService'
 import BaseInformation from './BaseInformation'
 import CapNhatThongTinDangKy from './CapNhatThongtinDangKy'
@@ -16,7 +17,6 @@ import HopDongChuyenNhuong from './HopDongChuyenNhuong'
 import NganhNgheKinhDoanh from './NganhNgheKinhDoanh'
 import TangVonDieuLe from './TangVonDieuLe'
 import TenDoanhNghiep from './TenDoanhNghiep'
-import { useStepAPI, useStepData } from '../../../context/StepProgressContext'
 
 const TYPE_NAME = {
   1: ['change_info', 'location'],
@@ -30,16 +30,12 @@ const TYPE_NAME = {
 }
 
 const ChangeInforForm = forwardRef((props, ref) => {
+  const [form] = Form.useForm()
   const [productSelect, setProductSelect] = useState('')
-
   const [selectType, setSelectType] = useState([])
-
   const [data, setData] = useState([])
-
   let location = useLocation()
-
   const { onCreateStep } = useStepAPI()
-
   useEffect(() => {
     if (location?.state) {
       initDataforEditing()
@@ -49,7 +45,7 @@ const ChangeInforForm = forwardRef((props, ref) => {
   useEffect(() => {
     if (data && productSelect) {
       let listMatch = []
-      let productsList = ref.current.getFieldValue(['products'])
+      let productsList = form.getFieldValue(['products'])
 
       for (let i = 0; i < data.length; i++) {
         let item = data[i]
@@ -121,14 +117,16 @@ const ChangeInforForm = forwardRef((props, ref) => {
       }
     }
 
+    console.log('_data', _data)
     ref.current?.setFieldsValue({
       ..._data,
     })
 
-    setProductSelect(cate)
+    const productSelected = _data.products?.map(({ name, _id, type }) => ({ name, value: _id, type }))
 
-    onSetFields(['category'], cate, ref)
-
+    setProductSelect(productSelected)
+    onSetFieldsWithInstance(['products'], productSelected, form)
+    onSetFieldsWithInstance(['category'], cate, form)
     fetchProduct(cate.value)
   }
 
@@ -377,10 +375,10 @@ const ChangeInforForm = forwardRef((props, ref) => {
     })
     onCreateStep(data)
   }
-
+  console.log('form', form)
   const handleSelectCate = ({ type, name, value }, pathName) => {
     setProductSelect({ type, name, value })
-    onSetFields([pathName], { type, name, value }, ref)
+    onSetFieldsWithInstance([pathName], { type, name, value }, form)
     fetchProduct(value)
   }
 
@@ -401,7 +399,7 @@ const ChangeInforForm = forwardRef((props, ref) => {
   }
 
   return (
-    <Form ref={ref} layout="vertical" name="change_info" validateMessages={VALIDATE_MESSAGE}>
+    <Form ref={ref} layout="vertical" name="change_info" validateMessages={VALIDATE_MESSAGE} form={form}>
       <Form.Item
         name={['category']}
         label="Chọn loại hình doanh nghiệp"

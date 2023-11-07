@@ -269,7 +269,8 @@ const SelectDoc = ({ baseName, label }) => {
         <Col span={12}>
           <Form.Item name={[...baseName, 'type']}>
             <Select
-              defaultValue={1}
+              // defaultValue={1}
+              defaultActiveFirstOption
               options={[
                 {
                   label: 'Phòng Đăng ký kinh doanh thuộc Sở Kế hoạch và đầu tư tỉnh',

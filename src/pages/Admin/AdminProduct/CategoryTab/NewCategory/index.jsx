@@ -141,7 +141,9 @@ const NewCategory = (props) => {
               ))}
               {fields.length < 1 ? (
                 <Form.Item>
-                  <Button onClick={() => add()}>Thêm điều kiện</Button>
+                  <Button type="dashed" onClick={() => add()} style={{ width: '100%' }}>
+                    Thêm điều kiện
+                  </Button>
                 </Form.Item>
               ) : null}
             </>
@@ -152,7 +154,6 @@ const NewCategory = (props) => {
             <Button type="primary" htmlType="submit" loading={loading}>
               {data ? 'Cập nhật' : 'Tạo'}
             </Button>
-            <Button type="outline">Hủy</Button>
           </Space>
         </Form.Item>
       </Form>

@@ -1,5 +1,4 @@
-const { permisHandler, successHandler, errHandler } = require('@response')
-const { Setting } = require('@model')
+const { successHandler, errHandler } = require('@response')
 const SettingService = require('../../../service/v1/admin/setting.service')
 
 module.exports = class SettingController {

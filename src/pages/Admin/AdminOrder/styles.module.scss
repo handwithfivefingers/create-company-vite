@@ -34,14 +34,45 @@
 
 .tableWrapper {
   overflow: overlay !important;
-  background-color: #fff;
-
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin: -12px;
+  padding: 12px;
   table {
     background-color: #fff;
     thead {
       position: sticky;
       top: 0;
       z-index: 1;
+    }
+  }
+  .filter {
+    padding: 8px;
+    border-radius: 4px;
+    background-color: #fff;
+    form {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: space-between;
+      :global(.ant-form-item) {
+        width: calc(25% - 12px);
+      }
+      :global(button) {
+        flex: 0;
+        margin-left: auto;
+      }
+      @media (max-width: 767px) {
+        :global(.ant-form-item) {
+          width: calc(50% - 12px);
+        }
+      }
+      @media (max-width: 550px) {
+        :global(.ant-form-item) {
+          width: calc(100%);
+        }
+      }
     }
   }
 }
