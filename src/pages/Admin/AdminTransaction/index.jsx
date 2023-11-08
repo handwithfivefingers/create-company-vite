@@ -59,7 +59,6 @@ function AdminTransaction() {
   }
 
   const onFilter = (value) => {
-    console.log('value', value)
     const { paymentCode, date } = value
 
     const params = {}

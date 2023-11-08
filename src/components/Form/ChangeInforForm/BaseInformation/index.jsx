@@ -261,15 +261,14 @@ const SelectDoc = ({ baseName, label }) => {
   const watchType = Form.useWatch([...baseName, 'type'], formInstance)
   const watchValue = Form.useWatch([...baseName, 'value'], formInstance)
 
-  console.log('watchValue', watchValue)
-
   return (
     <Form.Item label={label}>
       <Row gutter={[8]}>
         <Col span={12}>
           <Form.Item name={[...baseName, 'type']}>
             <Select
-              defaultValue={1}
+              // defaultValue={1}
+              defaultActiveFirstOption
               options={[
                 {
                   label: 'Phòng Đăng ký kinh doanh thuộc Sở Kế hoạch và đầu tư tỉnh',

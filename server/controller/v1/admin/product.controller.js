@@ -1,6 +1,4 @@
-const { Product, Category } = require('@model')
 const { successHandler, errHandler } = require('@response')
-const slugify = require('slugify')
 const ProductService = require('@service/v1/admin/product.service')
 module.exports = class ProductAdmin {
   getProduct = async (req, res) => {

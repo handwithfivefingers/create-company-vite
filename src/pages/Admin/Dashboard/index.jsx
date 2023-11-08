@@ -1,140 +1,52 @@
-import AdminDashboardService from '@/service/AdminService/AdminDashboardService'
 import { useQuery } from '@tanstack/react-query'
-import { Avatar, Card, Col, List, Row, Tabs } from 'antd'
-import clsx from 'clsx'
-import moment from 'moment'
-import VirtualList from 'rc-virtual-list'
-import { useEffect, useRef, useState } from 'react'
-import { GrStatusWarning } from 'react-icons/gr'
-import styles from './styles.module.scss'
+import { Card, Col, Row, Skeleton, Tabs } from 'antd'
+import { number_format } from '../../../helper/Common'
+import AdminSMSService from '../../../service/AdminService/AdminSMSService'
+import styles from "./styles.module.scss"
 const { TabPane } = Tabs
 const AdminDashboard = () => {
-  const logsRef = useRef()
-
-  const [containerHeight, setContainerHeight] = useState(100)
-
-  const { data, isFetching, isLoading, status } = useQuery(
-    ['logs'],
-    async () => await AdminDashboardService.getLogs(),
-    {
-      staleTime: 60 * 1000, // 1 minute
-      refetchOnWindowFocus: true,
-    },
-  )
-
-  useEffect(() => {
-    layoutEffection()
-  }, [])
-
-  const layoutEffection = () => {
-    let siteLayout = document.querySelector('.ant-layout-content')
-
-    let { height } = siteLayout?.getBoundingClientRect()
-
-    setContainerHeight(height - 156)
-  }
-
-  const setScreenData = async (res = null) => {
-    try {
-      if (!res) return
-      let { data } = res?.data
-
-      let { _logs } = data
-
-      logsRef.current = _logs
-    } catch (err) {
-      console.log(err)
-    }
-  }
-
-  const onScroll = (e, type) => {
-    if (e.currentTarget.scrollHeight - e.currentTarget.scrollTop === containerHeight) {
-      appendData()
-    }
-  }
-
-  const appendData = () => {
-    let length = data.length
-    let newData = data
-    newData = [...newData, ...logs._logs?.slice(length, length + 20)]
-    setData(newData)
-  }
-
-  if (data) {
-    logsRef.current = data.data.data
-  }
+  const smsResponse = useQuery(['smsBalance'], () => AdminSMSService.getBalance(), {
+    staleTime: 60 * 1000, // 1 minute
+    refetchOnWindowFocus: true,
+  })
 
   return (
-    <Row>
-      <Col span={16}>
-        <Card title="Logs hệ thống" className="box__shadow">
-          <Tabs
-            defaultActiveKey="1"
-            destroyInactiveTabPane
-            className={clsx([styles.tabs, 'cc-card'])}
-            animated={{ inkBar: true, tabPane: true }}
-          >
-            <TabPane tab="Hệ thống" key="1" value={1}>
-              <List loading={isLoading}>
-                <VirtualList
-                  data={logsRef?.current || []}
-                  height={containerHeight}
-                  itemHeight={50}
-                  itemKey="Hệ thống"
-                  onScroll={(e) => onScroll(e)}
-                >
-                  {(item, i) => (
-                    <List.Item key={i}>
-                      <List.Item.Meta
-                        avatar={
-                          <Avatar
-                            className={clsx([styles.ava])}
-                            size={{
-                              xs: 12,
-                              sm: 18,
-                              md: 24,
-                              lg: 30,
-                              xl: 36,
-                              xxl: 42,
-                            }}
-                            icon={<GrStatusWarning />}
-                          />
-                        }
-                        title={`Ngày khởi tạo : ${moment(item?.createdAt).format(
-                          'HH [giờ] mm [phút],[ngày] DD [tháng] MM [năm] YYYY',
-                        )}, Ip Connection: ${item.ip}`}
-                        description={
-                          <span style={{ wordBreak: 'break-word' }}>
-                            <pre
-                              style={{
-                                wordBreak: 'break-word',
-                                whiteSpace: 'pre-wrap',
-                              }}
-                            >
-                              {JSON.stringify(item?.data, null, 4)}
-                            </pre>
-                          </span>
-                        }
-                      />
-                    </List.Item>
-                  )}
-                </VirtualList>
-              </List>
-            </TabPane>
-          </Tabs>
-        </Card>
-      </Col>
-      <Col span={8} style={{ paddingLeft: 12 }}>
-        <Row gutter={[0, 12]}>
-          <Col span={24}>
-            <Card className="box__shadow" title="Đơn hàng đã thanh toán"></Card>
-          </Col>
-          <Col span={24}>
-            <Card className="box__shadow" title="Đơn hàng vừa tạo"></Card>
-          </Col>
-        </Row>
-      </Col>
-    </Row>
+    <div className={styles.wrapper}>
+      <Row gutter={[12, 12]}>
+        <Col xs={24} sm={12} md={12} lg={8} xl={8} xxl={4}>
+          <Card className="box__shadow" title="Số dư tài khoản SMS">
+            <Skeleton loading={smsResponse.isLoading} active>
+              <p>Số dư: {number_format(smsResponse.data?.data?.data?.Balance) || 'Không có dữ liệu'} đ</p>
+            </Skeleton>
+          </Card>
+        </Col>
+        <Col xs={24} sm={12} md={12} lg={8} xl={8} xxl={4}>
+          <Card className="box__shadow" title="Feature 1">
+            <Skeleton active />
+          </Card>
+        </Col>
+        <Col xs={24} sm={12} md={12} lg={8} xl={8} xxl={4}>
+          <Card className="box__shadow" title="Feature 2">
+            <Skeleton active />
+          </Card>
+        </Col>
+        <Col lg={16} xs={24}>
+          <Card className="box__shadow" title="Feature 3">
+            <Skeleton active />
+          </Card>
+        </Col>
+        <Col lg={8} xs={24}>
+          <Card className="box__shadow" title="Feature 4">
+            <Skeleton active />
+          </Card>
+        </Col>
+        <Col lg={24}>
+          <Card className="box__shadow" title="Feature 5">
+            <Skeleton active />
+          </Card>
+        </Col>
+      </Row>
+    </div>
   )
 }
 

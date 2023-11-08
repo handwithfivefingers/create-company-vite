@@ -8,7 +8,7 @@ const useFetch = ({
   otherPath, // cause BE path doesnt match
   enabled = true,
   staleTime = 60 * 1000,
-  refetchOnWindowFocus = true,
+  refetchOnWindowFocus = false,
   refetchInterval = false,
   deps = [],
 }) => {

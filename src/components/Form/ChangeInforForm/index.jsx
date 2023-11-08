@@ -1,10 +1,12 @@
 import { VALIDATE_MESSAGE } from '@/constant/InputValidate'
-import { onSetFields } from '@/helper/Common'
+import { onSetFieldsWithInstance } from '@/helper/Common'
+import { useQuery } from '@tanstack/react-query'
 import { Form, Select } from 'antd'
 import clsx from 'clsx'
 import moment from 'moment'
 import React, { forwardRef, useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
+import { useStepAPI } from '../../../context/StepProgressContext'
 import ProductService from '../../../service/UserService/ProductService'
 import BaseInformation from './BaseInformation'
 import CapNhatThongTinDangKy from './CapNhatThongtinDangKy'
@@ -16,7 +18,6 @@ import HopDongChuyenNhuong from './HopDongChuyenNhuong'
 import NganhNgheKinhDoanh from './NganhNgheKinhDoanh'
 import TangVonDieuLe from './TangVonDieuLe'
 import TenDoanhNghiep from './TenDoanhNghiep'
-import { useStepAPI, useStepData } from '../../../context/StepProgressContext'
 
 const TYPE_NAME = {
   1: ['change_info', 'location'],
@@ -30,15 +31,21 @@ const TYPE_NAME = {
 }
 
 const ChangeInforForm = forwardRef((props, ref) => {
+  const [form] = Form.useForm()
   const [productSelect, setProductSelect] = useState('')
-
   const [selectType, setSelectType] = useState([])
+  const { onCreateStep } = useStepAPI()
+  const watchCategory = Form.useWatch('category', form)
 
-  const [data, setData] = useState([])
+  const productData = useQuery({
+    queryKey: ['product_data', props.data.parentId, watchCategory?.value],
+    queryFn: async () =>
+      (await ProductService.getProduct({ _id: props.data.parentId, _pId: watchCategory?.value })).data.data,
+    enabled: !!watchCategory?.value,
+    onSuccess: (data) => updateProductSelection(data),
+  })
 
   let location = useLocation()
-
-  const { onCreateStep } = useStepAPI()
 
   useEffect(() => {
     if (location?.state) {
@@ -46,39 +53,47 @@ const ChangeInforForm = forwardRef((props, ref) => {
     }
   }, [location])
 
-  useEffect(() => {
-    if (data && productSelect) {
-      let listMatch = []
-      let productsList = ref.current.getFieldValue(['products'])
+  const updateProductSelection = (data) => {
+    console.log('coming', data)
+    try {
+      if (data) {
+        const productsList = form.getFieldValue(['products'])
+        if (productsList) {
+          let listMatch = []
+          for (let i = 0; i < data?.length; i++) {
+            let item = data[i]
+            let isMatch = productsList?.some((prod) => prod.value === item._id)
+            if (isMatch) listMatch.push(item)
+          }
 
-      for (let i = 0; i < data.length; i++) {
-        let item = data[i]
-        let isMatch = productsList?.some((prod) => prod._id === item._id)
-        if (isMatch) listMatch.push(item)
+          listMatch = listMatch.map((item) => ({
+            children: item.name,
+            key: item._id,
+            type: item.type,
+            value: item._id,
+          }))
+
+          form?.setFields([
+            {
+              name: 'products',
+              value: listMatch,
+            },
+          ])
+          handleUpdateProgressAndComponent(null, listMatch)
+        }
       }
-
-      listMatch = listMatch.map((item) => ({
-        children: item.name,
-        key: item._id,
-        type: item.type,
-        value: item._id,
-      }))
-
-      ref.current?.setFieldsValue({
-        products: listMatch,
-      })
-
-      handleUpdateProgressAndComponent(null, listMatch)
+    } catch (error) {
+      console.log('error', error)
     }
-  }, [data])
+  }
 
-  const initDataforEditing = () => {
+  const initDataforEditing = async () => {
     let _data = {}
     let cate = {}
 
     let { state } = location
 
-    let { category, products, data } = state
+    const { category, products, data } = state
 
     if (!category) return
 
@@ -95,19 +110,18 @@ const ChangeInforForm = forwardRef((props, ref) => {
       _data.category = cate
 
       if (change_info) {
-        let { legal_representative, transfer_contract, base_inform, update_info, ...restInfo } = change_info
+        const { legal_representative, transfer_contract, base_inform, update_info, ...restInfo } = change_info
 
-        console.log('base_inform', base_inform)
+        // BASE_INFORM -> Date field : mst_provide
         if (base_inform) {
           base_inform.mst_provide = moment(base_inform?.mst_provide, 'YYYY-MM-DD')
-          base_inform.mst_place_provide = { ...base_inform.mst_place_provide }
         }
 
-        let shallowLegalInformation = getLegalInformationProps(legal_representative)
+        const shallowLegalInformation = getLegalInformationProps(legal_representative)
 
-        let shallowTransferContact = getTransferContactProps(transfer_contract)
+        const shallowTransferContact = getTransferContactProps(transfer_contract)
 
-        let shallowUpdateInfo = getInformationProps(update_info)
+        const shallowUpdateInfo = getInformationProps(update_info)
 
         change_info = {
           ...restInfo,
@@ -125,127 +139,91 @@ const ChangeInforForm = forwardRef((props, ref) => {
       ..._data,
     })
 
-    setProductSelect(cate)
-
-    onSetFields(['category'], cate, ref)
-
-    fetchProduct(cate.value)
+    const productSelected = _data.products?.map(({ name, _id, type }) => ({ name, value: _id, type }))
+    onSetFieldsWithInstance(['products'], productSelected, form)
+    onSetFieldsWithInstance(['category'], cate, form)
+    setProductSelect(productSelected)
   }
 
   const getTransferContactProps = (data) => {
-    let shallowTransfer = { ...data }
+    const shallowTransfer = { ...data }
 
     if (shallowTransfer) {
-      let { A_side, B_side } = shallowTransfer
+      const { A_side, B_side } = shallowTransfer
 
       if (A_side) {
-        let { personal, organization } = A_side
-
+        const { personal, organization } = A_side
         if (personal) {
-          personal = {
-            ...personal,
-            birth_day: moment(personal?.birth_day, 'YYYY-MM-DD'),
-            doc_time_provide: moment(personal?.doc_time_provide, 'YYYY-MM-DD'),
-          }
+          const { birth_day, doc_time_provide } = personal
+          if (birth_day) personal.birth_day = moment(birth_day, 'YYYY-MM-DD')
+          if (doc_time_provide) personal.doc_time_provide = moment(doc_time_provide, 'YYYY-MM-DD')
         }
 
         if (organization) {
-          organization = {
-            ...organization,
-            mst_provide: moment(organization?.mst_provide, 'YYYY-MM-DD'),
-          }
+          const { mst_provide } = organization
+          if (mst_provide) organization.mst_provide = moment(mst_provide, 'YYYY-MM-DD')
         }
 
-        A_side = {
-          ...A_side,
-          personal,
-          organization,
-        }
+        shallowTransfer.A_side = A_side
       }
 
       if (B_side) {
-        let { personal, organization } = B_side
+        const { personal, organization } = B_side
         if (personal) {
-          personal = {
-            ...personal,
-            birth_day: moment(personal?.birth_day, 'YYYY-MM-DD'),
-            doc_time_provide: moment(personal?.doc_time_provide, 'YYYY-MM-DD'),
-          }
-        }
-        if (organization) {
-          organization = {
-            ...organization,
-            time_provide: moment(organization?.time_provide, 'YYYY-MM-DD'),
-          }
+          const { birth_day, doc_time_provide } = personal
+          if (birth_day) personal.birth_day = moment(birth_day, 'YYYY-MM-DD')
+          if (doc_time_provide) personal.doc_time_provide = moment(doc_time_provide, 'YYYY-MM-DD')
         }
 
-        B_side = {
-          ...B_side,
-          personal,
-          organization,
+        if (organization) {
+          const { time_provide } = organization
+          if (time_provide) organization.time_provide = moment(time_provide, 'YYYY-MM-DD')
         }
-      }
-      shallowTransfer = {
-        ...shallowTransfer,
-        A_side,
-        B_side,
+        shallowTransfer.B_side = B_side
       }
     }
     return shallowTransfer
   }
 
   const getLegalInformationProps = (data) => {
-    let shallowLegal = { ...data }
+    const shallowLegal = { ...data }
     if (shallowLegal) {
-      let { in_out, after_change, ...restLegal } = shallowLegal
-
-      if (in_out) {
-        in_out = in_out.map((item) => {
-          return {
-            ...item,
-            birth_day: moment(item.birth_day, 'YYYY-MM-DD'),
-            doc_time_provide: moment(item.doc_time_provide, 'YYYY-MM-DD'),
-          }
+      const { in_out, after_change } = shallowLegal
+      if (in_out?.length) {
+        in_out.map((item) => {
+          const { birth_day, doc_time_provide } = item
+          if (birth_day) item.birth_day = moment(birth_day, 'YYYY-MM-DD')
+          if (doc_time_provide) item.doc_time_provide = moment(doc_time_provide, 'YYYY-MM-DD')
+          return item
         })
       }
 
-      if (after_change) {
-        after_change = after_change.map((item) => {
-          return {
-            ...item,
-            birth_day: moment(item.birth_day, 'YYYY-MM-DD'),
-            doc_time_provide: moment(item.doc_time_provide, 'YYYY-MM-DD'),
-          }
+      if (after_change?.length) {
+        after_change.map((item) => {
+          const { birth_day, doc_time_provide, doc_outdate } = item
+          if (birth_day) item.birth_day = moment(birth_day, 'YYYY-MM-DD')
+          if (doc_time_provide) item.doc_time_provide = moment(doc_time_provide, 'YYYY-MM-DD')
+          if (doc_outdate) item.doc_outdate = moment(doc_outdate, 'YYYY-MM-DD')
+          return item
         })
       }
-
-      shallowLegal = {
-        ...restLegal,
-        in_out,
-        after_change,
-      }
+      shallowLegal.in_out = in_out
+      shallowLegal.after_change = after_change
     }
     return shallowLegal
   }
 
   const getInformationProps = (update_info) => {
-    let shallowUpdate = { ...update_info }
+    const shallowUpdate = { ...update_info }
     if (shallowUpdate) {
-      let { information, ...restInformation } = shallowUpdate
+      const { information } = shallowUpdate
 
       if (information) {
-        if (information.birth_day) {
-          information.birth_day = moment(new Date(information.birth_day))
-        }
-        if (information.doc_time_provide) {
-          information.doc_time_provide = moment(new Date(information.doc_time_provide))
-        }
+        const { birth_day, doc_time_provide } = information
+        if (birth_day) information.birth_day = moment(new Date(birth_day))
+        if (doc_time_provide) information.doc_time_provide = moment(new Date(doc_time_provide))
       }
-
-      shallowUpdate = {
-        ...restInformation,
-        information,
-      }
+      shallowUpdate.information = information
     }
     return shallowUpdate
   }
@@ -353,8 +331,7 @@ const ChangeInforForm = forwardRef((props, ref) => {
 
   const handleUpdateProgressAndComponent = (val, opt) => {
     setSelectType(opt)
-
-    let data = [
+    const data = [
       {
         title: 'Bước 1',
         desc: 'Chọn loại hình doanh nghiệp',
@@ -380,28 +357,28 @@ const ChangeInforForm = forwardRef((props, ref) => {
 
   const handleSelectCate = ({ type, name, value }, pathName) => {
     setProductSelect({ type, name, value })
-    onSetFields([pathName], { type, name, value }, ref)
-    fetchProduct(value)
+    onSetFieldsWithInstance([pathName], { type, name, value }, form)
   }
 
-  const fetchProduct = async (_id) => {
-    try {
-      let { parentId } = props.data
+  const filterSelect = productData?.data?.filter((item) => {
+    if (item.type == 5 && selectType.some((opt) => opt.type == 4)) return
+    if (item.type == 4 && selectType.some((opt) => opt.type == 5)) return
+    return item
+  })
 
-      const res = await ProductService.getProduct({ _id: parentId, _pId: _id })
-      let { data } = res.data
-      const nextData = data.map((item) => {
-        let newObject = { ...item, field: TYPE_NAME[item.type] }
-        return newObject
-      })
-      setData(nextData)
-    } catch (err) {
-      console.log('fetchProduct error', err)
-    }
+  const selectProps = {
+    showSearch: true,
+    mode: 'multiple',
+    allowClear: true,
+    style: { width: '100%' },
+    listHeight: 300,
+    placeholder: 'Bấm vào đây',
+    optionFilterProp: 'children',
+    onChange: handleUpdateProgressAndComponent,
+    filterOption: (input, option) => option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0,
   }
-
   return (
-    <Form ref={ref} layout="vertical" name="change_info" validateMessages={VALIDATE_MESSAGE}>
+    <Form ref={ref} layout="vertical" name="change_info" validateMessages={VALIDATE_MESSAGE} form={form}>
       <Form.Item
         name={['category']}
         label="Chọn loại hình doanh nghiệp"
@@ -428,27 +405,12 @@ const ChangeInforForm = forwardRef((props, ref) => {
           [styles.active]: props.current === 0,
         })}
       >
-        <Select
-          showSearch
-          mode="multiple"
-          allowClear
-          style={{ width: '100%' }}
-          listHeight={300}
-          placeholder="Bấm vào đây"
-          optionFilterProp="children"
-          onChange={handleUpdateProgressAndComponent}
-          filterOption={(input, option) => {
-            return option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-          }}
-        >
-          {productSelect &&
-            data?.map((item) => {
-              return (
-                <Select.Option key={item._id} value={item._id} type={item.type}>
-                  {item.name}
-                </Select.Option>
-              )
-            })}
+        <Select {...selectProps} disabled={!productSelect}>
+          {filterSelect?.map((item) => (
+            <Select.Option key={item._id} value={item._id} type={item.type}>
+              {item.name}
+            </Select.Option>
+          ))}
         </Select>
       </Form.Item>
 

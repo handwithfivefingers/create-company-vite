@@ -84,7 +84,7 @@ const FormProduct = (props) => {
         </Form.Item>
 
         <Form.Item>
-          <Button htmlType="submit">
+          <Button htmlType="submit" type='primary'>
             Xác nhận
           </Button>
         </Form.Item>

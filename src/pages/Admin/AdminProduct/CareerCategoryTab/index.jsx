@@ -107,7 +107,6 @@ const CareerCategoryTab = (props) => {
           bordered
           scroll={{
             x: 500,
-            y: 50 * 8,
           }}
           pagination={false}
         >

@@ -10,7 +10,7 @@ module.exports = class OrderService {
     try {
       let _order = await Order.find({ orderOwner: req.id, delete_flag: 0 })
         .populate('category', 'name type')
-        .populate('products', 'name')
+        .populate('products', 'name type')
         .populate('transactionId', 'isPayment paymentType paymentCode deliveryInformation')
         .select('-send -__v -delete_flag -name -files -updatedAt')
         .sort('-createdAt')
