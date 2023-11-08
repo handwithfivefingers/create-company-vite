@@ -261,8 +261,6 @@ const SelectDoc = ({ baseName, label }) => {
   const watchType = Form.useWatch([...baseName, 'type'], formInstance)
   const watchValue = Form.useWatch([...baseName, 'value'], formInstance)
 
-  console.log('watchValue', watchValue)
-
   return (
     <Form.Item label={label}>
       <Row gutter={[8]}>

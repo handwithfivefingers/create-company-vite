@@ -1,20 +1,13 @@
-import { Col, Form, Row, InputNumber } from 'antd'
-import clsx from 'clsx'
-import React, { forwardRef, useEffect } from 'react'
 import CCInput from '@/components/CCInput'
+import { htmlContent, numToWord, onSetFields } from '@/helper/Common'
+import { Col, Form, InputNumber, Row } from 'antd'
+import clsx from 'clsx'
+import React, { forwardRef } from 'react'
 import styles from '../DaiDienPhapLuat/styles.module.scss'
-import { onSetFields, htmlContent, numToWord } from '@/helper/Common'
 const BASE_FORM = ['change_info', 'up_authorized_capital']
+let timer
 
 const TangVonDieuLe = forwardRef((props, ref) => {
-  useEffect(() => {
-    window.form = ref.current
-    // if (ref) {
-    //   onSetFields(['change_info', 'up_authorized_capital', 'type'], 'Tăng vốn góp', ref)
-    // }
-  }, [ref])
-
-  let timer
 
   const handleInpChange = (e, pathName) => {
     let numInp = ref.current.getFieldValue([...pathName, 'num'])
@@ -27,8 +20,6 @@ const TangVonDieuLe = forwardRef((props, ref) => {
       onSetFields([...pathName, 'char'], upperLetter, ref)
     }, 500)
   }
-
-  console.log('props', props)
 
   return (
     <Form.Item

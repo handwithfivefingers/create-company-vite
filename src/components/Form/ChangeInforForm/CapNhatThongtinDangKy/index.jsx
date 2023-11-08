@@ -105,7 +105,7 @@ const CapNhatThongTinDangKy = forwardRef((props, ref) => {
             name={[...BASE_FORM, 'select']}
             label={htmlContent('Vui lòng chọn thông tin cần cập nhật')}
             required
-            rules={[{ required: true, message: 'Vui lòng nhập Vốn điều lệ đã đăng ký!' }]}
+            rules={[{ required: true, message: 'Vui lòng chọn thông tin cần cập nhật!' }]}
           >
             <Select
               mode="multiple"
