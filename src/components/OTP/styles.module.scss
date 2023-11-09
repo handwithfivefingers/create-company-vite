@@ -3,3 +3,10 @@
   // height: 200px;
   padding: 0 0 20px 0;
 }
+
+.inputNumber {
+  width: unset;
+  :global(.ant-input-number-handler-wrap) {
+    display: none;
+  }
+}
