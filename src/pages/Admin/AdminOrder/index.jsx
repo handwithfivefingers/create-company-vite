@@ -4,19 +4,18 @@ import AdminOrderService from '@/service/AdminService/AdminOrderService'
 import { CheckCircleTwoTone, DeleteOutlined, FormOutlined, LoadingOutlined, SearchOutlined } from '@ant-design/icons'
 import {
   Button,
+  DatePicker,
   Form,
   Input,
   Popconfirm,
+  Select,
   Space,
   Table,
   Tag,
   message,
-  notification,
-  DatePicker,
-  Row,
-  Col,
-  Select,
+  notification
 } from 'antd'
+import clsx from 'clsx'
 import moment from 'moment'
 import React, { useEffect, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
@@ -25,7 +24,6 @@ import MailStatusModal from '../../../components/Modal/MailStatusModal'
 import UpdateOrderModal from '../../../components/Modal/UpdateOrderModal'
 import { useFetch } from '../../../helper/Hook'
 import styles from './styles.module.scss'
-import clsx from 'clsx'
 const AdminOrder = () => {
   const [orderData, setOrderData] = useState([])
   const [current, setCurrent] = useState(1)
@@ -156,42 +154,16 @@ const AdminOrder = () => {
     }
   }
 
-  const handleSearch = (selectedKeys = null, confirm, dataIndex = null) => {
-    confirm()
-    setSearchText(selectedKeys[0])
-    setSearchedColumn([...dataIndex])
-  }
-
-  const getColumnSearchProps = (dataIndex) => ({
-    filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
-      <div style={{ padding: 8 }}>
-        <Input.Search
-          placeholder={`Tìm kiếm`}
-          value={selectedKeys[0]}
-          onChange={(e) => setSelectedKeys(e.target.value ? [e.target.value] : [])}
-          onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
-          onSearch={() => handleSearch(selectedKeys, confirm, dataIndex)}
-          allowClear
-          className={styles.inpSearch}
-          enterButton
-        />
-      </div>
-    ),
-    filterIcon: (filtered) => <SearchOutlined style={{ color: filtered ? '#1890ff' : undefined }} />,
-    onFilter: (value, record) => {
-      let [name1, name2] = dataIndex
-      let label = record?.[name1]
-      if (name2) label = label?.[name2]
-      return label?.toString().toLowerCase().includes(value.toLowerCase())
-    },
-  })
-
   const renderService = (val, record, i) => {
     let html = []
     if (record?.category) {
       html = <Tag color="#108ee9">{record?.category?.name}</Tag>
     }
     return html
+  }
+
+  const onConvertFileManual = (record) => {
+    console.log('onConvertFileManual',record)
   }
 
   const onFilter = (val) => {
@@ -209,7 +181,6 @@ const AdminOrder = () => {
                 <Input />
               </Form.Item>
               <Form.Item name="product" label="Sản phẩm">
-                {/* <Input /> */}
                 <Select
                   options={[
                     { label: 'Thành lập doanh nghiệp', value: 'create_company' },
@@ -317,6 +288,8 @@ const AdminOrder = () => {
           onUpdateOrder={onUpdateOrder}
           onUpdateStatus={onUpdateStatus}
           onPreviewPDF={onPreviewPDF}
+          onConvertFileManual={onConvertFileManual}
+          width={300}
         />
         <MailStatusModal ref={statusModalRef} />
       </div>

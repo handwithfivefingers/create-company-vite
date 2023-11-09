@@ -180,7 +180,11 @@ const getCreateCompanyFiles = (type, key, opt = null) => {
             allFiles.create_company_quyetdinh_nguoidaidienvon,
           ]
         } else if (opt === 'personal') {
-          return [allFiles.create_company_dieuleA, allFiles.create_company_phu_luc_2, allFiles.create_company_uyquyen]
+          return [
+            allFiles.create_company_dieuleA,
+            allFiles.create_company_phu_luc_2, 
+            allFiles.create_company_uyquyen
+          ]
         }
       } else if (type === 2) {
         if (opt === 'organization') {

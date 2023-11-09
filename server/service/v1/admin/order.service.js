@@ -4,10 +4,15 @@ const BaseAdminService = require('@common/baseService')
 module.exports = class OrderService extends BaseAdminService {
   PAGE_SIZE = 10
 
-  getOrder = async () => {
+  getOrder = async (req) => {
     try {
-      let _order = await Order.find({ delete_flag: { $ne: 1 } })
-        .populate('main_career', ['name', 'code'])
+      const { _id, product, category, date } = req.query
+      const condition = { delete_flag: { $ne: 1 } }
+      if (_id) condition._id = _id
+      if (product) condition[`data.${product}`] = { $exists: true }
+
+      let _order = await Order.find({ ...condition })
+        // .populate('main_career', ['name', 'code'])
         .populate('category', 'name type')
         .populate('products', 'name')
         .populate({
@@ -35,7 +40,7 @@ module.exports = class OrderService extends BaseAdminService {
           path: 'orderOwner',
           select: 'name email',
         })
-        .populate('data.create_company.main_career', ['name', 'code'])
+        // .populate('data.create_company.main_career', ['name', 'code'])
         .sort('-createdAt')
 
       return _order
@@ -53,5 +58,17 @@ module.exports = class OrderService extends BaseAdminService {
       throw error
     }
   }
+
+  convertFileManual = async (req) => {
+    try {
+      let { id } = req.params
+      const currentOrder = await Order.findById(id)
+      console.log('currentOrder', currentOrder)
+      if (!currentOrder) return null
+      //
+      return currentOrder
+    } catch (error) {
+      throw error
+    }
+  }
 }
-  

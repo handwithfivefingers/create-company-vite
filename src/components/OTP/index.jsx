@@ -18,7 +18,6 @@ const OTPInput = () => {
     const nextInput = inputRef.current[pos + 1]
     const current = inputRef.current[pos]
     const prevInput = inputRef.current[pos - 1]
-    console.log('event.code', event.code)
     if (event.code === 'Backspace') {
       formInstance.setFields([
         {
