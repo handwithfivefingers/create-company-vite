@@ -48,7 +48,7 @@ const RegisterProvider = () => {
         console.log('result', result)
         message.success(result.data.message)
         navigate('/verification')
-        if (msg) message.error(msg)
+
         return
       } else {
         modalRef.current.onToggle()

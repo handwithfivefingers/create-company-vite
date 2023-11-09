@@ -75,8 +75,7 @@ const CategoryTab = (props) => {
             delay: 100,
           }}
           scroll={{
-            x: 1200,
-            y: 50 * 5,
+            x: 800,
           }}
           dataSource={category}
           pagination={false}

@@ -1,11 +1,10 @@
 import WithAuth from '@/components/HOC/WithAuth'
 import { StepProgressProvider } from '@/context/StepProgressContext'
 import { useFetch } from '@/helper/Hook'
-import ProfileService from '@/service/UserService/ProfileService'
-import { Space, Spin } from 'antd'
-import { Suspense, memo, useEffect, useState } from 'react'
-import { Outlet } from 'react-router-dom'
 import GlobalService from '@/service/GlobalService'
+import { Space, Spin } from 'antd'
+import { Suspense } from 'react'
+import { Outlet } from 'react-router-dom'
 
 const User = () => {
   useFetch({
@@ -37,44 +36,44 @@ const User = () => {
   )
 }
 
-const Tidio = memo(() => {
-  const [ready, setReady] = useState(false)
-  const { data: profileData } = useFetch({
-    cacheName: ['userProfile'],
-    fn: () => fetchProfile(),
-    refetchInterval: false,
-    refetchOnWindowFocus: false,
-  })
+// const Tidio = memo(() => {
+//   const [ready, setReady] = useState(false)
+//   const { data: profileData } = useFetch({
+//     cacheName: ['userProfile'],
+//     fn: () => fetchProfile(),
+//     refetchInterval: false,
+//     refetchOnWindowFocus: false,
+//   })
 
-  const fetchProfile = () => ProfileService.getProfile()
+//   const fetchProfile = () => ProfileService.getProfile()
 
-  useEffect(() => TidioScript(), [])
+//   useEffect(() => TidioScript(), [])
 
-  const TidioScript = () => {
-    if (!window.tidioChatApi) {
-      const PUBLIC_KEY = 'dsoujgdd2n9ranu8l3qkkbtrkx3mxgoj'
-      let tidioScript = document.createElement('script')
-      tidioScript.src = `//code.tidio.co/${PUBLIC_KEY}.js`
-      document.body.appendChild(tidioScript)
-      tidioScript.onload = tidioScript.onreadystatechange = function () {
-        if (!ready && (!this.readyState || this.readyState == 'complete')) {
-          setReady(true)
-          setTidioIdentify()
-        }
-      }
-    }
-  }
-  const setTidioIdentify = () => {
-    if (profileData) {
-      tidioChatApi.setVisitorData = {
-        distinct_id: profileData._id, // Unique visitor ID in your system
-        email: profileData.email, // visitor email
-        name: profileData.name, // Visitor name
-        phone: profileData.phone, //Visitor phone
-      }
-    }
-  }
-  return <></>
-})
+//   const TidioScript = () => {
+//     if (!window.tidioChatApi) {
+//       const PUBLIC_KEY = 'dsoujgdd2n9ranu8l3qkkbtrkx3mxgoj'
+//       let tidioScript = document.createElement('script')
+//       tidioScript.src = `//code.tidio.co/${PUBLIC_KEY}.js`
+//       document.body.appendChild(tidioScript)
+//       tidioScript.onload = tidioScript.onreadystatechange = function () {
+//         if (!ready && (!this.readyState || this.readyState == 'complete')) {
+//           setReady(true)
+//           setTidioIdentify()
+//         }
+//       }
+//     }
+//   }
+//   const setTidioIdentify = () => {
+//     if (profileData) {
+//       tidioChatApi.setVisitorData = {
+//         distinct_id: profileData._id, // Unique visitor ID in your system
+//         email: profileData.email, // visitor email
+//         name: profileData.name, // Visitor name
+//         phone: profileData.phone, //Visitor phone
+//       }
+//     }
+//   }
+//   return <></>
+// })
 
 export default WithAuth(User, 'user')

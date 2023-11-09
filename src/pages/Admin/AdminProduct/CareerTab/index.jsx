@@ -89,7 +89,6 @@ const CareerTab = forwardRef((props, ref) => {
           }
           scroll={{
             x: 500,
-            y: 50 * 8,
           }}
           rowKey={(record) => record._id}
           size="small"

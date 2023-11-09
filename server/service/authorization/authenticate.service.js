@@ -13,18 +13,22 @@ const METHOD = {
 module.exports = class AuthenticateService {
   constructor() {}
 
-  onVerifyToken = async (req, res) => {
+  isTokenExist = async (req) => {
     try {
       const token = req.cookies['verifyToken']
       const decoded = await verifyToken(token)
-
       if (!decoded) throw decoded
+      return decoded
+    } catch (error) {
+      throw error
+    }
+  }
+
+  onVerifyToken = async (req, res) => {
+    try {
+      const decoded = await this.isTokenExist(req)
 
       const { email, phone, method, deleteOldUser } = decoded
-
-      console.log('decoded', decoded)
-
-      // throw new Error('Something went wrong')
 
       const data = {
         email,
@@ -32,6 +36,7 @@ module.exports = class AuthenticateService {
         deleteOldUser,
         otp: req.body.otp,
       }
+      console.log('decoded', decoded)
       //
       let resp
       if (method === METHOD['REGISTER']) {

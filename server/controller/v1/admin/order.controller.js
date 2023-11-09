@@ -1,6 +1,4 @@
-const { existHandler, successHandler, errHandler, permisHandler, deletedHandler } = require('@response')
-const { Order, Product, User } = require('@model')
-const _ = require('lodash')
+const { successHandler, errHandler, deletedHandler } = require('@response')
 const OrderService = require('@service/v1/admin/order.service')
 module.exports = class OrderAdmin {
   PAGE_SIZE = 10
@@ -19,7 +17,7 @@ module.exports = class OrderAdmin {
 
   getOrders = async (req, res) => {
     try {
-      const data = await new OrderService(req).getOrder()
+      const data = await new OrderService(req).getOrder(req)
       return successHandler(data, res)
     } catch (err) {
       return errHandler(err, res)
@@ -33,6 +31,14 @@ module.exports = class OrderAdmin {
     } catch (err) {
       console.log('deleteOrder error')
       return errHandler(err, res)
+    }
+  }
+  convertOrderToFilesManual = async (req, res) => {
+    try {
+      const data = await new OrderService(req).convertFileManual(req)
+      return successHandler(data, res)
+    } catch (error) {
+      return errHandler(errror, res)
     }
   }
 }

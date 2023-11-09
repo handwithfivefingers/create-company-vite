@@ -1,5 +1,5 @@
-import { forwardRef, Suspense, lazy, useCallback, useEffect } from 'react'
-import { Card, Space, Spin, Button } from 'antd'
+import { Button, Card, Space, Spin } from 'antd'
+import { Suspense, forwardRef, lazy } from 'react'
 import { useLocation } from 'react-router-dom'
 import { useStepAPI, useStepData } from '../../../../../context/StepProgressContext'
 
@@ -11,8 +11,9 @@ const ChangeInfoPages = forwardRef((props, ref) => {
   const location = useLocation()
   const { onNextStep, onPrevStep } = useStepAPI()
   const { currentStep, steps } = useStepData()
-
   const { saveService, paymentService, data, loading, onFinishScreen, editData } = props
+
+
 
   const getParams = (ref) => {
     let value = ref.current.getFieldsValue()

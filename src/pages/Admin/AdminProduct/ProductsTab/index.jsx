@@ -42,7 +42,7 @@ const ProductsTab = forwardRef((props, ref) => {
       })
     }
   }
-  
+
   const onFinish = () => {
     refetch()
     closeModal()
@@ -89,7 +89,7 @@ const ProductsTab = forwardRef((props, ref) => {
             tip: 'Loading...',
             delay: 100,
           }}
-          scroll={{ x: 768, y: 50 * 8 }}
+          scroll={{ x: 768 }}
           dataSource={product?._product?.slice(
             (current - 1) * pagiConfigs.pageSize,
             (current - 1) * pagiConfigs.pageSize + pagiConfigs.pageSize,

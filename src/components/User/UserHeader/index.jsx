@@ -32,28 +32,32 @@ const UserHeader = (props) => {
       ghost={false}
       className={styles.siteHeader}
       onBack={() => navigate(-1)}
-      title={<div key={makeid(9)}>{commonReducer?.title}</div>}
+      title={<div className={styles.title}>{commonReducer?.title}</div>}
       extra={[
-        <Button
-          key="btn-action-1"
-          type="text"
-          icon={<FcQuestions />}
-          style={{ alignItems: 'center', display: 'flex', gap: 4 }}
-          onClick={() => window.open('https://thanhlapcongtyonline.vn/cau-hoi-thuong-gap/', '_blank')}
-        >
-          {screen.md && `Tài liệu hướng dẫn`}
-        </Button>,
-        <Button
-          key="btn-action-2"
-          type="text"
-          icon={<FcAssistant />}
-          style={{ alignItems: 'center', display: 'flex', gap: 4 }}
-          onClick={() => window.open('https://thanhlapcongtyonline.vn/ho-tro/', '_blank')}
-        >
-          {screen.md && `Hỗ trợ`}
-        </Button>,
-        <ClockCircleOutlined key="clock-1" color="#6f3a3a" />,
-        <span style={{ color: '#6f3a3a' }} key="time" ref={timeRef} />,
+        <div className={styles.subHeader} key="sub_header">
+          <Button
+            key="btn-action-1"
+            type="text"
+            icon={<FcQuestions />}
+            style={{ alignItems: 'center', display: 'flex', gap: 4 }}
+            onClick={() => window.open('https://thanhlapcongtyonline.vn/cau-hoi-thuong-gap/', '_blank')}
+          >
+            {screen.md && `Tài liệu hướng dẫn`}
+          </Button>
+          <Button
+            key="btn-action-2"
+            type="text"
+            icon={<FcAssistant />}
+            style={{ alignItems: 'center', display: 'flex', gap: 4 }}
+            onClick={() => window.open('https://thanhlapcongtyonline.vn/ho-tro/', '_blank')}
+          >
+            {screen.md && `Hỗ trợ`}
+          </Button>
+          <div className={styles.time}>
+            <ClockCircleOutlined key="clock-1" color="#6f3a3a"  />
+            <span style={{ color: '#6f3a3a' }} key="time" ref={timeRef}  />
+          </div>
+        </div>,
       ]}
     />
   )

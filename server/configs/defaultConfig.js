@@ -27,6 +27,7 @@ const URL_PERMISSIONS = [
   'http://localhost:3003',
   'https://app.thanhlapcongtyonline.vn',
   'http://10.0.14.235:3003',
+  '172.16.52.12:3001'
 ]
 
 const corsOptions = {

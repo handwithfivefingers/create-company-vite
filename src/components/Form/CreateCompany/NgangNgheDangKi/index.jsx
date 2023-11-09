@@ -1,12 +1,13 @@
-import { Button, Col, Form, Row, Select, Tag, Typography } from 'antd'
+import { Button, Col, Form, Row, Select, Tag, Typography, Input } from 'antd'
 import clsx from 'clsx'
-import { forwardRef, useEffect, useState } from 'react'
+import { forwardRef, useCallback, useEffect, useMemo, useState } from 'react'
 import GlobalService from '@/service/GlobalService'
-import styles from '../CreateCompany.module.scss'
 import { useFetch } from '@/helper/Hook'
 import { useQuery } from '@tanstack/react-query'
 import { useStepData } from '@/context/StepProgressContext'
 import { BsTags } from 'react-icons/bs'
+import styles from './styles.module.scss'
+import _ from 'lodash-es'
 const NgangNgheDangKi = forwardRef(({ BASE_FORM, className }, ref) => {
   const { currentStep } = useStepData()
   const formInstance = Form.useFormInstance()
@@ -18,22 +19,21 @@ const NgangNgheDangKi = forwardRef(({ BASE_FORM, className }, ref) => {
     cacheName: ['careerCate'],
     fn: () => GlobalService.getCareerCategory(),
   })
+  useEffect(() => {
+    window.form = formInstance
+  }, [])
 
   useEffect(() => {
     if (watchCompanyCareerGroup || watchCompanyCareerType) {
       getListCareerByCategory()
     }
   }, [watchCompanyCareerGroup, watchCompanyCareerType])
-
-  useEffect(() => {
+  
+  const companyOptionCareerMemoiz = useMemo(() => {
     if (watchCompanyCareerType === 2 && watchCompanyCareerGroup?.length && data?.length) {
-      formInstance.setFields([
-        {
-          name: [...BASE_FORM, 'company_opt_career'],
-          value: data.map((item) => ({ ...item, value: item._id, code: item.code, name: item.name })),
-        },
-      ])
+      return data.map((item) => ({ ...item, value: item._id, code: item.code, name: item.name }))
     }
+    return []
   }, [watchCompanyCareerGroup, watchCompanyCareerType, data])
 
   const getListCareerByCategory = async () => {
@@ -62,9 +62,11 @@ const NgangNgheDangKi = forwardRef(({ BASE_FORM, className }, ref) => {
     } else {
       value = { code: opt.code, name: opt.name, value: opt.value }
     }
+    // console.log('value', value)
     ref.current.setFields([
       {
         name: pathName,
+        // value: [...value, { code: null, value: 'Bấm vào đây để chọn thêm', name: 'Bấm vào đây để chọn thêm' }],
         value,
       },
     ])
@@ -82,6 +84,7 @@ const NgangNgheDangKi = forwardRef(({ BASE_FORM, className }, ref) => {
   const handleChangeCareerType = () => {
     refetch()
   }
+
   return (
     <Form.Item
       label={<h2>Ngành nghề đăng kí kinh doanh</h2>}
@@ -140,58 +143,18 @@ const NgangNgheDangKi = forwardRef(({ BASE_FORM, className }, ref) => {
         {!!watchCompanyCareerType && (
           <>
             <Col span={24}>
-              <Form.Item
-                name={[...BASE_FORM, 'company_opt_career']}
-                label={
-                  <div>
-                    Chọn ngành nghề kinh doanh <br />
-                    <Typography.Text type="danger" italic>
-                      Nếu muốn bỏ bớt ngành vui lòng bấm dấu X
-                    </Typography.Text>
-                  </div>
-                }
-              >
-                <Select
-                  showSearch
-                  mode="tags"
-                  allowClear
-                  style={{ width: '100%' }}
-                  onChange={(val, opt) => handleChange([...BASE_FORM, 'company_opt_career'], opt)}
-                  optionFilterProp="children"
-                  placeholder={
-                    <Typography.Text type="danger" italic style={{ fontSize: 14 }}>
-                      Vui lòng bấm vào đây để chọn thêm ngành
-                    </Typography.Text>
-                  }
-                  filterOption={handleFilterOptions}
-                  tagRender={tagRender}
-                  showArrow
-                >
-                  {careerData?.map((item) => (
-                    <Select.Option
-                      key={'company_opt_career' + item._id}
-                      value={item._id}
-                      code={item.code}
-                      name={item.name}
-                    >
-                      {item.code}-{item.name}
-                    </Select.Option>
-                  ))}
-                </Select>
-              </Form.Item>
+              <OptCareerComponent data={careerData} BASE_FORM={BASE_FORM} memoizOptions={companyOptionCareerMemoiz} />
             </Col>
 
             <Col span={24}>
-              <Form.Item name={[...BASE_FORM, 'company_main_career']} 
-              // label={'Chọn ngành nghề kinh doanh chính (Giới hạn tối đa 1 ngành nghề chính)'}
-              label={
-                <div>
-                  Chọn ngành nghề kinh doanh chính <br />
-                  <Typography.Text italic>
-                  (Giới hạn tối đa 1 ngành nghề chính)
-                  </Typography.Text>
-                </div>
-              }
+              <Form.Item
+                name={[...BASE_FORM, 'company_main_career']}
+                label={
+                  <div>
+                    Chọn ngành nghề kinh doanh chính <br />
+                    <Typography.Text italic>(Giới hạn tối đa 1 ngành nghề chính)</Typography.Text>
+                  </div>
+                }
               >
                 <Select
                   showSearch
@@ -199,11 +162,6 @@ const NgangNgheDangKi = forwardRef(({ BASE_FORM, className }, ref) => {
                   optionFilterProp="children"
                   filterOption={handleFilterOptions}
                   onChange={(val, opt) => handleChange([...BASE_FORM, 'company_main_career'], opt)}
-                  // placeholder={
-                  //   <Typography.Text italic style={{ fontSize: 14 }}>
-                  //     Chỉ chọn được duy nhất 1 ngành
-                  //   </Typography.Text>
-                  // }
                   required
                   rules={[{ required: true, message: 'Vui lòng chọn nhóm ngành nghề' }]}
                 >
@@ -221,6 +179,125 @@ const NgangNgheDangKi = forwardRef(({ BASE_FORM, className }, ref) => {
     </Form.Item>
   )
 })
+
+const OptCareerComponent = ({ BASE_FORM, data, memoizOptions }) => {
+  const [optionSelect, setOptionSelect] = useState([])
+
+  const activeOptions = useMemo(() => {
+    const result = []
+    for (let option of data) {
+      const isIncludes = optionSelect.some((item) => item._id === option._id || item.value === option._id)
+      if (isIncludes) continue
+      result.push(option)
+    }
+    return result
+  }, [optionSelect])
+
+  const formInstance = Form.useFormInstance()
+  useEffect(() => {
+    if (memoizOptions) {
+      setOptions(memoizOptions)
+    }
+  }, [memoizOptions])
+  const handleFilterOptions = (input, option) => {
+    const { children } = option
+    const searchString = input?.toLowerCase() || ''
+    if (!children) return false
+    if (Array.isArray(children)) {
+      return children.join('').toLowerCase()?.indexOf(searchString) >= 0
+    }
+    return children.toLowerCase()?.indexOf(searchString) >= 0
+  }
+
+  const onClose = (item) => {
+    const nextState = [...optionSelect]
+    const result = nextState.filter((opt) => opt.value !== item.value)
+    setOptionSelect(result)
+    formInstance.setFields([
+      {
+        name: [...BASE_FORM, 'company_opt_career'],
+        value: result,
+      },
+    ])
+  }
+
+  const setOptions = useCallback((opts) => {
+    setOptionSelect(opts)
+  }, [])
+
+  const getOptCareer = () => {
+    let html = null
+    html = optionSelect?.map((opt) => {
+      return tagRender({ label: `${opt.code} ${opt.name}`, closable: true, onClose: () => onClose(opt) })
+    })
+    return html
+  }
+
+  const handleChange = (val, opt) => {
+    const nextState = [...optionSelect]
+    let result = []
+    let isIncludes = nextState?.some((item) => item.value === opt.value)
+    if (isIncludes) {
+      result = nextState?.filter((item) => item.value !== opt.value) || []
+    } else {
+      result = [...nextState, opt]
+    }
+    setOptions(result)
+    updateOptionsCareerForm(result)
+  }
+
+  const updateOptionsCareerForm = (opts) => {
+    formInstance.setFields([
+      {
+        name: [...BASE_FORM, 'company_opt_career'],
+        value: opts,
+      },
+    ])
+  }
+  return (
+    <Form.Item
+      name={[...BASE_FORM, 'company_opt_career_mirror']}
+      label={
+        <div>
+          Chọn ngành nghề kinh doanh <br />
+          <Typography.Text type="danger" italic>
+            Nếu muốn bỏ bớt ngành vui lòng bấm dấu X
+          </Typography.Text>
+        </div>
+      }
+    >
+      <Select
+        showSearch
+        allowClear
+        style={{ width: '100%' }}
+        onChange={handleChange}
+        optionFilterProp="children"
+        filterOption={handleFilterOptions}
+        tagRender={tagRender}
+        showArrow
+        value={'Bấm vào đây để thêm ngành nghề mới'}
+      >
+        {activeOptions?.map((item) => (
+          <Select.Option
+            key={'company_opt_career_reflect' + item._id}
+            value={item._id}
+            code={item.code}
+            name={item.name}
+          >
+            {item.code}-{item.name}
+          </Select.Option>
+        ))}
+      </Select>
+
+      <div className={styles.list}>
+        <Form.Item name={[...BASE_FORM, 'company_opt_career']} noStyle>
+          <Input type="hidden" />
+        </Form.Item>
+        {getOptCareer()}
+      </div>
+    </Form.Item>
+  )
+}
 
 const tagRender = (props) => {
   const { label, closable, onClose } = props

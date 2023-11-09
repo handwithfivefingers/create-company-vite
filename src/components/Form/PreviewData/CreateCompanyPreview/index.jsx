@@ -34,7 +34,7 @@ export default function CreateCompanyPreview(props) {
         )}
 
         {origin_person && (
-          <Card title="Thành viên góp vốn" className="box__shadow" size="small" style={{ margin: '0 0 20px 0' }}>
+          <Card title="Cổ đông" className="box__shadow" size="small" style={{ margin: '0 0 20px 0' }}>
             <Form colon labelWrap labelAlign="left" labelCol={{ lg: 8, md: 12, sm: 24, xs: 24 }}>
               <Row gutter={[12, 12]}>
                 {origin_person?.map((item, index) => {
@@ -43,7 +43,7 @@ export default function CreateCompanyPreview(props) {
                   if (item.present_person === 'personal') {
                     html = (
                       <Col lg={12} md={24} key={[item, index]}>
-                        <Card className="box__shadow" size="small" title={`Thành viên góp vốn ${index + 1}`}>
+                        <Card className="box__shadow" size="small" title={`Cổ đông sáng lập ${index + 1}`}>
                           <Form.Item label={<Text type="secondary">{t['name']}</Text>}>{item.name}</Form.Item>
                           <Form.Item label={<Text type="secondary">{t['capital']}</Text>}>
                             {number_format(item?.capital)} đ

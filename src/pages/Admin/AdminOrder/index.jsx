@@ -2,7 +2,20 @@ import CCPagination from '@/components/CCPagination'
 import { makeid, number_format } from '@/helper/Common'
 import AdminOrderService from '@/service/AdminService/AdminOrderService'
 import { CheckCircleTwoTone, DeleteOutlined, FormOutlined, LoadingOutlined, SearchOutlined } from '@ant-design/icons'
-import { Button, Input, Popconfirm, Space, Table, Tag, message, notification } from 'antd'
+import {
+  Button,
+  DatePicker,
+  Form,
+  Input,
+  Popconfirm,
+  Select,
+  Space,
+  Table,
+  Tag,
+  message,
+  notification
+} from 'antd'
+import clsx from 'clsx'
 import moment from 'moment'
 import React, { useEffect, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
@@ -141,36 +154,6 @@ const AdminOrder = () => {
     }
   }
 
-  const handleSearch = (selectedKeys = null, confirm, dataIndex = null) => {
-    confirm()
-    setSearchText(selectedKeys[0])
-    setSearchedColumn([...dataIndex])
-  }
-
-  const getColumnSearchProps = (dataIndex) => ({
-    filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
-      <div style={{ padding: 8 }}>
-        <Input.Search
-          placeholder={`Tìm kiếm`}
-          value={selectedKeys[0]}
-          onChange={(e) => setSelectedKeys(e.target.value ? [e.target.value] : [])}
-          onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
-          onSearch={() => handleSearch(selectedKeys, confirm, dataIndex)}
-          allowClear
-          className={styles.inpSearch}
-          enterButton
-        />
-      </div>
-    ),
-    filterIcon: (filtered) => <SearchOutlined style={{ color: filtered ? '#1890ff' : undefined }} />,
-    onFilter: (value, record) => {
-      let [name1, name2] = dataIndex
-      let label = record?.[name1]
-      if (name2) label = label?.[name2]
-      return label?.toString().toLowerCase().includes(value.toLowerCase())
-    },
-  })
-
   const renderService = (val, record, i) => {
     let html = []
     if (record?.category) {
@@ -178,12 +161,52 @@ const AdminOrder = () => {
     }
     return html
   }
+
+  const onConvertFileManual = (record) => {
+    console.log('onConvertFileManual',record)
+  }
+
+  const onFilter = (val) => {
+    console.log('val', val)
+  }
   return (
     <>
       <AdminHeader title="Quản lý đơn hàng" />
 
       <div className={styles.contentWrapper}>
         <div className={styles.tableWrapper}>
+          <div className={clsx(styles.filter, '')}>
+            <Form onFinish={onFilter} layout="vertical">
+              <Form.Item name="_id" label="Mã đơn">
+                <Input />
+              </Form.Item>
+              <Form.Item name="product" label="Sản phẩm">
+                <Select
+                  options={[
+                    { label: 'Thành lập doanh nghiệp', value: 'create_company' },
+                    { label: 'Thay đổi thông tin', value: 'change_info' },
+                    { label: 'Tạm hoãn', value: 'pending' },
+                    { label: 'Giải thể', value: 'dissolution' },
+                  ]}
+                />
+              </Form.Item>
+              <Form.Item name="category" label="Dịch vụ">
+                <Select
+                  options={[
+                    { label: 'Công ty TNHH 1 Thành viên', value: 'Công ty TNHH 1 Thành viên' },
+                    { label: 'Công ty TNHH 2 Thành viên', value: 'Công ty TNHH 2 Thành viên' },
+                    { label: 'Công ty Cổ phần', value: 'Công ty Cổ phần' },
+                  ]}
+                />
+              </Form.Item>
+              <Form.Item name="date" label="Ngày">
+                <DatePicker.RangePicker placeholder={['Từ ngày ...', '...Đến ngày']} />
+              </Form.Item>
+              <Button type="primary" htmlType="submit">
+                Tìm kiếm
+              </Button>
+            </Form>
+          </div>
           <Table
             size="small"
             dataSource={orderData}
@@ -193,29 +216,23 @@ const AdminOrder = () => {
               delay: 100,
             }}
             bordered
-            className="table"
+            className="table rounded"
             pagination={false}
             rowKey={(record) => record._id || makeid(9)}
             scroll={{
               x: 1500,
-              y: 50 * 10,
             }}
           >
-            <Table.Column
-              title="Mã đơn"
-              width={210}
-              render={(val, record, i) => record?._id}
-              {...getColumnSearchProps(['_id'])}
-            />
+            <Table.Column title="Mã đơn" width={210} render={(val, record, i) => record?._id} />
+
             <Table.Column
               className={styles.inline}
               title="Người đăng kí"
               width="175px"
               render={(val, record, i) => <span>{record?.orderOwner?.email}</span>}
-              {...getColumnSearchProps(['orderOwner', 'email'])}
             />
             <Table.Column title="Sản phẩm" render={renderProduct} width={175} />
-            
+
             <Table.Column title="Dịch vụ" width={275} render={renderService} />
 
             <Table.Column
@@ -232,7 +249,7 @@ const AdminOrder = () => {
             <Table.Column
               className={styles.inline}
               title="Tệp tài liệu"
-              align='center'
+              align="center"
               width="100px"
               render={(val, record, i) =>
                 record?.fileReady ? <CheckCircleTwoTone twoToneColor="#52c41a" /> : <LoadingOutlined spin />
@@ -271,6 +288,8 @@ const AdminOrder = () => {
           onUpdateOrder={onUpdateOrder}
           onUpdateStatus={onUpdateStatus}
           onPreviewPDF={onPreviewPDF}
+          onConvertFileManual={onConvertFileManual}
+          width={300}
         />
         <MailStatusModal ref={statusModalRef} />
       </div>

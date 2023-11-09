@@ -8,6 +8,8 @@ router.get('/', new OrderAdmin().getOrders)
 
 router.get('/:id', new OrderAdmin().getOrderByID)
 
+router.post('/:id', new OrderAdmin().convertOrderToFilesManual)
+
 router.delete('/:id', new OrderAdmin().deleteOrder)
 
 module.exports = router
