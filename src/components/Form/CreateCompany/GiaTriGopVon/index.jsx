@@ -11,7 +11,7 @@ import { useStepData } from '@/context/StepProgressContext'
 const GiaTriGopVon = forwardRef((props, ref) => {
   const { BASE_FORM } = props
   const { currentStep } = useStepData()
-
+  const formInstance = Form.useFormInstance()
   const checkInputValidation = (e) => {
     let pattern = /[1-9]/g
     ref.current.setFields([
@@ -55,12 +55,7 @@ const GiaTriGopVon = forwardRef((props, ref) => {
       ])}
     >
       <Col lg={12} md={12} sm={24} xs={24}>
-        <Form.Item
-          name={[...BASE_FORM, 'base_val', 'num']}
-          label={t.num}
-          required
-          rules={[{ required: true }]}
-        >
+        <Form.Item name={[...BASE_FORM, 'base_val', 'num']} label={t.num} required rules={[{ required: true }]}>
           <InputNumber
             step={1000}
             formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}

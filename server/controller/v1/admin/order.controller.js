@@ -38,7 +38,18 @@ module.exports = class OrderAdmin {
       const data = await new OrderService(req).convertFileManual(req)
       return successHandler(data, res)
     } catch (error) {
-      return errHandler(errror, res)
+      return errHandler(error, res)
+    }
+  }
+
+  getFilesPreviewer = async (req,res) => {
+    try {
+      let { id } = req.params
+      const data = await new OrderService(req).onFilesPreviews({id})
+      return successHandler(data, res)
+    } catch (err) {
+      console.log('getOrderBySlug error')
+      return errHandler(err, res)
     }
   }
 }

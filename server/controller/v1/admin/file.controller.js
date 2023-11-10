@@ -28,4 +28,13 @@ module.exports = class FileController {
       return errHandler(error, res)
     }
   }
+  onDeleteFiles = async (req, res) => {
+    try {
+      const { _id } = req.params
+      const result = await new FileService(req).deleteFiles({ _id })
+      return successHandler(result, res)
+    } catch (error) {
+      return errHandler(error, res)
+    }
+  }
 }

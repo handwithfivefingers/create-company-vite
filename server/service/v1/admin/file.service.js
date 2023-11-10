@@ -75,18 +75,24 @@ module.exports = class FileService extends BaseAdminService {
       const { _id } = req.params
 
       const { fileName } = req.body
-      
-      const [file] = req.files.uploadFiles
+
+      const [file] = req.files?.uploadFiles || []
 
       const _file = await File.findById(_id)
-
-      console.log('_file', _file)
 
       if (!_file) throw { message: 'File doesnt exist !' }
 
       if (fileName) _file.fileName = fileName
 
       if (file) {
+        const currentFile = path.join(global.__basedir, 'uploads', _file.path)
+        const isExist = fs.existsSync(currentFile)
+        if (isExist) {
+          fs.unlink(currentFile, (err, output) => {
+            if (err) console.log('err')
+            if (output) console.log('unlink', output)
+          })
+        }
         const uploadPath = path.join(global.__basedir, 'uploads', 'document')
         if (!fs.existsSync(uploadPath)) {
           fs.mkdirSync(uploadPath)
@@ -154,6 +160,23 @@ module.exports = class FileService extends BaseAdminService {
           }
         }
       }
+      throw error
+    }
+  }
+
+  deleteFiles = async ({ _id }) => {
+    try {
+      await File.updateOne(
+        {
+          _id,
+        },
+        {
+          delete_flag: 1,
+        },
+        { new: true },
+      )
+      return true
+    } catch (error) {
       throw error
     }
   }

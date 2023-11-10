@@ -24,13 +24,7 @@ const GiaTriGopVon = lazy(() => {
   })
 })
 
-const NgangNgheDangKi = lazy(() => {
-  return import(`./NgangNgheDangKi`).then(({ default: Component }) => {
-    return {
-      default: forwardRef((props, ref) => <Component ref={ref} {...props} />),
-    }
-  })
-})
+const NgangNgheDangKi = lazy(() => import(`./NgangNgheDangKi`))
 
 const NguoiDaiDienPhapLuat = lazy(() => {
   return import(`./NguoiDaiDienPhapLuat`).then(({ default: Component }) => {
@@ -38,6 +32,7 @@ const NguoiDaiDienPhapLuat = lazy(() => {
       default: forwardRef((props, ref) => <Component ref={ref} {...props} />),
     }
   })
+  // return import(`./NguoiDaiDienPhapLuat`)
 })
 
 const TenCongTy = lazy(() => {
@@ -92,11 +87,11 @@ const CreateCompany = forwardRef(({ data }, formRef) => {
 
     if (data) {
       const nextData = JSON.parse(JSON.stringify(data))
-      
+
       let approve = nextData.create_company?.approve
 
       if (approve) {
-        let { origin_person, legal_respon } = approve
+        let { origin_person, company_opt_career, legal_respon } = approve
 
         if (origin_person) {
           origin_person = origin_person?.map(({ birth_day, doc_time_provide, doc_outdate, organization, ...item }) => {
@@ -116,7 +111,9 @@ const CreateCompany = forwardRef(({ data }, formRef) => {
             return obj
           })
         }
-
+        if (company_opt_career) {
+          approve.company_opt_career_mirror = company_opt_career
+        }
         approve.origin_person = origin_person
 
         delete approve.legal_respon

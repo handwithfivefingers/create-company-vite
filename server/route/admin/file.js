@@ -8,5 +8,6 @@ router.get('/', new FileController().onGetFiles)
 
 router.post('/', upload.fields([{ name: 'uploadFiles', maxCount: 1 }]), new FileController().onUploadFiles)
 router.post('/:_id', upload.fields([{ name: 'uploadFiles', maxCount: 1 }]), new FileController().onEditFiles)
+router.delete('/:_id', new FileController().onDeleteFiles)
 
 module.exports = router

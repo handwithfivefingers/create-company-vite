@@ -1,6 +1,8 @@
 const { Order } = require('@model')
 const BaseAdminService = require('@common/baseService')
-
+const ConvertService = require('../third-connect/convert.service')
+const fs = require('fs')
+const path = require('path')
 module.exports = class OrderService extends BaseAdminService {
   PAGE_SIZE = 10
 
@@ -23,8 +25,17 @@ module.exports = class OrderService extends BaseAdminService {
         .select('-orderInfo')
         .sort('-createdAt')
 
+      const data = _order.map((doc) => {
+        const pathFile = path.join(global.__basedir, 'uploads', `${doc._doc._id}`)
+        const fileExists = fs.existsSync(pathFile)
+        return {
+          ...doc._doc,
+          fileReady: fileExists,
+        }
+      })
+
       let count = _order.length
-      return { data: _order, count }
+      return { data, count }
     } catch (error) {
       throw error
     }
@@ -104,7 +115,7 @@ module.exports = class OrderService extends BaseAdminService {
           if (isByPass) {
             // Remove Else Statement data
             result = result.filter((item) => !item._id.equals(valueNotBypass))
-            console.log('result',result)
+            console.log('result', result)
           } else {
             // Remove then Statement data
             result = result.filter((item) => !item._id.equals(valueByPass))
@@ -146,11 +157,45 @@ module.exports = class OrderService extends BaseAdminService {
   convertFileManual = async (req) => {
     try {
       let { id } = req.params
-      const currentOrder = await Order.findById(id)
-      console.log('currentOrder', currentOrder)
-      if (!currentOrder) return null
+      const currentOrder = await Order.findById(id).populate({
+        path: 'category',
+        select: 'name price type parentCategory files fileRules',
+        populate: [
+          {
+            path: 'parentCategory',
+            select: 'name files fileRules',
+            populate: [
+              {
+                path: 'files',
+                select: '_id fileName fileOriginalName path',
+              },
+            ],
+          },
+          {
+            path: 'files',
+            select: '_id fileName fileOriginalName path',
+          },
+        ],
+      })
+
+      const files = this.getFilesFromCategory({ data: currentOrder.data, category: currentOrder.category })
+      console.log('currentOrder', files)
+      if (!currentOrder || !files?.length) return null
       //
-      return currentOrder
+      const data = await new ConvertService().onConvert({ ...currentOrder._doc, files })
+      return data
+    } catch (error) {
+      throw error
+    }
+  }
+
+  onFilesPreviews = async ({ id }) => {
+    try {
+      const dir = path.join(global.__basedir, 'uploads', `${id}`)
+      const fileExists = await fs.existsSync(dir)
+      if (!fileExists) return
+      const fileList = fs.readdirSync(dir)
+      return { data: fileList.map((file) => ({ url: `public/${id}/${file}`, name: file })) }
     } catch (error) {
       throw error
     }

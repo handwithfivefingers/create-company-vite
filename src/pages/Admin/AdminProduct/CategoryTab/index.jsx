@@ -83,7 +83,7 @@ const CategoryTab = (props) => {
           bordered
           rowKey={(record) => record._id}
         >
-          <Table.Column title="Danh mục" dateIndex="name" />
+          <Table.Column title="Danh mục" dataIndex="name" />
           <Table.Column
             title="Giá"
             width={'25%'}

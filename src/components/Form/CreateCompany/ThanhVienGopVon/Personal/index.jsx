@@ -50,7 +50,6 @@ const Personal = forwardRef((props, ref) => {
       />
 
       <CCSelect.SelectPersonType
-        ref={ref}
         name={[...BASE_FORM, 'per_type']}
         label="Dân tộc"
         placeholder="Bấm vào đây"
@@ -80,7 +79,6 @@ const Personal = forwardRef((props, ref) => {
         label={'<b>Địa chỉ liên lạc</b>'}
         prevField={[...BASE_FORM, 'current']}
         nextField={[...BASE_FORM, 'contact']}
-        ref={ref}
         bodyStyle={styles}
         required
       />

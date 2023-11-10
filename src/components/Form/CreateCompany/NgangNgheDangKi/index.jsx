@@ -1,19 +1,24 @@
-import { Button, Col, Form, Row, Select, Tag, Typography, Input } from 'antd'
-import clsx from 'clsx'
-import { forwardRef, useCallback, useEffect, useMemo, useState } from 'react'
-import GlobalService from '@/service/GlobalService'
-import { useFetch } from '@/helper/Hook'
-import { useQuery } from '@tanstack/react-query'
 import { useStepData } from '@/context/StepProgressContext'
+import { useFetch } from '@/helper/Hook'
+import GlobalService from '@/service/GlobalService'
+import { useQuery } from '@tanstack/react-query'
+import { Col, Form, Input, Row, Select, Tag, Typography } from 'antd'
+import clsx from 'clsx'
+import { memo, useCallback, useEffect, useMemo, useState } from 'react'
 import { BsTags } from 'react-icons/bs'
 import styles from './styles.module.scss'
-import _ from 'lodash-es'
-const NgangNgheDangKi = forwardRef(({ BASE_FORM, className }, ref) => {
+const NgangNgheDangKi = memo(({ BASE_FORM, className }) => {
   const { currentStep } = useStepData()
   const formInstance = Form.useFormInstance()
   const watchCompanyCareerType = Form.useWatch([...BASE_FORM, 'company_career_type'], formInstance)
   const watchCompanyCareerGroup = Form.useWatch([...BASE_FORM, 'company_career_group'], formInstance)
-  const [data, setData] = useState([])
+  const [autofill, setAutofill] = useState(false)
+  // const [data, setData] = useState([])
+  const listCareer = useQuery({
+    queryKey: ['listCategory', watchCompanyCareerGroup],
+    queryFn: async () => (await GlobalService.getListCareerByCategory({ category: watchCompanyCareerGroup })).data.data,
+    enabled: !!watchCompanyCareerGroup || !!watchCompanyCareerType,
+  })
 
   const { data: careerCategory, refetch } = useFetch({
     cacheName: ['careerCate'],
@@ -23,32 +28,20 @@ const NgangNgheDangKi = forwardRef(({ BASE_FORM, className }, ref) => {
     window.form = formInstance
   }, [])
 
-  useEffect(() => {
-    if (watchCompanyCareerGroup || watchCompanyCareerType) {
-      getListCareerByCategory()
-    }
-  }, [watchCompanyCareerGroup, watchCompanyCareerType])
-  
-  const companyOptionCareerMemoiz = useMemo(() => {
-    if (watchCompanyCareerType === 2 && watchCompanyCareerGroup?.length && data?.length) {
-      return data.map((item) => ({ ...item, value: item._id, code: item.code, name: item.name }))
+  // useEffect(() => {
+  //   if (watchCompanyCareerGroup || watchCompanyCareerType) {
+  //     getListCareerByCategory()
+  //   }
+  // }, [watchCompanyCareerGroup, watchCompanyCareerType])
+
+  const autofillOptions = useMemo(() => {
+    if (autofill && watchCompanyCareerType === 2 && watchCompanyCareerGroup?.length && listCareer?.data?.length) {
+      return listCareer?.data?.map((item) => ({ ...item, value: item._id, code: item.code, name: item.name }))
     }
     return []
-  }, [watchCompanyCareerGroup, watchCompanyCareerType, data])
+  }, [watchCompanyCareerGroup, watchCompanyCareerType, listCareer, autofill])
 
-  const getListCareerByCategory = async () => {
-    try {
-      let resp
-      if (watchCompanyCareerType !== 1) {
-        resp = await GlobalService.getListCareerByCategory({ category: watchCompanyCareerGroup })
-      } else {
-        resp = await GlobalService.getListCareerByCategory()
-      }
-      setData(resp.data.data)
-    } catch (error) {
-      console.log(error)
-    }
-  }
+  console.log('listCareer', listCareer)
 
   const { data: careerData } = useQuery(['career'], async () => {
     let res = await GlobalService.fetchCareer()
@@ -62,11 +55,9 @@ const NgangNgheDangKi = forwardRef(({ BASE_FORM, className }, ref) => {
     } else {
       value = { code: opt.code, name: opt.name, value: opt.value }
     }
-    // console.log('value', value)
-    ref.current.setFields([
+    formInstance.setFields([
       {
         name: pathName,
-        // value: [...value, { code: null, value: 'Bấm vào đây để chọn thêm', name: 'Bấm vào đây để chọn thêm' }],
         value,
       },
     ])
@@ -84,6 +75,8 @@ const NgangNgheDangKi = forwardRef(({ BASE_FORM, className }, ref) => {
   const handleChangeCareerType = () => {
     refetch()
   }
+
+  console.log('autofill', autofill)
 
   return (
     <Form.Item
@@ -126,6 +119,7 @@ const NgangNgheDangKi = forwardRef(({ BASE_FORM, className }, ref) => {
                 placeholder="Vui lòng bấm vào đây để chọn nhóm ngành liên quan"
                 mode="tags"
                 tagRender={tagRender}
+                onChange={() => !autofill && setAutofill(true)}
                 showArrow
               >
                 {careerCategory?.map(({ name, _id }) => {
@@ -143,7 +137,7 @@ const NgangNgheDangKi = forwardRef(({ BASE_FORM, className }, ref) => {
         {!!watchCompanyCareerType && (
           <>
             <Col span={24}>
-              <OptCareerComponent data={careerData} BASE_FORM={BASE_FORM} memoizOptions={companyOptionCareerMemoiz} />
+              <OptCareerComponent data={careerData} BASE_FORM={BASE_FORM} autofillOptions={autofillOptions} />
             </Col>
 
             <Col span={24}>
@@ -165,7 +159,7 @@ const NgangNgheDangKi = forwardRef(({ BASE_FORM, className }, ref) => {
                   required
                   rules={[{ required: true, message: 'Vui lòng chọn nhóm ngành nghề' }]}
                 >
-                  {data?.map((item) => (
+                  {listCareer?.data?.map((item) => (
                     <Select.Option key={item._id} value={item._id} code={item.code} name={item.name}>
                       {item.code} - {item.name}
                     </Select.Option>
@@ -180,25 +174,34 @@ const NgangNgheDangKi = forwardRef(({ BASE_FORM, className }, ref) => {
   )
 })
 
-const OptCareerComponent = ({ BASE_FORM, data, memoizOptions }) => {
-  const [optionSelect, setOptionSelect] = useState([])
+const OptCareerComponent = memo(({ BASE_FORM, data, autofillOptions }) => {
+  const formInstance = Form.useFormInstance()
+  const watchMirrorOptions = Form.useWatch([...BASE_FORM, 'company_opt_career_mirror'], formInstance)
 
   const activeOptions = useMemo(() => {
     const result = []
-    for (let option of data) {
-      const isIncludes = optionSelect.some((item) => item._id === option._id || item.value === option._id)
-      if (isIncludes) continue
-      result.push(option)
+    if (data?.length) {
+      for (let option of data) {
+        const isIncludes = watchMirrorOptions?.some((item) => item._id === option._id || item.value === option._id)
+        if (isIncludes) continue
+        result.push(option)
+      }
     }
     return result
-  }, [optionSelect])
+  }, [watchMirrorOptions])
 
-  const formInstance = Form.useFormInstance()
-  useEffect(() => {
-    if (memoizOptions) {
-      setOptions(memoizOptions)
+  const selectedOptions = useMemo(() => {
+    const result = watchMirrorOptions?.length ? watchMirrorOptions : []
+    if (autofillOptions?.length) {
+      for (let option of autofillOptions) {
+        const isIncludes = watchMirrorOptions?.some((item) => item._id === option._id || item.value === option._id)
+        if (isIncludes) continue
+        result.push(option)
+      }
     }
-  }, [memoizOptions])
+    return result
+  }, [autofillOptions,watchMirrorOptions])
+
   const handleFilterOptions = (input, option) => {
     const { children } = option
     const searchString = input?.toLowerCase() || ''
@@ -210,31 +213,26 @@ const OptCareerComponent = ({ BASE_FORM, data, memoizOptions }) => {
   }
 
   const onClose = (item) => {
-    const nextState = [...optionSelect]
+    const nextState = [...watchMirrorOptions]
     const result = nextState.filter((opt) => opt.value !== item.value)
-    setOptionSelect(result)
-    formInstance.setFields([
-      {
-        name: [...BASE_FORM, 'company_opt_career'],
-        value: result,
-      },
-    ])
+    updateOptionsCareerForm(result)
   }
-
-  const setOptions = useCallback((opts) => {
-    setOptionSelect(opts)
-  }, [])
 
   const getOptCareer = () => {
     let html = null
-    html = optionSelect?.map((opt) => {
-      return tagRender({ label: `${opt.code} ${opt.name}`, closable: true, onClose: () => onClose(opt) })
+    html = selectedOptions?.map((opt) => {
+      return tagRender({
+        label: `${opt.code} ${opt.name}`,
+        closable: true,
+        onClose: () => onClose(opt),
+        key: `tag_opt_career${opt.code}`,
+      })
     })
     return html
   }
 
   const handleChange = (val, opt) => {
-    const nextState = [...optionSelect]
+    const nextState = [...watchMirrorOptions]
     let result = []
     let isIncludes = nextState?.some((item) => item.value === opt.value)
     if (isIncludes) {
@@ -242,7 +240,6 @@ const OptCareerComponent = ({ BASE_FORM, data, memoizOptions }) => {
     } else {
       result = [...nextState, opt]
     }
-    setOptions(result)
     updateOptionsCareerForm(result)
   }
 
@@ -253,7 +250,15 @@ const OptCareerComponent = ({ BASE_FORM, data, memoizOptions }) => {
         value: opts,
       },
     ])
+    formInstance.setFields([
+      {
+        name: [...BASE_FORM, 'company_opt_career_mirror'],
+        value: opts,
+      },
+    ])
   }
+
+  console.log('watchMirrorOptions',watchMirrorOptions)
   return (
     <Form.Item
       name={[...BASE_FORM, 'company_opt_career_mirror']}
@@ -279,7 +284,7 @@ const OptCareerComponent = ({ BASE_FORM, data, memoizOptions }) => {
       >
         {activeOptions?.map((item) => (
           <Select.Option
-            key={'company_opt_career_reflect' + item._id}
+            key={'company_opt_career_mirror' + item._id}
             value={item._id}
             code={item.code}
             name={item.name}
@@ -297,7 +302,7 @@ const OptCareerComponent = ({ BASE_FORM, data, memoizOptions }) => {
       </div>
     </Form.Item>
   )
-}
+})
 
 const tagRender = (props) => {
   const { label, closable, onClose } = props
@@ -322,9 +327,11 @@ const tagRender = (props) => {
         margin: 1,
       }}
       icon={<BsTags fontSize={16} style={{ flex: 1, width: 16, height: 16 }} />}
+      key={`${label}`}
     >
       {label}
     </Tag>
   )
 }
+
 export default NgangNgheDangKi

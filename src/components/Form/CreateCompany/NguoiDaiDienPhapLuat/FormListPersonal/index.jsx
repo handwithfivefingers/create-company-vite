@@ -77,7 +77,6 @@ const FormListPersonType = forwardRef((props, ref) => {
         label="Chức danh"
         placeholder="Bấm vào đây"
         options={+type === 1 ? SELECT.TITLE_1TV : +type === 2 ? SELECT.TITLE_2TV : +type === 3 ? SELECT.TITLE_CP : ''}
-        ref={ref}
         required
       />
 
@@ -96,7 +95,6 @@ const FormListPersonType = forwardRef((props, ref) => {
         <CCSelect.SelectPersonType
           name={[...BASE_FORM, 'legal_respon', i, 'per_type']}
           label="Dân tộc"
-          ref={ref}
           required
         />
 
@@ -128,7 +126,6 @@ const FormListPersonType = forwardRef((props, ref) => {
         </Form.Item>
 
         <CCSelect.RadioAddress
-          ref={ref}
           prevField={[...BASE_FORM, 'legal_respon', i, 'current']}
           nextField={[...BASE_FORM, 'legal_respon', i, 'contact']}
           label={'<b>Nơi ở hiện tại</b>'}

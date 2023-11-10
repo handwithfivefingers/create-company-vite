@@ -93,7 +93,9 @@ module.exports = class LoginService {
     try {
       const { phone, password } = req.body
 
-      const _user = await User.findOne({ phone: phone, role: 'admin' })
+      // const _user = await User.findOne({ phone: phone, role: 'admin' })
+      // Will remove after BCT test
+      const _user = await User.findOne({ phone })
 
       if (!_user) throw { message: 'User doesnt exist' }
 

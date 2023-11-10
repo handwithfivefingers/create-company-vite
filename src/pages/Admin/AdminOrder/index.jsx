@@ -2,19 +2,7 @@ import CCPagination from '@/components/CCPagination'
 import { makeid, number_format } from '@/helper/Common'
 import AdminOrderService from '@/service/AdminService/AdminOrderService'
 import { CheckCircleTwoTone, DeleteOutlined, FormOutlined, LoadingOutlined, SearchOutlined } from '@ant-design/icons'
-import {
-  Button,
-  DatePicker,
-  Form,
-  Input,
-  Popconfirm,
-  Select,
-  Space,
-  Table,
-  Tag,
-  message,
-  notification
-} from 'antd'
+import { Button, DatePicker, Form, Input, Popconfirm, Select, Space, Table, Tag, message, Modal } from 'antd'
 import clsx from 'clsx'
 import moment from 'moment'
 import React, { useEffect, useRef, useState } from 'react'
@@ -117,8 +105,31 @@ const AdminOrder = () => {
     statusModalRef.current.setData(record)
     statusModalRef.current.openModal()
   }
-  const onPreviewPDF = (record) => {
-    notification.info({ message: 'Chức năng đang phát triển' })
+  const onPreviewPDF = async (record) => {
+    try {
+      const resp = await AdminOrderService.previewFileOrder(record._id)
+      if (resp.data?.data?.data?.length) {
+        Modal.info({
+          title: 'File Info',
+          content: (
+            <ul>
+              {resp.data.data.data?.map((item, index) => (
+                <li key={item.name + index}>
+                  <a href={item.url} target="blank">
+                    {item.name}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          ),
+          width: 500,
+        })
+      } else {
+        message.info('Chưa có files')
+      }
+    } catch (error) {
+      console.log('error', error)
+    }
   }
 
   const renderDate = (record) => {
@@ -163,7 +174,7 @@ const AdminOrder = () => {
   }
 
   const onConvertFileManual = (record) => {
-    console.log('onConvertFileManual',record)
+    console.log('onConvertFileManual', record)
   }
 
   const onFilter = (val) => {
@@ -190,7 +201,7 @@ const AdminOrder = () => {
                   ]}
                 />
               </Form.Item>
-              <Form.Item name="category" label="Dịch vụ">
+              {/* <Form.Item name="category" label="Dịch vụ">
                 <Select
                   options={[
                     { label: 'Công ty TNHH 1 Thành viên', value: 'Công ty TNHH 1 Thành viên' },
@@ -198,10 +209,10 @@ const AdminOrder = () => {
                     { label: 'Công ty Cổ phần', value: 'Công ty Cổ phần' },
                   ]}
                 />
-              </Form.Item>
-              <Form.Item name="date" label="Ngày">
+              </Form.Item> */}
+              {/* <Form.Item name="date" label="Ngày">
                 <DatePicker.RangePicker placeholder={['Từ ngày ...', '...Đến ngày']} />
-              </Form.Item>
+              </Form.Item> */}
               <Button type="primary" htmlType="submit">
                 Tìm kiếm
               </Button>
@@ -248,6 +259,7 @@ const AdminOrder = () => {
 
             <Table.Column
               className={styles.inline}
+              dataIndex={'fileReady'}
               title="Tệp tài liệu"
               align="center"
               width="100px"
