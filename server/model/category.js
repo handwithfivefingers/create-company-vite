@@ -27,4 +27,28 @@ module.exports = {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Category',
   },
+  files: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'File',
+    },
+  ],
+  fileRules: [
+    {
+      condition: [],
+      then: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'File',
+      },
+      else: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'File',
+      },
+      statement: {
+        type: String,
+        enum: ['some', 'every'],
+        default: 'some',
+      },
+    },
+  ], //
 }

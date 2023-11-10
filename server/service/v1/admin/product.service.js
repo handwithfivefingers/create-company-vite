@@ -61,13 +61,9 @@ module.exports = class ProductAdmin extends BaseAdminService {
   deleteProduct = async (req, res) => {
     try {
       const { _id } = req.params
-
-      // return;
       await Product.findOneAndDelete({
         _id,
       })
-
-      // return res.status(200).json({ message: 'Xóa sản phẩm thành công', status: 200 })
       return { message: 'Xóa sản phẩm thành công', status: 200 }
     } catch (err) {
       console.log('deleteProduct error')

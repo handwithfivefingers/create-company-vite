@@ -83,16 +83,7 @@ const NewCategory = (props) => {
         </Form.Item>
 
         <Form.Item name={['parentCategory']} label="Danh mục cha">
-          <Select allowClear>
-            {category &&
-              category?.map(({ name, _id }) => {
-                return (
-                  <Option value={_id} key={_id}>
-                    {name}
-                  </Option>
-                )
-              })}
-          </Select>
+          <Select allowClear options={category.map((item) => ({ label: item.name, value: item._id }))} />
         </Form.Item>
 
         <Form.Item name="type" label="Loại Danh mục" required>

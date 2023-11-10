@@ -81,7 +81,6 @@ const OriginalPerson = forwardRef((props, ref) => {
         message="Họ và Tên đại diện pháp luật (ĐDPL) là bắt buộc!"
       />
       <CCSelect.SelectTitle
-        ref={ref}
         name={[...BASE_FORM, 'title']}
         label={htmlContent('Chức danh <i>(ĐDPL)</i>')}
         placeholder="Bấm vào đây"
@@ -102,7 +101,6 @@ const OriginalPerson = forwardRef((props, ref) => {
       />
 
       <CCSelect.SelectPersonType
-        ref={ref}
         name={[...BASE_FORM, 'per_type']}
         label="Dân tộc 2"
         placeholder="Bấm vào đây"
@@ -131,7 +129,6 @@ const OriginalPerson = forwardRef((props, ref) => {
       <CCSelect.RadioAddress
         prevField={[...BASE_FORM, 'current']}
         nextField={[...BASE_FORM, 'contact']}
-        ref={ref}
         bodyStyle={styles}
         required
       />

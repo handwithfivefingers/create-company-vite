@@ -3,7 +3,7 @@ const { default: slugify } = require('slugify')
 // Fetch data
 const BaseAdminService = require('@common/baseService')
 
-module.exports = class AdminCategoryService extends BaseAdminService{
+module.exports = class AdminCategoryService extends BaseAdminService {
   createCategory = async (req, res) => {
     try {
       let { name, parentCategory, type, price, desc } = req.body
@@ -29,6 +29,8 @@ module.exports = class AdminCategoryService extends BaseAdminService{
   getCategory = async () => {
     try {
       let _cate = await Category.find({})
+        .populate('files.fileRef', 'fileName fileOriginalName path')
+        .select('-__v -updatedAt -createdAt')
       let data = await this.filterCate(_cate)
       return data
     } catch (error) {
@@ -40,6 +42,10 @@ module.exports = class AdminCategoryService extends BaseAdminService{
   updateCategory = async (req, res) => {
     try {
       let { _id } = req.params
+
+      // console.log(req.body)
+
+      
 
       await Category.updateOne({ _id }, { ...req.body }, { new: true })
 

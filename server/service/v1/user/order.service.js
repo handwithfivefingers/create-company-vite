@@ -50,24 +50,25 @@ module.exports = class OrderService {
 
       if (!category) throw { message: 'Categories not found' }
 
-      let { files, result, msg } = this.findKeysByObject(rest, category?.type)
+      // let { files, result, msg } = this.findKeysByObject(rest, category?.type)
 
-      if (!result) throw { message: msg }
+      // if (!result) throw { message: msg }
 
       let price = await this.calcPrice(category._id || category.value)
 
       if (!price) throw { message: 'Cant find price for category' }
 
-      if (!files) throw { message: 'Something was wrong when generate file, please try again' }
+      // if (!files) throw { message: 'Something was wrong when generate file, please try again' }
 
       let newData = {
         data,
         orderOwner: req.id,
         category: category._id || category.value,
         products,
-        files,
+        // files,
         price,
       }
+
 
       const _save = new Order(newData)
 
@@ -76,7 +77,7 @@ module.exports = class OrderService {
       return {
         _id: dataSaved._id,
         orderOwner: dataSaved.orderOwner,
-        message: 'Tạo đơn hàng thành công'
+        message: 'Tạo đơn hàng thành công',
       }
     } catch (err) {
       console.log('createOrders error', err)

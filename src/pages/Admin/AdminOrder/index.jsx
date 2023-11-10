@@ -2,21 +2,8 @@ import CCPagination from '@/components/CCPagination'
 import { makeid, number_format } from '@/helper/Common'
 import AdminOrderService from '@/service/AdminService/AdminOrderService'
 import { CheckCircleTwoTone, DeleteOutlined, FormOutlined, LoadingOutlined, SearchOutlined } from '@ant-design/icons'
-import {
-  Button,
-  Form,
-  Input,
-  Popconfirm,
-  Space,
-  Table,
-  Tag,
-  message,
-  notification,
-  DatePicker,
-  Row,
-  Col,
-  Select,
-} from 'antd'
+import { Button, DatePicker, Form, Input, Popconfirm, Select, Space, Table, Tag, message, Modal } from 'antd'
+import clsx from 'clsx'
 import moment from 'moment'
 import React, { useEffect, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
@@ -25,7 +12,6 @@ import MailStatusModal from '../../../components/Modal/MailStatusModal'
 import UpdateOrderModal from '../../../components/Modal/UpdateOrderModal'
 import { useFetch } from '../../../helper/Hook'
 import styles from './styles.module.scss'
-import clsx from 'clsx'
 const AdminOrder = () => {
   const [orderData, setOrderData] = useState([])
   const [current, setCurrent] = useState(1)
@@ -119,8 +105,31 @@ const AdminOrder = () => {
     statusModalRef.current.setData(record)
     statusModalRef.current.openModal()
   }
-  const onPreviewPDF = (record) => {
-    notification.info({ message: 'Chức năng đang phát triển' })
+  const onPreviewPDF = async (record) => {
+    try {
+      const resp = await AdminOrderService.previewFileOrder(record._id)
+      if (resp.data?.data?.data?.length) {
+        Modal.info({
+          title: 'File Info',
+          content: (
+            <ul>
+              {resp.data.data.data?.map((item, index) => (
+                <li key={item.name + index}>
+                  <a href={item.url} target="blank">
+                    {item.name}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          ),
+          width: 500,
+        })
+      } else {
+        message.info('Chưa có files')
+      }
+    } catch (error) {
+      console.log('error', error)
+    }
   }
 
   const renderDate = (record) => {
@@ -156,42 +165,16 @@ const AdminOrder = () => {
     }
   }
 
-  const handleSearch = (selectedKeys = null, confirm, dataIndex = null) => {
-    confirm()
-    setSearchText(selectedKeys[0])
-    setSearchedColumn([...dataIndex])
-  }
-
-  const getColumnSearchProps = (dataIndex) => ({
-    filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
-      <div style={{ padding: 8 }}>
-        <Input.Search
-          placeholder={`Tìm kiếm`}
-          value={selectedKeys[0]}
-          onChange={(e) => setSelectedKeys(e.target.value ? [e.target.value] : [])}
-          onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
-          onSearch={() => handleSearch(selectedKeys, confirm, dataIndex)}
-          allowClear
-          className={styles.inpSearch}
-          enterButton
-        />
-      </div>
-    ),
-    filterIcon: (filtered) => <SearchOutlined style={{ color: filtered ? '#1890ff' : undefined }} />,
-    onFilter: (value, record) => {
-      let [name1, name2] = dataIndex
-      let label = record?.[name1]
-      if (name2) label = label?.[name2]
-      return label?.toString().toLowerCase().includes(value.toLowerCase())
-    },
-  })
-
   const renderService = (val, record, i) => {
     let html = []
     if (record?.category) {
       html = <Tag color="#108ee9">{record?.category?.name}</Tag>
     }
     return html
+  }
+
+  const onConvertFileManual = (record) => {
+    console.log('onConvertFileManual', record)
   }
 
   const onFilter = (val) => {
@@ -209,7 +192,6 @@ const AdminOrder = () => {
                 <Input />
               </Form.Item>
               <Form.Item name="product" label="Sản phẩm">
-                {/* <Input /> */}
                 <Select
                   options={[
                     { label: 'Thành lập doanh nghiệp', value: 'create_company' },
@@ -219,7 +201,7 @@ const AdminOrder = () => {
                   ]}
                 />
               </Form.Item>
-              <Form.Item name="category" label="Dịch vụ">
+              {/* <Form.Item name="category" label="Dịch vụ">
                 <Select
                   options={[
                     { label: 'Công ty TNHH 1 Thành viên', value: 'Công ty TNHH 1 Thành viên' },
@@ -227,10 +209,10 @@ const AdminOrder = () => {
                     { label: 'Công ty Cổ phần', value: 'Công ty Cổ phần' },
                   ]}
                 />
-              </Form.Item>
-              <Form.Item name="date" label="Ngày">
+              </Form.Item> */}
+              {/* <Form.Item name="date" label="Ngày">
                 <DatePicker.RangePicker placeholder={['Từ ngày ...', '...Đến ngày']} />
-              </Form.Item>
+              </Form.Item> */}
               <Button type="primary" htmlType="submit">
                 Tìm kiếm
               </Button>
@@ -277,6 +259,7 @@ const AdminOrder = () => {
 
             <Table.Column
               className={styles.inline}
+              dataIndex={'fileReady'}
               title="Tệp tài liệu"
               align="center"
               width="100px"
@@ -317,6 +300,8 @@ const AdminOrder = () => {
           onUpdateOrder={onUpdateOrder}
           onUpdateStatus={onUpdateStatus}
           onPreviewPDF={onPreviewPDF}
+          onConvertFileManual={onConvertFileManual}
+          width={300}
         />
         <MailStatusModal ref={statusModalRef} />
       </div>

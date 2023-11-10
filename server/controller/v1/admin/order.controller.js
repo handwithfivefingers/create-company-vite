@@ -17,7 +17,7 @@ module.exports = class OrderAdmin {
 
   getOrders = async (req, res) => {
     try {
-      const data = await new OrderService(req).getOrder()
+      const data = await new OrderService(req).getOrder(req)
       return successHandler(data, res)
     } catch (err) {
       return errHandler(err, res)
@@ -30,6 +30,25 @@ module.exports = class OrderAdmin {
       return deletedHandler(data, res)
     } catch (err) {
       console.log('deleteOrder error')
+      return errHandler(err, res)
+    }
+  }
+  convertOrderToFilesManual = async (req, res) => {
+    try {
+      const data = await new OrderService(req).convertFileManual(req)
+      return successHandler(data, res)
+    } catch (error) {
+      return errHandler(error, res)
+    }
+  }
+
+  getFilesPreviewer = async (req,res) => {
+    try {
+      let { id } = req.params
+      const data = await new OrderService(req).onFilesPreviews({id})
+      return successHandler(data, res)
+    } catch (err) {
+      console.log('getOrderBySlug error')
       return errHandler(err, res)
     }
   }

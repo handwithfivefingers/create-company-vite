@@ -167,20 +167,19 @@ const getCreateCompanyFiles = (type, key, opt = null) => {
       path: '/files/create_company/cp/create_company_cp_mau_dieu_le_CTCPTLDNSD.docx',
     },
   }
-
   switch (key) {
     case 'approve':
       if (type === 1) {
+        let returnFiles = [allFiles.create_company_phu_luc_2, allFiles.create_company_uyquyen]
         if (opt === 'organization') {
           return [
+            ...returnFiles,
             allFiles.create_company_dieuleB,
-            allFiles.create_company_phu_luc_2,
-            allFiles.create_company_uyquyen,
             allFiles.create_company_phu_luc_I_10,
             allFiles.create_company_quyetdinh_nguoidaidienvon,
           ]
         } else if (opt === 'personal') {
-          return [allFiles.create_company_dieuleA, allFiles.create_company_phu_luc_2, allFiles.create_company_uyquyen]
+          return [...returnFiles, allFiles.create_company_dieuleA]
         }
       } else if (type === 2) {
         if (opt === 'organization') {

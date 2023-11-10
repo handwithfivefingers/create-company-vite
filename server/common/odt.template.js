@@ -7,13 +7,13 @@ const options = {
   convertTo: 'pdf', //can be docx, txt, ...
 }
 
-const generateDocs = async ({ filePath, data, fileName }) => {
+const generateDocs = async ({ filePath, data, fileName, docId }) => {
   try {
     // const writedPath = path.resolve(default_path, 'uploads', 'template', 'result.pdf')
     console.log('>>>> generateDocs', filePath)
     const pathGet = path.join('./', 'uploads', filePath)
 
-    const pathSave = convertFileName({ ext: 'pdf', fileName })
+    const pathSave = convertFileName({ ext: 'pdf', fileName, docId })
     console.log('pathSave', pathSave)
     await carbonRendering({ file: pathGet, data: data, options, fileSave: pathSave })
 
@@ -25,13 +25,12 @@ const generateDocs = async ({ filePath, data, fileName }) => {
 
 const carbonRendering = async ({ file, data, options, fileSave }) => {
   try {
-    // console.log('data', JSON.stringify(data, null, 4))
     const result = await new Promise((resolve, reject) => {
       try {
         carbone.render(file, data, options, (error, result) => {
           if (error) {
-            console.log('file Error', file)
-            console.log('carbone Error', error.toString())
+            // console.log('file Error', file)
+            // console.log('carbone Error', error.toString())
             reject(error)
           }
           fs.writeFile(path.join('./', fileSave), result, resolve)
@@ -47,10 +46,13 @@ const carbonRendering = async ({ file, data, options, fileSave }) => {
   }
 }
 
-const convertFileName = ({ ext, fileName }) => {
+const convertFileName = ({ ext, fileName, docId }) => {
   let nameTrim = fileName.replace(/\s/g, '')
   let name = convertString(nameTrim)
-  let filePath = path.join('./', '/uploads', 'template', `${shortid.generate()}-${name}.${ext}`)
+  if (!fs.existsSync(path.join('./', '/uploads', `${docId}`))) {
+    fs.mkdirSync(path.join('./', '/uploads', `${docId}`))
+  }
+  let filePath = path.join('./', '/uploads', `${docId}`, `${shortid.generate()}-${name}.${ext}`)
   return filePath
 }
 

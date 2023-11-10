@@ -32,9 +32,9 @@ module.exports = class FileService extends BaseAdminService {
       t.startTransaction()
       const { fileName, fileCategory } = req.body
 
-      const isFileCategoryExist = await FileCategory.findOne({ _id: fileCategory, delete_flag: 0 })
+      // const isFileCategoryExist = await FileCategory.findOne({ _id: fileCategory, delete_flag: 0 })
 
-      if (!isFileCategoryExist) throw { message: 'Category doesnt exist' }
+      // if (!isFileCategoryExist) throw { message: 'Category doesnt exist' }
 
       const [file] = req.files.uploadFiles
 
@@ -50,10 +50,59 @@ module.exports = class FileService extends BaseAdminService {
         fileName,
         fileOriginalName,
         path: pathStorage,
-        fileCategory,
+        // fileCategory,
       })
 
       await _filesModels.save()
+
+      await t.commitTransaction()
+
+      return { message: 'Upload file thành công' }
+    } catch (error) {
+      console.log('onUploadFiles error', error)
+      await t.abortTransaction()
+      throw error
+    } finally {
+      t.endSession()
+    }
+  }
+
+  onEditFiles = async (req) => {
+    const t = await startSession()
+
+    try {
+      t.startTransaction()
+      const { _id } = req.params
+
+      const { fileName } = req.body
+
+      const [file] = req.files?.uploadFiles || []
+
+      const _file = await File.findById(_id)
+
+      if (!_file) throw { message: 'File doesnt exist !' }
+
+      if (fileName) _file.fileName = fileName
+
+      if (file) {
+        const currentFile = path.join(global.__basedir, 'uploads', _file.path)
+        const isExist = fs.existsSync(currentFile)
+        if (isExist) {
+          fs.unlink(currentFile, (err, output) => {
+            if (err) console.log('err')
+            if (output) console.log('unlink', output)
+          })
+        }
+        const uploadPath = path.join(global.__basedir, 'uploads', 'document')
+        if (!fs.existsSync(uploadPath)) {
+          fs.mkdirSync(uploadPath)
+        }
+        const { pathStorage, fileOriginalName } = await this.saveFiles(file)
+        _file.fileOriginalName = fileOriginalName
+        _file.path = pathStorage
+      }
+
+      await _file.save()
 
       await t.commitTransaction()
 
@@ -111,6 +160,23 @@ module.exports = class FileService extends BaseAdminService {
           }
         }
       }
+      throw error
+    }
+  }
+
+  deleteFiles = async ({ _id }) => {
+    try {
+      await File.updateOne(
+        {
+          _id,
+        },
+        {
+          delete_flag: 1,
+        },
+        { new: true },
+      )
+      return true
+    } catch (error) {
       throw error
     }
   }
