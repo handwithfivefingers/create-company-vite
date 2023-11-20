@@ -115,7 +115,7 @@ const AdminOrder = () => {
             <ul>
               {resp.data.data.data?.map((item, index) => (
                 <li key={item.name + index}>
-                  <a href={item.url} target="blank">
+                  <a href={`/${item.url}`} target="blank">
                     {item.name}
                   </a>
                 </li>

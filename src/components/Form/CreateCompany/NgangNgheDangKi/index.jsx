@@ -200,7 +200,7 @@ const OptCareerComponent = memo(({ BASE_FORM, data, autofillOptions }) => {
       }
     }
     return result
-  }, [autofillOptions,watchMirrorOptions])
+  }, [autofillOptions, watchMirrorOptions])
 
   const handleFilterOptions = (input, option) => {
     const { children } = option
@@ -232,7 +232,7 @@ const OptCareerComponent = memo(({ BASE_FORM, data, autofillOptions }) => {
   }
 
   const handleChange = (val, opt) => {
-    const nextState = [...watchMirrorOptions]
+    const nextState = watchMirrorOptions?.length ? [...watchMirrorOptions] : []
     let result = []
     let isIncludes = nextState?.some((item) => item.value === opt.value)
     if (isIncludes) {
@@ -258,7 +258,7 @@ const OptCareerComponent = memo(({ BASE_FORM, data, autofillOptions }) => {
     ])
   }
 
-  console.log('watchMirrorOptions',watchMirrorOptions)
+  console.log('watchMirrorOptions', watchMirrorOptions)
   return (
     <Form.Item
       name={[...BASE_FORM, 'company_opt_career_mirror']}
