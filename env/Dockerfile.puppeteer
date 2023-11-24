@@ -5,17 +5,19 @@ FROM node:18-alpine
 
 
 WORKDIR /app
-
-COPY feature/puppeteer/package.json ./
+ 
+COPY feature/puppeteer/package.json /app/
 
 RUN apk add --no-cache udev chromium 
 
 RUN npm install --loglevel verbose
 
-COPY feature/puppeteer .
+COPY feature/puppeteer /app/
 
 ENV NODE_OPTIONS=--max_old_space_size=2048
 
+ENTRYPOINT ["/bin/sh", "-c"]
+
 EXPOSE 3002
 
-CMD ["npm","run", "dev"]
+CMD ["npm run dev"]

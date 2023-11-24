@@ -1,17 +1,17 @@
-# FROM node:20-alpine@sha256:5ffaaf1eed5668f16f2d59130993b6b4e91263ea73d7556e44faa341d7d1c78a
-FROM node:18.18.2@sha256:e62671b4e91dcaf9f2cdb7b901aef948946b53ea642dbcba22779f1c602d2f2b
+FROM node:18.9.0-buster
 
 WORKDIR /app
 
-COPY .env .
+COPY frontend/package.json /app/
 
-COPY frontend/package.json .
+RUN \
+  npm cache clean --force; \
+  npm install --loglevel verbose
 
-RUN npm install --loglevel verbose
-RUN npm i @rollup/rollup-linux-arm64-gnu
+# RUN mkdir -p /app/node_modules/.cache; chmod -R 777 /app/node_modules/.cache
+COPY frontend/ /app/
+ENV NODE_OPTIONS=--max_old_space_size=1024
 
-COPY frontend .
+ENTRYPOINT ["/bin/sh", "-c"]
 
-EXPOSE 3003
-
-CMD ["npm", "run", "dev"]
+CMD ["npm run build"]

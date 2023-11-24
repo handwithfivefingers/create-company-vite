@@ -37,11 +37,17 @@ export default defineConfig(({ command }) => {
     resolve: {
       alias: [{ find: '@', replacement: path.resolve(__dirname, 'src') }],
     },
+
     server: {
+      watch: {
+        usePolling: true,
+      },
+      host: true,
+      strictPort: true,
       port: 3003,
     },
     build: {
-      outDir: 'dist',
+      outDir: 'www',
       minify: 'esbuild',
       sourcemap: false,
       treeshake: true,

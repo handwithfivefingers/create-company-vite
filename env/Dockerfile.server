@@ -6,12 +6,16 @@ RUN apk --no-cache add bash libreoffice util-linux   font-droid-nonlatin font-dr
 
 RUN apk --no-cache add msttcorefonts-installer fontconfig &&   update-ms-fonts &&   fc-cache -f
 
-COPY backend/package.json .
+COPY backend/package.json /app/
 
 RUN npm install --loglevel verbose
 
-COPY backend .
+COPY backend /app/
+
+ENV NODE_OPTIONS=--max_old_space_size=1024
+
+ENTRYPOINT ["/bin/sh", "-c"]
 
 EXPOSE 3001
 
-CMD ["npm", "run", "dev"]
+CMD ["npm run dev"]

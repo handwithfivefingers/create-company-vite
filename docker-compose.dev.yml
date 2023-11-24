@@ -14,7 +14,8 @@ services:
       - app_network
     volumes:
       - ./feature/puppeteer:/app
-    # restart: always
+      - /app/node_modules
+    restart: always
   cc-service:
     build:
       context: .
@@ -23,6 +24,8 @@ services:
       - 3000-3001:3000-3001
     volumes:
       - ./backend:/app
+      - ./backend/www:/app/www
+      - /app/node_modules
     env_file:
       - .env
     environment:
@@ -30,15 +33,17 @@ services:
     networks:
       - app_network
     # restart: always
-  # cc-fe:
-  #   build:
-  #     context: .
-  #     dockerfile: ./env/Dockerfile.web
-  #   ports:
-  #     - 3003:3003
-  #   volumes:
-  #     - ./frontend:/app
-  #   env_file:
-  #     - .env
-  #   networks:
-  #     - app_network
+  cc-fe:
+    build:
+      context: .
+      dockerfile: ./env/Dockerfile.web
+    ports:
+      - 3003:3003
+    volumes:
+      - ./frontend:/app
+      - ./backend/www:/app/www
+      - /app/node_modules
+    env_file:
+      - .env
+    networks:
+      - app_network

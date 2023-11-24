@@ -27,7 +27,7 @@ const URL_PERMISSIONS = [
   'http://localhost:3003',
   'https://app.thanhlapcongtyonline.vn',
   'http://10.0.14.235:3003',
-  '172.16.52.12:3001'
+  '172.16.52.12:3001',
 ]
 
 const corsOptions = {
@@ -73,16 +73,15 @@ module.exports = class ConfigApp {
   }
 
   onLoadSourceHTML = () => {
-    this.app.use(express.static(path.join(global.__basedir, 'dist')))
-    if (NODE_ENV !== 'development') {
-      this.app.get('/*', cors(corsOptions), (req, res) => {
-        res.sendFile(path.join(global.__basedir, 'dist', 'index.html'))
-      })
-    }
-
+    const dirPath = path.join(global.__basedir, 'www')
+    this.app.use(express.static(path.join(global.__basedir, 'wwww')))
+    this.app.use(express.static(dirPath))
+    this.app.get('/*', cors(corsOptions), (req, res) => {
+      res.sendFile(path.join(global.__basedir, 'www', 'index.html'))
+    })
     return this
   }
-  
+
   onHandlerError = () => {
     this.app.use((err, req, res, next) => {
       res.status(500).send({
