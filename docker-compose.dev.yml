@@ -6,44 +6,39 @@ networks:
 services:
   puppeteer-service:
     build:
-      context: ./feature/puppeteer
-      dockerfile: ./Dockerfile
+      context: .
+      dockerfile: ./env/Dockerfile.puppeteer
     ports:
       - 3002:3002
     networks:
       - app_network
+    volumes:
+      - ./feature/puppeteer:/app
     # restart: always
   cc-service:
     build:
-      context: ./
-      dockerfile: ./docker/development/Dockerfile
+      context: .
+      dockerfile: ./env/Dockerfile.server
     ports:
       - 3000-3001:3000-3001
     volumes:
-      - ./server:/app/server
+      - ./backend:/app
     env_file:
       - .env
     environment:
       - WATCHFILES_FORCE_POLLING=true
-    links:
-      - puppeteer-service:puppeteer
     networks:
       - app_network
     # restart: always
-  cc-fe:
-    build:
-      context: ./
-      dockerfile: ./docker/development/Dockerfile.FE
-    ports:
-      - 3003:3003
-    volumes:
-      - .:/app
-      - /node_modules
-    env_file:
-      - .env
-    depends_on:
-      - puppeteer-service
-      - cc-service
-    networks:
-      - app_network
-    # restart: always
+  # cc-fe:
+  #   build:
+  #     context: .
+  #     dockerfile: ./env/Dockerfile.web
+  #   ports:
+  #     - 3003:3003
+  #   volumes:
+  #     - ./frontend:/app
+  #   env_file:
+  #     - .env
+  #   networks:
+  #     - app_network
