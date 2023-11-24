@@ -3,7 +3,7 @@ import clsx from 'clsx'
 import React, { useState, useRef, useImperativeHandle, forwardRef } from 'react'
 import styles from './styles.module.scss'
 import AuthService from '../../../../service/AuthService'
-import { FIELD_RULE } from '../../../../constant/pages/Login'
+import { FIELD_RULE, TYPE_VERIFY } from '../../../../constant/pages/Login'
 import { useNavigate } from 'react-router-dom'
 import { getPhoneNumber } from '../../../../helper/Common'
 const { Text } = Typography
@@ -26,7 +26,7 @@ const RegisterProvider = () => {
         phone,
         email,
         deleteOldUser: deleteOldUser || false,
-        type: type || 'EMAIL',
+        type: type || TYPE_VERIFY.EMAIL,
       }
       const resp = await AuthService.getRegisterOTP(params)
       return resp.data
@@ -44,7 +44,7 @@ const RegisterProvider = () => {
       const { status: userExist, message: msg } = await isUserExist({ email, phone: phoneNum })
 
       if (!userExist) {
-        const result = await sendOTP({ phone: phoneNum, email })
+        const result = await sendOTP({ phone: phoneNum, email, type: TYPE_VERIFY['SMS'] })
         console.log('result', result)
         message.success(result.data.message)
         navigate('/verification')
@@ -72,7 +72,7 @@ const RegisterProvider = () => {
       const email = form.getFieldValue('email')
       const phoneNum = getPhoneNumber(phone)
 
-      const result = await sendOTP({ deleteOldUser: true, phone: phoneNum, email })
+      const result = await sendOTP({ deleteOldUser: true, phone: phoneNum, email, type: TYPE_VERIFY.SMS })
       message.success(result.data.message)
       modalRef.current.onToggle()
       navigate('/verification')
