@@ -2,7 +2,7 @@ import { htmlContent, onSetFields } from '@/helper/Common'
 import { PlusOutlined } from '@ant-design/icons'
 import { Button, Col, Form, Row, Select } from 'antd'
 import clsx from 'clsx'
-import { forwardRef, useEffect, useState } from 'react'
+import { forwardRef, useEffect, useState, useMemo } from 'react'
 import styles from '../CreateCompany.module.scss'
 import FormListPersonType from './FormListPersonal'
 import { useStepData } from '@/context/StepProgressContext'
@@ -40,8 +40,10 @@ const NguoiDaiDienPhapLuat = forwardRef(({ data, ...props }, ref) => {
         const current = data.create_company?.approve?.legal_respon
         setListForm(current)
         if (current.length) {
-          current.map((legal, i) => {
+          current.forEach((legal, i) => {
             console.log('runing setFields', legal)
+            const legalName = formInstance.getFieldValue([...BASE_FORM, 'legal_respon', i, 'name'])
+            const origin = formInstance.getFieldValue([...BASE_FORM, 'origin_person'])
             formInstance.setFields([
               {
                 name: [...BASE_FORM, 'legal_respon', i],
@@ -53,13 +55,16 @@ const NguoiDaiDienPhapLuat = forwardRef(({ data, ...props }, ref) => {
                 },
               },
             ])
+            if (origin?.length && !origin.some(({ name }) => name == legalName)) {
+              let nextState = [...present]
+              nextState[i] = -1
+              setPresent(nextState)
+            }
           })
         }
       }, currentStep * 1000)
     }
   }, [location])
-
-  // console.log('legalLengthWatch', legalLengthWatch)
 
   const addItem = () => {
     setListForm([...listForm, listField])
@@ -111,30 +116,25 @@ const NguoiDaiDienPhapLuat = forwardRef(({ data, ...props }, ref) => {
   )
 })
 
-let personalMounted = false
 const PeronalType = forwardRef((props, ref) => {
   const { index, handleForm, BASE_FORM, presentState } = props
-
   const { state: present, setState: setPresent } = presentState
   const [mounted, setMounted] = useState(false)
   const location = useLocation()
-  const getPersonType = () => {
+  const formInstance = Form.useFormInstance()
+  const personalOptions = useMemo(() => {
     let pathName = [...BASE_FORM, 'origin_person']
-
-    let originPerson = ref?.current?.getFieldValue(pathName)
-
+    let originPerson = formInstance.getFieldValue(pathName)
     let options = originPerson?.map((item, index) => ({
       name: item?.name || '...',
       value: index,
     })) || [{ value: null, name: 'None' }]
-
     options.push({
       value: -1,
       name: 'Khác',
     })
-
     return options
-  }
+  }, [])
 
   const handleSelectPersonType = (val, index) => {
     /**
@@ -152,13 +152,12 @@ const PeronalType = forwardRef((props, ref) => {
 
     let legalPathName = [...BASE_FORM, 'legal_respon', index]
 
-    let originPerson = ref?.current?.getFieldValue(originPathName)
+    let originPerson = formInstance.getFieldValue(originPathName)
 
     if (originPerson) {
-      onSetFields(legalPathName, originPerson, ref)
+      formInstance.getFieldValue(legalPathName, originPerson)
     }
-
-    onSetFields([...legalPathName, 'select_person'], val, ref)
+    formInstance.getFieldValue([...legalPathName, 'select_person'], val)
   }
 
   useEffect(() => {
@@ -175,11 +174,13 @@ const PeronalType = forwardRef((props, ref) => {
 
   const loadData = () => {
     try {
-      let value = ref.current?.getFieldValue([...BASE_FORM, 'legal_respon', index, 'name'])
-      let options = getPersonType()
+      let value = formInstance.getFieldValue([...BASE_FORM, 'legal_respon', index, 'name'])
+      let options = personalOptions
       let valIndex = options.findIndex((item) => item.name === value)
       if (valIndex !== -1) {
-        onSetFields([...BASE_FORM, 'legal_respon', index, 'select_person'], options[valIndex].value, ref)
+        const name = [...BASE_FORM, 'legal_respon', index, 'select_person']
+        const value = options[valIndex].value
+        formInstance.setFieldValue(name, value)
       }
     } catch (error) {
       console.log('loadData failed', error)
@@ -194,22 +195,19 @@ const PeronalType = forwardRef((props, ref) => {
         label={htmlContent('<b>Chọn người đại diện</b>')}
         rules={[{ required: true, message: 'Chọn người đại diện là bắt buộc' }]}
       >
-        {getPersonType() && (
-          <Select onSelect={(e) => handleSelectPersonType(e, index)} placeholder="Bấm vào đây" autoComplete="off">
-            {getPersonType()?.map((item, i) => {
-              return (
-                <Select.Option value={item.value} key={item.key ? item.key : [name, i, item.value]}>
-                  {item.name}
-                </Select.Option>
-              )
-            })}
-          </Select>
+        {personalOptions && (
+          <Select
+            options={personalOptions}
+            fieldNames={{ label: 'name', value: 'value' }}
+            onSelect={(e) => handleSelectPersonType(e, index)}
+            placeholder="Bấm vào đây"
+            autoComplete="off"
+          />
         )}
       </Form.Item>
       {mounted && (
         <FormListPersonType
           {...props}
-          ref={ref}
           listFormState={handleForm}
           presentState={presentState}
           BASE_FORM={BASE_FORM}

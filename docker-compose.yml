@@ -15,10 +15,10 @@ services:
   volumes:
    - ./feature/puppeteer:/app
    - /app/node_modules
-  restart: always
   entrypoint: ['/bin/sh', '-c']
   command:
    - npm run dev
+  restart: always
  cc-service:
   build:
    context: .
@@ -38,7 +38,7 @@ services:
   entrypoint: ['/bin/sh', '-c']
   command:
    - npm start
-  # restart: always
+  restart: always
  cc-fe:
   build:
    context: .

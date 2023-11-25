@@ -51,6 +51,7 @@ const FormListPersonType = forwardRef((props, ref) => {
     return result
   }, [type])
 
+  console.log('present', present)
   return (
     <Form.Item
       label={
