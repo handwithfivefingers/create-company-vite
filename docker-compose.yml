@@ -24,7 +24,7 @@ services:
    context: .
    dockerfile: ./env/Dockerfile.server
   ports:
-   - 3001:3001
+   - 3000:3000
   volumes:
    - ./backend:/app
    - ./backend/www:/app/www
