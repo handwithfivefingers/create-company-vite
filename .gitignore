@@ -7,12 +7,14 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
+# Mkdir
 /node_modules
-/uploads/logs
-/uploads/*.pdf
-/uploads/mockdata/database/**
 **/node_modules
-/**/www
+/backend/uploads/logs
+/backend/uploads/*.pdf
+/backend/uploads/mockdata/database/**
+/backend/www/**
+
 dist
 dist-build
 dist-ssr
