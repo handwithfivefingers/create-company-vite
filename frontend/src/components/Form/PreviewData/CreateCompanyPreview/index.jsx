@@ -1,6 +1,6 @@
 import t from '@/constant/CommonText'
 import { Card, Col, Form, Row, Typography } from 'antd'
-import moment from 'moment'
+import dayjs from 'dayjs'
 import { number_format } from '../../../../helper/Common'
 
 const { Text } = Typography
@@ -43,13 +43,13 @@ export default function CreateCompanyPreview(props) {
                           </Form.Item>
                           <Form.Item label={<Text type="secondary">{t['gender']}</Text>}>{item?.gender}</Form.Item>
                           <Form.Item label={<Text type="secondary">{t['birth_day']}</Text>}>
-                            {moment(item?.birth_day).format('DD/MM/YYYY')}
+                            {dayjs(item?.birth_day).format('DD/MM/YYYY')}
                           </Form.Item>
                           <Form.Item label={<Text type="secondary">{t['per_type']}</Text>}>{item?.per_type}</Form.Item>
                           <Form.Item label={<Text type="secondary">{t['doc_type']}</Text>}>{item?.doc_type}</Form.Item>
                           <Form.Item label={<Text type="secondary">{t['doc_code']}</Text>}>{item?.doc_code}</Form.Item>
                           <Form.Item label={<Text type="secondary">{t['doc_time_provide']}</Text>}>
-                            {moment(item?.doc_time_provide).format('DD/MM/YYYY')}
+                            {dayjs(item?.doc_time_provide).format('DD/MM/YYYY')}
                           </Form.Item>
                           <Form.Item label={<Text type="secondary">{t['doc_place_provide']}</Text>}>
                             {item?.doc_place_provide}
@@ -111,7 +111,7 @@ export default function CreateCompanyPreview(props) {
                             {item?.organization?.mst}
                           </Form.Item>
                           <Form.Item label={<Text type="secondary">{t['mst_provide']}</Text>}>
-                            {moment(item?.organization?.doc_time_provide).format('DD/MM/YYYY')}
+                            {dayjs(item?.organization?.doc_time_provide).format('DD/MM/YYYY')}
                           </Form.Item>
 
                           <Form.Item label={t['office_location']}></Form.Item>
@@ -134,13 +134,13 @@ export default function CreateCompanyPreview(props) {
                           <Form.Item label={<Text type="secondary">{t['name']}</Text>}>{item?.name}</Form.Item>
                           <Form.Item label={<Text type="secondary">{t['gender']}</Text>}>{item?.gender}</Form.Item>
                           <Form.Item label={<Text type="secondary">{t['birth_day']}</Text>}>
-                            {moment(item?.birth_day).format('DD/MM/YYYY')}
+                            {dayjs(item?.birth_day).format('DD/MM/YYYY')}
                           </Form.Item>
                           <Form.Item label={<Text type="secondary">{t['per_type']}</Text>}>{item?.per_type}</Form.Item>
                           <Form.Item label={<Text type="secondary">{t['doc_type']}</Text>}>{item?.doc_type}</Form.Item>
                           <Form.Item label={<Text type="secondary">{t['doc_code']}</Text>}>{item?.doc_code}</Form.Item>
                           <Form.Item label={<Text type="secondary">{t['doc_time_provide']}</Text>}>
-                            {moment(item?.doc_time_provide).format('DD/MM/YYYY')}
+                            {dayjs(item?.doc_time_provide).format('DD/MM/YYYY')}
                           </Form.Item>
                           <Form.Item label={<Text type="secondary">{t['doc_place_provide']}</Text>}>
                             {item?.doc_place_provide}
@@ -207,13 +207,13 @@ export default function CreateCompanyPreview(props) {
                         <Form.Item label={<Text type="secondary">{t['name']}</Text>}>{item.name}</Form.Item>
                         <Form.Item label={<Text type="secondary">{t['gender']}</Text>}>{item?.gender}</Form.Item>
                         <Form.Item label={<Text type="secondary">{t['birth_day']}</Text>}>
-                          {moment(item?.birth_day).format('DD/MM/YYYY')}
+                          {dayjs(item?.birth_day).format('DD/MM/YYYY')}
                         </Form.Item>
                         <Form.Item label={<Text type="secondary">{t['per_type']}</Text>}>{item?.per_type}</Form.Item>
                         <Form.Item label={<Text type="secondary">{t['doc_type']}</Text>}>{item?.doc_type}</Form.Item>
                         <Form.Item label={<Text type="secondary">{t['doc_code']}</Text>}>{item?.doc_code}</Form.Item>
                         <Form.Item label={<Text type="secondary">{t['doc_time_provide']}</Text>}>
-                          {moment(item?.doc_time_provide).format('DD/MM/YYYY')}
+                          {dayjs(item?.doc_time_provide).format('DD/MM/YYYY')}
                         </Form.Item>
                         <Form.Item label={<Text type="secondary">{t['doc_place_provide']}</Text>}>
                           {item?.doc_place_provide}

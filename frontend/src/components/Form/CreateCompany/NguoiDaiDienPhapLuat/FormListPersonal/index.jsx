@@ -10,19 +10,15 @@ import { SELECT } from '@/constant/Common'
 import { htmlContent, onSetFields } from '@/helper/Common'
 import { MinusCircleOutlined } from '@ant-design/icons'
 import { Button, Form } from 'antd'
-import { forwardRef, useEffect, useState } from 'react'
+import { forwardRef, useMemo } from 'react'
 import CCInputBirthDay from '../../../../CCInputBirthDay'
 import styles from '../../CreateCompany.module.scss'
 
 const FormListPersonType = forwardRef((props, ref) => {
-  const { i, presentState, listFormState, BASE_FORM } = props
-
+  const { i, presentState, listFormState, BASE_FORM, type } = props
   const { state, setState } = listFormState
-
   const { state: present, setState: setPresent } = presentState
-  const [type, setType] = useState(null)
   const formInstance = Form.useFormInstance()
-
   const doctypeWatch = Form.useWatch([...BASE_FORM, 'legal_respon', i, 'doc_type'], formInstance)
 
   const removeItem = (index) => {
@@ -43,10 +39,17 @@ const FormListPersonType = forwardRef((props, ref) => {
     setState(val)
   }
 
-  useEffect(() => {
-    let value = ref.current?.getFieldsValue()
-    setType(value?.category?.type)
-  }, [props])
+  const titleOptions = useMemo(() => {
+    const result = []
+    if (type == 1) {
+      result.push(...SELECT.TITLE_1TV.concat({ name: 'Khác', value: 1 }))
+    } else if (type == 2) {
+      result.push(...SELECT.TITLE_2TV.concat({ name: 'Khác', value: 1 }))
+    } else if (type == 3) {
+      result.push(...SELECT.TITLE_CP.concat({ name: 'Khác', value: 1 }))
+    }
+    return result
+  }, [type])
 
   return (
     <Form.Item
@@ -72,13 +75,17 @@ const FormListPersonType = forwardRef((props, ref) => {
         required
       />
 
-      <CCSelect.SelectTitle
-        name={[...BASE_FORM, 'legal_respon', i, 'title']}
-        label="Chức danh"
-        placeholder="Bấm vào đây"
-        options={+type === 1 ? SELECT.TITLE_1TV : +type === 2 ? SELECT.TITLE_2TV : +type === 3 ? SELECT.TITLE_CP : ''}
-        required
-      />
+      {titleOptions ? (
+        <CCSelect.SelectTitle
+          name={[...BASE_FORM, 'legal_respon', i, 'title']}
+          label="Chức danh"
+          placeholder="Bấm vào đây"
+          options={titleOptions}
+          required
+        />
+      ) : (
+        ''
+      )}
 
       <div style={{ display: +present[i] != -1 ? 'none' : 'block' }}>
         <CCInput
@@ -92,11 +99,7 @@ const FormListPersonType = forwardRef((props, ref) => {
 
         <CCInputBirthDay name={[...BASE_FORM, 'legal_respon', i, 'birth_day']} required inputReadOnly={false} />
 
-        <CCSelect.SelectPersonType
-          name={[...BASE_FORM, 'legal_respon', i, 'per_type']}
-          label="Dân tộc"
-          required
-        />
+        <CCSelect.SelectPersonType name={[...BASE_FORM, 'legal_respon', i, 'per_type']} label="Dân tộc" required />
 
         <CCInputTypeIdentify name={[...BASE_FORM, 'legal_respon', i, 'doc_type']} required />
 

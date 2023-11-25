@@ -1,1 +1,0 @@
-import{j as e,ax as n,c as t}from"./index-XD4JDM6b.js";const i="_pagi_9zmop_1",g={pagi:i};function l(a){return e.jsx(n,{className:t([g.pagi,a.className]),size:"small",total:a==null?void 0:a.total,current:a==null?void 0:a.current,defaultCurrent:1,pageSize:a==null?void 0:a.pageSize,onChange:a==null?void 0:a.onChange,showSizeChanger:a==null?void 0:a.showSizeChanger})}export{l as C};

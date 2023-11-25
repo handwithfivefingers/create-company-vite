@@ -7,7 +7,7 @@ import styles from '../CreateCompany.module.scss'
 import FormListPersonType from './FormListPersonal'
 import { useStepData } from '@/context/StepProgressContext'
 import { useLocation } from 'react-router-dom'
-import moment from 'moment'
+import dayjs from 'dayjs'
 const listField = {
   name: '',
   title: '',
@@ -26,11 +26,7 @@ const NguoiDaiDienPhapLuat = forwardRef(({ data, ...props }, ref) => {
   const { currentStep } = useStepData()
   const formInstance = Form.useFormInstance()
   const [listForm, setListForm] = useState([{ ...listField }])
-
   const [present, setPresent] = useState([null, null, null])
-
-  const [_render, setRender] = useState(false)
-
   const location = useLocation()
 
   useEffect(() => {
@@ -45,15 +41,15 @@ const NguoiDaiDienPhapLuat = forwardRef(({ data, ...props }, ref) => {
         setListForm(current)
         if (current.length) {
           current.map((legal, i) => {
-            console.log('runing setFields')
+            console.log('runing setFields', legal)
             formInstance.setFields([
               {
                 name: [...BASE_FORM, 'legal_respon', i],
                 value: {
                   ...legal,
-                  doc_time_provide: legal?.doc_time_provide ? moment(legal?.doc_time_provide, 'YYYY-MM-DD') : null,
-                  birth_day: legal?.birth_day ? moment(legal?.birth_day, 'YYYY-MM-DD') : null,
-                  doc_outdate: legal?.doc_outdate ? moment(legal?.doc_outdate, 'YYYY-MM-DD') : null,
+                  doc_time_provide: legal?.doc_time_provide ? dayjs(legal?.doc_time_provide) : null,
+                  birth_day: legal?.birth_day ? dayjs(legal?.birth_day) : null,
+                  doc_outdate: legal?.doc_outdate ? dayjs(legal?.doc_outdate) : null,
                 },
               },
             ])
@@ -120,6 +116,7 @@ const PeronalType = forwardRef((props, ref) => {
   const { index, handleForm, BASE_FORM, presentState } = props
 
   const { state: present, setState: setPresent } = presentState
+  const [mounted, setMounted] = useState(false)
   const location = useLocation()
   const getPersonType = () => {
     let pathName = [...BASE_FORM, 'origin_person']
@@ -170,19 +167,24 @@ const PeronalType = forwardRef((props, ref) => {
         loadData()
       }, 2000)
     } else {
-      if (!personalMounted) {
+      if (!mounted) {
         loadData()
-        personalMounted = true
       }
     }
   }, [location])
 
   const loadData = () => {
-    let value = ref.current?.getFieldValue([...BASE_FORM, 'legal_respon', index, 'name'])
-    let options = getPersonType()
-    let valIndex = options.findIndex((item) => item.name === value)
-    if (valIndex !== -1) {
-      onSetFields([...BASE_FORM, 'legal_respon', index, 'select_person'], options[valIndex].value, ref)
+    try {
+      let value = ref.current?.getFieldValue([...BASE_FORM, 'legal_respon', index, 'name'])
+      let options = getPersonType()
+      let valIndex = options.findIndex((item) => item.name === value)
+      if (valIndex !== -1) {
+        onSetFields([...BASE_FORM, 'legal_respon', index, 'select_person'], options[valIndex].value, ref)
+      }
+    } catch (error) {
+      console.log('loadData failed', error)
+    } finally {
+      setMounted(true)
     }
   }
   return (
@@ -204,16 +206,17 @@ const PeronalType = forwardRef((props, ref) => {
           </Select>
         )}
       </Form.Item>
-
-      <FormListPersonType
-        {...props}
-        ref={ref}
-        listFormState={handleForm}
-        presentState={presentState}
-        BASE_FORM={BASE_FORM}
-        i={index}
-        type={props?.type}
-      />
+      {mounted && (
+        <FormListPersonType
+          {...props}
+          ref={ref}
+          listFormState={handleForm}
+          presentState={presentState}
+          BASE_FORM={BASE_FORM}
+          i={index}
+          type={props?.type}
+        />
+      )}
     </>
   )
 })

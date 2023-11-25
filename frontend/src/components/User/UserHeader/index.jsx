@@ -1,4 +1,3 @@
-import { makeid } from '@/helper/Common'
 import { ClockCircleOutlined } from '@ant-design/icons'
 import { Button, Grid, PageHeader } from 'antd'
 import { memo, useEffect, useRef } from 'react'
@@ -6,14 +5,14 @@ import { FcAssistant, FcQuestions } from 'react-icons/fc'
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 
-import moment from 'moment'
+import dayjs from 'dayjs'
 import styles from './styles.module.scss'
 
 const { useBreakpoint } = Grid
 const UserHeader = (props) => {
   const navigate = useNavigate()
 
-  const timeRef = useRef(moment().format('HH:mm:ss'))
+  const timeRef = useRef(dayjs().format('HH:mm:ss'))
 
   const commonReducer = useSelector((state) => state.commonReducer)
 
@@ -21,7 +20,7 @@ const UserHeader = (props) => {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      timeRef.current.innerHTML = moment().format('HH:mm:ss')
+      timeRef.current.innerHTML = dayjs().format('HH:mm:ss')
     }, 1000)
     return () => clearInterval(interval)
   }, [])
@@ -54,8 +53,8 @@ const UserHeader = (props) => {
             {screen.md && `Hỗ trợ`}
           </Button>
           <div className={styles.time}>
-            <ClockCircleOutlined key="clock-1" color="#6f3a3a"  />
-            <span style={{ color: '#6f3a3a' }} key="time" ref={timeRef}  />
+            <ClockCircleOutlined key="clock-1" color="#6f3a3a" />
+            <span style={{ color: '#6f3a3a' }} key="time" ref={timeRef} />
           </div>
         </div>,
       ]}

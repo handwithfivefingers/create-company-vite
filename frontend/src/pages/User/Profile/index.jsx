@@ -1,16 +1,14 @@
-
-import { Card, Grid, Row, Col, Table, Form, Input, Button, Timeline, message, Alert } from 'antd'
-import { useNavigate, useOutletContext } from 'react-router-dom'
 import ProfileService from '@/service/UserService/ProfileService'
+import { Alert, Button, Card, Col, Form, Grid, Input, Row, Timeline, message } from 'antd'
+import dayjs from 'dayjs'
+import { useEffect, useState } from 'react'
+import { useOutletContext } from 'react-router-dom'
 import { useFetch } from '../../../helper/Hook'
 import { useAuthStore } from '../../../store/reducer'
-import { useEffect, useState } from 'react'
-import moment from 'moment'
 
 const { useBreakpoint } = Grid
 const UserProfile = () => {
   const { animateClass } = useOutletContext()
-  const navigate = useNavigate()
   const authReducer = useAuthStore()
   const [profile] = Form.useForm()
   const screen = useBreakpoint()
@@ -63,12 +61,12 @@ const UserProfile = () => {
           <Timeline>
             {profileData?.createdAt && (
               <Timeline.Item>
-                Khởi tạo tài khoản vào lúc {moment(profileData?.createdAt).format('DD/MM/YYYY')}
+                Khởi tạo tài khoản vào lúc {dayjs(profileData?.createdAt).format('DD/MM/YYYY')}
               </Timeline.Item>
             )}
-            {moment(profileData?.updatedAt).unix() - moment(profileData?.createdAt).unix() > 0 && (
+            {dayjs(profileData?.updatedAt).unix() - dayjs(profileData?.createdAt).unix() > 0 && (
               <Timeline.Item>
-                Cập nhật tài khoản vào lúc {moment(profileData?.updatedAt).format('DD/MM/YYYY')}
+                Cập nhật tài khoản vào lúc {dayjs(profileData?.updatedAt).format('DD/MM/YYYY')}
               </Timeline.Item>
             )}
           </Timeline>

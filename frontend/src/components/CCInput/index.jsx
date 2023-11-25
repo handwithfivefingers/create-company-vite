@@ -1,14 +1,16 @@
-import React, { forwardRef, useState } from 'react'
-import { Form, Input, InputNumber, Select, DatePicker } from 'antd'
+/* eslint-disable react/display-name */
+/* eslint-disable no-unused-vars */
+import { forwardRef, useState } from 'react'
+import { Form, Input, InputNumber, Select } from 'antd'
+import DatePicker from '../DatePicker'
 import { makeid } from '@/helper/Common'
 import styles from './styles.module.scss'
 
-const { RangePicker } = DatePicker
+// const { RangePicker } = DatePicker
 
 const CCInput = forwardRef((props, ref) => {
   const { name, label, value, onChange, style, placeholder, ...rest } = props
   const [options, setOptions] = useState([])
-
   const handleOptions = () => {
     let option
     if (typeof props?.options !== 'object') {
@@ -233,31 +235,29 @@ const InputDate = (props) => {
 }
 
 const InputDateRange = (props) => {
-  // disabledStart
-  // disabledEnd
-
+  const { name, key, label, required, message, separator, autocomplete, placeholder, style = {} } = props
   return (
     <>
-      <Form.Item name={props?.name} style={{ display: 'none' }} key={props?.key}>
-        <RangePicker inputReadOnly format="MM/DD/YYYY" />
+      <Form.Item name={name} style={{ display: 'none' }} key={key}>
+        <DatePicker.RangePicker inputReadOnly format="MM/DD/YYYY" />
       </Form.Item>
 
       <Form.Item
         name={makeid(9)}
-        label={props?.label || ' '}
-        key={props?.key}
-        rules={[{ required: props?.required, message: rest?.message }]}
-        required={props?.required}
+        label={label}
+        key={key}
+        rules={[{ required: required, message: message }]}
+        required={required}
       >
-        <RangePicker
+        <DatePicker.RangePicker
           inputReadOnly={props?.inputReadOnly || true}
           onChange={props?.onChange}
           format="MM/DD/YYYY"
-          style={{ ...props.style, width: '100%' }}
-          placeholder={props?.placeholder}
-          autoComplete={props?.autocomplete || 'off'}
-          separator={props?.separator}
-          {...rest}
+          style={{ ...style, width: '100%' }}
+          placeholder={placeholder}
+          autoComplete={autocomplete || 'off'}
+          separator={separator}
+          {...props}
         />
       </Form.Item>
     </>

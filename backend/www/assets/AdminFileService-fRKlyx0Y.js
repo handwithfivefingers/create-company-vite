@@ -1,1 +1,0 @@
-import{i}from"./index-XD4JDM6b.js";const t={fileCategory:"/admin/file_category",file:"/admin/file"},a={getFileCate:e=>i.get(t.fileCategory,e),getFiles:()=>i.get(t.file),onUploadFiles:e=>i.post(t.file,e),onGetListFiles:e=>i.get(t.file,{params:e})};export{a as A};

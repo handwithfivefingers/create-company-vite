@@ -32,7 +32,7 @@ const SelectProvince = (props) => {
 
   useEffect(() => {
     if (props.data) {
-      let { pathName, value } = props?.data
+      let { pathName, value } = props.data
       setFields([...pathName], value)
     } else {
       let val = formInstance.getFieldValue([...name])
@@ -182,46 +182,63 @@ const SelectProvince = (props) => {
 
 const SelectTitle = (props) => {
   const [inpShow, setInpShow] = useState(false)
+  const [select, setSelect] = useState(undefined)
+  const [input, setInput] = useState(undefined)
   const formInstance = Form.useFormInstance()
   useEffect(() => {
     let pathName = props.name
     if (props.pathName) {
       pathName = props.pathName
     }
-    let val = formInstance.getFieldValue([...pathName])
+    let value = formInstance.getFieldValue(pathName)
+
+    const isIncludes = props?.options.some((item) => item.value === value)
+    if (isIncludes) {
+      setSelect(value)
+    } else {
+      if (value != 1) {
+        setSelect(1)
+        setInput(value)
+        setInpShow(true)
+      }
+    }
   }, [])
-  const handleSelect = (val, opt) => {
+  const handleSelect = (val) => {
     if (val === 1) {
+      setSelect(1)
       setInpShow(true)
     } else {
-      formInstance.setFields([{ name: [...props.name], value: val }])
+      formInstance.setFields([{ name: props.name, value: val }])
+      setSelect(val)
       setInpShow(false)
     }
   }
   const handleInputChange = (e) => {
-    formInstance.setFields([{ name: [...props.name], value: e.target.value }])
+    const value = e.target.value
+    setInput(value)
+    formInstance.setFields([{ name: props.name, value }])
   }
   return (
     <Form.Item
-      name={[...props.name]}
+      name={props.name}
       label={props.label}
       rules={[{ required: props?.required, message: props?.message }]}
       required={props?.required}
     >
       <Row>
         <Col span={inpShow ? 8 : 24} style={{ padding: 0 }}>
-          <Select placeholder={props.placeholder} onChange={(val, opt) => handleSelect(val, opt)}>
-            {(props.options &&
-              props?.options?.map((option, i) => (
-                <Option value={option.value} key={['CC_Select', option.value, i]}>
-                  {option.name}
-                </Option>
-              ))) ||
-              []}
-            <Option value={1}>Khác</Option>
-          </Select>
+          <Select
+            value={select}
+            key={`${props.name}`}
+            placeholder={props.placeholder}
+            onChange={(val, opt) => handleSelect(val, opt)}
+            fieldNames={{ label: 'name', value: 'value' }}
+            options={props?.options}
+          />
         </Col>
-        <Col span={inpShow ? 16 : 0}>{inpShow && <Input onChange={handleInputChange} />}</Col>
+        <Col span={inpShow ? 16 : 0}>
+          {inpShow && <Input onChange={handleInputChange} value={input} key={`${props.name}`} />}
+        </Col>
       </Row>
     </Form.Item>
   )

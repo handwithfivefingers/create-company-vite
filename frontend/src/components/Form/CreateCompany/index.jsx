@@ -1,8 +1,9 @@
+/* eslint-disable react/display-name */
 import { VALIDATE_MESSAGE } from '@/constant/InputValidate'
 import { onSetFields } from '@/helper/Common'
 import { Col, Form, Row, Select, Space, Spin } from 'antd'
 import clsx from 'clsx'
-import moment from 'moment'
+import dayjs from 'dayjs'
 import { Suspense, forwardRef, lazy, useEffect, useMemo, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import { useStepData } from '../../../context/StepProgressContext'
@@ -98,14 +99,14 @@ const CreateCompany = forwardRef(({ data }, formRef) => {
             let obj = {
               ...item,
             }
-            if (doc_outdate) obj.doc_outdate = moment(doc_outdate, 'YYYY-MM-DD')
-            if (birth_day) obj.birth_day = moment(birth_day, 'YYYY-MM-DD')
-            if (doc_time_provide) obj.doc_time_provide = moment(doc_time_provide, 'YYYY-MM-DD')
+            if (doc_outdate) obj.doc_outdate = dayjs(doc_outdate)
+            if (birth_day) obj.birth_day = dayjs(birth_day)
+            if (doc_time_provide) obj.doc_time_provide = dayjs(doc_time_provide)
 
             if (organization) {
               obj.organization = {
                 ...organization,
-                doc_time_provide: moment(organization.doc_time_provide, 'YYYY-MM-DD'),
+                doc_time_provide: dayjs(organization.doc_time_provide),
               }
             }
             return obj

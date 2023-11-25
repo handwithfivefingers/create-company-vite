@@ -2,7 +2,7 @@ import CCPagination from '@/components/CCPagination'
 import AdminProductService from '@/service/AdminService/AdminProductService'
 import { FormOutlined, DeleteOutlined, EditOutlined } from '@ant-design/icons'
 import { Button, Drawer, Input, message, Popconfirm, Space, Table } from 'antd'
-import moment from 'moment'
+import dayjs from 'dayjs'
 import React, { useState } from 'react'
 import { useFetch } from '../../../../helper/Hook'
 import CareerCategoryForm from './CareerCategoryForm'
@@ -144,7 +144,7 @@ const CareerCategoryTab = (props) => {
             title="Ngày tạo"
             render={(val, record, i) => (
               <span style={{ width: '200px', display: 'block' }}>
-                {moment(record.createdAt).format('DD/MM/YYYY')}
+                {dayjs(record.createdAt).format('DD/MM/YYYY')}
               </span>
             )}
           />

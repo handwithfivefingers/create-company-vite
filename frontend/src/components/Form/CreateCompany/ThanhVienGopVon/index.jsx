@@ -8,7 +8,7 @@ import OriginalPerson from './OriginalPerson'
 import Personal from './Personal'
 import styles from './styles.module.scss'
 import { useStepData } from '@/context/StepProgressContext'
-import moment from 'moment'
+import dayjs from 'dayjs'
 
 const ThanhVienGopVon = forwardRef(({ data, ...props }, ref) => {
   const { currentStep } = useStepData()
@@ -60,13 +60,13 @@ const ThanhVienGopVon = forwardRef(({ data, ...props }, ref) => {
                 name: [...BASE_FORM, 'origin_person', i],
                 value: {
                   ...org,
-                  doc_outdate: org?.doc_outdate ? moment(org?.doc_outdate, 'YYYY-MM-DD') : null,
-                  birth_day: org?.birth_day ? moment(org?.birth_day, 'YYYY-MM-DD') : null,
-                  doc_time_provide: org?.doc_time_provide ? moment(org?.doc_time_provide, 'YYYY-MM-DD') : null,
+                  doc_outdate: org?.doc_outdate ? dayjs(org?.doc_outdate) : null,
+                  birth_day: org?.birth_day ? dayjs(org?.birth_day) : null,
+                  doc_time_provide: org?.doc_time_provide ? dayjs(org?.doc_time_provide) : null,
                   organization: {
                     ...org.organization,
                     doc_time_provide: org?.organization?.doc_time_provide
-                      ? moment(org?.organization?.doc_time_provide, 'YYYY-MM-DD')
+                      ? dayjs(org?.organization?.doc_time_provide)
                       : null,
                   },
                 },
@@ -77,7 +77,6 @@ const ThanhVienGopVon = forwardRef(({ data, ...props }, ref) => {
       }, currentStep * 1000)
     }
   }, [location])
-
 
   const renderPresentPerson = (index) => {
     let xhtml = null

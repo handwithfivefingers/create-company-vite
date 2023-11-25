@@ -3,7 +3,7 @@ import { IDENTIFY_NUMBER, SELECT } from '@/constant/Common'
 import { useFetch } from '@/helper/Hook'
 import GlobalService from '@/service/GlobalService'
 import { Form } from 'antd'
-import moment from 'moment'
+import dayjs from 'dayjs'
 import { useEffect, useState } from 'react'
 
 // Fixed 20/08/2023
@@ -34,7 +34,7 @@ const CCInputDateProvideIdentify = ({ name, label, placeholder, indentifyType, .
   }
 
   const isShowValidate =
-    indentifyType === 'Chứng minh nhân dân' && isOutDate && moment(isOutDate).year() + 15 < moment().year()
+    indentifyType === 'Chứng minh nhân dân' && isOutDate && dayjs(isOutDate).year() + 15 < dayjs().year()
 
   return (
     <div className="d-flex flex-column">
@@ -48,8 +48,8 @@ const CCInputDateProvideIdentify = ({ name, label, placeholder, indentifyType, .
       />
       {isShowValidate && (
         <div>
-          <div class="ant-form-item-explain ant-form-item-explain-connected" role="alert">
-            <div class="ant-form-item-explain-error">CMND được cấp quá 15 năm</div>
+          <div className="ant-form-item-explain ant-form-item-explain-connected" role="alert">
+            <div className="ant-form-item-explain-error">CMND được cấp quá 15 năm</div>
           </div>
         </div>
       )}

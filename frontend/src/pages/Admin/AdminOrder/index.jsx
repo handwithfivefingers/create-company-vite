@@ -4,7 +4,7 @@ import AdminOrderService from '@/service/AdminService/AdminOrderService'
 import { CheckCircleTwoTone, DeleteOutlined, FormOutlined, LoadingOutlined } from '@ant-design/icons'
 import { Button, Form, Input, Modal, Popconfirm, Select, Space, Table, Tag, message } from 'antd'
 import clsx from 'clsx'
-import moment from 'moment'
+import dayjs from 'dayjs'
 import { useEffect, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import AdminHeader from '../../../components/Admin/AdminHeader'
@@ -133,7 +133,7 @@ const AdminOrder = () => {
   }
 
   const renderDate = (record) => {
-    let result = moment(record.createdAt).format('DD/MM/YYYY HH:mm')
+    let result = dayjs(record.createdAt).format('DD/MM/YYYY HH:mm')
     return <span style={{ display: 'block', width: 120 }}>{result}</span>
   }
 

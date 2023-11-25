@@ -4,7 +4,7 @@ import { useOutletContext } from 'react-router-dom'
 import clsx from 'clsx'
 import TransactionService from '../../../service/UserService/TransactionService'
 import { Tag, Table } from 'antd'
-import moment from 'moment'
+import dayjs from 'dayjs'
 import { number_format } from '@/helper/Common'
 import { PAYMENT_TYPE_CODE } from '@/constant/Payment'
 
@@ -89,7 +89,7 @@ const Transaction = () => {
             render={(val, record, i) => {
               return (
                 <span style={{ display: 'block', width: '150px' }}>
-                  {moment(record.createdAt).format('HH:mm DD-MM-YYYY')}
+                  {dayjs(record.createdAt).format('HH:mm DD-MM-YYYY')}
                 </span>
               )
             }}

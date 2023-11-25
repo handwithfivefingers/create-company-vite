@@ -1,6 +1,6 @@
 import { Skeleton, Col } from 'antd'
 import ProductCard from '../components/Products'
-import moment from 'moment'
+import dayjs from 'dayjs'
 import { default as VNnum2words } from '@/assets/js/convertNumber'
 
 /**
@@ -127,18 +127,6 @@ const makeid = (length) => {
   return result
 }
 
-const checkVariable = (val) => {
-  if (typeof val === 'string' || typeof val === 'number') {
-    return 'String'
-  } else if (Array.isArray(val)) {
-    return 'Array'
-  } else if (moment.isMoment(val)) {
-    return 'Moment'
-  } else if (typeof val === 'object' && Object.keys(val).length > 0) {
-    return 'Object'
-  } else return typeof val
-}
-
 const numToWord = (val) => VNnum2words(val)
 
 const htmlContent = (content) => (
@@ -163,7 +151,6 @@ export {
   checkMoment,
   log,
   makeid,
-  checkVariable,
   onSetFields,
   onSetFieldsWithInstance,
   numToWord,

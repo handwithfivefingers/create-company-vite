@@ -1,7 +1,7 @@
 import t from '@/constant/CommonText'
 import { number_format } from '@/helper/Common'
 import { Card, Col, Form, Row, Typography } from 'antd'
-import moment from 'moment'
+import dayjs from 'dayjs'
 
 const { Text, Link } = Typography
 const PERSON_TYPE = {
@@ -36,13 +36,13 @@ export default function ChangeInfoPreview(props) {
         <>
           <Form.Item label={<Text type="secondary">{t['name']}</Text>}>{currentLabel?.name}</Form.Item>
           <Form.Item label={<Text type="secondary">{t['birth_day']}</Text>}>
-            {moment(currentLabel?.birth_day).format('DD/MM/YYYY')}
+            {dayjs(currentLabel?.birth_day).format('DD/MM/YYYY')}
           </Form.Item>
           <Form.Item label={<Text type="secondary">{t['gender']}</Text>}>{currentLabel?.gender}</Form.Item>
           <Form.Item label={<Text type="secondary">{t['doc_type']}</Text>}>{currentLabel?.doc_type}</Form.Item>
           <Form.Item label={<Text type="secondary">{t['doc_code']}</Text>}>{currentLabel?.doc_code}</Form.Item>
           <Form.Item label={<Text type="secondary">{t['doc_time_provide']}</Text>}>
-            {moment(currentLabel?.doc_time_provide).format('DD/MM/YYYY')}
+            {dayjs(currentLabel?.doc_time_provide).format('DD/MM/YYYY')}
           </Form.Item>
           <Form.Item label={<Text type="secondary">{t['doc_place_provide']}</Text>}>
             {currentLabel?.doc_place_provide}
@@ -87,7 +87,7 @@ export default function ChangeInfoPreview(props) {
         <>
           <Form.Item label={<Text type="secondary">{t['company_name']}</Text>}>{currentLabel?.company_name}</Form.Item>
           <Form.Item label={<Text type="secondary">{t['mst']}</Text>}>
-            {moment(currentLabel?.mst).format('DD/MM/YYYY')}
+            {dayjs(currentLabel?.mst).format('DD/MM/YYYY')}
           </Form.Item>
 
           <Form.Item label={<Text type="secondary">{t['mst_provide']}</Text>}>{currentLabel?.mst_provide}</Form.Item>
@@ -144,13 +144,13 @@ export default function ChangeInfoPreview(props) {
           <Form.Item label={<Text type="secondary">{t['name']}</Text>}>{currentLabel?.name}</Form.Item>
           <Form.Item label={<Text type="secondary">{t['gender']}</Text>}>{currentLabel?.gender}</Form.Item>
           <Form.Item label={<Text type="secondary">{t['birth_day']}</Text>}>
-            {moment(currentLabel?.birth_day).format('DD/MM/YYYY')}
+            {dayjs(currentLabel?.birth_day).format('DD/MM/YYYY')}
           </Form.Item>
           <Form.Item label={<Text type="secondary">{t['per_type']}</Text>}>{currentLabel?.per_type}</Form.Item>
           <Form.Item label={<Text type="secondary">{t['doc_type']}</Text>}>{currentLabel?.doc_type}</Form.Item>
           <Form.Item label={<Text type="secondary">{t['doc_code']}</Text>}>{currentLabel?.doc_code}</Form.Item>
           <Form.Item label={<Text type="secondary">{t['doc_time_provide']}</Text>}>
-            {moment(currentLabel?.doc_time_provide).format('DD/MM/YYYY')}
+            {dayjs(currentLabel?.doc_time_provide).format('DD/MM/YYYY')}
           </Form.Item>
           <Form.Item label={<Text type="secondary">{t['doc_place_provide']}</Text>}>
             {currentLabel?.doc_place_provide}
@@ -228,7 +228,7 @@ export default function ChangeInfoPreview(props) {
           <Form.Item label={<Text type="secondary">{t['mst']}</Text>}>{currentLabel?.mst}</Form.Item>
 
           <Form.Item label={<Text type="secondary">{t['doc_time_provide']}</Text>}>
-            {moment(currentLabel?.time_provide).format('DD/MM/YYYY')}
+            {dayjs(currentLabel?.time_provide).format('DD/MM/YYYY')}
           </Form.Item>
           <Form.Item label={<Text type="secondary">{t['doc_place_provide']}</Text>}>
             {currentLabel?.place_provide}
@@ -365,7 +365,7 @@ export default function ChangeInfoPreview(props) {
                               {item.time_provide && (
                                 <Col span={12} className="d-flex align-items-end">
                                   <Text type="secondary">Ngày cấp giấy chứng nhận góp vốn :</Text>
-                                  <Text> {moment(item?.time_provide).format('DD/MM/YYYY')}</Text>
+                                  <Text> {dayjs(item?.time_provide).format('DD/MM/YYYY')}</Text>
                                 </Col>
                               )}
                             </Row>
@@ -408,13 +408,13 @@ export default function ChangeInfoPreview(props) {
                         <Form.Item label={<Text type="secondary">{t['gender']}</Text>}>{item?.gender}</Form.Item>
                         <Form.Item label={<Text type="secondary">{t['title']}</Text>}>{item?.title}</Form.Item>
                         <Form.Item label={<Text type="secondary">{t['birth_day']}</Text>}>
-                          {moment(item?.birth_day).format('DD/MM/YYYY')}
+                          {dayjs(item?.birth_day).format('DD/MM/YYYY')}
                         </Form.Item>
                         <Form.Item label={<Text type="secondary">{t['per_type']}</Text>}>{item?.per_type}</Form.Item>
                         <Form.Item label={<Text type="secondary">{t['doc_type']}</Text>}>{item?.doc_type}</Form.Item>
                         <Form.Item label={<Text type="secondary">{t['doc_code']}</Text>}>{item?.doc_code}</Form.Item>
                         <Form.Item label={<Text type="secondary">{t['doc_time_provide']}</Text>}>
-                          {moment(item?.doc_time_provide).format('DD/MM/YYYY')}
+                          {dayjs(item?.doc_time_provide).format('DD/MM/YYYY')}
                         </Form.Item>
                         <Form.Item label={<Text type="secondary">{t['doc_place_provide']}</Text>}>
                           {item?.doc_place_provide}
@@ -476,13 +476,13 @@ export default function ChangeInfoPreview(props) {
                       <Form.Item label={<Text type="secondary">{t['gender']}</Text>}>{item?.gender}</Form.Item>
                       <Form.Item label={<Text type="secondary">{t['title']}</Text>}>{item?.title}</Form.Item>
                       <Form.Item label={<Text type="secondary">{t['birth_day']}</Text>}>
-                        {moment(item?.birth_day).format('DD/MM/YYYY')}
+                        {dayjs(item?.birth_day).format('DD/MM/YYYY')}
                       </Form.Item>
                       <Form.Item label={<Text type="secondary">{t['per_type']}</Text>}>{item?.per_type}</Form.Item>
                       <Form.Item label={<Text type="secondary">{t['doc_type']}</Text>}>{item?.doc_type}</Form.Item>
                       <Form.Item label={<Text type="secondary">{t['doc_code']}</Text>}>{item?.doc_code}</Form.Item>
                       <Form.Item label={<Text type="secondary">{t['doc_time_provide']}</Text>}>
-                        {moment(item?.doc_time_provide).format('DD/MM/YYYY')}
+                        {dayjs(item?.doc_time_provide).format('DD/MM/YYYY')}
                       </Form.Item>
                       <Form.Item label={<Text type="secondary">{t['doc_place_provide']}</Text>}>
                         {item?.doc_place_provide}
@@ -717,7 +717,7 @@ export default function ChangeInfoPreview(props) {
                         <Form.Item label={<Text type="secondary">{t['name']}</Text>}>{information.name}</Form.Item>
 
                         <Form.Item label={<Text type="secondary">{t['birth_day']}</Text>}>
-                          {moment(information?.birth_day).format('DD/MM/YYYY')}
+                          {dayjs(information?.birth_day).format('DD/MM/YYYY')}
                         </Form.Item>
 
                         <Form.Item label={<Text type="secondary">{t['doc_type']}</Text>}>
@@ -727,7 +727,7 @@ export default function ChangeInfoPreview(props) {
                           {information?.doc_code}
                         </Form.Item>
                         <Form.Item label={<Text type="secondary">{t['doc_time_provide']}</Text>}>
-                          {moment(information?.doc_time_provide).format('DD/MM/YYYY')}
+                          {dayjs(information?.doc_time_provide).format('DD/MM/YYYY')}
                         </Form.Item>
                         <Form.Item label={<Text type="secondary">{t['doc_place_provide']}</Text>}>
                           {information?.doc_place_provide}
@@ -873,13 +873,13 @@ const UpdateInformation = ({ update_info }) => {
                 <Form.Item label={<Text type="secondary">{t['name']}</Text>}>{information.name}</Form.Item>
 
                 <Form.Item label={<Text type="secondary">{t['birth_day']}</Text>}>
-                  {moment(information?.birth_day).format('DD/MM/YYYY')}
+                  {dayjs(information?.birth_day).format('DD/MM/YYYY')}
                 </Form.Item>
 
                 <Form.Item label={<Text type="secondary">{t['doc_type']}</Text>}>{information?.doc_type}</Form.Item>
                 <Form.Item label={<Text type="secondary">{t['doc_code']}</Text>}>{information?.doc_code}</Form.Item>
                 <Form.Item label={<Text type="secondary">{t['doc_time_provide']}</Text>}>
-                  {moment(information?.doc_time_provide).format('DD/MM/YYYY')}
+                  {dayjs(information?.doc_time_provide).format('DD/MM/YYYY')}
                 </Form.Item>
                 <Form.Item label={<Text type="secondary">{t['doc_place_provide']}</Text>}>
                   {information?.doc_place_provide}
@@ -928,11 +928,23 @@ const UpdateInformation = ({ update_info }) => {
             </>
           )
         } else if (item === 'phone') {
-          return <Form.Item label={'Cập nhật Số điện thoại'}>{update_info?.phone || 'Chưa có dữ liệu'}</Form.Item>
+          return (
+            <Form.Item label={'Cập nhật Số điện thoại'} key={`update_${item}`}>
+              {update_info?.phone || 'Chưa có dữ liệu'}
+            </Form.Item>
+          )
         } else if (item === 'email') {
-          return <Form.Item label={'Cập nhật địa chỉ email'}>{update_info?.email || 'Chưa có dữ liệu'}</Form.Item>
+          return (
+            <Form.Item label={'Cập nhật địa chỉ email'} key={`update_${item}`}>
+              {update_info?.email || 'Chưa có dữ liệu'}
+            </Form.Item>
+          )
         } else if (item === 'website') {
-          return <Form.Item label={'Cập nhật địa chỉ website'}>{update_info?.website || 'Chưa có dữ liệu'}</Form.Item>
+          return (
+            <Form.Item label={'Cập nhật địa chỉ website'} key={`update_${item}`}>
+              {update_info?.website || 'Chưa có dữ liệu'}
+            </Form.Item>
+          )
         }
       })}
     </Card>

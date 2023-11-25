@@ -1,1 +1,0 @@
-import{i as t}from"./index-XD4JDM6b.js";const a={template:"/admin/template"},l={getTemplate:e=>t.get(a.template,{params:e}),addTemplate:e=>t.post(a.template,e),editTemplate:e=>t.post(`${a.template}/${e._id}`,e),deleteTemplate:e=>t.delete(`${a.template}/${e}`)};export{l as A};

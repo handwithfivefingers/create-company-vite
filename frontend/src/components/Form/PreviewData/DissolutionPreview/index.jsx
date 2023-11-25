@@ -2,7 +2,7 @@ import t from '@/constant/CommonText'
 import { number_format } from '@/helper/Common'
 import { Card, Col, Form, Row, Typography } from 'antd'
 import styles from './styles.module.scss'
-import moment from 'moment'
+import dayjs from 'dayjs'
 const { Text, Link } = Typography
 const DATE_FORMAT = 'DD/MM/YYYY'
 export default function DissolutionPreview(props) {
@@ -20,7 +20,7 @@ export default function DissolutionPreview(props) {
             <Form.Item label={<Text type="secondary">{t['mst']}</Text>}>{approve?.mst}</Form.Item>
 
             <Form.Item label={<Text type="secondary">{t['mst_provide']}</Text>}>
-              {moment(approve?.mst_provide).format(DATE_FORMAT)}
+              {dayjs(approve?.mst_provide).format(DATE_FORMAT)}
             </Form.Item>
 
             <Form.Item label={<Text type="secondary">{t['org_person']}</Text>}>{approve?.org_person}</Form.Item>
@@ -30,7 +30,7 @@ export default function DissolutionPreview(props) {
             </Form.Item>
 
             <Form.Item label={<Text type="secondary">{t['dissolution_date']}</Text>}>
-              {moment(approve?.dissolution_date).format(DATE_FORMAT)}
+              {dayjs(approve?.dissolution_date).format(DATE_FORMAT)}
             </Form.Item>
 
             {approve?.location && (
@@ -62,6 +62,7 @@ export default function DissolutionPreview(props) {
                             {index !== 0 ? `Tên thành viên hội đồng quản trị ${index}` : 'Tên Chủ Tịch HDQT'}
                           </Text>
                         }
+                        key={`president_${index}`}
                       >
                         {item.president}
                       </Form.Item>
@@ -77,7 +78,7 @@ export default function DissolutionPreview(props) {
                 <div style={{ paddingLeft: 20 }}>
                   {approve?.contribute_members.map((item, index) => {
                     return (
-                      <Row>
+                      <Row key={`president_members_${index}`}>
                         <Col span={24}>
                           <Form.Item label={<Text type="secondary">Họ và Tên</Text>}>{item.name}</Form.Item>
                         </Col>

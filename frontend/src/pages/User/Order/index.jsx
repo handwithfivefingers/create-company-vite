@@ -1,14 +1,14 @@
 import CCPagination from '@/components/CCPagination'
+import { PAYMENT_TYPE_CODE } from '@/constant/Payment'
 import { number_format } from '@/helper/Common'
 import OrderService from '@/service/UserService/OrderService'
-import { FormOutlined, DeleteOutlined } from '@ant-design/icons'
-import { Button, Table, Tag, Tooltip, Popconfirm, message, Modal, Spin } from 'antd'
+import { DeleteOutlined, FormOutlined } from '@ant-design/icons'
+import { Button, Popconfirm, Spin, Table, Tag, Tooltip, message } from 'antd'
 import clsx from 'clsx'
-import moment from 'moment'
-import { Suspense, lazy, useEffect, useState, useRef } from 'react'
+import dayjs from 'dayjs'
+import { Suspense, lazy, useEffect, useRef, useState } from 'react'
 import { useNavigate, useOutletContext } from 'react-router-dom'
 import styles from './styles.module.scss'
-import { PAYMENT_TYPE_CODE } from '@/constant/Payment'
 
 const TransactionModal = lazy(() => import('@/components/Modal/TransactionModal'))
 
@@ -162,7 +162,7 @@ const UserOrder = () => {
             title="Ngày tạo"
             render={(val, record, i) => {
               return (
-                <span style={{ display: 'block', width: '80px' }}>{moment(record.createdAt).format('DD/MM/YYYY')}</span>
+                <span style={{ display: 'block', width: '80px' }}>{dayjs(record.createdAt).format('DD/MM/YYYY')}</span>
               )
             }}
           />

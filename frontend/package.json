@@ -14,17 +14,14 @@
   },
   "dependencies": {
     "@tanstack/react-query": "^4.1.0",
-    "@testing-library/jest-dom": "^5.11.4",
-    "@testing-library/user-event": "^12.1.10",
     "@tinymce/tinymce-react": "^4.3.2",
     "animate.css": "^4.1.1",
     "antd": "^4.23.1",
     "axios": "^0.24.0",
     "clsx": "^1.1.1",
-    "fs-extra": "^11.1.1",
+    "dayjs": "^1.11.10",
     "html-react-parser": "^1.4.5",
     "lodash-es": "^4.17.21",
-    "moment": "^2.29.1",
     "rc-virtual-list": "^3.4.8",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -38,6 +35,9 @@
     "vn-num2words": "^1.0.4"
   },
   "devDependencies": {
+    "@testing-library/jest-dom": "^5.11.4",
+    "@testing-library/user-event": "^12.1.10",
+    "fs-extra": "^11.1.1",
     "@tanstack/react-query-devtools": "^4.0.10",
     "@testing-library/react": "^14.0.0",
     "@types/react": "^18.2.37",

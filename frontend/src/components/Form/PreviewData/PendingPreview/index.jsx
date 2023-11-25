@@ -1,7 +1,7 @@
 import t from '@/constant/CommonText'
 import { number_format } from '@/helper/Common'
 import { Card, Col, Form, Row, Typography } from 'antd'
-import moment from 'moment'
+import dayjs from 'dayjs'
 import styles from './styles.module.scss'
 
 const { Text, Link } = Typography
@@ -43,6 +43,7 @@ export default function PendingPreview(props) {
                   {approve?.list_president.map((item, index) => {
                     return (
                       <Form.Item
+                        key={`list_president_${index}`}
                         label={
                           <Text type="secondary">
                             {index !== 0 ? `Tên thành viên hội đồng quản trị ${index}` : 'Tên Chủ Tịch HDQT'}
@@ -63,7 +64,7 @@ export default function PendingPreview(props) {
                 <div style={{ paddingLeft: 20 }}>
                   {approve?.contribute_members.map((item, index) => {
                     return (
-                      <Row>
+                      <Row key={`contribute_members_${index}`}>
                         <Col span={24}>
                           <Form.Item label={<Text type="secondary">Họ và Tên</Text>}>{item.name}</Form.Item>
                         </Col>
@@ -98,8 +99,8 @@ export default function PendingPreview(props) {
 
             {approve?.time_range && (
               <Form.Item label={<Text type="secondary">Thời gian đăng ký tạm ngừng kinh doanh</Text>}>
-                {(approve?.time_range?.start && moment(approve?.time_range?.start).format('DD/MM/YYYY')) || ''} -{' '}
-                {(approve?.time_range?.end && moment(approve?.time_range?.end).format('DD/MM/YYYY')) || ''}
+                {(approve?.time_range?.start && dayjs(approve?.time_range?.start).format('DD/MM/YYYY')) || ''} -{' '}
+                {(approve?.time_range?.end && dayjs(approve?.time_range?.end).format('DD/MM/YYYY')) || ''}
               </Form.Item>
             )}
           </Form>

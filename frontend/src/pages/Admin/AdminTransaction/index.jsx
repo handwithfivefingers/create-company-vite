@@ -1,12 +1,12 @@
 import AdminHeader from '@/components/Admin/AdminHeader'
 import { PAYMENT_TYPE_CODE } from '@/constant/Payment'
 import { number_format } from '@/helper/Common'
-import { Button, DatePicker, Form, Input, Modal, Space, Table, Tag, Spin, message } from 'antd'
-import moment from 'moment'
-import React, { Suspense, lazy, useEffect, useRef, useState } from 'react'
 import AdminTransactionService from '@/service/AdminService/AdminTransactionService'
+import { Button, Form, Input, Space, Spin, Table, Tag, message } from 'antd'
+import DatePicker from '@/components/DatePicker'
+import dayjs from 'dayjs'
+import React, { Suspense, lazy, useEffect, useRef, useState } from 'react'
 import styles from './styles.module.scss'
-
 const TransactionModal = lazy(() => import('@/components/Modal/UpdateTransactionModal'))
 function AdminTransaction() {
   const [loading, setLoading] = useState(false)
@@ -65,8 +65,8 @@ function AdminTransaction() {
     if (paymentCode) params.paymentCode = paymentCode
     if (date) {
       const [dateFrom, dateTo] = date
-      params.dateFrom = moment(dateFrom).format('YYYY/MM/DD')
-      params.dateTo = moment(dateTo).format('YYYY/MM/DD')
+      params.dateFrom = dayjs(dateFrom).format('YYYY/MM/DD')
+      params.dateTo = dayjs(dateTo).format('YYYY/MM/DD')
     }
 
     getScreenData(params)
@@ -154,7 +154,7 @@ function AdminTransaction() {
               render={(val, record, i) => {
                 return (
                   <span style={{ display: 'block', width: '150px' }}>
-                    {moment(record.createdAt).format('DD/MM/YYYY HH:mm')}
+                    {dayjs(record.createdAt).format('DD/MM/YYYY HH:mm')}
                   </span>
                 )
               }}

@@ -1,8 +1,6 @@
-import { EyeOutlined, FormOutlined, MailOutlined } from '@ant-design/icons'
-import { Button, Modal, Timeline } from 'antd'
+import { Modal, Timeline } from 'antd'
 import React, { forwardRef, useImperativeHandle, useState } from 'react'
 import styles from './styles.module.scss'
-import moment from 'moment'
 
 const MailStatusModal = forwardRef((props, ref) => {
   // const { onUpdateOrder, onUpdateStatus, onPreviewPDF } = props

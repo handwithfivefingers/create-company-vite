@@ -5,7 +5,7 @@ import { useLocation } from 'react-router-dom'
 import GiaiThe from './GiaiThe'
 import styles from './styles.module.scss'
 import { VALIDATE_MESSAGE } from '@/constant/InputValidate'
-import moment from 'moment'
+import dayjs from 'dayjs'
 
 const Dissolution = forwardRef((props, ref) => {
   const [selectType, setSelectType] = useState()
@@ -29,8 +29,8 @@ const Dissolution = forwardRef((props, ref) => {
       dissolution: {
         approve: {
           ...data.dissolution.approve,
-          mst_provide: moment(data.dissolution.mst_provide),
-          dissolution_date: moment(data.dissolution.dissolution_date),
+          mst_provide: dayjs(data.dissolution.mst_provide),
+          dissolution_date: dayjs(data.dissolution.dissolution_date),
         },
       },
     }
@@ -71,8 +71,8 @@ const Dissolution = forwardRef((props, ref) => {
       initialValues={{
         dissolution: {
           approve: {
-            dissolution_number: moment().format('MM/YYYY[/QĐ]'),
-            dissolution_date: moment(),
+            dissolution_number: dayjs().format('MM/YYYY[/QĐ]'),
+            dissolution_date: dayjs(),
           },
         },
       }}

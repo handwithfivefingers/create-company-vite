@@ -16,6 +16,9 @@ services:
    - ./feature/puppeteer:/app
    - /app/node_modules
   restart: always
+  entrypoint: ['/bin/sh', '-c']
+  command:
+   - npm run dev
  cc-service:
   build:
    context: .
@@ -34,7 +37,7 @@ services:
    - app_network
   entrypoint: ['/bin/sh', '-c']
   command:
-   - npm run dev
+   - npm start
   # restart: always
  cc-fe:
   build:
@@ -52,9 +55,4 @@ services:
    - app_network
   entrypoint: ['/bin/sh', '-c']
   command:
-   - npm run dev
-  deploy:
-   resources:
-    limits:
-     cpus: '2'
-     memory: 1g
+   - npm run build

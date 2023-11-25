@@ -30,6 +30,7 @@ const CreateCompanyPages = forwardRef((props, ref) => {
 
   const saveCreateCompany = (ref) => {
     const params = getParams(ref)
+    console.log('params', params)
     return saveService(params)
   }
 

@@ -6,7 +6,7 @@ import { htmlContent, onSetFields } from '@/helper/Common'
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons'
 import { Button, Card, Col, Form, InputNumber, Row, Space } from 'antd'
 import clsx from 'clsx'
-import moment from 'moment'
+import dayjs from 'dayjs'
 import { forwardRef, useEffect, useState, memo, useCallback, useMemo } from 'react'
 import { useLocation } from 'react-router-dom'
 import styles from './styles.module.scss'
@@ -83,7 +83,7 @@ const TamNgungKinhDoanh = forwardRef(({ type, current, index }, ref) => {
     return current && current < val.endOf('day')
   }
 
-  const disabledTimeStart = (current) => current && current < moment().endOf('day')
+  const disabledTimeStart = (current) => current && current < dayjs().endOf('day')
 
   return (
     <Form.Item

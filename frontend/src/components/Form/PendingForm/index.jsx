@@ -1,6 +1,6 @@
 import { Form, Select } from 'antd'
 import clsx from 'clsx'
-import moment from 'moment'
+import dayjs from 'dayjs'
 import { forwardRef, useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import styles from './styles.module.scss'
@@ -45,8 +45,8 @@ const TamHoanForm = forwardRef((props, ref) => {
       if (approve) {
         let { time_range } = approve
         if (time_range) {
-          time_range.start = moment(time_range.start, 'YYYY-MM-DD')
-          time_range.end = moment(time_range.end, 'YYYY-MM-DD')
+          time_range.start = dayjs(time_range.start, 'YYYY-MM-DD')
+          time_range.end = dayjs(time_range.end, 'YYYY-MM-DD')
         }
 
         approve = {

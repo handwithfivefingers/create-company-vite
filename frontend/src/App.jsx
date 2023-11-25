@@ -3,8 +3,6 @@ import { RouterProvider, useRouterAPI, useRouterData } from '@/helper/Context'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import 'animate.css'
 import { ConfigProvider, message } from 'antd'
-import moment from 'moment'
-import 'moment/locale/vi'
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { BrowserRouter, useLocation, useRoutes } from 'react-router-dom'
@@ -14,6 +12,10 @@ import { LAYOUT_ROUTER, UserRouter } from './constant/Route'
 import { FormProviderContext } from './context/FormProviderContext'
 import { useAuth, useDetectLocation } from './helper/Hook'
 import { CommonAction } from './store/actions'
+import dayjs from 'dayjs'
+import utc from 'dayjs/plugin/utc'
+import timezone from 'dayjs/plugin/timezone'
+import 'dayjs/locale/vi'
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -28,18 +30,22 @@ ConfigProvider.config({
   theme: {
     primaryColor: '#cd2027',
   },
+  locale: 'vi',
 })
 
 message.config({
   duration: 5,
 })
-
-moment.defaultFormat = 'DD/MM/YYYY'
-
-moment.locale('vi')
-
-moment().utcOffset('+07:00')
-
+dayjs.extend(utc)
+dayjs.extend(timezone)
+// moment.defaultFormat = 'DD/MM/YYYY'
+// moment.locale('vi')
+// moment().utcOffset('+07:00', true)
+// moment.tz.setDefault("Asia/Bangkok")
+// dayjs.defaultOptions
+const tz = 'Asia/Bangkok'
+dayjs.locale('vi')
+dayjs.tz.setDefault(tz)
 const RouterComponent = (props) => {
   let location = useLocation()
 
@@ -52,6 +58,9 @@ const RouterComponent = (props) => {
   const { onRouterChange } = useRouterAPI()
 
   const dispatch = useDispatch()
+  useEffect(() => {
+    window.dayjs = dayjs
+  }, [])
 
   useEffect(() => {
     handleDetectRoute(routeDetect)

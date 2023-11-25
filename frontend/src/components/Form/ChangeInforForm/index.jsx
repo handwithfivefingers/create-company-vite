@@ -3,7 +3,7 @@ import { onSetFieldsWithInstance } from '@/helper/Common'
 import { useQuery } from '@tanstack/react-query'
 import { Form, Select } from 'antd'
 import clsx from 'clsx'
-import moment from 'moment'
+import dayjs from 'dayjs'
 import React, { forwardRef, useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import { useStepAPI } from '../../../context/StepProgressContext'
@@ -114,7 +114,7 @@ const ChangeInforForm = forwardRef((props, ref) => {
 
         // BASE_INFORM -> Date field : mst_provide
         if (base_inform) {
-          base_inform.mst_provide = moment(base_inform?.mst_provide, 'YYYY-MM-DD')
+          base_inform.mst_provide = dayjs(base_inform?.mst_provide)
         }
 
         const shallowLegalInformation = getLegalInformationProps(legal_representative)
@@ -155,13 +155,13 @@ const ChangeInforForm = forwardRef((props, ref) => {
         const { personal, organization } = A_side
         if (personal) {
           const { birth_day, doc_time_provide } = personal
-          if (birth_day) personal.birth_day = moment(birth_day, 'YYYY-MM-DD')
-          if (doc_time_provide) personal.doc_time_provide = moment(doc_time_provide, 'YYYY-MM-DD')
+          if (birth_day) personal.birth_day = dayjs(birth_day, 'YYYY-MM-DD')
+          if (doc_time_provide) personal.doc_time_provide = dayjs(doc_time_provide, 'YYYY-MM-DD')
         }
 
         if (organization) {
           const { mst_provide } = organization
-          if (mst_provide) organization.mst_provide = moment(mst_provide, 'YYYY-MM-DD')
+          if (mst_provide) organization.mst_provide = dayjs(mst_provide, 'YYYY-MM-DD')
         }
 
         shallowTransfer.A_side = A_side
@@ -171,13 +171,13 @@ const ChangeInforForm = forwardRef((props, ref) => {
         const { personal, organization } = B_side
         if (personal) {
           const { birth_day, doc_time_provide } = personal
-          if (birth_day) personal.birth_day = moment(birth_day, 'YYYY-MM-DD')
-          if (doc_time_provide) personal.doc_time_provide = moment(doc_time_provide, 'YYYY-MM-DD')
+          if (birth_day) personal.birth_day = dayjs(birth_day, 'YYYY-MM-DD')
+          if (doc_time_provide) personal.doc_time_provide = dayjs(doc_time_provide, 'YYYY-MM-DD')
         }
 
         if (organization) {
           const { time_provide } = organization
-          if (time_provide) organization.time_provide = moment(time_provide, 'YYYY-MM-DD')
+          if (time_provide) organization.time_provide = dayjs(time_provide, 'YYYY-MM-DD')
         }
         shallowTransfer.B_side = B_side
       }
@@ -192,8 +192,8 @@ const ChangeInforForm = forwardRef((props, ref) => {
       if (in_out?.length) {
         in_out.map((item) => {
           const { birth_day, doc_time_provide } = item
-          if (birth_day) item.birth_day = moment(birth_day, 'YYYY-MM-DD')
-          if (doc_time_provide) item.doc_time_provide = moment(doc_time_provide, 'YYYY-MM-DD')
+          if (birth_day) item.birth_day = dayjs(birth_day, 'YYYY-MM-DD')
+          if (doc_time_provide) item.doc_time_provide = dayjs(doc_time_provide, 'YYYY-MM-DD')
           return item
         })
       }
@@ -201,9 +201,9 @@ const ChangeInforForm = forwardRef((props, ref) => {
       if (after_change?.length) {
         after_change.map((item) => {
           const { birth_day, doc_time_provide, doc_outdate } = item
-          if (birth_day) item.birth_day = moment(birth_day, 'YYYY-MM-DD')
-          if (doc_time_provide) item.doc_time_provide = moment(doc_time_provide, 'YYYY-MM-DD')
-          if (doc_outdate) item.doc_outdate = moment(doc_outdate, 'YYYY-MM-DD')
+          if (birth_day) item.birth_day = dayjs(birth_day, 'YYYY-MM-DD')
+          if (doc_time_provide) item.doc_time_provide = dayjs(doc_time_provide, 'YYYY-MM-DD')
+          if (doc_outdate) item.doc_outdate = dayjs(doc_outdate, 'YYYY-MM-DD')
           return item
         })
       }
@@ -220,8 +220,8 @@ const ChangeInforForm = forwardRef((props, ref) => {
 
       if (information) {
         const { birth_day, doc_time_provide } = information
-        if (birth_day) information.birth_day = moment(new Date(birth_day))
-        if (doc_time_provide) information.doc_time_provide = moment(new Date(doc_time_provide))
+        if (birth_day) information.birth_day = dayjs(new Date(birth_day))
+        if (doc_time_provide) information.doc_time_provide = dayjs(new Date(doc_time_provide))
       }
       shallowUpdate.information = information
     }

@@ -1,18 +1,17 @@
-import React from 'react'
 import CCInput from '@/components/CCInput'
-import moment from 'moment'
+import dayjs from 'dayjs'
 
 // Fixed 20/08/2023
 // Age: 18 or higher
 
 const CCInputBirthDay = ({ name, ...props }) => {
   const disabledDate = (current) => {
-    return moment().endOf('day').year() - current.year() < 18
+    return dayjs().endOf('day').year() - current.year() < 18
   }
-  const currentDate = `01/01/${moment().endOf('day').year() - 18}`
+  const currentDate = `01/01/${dayjs().endOf('day').year() - 18}`
   return (
     <CCInput
-      defaultPickerValue={moment(currentDate)}
+      defaultPickerValue={dayjs(currentDate)}
       type="date"
       name={name}
       label="Ngày sinh"
