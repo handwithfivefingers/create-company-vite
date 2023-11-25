@@ -1,0 +1,58 @@
+version: '3.1'
+networks:
+ app_network:
+  driver: bridge
+
+services:
+ puppeteer-service:
+  build:
+   context: .
+   dockerfile: ./env/Dockerfile.puppeteer
+  ports:
+   - 3002:3002
+  networks:
+   - app_network
+  volumes:
+   - ./feature/puppeteer:/app
+   - /app/node_modules
+  entrypoint: ['/bin/sh', '-c']
+  command:
+   - npm run dev
+  restart: always
+ cc-service:
+  build:
+   context: .
+   dockerfile: ./env/Dockerfile.server
+  ports:
+   - 3001:3001
+  volumes:
+   - ./backend:/app
+   - ./backend/www:/app/www
+   - /app/node_modules
+  env_file:
+   - .env
+  environment:
+   - WATCHFILES_FORCE_POLLING=true
+  networks:
+   - app_network
+  entrypoint: ['/bin/sh', '-c']
+  command:
+   - npm start
+  restart: always
+ cc-fe:
+  build:
+   context: .
+   dockerfile: ./env/Dockerfile.web
+  ports:
+   - 3003:3003
+  volumes:
+   - ./frontend:/app
+   - ./backend/www:/app/www
+   - /app/node_modules
+  env_file:
+   - .env
+  networks:
+   - app_network
+  entrypoint: ['/bin/sh', '-c']
+  command:
+   - npm run build

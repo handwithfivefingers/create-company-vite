@@ -1,0 +1,17 @@
+FROM node:18.9.0-buster
+
+WORKDIR /app
+
+COPY frontend/package.json /app/
+
+RUN \
+  npm cache clean --force; \
+  npm install --loglevel verbose
+
+# RUN mkdir -p /app/node_modules/.cache; chmod -R 777 /app/node_modules/.cache
+COPY frontend/ /app/
+ENV NODE_OPTIONS=--max_old_space_size=1024
+
+# ENTRYPOINT ["/bin/sh", "-c"]
+
+# CMD ["npm run build"]

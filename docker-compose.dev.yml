@@ -1,49 +1,60 @@
 version: '3.1'
 networks:
-  app_network:
-    driver: bridge
+ app_network:
+  driver: bridge
 
 services:
-  puppeteer-service:
-    build:
-      context: ./feature/puppeteer
-      dockerfile: ./Dockerfile
-    ports:
-      - 3002:3002
-    networks:
-      - app_network
-    # restart: always
-  cc-service:
-    build:
-      context: ./
-      dockerfile: ./docker/development/Dockerfile
-    ports:
-      - 3000-3001:3000-3001
-    volumes:
-      - ./server:/app/server
-    env_file:
-      - .env
-    environment:
-      - WATCHFILES_FORCE_POLLING=true
-    links:
-      - puppeteer-service:puppeteer
-    networks:
-      - app_network
-    # restart: always
-  cc-fe:
-    build:
-      context: ./
-      dockerfile: ./docker/development/Dockerfile.FE
-    ports:
-      - 3003:3003
-    volumes:
-      - .:/app
-      - /node_modules
-    env_file:
-      - .env
-    depends_on:
-      - puppeteer-service
-      - cc-service
-    networks:
-      - app_network
-    # restart: always
+ puppeteer-service:
+  build:
+   context: .
+   dockerfile: ./env/Dockerfile.puppeteer
+  ports:
+   - 3002:3002
+  networks:
+   - app_network
+  volumes:
+   - ./feature/puppeteer:/app
+   - /app/node_modules
+  restart: always
+ cc-service:
+  build:
+   context: .
+   dockerfile: ./env/Dockerfile.server
+  ports:
+   - 3001:3001
+  volumes:
+   - ./backend:/app
+   - ./backend/www:/app/www
+   - /app/node_modules
+  env_file:
+   - .env
+  environment:
+   - WATCHFILES_FORCE_POLLING=true
+  networks:
+   - app_network
+  entrypoint: ['/bin/sh', '-c']
+  command:
+   - npm run dev
+  # restart: always
+ cc-fe:
+  build:
+   context: .
+   dockerfile: ./env/Dockerfile.web
+  ports:
+   - 3003:3003
+  volumes:
+   - ./frontend:/app
+   - ./backend/www:/app/www
+   - /app/node_modules
+  env_file:
+   - .env
+  networks:
+   - app_network
+  entrypoint: ['/bin/sh', '-c']
+  command:
+   - npm run dev
+  deploy:
+   resources:
+    limits:
+     cpus: '2'
+     memory: 1g

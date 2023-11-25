@@ -1,20 +1,5 @@
 ### Using VITEJS
 
-# URL [Site](http://103.57.221.122:3004/)
-
-## Start Project
-
-Start Frontend
-
-```
-npm run dev-f
-```
-
-Start Server
-
-```
-npm run dev-s
-```
 
 ## Edit
 
