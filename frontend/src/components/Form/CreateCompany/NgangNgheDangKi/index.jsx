@@ -4,10 +4,10 @@ import GlobalService from '@/service/GlobalService'
 import { useQuery } from '@tanstack/react-query'
 import { Col, Form, Row, Select, Tag, Typography } from 'antd'
 import clsx from 'clsx'
-import { memo, useEffect, useMemo, useState } from 'react'
+import { uniqBy } from 'lodash-es'
+import { memo, useEffect, useMemo } from 'react'
 import { BsTags } from 'react-icons/bs'
 import styles from './styles.module.scss'
-import { uniqBy } from 'lodash-es'
 const DEFAULT_SELECTED = {
   id: 0,
   key: 0,
@@ -19,7 +19,6 @@ const NgangNgheDangKi = memo(({ BASE_FORM, className }) => {
   const formInstance = Form.useFormInstance()
   const watchCompanyCareerType = Form.useWatch([...BASE_FORM, 'company_career_type'], formInstance)
   const watchCompanyCareerGroup = Form.useWatch([...BASE_FORM, 'company_career_group'], formInstance)
-  const watchCompanyCareerOpt = Form.useWatch([...BASE_FORM, 'company_opt_career'], formInstance)
 
   const listCareer = useQuery({
     queryKey: ['listCategory', watchCompanyCareerGroup],
@@ -64,13 +63,7 @@ const NgangNgheDangKi = memo(({ BASE_FORM, className }) => {
   const handleChangeCareerType = () => {
     refetch()
   }
-  const getUnique = (opts, field) => {
-    return uniqBy(opts, field)
-  }
-  const isIncludesDefaultSelect = () => {
-    // Alway make default select at last
-    return watchCompanyCareerOpt.some((item) => item.value == 1)
-  }
+
   const groupData = useMemo(() => {
     if (!listCareer.isLoading && watchCompanyCareerGroup?.length) {
       return listCareer.data
@@ -78,7 +71,6 @@ const NgangNgheDangKi = memo(({ BASE_FORM, className }) => {
     return []
   }, [watchCompanyCareerGroup, listCareer])
 
-  console.log('groupData', groupData)
   return (
     <Form.Item
       label={<h2>Ngành nghề đăng kí kinh doanh</h2>}
@@ -157,6 +149,7 @@ const NgangNgheDangKi = memo(({ BASE_FORM, className }) => {
                   filterOption={handleFilterOptions}
                   onChange={(val, opt) => handleChange([...BASE_FORM, 'company_main_career'], opt)}
                   required
+                  placeholder="Bấm vào đây để chọn ngành nghề"
                   rules={[{ required: true, message: 'Vui lòng chọn nhóm ngành nghề' }]}
                 >
                   {listCareer?.data?.map((item) => (

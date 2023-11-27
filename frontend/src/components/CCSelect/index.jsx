@@ -191,16 +191,16 @@ const SelectTitle = (props) => {
       pathName = props.pathName
     }
     let value = formInstance.getFieldValue(pathName)
-
-    const isIncludes = props?.options.some((item) => item.value === value)
+    let isIncludes = false
+    if (props?.options) {
+      isIncludes = props?.options?.some((item) => item?.value === value)
+    }
     if (isIncludes) {
       setSelect(value)
-    } else {
-      if (value != 1) {
-        setSelect(1)
-        setInput(value)
-        setInpShow(true)
-      }
+    } else if (value != 1) {
+      setSelect(1)
+      setInput(value)
+      setInpShow(true)
     }
   }, [])
   const handleSelect = (val) => {
