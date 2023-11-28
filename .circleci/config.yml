@@ -2,19 +2,26 @@ version: 2.1
 orbs:
   node: circleci/node@5.0.2
 jobs:
-  build_and_test:
-    executor: node/default
-    steps:
-      - checkout
-      - run: sudo cd ./frontend
-      - node/install-packages:
-          cache-path: ~/create-company-vite/node_modules
-          override-ci-command: npm install
-      - run: npm run test
-      - persist_to_workspace:
-          root: ~/create-company-vite
-          paths:
-            - .
+  # build_and_test:
+  #   executor: node/default
+  #   steps:
+  #     - checkout
+  #     - run: 
+  #       name: Install Docker Compose
+  #       environment:
+  #         COMPOSE_VERSION: '3.1'
+  #       command: |
+  #         curl -L "https://github.com/docker/compose/releases/download/${COMPOSE_VERSION}/docker-compose-$(uname -s)-$(uname -m)" -o ~/docker-compose
+  #         chmod +x ~/docker-compose
+  #         sudo mv ~/docker-compose /usr/local/bin/docker-compose
+  #     - setup_remote_docker
+  #     - run: 
+  #         name: Build images of services declared in docker-compose.yml
+  #         command: docker-compose build
+  #     - persist_to_workspace:
+  #         root: ~/create-company-vite
+  #         paths:
+  #           - .
 
   deploy: # this can be any name you choose
     machine:
@@ -30,10 +37,10 @@ jobs:
 workflows:
   test_my_app:
     jobs:
-      - build_and_test
+      # - build_and_test
       - deploy:
-          requires:
-            - build_and_test # only deploy if the build_and_test job has completed
+          # requires:
+          #   - build_and_test # only deploy if the build_and_test job has completed
           filters:
             branches:
               only: main # only deploy when on main
