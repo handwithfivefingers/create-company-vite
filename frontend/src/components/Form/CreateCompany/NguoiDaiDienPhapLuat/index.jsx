@@ -122,6 +122,9 @@ const PeronalType = forwardRef((props, ref) => {
   const [mounted, setMounted] = useState(false)
   const location = useLocation()
   const formInstance = Form.useFormInstance()
+
+  const originalPerson = Form.useWatch([...BASE_FORM, 'origin_person'], formInstance)
+  console.log('original', originalPerson)
   const personalOptions = useMemo(() => {
     let pathName = [...BASE_FORM, 'origin_person']
     let originPerson = formInstance.getFieldValue(pathName)
@@ -171,12 +174,17 @@ const PeronalType = forwardRef((props, ref) => {
       }
     }
   }, [location])
-
+  const originOptions = originalPerson
+    ?.map((item) => ({ name: item?.name || '...', value: index }))
+    .concat({
+      value: -1,
+      name: 'Khác',
+    })
   const loadData = () => {
     try {
       let value = formInstance.getFieldValue([...BASE_FORM, 'legal_respon', index, 'name'])
-      let options = personalOptions
-      let valIndex = options.findIndex((item) => item.name === value)
+      let options = originOptions
+      let valIndex = options?.findIndex((item) => item.name === value) || -1
       if (valIndex !== -1) {
         const name = [...BASE_FORM, 'legal_respon', index, 'select_person']
         const value = options[valIndex].value
@@ -195,9 +203,9 @@ const PeronalType = forwardRef((props, ref) => {
         label={htmlContent('<b>Chọn người đại diện</b>')}
         rules={[{ required: true, message: 'Chọn người đại diện là bắt buộc' }]}
       >
-        {personalOptions && (
+        {originOptions && (
           <Select
-            options={personalOptions}
+            options={originOptions}
             fieldNames={{ label: 'name', value: 'value' }}
             onSelect={(e) => handleSelectPersonType(e, index)}
             placeholder="Bấm vào đây"
