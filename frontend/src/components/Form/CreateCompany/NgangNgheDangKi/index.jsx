@@ -9,12 +9,6 @@ import { BsTags } from 'react-icons/bs'
 import styles from './styles.module.scss'
 import { BrowserRouter, useLocation, useRoutes } from 'react-router-dom'
 
-const DEFAULT_SELECTED = {
-  id: 0,
-  key: 0,
-  code: 'Bấm vào đây để thêm ngành nghề mới',
-  name: '',
-}
 const NgangNgheDangKi = memo(({ BASE_FORM, className }) => {
   const { currentStep } = useStepData()
   const formInstance = Form.useFormInstance()
@@ -67,7 +61,6 @@ const NgangNgheDangKi = memo(({ BASE_FORM, className }) => {
 
   const groupData = useMemo(() => {
     if (!listCareer.isLoading && watchCompanyCareerGroup?.length) {
-      console.log('listCareer.data', listCareer.data)
       return listCareer.data
     }
     return []
@@ -169,30 +162,23 @@ const NgangNgheDangKi = memo(({ BASE_FORM, className }) => {
   )
 })
 const OptCareerComponent = memo(({ BASE_FORM, data, groupData }) => {
-  const [firstMount, setFirstMount] = useState(true)
   const formInstance = Form.useFormInstance()
   const watchOptCareer = Form.useWatch([...BASE_FORM, 'company_opt_career'], formInstance)
-  let location = useLocation()
   useEffect(() => {
-    if (location?.state) {
-      if (firstMount) {
-        console.log('watchOptCareer', watchOptCareer)
-        setFirstMount(false)
-      } else {
-        if (groupData?.length) {
-          const dataFormat = groupData?.map((item) => ({
-            name: item.name,
-            code: item.code,
-            value: item._id,
-            _id: item._id,
-          }))
-          const prevState = (watchOptCareer?.length && [...watchOptCareer]) || []
-          const nextState = [...prevState, ...dataFormat]
-          setFields(nextState)
-        }
-      }
+    const isFieldTouch = formInstance?.isFieldTouched([...BASE_FORM, 'company_career_group'])
+    if (groupData?.length && isFieldTouch) {
+      const dataFormat = groupData?.map((item) => ({
+        name: item.name,
+        code: item.code,
+        value: item._id,
+        _id: item._id,
+      }))
+      const prevState = (watchOptCareer?.length && [...watchOptCareer]) || []
+      const nextState = [...prevState, ...dataFormat]
+      setFields(nextState)
     }
-  }, [groupData, location])
+  }, [groupData])
+
   // useEffect()
   const setFields = (value) => {
     formInstance.setFields([
@@ -240,8 +226,13 @@ const OptCareerComponent = memo(({ BASE_FORM, data, groupData }) => {
         </Select>
       </Form.Item>
       <Form.Item name={[...BASE_FORM, 'company_opt_career']}>
-        {watchOptCareer?.map((item) => (
-          <TagRender label={item.code + '-' + item.name} closable onClose={() => handleDeselect(item.value, item)} />
+        {watchOptCareer?.map((item, i) => (
+          <TagRender
+            label={item.code + '-' + item.name}
+            closable
+            onClose={() => handleDeselect(item.value, item)}
+            key={['company_opt_career', i]}
+          />
         ))}
 
         {/* <Select
