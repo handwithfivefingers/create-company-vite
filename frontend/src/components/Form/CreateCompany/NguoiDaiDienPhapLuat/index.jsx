@@ -184,7 +184,7 @@ const PeronalType = forwardRef((props, ref) => {
     try {
       let value = formInstance.getFieldValue([...BASE_FORM, 'legal_respon', index, 'name'])
       let options = originOptions
-      let valIndex = options.findIndex((item) => item.name === value)
+      let valIndex = options?.findIndex((item) => item.name === value) || -1
       if (valIndex !== -1) {
         const name = [...BASE_FORM, 'legal_respon', index, 'select_person']
         const value = options[valIndex].value
