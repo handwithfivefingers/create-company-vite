@@ -4,10 +4,11 @@ import GlobalService from '@/service/GlobalService'
 import { useQuery } from '@tanstack/react-query'
 import { Col, Form, Row, Select, Tag, Typography } from 'antd'
 import clsx from 'clsx'
-import { uniqBy } from 'lodash-es'
-import { memo, useEffect, useMemo } from 'react'
+import { memo, useEffect, useMemo, useState } from 'react'
 import { BsTags } from 'react-icons/bs'
 import styles from './styles.module.scss'
+import { BrowserRouter, useLocation, useRoutes } from 'react-router-dom'
+
 const DEFAULT_SELECTED = {
   id: 0,
   key: 0,
@@ -66,6 +67,7 @@ const NgangNgheDangKi = memo(({ BASE_FORM, className }) => {
 
   const groupData = useMemo(() => {
     if (!listCareer.isLoading && watchCompanyCareerGroup?.length) {
+      console.log('listCareer.data', listCareer.data)
       return listCareer.data
     }
     return []
@@ -111,7 +113,7 @@ const NgangNgheDangKi = memo(({ BASE_FORM, className }) => {
                 filterOption={handleFilterOptions}
                 placeholder="Vui lòng bấm vào đây để chọn nhóm ngành liên quan"
                 mode="tags"
-                tagRender={tagRender}
+                tagRender={TagRender}
                 showArrow
               >
                 {careerCategory?.map(({ name, _id }) => {
@@ -166,48 +168,32 @@ const NgangNgheDangKi = memo(({ BASE_FORM, className }) => {
     </Form.Item>
   )
 })
-const getUnique = (opts, field) => {
-  return uniqBy(opts, (o) => o[field])
-}
 const OptCareerComponent = memo(({ BASE_FORM, data, groupData }) => {
+  const [firstMount, setFirstMount] = useState(true)
   const formInstance = Form.useFormInstance()
-  const optCareer = Form.useWatch([...BASE_FORM, 'company_opt_career'], formInstance)
-  const handleFilterOptions = (input, option) => {
-    const { children } = option
-    const searchString = input?.toLowerCase() || ''
-    if (!children) return false
-    if (Array.isArray(children)) {
-      return children.join('').toLowerCase()?.indexOf(searchString) >= 0
-    }
-    return children.toLowerCase()?.indexOf(searchString) >= 0
-  }
-
-  const handleChange = (val, opt) => {
-    const nextOptions = opt.filter((item) => !!item.value)
-    nextOptions.push({
-      children: ['Bấm vào đây để thêm ngành nghề mới', ' - ', ''],
-      data: { id: 0, key: 0, code: 'Bấm vào đây để thêm ngành nghề mới', name: '' },
-      key: null,
-      value: null,
-    })
-    setFields(nextOptions)
-  }
+  const watchOptCareer = Form.useWatch([...BASE_FORM, 'company_opt_career'], formInstance)
+  let location = useLocation()
   useEffect(() => {
-    if (optCareer?.length) {
-      const groupDataFormat = groupData.map((item) => ({
-        code: item.code,
-        name: item.name,
-        value: item._id,
-        key: item._id,
-      }))
-      const beforeArray = [...groupDataFormat, ...optCareer]
-      const uniq = getUnique([...groupDataFormat, ...optCareer], 'value')
-      console.log('beforeArray', beforeArray)
-      console.log('after', uniq)
-      setFields(uniq)
+    if (location?.state) {
+      if (firstMount) {
+        console.log('watchOptCareer', watchOptCareer)
+        setFirstMount(false)
+      } else {
+        if (groupData?.length) {
+          const dataFormat = groupData?.map((item) => ({
+            name: item.name,
+            code: item.code,
+            value: item._id,
+            _id: item._id,
+          }))
+          const prevState = (watchOptCareer?.length && [...watchOptCareer]) || []
+          const nextState = [...prevState, ...dataFormat]
+          setFields(nextState)
+        }
+      }
     }
-  }, [groupData])
-
+  }, [groupData, location])
+  // useEffect()
   const setFields = (value) => {
     formInstance.setFields([
       {
@@ -216,45 +202,76 @@ const OptCareerComponent = memo(({ BASE_FORM, data, groupData }) => {
       },
     ])
   }
+
+  const handleChangeCareer = (val, opt) => {
+    console.log('opt', opt)
+    const prevState = [...watchOptCareer]
+    const nextState = [...prevState, { ...opt.data, value: val }]
+    setFields(nextState)
+  }
+  const handleDeselect = (val, opt) => {
+    const nextState = watchOptCareer?.filter((item) => item.value !== val) || []
+    setFields(nextState)
+  }
+
   return (
-    <Form.Item
-      name={[...BASE_FORM, 'company_opt_career']}
-      label={
-        <div>
-          Chọn ngành nghề kinh doanh <br />
-          <Typography.Text type="danger" italic>
-            Nếu muốn bỏ bớt ngành vui lòng bấm dấu X
-          </Typography.Text>
-        </div>
-      }
-    >
-      <Select
-        showSearch
-        allowClear
-        style={{ width: '100%' }}
-        optionFilterProp="children"
-        filterOption={handleFilterOptions}
-        mode="tags"
-        tagRender={tagRender}
-        showArrow
-        onChange={handleChange}
-        placeholder={'Bấm vào đây để thêm ngành nghề mới'}
-        onClear={() => setFields([])}
+    <>
+      <Form.Item
+        label={
+          <div>
+            Chọn ngành nghề kinh doanh <br />
+            <Typography.Text type="danger" italic>
+              Nếu muốn bỏ bớt ngành vui lòng bấm dấu X
+            </Typography.Text>
+          </div>
+        }
       >
-        {data?.map((item) => (
-          <Select.Option value={item._id} data={item} key={item._id}>
-            {item.code} - {item.name}
-          </Select.Option>
+        <Select
+          onSelect={handleChangeCareer}
+          value={null}
+          onDeselect={handleDeselect}
+          placeholder="Chọn ngành nghề kinh doanh"
+        >
+          {data?.map((item) => (
+            <Select.Option value={item._id} data={item} key={item._id}>
+              {item.code} - {item.name}
+            </Select.Option>
+          ))}
+        </Select>
+      </Form.Item>
+      <Form.Item name={[...BASE_FORM, 'company_opt_career']}>
+        {watchOptCareer?.map((item) => (
+          <TagRender label={item.code + '-' + item.name} closable onClose={() => handleDeselect(item.value, item)} />
         ))}
-        <Select.Option key={null} value={null} data={DEFAULT_SELECTED} style={{ display: 'none' }}>
-          {DEFAULT_SELECTED.code}
-        </Select.Option>
-      </Select>
-    </Form.Item>
+
+        {/* <Select
+          showSearch
+          allowClear
+          style={{ width: '100%' }}
+          optionFilterProp="children"
+          filterOption={handleFilterOptions}
+          mode="tags"
+          tagRender={tagRender}
+          showArrow
+          onChange={handleChange}
+          placeholder={'Bấm vào đây để thêm ngành nghề mới'}
+          onClear={() => setFields([])}
+        >
+          {data?.map((item) => (
+            <Select.Option value={item._id} data={item} key={item._id}>
+              {item.code} - {item.name}
+            </Select.Option>
+          ))}
+          <Select.Option key={null} value={null} data={DEFAULT_SELECTED} style={{ display: 'none' }}>
+            {DEFAULT_SELECTED.code}
+          </Select.Option>
+        </Select> */}
+      </Form.Item>
+    </>
   )
 })
 
-const tagRender = (props) => {
+const TagRender = (props) => {
   const { label, closable, onClose } = props
   const onPreventMouseDown = (event) => {
     event.preventDefault()
