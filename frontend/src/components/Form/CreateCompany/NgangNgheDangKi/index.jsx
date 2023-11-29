@@ -216,7 +216,7 @@ const OptCareerComponent = memo(({ BASE_FORM, data, groupData }) => {
           onSelect={handleChangeCareer}
           value={null}
           onDeselect={handleDeselect}
-          placeholder="Chọn ngành nghề kinh doanh"
+          placeholder="Bấm vào đây để chọn thêm ngành nghề"
         >
           {data?.map((item) => (
             <Select.Option value={item._id} data={item} key={item._id}>
