@@ -21,6 +21,7 @@ env.config()
 const { NODE_ENV } = process.env
 
 const URL_PERMISSIONS = [
+  'http://localhost:80',
   'http://localhost:3000',
   'http://localhost:3001',
   'http://localhost:3002',

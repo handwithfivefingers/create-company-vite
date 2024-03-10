@@ -56,3 +56,13 @@ services:
   entrypoint: ['/bin/sh', '-c']
   command:
    - npm run build
+   
+  cc-office:
+   image: onlyoffice/documentserver
+   ports:
+    - 80:80
+   environment:
+    - JWT_ENABLED=false
+   networks:
+    - app_network
+   entrypoint: ['/bin/sh', '-c']

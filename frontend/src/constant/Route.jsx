@@ -42,6 +42,7 @@ const AdminTransaction = lazy(() => import('@/pages/Admin/AdminTransaction'))
 const SettingPayment = lazy(() => import('@/pages/Admin/AdminSetting/Payment'))
 const SettingMail = lazy(() => import('@/pages/Admin/AdminSetting/Mail'))
 const SettingDocument = lazy(() => import('@/pages/Admin/AdminSetting/Document'))
+const AdminEditor = lazy(() => import('@/pages/Admin/AdminEditor'))
 
 const CCResult = lazy(() => import('@/pages/User/Result'))
 
@@ -64,6 +65,11 @@ export const AdminRouter = [
   {
     path: '/admin/transaction',
     name: 'Hóa đơn',
+    icon: <RiBarChartFill />,
+  },
+  {
+    path: '/admin/editor',
+    name: 'Editor',
     icon: <RiBarChartFill />,
   },
   {
@@ -176,6 +182,12 @@ export const LAYOUT_ROUTER = ({ status, role }) => [
             element: <AdminTransaction />,
           },
           {
+            path: 'editor',
+            title: 'Editor',
+            icon: <RiBarChartFill />,
+            element: <AdminEditor />,
+          },
+          {
             path: 'user',
             title: 'Người dùng',
             icon: <RiBriefcase4Fill />,
@@ -222,10 +234,10 @@ export const LAYOUT_ROUTER = ({ status, role }) => [
             icon: <FcInfo />,
             element: <AdminAbout />,
           },
-          {
-            path: '*',
-            element: <Error />,
-          },
+          // {
+          //   path: '*',
+          //   element: <Error />,
+          // },
         ]
       ) : (
         <Navigate to="/" />
@@ -305,8 +317,8 @@ export const LAYOUT_ROUTER = ({ status, role }) => [
     path: '/404',
     element: <Error />,
   },
-  {
-    path: '*',
-    element: <Error />,
-  },
+  // {
+  //   path: '*',
+  //   element: <Error />,
+  // },
 ]

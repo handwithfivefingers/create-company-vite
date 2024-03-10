@@ -14,7 +14,9 @@ lerna-debug.log*
 /backend/uploads/*.pdf
 /backend/uploads/mockdata/database/**
 /backend/www/**
-
+/office/cert/**
+/office/db/**
+/office/cache/**
 dist
 dist-build
 dist-ssr
