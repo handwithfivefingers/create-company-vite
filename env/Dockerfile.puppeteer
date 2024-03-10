@@ -3,7 +3,6 @@ FROM node:18-alpine
 # Note: this installs the necessary libs to make the bundled version of Chrome that Puppeteer
 # installs, work.
 
-
 WORKDIR /app
  
 COPY feature/puppeteer/package.json /app/
