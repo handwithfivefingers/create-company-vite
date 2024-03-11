@@ -37,7 +37,6 @@ export default defineConfig(({ command }) => {
     resolve: {
       alias: [{ find: '@', replacement: path.resolve(__dirname, 'src') }],
     },
-
     server: {
       watch: {
         usePolling: true,
@@ -59,12 +58,10 @@ export default defineConfig(({ command }) => {
   }
 
   if (command === 'serve') {
-    // dev build
     return {
       ...configs,
     }
   } else {
-    // command === 'build'
     return {
       ...configs,
       esbuild: {

@@ -40,7 +40,6 @@ const AdminEditor = () => {
     const isSaved = !event.data // true => data editing, false => data saved
 
     // const resp = await fetch('http://localhost:3001/api/admin/offices')
-
   }
   return (
     <div style={{ height: '80vh' }} ref={ref}>
@@ -54,12 +53,39 @@ const AdminEditor = () => {
           documentType: 'word',
           document: {
             fileType: 'docx',
-            key: 'truyenpro',
+            key: 'truyenpro_1',
             title: 'Example Document Title.docx',
-            url: 'http://127.0.0.1:3001/public/files/change_info/change_info_uyquyen.docx',
-            // token: 'YTIn2Cg46SYUsOzLKPwQDonMygwqH85A',
+            url: 'http://172.27.96.1:3001/public/files/change_info/change_info_uyquyen.docx',
           },
           editorConfig: {
+            // autosave: true,
+            callbackUrl: `http://172.27.96.1:3001/api/callback?fileName=change_info_uyquyen.docx`,
+            customization: {
+              anonymous: {
+                request: true,
+                label: 'Guest',
+              },
+              autosave: true,
+              comments: true,
+              compactHeader: false,
+              compactToolbar: false,
+              compatibleFeatures: false,
+              forcesave: true,
+              help: true,
+              hideRightMenu: false,
+              hideRulers: false,
+              integrationMode: 'embed',
+              macros: true,
+              macrosMode: 'Warn',
+              mentionShare: true,
+              mobileForceView: true,
+              plugins: true,
+              toolbarHideFileName: false,
+              toolbarNoTabs: false,
+              uiTheme: 'theme-dark',
+              unit: 'cm',
+              zoom: 100,
+            },
             // coEditing: {
             //   mode: 'fast',
             //   change: true,
@@ -69,7 +95,6 @@ const AdminEditor = () => {
             //     request: true,
             //     label: 'Guest',
             //   },
-            //   autosave: true,
             //   comments: true,
             //   compactHeader: false,
             //   compactToolbar: false,

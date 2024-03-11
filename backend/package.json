@@ -37,6 +37,7 @@
     "query-string": "^7.1.1",
     "sha256": "^0.2.0",
     "shortid": "^2.2.16",
-    "slugify": "^1.6.4"
+    "slugify": "^1.6.4",
+    "sync-request": "^6.1.0"
   }
 }
