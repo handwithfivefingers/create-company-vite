@@ -4,26 +4,24 @@ networks:
     driver: bridge
 
 services:
-  # puppeteer-service:
-  #   build:
-  #     context: ./
-  #     dockerfile: ./env/Dockerfile.puppeteer
-  #   ports:
-  #     - 3002:3002
-  #   networks:
-  #     - app_network
-  #   volumes:
-  #     - ./feature/puppeteer:/app
-  #   restart: always
+  puppeteer-service:
+    build: ./env/Dockerfile.puppeteer
+    ports:
+      - 3002:3002
+    networks:
+      - app_network
+    volumes:
+      - ./feature/puppeteer:/app
+      - /app/node_modules
+    restart: always
   cc-service:
-    build:
-      context: ./
-      dockerfile: ./env/Dockerfile.server
+    build: ./env/Dockerfile.server
     ports:
       - 3001:3001
     volumes:
       - ./backend:/app
       - ./backend/www:/app/www
+      - /app/node_modules
     env_file:
       - .env
     environment:
@@ -35,31 +33,30 @@ services:
       - npm run dev
     # restart: always
   cc-fe:
-    build:
-      context: ./
-      dockerfile: ./env/Dockerfile.web
+    build: ./env/Dockerfile.web
     ports:
       - 3003:3003
     volumes:
       - ./frontend:/app
       - ./backend/www:/app/www
+      - /app/node_modules
     env_file:
       - .env
     networks:
       - app_network
     entrypoint: ["/bin/sh", "-c"]
     command:
-      - npm install && npm run dev
-  cc-office:
-    image: onlyoffice/documentserver
-    ports:
-      - 1200:80
-    environment:
-      - JWT_ENABLED=false
-    volumes:
-      - ./office/logs:/var/log/onlyoffice
-      - ./office/cert:/var/www/onlyoffice/Data
-      - ./office/cache:/var/lib/onlyoffice
-      - ./office/db:/var/lib/postgresql
-    networks:
-      - app_network
+      - npm run dev
+#  cc-office:
+#   image: onlyoffice/documentserver
+#   ports:
+#    - 1200:80
+#   environment:
+#    - JWT_ENABLED=false
+#   volumes:
+#    - ./office/logs:/var/log/onlyoffice
+#    - ./office/cert:/var/www/onlyoffice/Data
+#    - ./office/cache:/var/lib/onlyoffice
+#    - ./office/db:/var/lib/postgresql
+#   networks:
+#    - app_network

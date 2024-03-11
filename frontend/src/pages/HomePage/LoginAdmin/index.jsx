@@ -1,5 +1,5 @@
 import { useRouterData } from '@/helper/Context'
-import { Button, Card, Form, Input } from 'antd'
+import { Button, Card, Form, Input, message } from 'antd'
 import { useEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
@@ -48,7 +48,9 @@ const LoginForm = () => {
         window.location.href = '/'
       }
     } catch (error) {
-      console.log('error', error)
+      const msg = error.response?.data?.error?.message || error.toString()
+      message.error(msg)
+      console.log('error', error.toString())
     } finally {
       setLoading(false)
     }
