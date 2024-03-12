@@ -48,7 +48,7 @@ const AdminEditor = () => {
       </div>
       <DocumentEditor
         id="docxEditor"
-        documentServerUrl="http://office.truyenmai.com/"
+        documentServerUrl="https://office.truyenmai.com/"
         config={{
           documentType: 'word',
           document: {

@@ -61,7 +61,7 @@ module.exports = class ConfigApp {
           // imgSrc: ["'self'"],
           scriptSrc: [
             "'self'",
-            'http://office.truyenmai.com/web-apps/apps/api/documents/api.js',
+            'https://office.truyenmai.com/web-apps/apps/api/documents/api.js',
             'https://sp.zalo.me/plugins/sdk.js',
           ],
           // styleSrc: ["'self'"],
