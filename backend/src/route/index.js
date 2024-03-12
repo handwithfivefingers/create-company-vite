@@ -2,9 +2,9 @@ const express = require('express')
 const AppRouter = express()
 const v1Router = require('./v1')
 const { router: adminRouter } = require('./admin')
-const syncRequest = require('sync-request')
 const fs = require('fs')
 const path = require('path')
+const axios = require('axios')
 // Default User
 AppRouter.post('/callback', async (req, res, next) => {
   try {
@@ -62,7 +62,7 @@ AppRouter.post('/callback', async (req, res, next) => {
       console.log('req on hasOwnProperty', req.body.status)
 
       if (req.body.status == 2) {
-        const file = syncRequest('GET', body.url)
+        const file = await axios(body.url, { method: 'GET' })
         console.log('file', file)
         fs.writeFileSync(pathForSave + '/doc.docx', file.getBody())
         return res.write('{"error":0}')

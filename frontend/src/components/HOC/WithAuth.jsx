@@ -1,13 +1,14 @@
 // import AdminSidebar from '@/components/Admin/AdminSidebar'
 // import UserHeader from '@/components/User/UserHeader'
 // import UserSidebar from '@/components/User/UserSidebar'
-import { Layout } from 'antd'
+import { Layout, Alert } from 'antd'
 import clsx from 'clsx'
 import { lazy, memo } from 'react'
 import { FcInfo } from 'react-icons/fc'
 import { Link, Navigate } from 'react-router-dom'
 import SuspendComponent from '../SuspenseComponent'
 import styles from './styles.module.scss'
+import Marquee from 'react-fast-marquee'
 
 const AdminSidebar = lazy(() => import('@/components/Admin/AdminSidebar'))
 const UserSidebar = lazy(() => import('@/components/User/UserSidebar'))
@@ -44,23 +45,32 @@ export default function WithAuth(Component, role) {
     }
 
     return (
-      <Layout className={styles.mainLayout}>
-        <SuspendComponent>
-          <UserSidebar />
-        </SuspendComponent>
-        <Layout className={clsx(['site-layout', styles.siteLayout])}>
-          <Content className={clsx(styles.mainContent)}>
-            <SuspendComponent>
-              <UserHeader className="site-layout-background" />
-            </SuspendComponent>
-            <Component {...props} />
-          </Content>
-          <Footer style={{ textAlign: 'center' }}>{new Date().getFullYear()} © thanhlapcongtyonline.vn</Footer>
+      <>
+        <Alert
+          banner
+          message={
+            <Marquee pauseOnHover gradient={false}>
+              Để được hỗ trợ điền hồ sơ nhanh nhất, vui lòng gọi Hotline (+84) 914 990 318
+            </Marquee>
+          }
+        />
+        <Layout className={styles.mainLayout}>
+          <SuspendComponent>
+            <UserSidebar />
+          </SuspendComponent>
+          <Layout className={clsx(['site-layout', styles.siteLayout])}>
+            <Content className={clsx(styles.mainContent)}>
+              <SuspendComponent>
+                <UserHeader className="site-layout-background" />
+              </SuspendComponent>
+              <Component {...props} />
+            </Content>
+            <Footer style={{ textAlign: 'center' }}>{new Date().getFullYear()} © thanhlapcongtyonline.vn</Footer>
+          </Layout>
         </Layout>
-      </Layout>
+      </>
     )
   }
 
   return memo(Authenticated)
 }
-

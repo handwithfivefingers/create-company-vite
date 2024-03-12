@@ -45,7 +45,7 @@
 .mainLayout {
   gap: 12px;
   padding: 12px;
-  min-height: 100vh;
+  height: calc(100vh - 40px);
   overflow-x: hidden;
   @media (max-width: 767px) {
     padding: 0;
@@ -54,7 +54,7 @@
 
 .siteLayout {
   width: calc(100vw - 236px);
-  height: calc(100vh - 24px);
+  height: calc(100vh - 64px);
   @media (max-width: 767px) {
     height: calc(100vh);
   }

@@ -48,18 +48,18 @@ const AdminEditor = () => {
       </div>
       <DocumentEditor
         id="docxEditor"
-        documentServerUrl="http://localhost:6969/"
+        documentServerUrl="http://office.truyenmai.com/"
         config={{
           documentType: 'word',
           document: {
             fileType: 'docx',
             key: 'truyenpro_1',
             title: 'Example Document Title.docx',
-            url: 'http://172.27.96.1:3001/public/files/change_info/change_info_uyquyen.docx',
+            url: 'https://app.thanhlapcongtyonline.vn/public/files/change_info/change_info_uyquyen.docx',
           },
           editorConfig: {
             // autosave: true,
-            callbackUrl: `http://172.27.96.1:3001/api/callback?fileName=change_info_uyquyen.docx`,
+            // callbackUrl: `http://172.27.96.1:3001/api/callback?fileName=change_info_uyquyen.docx`,
             customization: {
               anonymous: {
                 request: true,
