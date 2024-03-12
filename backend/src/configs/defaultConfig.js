@@ -56,12 +56,16 @@ module.exports = class ConfigApp {
     this.app.use(
       helmet.contentSecurityPolicy({
         directives: {
-          defaultSrc: ["'self'"],
-          fontSrc: ["'self'"],
-          imgSrc: ["'self'"],
-          scriptSrc: ["'self'", 'https://office.truyenmai.com'],
-          styleSrc: ["'self'"],
-          frameSrc: ["'self'"],
+          // defaultSrc: ["'self'"],
+          // fontSrc: ["'self'"],
+          // imgSrc: ["'self'"],
+          scriptSrc: [
+            "'self'",
+            'http://office.truyenmai.com/web-apps/apps/api/documents/api.js',
+            'https://sp.zalo.me/plugins/sdk.js',
+          ],
+          // styleSrc: ["'self'"],
+          // frameSrc: ["'self'"],
         },
         reportOnly: true, // Set to 'true' to enable report-only mode
       }),
