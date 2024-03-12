@@ -54,20 +54,41 @@ module.exports = class ConfigApp {
   onLoadConfig = () => {
     this.app.set('trust proxy', 1)
     this.app.use(
-      helmet.contentSecurityPolicy({
-        directives: {
-          defaultSrc: ["'self'"],
-          fontSrc: ["'self'"],
-          imgSrc: ["'self'"],
-          scriptSrc: [
-            "'self'",
-            'https://office.truyenmai.com/web-apps/apps/api/documents/api.js',
-            'https://sp.zalo.me/plugins/sdk.js',
-          ],
-          styleSrc: ["'self'"],
-          frameSrc: ["'self'"],
+      helmet({
+        contentSecurityPolicy: {
+          directives: {
+            defaultSrc: ["'self'"],
+            // fontSrc: ["'self'"],
+            // imgSrc: ["'self'"],
+            scriptSrc: [
+              "'self'",
+              'https://*.truyenmai.com',
+              'https://*.zalo.me/',
+              'https://office.truyenmai.com/web-apps/apps/api/documents/api.js',
+              'https://sp.zalo.me/plugins/sdk.js',
+              "'unsafe-inline'",
+            ],
+            // styleSrc: ["'self'"],
+            frameSrc: [
+              "'self'",
+              'https://*.truyenmai.com/',
+              'https://*.zalo.me/',
+              'https://office.truyenmai.com/web-apps/apps/api/documents/api.js',
+              'https://sp.zalo.me/plugins/sdk.js',
+            ],
+            connectSrc: [
+              "'self'",
+              'https://*.truyenmai.com/',
+              'https://*.zalo.me/',
+              'https://office.truyenmai.com/web-apps/apps/api/documents/api.js',
+              'https://sp.zalo.me/plugins/sdk.js',
+              "'unsafe-inline'",
+            ],
+          },
+          // reportOnly: true, // Set to 'true' to enable report-only mode
         },
-        reportOnly: true, // Set to 'true' to enable report-only mode
+        crossOriginResourcePolicy: { policy: 'cross-origin' },
+        crossOriginEmbedderPolicy: false,
       }),
     )
     this.app.use(express.json())
