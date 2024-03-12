@@ -53,7 +53,19 @@ module.exports = class ConfigApp {
 
   onLoadConfig = () => {
     this.app.set('trust proxy', 1)
-    this.app.use(helmet())
+    this.app.use(
+      helmet.contentSecurityPolicy({
+        directives: {
+          defaultSrc: ["'self'"],
+          fontSrc: ["'self'"],
+          imgSrc: ["'self'"],
+          scriptSrc: ["'self'", 'https://office.truyenmai.com'],
+          styleSrc: ["'self'"],
+          frameSrc: ["'self'"],
+        },
+        reportOnly: true, // Set to 'true' to enable report-only mode
+      }),
+    )
     this.app.use(express.json())
     this.app.use(cookieParser())
     return this
