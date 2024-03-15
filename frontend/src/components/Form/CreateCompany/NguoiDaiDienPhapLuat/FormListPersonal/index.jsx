@@ -22,7 +22,7 @@ const FormListPersonType = forwardRef((props, ref) => {
   const doctypeWatch = Form.useWatch([...BASE_FORM, 'legal_respon', i, 'doc_type'], formInstance)
 
   const removeItem = (index) => {
-    let val = ref.current.getFieldValue([...BASE_FORM, 'legal_respon'])
+    let val = formInstance.getFieldValue([...BASE_FORM, 'legal_respon'])
 
     val = [...val.slice(0, index), ...val.slice(index + 1)]
 
@@ -34,7 +34,7 @@ const FormListPersonType = forwardRef((props, ref) => {
 
     setPresent(objPresent)
 
-    onSetFields([...BASE_FORM, 'legal_respon'], val, ref)
+    onSetFields([...BASE_FORM, 'legal_respon'], val, { current: formInstance })
 
     setState(val)
   }
@@ -51,7 +51,6 @@ const FormListPersonType = forwardRef((props, ref) => {
     return result
   }, [type])
 
-  console.log('present', present)
   return (
     <Form.Item
       label={

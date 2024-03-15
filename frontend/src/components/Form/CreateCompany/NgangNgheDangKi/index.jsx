@@ -4,10 +4,9 @@ import GlobalService from '@/service/GlobalService'
 import { useQuery } from '@tanstack/react-query'
 import { Col, Form, Row, Select, Tag, Typography } from 'antd'
 import clsx from 'clsx'
-import { memo, useEffect, useMemo, useState } from 'react'
+import { memo, useEffect, useMemo } from 'react'
 import { BsTags } from 'react-icons/bs'
 import styles from './styles.module.scss'
-import { BrowserRouter, useLocation, useRoutes } from 'react-router-dom'
 
 const NgangNgheDangKi = memo(({ BASE_FORM, className }) => {
   const { currentStep } = useStepData()

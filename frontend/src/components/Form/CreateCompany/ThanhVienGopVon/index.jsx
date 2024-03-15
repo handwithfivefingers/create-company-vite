@@ -1,96 +1,83 @@
-import { onSetFields } from '@/helper/Common'
+import { useStepData } from '@/context/StepProgressContext'
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons'
 import { Button, Col, Form, Row, Select } from 'antd'
 import clsx from 'clsx'
-import { forwardRef, useEffect, useState } from 'react'
-import { useLocation } from 'react-router-dom'
+import dayjs from 'dayjs'
+import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useOrder } from '../../../../store/reducer'
 import OriginalPerson from './OriginalPerson'
 import Personal from './Personal'
 import styles from './styles.module.scss'
-import { useStepData } from '@/context/StepProgressContext'
-import dayjs from 'dayjs'
 
-const ThanhVienGopVon = forwardRef(({ data, ...props }, ref) => {
+const ThanhVienGopVon = ({ data, ...props }) => {
   const { currentStep } = useStepData()
   const [listForm, setListForm] = useState([{}])
   const [_render, setRender] = useState(false)
-  const location = useLocation()
   const formInstance = Form.useFormInstance()
   const { BASE_FORM } = props
-  // run 1
+  const categoryType = data?.type
+  const personLength = listForm.length
+  const origin_person = useOrder(['createCompany', 'approve', 'origin_person'])
+  console.log('origin_person', origin_person)
   useEffect(() => {
-    let value = [...listForm] // default is 1
-    if (data?.type == 2 && value.length < 2) {
-      value.push({}) // -> 2
-      setListForm(value)
-    } else if (data?.type === 3 && value.length < 3) {
-      value.push({}, {}) // -> 3
-      setListForm(value)
-    }
+    getDefaultPerson()
   }, [])
-  // run 2
 
   useEffect(() => {
-    if (data?.type) {
-      switch (data?.type) {
-        case 2:
-          setListForm([{}, {}])
-          break
-        case 3:
-          setListForm([{}, {}, {}])
-          break
-        default:
-          setListForm([{}])
-          break
+    if (origin_person?.length) {
+      for (let [index, person] of origin_person.entries()) {
+        formInstance.setFields([
+          {
+            name: [...BASE_FORM, 'origin_person', index],
+            value: {
+              ...person,
+              doc_outdate: person?.doc_outdate && dayjs(person?.doc_outdate),
+              birth_day: person?.birth_day && dayjs(person?.birth_day),
+              doc_time_provide: person?.doc_time_provide && dayjs(person?.doc_time_provide),
+              doc_place_provide: person?.doc_place_provide,
+              organization: {
+                ...person.organization,
+                doc_time_provide:
+                  person?.organization?.doc_time_provide && dayjs(person?.organization?.doc_time_provide),
+              },
+            },
+          },
+        ])
       }
     }
-  }, [data])
+  }, [origin_person])
 
-  // run 3
-  useEffect(() => {
-    if (location.state) {
-      setTimeout(() => {
-        const data = location.state.data
-        const current = data.create_company?.approve?.origin_person
-        setListForm(current)
-        if (current.length) {
-          current.map((org, i) => {
-            formInstance.setFields([
-              {
-                name: [...BASE_FORM, 'origin_person', i],
-                value: {
-                  ...org,
-                  doc_outdate: org?.doc_outdate ? dayjs(org?.doc_outdate) : null,
-                  birth_day: org?.birth_day ? dayjs(org?.birth_day) : null,
-                  doc_time_provide: org?.doc_time_provide ? dayjs(org?.doc_time_provide) : null,
-                  organization: {
-                    ...org.organization,
-                    doc_time_provide: org?.organization?.doc_time_provide
-                      ? dayjs(org?.organization?.doc_time_provide)
-                      : null,
-                  },
-                },
-              },
-            ])
-          })
-        }
-      }, currentStep * 1000)
+  const getDefaultPerson = () => {
+    if (personLength < 2 && categoryType == 2) {
+      const nextFormState = [...listForm]
+      nextFormState.push({})
+      setListForm(nextFormState)
+      return
+    } else if (personLength < 3 && categoryType == 3) {
+      const nextFormState = [...listForm]
+      nextFormState.push({}, {})
+      setListForm(nextFormState)
+      return
     }
-  }, [location])
-
-  const renderPresentPerson = (index) => {
-    let xhtml = null
-    let presentPerson = ref.current?.getFieldValue([...BASE_FORM, 'origin_person', index, 'present_person'])
-    const path = [...BASE_FORM, 'origin_person', index]
-    if (presentPerson === 'personal') {
-      xhtml = <Personal {...props} ref={ref} BASE_FORM={path} type={data?.type} />
-    } else if (presentPerson === 'organization') {
-      xhtml = (
-        <OriginalPerson {...props} ref={ref} BASE_FORM={[...BASE_FORM, 'origin_person', index]} type={data?.type} />
-      )
-    }
-    return xhtml
   }
+
+  const renderPresentPerson = useCallback(
+    (index) => {
+      let xhtml = null
+      let presentPerson = formInstance?.getFieldValue([...BASE_FORM, 'origin_person', index, 'present_person'])
+      if (origin_person && origin_person[index]?.present_person) {
+        presentPerson = origin_person[index].present_person
+      }
+      const path = [...BASE_FORM, 'origin_person', index]
+      if (presentPerson === 'personal') {
+        xhtml = <Personal {...props} BASE_FORM={path} type={categoryType} index={index} />
+      } else if (presentPerson === 'organization') {
+        xhtml = <OriginalPerson {...props} BASE_FORM={[...BASE_FORM, 'origin_person', index]} type={categoryType} />
+      }
+      return xhtml
+    },
+    [origin_person],
+  )
 
   // /**
   //  * @functions List Form Functions
@@ -98,7 +85,6 @@ const ThanhVienGopVon = forwardRef(({ data, ...props }, ref) => {
 
   const addItem = () => {
     setListForm([...listForm, {}])
-
     return handleScrolltoField()
   }
 
@@ -107,21 +93,17 @@ const ThanhVienGopVon = forwardRef(({ data, ...props }, ref) => {
 
     let pathName = [...BASE_FORM, 'origin_person', lastIndex, 'present_person']
 
-    ref.current.scrollToField(pathName, {
+    formInstance.scrollToField(pathName, {
       behavior: 'smooth',
     })
   }
 
   const removeItem = (index) => {
     try {
-      let val = ref.current.getFieldValue([...BASE_FORM, 'origin_person'])
-
+      let val = formInstance.getFieldValue([...BASE_FORM, 'origin_person'])
       val = [...val.slice(0, index), ...val.slice(index + 1)]
-
       let listVal = [...listForm.slice(0, index), ...listForm.slice(index + 1)]
-
-      onSetFields([...BASE_FORM, 'origin_person'], val, ref)
-
+      formInstance.setFields([{ name: [...BASE_FORM, 'origin_person'], value: val }])
       setListForm(listVal)
     } catch (err) {
       console.log('removeItem', err)
@@ -139,6 +121,17 @@ const ThanhVienGopVon = forwardRef(({ data, ...props }, ref) => {
     return `Thành viên góp vốn ${data?.type !== 1 ? ` thứ ${i + 1}` : ''}`
   }
 
+  const AddNewPerson = useMemo(() => {
+    if (categoryType != 1 && personLength < 10)
+      return (
+        <Col span={24} style={{ position: 'sticky', top: '0', zIndex: 1 }}>
+          <Button onClick={addItem} icon={<PlusOutlined />} type="primary">
+            Thêm thành viên góp vốn
+          </Button>
+        </Col>
+      )
+  }, [categoryType, personLength])
+
   return (
     <Form.Item
       className={clsx([
@@ -150,15 +143,7 @@ const ThanhVienGopVon = forwardRef(({ data, ...props }, ref) => {
       ])}
     >
       <Row gutter={[16, 12]}>
-        {listForm.length < 10 && data?.type !== 1 ? (
-          <Col span={24} style={{ position: 'sticky', top: '0', zIndex: 1 }}>
-            <Button onClick={addItem} icon={<PlusOutlined />} type="primary">
-              Thêm thành viên góp vốn
-            </Button>
-          </Col>
-        ) : (
-          ''
-        )}
+        {AddNewPerson}
 
         {listForm.map((item, i) => {
           return (
@@ -182,8 +167,30 @@ const ThanhVienGopVon = forwardRef(({ data, ...props }, ref) => {
                   </div>
                 }
               >
-                <PresentPerson BASE_FORM={BASE_FORM} index={i} ref={ref} presentSelect={presentSelect} />
-
+                {/* <PresentPerson BASE_FORM={BASE_FORM} index={i} presentSelect={presentSelect} /> */}
+                <Form.Item
+                  name={[...BASE_FORM, 'origin_person', i, 'present_person']}
+                  rules={{
+                    required: true,
+                    message: 'Thành viên góp vốn là bắt buộc',
+                  }}
+                  required
+                >
+                  <Select
+                    placeholder="Bấm vào đây"
+                    onChange={presentSelect}
+                    options={[
+                      {
+                        label: 'Thành viên góp vốn là cá nhân',
+                        value: 'personal',
+                      },
+                      {
+                        label: 'Thành viên góp vốn là tổ chức',
+                        value: 'organization',
+                      },
+                    ]}
+                  />
+                </Form.Item>
                 {renderPresentPerson(i)}
               </Form.Item>
             </Col>
@@ -192,26 +199,6 @@ const ThanhVienGopVon = forwardRef(({ data, ...props }, ref) => {
       </Row>
     </Form.Item>
   )
-})
-
-const PresentPerson = forwardRef((props, ref) => {
-  const { BASE_FORM, index } = props
-
-  return (
-    <Form.Item
-      name={[...BASE_FORM, 'origin_person', index, 'present_person']}
-      rules={{
-        required: true,
-        message: 'Thành viên góp vốn là bắt buộc',
-      }}
-      required
-    >
-      <Select placeholder="Bấm vào đây" onChange={props.presentSelect}>
-        <Select.Option value="personal">Thành viên góp vốn là cá nhân</Select.Option>
-        <Select.Option value="organization">Thành viên góp vốn là tổ chức</Select.Option>
-      </Select>
-    </Form.Item>
-  )
-})
+}
 
 export default ThanhVienGopVon

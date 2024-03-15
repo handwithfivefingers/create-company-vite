@@ -9,6 +9,8 @@ import dayjs from 'dayjs'
 import { Suspense, lazy, useEffect, useRef, useState } from 'react'
 import { useNavigate, useOutletContext } from 'react-router-dom'
 import styles from './styles.module.scss'
+import { useOrderAction } from '../../../store/actions/order.actions'
+import { useDispatch } from 'react-redux'
 
 const TransactionModal = lazy(() => import('@/components/Modal/TransactionModal'))
 
@@ -24,6 +26,9 @@ const UserOrder = () => {
   const modalRef = useRef()
 
   let navigate = useNavigate()
+
+  const action = useOrderAction()
+  const dispatch = useDispatch()
 
   useEffect(() => {
     getScreenData()
@@ -43,6 +48,7 @@ const UserOrder = () => {
 
   const onEditOrder = (record) => {
     let { data } = record
+
     let url = null
     for (let props in data) {
       if (props === 'pending') {
@@ -52,10 +58,12 @@ const UserOrder = () => {
       } else if (props === 'dissolution') {
         url = 'giai-the'
       } else if (props === 'create_company') {
+        dispatch(action.onUpdateCreateCompany(data.create_company))
+        dispatch(action.onUpdateCategory(record.category))
+        dispatch(action.onUpdateProducts(record.products))
         url = 'thanh-lap-doanh-nghiep'
       }
     }
-
     navigate(`/user/san-pham/${url}`, { state: { ...record } })
   }
 

@@ -8,16 +8,35 @@ import {
 } from '@/components/CCInputIdentify'
 import CCSelect from '@/components/CCSelect'
 import { SELECT } from '@/constant/Common'
-import { htmlContent, onSetFields } from '@/helper/Common'
+import { htmlContent } from '@/helper/Common'
 import { Form, InputNumber } from 'antd'
-import { forwardRef } from 'react'
 import styles from './styles.module.scss'
-
-const Personal = forwardRef((props, ref) => {
-  const { BASE_FORM, type } = props
+import { useOrder } from '../../../../../store/reducer'
+import { useEffect } from 'react'
+const Personal = (props) => {
+  const { BASE_FORM, type, index } = props
   const formInstance = Form.useFormInstance()
   const doctypeWatch = Form.useWatch([...BASE_FORM, 'doc_type'], formInstance)
 
+  const origin_person = useOrder(['createCompany', 'approve', 'origin_person'])
+
+  const setFields = ({ name, value }) => {
+    formInstance.setFields([
+      {
+        name,
+        value,
+      },
+    ])
+  }
+
+  useEffect(() => {
+    if (origin_person) {
+      const currentPerson = origin_person[index]
+      console.log('currentPerson', currentPerson)
+      const formValue = formInstance.getFieldValue(BASE_FORM)
+      console.log('formValue', formValue)
+    }
+  }, [origin_person])
   return (
     <div className={styles.groupInput}>
       {type && type !== 1 && (
@@ -34,7 +53,7 @@ const Personal = forwardRef((props, ref) => {
         name={[...BASE_FORM, 'name']}
         label="Họ và Tên"
         placeholder="NGUYỄN VĂN A"
-        onChange={(e) => onSetFields([...BASE_FORM, 'name'], e.target.value, ref, true)}
+        onChange={(e) => setFields({ name: [...BASE_FORM, 'name'], value: e.target.value?.toUpperCase() })}
         required
       />
 
@@ -49,12 +68,7 @@ const Personal = forwardRef((props, ref) => {
         required
       />
 
-      <CCSelect.SelectPersonType
-        name={[...BASE_FORM, 'per_type']}
-        label="Dân tộc"
-        placeholder="Bấm vào đây"
-        required
-      />
+      <CCSelect.SelectPersonType name={[...BASE_FORM, 'per_type']} label="Dân tộc" placeholder="Bấm vào đây" required />
 
       <CCInputTypeIdentify name={[...BASE_FORM, 'doc_type']} required />
 
@@ -66,8 +80,6 @@ const Personal = forwardRef((props, ref) => {
         inputReadOnly={false}
         indentifyType={doctypeWatch}
       />
-
-      {/* <CCInputOutdateIdentify name={[...BASE_FORM, 'doc_outdate']} indentifyType={doctypeWatch} /> */}
 
       <CCInputProviderIdentify name={[...BASE_FORM, 'doc_place_provide']} required indentifyType={doctypeWatch} />
 
@@ -84,6 +96,6 @@ const Personal = forwardRef((props, ref) => {
       />
     </div>
   )
-})
+}
 
 export default Personal

@@ -38,11 +38,7 @@ message.config({
 })
 dayjs.extend(utc)
 dayjs.extend(timezone)
-// moment.defaultFormat = 'DD/MM/YYYY'
-// moment.locale('vi')
-// moment().utcOffset('+07:00', true)
-// moment.tz.setDefault("Asia/Bangkok")
-// dayjs.defaultOptions
+
 const tz = 'Asia/Bangkok'
 dayjs.locale('vi')
 dayjs.tz.setDefault(tz)

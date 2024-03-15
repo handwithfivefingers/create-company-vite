@@ -4,18 +4,22 @@ networks:
     driver: bridge
 
 services:
-  # puppeteer-service:
-  #   build: ./env/Dockerfile.puppeteer
-  #   ports:
-  #     - 3002:3002
-  #   networks:
-  #     - app_network
-  #   volumes:
-  #     - ./feature/puppeteer:/app
-  #     - /app/node_modules
-  #   restart: always
+  puppeteer-service:
+    build: 
+      context: .
+      dockerfile: ./env/Dockerfile.puppeteer
+    ports:
+      - 3002:3002
+    networks:
+      - app_network
+    volumes:
+      - ./feature/puppeteer:/app
+      - /app/node_modules
+    restart: always
   cc-service:
-    build: ./env/Dockerfile.server
+    build: 
+      context: .
+      dockerfile: ./env/Dockerfile.server
     ports:
       - 3001:3001
     volumes:
@@ -33,7 +37,9 @@ services:
       - npm run dev
     # restart: always
   cc-fe:
-    build: ./env/Dockerfile.web
+    build: 
+      context: .
+      dockerfile: ./env/Dockerfile.web
     ports:
       - 3003:3003
     volumes:
