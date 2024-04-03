@@ -13,13 +13,14 @@ import { Form, InputNumber } from 'antd'
 import styles from './styles.module.scss'
 import { useOrder } from '../../../../../store/reducer'
 import { useEffect } from 'react'
+import { useDispatch } from 'react-redux'
+import { useOrderAction } from '../../../../../store/actions/order.actions'
 const Personal = (props) => {
   const { BASE_FORM, type, index } = props
   const formInstance = Form.useFormInstance()
   const doctypeWatch = Form.useWatch([...BASE_FORM, 'doc_type'], formInstance)
-
   const origin_person = useOrder(['createCompany', 'approve', 'origin_person'])
-
+  const dispatch = useDispatch()
   const setFields = ({ name, value }) => {
     formInstance.setFields([
       {
@@ -28,6 +29,8 @@ const Personal = (props) => {
       },
     ])
   }
+  const action = useOrderAction()
+  console.log('doctypeWatch', doctypeWatch)
 
   useEffect(() => {
     if (origin_person) {
@@ -37,6 +40,21 @@ const Personal = (props) => {
       console.log('formValue', formValue)
     }
   }, [origin_person])
+
+  const handleLocationRadioChange = (value) => {
+    let fieldValue
+    if (value === 1) {
+      fieldValue = formInstance.getFieldValue([...BASE_FORM, 'current'])
+    } else if (value === 2) {
+      fieldValue = {}
+    }
+    formInstance.setFields([
+      {
+        name: [...BASE_FORM, 'contact'],
+        value: fieldValue,
+      },
+    ])
+  }
   return (
     <div className={styles.groupInput}>
       {type && type !== 1 && (
@@ -91,6 +109,7 @@ const Personal = (props) => {
         label={'<b>Địa chỉ liên lạc</b>'}
         prevField={[...BASE_FORM, 'current']}
         nextField={[...BASE_FORM, 'contact']}
+        onChange={handleLocationRadioChange}
         bodyStyle={styles}
         required
       />

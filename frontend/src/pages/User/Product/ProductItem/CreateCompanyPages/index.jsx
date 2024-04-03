@@ -7,16 +7,17 @@ import styles from './styles.module.scss'
 import PreviewData from '@/components/Form/PreviewData'
 import { useStepAPI } from '@/context/StepProgressContext'
 import { useStepData } from '@/context/StepProgressContext'
+import { useOrder } from '../../../../../store/reducer'
 
 const CreateCompanyPages = forwardRef((props, ref) => {
   const { onNextStep, onPrevStep } = useStepAPI()
   const { currentStep } = useStepData()
   const { saveService, paymentService, data, loading, onFinishScreen } = props
-
+  const { category } = useOrder()
   const location = useLocation()
 
   const getParams = (ref) => {
-    let value = ref.current.getFieldsValue()
+    let value = ref.current.getFieldsValue(true)
     const params = {
       data: {
         ...value,
@@ -29,7 +30,11 @@ const CreateCompanyPages = forwardRef((props, ref) => {
   }
 
   const saveCreateCompany = (ref) => {
-    const params = getParams(ref)
+    const values = ref.current.getFieldsValue(true)
+    console.log('values', values)
+    const params = {
+      data: { ...values, category },
+    }
     console.log('params', params)
     return saveService(params)
   }

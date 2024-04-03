@@ -1,11 +1,15 @@
-import { Skeleton } from 'antd'
+import { Skeleton, notification } from 'antd'
 import clsx from 'clsx'
 import { useEffect, useState } from 'react'
+import { useDispatch } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 import CardCategory from '../../../components/CardCategory'
 import { useFormAPI } from '../../../context/FormProviderContext'
 import { useFetch } from '../../../helper/Hook'
 import CategoryService from '../../../service/UserService/CategoriesService'
+import { useOrderAction } from '../../../store/actions/order.actions'
 import styles from './styles.module.scss'
+import { STATE_METHOD } from '../../../constant/Common'
 
 const UserProductPage = () => {
   const [product, setProduct] = useState([])
@@ -13,11 +17,12 @@ const UserProductPage = () => {
     cacheName: ['userOrder'],
     fn: () => CategoryService.getCategories(),
   })
-
+  const action = useOrderAction()
   const { resetDefault } = useFormAPI()
-
+  const dispatch = useDispatch()
   useEffect(() => {
     resetDefault()
+    dispatch(action.onClear())
   }, [])
 
   useEffect(() => {
@@ -26,7 +31,16 @@ const UserProductPage = () => {
       setProduct(prod)
     }
   }, [isLoading])
-
+  const navigate = useNavigate()
+  const handleNavigate = ({ data, clickable }) => {
+    if (clickable) {
+      dispatch(action.onClear())
+      dispatch(action.onToggleMethod(STATE_METHOD['CREATE']))
+      navigate(`/user/san-pham/${data?.slug}`)
+    } else {
+      notification.warning({ message: 'Sản phẩm đang được hoàn thiện' })
+    }
+  }
   return (
     <div className={clsx([styles.cardgrid, 'container'])}>
       {product?.map((item, index) => {
@@ -44,14 +58,15 @@ const UserProductPage = () => {
             <CardCategory
               key={item._id}
               data={item}
+              onClick={handleNavigate}
               loading={isLoading}
               className="animate__animated animate__fadeInUp animate__faster"
               customStyles={{
                 ['--animate-duration']: `${(index + 2) / 10}s`,
                 ['--animate-delay']: `0.3s`,
               }}
-              // clickable={item.slug === 'thanh-lap-doanh-nghiep'}
-              clickable={true}
+              clickable={item.slug === 'thanh-lap-doanh-nghiep'}
+              // clickable={true}
             />
           </Skeleton>
         )

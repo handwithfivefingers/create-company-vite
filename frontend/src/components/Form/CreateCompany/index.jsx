@@ -1,12 +1,13 @@
 /* eslint-disable react/display-name */
 import { VALIDATE_MESSAGE } from '@/constant/InputValidate'
-import { onSetFields } from '@/helper/Common'
 import { Col, Form, Row, Select } from 'antd'
 import clsx from 'clsx'
-import dayjs from 'dayjs'
-import { forwardRef, useEffect, useState } from 'react'
-import { useLocation } from 'react-router-dom'
+import { forwardRef, useEffect } from 'react'
+import { useDispatch } from 'react-redux'
+import { STATE_METHOD } from '../../../constant/Common'
 import { useStepData } from '../../../context/StepProgressContext'
+import { useOrderAction } from '../../../store/actions/order.actions'
+import { useCreateCompanyOrder, useGetOrderMethod, useOrder } from '../../../store/reducer'
 import styles from './CreateCompany.module.scss'
 import DiaChiTruSoChinh from './DiaChiTruSoChinh'
 import GiaTriGopVon from './GiaTriGopVon'
@@ -14,41 +15,61 @@ import NgangNgheDangKi from './NgangNgheDangKi'
 import NguoiDaiDienPhapLuat from './NguoiDaiDienPhapLuat'
 import TenCongTy from './TenCongTy'
 import ThanhVienGopVon from './ThanhVienGopVon'
-import { useOrder } from '../../../store/reducer'
-import { useDispatch } from 'react-redux'
-import { useOrderAction } from '../../../store/actions/order.actions'
 
 const BASE_FORM = ['create_company', 'approve']
 
 const animateClass = 'animate__animated animate__fadeIn animate__faster'
 
 const CreateCompany = forwardRef(({ data }, formRef) => {
-  const [select, setSelect] = useState()
   const { currentStep } = useStepData()
   const [createCompanyForm] = Form.useForm()
   const { category } = useOrder()
+  const createCompany = useCreateCompanyOrder()
+  const method = useGetOrderMethod()
   const dispatch = useDispatch()
   const action = useOrderAction()
+  const watch = Form.useWatch(BASE_FORM, createCompanyForm)
+
   useEffect(() => {
-    setSelect({ ...category, value: category._id })
-    formRef.current.setFields([
-      {
-        name: 'category',
-        value: category._id,
-      },
-    ])
-  }, [category])
+    if (method === STATE_METHOD['UPDATE']) {
+      createCompanyForm.setFieldsValue({ create_company: createCompany, category: category._id })
+    }
+  }, [method])
 
   const handleSelect = (value, opt, pathName) => {
+    // let { type, name } = opt
+    // onSetFields([pathName], { type, name, value }, formRef)
+    // let originPerson = [...BASE_FORM, 'origin_person']
+    // let legelRespon = [...BASE_FORM, 'legal_respon']
+    // onSetFields([pathName], { type, name, value }, formRef)
+    // onSetFields([originPerson], undefined, formRef)
+    // onSetFields([legelRespon], undefined, formRef)
+    // setSelect({ type, name, value })
     let { type, name } = opt
-    onSetFields([pathName], { type, name, value }, formRef)
-    let originPerson = [...BASE_FORM, 'origin_person']
-    let legelRespon = [...BASE_FORM, 'legal_respon']
-    onSetFields([pathName], { type, name, value }, formRef)
-    onSetFields([originPerson], undefined, formRef)
-    onSetFields([legelRespon], undefined, formRef)
-    setSelect({ type, name, value })
+    dispatch(
+      action.onUpdateCategory({
+        type,
+        name,
+        value,
+      }),
+    )
   }
+
+  useEffect(() => {
+    window.form = createCompanyForm
+  }, [])
+
+  useEffect(() => {
+    let timeout
+    if (watch) {
+      timeout = setTimeout(() => {
+        const values = createCompanyForm.getFieldsValue(true)
+        console.log('values', values)
+        dispatch(action.onUpdateCreateCompany(values.create_company))
+      }, 500)
+    }
+    return () => clearTimeout(timeout)
+  }, [watch])
 
   const rowClassName = clsx([
     styles.hide,
@@ -56,13 +77,7 @@ const CreateCompany = forwardRef(({ data }, formRef) => {
       [styles.visible]: currentStep === 0,
     },
   ])
-  const handleFieldsChange = ([field], fields) => {
-    console.log('field', field)
-    console.log('fields', fields)
-    const { name, value } = field
-    dispatch(action.onUpdateForm({ [name]: value }))
-  }
-  console.log('CC UPDATE STATE')
+
   return (
     <Form
       layout="vertical"
@@ -70,7 +85,6 @@ const CreateCompany = forwardRef(({ data }, formRef) => {
       autoComplete="off"
       validateMessages={VALIDATE_MESSAGE}
       form={createCompanyForm}
-      onFieldsChange={handleFieldsChange}
     >
       <Row className={rowClassName}>
         <Col span={24}>
@@ -88,19 +102,19 @@ const CreateCompany = forwardRef(({ data }, formRef) => {
           >
             <Select
               placeholder="Bấm vào đây"
-              onChange={(v, opt) => handleSelect(v, opt, ['category'])}
+              onChange={handleSelect}
               options={data}
               fieldNames={{ label: 'name', value: '_id' }}
             />
           </Form.Item>
         </Col>
       </Row>
-      {currentStep === 1 && <GiaTriGopVon className={animateClass} BASE_FORM={BASE_FORM} data={select} />}
-      {currentStep === 2 && <ThanhVienGopVon className={animateClass} BASE_FORM={BASE_FORM} data={select} />}
-      {currentStep === 3 && <NguoiDaiDienPhapLuat className={animateClass} BASE_FORM={BASE_FORM} data={select} />}
-      {currentStep === 4 && <TenCongTy className={animateClass} BASE_FORM={BASE_FORM} data={select} />}
-      {currentStep === 5 && <DiaChiTruSoChinh className={animateClass} BASE_FORM={BASE_FORM} data={select} />}
-      {currentStep === 6 && <NgangNgheDangKi className={animateClass} BASE_FORM={BASE_FORM} data={select} />}
+      {currentStep === 1 && <GiaTriGopVon className={animateClass} BASE_FORM={BASE_FORM} data={category} />}
+      {currentStep === 2 && <ThanhVienGopVon className={animateClass} BASE_FORM={BASE_FORM} data={category} />}
+      {currentStep === 3 && <NguoiDaiDienPhapLuat className={animateClass} BASE_FORM={BASE_FORM} data={category} />}
+      {currentStep === 4 && <TenCongTy className={animateClass} BASE_FORM={BASE_FORM} data={category} />}
+      {currentStep === 5 && <DiaChiTruSoChinh className={animateClass} BASE_FORM={BASE_FORM} data={category} />}
+      {currentStep === 6 && <NgangNgheDangKi className={animateClass} BASE_FORM={BASE_FORM} data={category} />}
     </Form>
   )
 })

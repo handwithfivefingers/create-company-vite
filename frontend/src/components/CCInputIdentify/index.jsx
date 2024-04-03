@@ -83,14 +83,14 @@ const CCInputProviderIdentify = ({ name, label, placeholder, indentifyType, ...p
       formInstance.setFields([
         {
           name: name,
-          value: '',
+          value: formInstance.getFieldValue(name) || '',
         },
       ])
     } else {
       formInstance.setFields([
         {
           name: name,
-          value: IDENTIFY_SELECT[0],
+          value: formInstance.getFieldValue(name) || IDENTIFY_SELECT[0],
         },
       ])
     }

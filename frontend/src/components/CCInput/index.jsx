@@ -1,10 +1,11 @@
 /* eslint-disable react/display-name */
 /* eslint-disable no-unused-vars */
-import { forwardRef, useState } from 'react'
+import { forwardRef, useEffect, useState } from 'react'
 import { Form, Input, InputNumber, Select } from 'antd'
 import DatePicker from '../DatePicker'
 import { makeid } from '@/helper/Common'
 import styles from './styles.module.scss'
+import dayjs from 'dayjs'
 
 // const { RangePicker } = DatePicker
 
@@ -186,8 +187,24 @@ const InputSelect = ({ name, label, options, handleOptions, prefix, ...props }) 
 }
 
 const InputDate = (props) => {
+  const formInstance = Form.useFormInstance()
   const { name, label, value, onChange, style, placeholder, validateTrigger, otherRule = [], ...rest } = props
+  if (!name) throw new Error(`Invalid name`)
 
+  const currentValue = formInstance.getFieldValue(name)
+
+  useEffect(() => {
+    if (currentValue && typeof currentValue === 'string') {
+      formInstance.setFields([
+        {
+          name,
+          value: dayjs(currentValue),
+        },
+      ])
+    }
+  }, [])
+
+  console.log('typeof currentValue', typeof currentValue, currentValue)
   if (props?.layout === 'horizontal') {
     return (
       <div className={styles.formHorizontal}>
@@ -198,16 +215,21 @@ const InputDate = (props) => {
           layout={props?.layout}
           rules={[{ required: props?.required, message: rest?.message }]}
           required={props?.required}
+          shouldUpdate
         >
-          <DatePicker
-            style={{ ...props.style, width: '100%' }}
-            format="DD/MM/YYYY"
-            placeholder={props?.placeholder}
-            autoComplete={props?.autocomplete || 'off'}
-            onChange={props?.onChange}
-            disabledDate={props?.disabledDate && props.disabledDate}
-            {...rest}
-          />
+          {typeof currentValue !== 'string' || !currentValue ? (
+            <DatePicker
+              style={{ ...props.style, width: '100%' }}
+              format="DD/MM/YYYY"
+              placeholder={props?.placeholder}
+              autoComplete={props?.autocomplete || 'off'}
+              onChange={props?.onChange}
+              disabledDate={props?.disabledDate && props.disabledDate}
+              {...rest}
+            />
+          ) : (
+            ''
+          )}
         </Form.Item>
       </div>
     )
@@ -220,15 +242,20 @@ const InputDate = (props) => {
         rules={[{ required: props?.required, message: rest?.message }, ...otherRule]}
         required={props?.required}
         validateTrigger={validateTrigger}
+        shouldUpdate
       >
-        <DatePicker
-          style={{ ...props.style, width: '100%' }}
-          format="DD/MM/YYYY"
-          placeholder={props?.placeholder}
-          autoComplete={props?.autocomplete || 'off'}
-          onChange={props?.onChange}
-          {...rest}
-        />
+        {typeof currentValue !== 'string' || !currentValue ? (
+          <DatePicker
+            style={{ ...props.style, width: '100%' }}
+            format="DD/MM/YYYY"
+            placeholder={props?.placeholder}
+            autoComplete={props?.autocomplete || 'off'}
+            onChange={props?.onChange}
+            {...rest}
+          />
+        ) : (
+          ''
+        )}
       </Form.Item>
     )
   }

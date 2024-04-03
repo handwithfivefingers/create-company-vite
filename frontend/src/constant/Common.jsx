@@ -18,7 +18,7 @@ export const FormFieldText = {
   base_val: {
     char: 'Vốn điều lệ (bằng chữ)',
     num: 'Vốn điều lệ (bằng số)',
-    par_value_shares: 'Mệnh giá cổ phần'
+    par_value_shares: 'Mệnh giá cổ phần',
   },
   company_core: {
     address: 'Địa chỉ trụ sở chính',
@@ -209,4 +209,9 @@ export const IDENTIFY_NUMBER = {
   'Căn cước công dân': 12,
   'Chứng minh nhân dân': 9,
   'Hộ chiếu': 8,
+}
+
+export const STATE_METHOD = {
+  UPDATE: 'UPDATE',
+  CREATE: 'CREATE',
 }

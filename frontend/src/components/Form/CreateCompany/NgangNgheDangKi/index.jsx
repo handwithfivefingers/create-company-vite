@@ -107,15 +107,16 @@ const NgangNgheDangKi = memo(({ BASE_FORM, className }) => {
                 mode="tags"
                 tagRender={TagRender}
                 showArrow
-              >
-                {careerCategory?.map(({ name, _id }) => {
+                options={careerCategory.map((item) => ({ label: item.name, value: item._id }))}
+              />
+              {/* {careerCategory?.map(({ name, _id }) => {
                   return (
                     <Select.Option value={_id} key={_id}>
                       {name}
                     </Select.Option>
                   )
                 })}
-              </Select>
+              </Select> */}
             </Form.Item>
           </Col>
         )}

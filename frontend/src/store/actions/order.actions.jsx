@@ -1,53 +1,14 @@
 import { CC_TYPE, ORDER_TYPE } from '../type/order.type'
 
 class CreateCompanyAction {
-  onUpdateGiaTriGopVon = (data) => async (dispatch) => {
-    dispatch({
-      type: CC_TYPE.UPDATE_GIATRIGOPVON,
-      payload: data,
-    })
-  }
-  onUpdateThanhVienGopVon = (data) => async (dispatch) => {
-    dispatch({
-      type: CC_TYPE.UPDATE_THANHVIENGOPVON,
-      payload: data,
-    })
-  }
-  onUpdateNguoiDaiDienCongTy = (data) => async (dispatch) => {
-    dispatch({
-      type: CC_TYPE.UPDATE_NGUOIDAIDIEN,
-      payload: data,
-    })
-  }
-  onUpdateDiaChiTruSoChinh = (data) => async (dispatch) => {
-    dispatch({
-      type: CC_TYPE.UPDATE_DIACHITRUSOCHINH,
-      payload: data,
-    })
-  }
-  onUpdateTenCongTy = (data) => async (dispatch) => {
-    dispatch({
-      type: CC_TYPE.UPDATE_TENCONGTY,
-      payload: data,
-    })
-  }
-  onUpdateNganhNgheDangKi = (data) => async (dispatch) => {
-    dispatch({
-      type: CC_TYPE.UPDATE_NGANHNGHEDANGKI,
-      payload: data,
-    })
-  }
   onUpdateCreateCompany = (data) => async (dispatch) => {
     dispatch({
       type: CC_TYPE.UPDATE,
       payload: data,
     })
   }
-  onUpdateForm = (data) => async (dispatch) => {
-    dispatch({
-      type: CC_TYPE.UPDATE_FORM,
-      payload: data,
-    })
+  onClear = () => async (dispatch) => {
+    dispatch({ type: CC_TYPE.CLEAR })
   }
 }
 
@@ -59,9 +20,16 @@ class OrderAction {
     })
   }
   onUpdateCategory = (data) => async (dispatch) => {
+    console.log('data',data)
     dispatch({
       type: ORDER_TYPE.UPDATE_CATEGORY,
       payload: data,
+    })
+  }
+  onToggleMethod = (method) => async (dispatch) => {
+    dispatch({
+      type: ORDER_TYPE.TOGGLE_METHOD,
+      payload: method,
     })
   }
 }

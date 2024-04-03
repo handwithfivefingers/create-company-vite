@@ -40,7 +40,6 @@ const UserProductItem = () => {
     fn: () => ProductService.getCategoryBySlug(params),
     otherPath: true,
   })
-
   const navigate = useNavigate()
 
   const { errorList } = useSelector((state) => state.messageReducer)

@@ -24,24 +24,10 @@ const useProvince = () => useSelector((state) => state.provinceReducer)
 const useMessage = () => useSelector((state) => state.messageReducer)
 const useCategoryOrder = () => useSelector((state) => state.order?.category)
 const useProductsOrder = () => useSelector((state) => state.order?.products)
-const useCreateCompanyOrder = () => useSelector((state) => state.order?.createCompany?.approve)
 const useBaseValOrder = () => useSelector((state) => state.order?.createCompany?.approve?.base_val)
-const useOrder = (fields = null) =>
-  useSelector((state) => {
-    if (Array.isArray(fields) && fields.length) {
-      let nextState = state.orderReducer
-      let len = fields.length
-      for (let [index, field] of fields.entries()) {
-        if (nextState[field]) {
-          nextState = nextState[field]
-        } else {
-          break
-        }
-      }
-      return nextState
-    }
-    return state.orderReducer
-  })
+const useOrder = (fields = null) => useSelector((state) => state.orderReducer)
+const useCreateCompanyOrder = () => useSelector((state) => state.orderReducer?.createCompany)
+const useGetOrderMethod = () => useSelector((state) => state?.orderReducer?.method)
 
 export default rootReducer
 export {
@@ -55,4 +41,5 @@ export {
   useCreateCompanyOrder,
   useBaseValOrder,
   useOrder,
+  useGetOrderMethod
 }

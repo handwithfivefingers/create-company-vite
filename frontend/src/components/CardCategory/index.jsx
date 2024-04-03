@@ -1,20 +1,11 @@
-import React from 'react'
-import { Skeleton, Typography, Tag, Button, notification } from 'antd'
-import styles from './styles.module.scss'
+import { Skeleton, Tag, Typography } from 'antd'
 import clsx from 'clsx'
+import React from 'react'
 import { number_format } from '../../helper/Common'
-import { Link, useNavigate } from 'react-router-dom'
-const CardCategory = ({ data, clickable, className, customStyles }) => {
-  const navigate = useNavigate()
-  const handleNavigate = () => {
-    if (clickable) {
-      navigate(`/user/san-pham/${data?.slug}`)
-    } else {
-      notification.warning({ message: 'Sản phẩm đang được hoàn thiện' })
-    }
-  }
+import styles from './styles.module.scss'
+const CardCategory = ({ data, clickable, className, customStyles, onClick }) => {
   return (
-    <a onClick={handleNavigate}>
+    <a onClick={() => onClick({ data, clickable })}>
       <div className={clsx([styles.card, className, { [styles.blurry]: !clickable }])} style={{ ...customStyles }}>
         <div className={styles.cardIcon}>
           <Skeleton.Avatar size="large" active />

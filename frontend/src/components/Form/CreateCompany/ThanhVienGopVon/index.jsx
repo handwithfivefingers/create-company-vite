@@ -3,13 +3,13 @@ import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons'
 import { Button, Col, Form, Row, Select } from 'antd'
 import clsx from 'clsx'
 import dayjs from 'dayjs'
-import { useCallback, useEffect, useMemo, useState } from 'react'
-import { useOrder } from '../../../../store/reducer'
+import { useCallback, useEffect, useMemo, useState, memo } from 'react'
+import { useCreateCompanyOrder, useOrder } from '../../../../store/reducer'
 import OriginalPerson from './OriginalPerson'
 import Personal from './Personal'
 import styles from './styles.module.scss'
 
-const ThanhVienGopVon = ({ data, ...props }) => {
+const ThanhVienGopVon = memo(({ data, ...props }) => {
   const { currentStep } = useStepData()
   const [listForm, setListForm] = useState([{}])
   const [_render, setRender] = useState(false)
@@ -17,35 +17,14 @@ const ThanhVienGopVon = ({ data, ...props }) => {
   const { BASE_FORM } = props
   const categoryType = data?.type
   const personLength = listForm.length
-  const origin_person = useOrder(['createCompany', 'approve', 'origin_person'])
+  // const origin_person = useOrder(['createCompany', 'approve', 'origin_person'])
+  const createCompanyData = useCreateCompanyOrder()
+
+  const origin_person = createCompanyData?.approve?.origin_person
   console.log('origin_person', origin_person)
   useEffect(() => {
     getDefaultPerson()
   }, [])
-
-  useEffect(() => {
-    if (origin_person?.length) {
-      for (let [index, person] of origin_person.entries()) {
-        formInstance.setFields([
-          {
-            name: [...BASE_FORM, 'origin_person', index],
-            value: {
-              ...person,
-              doc_outdate: person?.doc_outdate && dayjs(person?.doc_outdate),
-              birth_day: person?.birth_day && dayjs(person?.birth_day),
-              doc_time_provide: person?.doc_time_provide && dayjs(person?.doc_time_provide),
-              doc_place_provide: person?.doc_place_provide,
-              organization: {
-                ...person.organization,
-                doc_time_provide:
-                  person?.organization?.doc_time_provide && dayjs(person?.organization?.doc_time_provide),
-              },
-            },
-          },
-        ])
-      }
-    }
-  }, [origin_person])
 
   const getDefaultPerson = () => {
     if (personLength < 2 && categoryType == 2) {
@@ -199,6 +178,5 @@ const ThanhVienGopVon = ({ data, ...props }) => {
       </Row>
     </Form.Item>
   )
-}
-
+})
 export default ThanhVienGopVon

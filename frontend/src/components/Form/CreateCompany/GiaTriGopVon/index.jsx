@@ -4,11 +4,10 @@ import { useStepData } from '@/context/StepProgressContext'
 import { numToWord } from '@/helper/Common'
 import { Col, Form, InputNumber, Row } from 'antd'
 import clsx from 'clsx'
+import { memo } from 'react'
 import styles from './styles.module.scss'
-import { useEffect } from 'react'
-import { useOrder } from '../../../../store/reducer'
 
-const GiaTriGopVon = (props) => {
+const GiaTriGopVon = memo((props) => {
   const { BASE_FORM } = props
   const { currentStep } = useStepData()
   const formInstance = Form.useFormInstance()
@@ -21,7 +20,7 @@ const GiaTriGopVon = (props) => {
       },
     ])
   }
-  const base_val = useOrder(['createCompany', 'approve', 'base_val'])
+  // const base_val = useOrder(['createCompany', 'approve', 'base_val'])
   let timer
 
   const onInputChange = (e) => {
@@ -42,21 +41,6 @@ const GiaTriGopVon = (props) => {
       },
     ])
   }
-  useEffect(() => {
-    if (base_val) {
-      formInstance.setFields([
-        {
-          name: [...BASE_FORM, 'base_val', 'num'],
-          value: base_val.num,
-        },
-        {
-          name: [...BASE_FORM, 'base_val', 'char'],
-          value: base_val.char,
-        },
-      ])
-    }
-  }, [base_val])
-
   return (
     <Row
       gutter={[16, 12]}
@@ -91,5 +75,5 @@ const GiaTriGopVon = (props) => {
       </Col>
     </Row>
   )
-}
+})
 export default GiaTriGopVon

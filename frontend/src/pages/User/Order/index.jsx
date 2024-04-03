@@ -11,6 +11,7 @@ import { useNavigate, useOutletContext } from 'react-router-dom'
 import styles from './styles.module.scss'
 import { useOrderAction } from '../../../store/actions/order.actions'
 import { useDispatch } from 'react-redux'
+import { STATE_METHOD } from '../../../constant/Common'
 
 const TransactionModal = lazy(() => import('@/components/Modal/TransactionModal'))
 
@@ -58,13 +59,14 @@ const UserOrder = () => {
       } else if (props === 'dissolution') {
         url = 'giai-the'
       } else if (props === 'create_company') {
+        dispatch(action.onToggleMethod(STATE_METHOD['UPDATE']))
         dispatch(action.onUpdateCreateCompany(data.create_company))
         dispatch(action.onUpdateCategory(record.category))
         dispatch(action.onUpdateProducts(record.products))
         url = 'thanh-lap-doanh-nghiep'
       }
     }
-    navigate(`/user/san-pham/${url}`, { state: { ...record } })
+    navigate(`/user/san-pham/${url}`)
   }
 
   const renderService = (val, record, i) => {
