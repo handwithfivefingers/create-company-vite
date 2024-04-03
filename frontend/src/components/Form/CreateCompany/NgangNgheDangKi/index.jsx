@@ -191,7 +191,7 @@ const OptCareerComponent = memo(({ BASE_FORM, data, groupData }) => {
 
   const handleChangeCareer = (val, opt) => {
     console.log('opt', opt)
-    const prevState = [...watchOptCareer]
+    const prevState = watchOptCareer?.length ? [...watchOptCareer] : []
     const nextState = [...prevState, { ...opt.data, value: val }]
     setFields(nextState)
   }
