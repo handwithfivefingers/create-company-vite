@@ -317,7 +317,7 @@ class TestService {
   convertPDFService = async ({ from, to, fileName, fileType, extension }) => {
     try {
       let data = {
-        url: `https://ab59-27-74-247-118.ngrok-free.app/public/${from}/${fileName}.${fileType}`,
+        url: `https://app.thanhlapcongtyonline.vn/public/${from}/${fileName}.${fileType}`,
         key: shortid(),
         fileType: fileType,
         outputtype: extension,
