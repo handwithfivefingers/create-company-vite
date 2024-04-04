@@ -9,7 +9,6 @@ import { BrowserRouter, useLocation, useRoutes } from 'react-router-dom'
 import './assets/css/styles.scss'
 import ZaloPlugin from './components/Zalo'
 import { LAYOUT_ROUTER, UserRouter } from './constant/Route'
-import { FormProviderContext } from './context/FormProviderContext'
 import { useAuth, useDetectLocation } from './helper/Hook'
 import { CommonAction } from './store/actions'
 import dayjs from 'dayjs'
@@ -38,14 +37,10 @@ message.config({
 })
 dayjs.extend(utc)
 dayjs.extend(timezone)
-// moment.defaultFormat = 'DD/MM/YYYY'
-// moment.locale('vi')
-// moment().utcOffset('+07:00', true)
-// moment.tz.setDefault("Asia/Bangkok")
-// dayjs.defaultOptions
-const tz = 'Asia/Bangkok'
+
+// const tz = 'Asia/Bangkok'
 dayjs.locale('vi')
-dayjs.tz.setDefault(tz)
+// dayjs.tz.setDefault(tz)
 const RouterComponent = (props) => {
   let location = useLocation()
 
@@ -106,13 +101,11 @@ function App() {
     <div className="App">
       <QueryClientProvider client={queryClient}>
         <ConfigProvider>
-          <FormProviderContext>
-            <RouterProvider>
-              <BrowserRouter>
-                <RouterComponent auth={auth} />
-              </BrowserRouter>
-            </RouterProvider>
-          </FormProviderContext>
+          <RouterProvider>
+            <BrowserRouter>
+              <RouterComponent auth={auth} />
+            </BrowserRouter>
+          </RouterProvider>
         </ConfigProvider>
       </QueryClientProvider>
       <ZaloPlugin />

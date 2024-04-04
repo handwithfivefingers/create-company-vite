@@ -16,7 +16,7 @@ const crypto = require('crypto')
 
 const { startSession } = require('mongoose')
 
-const moment = require('moment')
+const moment = require('moment-timezone')
 
 const urlResult =
   process.env.NODE_ENV === 'development'

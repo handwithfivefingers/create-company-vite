@@ -4,19 +4,16 @@ const PizZip = require('pizzip')
 const Docxtemplater = require('docxtemplater')
 const shortid = require('shortid')
 const { assign, last, filter } = require('lodash')
-const libre = require('libreoffice-convert')
 const qs = require('query-string')
 const crypto = require('crypto')
-const moment = require('moment')
+const moment = require('moment-timezone')
 const expressions = require('./expression')
 const otpGenerator = require('otp-generator')
 const jwt = require('jsonwebtoken')
 const { PRODUCT_CODE } = require('../constant/product_code')
 const { PAYMENT_TYPE_CODE } = require('../constant/payment')
-
+const mongoose = require('mongoose')
 const { Setting } = require('../model')
-
-libre.convertAsync = require('util').promisify(libre.convert)
 
 const specialFields = ['company_main_career', 'company_opt_career']
 
@@ -159,13 +156,13 @@ const flattenObject = (data) => {
 }
 
 const convertFile = async (file, data) => {
-  let buffer = await applyContent(file, data)
-  let ext = '.pdf'
-  let pdfBuf = await libre.convertAsync(buffer, ext, undefined)
-  // // console.log('converting')
-  // let pdfFile = await saveFileAsDocx(pdfBuf, ext, file.name) // docx input
-  // console.log('saving file')
-  return pdfFile
+  try {
+    let buffer = await applyContent(file, data)
+    return buffer
+  } catch (error) {
+    console.log('FILE error: ', file)
+    throw error
+  }
 }
 
 const removeListFiles = (attachments, path = null) => {
@@ -330,6 +327,10 @@ const generatePaymentCode = ({ data, paymentDate, paymentType }) => {
   }
 }
 
+const convertStringToID = (id) => {
+  return new mongoose.Types.ObjectId(id)
+}
+
 module.exports = {
   sortObject,
   getVpnParams,
@@ -345,4 +346,6 @@ module.exports = {
   signToken,
   verifyToken,
   convertString,
+  convertStringToID,
+  applyContent,
 }

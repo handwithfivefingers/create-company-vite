@@ -1,8 +1,9 @@
-const { Order } = require('../../../model')
+const { Order, FileConvertManagement } = require('../../../model')
 const BaseAdminService = require('../../../common/baseService')
-const ConvertService = require('../third-connect/convert.service')
+const { ConvertService, TestService } = require('../third-connect/convert.service')
 const fs = require('fs')
 const path = require('path')
+const FileService = require('../fileService')
 module.exports = class OrderService extends BaseAdminService {
   PAGE_SIZE = 10
 
@@ -157,33 +158,29 @@ module.exports = class OrderService extends BaseAdminService {
   convertFileManual = async (req) => {
     try {
       let { id } = req.params
-      const currentOrder = await Order.findById(id).populate({
-        path: 'category',
-        select: 'name price type parentCategory files fileRules',
-        populate: [
-          {
-            path: 'parentCategory',
-            select: 'name files fileRules',
-            populate: [
-              {
-                path: 'files',
-                select: '_id fileName fileOriginalName path',
-              },
-            ],
-          },
-          {
-            path: 'files',
-            select: '_id fileName fileOriginalName path',
-          },
-        ],
-      })
+      const convertResponse = await new TestService().testOrderProcessSuccess({ orderID: id, userID: req.id })
+      if (!convertResponse.folder) throw new Error('Folder not found')
 
-      const files = this.getFilesFromCategory({ data: currentOrder.data, category: currentOrder.category })
-      console.log('currentOrder', files)
-      if (!currentOrder || !files?.length) return null
-      //
-      const data = await new ConvertService().onConvert({ ...currentOrder._doc, files })
-      return data
+      await new FileConvertManagement({
+        folderUri: convertResponse.folder,
+        orderID: convertResponse.orderID,
+        delete_flag: 0,
+      }).save()
+
+      const listDocFiles = await new FileService().getListFolder({ dir: `${convertResponse.folder}/doc` })
+      const listPdfFiles = await new FileService().getListFolder({ dir: `${convertResponse.folder}/pdf` })
+
+      return {
+        ...convertResponse,
+        listDocFiles: listDocFiles.map((fileName) => ({
+          name: fileName,
+          uri: `${convertResponse.folder}/doc/${fileName}`,
+        })),
+        listPdfFiles: listPdfFiles.map((fileName) => ({
+          name: fileName,
+          uri: `${convertResponse.folder}/pdf/${fileName}`,
+        })),
+      }
     } catch (error) {
       throw error
     }

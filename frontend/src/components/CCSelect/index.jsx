@@ -386,7 +386,7 @@ const SelectDocProvide = (props) => {
 }
 
 const RadioAddress = (props) => {
-  const { prevField, nextField, formName } = props
+  const { prevField, nextField, formName, onChange } = props
 
   const [radio, setRadio] = useState(null)
   const formInstance = Form.useFormInstance()
@@ -412,10 +412,11 @@ const RadioAddress = (props) => {
 
   const onRadioChange = (e) => {
     setRadio(e.target.value)
-    if (e.target.value === 1) {
-      let val = formInstance.getFieldValue(prevField)
-      onSetFields(nextField, val)
-    }
+    // if (e.target.value === 1) {
+    //   let val = formInstance.getFieldValue(prevField)
+    //   onSetFields(nextField, val)
+    // }
+    return onChange(e.target.value)
   }
   const shoudItemUpdate = () => {
     let canChange = radio === 1

@@ -6,6 +6,8 @@ import styles from '../DaiDienPhapLuat/styles.module.scss'
 import { htmlContent, onSetFields } from '@/helper/Common'
 import ProductService from '@/service/UserService/ProductService'
 import { CaretRightOutlined } from '@ant-design/icons'
+import { useStepData } from '../../../../context/StepProgressContext'
+import { debounce } from 'lodash-es'
 
 const BASE_FORM = ['change_info', 'name']
 
@@ -62,23 +64,17 @@ const popData = {
   title: 'Quy tắc đặt tên công ty',
 }
 
-const TenDoanhNghiep = forwardRef((props, ref) => {
-  let timeout
-
+const TenDoanhNghiep = (props) => {
+  const { currentStep } = useStepData()
   const [companyData, setCompanyData] = useState([])
   const [loading, setLoading] = useState(false)
-
+  const formInstance = Form.useFormInstance()
   const inputChange = ({ value, pathName, search = false } = {}) => {
-    onSetFields(pathName, value, ref, true)
-
+    formInstance.setFields([{ name: pathName, value }])
     if (search) {
-      if (timeout) clearTimeout(timeout)
-      timeout = setTimeout(() => {
-        getCompanyByName(value)
-      }, 500)
+      getCompanyByName(value)
     }
   }
-
   const getCompanyByName = async (val) => {
     if (val.length <= 4) {
       setCompanyData([])
@@ -102,7 +98,7 @@ const TenDoanhNghiep = forwardRef((props, ref) => {
     <Form.Item
       label={<h3>Đăng ký thay đổi tên doanh nghiệp</h3>}
       className={clsx(styles.current, {
-        [styles.active]: props.current === props.index,
+        [styles.active]: currentStep === props.index,
       })}
     >
       <Form.Item label={htmlContent('<b>THAY ĐỔI TÊN DOANH NGHIỆP THÀNH</b>')}>
@@ -123,13 +119,15 @@ const TenDoanhNghiep = forwardRef((props, ref) => {
             >
               <Input
                 size="small"
-                onChange={(e) =>
-                  inputChange({
-                    value: e.target.value,
-                    pathName: [...BASE_FORM, 'name_vi'],
-                    search: true,
-                  })
-                }
+                onBlur={debounce(
+                  (e) =>
+                    inputChange({
+                      value: formInstance.getFieldValue([...BASE_FORM, 'name_vi'])?.toUpperCase(),
+                      pathName: [...BASE_FORM, 'name_vi'],
+                      search: true,
+                    }),
+                  500,
+                )}
                 rule
               />
             </Form.Item>
@@ -146,12 +144,26 @@ const TenDoanhNghiep = forwardRef((props, ref) => {
             <CCInput
               label={htmlContent('Tên công ty bằng tiếng nước ngoài <i>(chỉ điền nếu có thay đổi)</i>')}
               name={[...BASE_FORM, 'name_en']}
-              onChange={(e) => onSetFields([...BASE_FORM, 'name_en'], e.target.value, ref, true)}
+              onBlur={debounce((e) => {
+                formInstance.setFields([
+                  {
+                    name: [...BASE_FORM, 'name_en'],
+                    value: formInstance.getFieldValue([...BASE_FORM, 'name_en'])?.toUpperCase(),
+                  },
+                ])
+              }, 500)}
             />
             <CCInput
               label={htmlContent('Tên công ty viết tắt <i>(chỉ điền nếu có thay đổi)</i>')}
               name={[...BASE_FORM, 'name_etc']}
-              onChange={(e) => onSetFields([...BASE_FORM, 'name_etc'], e.target.value, ref, true)}
+              onBlur={debounce((e) => {
+                formInstance.setFields([
+                  {
+                    name: [...BASE_FORM, 'name_etc'],
+                    value: formInstance.getFieldValue([...BASE_FORM, 'name_etc'])?.toUpperCase(),
+                  },
+                ])
+              }, 500)}
             />
           </Col>
           <Col lg={12} md={12} sm={24} xs={24}>
@@ -171,6 +183,6 @@ const TenDoanhNghiep = forwardRef((props, ref) => {
       </Form.Item>
     </Form.Item>
   )
-})
+}
 
 export default TenDoanhNghiep

@@ -27,6 +27,7 @@
     "md5": "^2.3.0",
     "module-alias": "^2.2.3",
     "moment": "^2.29.1",
+    "moment-timezone": "^0.5.45",
     "mongoose": "^5.13.14",
     "multer": "^1.4.4",
     "node-cron": "^3.0.0",

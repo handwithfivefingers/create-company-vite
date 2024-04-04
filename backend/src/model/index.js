@@ -23,8 +23,7 @@ const otpSchema = new Schema(require('./otp'), { timestamps: true })
 
 const transactionSchema = new Schema(require('./transaction'), { timestamps: true })
 
-const fileSchema = new Schema(require('./file'), { timestamps: true })
-const fileCategorySchema = new Schema(require('./fileCategory'), { timestamps: true })
+const fileConvertManagementSchema = new Schema(require('./fileConvertManagement'), { timestamps: true })
 
 // // Step 2 : Create Methods - Function
 
@@ -47,8 +46,7 @@ const Log = mongoose.model('Log', logSchema)
 const CareerCategory = mongoose.model('careerCategory', careerCategorySchema)
 const OTP = mongoose.model('OTP', otpSchema)
 const Transaction = mongoose.model('Transaction', transactionSchema)
-const File = mongoose.model('File', fileSchema)
-const FileCategory = mongoose.model('FileCategory', fileCategorySchema)
+const FileConvertManagement = mongoose.model('FileConvertManagement', fileConvertManagementSchema)
 
 // // Step 4 : Create Virtual Field - Reference
 
@@ -94,6 +92,5 @@ module.exports = {
   CareerCategory,
   OTP,
   Transaction,
-  File,
-  FileCategory,
+  FileConvertManagement,
 }

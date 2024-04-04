@@ -1,13 +1,13 @@
 import { VALIDATE_MESSAGE } from '@/constant/InputValidate'
-import { onSetFieldsWithInstance } from '@/helper/Common'
 import { useQuery } from '@tanstack/react-query'
 import { Form, Select } from 'antd'
 import clsx from 'clsx'
-import dayjs from 'dayjs'
-import React, { forwardRef, useEffect, useState } from 'react'
-import { useLocation } from 'react-router-dom'
+import React, { forwardRef, useCallback, useEffect, useMemo } from 'react'
+import { useDispatch } from 'react-redux'
 import { useStepAPI } from '../../../context/StepProgressContext'
 import ProductService from '../../../service/UserService/ProductService'
+import { useOrderAction } from '../../../store/actions/order.actions'
+import { useCategoryOrder, useChangeInforOrder, useGetOrderMethod, useProductsOrder } from '../../../store/reducer'
 import BaseInformation from './BaseInformation'
 import CapNhatThongTinDangKy from './CapNhatThongtinDangKy'
 import DaiDienPhapLuat from './DaiDienPhapLuat'
@@ -18,6 +18,7 @@ import HopDongChuyenNhuong from './HopDongChuyenNhuong'
 import NganhNgheKinhDoanh from './NganhNgheKinhDoanh'
 import TangVonDieuLe from './TangVonDieuLe'
 import TenDoanhNghiep from './TenDoanhNghiep'
+import { STATE_METHOD } from '../../../constant/Common'
 
 const TYPE_NAME = {
   1: ['change_info', 'location'],
@@ -32,305 +33,73 @@ const TYPE_NAME = {
 
 const ChangeInforForm = forwardRef((props, ref) => {
   const [form] = Form.useForm()
-  const [productSelect, setProductSelect] = useState('')
-  const [selectType, setSelectType] = useState([])
+  const watchChangeInfoForm = Form.useWatch(['change_info'], form)
   const { onCreateStep } = useStepAPI()
-  const watchCategory = Form.useWatch('category', form)
-
-  const productData = useQuery({
-    queryKey: ['product_data', props.data.parentId, watchCategory?.value],
-    queryFn: async () =>
-      (await ProductService.getProduct({ _id: props.data.parentId, _pId: watchCategory?.value })).data.data,
-    enabled: !!watchCategory?.value,
-    onSuccess: (data) => updateProductSelection(data),
-  })
-
-  let location = useLocation()
+  const method = useGetOrderMethod()
+  const dispatch = useDispatch()
+  const action = useOrderAction()
+  const category = useCategoryOrder()
+  const products = useProductsOrder()
+  const changeInfoOrder = useChangeInforOrder()
+  const watchCategories = Form.useWatch(['category'], form)
+  useEffect(() => {
+    window.form = form
+  }, [])
 
   useEffect(() => {
-    if (location?.state) {
-      initDataforEditing()
+    if (method === STATE_METHOD['UPDATE']) {
+      const productSelected = products.map((item) => ({ ...item, value: item._id, children: [item.name] }))
+      form.setFieldsValue({
+        change_info: {
+          ...changeInfoOrder,
+          base_inform: {
+            ...changeInfoOrder.base_inform,
+            mst_provide: changeInfoOrder?.base_inform?.mst_provide
+              ? dayjs(changeInfoOrder?.base_inform?.mst_provide)
+              : undefined,
+          },
+        },
+        products: productSelected,
+        category: category._id,
+      })
+      handleUpdateProgressAndComponent(null, productSelected)
     }
-  }, [location])
-
-  const updateProductSelection = (data) => {
-    console.log('coming', data)
-    try {
-      if (data) {
-        const productsList = form.getFieldValue(['products'])
-        if (productsList) {
-          let listMatch = []
-          for (let i = 0; i < data?.length; i++) {
-            let item = data[i]
-            let isMatch = productsList?.some((prod) => prod.value === item._id)
-            if (isMatch) listMatch.push(item)
-          }
-
-          listMatch = listMatch.map((item) => ({
-            children: item.name,
-            key: item._id,
-            type: item.type,
-            value: item._id,
-          }))
-
-          form?.setFields([
-            {
-              name: 'products',
-              value: listMatch,
-            },
-          ])
-          handleUpdateProgressAndComponent(null, listMatch)
-        }
-      }
-    } catch (error) {
-      console.log('error', error)
+  }, [method])
+  useEffect(() => {
+    let timeout
+    if (watchChangeInfoForm) {
+      timeout = setTimeout(() => {
+        const values = form.getFieldsValue(true)
+        console.log('values', values)
+        dispatch(action.onUpdateChangeInfo(values.change_info))
+      }, 500)
     }
-  }
+    return () => clearTimeout(timeout)
+  }, [watchChangeInfoForm])
 
-  const initDataforEditing = async () => {
-    let _data = {}
-    let cate = {}
+  const productData = useQuery({
+    queryKey: ['product_data', props.data.parentId, category?.value],
+    queryFn: async () =>
+      (await ProductService.getProduct({ _id: props.data.parentId, _pId: watchCategories })).data.data,
+    enabled: !!watchCategories,
+  })
 
-    let { state } = location
-
-    const { category, products, data } = state
-
-    if (!category) return
-
-    if (products) _data.products = products
-
-    if (data) {
-      let { change_info } = state.data
-
-      cate = {
-        type: category.type,
-        value: category._id,
-        name: category.name,
-      }
-      _data.category = cate
-
-      if (change_info) {
-        const { legal_representative, transfer_contract, base_inform, update_info, ...restInfo } = change_info
-
-        // BASE_INFORM -> Date field : mst_provide
-        if (base_inform) {
-          base_inform.mst_provide = dayjs(base_inform?.mst_provide)
-        }
-
-        const shallowLegalInformation = getLegalInformationProps(legal_representative)
-
-        const shallowTransferContact = getTransferContactProps(transfer_contract)
-
-        const shallowUpdateInfo = getInformationProps(update_info)
-
-        change_info = {
-          ...restInfo,
-          base_inform,
-          update_info: shallowUpdateInfo,
-          legal_representative: shallowLegalInformation,
-          transfer_contract: shallowTransferContact,
-        }
-
-        _data.change_info = change_info
-      }
-    }
-
-    ref.current?.setFieldsValue({
-      ..._data,
-    })
-
-    const productSelected = _data.products?.map(({ name, _id, type }) => ({ name, value: _id, type }))
-    onSetFieldsWithInstance(['products'], productSelected, form)
-    onSetFieldsWithInstance(['category'], cate, form)
-    setProductSelect(productSelected)
-  }
-
-  const getTransferContactProps = (data) => {
-    const shallowTransfer = { ...data }
-
-    if (shallowTransfer) {
-      const { A_side, B_side } = shallowTransfer
-
-      if (A_side) {
-        const { personal, organization } = A_side
-        if (personal) {
-          const { birth_day, doc_time_provide } = personal
-          if (birth_day) personal.birth_day = dayjs(birth_day, 'YYYY-MM-DD')
-          if (doc_time_provide) personal.doc_time_provide = dayjs(doc_time_provide, 'YYYY-MM-DD')
-        }
-
-        if (organization) {
-          const { mst_provide } = organization
-          if (mst_provide) organization.mst_provide = dayjs(mst_provide, 'YYYY-MM-DD')
-        }
-
-        shallowTransfer.A_side = A_side
-      }
-
-      if (B_side) {
-        const { personal, organization } = B_side
-        if (personal) {
-          const { birth_day, doc_time_provide } = personal
-          if (birth_day) personal.birth_day = dayjs(birth_day, 'YYYY-MM-DD')
-          if (doc_time_provide) personal.doc_time_provide = dayjs(doc_time_provide, 'YYYY-MM-DD')
-        }
-
-        if (organization) {
-          const { time_provide } = organization
-          if (time_provide) organization.time_provide = dayjs(time_provide, 'YYYY-MM-DD')
-        }
-        shallowTransfer.B_side = B_side
-      }
-    }
-    return shallowTransfer
-  }
-
-  const getLegalInformationProps = (data) => {
-    const shallowLegal = { ...data }
-    if (shallowLegal) {
-      const { in_out, after_change } = shallowLegal
-      if (in_out?.length) {
-        in_out.map((item) => {
-          const { birth_day, doc_time_provide } = item
-          if (birth_day) item.birth_day = dayjs(birth_day, 'YYYY-MM-DD')
-          if (doc_time_provide) item.doc_time_provide = dayjs(doc_time_provide, 'YYYY-MM-DD')
-          return item
-        })
-      }
-
-      if (after_change?.length) {
-        after_change.map((item) => {
-          const { birth_day, doc_time_provide, doc_outdate } = item
-          if (birth_day) item.birth_day = dayjs(birth_day, 'YYYY-MM-DD')
-          if (doc_time_provide) item.doc_time_provide = dayjs(doc_time_provide, 'YYYY-MM-DD')
-          if (doc_outdate) item.doc_outdate = dayjs(doc_outdate, 'YYYY-MM-DD')
-          return item
-        })
-      }
-      shallowLegal.in_out = in_out
-      shallowLegal.after_change = after_change
-    }
-    return shallowLegal
-  }
-
-  const getInformationProps = (update_info) => {
-    const shallowUpdate = { ...update_info }
-    if (shallowUpdate) {
-      const { information } = shallowUpdate
-
-      if (information) {
-        const { birth_day, doc_time_provide } = information
-        if (birth_day) information.birth_day = dayjs(new Date(birth_day))
-        if (doc_time_provide) information.doc_time_provide = dayjs(new Date(doc_time_provide))
-      }
-      shallowUpdate.information = information
-    }
-    return shallowUpdate
-  }
-
-  const checkType = (type, i, ref) => {
-    switch (type) {
-      case '2':
-        return (
-          <DaiDienPhapLuat
-            key={[type, i]}
-            current={props.current}
-            index={i + 2}
-            ref={ref}
-            {...props.data}
-            type={productSelect?.type}
-          />
-        )
-      case '3':
-        return (
-          <TenDoanhNghiep
-            key={[type, i]}
-            current={props.current}
-            index={i + 2}
-            ref={ref}
-            {...props.data}
-            type={productSelect?.type}
-          />
-        )
-      case '4':
-        return (
-          <GiamVonDieuLe
-            key={[type, i]}
-            current={props.current}
-            index={i + 2}
-            ref={ref}
-            {...props.data}
-            type={productSelect?.type}
-          />
-        )
-      case '5':
-        return (
-          <TangVonDieuLe
-            key={[type, i]}
-            current={props.current}
-            index={i + 2}
-            ref={ref}
-            {...props.data}
-            type={productSelect?.type}
-          />
-        )
-      case '7':
-        return (
-          <NganhNgheKinhDoanh
-            key={[type, i]}
-            current={props.current}
-            index={i + 2}
-            ref={ref}
-            {...props.data}
-            type={productSelect?.type}
-          />
-        )
-      case '1':
-        return (
-          <DiaChiTruSoChinh
-            key={[type, i]}
-            current={props.current}
-            index={i + 2}
-            ref={ref}
-            {...props.data}
-            type={productSelect?.type}
-          />
-        )
-      case '6':
-        return (
-          <HopDongChuyenNhuong
-            key={[type, i]}
-            current={props.current}
-            index={i + 2}
-            ref={ref}
-            {...props.data}
-            type={productSelect?.type}
-          />
-        )
-      // case '8':
-      //   return <DaiDienToChuc key={[type, i]} current={props.current} index={i + 2} ref={ref} {...props.data} />
-      // case '9':
-      //   return <ThongTinDangKyThue key={[type, i]} current={props.current} index={i + 2} ref={ref} {...props.data} />
-
-      case '10':
-        return (
-          <CapNhatThongTinDangKy
-            key={[type, i]}
-            current={props.current}
-            index={i + 2}
-            ref={ref}
-            {...props.data}
-            type={productSelect?.type}
-          />
-        )
-
-      default:
-        return null
-    }
-  }
+  const subComponent = useCallback(
+    ({ i }) => ({
+      2: <DaiDienPhapLuat index={i + 2} type={category?.type} key={'DaiDienPhapLuat'} />,
+      3: <TenDoanhNghiep index={i + 2} type={category?.type} key={'TenDoanhNghiep'} />,
+      4: <GiamVonDieuLe index={i + 2} type={category?.type} key={'GiamVonDieuLe'} />,
+      5: <TangVonDieuLe index={i + 2} type={category?.type} key={'TangVonDieuLe'} />,
+      7: <NganhNgheKinhDoanh index={i + 2} type={category?.type} key={'NganhNgheKinhDoanh'} />,
+      1: <DiaChiTruSoChinh index={i + 2} type={category?.type} key={'DiaChiTruSoChinh'} />,
+      6: <HopDongChuyenNhuong index={i + 2} key={'HopDongChuyenNhuong'} />,
+      10: <CapNhatThongTinDangKy index={i + 2} type={category?.type} key={'CapNhatThongTinDangKy'} />,
+    }),
+    [category],
+  )
 
   const handleUpdateProgressAndComponent = (val, opt) => {
-    setSelectType(opt)
+    dispatch(action.onUpdateProducts(opt))
     const data = [
       {
         title: 'Bước 1',
@@ -346,7 +115,6 @@ const ChangeInforForm = forwardRef((props, ref) => {
     for (let i = 0; i < opt.length; i++) {
       data.push({ desc: opt[i].children, title: `Bước ${i + 3}`, field: TYPE_NAME[opt[i].type] })
     }
-
     data.push({
       title: `Bước ${opt.length > 0 ? opt.length + 3 : data.length + 1}`,
       desc: 'Xem lại',
@@ -356,15 +124,24 @@ const ChangeInforForm = forwardRef((props, ref) => {
   }
 
   const handleSelectCate = ({ type, name, value }, pathName) => {
-    setProductSelect({ type, name, value })
-    onSetFieldsWithInstance([pathName], { type, name, value }, form)
+    dispatch(
+      action.onUpdateCategory({
+        type,
+        name,
+        value,
+      }),
+    )
   }
 
   const filterSelect = productData?.data?.filter((item) => {
-    if (item.type == 5 && selectType.some((opt) => opt.type == 4)) return
-    if (item.type == 4 && selectType.some((opt) => opt.type == 5)) return
+    if (item.type == 5 && products?.some((opt) => opt.type == 4)) return
+    if (item.type == 4 && products?.some((opt) => opt.type == 5)) return
     return item
   })
+
+  const getComponentByProducts = useMemo(() => {
+    return products?.map(({ type }, i) => subComponent({ i })[type])
+  }, [products])
 
   const selectProps = {
     showSearch: true,
@@ -405,7 +182,7 @@ const ChangeInforForm = forwardRef((props, ref) => {
           [styles.active]: props.current === 0,
         })}
       >
-        <Select {...selectProps} disabled={!productSelect}>
+        <Select {...selectProps} disabled={!watchCategories}>
           {filterSelect?.map((item) => (
             <Select.Option key={item._id} value={item._id} type={item.type}>
               {item.name}
@@ -414,9 +191,9 @@ const ChangeInforForm = forwardRef((props, ref) => {
         </Select>
       </Form.Item>
 
-      {selectType?.map((item, i) => checkType(item.type, i, ref))}
+      {getComponentByProducts}
 
-      <BaseInformation index={1} ref={ref} type={productSelect?.type} />
+      <BaseInformation index={1} ref={ref} />
     </Form>
   )
 })

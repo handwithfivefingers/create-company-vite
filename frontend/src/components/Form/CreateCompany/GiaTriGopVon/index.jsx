@@ -1,42 +1,40 @@
 import CCInput from '@/components/CCInput'
-import { FormFieldText } from '@/constant/Common'
 import t from '@/constant/CommonText'
+import { useStepData } from '@/context/StepProgressContext'
 import { numToWord } from '@/helper/Common'
 import { Col, Form, InputNumber, Row } from 'antd'
 import clsx from 'clsx'
-import { forwardRef } from 'react'
+import { memo } from 'react'
 import styles from './styles.module.scss'
-import { useStepData } from '@/context/StepProgressContext'
 
-const GiaTriGopVon = forwardRef((props, ref) => {
+const GiaTriGopVon = memo((props) => {
   const { BASE_FORM } = props
   const { currentStep } = useStepData()
   const formInstance = Form.useFormInstance()
   const checkInputValidation = (e) => {
     let pattern = /[1-9]/g
-    ref.current.setFields([
+    formInstance.setFields([
       {
         name: [...BASE_FORM, 'base_val', 'char'],
         errors: (e.target.value.match(pattern) && ['Vui lòng không nhập kí tự khác ngoài chữ']) || [],
       },
     ])
   }
-
+  // const base_val = useOrder(['createCompany', 'approve', 'base_val'])
   let timer
 
   const onInputChange = (e) => {
-    let numInp = ref.current.getFieldValue([...BASE_FORM, 'base_val', 'num'])
-
+    let numInp = formInstance.getFieldValue([...BASE_FORM, 'base_val', 'num'])
     if (timer) clearTimeout(timer)
     timer = setTimeout(() => {
       let transform = numToWord(numInp)
       let upperLetter = transform.charAt(0).toUpperCase() + transform.slice(1)
-      onSetFields([...BASE_FORM, 'base_val', 'char'], upperLetter)
+      setFields([...BASE_FORM, 'base_val', 'char'], upperLetter)
     }, 350)
   }
 
-  const onSetFields = (pathName, value) => {
-    ref.current.setFields([
+  const setFields = (pathName, value) => {
+    formInstance.setFields([
       {
         name: pathName,
         value: value,
@@ -78,5 +76,4 @@ const GiaTriGopVon = forwardRef((props, ref) => {
     </Row>
   )
 })
-
 export default GiaTriGopVon

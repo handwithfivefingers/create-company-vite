@@ -6,7 +6,7 @@ import { useStepData } from '@/context/StepProgressContext'
 import { htmlContent, onSetFields } from '@/helper/Common'
 import { Col, Form, InputNumber, Row, Select, Spin } from 'antd'
 import clsx from 'clsx'
-import React, { Suspense, forwardRef, lazy, memo, useMemo, useState, useEffect } from 'react'
+import React, { Suspense, memo, lazy, useMemo, useState, useEffect } from 'react'
 import styles from './styles.module.scss'
 import GlobalService from '@/service/GlobalService'
 import { useFetch } from '@/helper/Hook'
@@ -17,9 +17,9 @@ const CCListFormV2 = lazy(() =>
 
 const BASE_FORM = ['change_info', 'base_inform']
 
-const BaseInformation = forwardRef((props, ref) => {
+const BaseInformation = memo((props) => {
+  const formInstance = Form.useFormInstance()
   const { currentStep } = useStepData()
-
   const renderFormByType = useMemo(() => {
     if (+props.type === 2) return <BoardMembers2Member BASE_FORM={BASE_FORM} key={`board_members`} />
     else if (+props.type === 3) return <BoardMembersCoopMember BASE_FORM={BASE_FORM} key={`board_members`} />
@@ -36,7 +36,14 @@ const BaseInformation = forwardRef((props, ref) => {
           <CCInput
             label="Tên doanh nghiệp"
             name={['change_info', 'base_inform', 'company_name']}
-            onChange={(e) => onSetFields(['change_info', 'base_inform', 'company_name'], e.target.value, ref, true)}
+            onBlur={() => {
+              formInstance.setFields([
+                {
+                  name: ['change_info', 'base_inform', 'company_name'],
+                  value: formInstance.getFieldValue(['change_info', 'base_inform', 'company_name'])?.toUpperCase(),
+                },
+              ])
+            }}
             placeholder="CÔNG TY TNHH DỊCH VỤ TƯ VẤN WARREN B"
             required
           />
@@ -50,8 +57,7 @@ const BaseInformation = forwardRef((props, ref) => {
           />
         </Col>
         <Col lg={12} md={24} sm={24} xs={24}>
-          <CCInput
-            type="date"
+          <CCInput.Date
             label="Ngày cấp"
             name={['change_info', 'base_inform', 'mst_provide']}
             placeholder="15/01/1966 - ENTER"
@@ -69,7 +75,14 @@ const BaseInformation = forwardRef((props, ref) => {
             label={htmlContent('</>Người đại diện pháp luật <i>(nhập đầy đủ họ và tên)</i></>')}
             name={['change_info', 'base_inform', 'org_person']}
             placeholder="NGUYỄN VĂN A"
-            onChange={(e) => onSetFields(['change_info', 'base_inform', 'org_person'], e.target.value, ref, true)}
+            onBlur={() => {
+              formInstance.setFields([
+                {
+                  name: ['change_info', 'base_inform', 'org_person'],
+                  value: formInstance.getFieldValue(['change_info', 'base_inform', 'org_person'])?.toUpperCase(),
+                },
+              ])
+            }}
             required
             message="Vui lòng nhập Người đại diện pháp luật"
           />

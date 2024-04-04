@@ -4,7 +4,29 @@ import { Form } from 'antd'
 import React, { forwardRef } from 'react'
 import styles from './styles.module.scss'
 
-const CCAddress = forwardRef(({ name, label, ...props }, ref) => {
+const CCAddress = ({ name, label, ...props }) => {
+  const formInstance = Form.useFormInstance()
+  const handleRadioAddressChange = (val) => {
+    if (val === 1) {
+      const mirrorValue = formInstance.getFieldValue([...name, 'current'])
+      formInstance.setFields([
+        {
+          name: [...name, 'contact'],
+          value: mirrorValue,
+        },
+      ])
+    } else {
+      formInstance.setFields([
+        {
+          name: [...name, 'contact'],
+          value: {},
+        },
+      ])
+    }
+    if (props?.onChange) {
+      props?.onChange(val)
+    }
+  }
   return (
     <>
       <Form.Item className={styles.newLine} label={htmlContent(label || '<b>Địa chỉ thường trú <i>(ĐDPL)</i></b>')}>
@@ -18,11 +40,11 @@ const CCAddress = forwardRef(({ name, label, ...props }, ref) => {
       <CCSelect.RadioAddress
         prevField={[...name, 'current']}
         nextField={[...name, 'contact']}
-        ref={ref}
         required={props?.required}
+        onChange={handleRadioAddressChange}
       />
     </>
   )
-})
+}
 
 export default CCAddress

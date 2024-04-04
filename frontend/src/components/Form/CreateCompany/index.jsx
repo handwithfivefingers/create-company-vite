@@ -1,171 +1,68 @@
 /* eslint-disable react/display-name */
 import { VALIDATE_MESSAGE } from '@/constant/InputValidate'
-import { onSetFields } from '@/helper/Common'
-import { Col, Form, Row, Select, Space, Spin } from 'antd'
+import { Col, Form, Row, Select } from 'antd'
 import clsx from 'clsx'
-import dayjs from 'dayjs'
-import { Suspense, forwardRef, lazy, useEffect, useMemo, useState } from 'react'
-import { useLocation } from 'react-router-dom'
+import { forwardRef, useEffect } from 'react'
+import { useDispatch } from 'react-redux'
+import { STATE_METHOD } from '../../../constant/Common'
 import { useStepData } from '../../../context/StepProgressContext'
+import { useOrderAction } from '../../../store/actions/order.actions'
+import { useCreateCompanyOrder, useGetOrderMethod, useOrder } from '../../../store/reducer'
 import styles from './CreateCompany.module.scss'
-
-const DiaChiTruSoChinh = lazy(() => {
-  return import(`./DiaChiTruSoChinh`).then(({ default: Component }) => {
-    return {
-      default: forwardRef((props, ref) => <Component ref={ref} {...props} />),
-    }
-  })
-})
-
-const GiaTriGopVon = lazy(() => {
-  return import(`./GiaTriGopVon`).then(({ default: Component }) => {
-    return {
-      default: forwardRef((props, ref) => <Component ref={ref} {...props} />),
-    }
-  })
-})
-
-const NgangNgheDangKi = lazy(() => import(`./NgangNgheDangKi`))
-
-const NguoiDaiDienPhapLuat = lazy(() => {
-  return import(`./NguoiDaiDienPhapLuat`).then(({ default: Component }) => {
-    return {
-      default: forwardRef((props, ref) => <Component ref={ref} {...props} />),
-    }
-  })
-  // return import(`./NguoiDaiDienPhapLuat`)
-})
-
-const TenCongTy = lazy(() => {
-  return import(`./TenCongTy`).then(({ default: Component }) => {
-    return {
-      default: forwardRef((props, ref) => <Component ref={ref} {...props} />),
-    }
-  })
-})
-
-const ThanhVienGopVon = lazy(async () => {
-  return import(`./ThanhVienGopVon`).then(({ default: Component }) => {
-    return {
-      default: forwardRef((props, ref) => <Component ref={ref} {...props} />),
-    }
-  })
-})
+import DiaChiTruSoChinh from './DiaChiTruSoChinh'
+import GiaTriGopVon from './GiaTriGopVon'
+import NgangNgheDangKi from './NgangNgheDangKi'
+import NguoiDaiDienPhapLuat from './NguoiDaiDienPhapLuat'
+import TenCongTy from './TenCongTy'
+import ThanhVienGopVon from './ThanhVienGopVon'
+import CreateCompanyPreview from '../PreviewData/CreateCompanyPreview'
 
 const BASE_FORM = ['create_company', 'approve']
 
 const animateClass = 'animate__animated animate__fadeIn animate__faster'
 
 const CreateCompany = forwardRef(({ data }, formRef) => {
-  const [select, setSelect] = useState()
   const { currentStep } = useStepData()
   const [createCompanyForm] = Form.useForm()
-  const [reload, setReload] = useState(false)
-  let location = useLocation()
+  const { category } = useOrder()
+  const createCompany = useCreateCompanyOrder()
+  const method = useGetOrderMethod()
+  const dispatch = useDispatch()
+  const action = useOrderAction()
+  const watch = Form.useWatch(BASE_FORM, createCompanyForm)
 
   useEffect(() => {
-    if (location?.state) {
-      // setTimeout(() => {
-      initDataforEditing()
-      // }, 2000)
+    if (method === STATE_METHOD['UPDATE']) {
+      createCompanyForm.setFieldsValue({ create_company: createCompany, category: category._id })
     }
-  }, [location])
+  }, [method])
 
-  const initDataforEditing = () => {
-    let { state } = location
-
-    let _data = {}
-
-    let { category, data } = state
-
-    if (!category) return
-
-    _data.category = {
-      type: category.type,
-      value: category._id,
-      name: category.name,
-    }
-
-    if (data) {
-      const nextData = JSON.parse(JSON.stringify(data))
-
-      let approve = nextData.create_company?.approve
-
-      if (approve) {
-        let { origin_person, company_opt_career, legal_respon } = approve
-
-        if (origin_person) {
-          origin_person = origin_person?.map(({ birth_day, doc_time_provide, doc_outdate, organization, ...item }) => {
-            let obj = {
-              ...item,
-            }
-            if (doc_outdate) obj.doc_outdate = dayjs(doc_outdate)
-            if (birth_day) obj.birth_day = dayjs(birth_day)
-            if (doc_time_provide) obj.doc_time_provide = dayjs(doc_time_provide)
-
-            if (organization) {
-              obj.organization = {
-                ...organization,
-                doc_time_provide: dayjs(organization.doc_time_provide),
-              }
-            }
-            return obj
-          })
-        }
-        if (company_opt_career) {
-          approve.company_opt_career_mirror = company_opt_career
-        }
-        approve.origin_person = origin_person
-
-        delete approve.legal_respon
-      }
-      _data.create_company = {
-        approve,
-      }
-    }
-
-    formRef.current.setFieldsValue({ ..._data })
-
-    setSelect({ type: category.type, value: category._id, name: category.name })
-    setReload(!reload)
+  const handleSelect = (value, opt, pathName) => {
+    let { type, name } = opt
+    dispatch(
+      action.onUpdateCategory({
+        type,
+        name,
+        value,
+      }),
+    )
   }
 
-  const handleSelect = (v, opt, pathName) => {
-    let { type, name, value } = opt
+  useEffect(() => {
+    window.form = createCompanyForm
+  }, [])
 
-    onSetFields([pathName], { type, name, value }, formRef)
-    // reset Field
-    let originPerson = [...BASE_FORM, 'origin_person']
-
-    let legelRespon = [...BASE_FORM, 'legal_respon']
-
-    onSetFields([pathName], { type, name, value }, formRef)
-
-    onSetFields([originPerson], undefined, formRef)
-
-    onSetFields([legelRespon], undefined, formRef)
-
-    setSelect({ type, name, value })
-  }
-
-  const renderFormItem = useMemo(() => {
-    let html = null
-    const listForm = [GiaTriGopVon, ThanhVienGopVon, NguoiDaiDienPhapLuat, TenCongTy, DiaChiTruSoChinh, NgangNgheDangKi]
-    const configs = {
-      BASE_FORM: BASE_FORM,
-      ref: formRef,
-      className: animateClass,
-      data: select,
+  useEffect(() => {
+    let timeout
+    if (watch) {
+      timeout = setTimeout(() => {
+        const values = createCompanyForm.getFieldsValue(true)
+        console.log('values', values)
+        dispatch(action.onUpdateCreateCompany(values.create_company))
+      }, 500)
     }
-    html = listForm.map((Component, index) => (
-      <Row key={[configs, index]}>
-        <Col span={24}>
-          <Component {...configs} />
-        </Col>
-      </Row>
-    ))
-    return html
-  }, [select, reload])
+    return () => clearTimeout(timeout)
+  }, [watch])
 
   const rowClassName = clsx([
     styles.hide,
@@ -196,29 +93,22 @@ const CreateCompany = forwardRef(({ data }, formRef) => {
               },
             ]}
           >
-            <Select placeholder="Bấm vào đây" onChange={(v, opt) => handleSelect(v, opt, ['category'])}>
-              {data?.map((item) => {
-                return (
-                  <Select.Option key={item._id} value={item._id} {...item}>
-                    {item.name}
-                  </Select.Option>
-                )
-              })}
-            </Select>
+            <Select
+              placeholder="Bấm vào đây"
+              onChange={handleSelect}
+              options={data}
+              fieldNames={{ label: 'name', value: '_id' }}
+            />
           </Form.Item>
         </Col>
       </Row>
-      <Suspense
-        fallback={
-          <div className="container spin-suspense">
-            <Space align="center">
-              <Spin spinning={true} tip="Loading..." />
-            </Space>
-          </div>
-        }
-      >
-        {renderFormItem}
-      </Suspense>
+      {currentStep === 1 && <GiaTriGopVon className={animateClass} BASE_FORM={BASE_FORM} data={category} />}
+      {currentStep === 2 && <ThanhVienGopVon className={animateClass} BASE_FORM={BASE_FORM} data={category} />}
+      {currentStep === 3 && <NguoiDaiDienPhapLuat className={animateClass} BASE_FORM={BASE_FORM} data={category} />}
+      {currentStep === 4 && <TenCongTy className={animateClass} BASE_FORM={BASE_FORM} data={category} />}
+      {currentStep === 5 && <DiaChiTruSoChinh className={animateClass} BASE_FORM={BASE_FORM} data={category} />}
+      {currentStep === 6 && <NgangNgheDangKi className={animateClass} BASE_FORM={BASE_FORM} data={category} />}
+      {currentStep === 7 && <CreateCompanyPreview className={animateClass} BASE_FORM={BASE_FORM} data={category} />}
     </Form>
   )
 })

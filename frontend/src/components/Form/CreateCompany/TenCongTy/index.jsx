@@ -1,12 +1,11 @@
 import CCInput from '@/components/CCInput'
-import { onSetFields } from '@/helper/Common'
+import { useStepData } from '@/context/StepProgressContext'
 import ProductService from '@/service/UserService/ProductService'
 import { CaretRightOutlined } from '@ant-design/icons'
 import { Alert, Card, Col, Collapse, Form, Input, Row } from 'antd'
 import clsx from 'clsx'
-import { forwardRef, useState, useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import styles from '../CreateCompany.module.scss'
-import { useStepData } from '@/context/StepProgressContext'
 
 const popData = {
   content: (
@@ -45,7 +44,7 @@ const popData = {
   title: 'Quy tắc đặt tên công ty',
 }
 
-const TenCongTy = forwardRef((props, ref) => {
+const TenCongTy = (props) => {
   const formInstance = Form.useFormInstance()
   const { currentStep } = useStepData()
   const { BASE_FORM } = props
@@ -84,7 +83,7 @@ const TenCongTy = forwardRef((props, ref) => {
   }
 
   const inputChange = ({ value, pathName } = {}) => {
-    onSetFields(pathName, value, ref, true)
+    formInstance.setFields([{ name: pathName, value: value?.toUpperCase() }])
   }
 
   return (
@@ -174,6 +173,6 @@ const TenCongTy = forwardRef((props, ref) => {
       </Row>
     </Form.Item>
   )
-})
+}
 
 export default TenCongTy

@@ -15,14 +15,13 @@ import {
 } from '@/components/CCInputIdentify'
 import { useLocation } from 'react-router-dom'
 
-const OriginalPerson = forwardRef((props, ref) => {
+const OriginalPerson = (props) => {
   const { BASE_FORM, type } = props
   const formInstance = Form.useFormInstance()
   const doctypeWatch = Form.useWatch([...BASE_FORM, 'doc_type'], formInstance)
   const location = useLocation()
   useEffect(() => {
-    const form = ref.current
-    window.form = form
+    window.form = formInstance
   }, [])
 
   return (
@@ -43,7 +42,14 @@ const OriginalPerson = forwardRef((props, ref) => {
         label="Tên tổ chức"
         name={[...BASE_FORM, 'organization', 'name']}
         placeholder="CÔNG TY TNHH DỊCH VỤ TƯ VẤN WARREN B"
-        onChange={(e) => onSetFields([...BASE_FORM, 'organization', 'name'], e.target.value, ref, true)}
+        onChange={(e) =>
+          formInstance.setFields([
+            {
+              name: [...BASE_FORM, 'organization', 'name'],
+              value: e.target.value?.toUpperCase(),
+            },
+          ])
+        }
         required
       />
       <CCInput
@@ -76,7 +82,14 @@ const OriginalPerson = forwardRef((props, ref) => {
           />
         }
         placeholder="NGUYỄN VĂN A"
-        onChange={(e) => onSetFields([...BASE_FORM, 'name'], e.target.value, ref, true)}
+        onChange={(e) =>
+          formInstance.setFields([
+            {
+              name: [...BASE_FORM, 'name'],
+              value: e.target.value?.toUpperCase(),
+            },
+          ])
+        }
         required
         message="Họ và Tên đại diện pháp luật (ĐDPL) là bắt buộc!"
       />
@@ -134,6 +147,6 @@ const OriginalPerson = forwardRef((props, ref) => {
       />
     </div>
   )
-})
+}
 
 export default OriginalPerson

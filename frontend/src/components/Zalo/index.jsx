@@ -6,7 +6,7 @@ export default function ZaloPlugin() {
       <div
         className="zalo-chat-widget"
         data-oaid="4133099479344249266"
-        data-welcomeMessage="Chúng tôi có thể giúp gì cho bạn?"
+        data-welcomemessage="Chúng tôi có thể giúp gì cho bạn?"
         data-autopopup="0"
         data-width="300px"
         data-height=""
@@ -25,7 +25,6 @@ const ZaloScript = memo(() => {
     mounted = true
   }, [])
   const loadScript = () => {
-    console.log('coming')
     if (!window.ZA && !window.ZaloSocialSDK && !ready) {
       let zaloScript = document.createElement('script')
       zaloScript.src = `//sp.zalo.me/plugins/sdk.js`

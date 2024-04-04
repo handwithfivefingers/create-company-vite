@@ -13,7 +13,7 @@ router.use('/career_cate', requireSignin, require('./career-category'))
 router.use('/order/payment', require('./payment'))
 router.use('/order', requireSignin, require('./order'))
 router.use('/', require('./service'))
-router.use('/test', require('./test'))
+router.use('/test', requireSignin, require('./test'))
 router.use('/transaction', requireSignin, require('./transaction'))
 
 router.use('/', MailRoute)

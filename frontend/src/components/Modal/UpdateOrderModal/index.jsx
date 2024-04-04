@@ -1,7 +1,7 @@
-import { Modal, Button, Space } from 'antd'
+import { Modal, Button, Space, Dropdown } from 'antd'
 import React, { forwardRef, useImperativeHandle, useState } from 'react'
 import styles from './styles.module.scss'
-import { DeleteOutlined, EyeOutlined, FormOutlined, MailOutlined } from '@ant-design/icons'
+import { DownOutlined, EyeOutlined, FormOutlined, MailOutlined } from '@ant-design/icons'
 import { MdSettingsBackupRestore } from 'react-icons/md'
 const UpdateOrderModal = forwardRef((props, ref) => {
   const { onUpdateOrder, onUpdateStatus, onPreviewPDF, onConvertFileManual, ...rest } = props
@@ -20,6 +20,27 @@ const UpdateOrderModal = forwardRef((props, ref) => {
   )
   const openModal = () => setOpen(true)
   const closeModal = () => setOpen(false)
+  const items = [
+    {
+      label: '1st menu item',
+      key: '1',
+    },
+    {
+      label: '2nd menu item',
+      key: '2',
+    },
+    {
+      label: '3rd menu item',
+      key: '3',
+    },
+  ]
+  const handleMenuClick = (e) => {
+    console.log('e', e)
+  }
+  const menuProps = {
+    items,
+    onClick: handleMenuClick,
+  }
 
   return (
     <Modal open={open} onCancel={closeModal} onOk={closeModal} {...rest}>
@@ -44,7 +65,7 @@ const UpdateOrderModal = forwardRef((props, ref) => {
             icon={<MdSettingsBackupRestore fontSize={16} />}
             style={{ display: 'flex', alignItems: 'center', gap: 8 }}
           >
-            Convert file thủ công
+            Manual Convert & Edit
           </Button>
         </li>
         <li>

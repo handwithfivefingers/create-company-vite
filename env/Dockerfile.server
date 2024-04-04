@@ -1,16 +1,9 @@
 FROM node:18-alpine
-
 WORKDIR /app
 # RUN apk --no-cache add bash libreoffice util-linux   font-droid-nonlatin font-droid ttf-dejavu ttf-freefont ttf-liberation
 # RUN apk --no-cache add msttcorefonts-installer fontconfig &&   update-ms-fonts &&   fc-cache -f
 COPY backend/package.json /app/
-
 RUN npm install --loglevel verbose
-
 COPY backend /app/
-
 ENV NODE_OPTIONS=--max_old_space_size=1024
-
 EXPOSE 3001
-# ENTRYPOINT ["/bin/sh", "-c"]
-# CMD ["npm run dev"]

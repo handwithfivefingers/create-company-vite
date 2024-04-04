@@ -13,8 +13,6 @@ router.use('/career', requireSignin, require('./career'))
 router.use('/category', requireSignin, require('./category'))
 router.use('/transaction', requireSignin, require('./transaction'))
 router.use('/template', requireSignin, require('./template'))
-router.use('/file_category', requireSignin, require('./fileCategory'))
-router.use('/file', requireSignin, require('./file'))
 router.use('/sms', requireSignin, require('./sms'))
 router.use('/office', requireSignin, require('./office'))
 

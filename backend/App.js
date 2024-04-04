@@ -6,6 +6,11 @@ const Cronjob = require('./src/controller/v1/user/cronjob.controller')
 const db = require('./src/configs/db')
 const appConfig = require('./src/configs/defaultConfig')
 const LoadEnv = require('./src/configs/loadENV')
+const moment = require('moment-timezone')
+
+require('moment/locale/vi')
+
+moment.tz.setDefault('Asia/Bangkok')
 
 global.__basedir = __dirname
 

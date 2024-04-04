@@ -1,7 +1,7 @@
 {
   "name": "vite-project",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.2",
   "type": "module",
   "setupFilesAfterEnv": "<rootDir>/src/tests/mocks.js",
   "scripts": {
@@ -51,6 +51,7 @@
     "fs-extra": "^11.1.1",
     "rollup-plugin-visualizer": "^5.8.3",
     "vite": "^5.0.0",
+    "@redux-devtools/extension": "^3.3.0",
     "vitest": "^0.34.6"
   }
 }

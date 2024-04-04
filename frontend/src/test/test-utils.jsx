@@ -3,7 +3,6 @@ import { Provider } from 'react-redux'
 import store from '@/store'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { ConfigProvider } from 'antd'
-import { FormProviderContext } from '@/context/FormProviderContext'
 import { StepProgressProvider } from '@/context/StepProgressContext'
 import { BrowserRouter } from 'react-router-dom'
 
@@ -27,11 +26,9 @@ const AllTheProviders = ({ children }) => {
     <Provider store={store}>
       <QueryClientProvider client={queryClient}>
         <ConfigProvider>
-          <FormProviderContext>
-            <StepProgressProvider>
-              <BrowserRouter>{children}</BrowserRouter>
-            </StepProgressProvider>
-          </FormProviderContext>
+          <StepProgressProvider>
+            <BrowserRouter>{children}</BrowserRouter>
+          </StepProgressProvider>
         </ConfigProvider>
       </QueryClientProvider>
     </Provider>

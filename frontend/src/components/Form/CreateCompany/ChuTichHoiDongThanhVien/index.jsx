@@ -1,33 +1,30 @@
+import CCInput from '@/components/CCInput'
+import {
+  CCInputDateProvideIdentify,
+  CCInputNumberIdentify,
+  CCInputProviderIdentify,
+  CCInputTypeIdentify,
+} from '@/components/CCInputIdentify'
+import { SELECT } from '@/constant/Common'
+import { useStepData } from '@/context/StepProgressContext'
 import { Button, Col, Form, Row } from 'antd'
 import clsx from 'clsx'
-import { forwardRef } from 'react'
-import CCInput from '@/components/CCInput'
-import { SELECT } from '@/constant/Common'
-import styles from '../CreateCompany.module.scss'
-import onSetFields from '@/helper/Commmon'
-import { useStepData } from '@/context/StepProgressContext'
 import CCInputBirthDay from '../../../CCInputBirthDay'
-import {
-  CCInputTypeIdentify,
-  CCInputNumberIdentify,
-  CCInputDateProvideIdentify,
-  CCInputOutdateIdentify,
-  CCInputProviderIdentify,
-} from '@/components/CCInputIdentify'
+import styles from '../CreateCompany.module.scss'
 
-const ChuTichHoiDongThanhVien = forwardRef((props, ref) => {
+const ChuTichHoiDongThanhVien = (props) => {
   const { BASE_FORM } = props
   const { currentStep } = useStepData()
   const formInstance = Form.useFormInstance()
   const doctypeWatch = Form.useWatch([...BASE_FORM, 'per_main', 'doc_type'], formInstance)
 
   const handleAutoFill = () => {
-    let { create_company } = ref.current.getFieldsValue()
+    let { create_company } = formInstance.getFieldsValue()
     let { origin_person } = create_company.approve
     if (origin_person) {
       let { name, gender, birth_day, per_type, reg_address, current_address } = origin_person
 
-      ref.current.setFieldsValue({
+      formInstance.setFieldsValue({
         ...create_company,
         create_company: {
           approve: {
@@ -46,8 +43,12 @@ const ChuTichHoiDongThanhVien = forwardRef((props, ref) => {
     }
   }
   const handleClear = () => {
-    let { create_company } = ref.current.getFieldsValue()
-    onSetFields(['create_company', 'approve', 'per_main'], null, ref)
+    formInstance.setFields([
+      {
+        name: ['create_company', 'approve', 'per_main'],
+        value: null,
+      },
+    ])
   }
   return (
     <>
@@ -105,11 +106,6 @@ const ChuTichHoiDongThanhVien = forwardRef((props, ref) => {
               indentifyType={doctypeWatch}
             />
           </Col>
-
-          {/* <Col lg={12} md={12} sm={24} xs={24}>
-            <CCInputOutdateIdentify name={[...BASE_FORM, 'per_main', 'doc_outdate']} indentifyType={doctypeWatch} />
-          </Col> */}
-
           <Col lg={12} md={12} sm={24} xs={24}>
             <CCInputProviderIdentify
               name={[...BASE_FORM, 'per_main', 'doc_place_provide']}
@@ -128,6 +124,6 @@ const ChuTichHoiDongThanhVien = forwardRef((props, ref) => {
       </Form.Item>
     </>
   )
-})
+}
 
 export default ChuTichHoiDongThanhVien

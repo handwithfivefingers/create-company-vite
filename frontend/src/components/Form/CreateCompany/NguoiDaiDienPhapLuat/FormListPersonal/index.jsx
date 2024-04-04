@@ -10,19 +10,19 @@ import { SELECT } from '@/constant/Common'
 import { htmlContent, onSetFields } from '@/helper/Common'
 import { MinusCircleOutlined } from '@ant-design/icons'
 import { Button, Form } from 'antd'
-import { forwardRef, useMemo } from 'react'
+import { useMemo } from 'react'
 import CCInputBirthDay from '../../../../CCInputBirthDay'
 import styles from '../../CreateCompany.module.scss'
 
-const FormListPersonType = forwardRef((props, ref) => {
+const FormListPersonType = (props) => {
   const { i, presentState, listFormState, BASE_FORM, type } = props
   const { state, setState } = listFormState
   const { state: present, setState: setPresent } = presentState
   const formInstance = Form.useFormInstance()
   const doctypeWatch = Form.useWatch([...BASE_FORM, 'legal_respon', i, 'doc_type'], formInstance)
-
+  const personType = Form.useWatch([...BASE_FORM, 'legal_respon', i, 'select_person'], formInstance)
   const removeItem = (index) => {
-    let val = ref.current.getFieldValue([...BASE_FORM, 'legal_respon'])
+    let val = formInstance.getFieldValue([...BASE_FORM, 'legal_respon'])
 
     val = [...val.slice(0, index), ...val.slice(index + 1)]
 
@@ -34,11 +34,11 @@ const FormListPersonType = forwardRef((props, ref) => {
 
     setPresent(objPresent)
 
-    onSetFields([...BASE_FORM, 'legal_respon'], val, ref)
+    onSetFields([...BASE_FORM, 'legal_respon'], val, { current: formInstance })
 
     setState(val)
   }
-
+  console.log('watch', personType)
   const titleOptions = useMemo(() => {
     const result = []
     if (type == 1) {
@@ -51,7 +51,6 @@ const FormListPersonType = forwardRef((props, ref) => {
     return result
   }, [type])
 
-  console.log('present', present)
   return (
     <Form.Item
       label={
@@ -63,7 +62,7 @@ const FormListPersonType = forwardRef((props, ref) => {
             danger
             icon={<MinusCircleOutlined onClick={() => removeItem(i)} />}
             style={{
-              display: state.length > 1 ? 'block' : 'none',
+              display: personType == -1 ? 'block' : 'none',
             }}
           />
         </div>
@@ -72,7 +71,11 @@ const FormListPersonType = forwardRef((props, ref) => {
       <CCInput
         name={[...BASE_FORM, 'legal_respon', i, 'name']}
         label="Họ và tên"
-        onChange={(e) => onSetFields([...BASE_FORM, 'legal_respon', i, 'name'], e.target.value, ref, true)}
+        onChange={(e) => {
+          formInstance.setFields([
+            { name: [...BASE_FORM, 'legal_respon', i, 'name'], value: e.target.value?.toUpperCase() },
+          ])
+        }}
         required
       />
 
@@ -88,7 +91,7 @@ const FormListPersonType = forwardRef((props, ref) => {
         ''
       )}
 
-      <div style={{ display: +present[i] != -1 ? 'none' : 'block' }}>
+      <div style={{ display: personType != -1 ? 'none' : 'block' }}>
         <CCInput
           type="select"
           name={[...BASE_FORM, 'legal_respon', i, 'gender']}
@@ -138,6 +141,6 @@ const FormListPersonType = forwardRef((props, ref) => {
       </div>
     </Form.Item>
   )
-})
+}
 
 export default FormListPersonType

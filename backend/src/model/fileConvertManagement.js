@@ -1,14 +1,15 @@
 const { Schema } = require('mongoose')
 
 module.exports = {
-  name: {
+  folderUri: {
     type: String,
     required: true,
   },
-  parentId: {
+  orderID: {
     type: Schema.Types.ObjectId,
-    ref: 'FileCategory',
+    ref: 'Order',
   },
+  data: {},
   delete_flag: {
     type: Number,
     enum: [0, 1],

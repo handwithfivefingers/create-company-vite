@@ -2,43 +2,39 @@ import { Button, Card, Space, Spin } from 'antd'
 import { Suspense, forwardRef, lazy } from 'react'
 import { useLocation } from 'react-router-dom'
 import { useStepAPI, useStepData } from '../../../../../context/StepProgressContext'
+import { useOrder } from '../../../../../store/reducer'
+import { STATE_METHOD } from '../../../../../constant/Common'
 
 const ChangeInforForm = lazy(() => import('@/components/Form/ChangeInforForm'))
 
 const PreviewData = lazy(() => import('@/components/Form/PreviewData'))
 
 const ChangeInfoPages = forwardRef((props, ref) => {
-  const location = useLocation()
   const { onNextStep, onPrevStep } = useStepAPI()
   const { currentStep, steps } = useStepData()
   const { saveService, paymentService, data, loading, onFinishScreen, editData } = props
-
-  const getParams = (ref) => {
-    let value = ref.current.getFieldsValue()
-    const params = {
-      data: {
-        ...value,
-        products: value?.products?.map((item) => {
-          if (item?.value) {
-            return item.value
-          }
-          return item
-        }),
-      },
-    }
-    if (location.state?._id) {
-      params._id = location.state._id
-    }
-    return params
-  }
+  const { category, _id, method } = useOrder()
 
   const handleSaveChangeInfo = (ref) => {
-    const params = getParams(ref)
+    const values = ref.current.getFieldsValue(true)
+    console.log('values', values)
+    const params = {
+      data: { ...values, category },
+    }
+    if (method === STATE_METHOD['UPDATE'] && _id) {
+      params._id = _id
+    }
     return saveService(params)
   }
 
   const handlePayment = (ref) => {
-    const params = getParams(ref)
+    const values = ref.current.getFieldsValue(true)
+    const params = {
+      data: { ...values, category },
+    }
+    if (method === STATE_METHOD['UPDATE'] && _id) {
+      params._id = _id
+    }
     return paymentService(params, ref)
   }
 

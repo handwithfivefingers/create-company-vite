@@ -1,21 +1,16 @@
 import { Form } from 'antd'
-
-import React, { forwardRef } from 'react'
-
 import CCSelect from '@/components/CCSelect'
-
 import { htmlContent } from '@/helper/Common'
-
 import clsx from 'clsx'
-
-import styles from '../DaiDienPhapLuat/styles.module.scss'
 import { useEffect } from 'react'
+import styles from '../DaiDienPhapLuat/styles.module.scss'
+import { useStepData } from '../../../../context/StepProgressContext'
 
 const BASE_FORM = ['change_info', 'location']
 
-const DiaChiTruSoChinh = forwardRef((props, ref) => {
+const DiaChiTruSoChinh = (props) => {
+  const { currentStep } = useStepData()
   const formInstance = Form.useFormInstance()
-
   const watchCity = Form.useWatch([...BASE_FORM, 'old', 'city'], formInstance)
   const watchDistrict = Form.useWatch([...BASE_FORM, 'old', 'district'], formInstance)
   const watchTown = Form.useWatch([...BASE_FORM, 'old', 'town'], formInstance)
@@ -32,7 +27,7 @@ const DiaChiTruSoChinh = forwardRef((props, ref) => {
     <Form.Item
       label={<h3>Đăng ký thay đổi địa chỉ trụ sở chính</h3>}
       className={clsx(styles.current, {
-        [styles.active]: props.current === props.index,
+        [styles.active]: currentStep === props.index,
       })}
     >
       <Form.Item label={htmlContent('<b><u>ĐỊA CHỈ TRỤ SỞ HIỆN TẠI<u></b>')}>
@@ -52,6 +47,6 @@ const DiaChiTruSoChinh = forwardRef((props, ref) => {
       </Form.Item>
     </Form.Item>
   )
-})
+}
 
 export default DiaChiTruSoChinh

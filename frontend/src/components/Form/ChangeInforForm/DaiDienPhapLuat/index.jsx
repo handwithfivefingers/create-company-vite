@@ -3,21 +3,25 @@ import { SELECT } from '@/constant/Common'
 import { MinusCircleOutlined } from '@ant-design/icons'
 import { Button, Card, Col, Divider, Form, Row, Select } from 'antd'
 import clsx from 'clsx'
-import React, { forwardRef, useEffect, useState } from 'react'
-
-import { htmlContent, onSetFields } from '@/helper/Common'
-import { useLocation } from 'react-router-dom'
-import CCAddress from '../../../CCAddress'
-import CCSelect from '../../../CCSelect'
-import styles from './styles.module.scss'
+import React, { useEffect, useMemo, useState } from 'react'
 import {
-  CCInputTypeIdentify,
-  CCInputNumberIdentify,
   CCInputDateProvideIdentify,
+  CCInputNumberIdentify,
   CCInputOutdateIdentify,
   CCInputProviderIdentify,
+  CCInputTypeIdentify,
 } from '@/components/CCInputIdentify'
+import { htmlContent, onSetFields } from '@/helper/Common'
+import { useLocation } from 'react-router-dom'
+import { useStepData } from '../../../../context/StepProgressContext'
+import CCAddress from '../../../CCAddress'
 import CCInputBirthDay from '../../../CCInputBirthDay'
+import CCSelect from '../../../CCSelect'
+import styles from './styles.module.scss'
+import { debounce } from 'lodash-es'
+import { useOrderAction } from '../../../../store/actions/order.actions'
+import { useDispatch } from 'react-redux'
+import { useChangeInforOrder } from '../../../../store/reducer'
 
 const BASE_FORM = ['change_info', 'legal_representative']
 
@@ -25,39 +29,36 @@ const PERSON_TYPE = {
   ADD: 'includes',
   REMOVE: 'excludes',
 }
+let listField = { present_person: undefined }
 
-const DaiDienPhapLuat = forwardRef((props, ref) => {
-  const [radio, setRadio] = useState([null, null, null])
-
-  const [present, setPresent] = useState([null, null, null])
-
-  const [listLegal, setListLegal] = useState([])
-
+const DaiDienPhapLuat = (props) => {
+  const { currentStep } = useStepData()
+  const action = useOrderAction()
   const [listIncludesOrExclude, setListIncludesOrExclude] = useState([])
+  const formInstance = Form.useFormInstance()
+  const changeInfoOrder = useChangeInforOrder()
+  const listLegalRepresentative = useMemo(
+    () => changeInfoOrder?.legal_representative?.after_change || [listField],
+    [changeInfoOrder?.legal_representative?.after_change],
+  )
 
-  const location = useLocation()
-
-  let listForm = {}
-
-  useEffect(() => {
-    if (!location.state) return
-
-    let legalValue = ref.current.getFieldValue(BASE_FORM)
-
-    if (legalValue?.in_out) {
-      handleIncludesOrExludesPeople(legalValue.in_out)
-    }
-    if (legalValue?.after_change) {
-      setListLegal(legalValue?.after_change)
-    }
-  }, [location])
+  const dispatch = useDispatch()
 
   const addNewLegal = () => {
-    let val = JSON.parse(JSON.stringify(listLegal))
-
-    setListLegal([...val, listForm])
-
-    let value = ref.current.getFieldValue(BASE_FORM)
+    const currentValue = formInstance.getFieldValue([...BASE_FORM, 'after_change'])
+    const nextValue = currentValue?.length
+      ? [...currentValue, { select_person: undefined }]
+      : [{ select_person: undefined }]
+    formInstance.setFields([
+      {
+        name: [...BASE_FORM, 'after_change'],
+        value: nextValue,
+      },
+    ])
+    const orderValue = formInstance.getFieldsValue(true)
+    setTimeout(() => {
+      dispatch(action.onUpdateChangeInfo(orderValue?.change_info))
+    }, 250)
   }
 
   const handleIncludesOrExludesPeople = (val = null) => {
@@ -72,7 +73,7 @@ const DaiDienPhapLuat = forwardRef((props, ref) => {
     <Form.Item
       label={<h3>Thay đổi người đại diện</h3>}
       className={clsx(styles.current, {
-        [styles.active]: props.current === props.index,
+        [styles.active]: currentStep === props.index,
       })}
     >
       <Form.Item label={htmlContent('<b>BỎ BỚT HOẶC THÊM MỚI NGƯỜI ĐẠI DIỆN</b>')}>
@@ -85,7 +86,7 @@ const DaiDienPhapLuat = forwardRef((props, ref) => {
           {listIncludesOrExclude &&
             listIncludesOrExclude?.map((item, i) => (
               <Col lg={12} md={24} sm={24} xs={24} key={[i, item]}>
-                <PeoppleWrapper {...props} BASE_FORM={BASE_FORM} ref={ref} i={i} />
+                <PeoppleWrapper {...props} BASE_FORM={BASE_FORM} i={i} />
               </Col>
             ))}
         </Row>
@@ -96,17 +97,15 @@ const DaiDienPhapLuat = forwardRef((props, ref) => {
       <Form.Item label={htmlContent('<b>DANH SÁCH NGƯỜI ĐẠI DIỆN SAU KHI THAY ĐỔI</b>')}>
         <Button onClick={addNewLegal}>Thêm người đại diện</Button>
         <Row gutter={[12]}>
-          {listLegal.map((item, i) => {
+          {listLegalRepresentative?.map((_, i) => {
             return (
-              <Col lg={8} md={12} sm={24} xs={24} key={[item, i]}>
+              <Col lg={8} md={12} sm={24} xs={24} key={[_, i]}>
                 <PeronalType
                   index={i}
-                  ref={ref}
                   BASE_FORM={BASE_FORM}
-                  handleForm={{ state: listLegal, setState: setListLegal }}
-                  presentState={{ state: present, setState: setPresent }}
-                  radioState={{ state: radio, setState: setRadio }}
-                  type={props?.data.type}
+                  // handleForm={{ state: listLegal, setState: setListLegal }}
+                  // presentState={{ state: present, setState: setPresent }}
+                  // radioState={{ state: radio, setState: setRadio }}
                 />
               </Col>
             )
@@ -115,65 +114,72 @@ const DaiDienPhapLuat = forwardRef((props, ref) => {
       </Form.Item>
     </Form.Item>
   )
-})
+}
 
-const PeoppleWrapper = forwardRef((props, ref) => {
+const TITLE_OPTIONS = {
+  1: SELECT.TITLE_1TV,
+  2: SELECT.TITLE_2TV,
+  3: SELECT.TITLE_CP,
+}
+const PeoppleWrapper = (props) => {
   const { BASE_FORM, i, type } = props
-
-  const [legalType, setLegalType] = useState()
-
-  const location = useLocation()
-
   const formInstance = Form.useFormInstance()
-
   const doctypeWatch = Form.useWatch([...BASE_FORM, 'in_out', i, 'doc_type'], formInstance)
+  const watchTypeOptions = Form.useWatch([...BASE_FORM, 'in_out', i, 'type'], formInstance)
 
-  useEffect(() => {
-    let { state } = location
-
-    if (!state) return
-
-    let typeIndex = ref.current.getFieldValue([...BASE_FORM, 'in_out', i, 'type'])
-
-    setLegalType(typeIndex)
-  }, [location, props])
-
-  const handleSelectPeopleType = (value) => {
-    setLegalType(value)
-    onSetFields([...BASE_FORM, 'in_out', i, 'type'], value, ref)
-  }
-
-  const renderFormByType = () => {
-    let html = null
-    if (legalType === PERSON_TYPE.REMOVE) {
-      html = (
+  console.log('watchTypeOptions', watchTypeOptions)
+  return (
+    <Col span={24}>
+      <Form.Item
+        name={[...BASE_FORM, 'in_out', i, 'type']}
+        required
+        rules={[{ required: true, message: 'Vui lòng Thêm hoặc bỏ bớt người đại diện' }]}
+      >
+        <Select placeholder="Bấm vào đây">
+          <Select.Option value={PERSON_TYPE.REMOVE}>Bỏ bớt người đại diện</Select.Option>
+          <Select.Option value={PERSON_TYPE.ADD}>Thêm mới người đại diện</Select.Option>
+        </Select>
+      </Form.Item>
+      {watchTypeOptions === PERSON_TYPE.REMOVE ? (
         <Card className={'box__shadow m-tb-5'}>
           <CCInput
             label="Họ và tên"
             name={[...BASE_FORM, 'in_out', i, 'name']}
-            onChange={(e) => onSetFields([...BASE_FORM, 'in_out', i, 'name'], e.target.value, ref, true)}
+            onBlur={debounce((e) => {
+              formInstance.setFields([
+                {
+                  name: [...BASE_FORM, 'in_out', i, 'name'],
+                  value: formInstance.getFieldValue([...BASE_FORM, 'in_out', i, 'name'])?.toUpperCase(),
+                },
+              ])
+            }, 500)}
             required
           />
           <CCSelect.SelectTitle
             name={[...BASE_FORM, 'in_out', i, 'title']}
             label="Chức danh"
             placeholder="Bấm vào đây"
-            options={
-              +type === 1 ? SELECT.TITLE_1TV : +type === 2 ? SELECT.TITLE_2TV : +type === 3 ? SELECT.TITLE_CP : ''
-            }
-            ref={ref}
+            options={TITLE_OPTIONS[type]}
             required
           />
         </Card>
-      )
-    } else if (legalType === PERSON_TYPE.ADD) {
-      html = (
+      ) : (
+        ''
+      )}
+      {watchTypeOptions === PERSON_TYPE.ADD ? (
         <Card className={'box__shadow m-tb-5'}>
           <CCInput
             label="Họ và tên"
             name={[...BASE_FORM, 'in_out', i, 'name']}
             required
-            onChange={(e) => onSetFields([...BASE_FORM, 'in_out', i, 'name'], e.target.value, ref, true)}
+            onBlur={debounce((e) => {
+              formInstance.setFields([
+                {
+                  name: [...BASE_FORM, 'in_out', i, 'name'],
+                  value: formInstance.getFieldValue([...BASE_FORM, 'in_out', i, 'name'])?.toUpperCase(),
+                },
+              ])
+            }, 500)}
           />
 
           <CCInput
@@ -195,7 +201,6 @@ const PeoppleWrapper = forwardRef((props, ref) => {
           <CCInputBirthDay name={[...BASE_FORM, 'in_out', i, 'birth_day']} label="Sinh ngày" required />
 
           <CCSelect.SelectPersonType
-            ref={ref}
             name={[...BASE_FORM, 'in_out', i, 'per_type']}
             label="Dân tộc"
             placeholder="Bấm vào đây"
@@ -221,101 +226,66 @@ const PeoppleWrapper = forwardRef((props, ref) => {
             indentifyType={doctypeWatch}
           />
 
-          <CCAddress name={[...BASE_FORM, 'in_out', i]} ref={ref} required />
+          <CCAddress name={[...BASE_FORM, 'in_out', i]} required />
         </Card>
-      )
-    }
-
-    return html
-  }
-
-  return (
-    <Col span={24}>
-      <Form.Item
-        name={[...BASE_FORM, 'in_out', i, 'type']}
-        required
-        rules={[{ required: true, message: 'Vui lòng Thêm hoặc bỏ bớt người đại diện' }]}
-      >
-        <Select onChange={handleSelectPeopleType} placeholder="Bấm vào đây">
-          <Select.Option value={PERSON_TYPE.REMOVE}>Bỏ bớt người đại diện</Select.Option>
-          <Select.Option value={PERSON_TYPE.ADD}>Thêm mới người đại diện</Select.Option>
-        </Select>
-      </Form.Item>
-      {renderFormByType()}
+      ) : (
+        ''
+      )}
     </Col>
   )
-})
+}
 
-const PeronalType = forwardRef((props, ref) => {
-  const { index, handleForm, BASE_FORM, presentState } = props
+const PeronalType = (props) => {
+  const { index, BASE_FORM } = props
+  const formInstance = Form.useFormInstance()
 
-  const { state: present, setState: setPresent } = presentState
-
-  const location = useLocation()
-
-  useEffect(() => {
-    let value = ref.current.getFieldValue([...BASE_FORM, 'after_change', index, 'name'])
-
-    let options = getPersonType()
-
-    let valIndex = options.findIndex((item) => item.name === value)
-    // setPresent
-    let _dataPresent = [...present]
-
-    _dataPresent[index] = valIndex
-
-    setPresent(_dataPresent)
-    if (valIndex !== -1) {
-      onSetFields([...BASE_FORM, 'after_change', index, 'select_person'], options[valIndex].value, ref)
-    }
-  }, [location])
 
   const getPersonType = () => {
     let pathName = [...BASE_FORM, 'in_out']
-
-    let originPerson = ref?.current?.getFieldValue(pathName)
-
+    let originPerson = formInstance?.getFieldValue(pathName)
     let listUser = originPerson?.filter((item) => item.type === PERSON_TYPE.ADD) || []
-
     let options =
-      listUser?.map(({ name, organization }, index) => ({
+      listUser?.map(({ name }, index) => ({
         name: name || '...',
         value: index,
       })) || []
-
     options.push({
       value: -1,
       name: 'Khác',
     })
-
     return options
   }
 
-  const handleSelectPersonType = (val, i) => {
-    /**
-     * @params {val} => index value need to get
-     * @params {index} => index position of child list form
-     */
+  // const handleSelectPersonType = (val, i) => {
+  //   /**
+  //    * @params {val} => index value need to get
+  //    * @params {index} => index position of child list form
+  //    */
 
-    let legalPathName = [...BASE_FORM, 'after_change', i]
+  //   let legalPathName = [...BASE_FORM, 'after_change', i]
 
-    let listOriginPerson = ref?.current?.getFieldValue([...BASE_FORM, 'in_out'])
+  //   let listOriginPerson = formInstance?.getFieldValue([...BASE_FORM, 'in_out'])
 
-    let originPerson
+  //   let originPerson
 
-    if (listOriginPerson?.length) {
-      originPerson = listOriginPerson.filter((item) => item.type !== PERSON_TYPE.REMOVE)
-    }
-    if (originPerson && val !== -1) {
-      ref.current.setFields([
-        {
-          name: [...BASE_FORM, 'after_change', index, 'select_person'],
-          value: val,
-        },
-      ])
-      onSetFields(legalPathName, originPerson?.[val], ref)
-    }
-  }
+  //   if (listOriginPerson?.length) {
+  //     originPerson = listOriginPerson.filter((item) => item.type !== PERSON_TYPE.REMOVE)
+  //   }
+  //   if (originPerson && val !== -1) {
+  //     formInstance.setFields([
+  //       {
+  //         name: [...BASE_FORM, 'after_change', index, 'select_person'],
+  //         value: val,
+  //       },
+  //     ])
+  //     formInstance.setFields([
+  //       {
+  //         name: legalPathName,
+  //         value: originPerson?.[val],
+  //       },
+  //     ])
+  //   }
+  // }
 
   return (
     <>
@@ -325,49 +295,33 @@ const PeronalType = forwardRef((props, ref) => {
         required
         rules={[{ required: true, message: 'Vui lòng thêm người đại diện sau thay đổi' }]}
       >
-        <Select onChange={(e) => handleSelectPersonType(e, index)} placeholder="Bấm vào đây" required>
+        {/* <Select onChange={(e) => handleSelectPersonType(e, index)} placeholder="Bấm vào đây" required> */}
+        <Select placeholder="Bấm vào đây" required>
           {getPersonType()?.map((item) => {
             return <Select.Option value={item.value}>{item.name}</Select.Option>
           })}
         </Select>
       </Form.Item>
-      <FormListPersonType
-        ref={ref}
-        listFormState={handleForm}
-        presentState={presentState}
-        BASE_FORM={BASE_FORM}
-        i={index}
-        type={props?.type}
-      />
+      <FormListPersonType BASE_FORM={BASE_FORM} i={index} />
     </>
   )
-})
+}
 
-const FormListPersonType = forwardRef((props, ref) => {
-  const { i, presentState, listFormState, BASE_FORM } = props
-  const { state, setState } = listFormState
-  const { state: present, setState: setPresent } = presentState
-
+const FormListPersonType = (props) => {
+  const { i, BASE_FORM } = props
   const formInstance = Form.useFormInstance()
   const watchField = Form.useWatch(['change_info', 'legal_representative', 'after_change'], formInstance)
   const doctypeWatch = Form.useWatch([...BASE_FORM, 'after_change', i, 'doc_type'], formInstance)
 
   const removeItem = (index) => {
-    let val = ref.current.getFieldValue([...BASE_FORM, 'after_change'])
-
-    val = [...val.slice(0, index), ...val.slice(index + 1)]
-
-    let objPresent = [...present]
-
-    objPresent[index] = null
-
-    objPresent = [...objPresent.filter((item) => item !== null), null]
-
-    setPresent(objPresent)
-
-    onSetFields([...BASE_FORM, 'after_change'], val, ref)
-
-    setState(val)
+    let val = formInstance.getFieldValue([...BASE_FORM, 'after_change'])
+    val.splice(index, 1)
+    formInstance.setFields([
+      {
+        name: [...BASE_FORM, 'after_change'],
+        value: val,
+      },
+    ])
   }
 
   return (
@@ -381,7 +335,7 @@ const FormListPersonType = forwardRef((props, ref) => {
             danger
             icon={<MinusCircleOutlined onClick={() => removeItem(i)} />}
             style={{
-              display: state.length > 1 ? 'block' : 'none',
+              display: watchField?.length > 1 ? 'block' : 'none',
             }}
           />
         </div>
@@ -391,7 +345,14 @@ const FormListPersonType = forwardRef((props, ref) => {
         <CCInput
           label="Họ và tên"
           name={[...BASE_FORM, 'after_change', i, 'name']}
-          onChange={(e) => onSetFields([...BASE_FORM, 'after_change', i, 'name'], e.target.value, ref, true)}
+          onBlur={(e) => {
+            formInstance.setFields([
+              {
+                name: [...BASE_FORM, 'after_change', i, 'name'],
+                value: formInstance.getFieldValue([...BASE_FORM, 'after_change', i, 'name'])?.toUpperCase(),
+              },
+            ])
+          }}
         />
 
         <CCInput
@@ -434,11 +395,10 @@ const FormListPersonType = forwardRef((props, ref) => {
         />
 
         <Form.Item label={htmlContent('<b>Địa chỉ thường trú</b>')}>
-          <CCSelect.SelectProvince ref={ref} name={[...BASE_FORM, 'after_change', i, 'current']} />
+          <CCSelect.SelectProvince name={[...BASE_FORM, 'after_change', i, 'current']} />
         </Form.Item>
 
         <CCSelect.RadioAddress
-          ref={ref}
           prevField={[...BASE_FORM, 'after_change', i, 'current']}
           nextField={[...BASE_FORM, 'after_change', i, 'contact']}
           label="<b>Nơi ở hiện tại</b>"
@@ -446,6 +406,6 @@ const FormListPersonType = forwardRef((props, ref) => {
       </div>
     </Form.Item>
   )
-})
+}
 
 export default DaiDienPhapLuat
