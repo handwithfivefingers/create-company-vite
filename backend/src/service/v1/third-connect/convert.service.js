@@ -316,18 +316,26 @@ class TestService {
 
   convertPDFService = async ({ from, to, fileName, fileType, extension }) => {
     try {
-      let data = {
+      let data = JSON.stringify({
         url: `https://app.thanhlapcongtyonline.vn/public/${from}/${fileName}.${fileType}`,
         key: shortid(),
         fileType: fileType,
         outputtype: extension,
-      }
-      const resp = await axios.post(process.env.OFFICE_URL + '/ConvertService.ashx', data, {
+      })
+
+      let config = {
+        method: 'post',
+        maxBodyLength: Infinity,
+        url: process.env.OFFICE_URL + '/ConvertService.ashx',
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
         },
-      })
+        data: data,
+      }
+
+      const resp = await axios.request(config)
+
       if (resp.data.fileUrl) {
         await this.downloadFile(resp.data.fileUrl, `${to}/${fileName}.${extension}`)
       }
@@ -338,47 +346,13 @@ class TestService {
   }
 
   downloadFile = async (fileUrl, outputLocationPath) => {
-    // let data = JSON.stringify({
-    //   url: `https://f1d6-113-161-77-123.ngrok-free.app/public/${baseDir}/doc/${file.name}.docx`,
-    //   key: shortid(),
-    //   fileType: 'docx',
-    //   outputtype: 'pdf',
-    // })
-    // const config = {
-    //   method: 'post',
-    //   maxBodyLength: Infinity,
-    //   url: 'http://172.16.52.56:6969/ConvertService.ashx',
-    //   headers: {
-    //     Accept: 'application/json',
-    //     'Content-Type': 'application/json',
-    //   },
-    //   data: data,
-    // }
-    // const resp = await axios.request(config)
-    // if (resp.data.fileUrl) {
-    //   await this.downloadFile(resp.data.fileUrl, `${pdfSavePath}/${baseDir}/pdf/${file.name}.pdf`)
-    // }
-    const writer = fs.createWriteStream(outputLocationPath)
-
+    // const writer = fs.createWriteStream(outputLocationPath)
     return axios({
       method: 'get',
       url: fileUrl,
       responseType: 'stream',
     }).then((response) => {
-      return new Promise((resolve, reject) => {
-        response.data.pipe(writer)
-        let error = null
-        writer.on('error', (err) => {
-          error = err
-          writer.close()
-          reject(err)
-        })
-        writer.on('close', () => {
-          if (!error) {
-            resolve(true)
-          }
-        })
-      })
+      response.data.pipe(fs.createWriteStream(outputLocationPath))
     })
   }
 }
