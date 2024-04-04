@@ -29,7 +29,6 @@ module.exports = class AdminCategoryService extends BaseAdminService {
   getCategory = async () => {
     try {
       let _cate = await Category.find({})
-        .populate('files.fileRef', 'fileName fileOriginalName path')
         .select('-__v -updatedAt -createdAt')
       let data = await this.filterCate(_cate)
       return data
@@ -42,13 +41,7 @@ module.exports = class AdminCategoryService extends BaseAdminService {
   updateCategory = async (req, res) => {
     try {
       let { _id } = req.params
-
-      // console.log(req.body)
-
-      
-
       await Category.updateOne({ _id }, { ...req.body }, { new: true })
-
       return {
         message: 'Updated successfully',
       }
@@ -73,7 +66,6 @@ module.exports = class AdminCategoryService extends BaseAdminService {
   softDelete = async (req, res) => {
     try {
       await Category.updateOne({ _id: req.body._id }, { delete_flag: 1 })
-
       return {
         message: 'Delete Success',
       }
@@ -84,14 +76,10 @@ module.exports = class AdminCategoryService extends BaseAdminService {
 
   filterCate = async (cate) => {
     let parent = cate.filter((item) => !item.parentCategory)
-
     let child = cate.filter((item) => item.parentCategory)
-
     let result = []
-
     result = parent.reduce((result, current) => {
       let item = child.filter((item) => current._id.equals(item.parentCategory))
-
       if (item) {
         let children = item.map(({ _doc }) => _doc)
         current = {
@@ -99,10 +87,8 @@ module.exports = class AdminCategoryService extends BaseAdminService {
           children,
         }
       }
-
       return [...result, current]
     }, [])
-
     return result
   }
 }
