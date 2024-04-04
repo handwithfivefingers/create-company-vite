@@ -84,13 +84,8 @@ const UserProductItem = () => {
       } else {
         res = await ProductService.createOrder(params)
       }
-
       const { data } = res.data
-      if (res.status === 200) {
-        return message.success(data.message)
-        // return navigate('/user/san-pham')
-      }
-      throw res?.data
+      return message.success(data.message)
     } catch (error) {
       console.log('saveService', error)
       message.error({

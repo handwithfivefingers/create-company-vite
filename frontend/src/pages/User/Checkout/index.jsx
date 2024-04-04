@@ -121,7 +121,7 @@ const Checkout = () => {
                 <Descriptions.Item label="QR code" span={24}></Descriptions.Item>
                 <Descriptions.Item span={24}>
                   <div className={styles.imgBlock} style={{ margin: '0 auto' }}>
-                    <img src={BANK_INFO.IMG} width={400} />
+                    <img src={BANK_INFO.IMG} style={{ width: '100%', maxWidth: 400 }} />
                   </div>
                 </Descriptions.Item>
               </Descriptions>

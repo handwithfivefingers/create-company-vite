@@ -15,22 +15,6 @@ const CreateCompanyPages = forwardRef((props, ref) => {
   const { currentStep } = useStepData()
   const { saveService, paymentService, data, loading, onFinishScreen } = props
   const { category, _id, method } = useOrder()
-
-  const location = useLocation()
-
-  const getParams = (ref) => {
-    let value = ref.current.getFieldsValue(true)
-    const params = {
-      data: {
-        ...value,
-      },
-    }
-    if (location.state?._id) {
-      params._id = location.state._id
-    }
-    return params
-  }
-
   const saveCreateCompany = (ref) => {
     const values = ref.current.getFieldsValue(true)
     const params = {
