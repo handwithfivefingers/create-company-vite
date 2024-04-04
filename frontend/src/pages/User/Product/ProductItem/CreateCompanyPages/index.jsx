@@ -8,12 +8,14 @@ import PreviewData from '@/components/Form/PreviewData'
 import { useStepAPI } from '@/context/StepProgressContext'
 import { useStepData } from '@/context/StepProgressContext'
 import { useOrder } from '../../../../../store/reducer'
+import { STATE_METHOD } from '../../../../../constant/Common'
 
 const CreateCompanyPages = forwardRef((props, ref) => {
   const { onNextStep, onPrevStep } = useStepAPI()
   const { currentStep } = useStepData()
   const { saveService, paymentService, data, loading, onFinishScreen } = props
-  const { category } = useOrder()
+  const { category, _id, method } = useOrder()
+
   const location = useLocation()
 
   const getParams = (ref) => {
@@ -31,16 +33,23 @@ const CreateCompanyPages = forwardRef((props, ref) => {
 
   const saveCreateCompany = (ref) => {
     const values = ref.current.getFieldsValue(true)
-    console.log('values', values)
     const params = {
       data: { ...values, category },
     }
-    console.log('params', params)
+    if (method === STATE_METHOD['UPDATE'] && _id) {
+      params._id = _id
+    }
     return saveService(params)
   }
 
   const handlePayment = (ref) => {
-    const params = getParams(ref)
+    const values = ref.current.getFieldsValue(true)
+    const params = {
+      data: { ...values, category },
+    }
+    if (method === STATE_METHOD['UPDATE'] && _id) {
+      params._id = _id
+    }
     return paymentService(params, ref)
   }
 

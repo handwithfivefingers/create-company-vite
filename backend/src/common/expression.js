@@ -2,7 +2,7 @@ const expressions = require('angular-expressions')
 
 const { assign, last, filter, ...lodash } = require('lodash')
 
-const moment = require('moment')
+const moment = require('moment-timezone')
 
 expressions.filters.lower = function (input) {
   if (!input) return input

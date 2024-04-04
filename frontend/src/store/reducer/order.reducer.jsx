@@ -2,12 +2,22 @@ import { STATE_METHOD } from '../../constant/Common'
 import { CC_TYPE, CI_TYPE, ORDER_TYPE } from '../type/order.type'
 const initState = {
   createCompany: {},
-  changeInfo: {},
+  changeInfo: {
+    legal_representation: {
+      after_change: [
+        {
+          person_type: undefined,
+        },
+      ],
+      in_out: [{}],
+    },
+  },
   pending: {},
   dissolution: {},
   category: {},
   products: [],
   method: STATE_METHOD['CREATE'],
+  _id: null,
 }
 
 const OrderReducer = (state = initState, action) => {
@@ -20,6 +30,21 @@ const OrderReducer = (state = initState, action) => {
         },
       }
     case CC_TYPE.CLEAR:
+      return {
+        ...state,
+        createCompany: {},
+        category: {},
+      }
+
+    case CI_TYPE.UPDATE: {
+      return {
+        ...state,
+        changeInfo: {
+          ...action.payload,
+        },
+      }
+    }
+    case CI_TYPE.CLEAR:
       return {
         ...state,
         createCompany: {},
@@ -39,6 +64,11 @@ const OrderReducer = (state = initState, action) => {
       return {
         ...state,
         method: action.payload,
+      }
+    case ORDER_TYPE.UPDATE_ORDER_ID:
+      return {
+        ...state,
+        _id: action.payload,
       }
     default:
       return state

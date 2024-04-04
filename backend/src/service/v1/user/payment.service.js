@@ -3,7 +3,7 @@ const { Order, Setting, Transaction } = require('../../../model')
 const MailService = require('../../../service/v1/user/mail.service')
 const { ResponseCode } = require('../../../common/ResponseCode')
 const { sortObject, generatePaymentCode } = require('../../../common/helper')
-const moment = require('moment')
+const moment = require('moment-timezone')
 const crypto = require('crypto')
 
 const urlResult =

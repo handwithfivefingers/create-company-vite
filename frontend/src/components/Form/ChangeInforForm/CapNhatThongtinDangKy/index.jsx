@@ -16,12 +16,11 @@ import {
   CCInputOutdateIdentify,
   CCInputProviderIdentify,
 } from '@/components/CCInputIdentify'
+import { useStepData } from '../../../../context/StepProgressContext'
 
-const InformationField = ({ forwardRef }) => {
+const InformationField = () => {
   const formInstance = Form.useFormInstance()
-
   const doctypeWatch = Form.useWatch([...BASE_FORM, 'information', 'doc_type'], formInstance)
-
   return (
     <Card className="box__shadow" title="Cập nhật thông tin cá nhân">
       <CCInput name={[...BASE_FORM, 'information', 'name']} label="Họ và tên" required />
@@ -46,7 +45,7 @@ const InformationField = ({ forwardRef }) => {
         indentifyType={doctypeWatch}
       />
 
-      <CCAddress name={[...BASE_FORM, 'information']} ref={forwardRef} required />
+      <CCAddress name={[...BASE_FORM, 'information']} required />
       <CCInput name={[...BASE_FORM, 'information', 'phone']} label="Số điện thoại" required />
       <CCInput name={[...BASE_FORM, 'information', 'email']} label="Địa chỉ email" required />
       <CCInput name={[...BASE_FORM, 'information', 'website']} label="Địa chỉ website" required />
@@ -54,7 +53,7 @@ const InformationField = ({ forwardRef }) => {
   )
 }
 
-const PhoneField = ({ forwardRef }) => {
+const PhoneField = () => {
   return (
     <Card className="box__shadow" title="Cập nhật số điện thoại">
       <CCInput name={[...BASE_FORM, 'phone']} label="Số điện thoại" required />
@@ -62,7 +61,7 @@ const PhoneField = ({ forwardRef }) => {
   )
 }
 
-const EmailField = ({ forwardRef }) => {
+const EmailField = () => {
   return (
     <Card className="box__shadow" title="Cập nhật địa chỉ email">
       <CCInput name={[...BASE_FORM, 'email']} label="Email" required />
@@ -70,25 +69,48 @@ const EmailField = ({ forwardRef }) => {
   )
 }
 
-const WebsiteField = ({ forwardRef }) => {
+const WebsiteField = () => {
   return (
     <Card className="box__shadow" title="Cập nhật địa chỉ website">
       <CCInput name={[...BASE_FORM, 'website']} label="Website" required />
     </Card>
   )
 }
-const CapNhatThongTinDangKy = forwardRef((props, ref) => {
+
+const OptionsSelect = [
+  {
+    label: 'Thông tin cá nhân',
+    value: 'information',
+  },
+  {
+    label: 'Số điện thoại',
+    value: 'phone',
+  },
+  {
+    label: 'Email',
+    value: 'email',
+  },
+  {
+    label: 'Website',
+    value: 'website',
+  },
+]
+
+const SubComponent = {
+  information: <InformationField />,
+  phone: <PhoneField />,
+  email: <EmailField />,
+  website: <WebsiteField />,
+}
+const CapNhatThongTinDangKy = (props) => {
   const [select, setSelect] = useState([])
-
+  const { currentStep } = useStepData()
+  const formInstance = Form.useFormInstance()
   useEffect(() => {
-    if (ref) {
-      let selectValue = ref.current.getFieldValue([...BASE_FORM, 'select'])
-
-      console.log(selectValue)
-
-      setSelect(selectValue || [])
-    }
-  }, [ref])
+    let selectValue = formInstance.getFieldValue([...BASE_FORM, 'select'])
+    console.log(selectValue)
+    setSelect(selectValue || [])
+  }, [])
 
   const handleSelect = (val) => setSelect(val)
 
@@ -96,7 +118,7 @@ const CapNhatThongTinDangKy = forwardRef((props, ref) => {
     <Form.Item
       label={<h3>Cập nhật thông tin đăng ký doanh nghiệp</h3>}
       className={clsx(styles.current, {
-        [styles.active]: props.current === props.index,
+        [styles.active]: currentStep === props.index,
       })}
     >
       <Row gutter={[12, 12]}>
@@ -114,45 +136,21 @@ const CapNhatThongTinDangKy = forwardRef((props, ref) => {
               listHeight={300}
               placeholder="Bấm vào đây"
               onChange={handleSelect}
-            >
-              <Select.Option value="information">Thông tin cá nhân</Select.Option>
-              <Select.Option value="phone">Số điện thoại</Select.Option>
-              <Select.Option value="email">Email</Select.Option>
-              <Select.Option value="website">Website</Select.Option>
-            </Select>
+              options={OptionsSelect}
+            />
           </Form.Item>
         </Col>
 
         {select.map((item, index) => {
-          if (item === 'information')
-            return (
-              <Col lg={12} sm={24}>
-                <InformationField key={[item, index]} forwardRef={ref} />
-              </Col>
-            )
-          else if (item === 'phone')
-            return (
-              <Col lg={12} sm={24}>
-                <PhoneField key={[item, index]} />
-              </Col>
-            )
-          else if (item === 'email')
-            return (
-              <Col lg={12} sm={24}>
-                <EmailField key={[item, index]} />
-              </Col>
-            )
-          else if (item === 'website')
-            return (
-              <Col lg={12} sm={24}>
-                <WebsiteField key={[item, index]} />
-              </Col>
-            )
-          return null
+          return (
+            <Col lg={12} sm={24} key={[item, index]}>
+              {SubComponent[item]}
+            </Col>
+          )
         })}
       </Row>
     </Form.Item>
   )
-})
+}
 
 export default CapNhatThongTinDangKy

@@ -4,34 +4,38 @@ import React, { forwardRef, useEffect } from 'react'
 import CCInput from '@/components/CCInput'
 import styles from '../DaiDienPhapLuat/styles.module.scss'
 import { onSetFields, htmlContent, numToWord } from '@/helper/Common'
+import { useStepData } from '../../../../context/StepProgressContext'
+import { debounce } from 'lodash-es'
 
 const BASE_FORM = ['change_info', 'down_authorized_capital']
-const GiamVonDieuLe = forwardRef((props, ref) => {
+const GiamVonDieuLe = (props) => {
+  const { currentStep } = useStepData()
+  const formInstance = Form.useFormInstance()
   useEffect(() => {
-    if (ref) {
-      onSetFields(['change_info', 'down_authorized_capital', 'type'], 'Tăng vốn góp', ref)
-    }
-  }, [ref])
-
-  let timer
-
+    formInstance.setFields([
+      {
+        name: ['change_info', 'down_authorized_capital', 'type'],
+        value: 'Tăng vốn góp',
+      },
+    ])
+  }, [])
   const handleInpChange = (e, pathName) => {
-    let numInp = ref.current.getFieldValue([...pathName, 'num'])
-
-    if (timer) clearTimeout(timer)
-    timer = setTimeout(() => {
-      let transform = numToWord(numInp)
-      let upperLetter = transform.charAt(0).toUpperCase() + transform.slice(1)
-
-      onSetFields([...pathName, 'char'], upperLetter, ref)
-    }, 500)
+    let numInp = formInstance.getFieldValue([...pathName, 'num'])
+    let transform = numToWord(numInp)
+    let upperLetter = transform.charAt(0).toUpperCase() + transform.slice(1)
+    formInstance.setFields([
+      {
+        name: [...pathName, 'char'],
+        value: upperLetter,
+      },
+    ])
   }
 
   return (
     <Form.Item
       label={<h3>Đăng ký thay đổi vốn điều lệ</h3>}
       className={clsx(styles.current, {
-        [styles.active]: props.current === props.index,
+        [styles.active]: currentStep === props.index,
       })}
     >
       <Row gutter={[16, 0]}>
@@ -45,7 +49,7 @@ const GiamVonDieuLe = forwardRef((props, ref) => {
             <InputNumber
               formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
               style={{ width: '100%' }}
-              onChange={(e) => handleInpChange(e, [...BASE_FORM, 'base_val'])}
+              onChange={debounce((e) => handleInpChange(e, [...BASE_FORM, 'base_val']), 500)}
               stringMode
             />
           </Form.Item>
@@ -56,7 +60,6 @@ const GiamVonDieuLe = forwardRef((props, ref) => {
             name={[...BASE_FORM, 'base_val', 'char']}
             required
             message="Vui lòng nhập Vốn điều lệ đã đăng ký (bằng chữ)!"
-
           />
         </Col>
         <Col lg={12} md={24} sm={24} xs={24}>
@@ -69,7 +72,7 @@ const GiamVonDieuLe = forwardRef((props, ref) => {
             <InputNumber
               formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
               style={{ width: '100%' }}
-              onChange={(e) => handleInpChange(e, [...BASE_FORM, 'new_base_val'])}
+              onChange={debounce((e) => handleInpChange(e, [...BASE_FORM, 'new_base_val']), 500)}
               stringMode
             />
           </Form.Item>
@@ -85,6 +88,6 @@ const GiamVonDieuLe = forwardRef((props, ref) => {
       </Row>
     </Form.Item>
   )
-})
+}
 
 export default GiamVonDieuLe

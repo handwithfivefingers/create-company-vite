@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import CardCategory from '../../../components/CardCategory'
-import { useFormAPI } from '../../../context/FormProviderContext'
 import { useFetch } from '../../../helper/Hook'
 import CategoryService from '../../../service/UserService/CategoriesService'
 import { useOrderAction } from '../../../store/actions/order.actions'
@@ -18,10 +17,8 @@ const UserProductPage = () => {
     fn: () => CategoryService.getCategories(),
   })
   const action = useOrderAction()
-  const { resetDefault } = useFormAPI()
   const dispatch = useDispatch()
   useEffect(() => {
-    resetDefault()
     dispatch(action.onClear())
   }, [])
 
@@ -65,8 +62,7 @@ const UserProductPage = () => {
                 ['--animate-duration']: `${(index + 2) / 10}s`,
                 ['--animate-delay']: `0.3s`,
               }}
-              clickable={item.slug === 'thanh-lap-doanh-nghiep'}
-              // clickable={true}
+              clickable={item.slug === 'thanh-lap-doanh-nghiep' || item.slug === "thay-doi-thong-tin"}
             />
           </Skeleton>
         )

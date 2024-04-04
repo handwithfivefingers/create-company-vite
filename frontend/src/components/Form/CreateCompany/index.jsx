@@ -15,6 +15,7 @@ import NgangNgheDangKi from './NgangNgheDangKi'
 import NguoiDaiDienPhapLuat from './NguoiDaiDienPhapLuat'
 import TenCongTy from './TenCongTy'
 import ThanhVienGopVon from './ThanhVienGopVon'
+import CreateCompanyPreview from '../PreviewData/CreateCompanyPreview'
 
 const BASE_FORM = ['create_company', 'approve']
 
@@ -37,14 +38,6 @@ const CreateCompany = forwardRef(({ data }, formRef) => {
   }, [method])
 
   const handleSelect = (value, opt, pathName) => {
-    // let { type, name } = opt
-    // onSetFields([pathName], { type, name, value }, formRef)
-    // let originPerson = [...BASE_FORM, 'origin_person']
-    // let legelRespon = [...BASE_FORM, 'legal_respon']
-    // onSetFields([pathName], { type, name, value }, formRef)
-    // onSetFields([originPerson], undefined, formRef)
-    // onSetFields([legelRespon], undefined, formRef)
-    // setSelect({ type, name, value })
     let { type, name } = opt
     dispatch(
       action.onUpdateCategory({
@@ -115,6 +108,7 @@ const CreateCompany = forwardRef(({ data }, formRef) => {
       {currentStep === 4 && <TenCongTy className={animateClass} BASE_FORM={BASE_FORM} data={category} />}
       {currentStep === 5 && <DiaChiTruSoChinh className={animateClass} BASE_FORM={BASE_FORM} data={category} />}
       {currentStep === 6 && <NgangNgheDangKi className={animateClass} BASE_FORM={BASE_FORM} data={category} />}
+      {currentStep === 7 && <CreateCompanyPreview className={animateClass} BASE_FORM={BASE_FORM} data={category} />}
     </Form>
   )
 })

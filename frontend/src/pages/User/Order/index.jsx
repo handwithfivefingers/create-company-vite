@@ -56,10 +56,16 @@ const UserOrder = () => {
         url = 'tam-ngung'
       } else if (props === 'change_info') {
         url = 'thay-doi-thong-tin'
+        dispatch(action.onToggleMethod(STATE_METHOD['UPDATE']))
+        dispatch(action.onUpdateOrderID(record._id))
+        dispatch(action.onUpdateChangeInfo(data.change_info))
+        dispatch(action.onUpdateCategory(record.category))
+        dispatch(action.onUpdateProducts(record.products))
       } else if (props === 'dissolution') {
         url = 'giai-the'
       } else if (props === 'create_company') {
         dispatch(action.onToggleMethod(STATE_METHOD['UPDATE']))
+        dispatch(action.onUpdateOrderID(record._id))
         dispatch(action.onUpdateCreateCompany(data.create_company))
         dispatch(action.onUpdateCategory(record.category))
         dispatch(action.onUpdateProducts(record.products))

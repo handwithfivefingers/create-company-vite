@@ -192,6 +192,7 @@ const InputDate = (props) => {
   if (!name) throw new Error(`Invalid name`)
 
   const currentValue = formInstance.getFieldValue(name)
+  debugger
 
   useEffect(() => {
     if (currentValue && typeof currentValue === 'string') {
@@ -202,9 +203,9 @@ const InputDate = (props) => {
         },
       ])
     }
-  }, [])
-
-  console.log('typeof currentValue', typeof currentValue, currentValue)
+  }, [currentValue])
+  if (typeof currentValue === 'string') return
+  // console.log('typeof currentValue', typeof currentValue, currentValue)
   if (props?.layout === 'horizontal') {
     return (
       <div className={styles.formHorizontal}>
@@ -242,7 +243,7 @@ const InputDate = (props) => {
         rules={[{ required: props?.required, message: rest?.message }, ...otherRule]}
         required={props?.required}
         validateTrigger={validateTrigger}
-        shouldUpdate
+        // shouldUpdate
       >
         {typeof currentValue !== 'string' || !currentValue ? (
           <DatePicker

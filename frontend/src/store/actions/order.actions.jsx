@@ -1,4 +1,4 @@
-import { CC_TYPE, ORDER_TYPE } from '../type/order.type'
+import { CC_TYPE, CI_TYPE, ORDER_TYPE } from '../type/order.type'
 
 class CreateCompanyAction {
   onUpdateCreateCompany = (data) => async (dispatch) => {
@@ -11,6 +11,14 @@ class CreateCompanyAction {
     dispatch({ type: CC_TYPE.CLEAR })
   }
 }
+class ChangeInfoAction {
+  onUpdateChangeInfo = (data) => async (dispatch) => {
+    dispatch({
+      type: CI_TYPE.UPDATE,
+      payload: data,
+    })
+  }
+}
 
 class OrderAction {
   onUpdateProducts = (data) => async (dispatch) => {
@@ -20,7 +28,7 @@ class OrderAction {
     })
   }
   onUpdateCategory = (data) => async (dispatch) => {
-    console.log('data',data)
+    console.log('data', data)
     dispatch({
       type: ORDER_TYPE.UPDATE_CATEGORY,
       payload: data,
@@ -32,6 +40,12 @@ class OrderAction {
       payload: method,
     })
   }
+  onUpdateOrderID = (id) => async (dispatch) => {
+    dispatch({
+      type: ORDER_TYPE.UPDATE_ORDER_ID,
+      payload: id,
+    })
+  }
 }
-const useOrderAction = () => ({ ...new CreateCompanyAction(), ...new OrderAction() })
+const useOrderAction = () => ({ ...new CreateCompanyAction(), ...new ChangeInfoAction(), ...new OrderAction() })
 export { useOrderAction }

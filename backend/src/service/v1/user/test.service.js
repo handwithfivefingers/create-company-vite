@@ -4,7 +4,13 @@ const { errHandler } = require('../../../response')
 const { generateDocs } = require('../../../common/odt.template')
 const { uniqBy } = require('lodash')
 libre.convertAsync = require('util').promisify(libre.convert)
-const moment = require('moment')
+const { getListFiles } = require('../../../constant/File')
+const { isFunction, flattenObject, convertFile } = require('../../../common/helper')
+const path = require('path')
+const moment = require('moment-timezone')
+const fs = require('fs')
+const { default: axios } = require('axios')
+const shortid = require('shortid')
 const indexString = {
   0: 'a.',
   1: 'b.',
@@ -13,32 +19,35 @@ const indexString = {
 
 module.exports = class TestService {
   testOrderProcessSuccess = async (req, res) => {
-    if (process.env.NODE_ENV !== 'development') return res.status(200).json({ message: 'ngonnn' })
+    // if (process.env.NODE_ENV !== 'development') return res.status(200).json({ message: 'ngonnn' })
 
     try {
-      let _order = await Order.findOne({ _id: req.body._id }).populate('orderOwner', 'email')
+      let _order = await Order.findOne({ _id: req.body._id })
+        .populate('orderOwner', 'email')
+        .populate('category', 'type')
+      const id = req.id
 
-      if (_order) return this.handleConvertFile({ order: _order, req, res })
+      if (!_order) throw new Error('Order not found')
 
-      return res.status(200).json({ data: [] })
+      const { data, category } = _order
+      let { files, result, msg } = this.findKeysByObject(data, category?.type)
+      if (!files) throw new Error('Files not found')
+      const resp = await this.handleConvertFile({ data, files, userID: id })
+      console.log('resp', resp)
+      return { files, _order }
     } catch (err) {
       console.log('checkingOrder err', err)
-
-      return errHandler(err, res)
+      throw err.toString()
     }
   }
 
-  handleConvertFile = async ({ order, req, res }) => {
+  handleConvertFile = async ({ data, files, userID }) => {
     // handle Single File
     let attachments = []
 
     try {
-      let { files, data } = order
-
       // let mailParams = await this.getMailContent({ _id: order.id, email: order.orderOwner?.email })
-
       files = uniqBy(files, 'name').filter((item) => item)
-
       let nextData = {
         ...data,
         date: moment().format('DD'),
@@ -49,13 +58,56 @@ module.exports = class TestService {
       if (nextData?.create_company) {
         nextData = this.getCreateCompanyData(nextData)
       }
+      let _contentOrder = flattenObject(nextData)
+      const currentTime = moment(new Date()).unix()
 
+      console.log('files', _contentOrder)
+      // return
       if (files) {
+        const key = moment(new Date()).unix()
         for (let file of files) {
-          const fileSplit = file.path.split('.')
-          const ext = fileSplit.splice(-1)
-          const filePath = [...fileSplit, 'odt'].join('.')
-          await generateDocs({ filePath: filePath, data: nextData, fileName: file.name })
+          console.log('file', file)
+          const zipBuffer = await convertFile(file, _contentOrder)
+          const baseDir = `userData/${userID}/${currentTime}`
+          let docSavePath = `${global.__basedir}/uploads`
+          let pdfSavePath = `${global.__basedir}/uploads`
+          for (let dirFolder of `${baseDir}/doc`.split('/')) {
+            docSavePath += '/' + dirFolder
+            if (!fs.existsSync(docSavePath)) {
+              fs.mkdirSync(docSavePath)
+            }
+          }
+          if (!fs.existsSync(pdfSavePath + '/' + baseDir + '/pdf')) {
+            fs.mkdirSync(pdfSavePath + '/' + baseDir + '/pdf')
+          }
+
+          const localPath = path.join(docSavePath, `${file.name}.docx`)
+          // Store docx
+          fs.writeFileSync(localPath, zipBuffer)
+          // Convert
+
+          let data = JSON.stringify({
+            url: `https://f1d6-113-161-77-123.ngrok-free.app/public/${baseDir}/doc/${file.name}.docx`,
+            key: shortid(),
+            fileType: 'docx',
+            outputtype: 'pdf',
+          })
+          console.log('data', data)
+          const config = {
+            method: 'post',
+            maxBodyLength: Infinity,
+            url: 'http://172.16.52.56:6969/ConvertService.ashx',
+            headers: {
+              Accept: 'application/json',
+              'Content-Type': 'application/json',
+            },
+            data: data,
+          }
+          const resp = await axios.request(config)
+          console.log('resp', resp.data)
+          if (resp.data.fileUrl) {
+            await this.downloadFile(resp.data.fileUrl, `${pdfSavePath}/${baseDir}/pdf/${file.name}.pdf`)
+          }
         }
         return { message: 'ok' }
       }
@@ -151,5 +203,88 @@ module.exports = class TestService {
       mailParams.html = 'Testing auto generate files'
     }
     return mailParams
+  }
+
+  /**
+   * @param {_ obj: data Object such as create_company, change_info ....}
+   * @param {_ number: type of category }
+   */
+  findKeysByObject = (obj, type = null) => {
+    let msg = ''
+    let result = true
+    if (!type) {
+      result = false
+      msg = `Missing ['type'] property`
+    }
+    if (!obj) {
+      result = false
+      msg = `Missing ['data'] property`
+    }
+    let files = []
+    try {
+      for (let props in obj) {
+        let list = getListFiles(props)
+        if (!obj?.[props]) continue
+        let keys = Object.keys(obj?.[props]).map((key) => key)
+        if (keys && list && result) {
+          for (let i = 0, len = keys.length; i < len; i++) {
+            let key = keys[i]
+            let objProperty = list?.[key]
+            if (isFunction(objProperty)) {
+              // explicit property
+              if (props === 'create_company') {
+                let origin_person = obj[props][key]?.origin_person
+                let opt = ''
+                if (origin_person) {
+                  let organization = origin_person.some((item) => item.present_person === 'organization')
+                  organization ? (opt = 'organization') : (opt = 'personal')
+                }
+                if (!opt) {
+                  result = false
+                  msg = `Missing Key ['present_person']`
+                } else {
+                  files = [...files, ...objProperty(type, props, key, opt)]
+                }
+              } else {
+                files = [...files, ...objProperty(type, props, key)]
+              }
+            }
+            if (!result) break
+          }
+        }
+      }
+
+      files = uniqBy(files, 'path').filter((item) => item)
+
+      return { files, result, msg }
+    } catch (err) {
+      console.log('findKeysByObject', err)
+      throw err
+    }
+  }
+
+  downloadFile = async (fileUrl, outputLocationPath) => {
+    const writer = fs.createWriteStream(outputLocationPath)
+
+    return axios({
+      method: 'get',
+      url: fileUrl,
+      responseType: 'stream',
+    }).then((response) => {
+      return new Promise((resolve, reject) => {
+        response.data.pipe(writer)
+        let error = null
+        writer.on('error', (err) => {
+          error = err
+          writer.close()
+          reject(err)
+        })
+        writer.on('close', () => {
+          if (!error) {
+            resolve(true)
+          }
+        })
+      })
+    })
   }
 }

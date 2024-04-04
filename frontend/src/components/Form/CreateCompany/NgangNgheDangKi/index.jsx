@@ -107,7 +107,7 @@ const NgangNgheDangKi = memo(({ BASE_FORM, className }) => {
                 mode="tags"
                 tagRender={TagRender}
                 showArrow
-                options={careerCategory.map((item) => ({ label: item.name, value: item._id }))}
+                options={careerCategory?.map((item) => ({ label: item.name, value: item._id }))}
               />
               {/* {careerCategory?.map(({ name, _id }) => {
                   return (

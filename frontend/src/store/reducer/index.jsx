@@ -22,11 +22,11 @@ const useCommon = () => useSelector((state) => state.commonReducer)
 const useRouteHistory = () => useSelector((state) => state.routeReducer)
 const useProvince = () => useSelector((state) => state.provinceReducer)
 const useMessage = () => useSelector((state) => state.messageReducer)
-const useCategoryOrder = () => useSelector((state) => state.order?.category)
-const useProductsOrder = () => useSelector((state) => state.order?.products)
-const useBaseValOrder = () => useSelector((state) => state.order?.createCompany?.approve?.base_val)
+const useCategoryOrder = () => useSelector((state) => state.orderReducer?.category)
+const useProductsOrder = () => useSelector((state) => state.orderReducer?.products)
 const useOrder = (fields = null) => useSelector((state) => state.orderReducer)
 const useCreateCompanyOrder = () => useSelector((state) => state.orderReducer?.createCompany)
+const useChangeInforOrder = () => useSelector((state) => state.orderReducer?.changeInfo)
 const useGetOrderMethod = () => useSelector((state) => state?.orderReducer?.method)
 
 export default rootReducer
@@ -39,7 +39,7 @@ export {
   useCategoryOrder,
   useProductsOrder,
   useCreateCompanyOrder,
-  useBaseValOrder,
+  useChangeInforOrder,
   useOrder,
-  useGetOrderMethod
+  useGetOrderMethod,
 }

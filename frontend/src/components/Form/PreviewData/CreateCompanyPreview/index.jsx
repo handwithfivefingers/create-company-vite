@@ -1,14 +1,16 @@
 import t from '@/constant/CommonText'
-import { Card, Col, Form, Row, Typography } from 'antd'
+import { Card, Col, Form, Row, Typography, List } from 'antd'
 import dayjs from 'dayjs'
 import { number_format } from '../../../../helper/Common'
+import { useCreateCompanyOrder } from '@/store/reducer'
+import { BsDash } from 'react-icons/bs'
 
 const { Text } = Typography
 
-export default function CreateCompanyPreview(props) {
-  let { data } = props
-
-  let { approve } = data
+export default function CreateCompanyPreview() {
+  const createCompanyData = useCreateCompanyOrder()
+  console.log('CreateCompanyPreview createCompanyData', createCompanyData)
+  let { approve } = createCompanyData
 
   if (!approve) return null
 
@@ -19,180 +21,134 @@ export default function CreateCompanyPreview(props) {
       <Col span={24}>
         {base_val && (
           <Card title="Vốn điều lệ" className="box__shadow" size="small" style={{ margin: '0 0 20px 0' }}>
-            <Form colon labelWrap labelAlign="left" labelCol={{ lg: 8, md: 12, sm: 24, xs: 24 }}>
-              <Form.Item label={<Text type="secondary">{t['num']}</Text>}>{base_val?.num}</Form.Item>
-              <Form.Item label={<Text type="secondary">{t['char']}</Text>}>{base_val?.char}</Form.Item>
-            </Form>
+            <DisplayInfo labelKey={'num'} value={base_val?.num} />
+            <DisplayInfo labelKey={'char'} value={base_val?.char} />
           </Card>
         )}
 
         {origin_person && (
           <Card title="Cổ đông" className="box__shadow" size="small" style={{ margin: '0 0 20px 0' }}>
-            <Form colon labelWrap labelAlign="left" labelCol={{ lg: 8, md: 12, sm: 24, xs: 24 }}>
-              <Row gutter={[12, 12]}>
-                {origin_person?.map((item, index) => {
-                  let html = null
+            <Row gutter={[12, 12]}>
+              {origin_person?.map((item, index) => {
+                let html = null
 
-                  if (item.present_person === 'personal') {
-                    html = (
-                      <Col lg={12} md={24} key={[item, index]}>
-                        <Card className="box__shadow" size="small" title={`Cổ đông sáng lập ${index + 1}`}>
-                          <Form.Item label={<Text type="secondary">{t['name']}</Text>}>{item.name}</Form.Item>
-                          <Form.Item label={<Text type="secondary">{t['capital']}</Text>}>
-                            {number_format(item?.capital)} đ
-                          </Form.Item>
-                          <Form.Item label={<Text type="secondary">{t['gender']}</Text>}>{item?.gender}</Form.Item>
-                          <Form.Item label={<Text type="secondary">{t['birth_day']}</Text>}>
-                            {dayjs(item?.birth_day).format('DD/MM/YYYY')}
-                          </Form.Item>
-                          <Form.Item label={<Text type="secondary">{t['per_type']}</Text>}>{item?.per_type}</Form.Item>
-                          <Form.Item label={<Text type="secondary">{t['doc_type']}</Text>}>{item?.doc_type}</Form.Item>
-                          <Form.Item label={<Text type="secondary">{t['doc_code']}</Text>}>{item?.doc_code}</Form.Item>
-                          <Form.Item label={<Text type="secondary">{t['doc_time_provide']}</Text>}>
-                            {dayjs(item?.doc_time_provide).format('DD/MM/YYYY')}
-                          </Form.Item>
-                          <Form.Item label={<Text type="secondary">{t['doc_place_provide']}</Text>}>
-                            {item?.doc_place_provide}
-                          </Form.Item>
+                if (item?.present_person === 'personal') {
+                  html = (
+                    <Col lg={12} md={24} key={[item, index]}>
+                      <Card className="box__shadow" size="small" title={`Cổ đông sáng lập ${index + 1}`}>
+                        <DisplayInfo labelKey={'name'} value={item?.name} />
+                        <DisplayInfo
+                          labelKey={'capital'}
+                          value={item?.capital ? number_format(item?.capital) + 'đ' : ''}
+                        />
+                        <DisplayInfo labelKey={'gender'} value={item?.gender} />
+                        <DisplayInfo
+                          labelKey={'birth_day'}
+                          value={item?.birth_day ? dayjs(item?.birth_day).format('DD/MM/YYYY') : ''}
+                        />
+                        <DisplayInfo labelKey={'per_type'} value={item?.per_type} />
+                        <DisplayInfo labelKey={'doc_type'} value={item?.doc_type} />
+                        <DisplayInfo labelKey={'doc_code'} value={item?.doc_code} />
+                        <DisplayInfo
+                          labelKey={'doc_time_provide'}
+                          value={item?.doc_time_provide ? dayjs(item?.doc_time_provide).format('DD/MM/YYYY') : ''}
+                        />
+                        <DisplayInfo labelKey={'doc_place_provide'} value={item?.doc_place_provide} />
 
-                          {item?.current && (
-                            <>
-                              <Form.Item label={'Địa chỉ thường trú'}></Form.Item>
-                              <div style={{ paddingLeft: 20 }}>
-                                <Form.Item label={<Text type="secondary">{t['city']}</Text>}>
-                                  {item?.current?.city}
-                                </Form.Item>
-                                <Form.Item label={<Text type="secondary">{t['district']}</Text>}>
-                                  {item?.current?.district}
-                                </Form.Item>
-                                <Form.Item label={<Text type="secondary">{t['town']}</Text>}>
-                                  {item?.current?.town}
-                                </Form.Item>
-                                <Form.Item label={<Text type="secondary">{t['address']}</Text>}>
-                                  {item?.current?.address}
-                                </Form.Item>
-                              </div>
-                            </>
-                          )}
+                        {item?.current && (
+                          <Form.Item label={'Địa chỉ thường trú'}>
+                            <div style={{ paddingLeft: 20 }}>
+                              <DisplayInfo labelKey={'city'} value={item?.current?.city} />
+                              <DisplayInfo labelKey={'district'} value={item?.current?.district} />
+                              <DisplayInfo labelKey={'town'} value={item?.current?.town} />
+                              <DisplayInfo labelKey={'address'} value={item?.current?.address} />
+                            </div>
+                          </Form.Item>
+                        )}
 
-                          {item?.contact && (
-                            <>
-                              <Form.Item label={'Địa chỉ liên lạc'}></Form.Item>
-                              <div style={{ paddingLeft: 20 }}>
-                                <Form.Item label={<Text type="secondary">{t['city']}</Text>}>
-                                  {item?.contact?.city}
-                                </Form.Item>
-                                <Form.Item label={<Text type="secondary">{t['district']}</Text>}>
-                                  {item?.contact?.district}
-                                </Form.Item>
-                                <Form.Item label={<Text type="secondary">{t['town']}</Text>}>
-                                  {item?.contact?.town}
-                                </Form.Item>
-                                <Form.Item label={<Text type="secondary">{t['address']}</Text>}>
-                                  {item?.contact?.address}
-                                </Form.Item>
-                              </div>
-                            </>
-                          )}
-                        </Card>
-                      </Col>
-                    )
-                  } else if (item.present_person === 'organization') {
-                    html = (
-                      <Col lg={12} md={24}>
-                        <Card className="box__shadow" size="small" title={`Thành viên góp vốn ${index + 1}`}>
-                          <Form.Item label={<Text type="secondary">{t['company_name']}</Text>}>
-                            {item?.organization?.name}
+                        {item?.contact && (
+                          <Form.Item label={'Địa chỉ liên lạc'}>
+                            <div style={{ paddingLeft: 20 }}>
+                              <DisplayInfo labelKey={'city'} value={item?.contact?.city} />
+                              <DisplayInfo labelKey={'district'} value={item?.contact?.district} />
+                              <DisplayInfo labelKey={'town'} value={item?.contact?.town} />
+                              <DisplayInfo labelKey={'address'} value={item?.contact?.address} />
+                            </div>
                           </Form.Item>
-                          <Form.Item label={<Text type="secondary">{t['capital']}</Text>}>
-                            {number_format(item?.capital)} đ
-                          </Form.Item>
-                          <Form.Item label={<Text type="secondary">{t['mst']}</Text>}>
-                            {item?.organization?.mst}
-                          </Form.Item>
-                          <Form.Item label={<Text type="secondary">{t['mst_provide']}</Text>}>
-                            {dayjs(item?.organization?.doc_time_provide).format('DD/MM/YYYY')}
-                          </Form.Item>
+                        )}
+                      </Card>
+                    </Col>
+                  )
+                } else if (item?.present_person === 'organization') {
+                  html = (
+                    <Col lg={12} md={24}>
+                      <Card className="box__shadow" size="small" title={`Thành viên góp vốn ${index + 1}`}>
+                        <DisplayInfo labelKey={'company_name'} value={item?.organization?.name} />
+                        <DisplayInfo
+                          labelKey={'capital'}
+                          value={item?.capital ? number_format(item?.capital) + 'đ' : ''}
+                        />
+                        <DisplayInfo labelKey={'mst'} value={item?.organization?.mst} />
+                        <DisplayInfo
+                          labelKey={'mst_provide'}
+                          value={dayjs(item?.organization?.doc_time_provide).format('DD/MM/YYYY')}
+                        />
 
-                          <Form.Item label={t['office_location']}></Form.Item>
+                        <DisplayInfo labelKey={'office_location'} />
 
-                          <div style={{ paddingLeft: 20 }}>
-                            <Form.Item label={<Text type="secondary">{t['city']}</Text>}>
-                              {item?.organization?.doc_place_provide?.city}
-                            </Form.Item>
-                            <Form.Item label={<Text type="secondary">{t['district']}</Text>}>
-                              {item?.organization?.doc_place_provide?.district}
-                            </Form.Item>
-                            <Form.Item label={<Text type="secondary">{t['town']}</Text>}>
-                              {item?.organization?.doc_place_provide?.town}
-                            </Form.Item>
-                            <Form.Item label={<Text type="secondary">{t['address']}</Text>}>
-                              {item?.organization?.doc_place_provide?.address}
-                            </Form.Item>
-                          </div>
+                        <div style={{ paddingLeft: 20 }}>
+                          <DisplayInfo labelKey={'city'} value={item?.organization?.doc_place_provide?.city} />
+                          <DisplayInfo labelKey={'district'} value={item?.organization?.doc_place_provide?.district} />
+                          <DisplayInfo labelKey={'town'} value={item?.organization?.doc_place_provide?.town} />
+                          <DisplayInfo labelKey={'address'} value={item?.organization?.doc_place_provide?.address} />
+                        </div>
 
-                          <Form.Item label={<Text type="secondary">{t['name']}</Text>}>{item?.name}</Form.Item>
-                          <Form.Item label={<Text type="secondary">{t['gender']}</Text>}>{item?.gender}</Form.Item>
-                          <Form.Item label={<Text type="secondary">{t['birth_day']}</Text>}>
-                            {dayjs(item?.birth_day).format('DD/MM/YYYY')}
-                          </Form.Item>
-                          <Form.Item label={<Text type="secondary">{t['per_type']}</Text>}>{item?.per_type}</Form.Item>
-                          <Form.Item label={<Text type="secondary">{t['doc_type']}</Text>}>{item?.doc_type}</Form.Item>
-                          <Form.Item label={<Text type="secondary">{t['doc_code']}</Text>}>{item?.doc_code}</Form.Item>
-                          <Form.Item label={<Text type="secondary">{t['doc_time_provide']}</Text>}>
-                            {dayjs(item?.doc_time_provide).format('DD/MM/YYYY')}
-                          </Form.Item>
-                          <Form.Item label={<Text type="secondary">{t['doc_place_provide']}</Text>}>
-                            {item?.doc_place_provide}
-                          </Form.Item>
+                        <DisplayInfo labelKey={'name'} value={item?.name} />
+                        <DisplayInfo labelKey={'gender'} value={item?.gender} />
+                        <DisplayInfo
+                          labelKey={'birth_day'}
+                          value={item?.birth_day ? dayjs(item?.birth_day).format('YYYY/MM/DD') : ''}
+                        />
+                        <DisplayInfo labelKey={'per_type'} value={item?.per_type} />
+                        <DisplayInfo labelKey={'doc_type'} value={item?.doc_type} />
+                        <DisplayInfo labelKey={'doc_code'} value={item?.doc_code} />
+                        <DisplayInfo
+                          labelKey={'doc_time_provide'}
+                          value={dayjs(item?.doc_time_provide).format('DD/MM/YYYY')}
+                        />
+                        <DisplayInfo labelKey={'doc_place_provide'} value={item?.doc_place_provide} />
 
-                          {item?.current && (
-                            <>
-                              <Form.Item label={'Địa chỉ thường trú'}></Form.Item>
-                              <div style={{ paddingLeft: 20 }}>
-                                <Form.Item label={<Text type="secondary">{t['city']}</Text>}>
-                                  {item?.current?.city}
-                                </Form.Item>
-                                <Form.Item label={<Text type="secondary">{t['district']}</Text>}>
-                                  {item?.current?.district}
-                                </Form.Item>
-                                <Form.Item label={<Text type="secondary">{t['town']}</Text>}>
-                                  {item?.current?.town}
-                                </Form.Item>
-                                <Form.Item label={<Text type="secondary">{t['address']}</Text>}>
-                                  {item?.current?.address}
-                                </Form.Item>
-                              </div>
-                            </>
-                          )}
+                        {item?.current && (
+                          <>
+                            <DisplayInfo label={'Địa chỉ thường trú'} />
 
-                          {item?.contact && (
-                            <>
-                              <Form.Item label={'Địa chỉ liên lạc'}></Form.Item>
-                              <div style={{ paddingLeft: 20 }}>
-                                <Form.Item label={<Text type="secondary">{t['city']}</Text>}>
-                                  {item?.contact?.city}
-                                </Form.Item>
-                                <Form.Item label={<Text type="secondary">{t['district']}</Text>}>
-                                  {item?.contact?.district}
-                                </Form.Item>
-                                <Form.Item label={<Text type="secondary">{t['town']}</Text>}>
-                                  {item?.contact?.town}
-                                </Form.Item>
-                                <Form.Item label={<Text type="secondary">{t['address']}</Text>}>
-                                  {item?.contact?.address}
-                                </Form.Item>
-                              </div>
-                            </>
-                          )}
-                        </Card>
-                      </Col>
-                    )
-                  }
-                  return html
-                })}
-              </Row>
-            </Form>
+                            <div style={{ paddingLeft: 20 }}>
+                              <DisplayInfo labelKey={'city'} value={item?.current?.city} />
+                              <DisplayInfo labelKey={'district'} value={item?.current?.district} />
+                              <DisplayInfo labelKey={'town'} value={item?.current?.town} />
+                              <DisplayInfo labelKey={'address'} value={item?.current?.address} />
+                            </div>
+                          </>
+                        )}
+
+                        {item?.contact && (
+                          <>
+                            <DisplayInfo label={'Địa chỉ liên lạc'} />
+                            <div style={{ paddingLeft: 20 }}>
+                              <DisplayInfo labelKey={'city'} value={item?.contact?.city} />
+                              <DisplayInfo labelKey={'district'} value={item?.contact?.district} />
+                              <DisplayInfo labelKey={'town'} value={item?.contact?.town} />
+                              <DisplayInfo labelKey={'address'} value={item?.contact?.address} />
+                            </div>
+                          </>
+                        )}
+                      </Card>
+                    </Col>
+                  )
+                }
+                return html
+              })}
+            </Row>
           </Card>
         )}
 
@@ -204,57 +160,38 @@ export default function CreateCompanyPreview(props) {
                   return (
                     <Col lg={12} md={24} key={[item, index]}>
                       <Card className="box__shadow" size="small" title={`Người đại diện pháp luật ${index + 1}`}>
-                        <Form.Item label={<Text type="secondary">{t['name']}</Text>}>{item.name}</Form.Item>
-                        <Form.Item label={<Text type="secondary">{t['gender']}</Text>}>{item?.gender}</Form.Item>
-                        <Form.Item label={<Text type="secondary">{t['birth_day']}</Text>}>
-                          {dayjs(item?.birth_day).format('DD/MM/YYYY')}
-                        </Form.Item>
-                        <Form.Item label={<Text type="secondary">{t['per_type']}</Text>}>{item?.per_type}</Form.Item>
-                        <Form.Item label={<Text type="secondary">{t['doc_type']}</Text>}>{item?.doc_type}</Form.Item>
-                        <Form.Item label={<Text type="secondary">{t['doc_code']}</Text>}>{item?.doc_code}</Form.Item>
-                        <Form.Item label={<Text type="secondary">{t['doc_time_provide']}</Text>}>
-                          {dayjs(item?.doc_time_provide).format('DD/MM/YYYY')}
-                        </Form.Item>
-                        <Form.Item label={<Text type="secondary">{t['doc_place_provide']}</Text>}>
-                          {item?.doc_place_provide}
-                        </Form.Item>
+                        <DisplayInfo labelKey={'name'} value={item?.name} />
+                        <DisplayInfo labelKey={'gender'} value={item?.gender} />
+                        <DisplayInfo labelKey={'birth_day'} value={dayjs(item?.birth_day).format('DD/MM/YYYY')} />
+                        <DisplayInfo labelKey={'per_type'} value={item?.per_type} />
+                        <DisplayInfo labelKey={'doc_type'} value={item?.doc_type} />
+                        <DisplayInfo labelKey={'doc_code'} value={item?.doc_code} />
+                        <DisplayInfo
+                          labelKey={'doc_time_provide'}
+                          value={dayjs(item?.doc_time_provide).format('DD/MM/YYYY')}
+                        />
+                        <DisplayInfo labelKey={'doc_place_provide'} value={item?.doc_place_provide} />
 
                         {item?.current && (
                           <>
-                            <Form.Item label={'Địa chỉ thường trú'}></Form.Item>
+                            <DisplayInfo label={'Địa chỉ thường trú'} />
                             <div style={{ paddingLeft: 20 }}>
-                              <Form.Item label={<Text type="secondary">{t['city']}</Text>}>
-                                {item?.current?.city}
-                              </Form.Item>
-                              <Form.Item label={<Text type="secondary">{t['district']}</Text>}>
-                                {item?.current?.district}
-                              </Form.Item>
-                              <Form.Item label={<Text type="secondary">{t['town']}</Text>}>
-                                {item?.current?.town}
-                              </Form.Item>
-                              <Form.Item label={<Text type="secondary">{t['address']}</Text>}>
-                                {item?.current?.address}
-                              </Form.Item>
+                              <DisplayInfo labelKey={'city'} value={item?.current?.city} />
+                              <DisplayInfo labelKey={'district'} value={item?.current?.district} />
+                              <DisplayInfo labelKey={'town'} value={item?.current?.town} />
+                              <DisplayInfo labelKey={'address'} value={item?.current?.address} />
                             </div>
                           </>
                         )}
 
                         {item?.contact && (
                           <>
-                            <Form.Item label={'Địa chỉ liên lạc'}></Form.Item>
+                            <DisplayInfo label={'Địa chỉ liên lạc'} />
                             <div style={{ paddingLeft: 20 }}>
-                              <Form.Item label={<Text type="secondary">{t['city']}</Text>}>
-                                {item?.contact?.city}
-                              </Form.Item>
-                              <Form.Item label={<Text type="secondary">{t['district']}</Text>}>
-                                {item?.contact?.district}
-                              </Form.Item>
-                              <Form.Item label={<Text type="secondary">{t['town']}</Text>}>
-                                {item?.contact?.town}
-                              </Form.Item>
-                              <Form.Item label={<Text type="secondary">{t['address']}</Text>}>
-                                {item?.contact?.address}
-                              </Form.Item>
+                              <DisplayInfo labelKey={'city'} value={item?.contact?.city} />
+                              <DisplayInfo labelKey={'district'} value={item?.contact?.district} />
+                              <DisplayInfo labelKey={'town'} value={item?.contact?.town} />
+                              <DisplayInfo labelKey={'address'} value={item?.contact?.address} />
                             </div>
                           </>
                         )}
@@ -268,28 +205,24 @@ export default function CreateCompanyPreview(props) {
         )}
         {core && (
           <Card title="Tên công ty" className="box__shadow" size="small" style={{ margin: '0 0 20px 0' }}>
-            <Form colon labelWrap labelAlign="left" labelCol={{ lg: 8, md: 12, sm: 24, xs: 24 }}>
-              <Form.Item label="Tên công ty bằng Tiếng Việt">{core?.name}</Form.Item>
-              <Form.Item label="Tên công ty bằng Tiếng Anh (nếu có)">{core?.name_en}</Form.Item>
-              <Form.Item label="Tên công ty viết tắt (nếu có)">{core?.name_vn}</Form.Item>
-            </Form>
+            <DisplayInfo label="Tên công ty bằng Tiếng Việt" value={core?.name} />
+            <DisplayInfo label="Tên công ty bằng Tiếng Anh (nếu có)" value={core?.name_en} />
+            <DisplayInfo label="Tên công ty viết tắt (nếu có)" value={core?.name_vn} />
           </Card>
         )}
 
         {core?.address && (
           <>
             <Card title="Địa chỉ đặt trụ sở" className="box__shadow" size="small" style={{ margin: '0 0 20px 0' }}>
-              <Form colon labelWrap labelAlign="left" labelCol={{ lg: 8, md: 12, sm: 24, xs: 24 }}>
-                <Form.Item label={t['office_location']}></Form.Item>
-                <div style={{ paddingLeft: 20 }}>
-                  <Form.Item label={<Text type="secondary">{t['city']}</Text>}>{core?.address?.city}</Form.Item>
-                  <Form.Item label={<Text type="secondary">{t['district']}</Text>}>{core?.address?.district}</Form.Item>
-                  <Form.Item label={<Text type="secondary">{t['town']}</Text>}>{core?.address?.town}</Form.Item>
-                  <Form.Item label={<Text type="secondary">{t['address']}</Text>}>{core?.address?.address}</Form.Item>
-                </div>
-                <Form.Item label="Số điện thoại liên hệ">{core?.contact?.phone}</Form.Item>
-                <Form.Item label="Email liên hệ (nếu có)">{core?.contact?.email}</Form.Item>
-              </Form>
+              <DisplayInfo label={t['office_location']} />
+              <div style={{ paddingLeft: 20 }}>
+                <DisplayInfo labelKey="city" value={core?.address?.city} />
+                <DisplayInfo labelKey="district" value={core?.address?.district} />
+                <DisplayInfo labelKey="town" value={core?.address?.town} />
+                <DisplayInfo labelKey="address" value={core?.address?.address} />
+              </div>
+              <DisplayInfo label="Số điện thoại liên hệ" value={core?.contact?.phone} />
+              <DisplayInfo label="Email liên hệ (nếu có)" value={core?.contact?.email} />
             </Card>
           </>
         )}
@@ -301,30 +234,45 @@ export default function CreateCompanyPreview(props) {
             size="small"
             style={{ margin: '0 0 20px 0' }}
           >
-            <Form colon labelWrap labelAlign="left" labelCol={{ lg: 8, md: 12, sm: 24, xs: 24 }}>
-              {company_main_career && (
-                <Form.Item label={<Text type="secondary">Ngành nghề kinh doanh chính</Text>}>
-                  {company_main_career.name} - {company_main_career.code}
-                </Form.Item>
-              )}
+            {company_main_career && (
+              <DisplayInfo
+                label="Ngành nghề kinh doanh chính"
+                value={company_main_career.name + '-' + company_main_career.code}
+              />
+            )}
 
-              {company_opt_career && (
-                <Form.Item label={<Text type="secondary">Ngành nghề kinh doanh thêm</Text>}>
-                  <ul style={{ listStyle: 'none' }}>
+            {company_opt_career && (
+              <DisplayInfo
+                label="Ngành nghề kinh doanh thêm"
+                value={
+                  <List style={{ listStyle: 'none' }}>
                     {company_opt_career?.map((item, index) => {
                       return (
-                        <li key={['Ngành nghề kinh doanh thêm', item, index]}>
-                          {item.name} - {item.code}
-                        </li>
+                        <List.Item key={['Ngành nghề kinh doanh thêm', item, index]}>
+                          {item?.name} - {item?.code}
+                        </List.Item>
                       )
                     })}
-                  </ul>
-                </Form.Item>
-              )}
-            </Form>
+                  </List>
+                }
+              />
+            )}
           </Card>
         )}
       </Col>
     </Row>
+  )
+}
+
+const DisplayInfo = ({ label, labelKey, value, labelSize = 12 }) => {
+  return (
+    <div className="row lead p-4">
+      <Text type="secondary" className="col-xl-4 col-lg-6 col-md-6 col-sm-12 col-xs-12 fs-6 fw-light">
+        {label ? label : ''}
+        {labelKey ? t[labelKey] : ''}
+        {':'}
+      </Text>
+      <span className="col-xl-8 col-lg-6 col-md-6 col-sm-12 col-xs-12">{value}</span>
+    </div>
   )
 }

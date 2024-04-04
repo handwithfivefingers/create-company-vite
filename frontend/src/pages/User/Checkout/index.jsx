@@ -9,6 +9,13 @@ import { CHANGE_INFO_FORM, CREATE_COMPANY_FORM, DISSOLUTION_FORM, PENDING_FORM }
 import VNPAY_LOGO from '@/assets/img/vnpay.png'
 import styles from './styles.module.scss'
 
+const BANK_INFO = {
+  NAME: 'Ngân hàng TMCP Quân Đội',
+  CODE: '005686868',
+  DESCRIPTION: 'Công ty TNHH Dịch vụ Tư vấn Warren B',
+  IMG: '/public/QR_code.jpg',
+}
+
 const Checkout = () => {
   const { slug } = useParams()
   const navigate = useNavigate()
@@ -96,25 +103,25 @@ const Checkout = () => {
             <Card className={'box__shadow'}>
               <Descriptions title="Thông tin chuyển khoản">
                 <Descriptions.Item span={24} label="Tên">
-                  VND-TGTT-CT TNHH DVTV WARREN B
+                  {BANK_INFO.DESCRIPTION}
                 </Descriptions.Item>
                 <Descriptions.Item span={24} label="Ngân hàng">
-                  Techcombank
+                  {BANK_INFO.NAME}
                 </Descriptions.Item>
                 <Descriptions.Item span={24} label="Số tài khoản">
                   <Button
-                    onClick={() => handleCopy('19035988579016')}
+                    onClick={() => handleCopy(BANK_INFO.CODE)}
                     type="text"
                     style={{ display: 'flex', alignItems: 'center', gap: 12, padding: 0, height: 22 }}
                   >
-                    1903 5988 5790 16
+                    {BANK_INFO.CODE}
                     <MdOutlineCopyAll fontSize={16} />
                   </Button>
                 </Descriptions.Item>
                 <Descriptions.Item label="QR code" span={24}></Descriptions.Item>
                 <Descriptions.Item span={24}>
                   <div className={styles.imgBlock} style={{ margin: '0 auto' }}>
-                    <img src="/public/cc_qr_new.jpg" width={400} />
+                    <img src={BANK_INFO.IMG} width={400} />
                   </div>
                 </Descriptions.Item>
               </Descriptions>
@@ -239,8 +246,12 @@ const Checkout = () => {
                       <Radio.Group>
                         <Space direction="vertical">
                           <Radio value={1}>Chuyển khoản</Radio>
-                          <Radio value={2} disabled>Qua Momo ( đang phát triển )</Radio>
-                          <Radio value={3} disabled>Qua VN-PAY ( đang phát triển )</Radio>
+                          <Radio value={2} disabled>
+                            Qua Momo ( đang phát triển )
+                          </Radio>
+                          <Radio value={3} disabled>
+                            Qua VN-PAY ( đang phát triển )
+                          </Radio>
                         </Space>
                       </Radio.Group>
                     </Form.Item>
