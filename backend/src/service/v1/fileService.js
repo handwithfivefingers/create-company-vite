@@ -30,6 +30,7 @@ module.exports = class FileService {
 
   getListFolder = async ({ dir, currentDir = global.__basedir }) => {
     try {
+      if (!dir) throw new Error('No directory specified')
       const targetFolder = path.join(currentDir, dir)
       if (!fs.existsSync(targetFolder)) {
         return []
@@ -40,7 +41,20 @@ module.exports = class FileService {
       throw error
     }
   }
-
+  getListFiles = ({ dir, files_ }) => {
+    console.log('dir', dir)
+    files_ = files_ || []
+    let files = fs.readdirSync(dir)
+    for (let i in files) {
+      let name = dir + '/' + files[i]
+      if (fs.statSync(name).isDirectory()) {
+        this.getListFiles({ dir: name, files_ })
+      } else {
+        files_.push(name)
+      }
+    }
+    return files_
+  }
   saveFile = async ({ filePath, buff, option = {} }) => {
     try {
       fs.writeFileSync(filePath, buff, option)

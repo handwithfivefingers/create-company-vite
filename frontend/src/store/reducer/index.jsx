@@ -6,6 +6,7 @@ import routeReducer from './route.reducer'
 import provinceReducer from './province.reducer'
 import messageReducer from './message.reducer'
 import orderReducer from './order.reducer'
+import fileReducer from './file.reducer'
 import { useSelector } from 'react-redux'
 
 const rootReducer = combineReducers({
@@ -15,6 +16,7 @@ const rootReducer = combineReducers({
   provinceReducer,
   messageReducer,
   orderReducer,
+  fileReducer,
 })
 
 const useAuthStore = () => useSelector((state) => state.authReducer)
@@ -28,6 +30,7 @@ const useOrder = (fields = null) => useSelector((state) => state.orderReducer)
 const useCreateCompanyOrder = () => useSelector((state) => state.orderReducer?.createCompany)
 const useChangeInforOrder = () => useSelector((state) => state.orderReducer?.changeInfo)
 const useGetOrderMethod = () => useSelector((state) => state?.orderReducer?.method)
+const useFileData = () => useSelector((state) => state.fileReducer)
 
 export default rootReducer
 export {
@@ -42,4 +45,5 @@ export {
   useChangeInforOrder,
   useOrder,
   useGetOrderMethod,
+  useFileData
 }

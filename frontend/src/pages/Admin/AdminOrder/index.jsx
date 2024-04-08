@@ -12,6 +12,8 @@ import MailStatusModal from '../../../components/Modal/MailStatusModal'
 import UpdateOrderModal from '../../../components/Modal/UpdateOrderModal'
 import { useFetch } from '../../../helper/Hook'
 import styles from './styles.module.scss'
+import { useDispatch } from 'react-redux'
+import { useFileAction } from '../../../store/actions/file.action'
 const AdminOrder = () => {
   const [orderData, setOrderData] = useState([])
   const [current, setCurrent] = useState(1)
@@ -173,8 +175,18 @@ const AdminOrder = () => {
     return html
   }
 
-  const onConvertFileManual = (record) => {
-    console.log('onConvertFileManual', record)
+  const dispatch = useDispatch()
+  const action = useFileAction()
+  const onConvertFileManual = async (record) => {
+    try {
+      const resp = await AdminOrderService.onConvertManual(record._id)
+      console.log('resp', resp)
+      const data = resp.data.data
+      dispatch(action.onUpdateFiles(data))
+      navigate(`/admin/editor/${record._id}`)
+    } catch (error) {
+      throw error
+    }
   }
 
   const onFilter = (val) => {

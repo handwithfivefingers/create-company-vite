@@ -26,13 +26,10 @@ const { onInit } = new appConfig(app)
 const { onConvertFiles, onBackupDB, onGenSSL } = new Cronjob()
 
 initEnvLoaded()
-
 onInit()
 app.listen(RUNTIME_PORT, async () => {
   await connectDB()
   // onConvertFiles()
   onBackupDB()
   onGenSSL()
-  console.log(`Server is running on Port ${RUNTIME_PORT}`)
-  console.log('???')
 })

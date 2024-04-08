@@ -1,18 +1,18 @@
 import axios from '@/config/axios'
 
 const api_path = {
-  getOrder: '/admin/order',
+  order: '/admin/order',
   deleteOrder: '/admin/order',
   previewFileOrder: '/admin/order/preview',
 }
 
 const AdminOrderService = {
   getOrder: (params) => {
-    return axios.get(api_path.getOrder, params)
+    return axios.get(api_path.order, params)
   },
 
   getOrderBySlug: (params) => {
-    return axios.get(`${api_path.getOrder}/${params.slug}`)
+    return axios.get(`${api_path.order}/${params.slug}`)
   },
 
   deleteOrder: (id) => {
@@ -20,6 +20,9 @@ const AdminOrderService = {
   },
   previewFileOrder: (id) => {
     return axios.get(api_path.previewFileOrder + '/' + id)
+  },
+  onConvertManual: (id) => {
+    return axios.post(api_path.order + '/' + id)
   },
 }
 

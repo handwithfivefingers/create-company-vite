@@ -11,4 +11,13 @@ module.exports = class OfficeAdmin {
       return errHandler(err, res)
     }
   }
+
+  getBrowserToken = async (req, res) => {
+    try {
+      const data = await new OfficeAdminService(req).getBrowserToken(req)
+      return successHandler(data, res)
+    } catch (error) {
+      return errHandler(error, res)
+    }
+  }
 }

@@ -20,7 +20,7 @@ function renderChunks(deps) {
 
 export default defineConfig(({ command }) => {
   let configs = {
-    envPrefix: ['MAIL_', 'GG_', 'VITE_'],
+    envPrefix: ['MAIL_', 'GG_', 'VITE_', 'OFFICE_'],
     plugins: [
       react({}),
       visualizer({

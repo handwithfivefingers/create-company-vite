@@ -9,10 +9,23 @@ const fs = require('fs')
 const { default: axios } = require('axios')
 const shortid = require('shortid')
 const FileService = require('../fileService')
+const jwt = require('jsonwebtoken')
 const indexString = {
   0: 'a.',
   1: 'b.',
   2: 'c.',
+}
+
+const errorMessage = {
+  '-1': 'Unknown error',
+  '-2': 'Conversion timeout error',
+  '-3': 'Conversion error',
+  '-4': 'Error while downloading the document file to be converted',
+  '-5': 'Incorrect password',
+  '-6': 'Error while accessing the conversion result database',
+  '-7': 'Input error',
+  '-8': 'Invalid token',
+  '-9': 'Error when the converter cannot automatically determine the output file format. This error means that the client must explicitly specify in which format the file should be converted (text document or spreadsheet). It is used to convert XML to OOXML in case the XML type is unknown',
 }
 class ConvertService {
   onConvert = async ({ _id: docId, products, data, category, files }) => {
@@ -111,7 +124,7 @@ class TestService {
       const { data, category } = _order
       let { files, result, msg } = this.findKeysByObject(data, category?.type)
       if (!files) throw new Error('Files not found')
-      const resp = await this.handleConvertFile({ data, files, userID })
+      const resp = await this.handleConvertFile({ data, files, userID, orderID })
       return { ...resp, orderID }
     } catch (err) {
       console.log('checkingOrder err', err)
@@ -119,7 +132,7 @@ class TestService {
     }
   }
 
-  handleConvertFile = async ({ data, files, userID }) => {
+  handleConvertFile = async ({ data, files, userID, orderID }) => {
     try {
       // let mailParams = await this.getMailContent({ _id: order.id, email: order.orderOwner?.email })
       files = uniqBy(files, 'name').filter((item) => item)
@@ -139,7 +152,7 @@ class TestService {
       // console.log('files', _contentOrder)
       // return
       if (files) {
-        const baseDir = `uploads/userData/${userID}/${currentTime}`
+        const baseDir = `uploads/userData/${orderID}/${currentTime}`
         const docFolder = `${baseDir}/doc`
         const pdfFolder = `${baseDir}/pdf`
         // Create DOC Folder
@@ -157,7 +170,7 @@ class TestService {
           await new FileService().saveFile({ filePath: docxFile, buff: zipBuffer })
 
           await this.convertPDFService({
-            from: docFolder,
+            from: docFolder.replace('uploads/', ''),
             to: pdfFolder,
             fileName: file.name,
             fileType: 'docx',
@@ -316,28 +329,35 @@ class TestService {
 
   convertPDFService = async ({ from, to, fileName, fileType, extension }) => {
     try {
-      let data = JSON.stringify({
+      const key = shortid()
+      const options = { algorithm: 'HS256', expiresIn: '15m' }
+      const payload = {
         url: `https://app.thanhlapcongtyonline.vn/public/${from}/${fileName}.${fileType}`,
-        key: shortid(),
-        fileType: fileType,
-        outputtype: extension,
-      })
-
+        key,
+        fileType: 'docx',
+        outputtype: 'pdf',
+      }
+      const token = jwt.sign(payload, 'Hdme1995', options)
+      let data = JSON.stringify(payload)
       let config = {
         method: 'post',
         maxBodyLength: Infinity,
-        url: process.env.OFFICE_URL + '/ConvertService.ashx',
+        url: `${process.env.OFFICE_URL}:${process.env.OFFICE_PORT}` +  '/ConvertService.ashx',
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
         },
         data: data,
       }
-
       const resp = await axios.request(config)
+      const errorCode = resp.data?.error
+      if (errorCode) {
+        return errorMessage[errorCode] || 'Error: ' + errorCode
+      }
 
       if (resp.data.fileUrl) {
-        await this.downloadFile(resp.data.fileUrl, `${to}/${fileName}.${extension}`)
+        return await this.downloadFile(resp.data.fileUrl, `${to}/${fileName}.${extension}`)
       }
     } catch (error) {
       console.log('Convert file failed: ', error)
@@ -346,7 +366,6 @@ class TestService {
   }
 
   downloadFile = async (fileUrl, outputLocationPath) => {
-    // const writer = fs.createWriteStream(outputLocationPath)
     return axios({
       method: 'get',
       url: fileUrl,
@@ -355,6 +374,7 @@ class TestService {
       response.data.pipe(fs.createWriteStream(outputLocationPath))
     })
   }
+
 }
 
 module.exports = {
