@@ -31,7 +31,7 @@ module.exports = class OfficeAdminService extends BaseAdminService {
     try {
       const { options } = req.body
       const resp = await axios.post(
-        `http://${process.env.OFFICE_URL}:${process.env.OFFICE_TOKEN_PORT}/blog/admin/v1/services`,
+        `${process.env.OFFICE_TOKEN}/blog/admin/v1/services`,
         {
           tenantID: 1,
           secretKey: 'Hdme1995',

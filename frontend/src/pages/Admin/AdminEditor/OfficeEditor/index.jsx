@@ -108,7 +108,7 @@ const OfficeEditor = ({ url, fileKey, documentType }) => {
       </div>
       <DocumentEditor
         id="docxEditor"
-        documentServerUrl={import.meta.env.OFFICE_URL + ':' + import.meta.env.OFFICE_PORT}
+        documentServerUrl={import.meta.env.OFFICE_URL}
         config={{ ...configs, token }}
         events_onDocumentReady={onDocumentReady}
         onLoadComponentError={onLoadComponentError}
