@@ -33,7 +33,7 @@ services:
       - .env
     environment:
       - WATCHFILES_FORCE_POLLING=true
-      - OFFICE_URL=https://103.77.175.212
+      - OFFICE_URL=http://103.77.175.212
       - OFFICE_PORT=1200
       - OFFICE_TOKEN_PORT=3002
     networks:
@@ -55,7 +55,7 @@ services:
     env_file:
       - .env
     environment:
-      - OFFICE_URL=https://103.77.175.212
+      - OFFICE_URL=http://103.77.175.212
       - OFFICE_PORT=1200
       - OFFICE_TOKEN_PORT=3002
     networks:
