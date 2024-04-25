@@ -4,7 +4,6 @@ import { useDispatch } from 'react-redux'
 import AuthService from '../../service/AuthService'
 import { useAuthStore } from '../../store/reducer'
 import { notification } from 'antd'
-
 const useAuth = () => {
   const authReducer = useAuthStore()
   const dispatch = useDispatch()
@@ -16,6 +15,7 @@ const useAuth = () => {
       }
     } catch (error) {
       console.log(error)
+      dispatch(AuthAPIS.AuthLogout())
     }
   }
   useEffect(() => {

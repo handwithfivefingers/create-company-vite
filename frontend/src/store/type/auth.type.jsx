@@ -17,5 +17,5 @@ export const AUTH_REGISTER = {
 };
 
 export const AUTH_LOGOUT = {
-  SUCCESS: "SUCCESS",
+  SUCCESS: "AUTH_LOGOUT_SUCCESS",
 };

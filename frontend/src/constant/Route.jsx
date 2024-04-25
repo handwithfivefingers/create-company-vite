@@ -106,208 +106,200 @@ const UserRouter = [
   },
 ]
 
-const ADMIN_ROUTE = (status, role) => ({
-  title: 'Admin',
-  path: 'admin',
-  element: <Admin status={status} />,
-  children:
-    status && role === 'admin' ? (
-      [
+const LAYOUT_ROUTER = ({ status, role }) => {
+  return [
+    {
+      title: 'Đăng nhập',
+      path: '/',
+      icon: <BiHomeAlt />,
+      element: <HomePage />,
+      children: [
+        {
+          index: true,
+          element: <LoginPage />,
+        },
+        {
+          path: '/login-admin',
+          element: <LoginAdmin />,
+        },
+        {
+          path: '/login',
+          element: <LoginForm />,
+        },
+        {
+          path: '/verification',
+          element: <Verify />,
+        },
+      ],
+    },
+    {
+      title: 'Admin',
+      path: 'admin',
+      element: <Admin status={status} />,
+      children:
+        status && role === 'admin' ? (
+          [
+            {
+              index: true,
+              icon: <RiBarChartFill />,
+              element: <AdminDashboard />,
+            },
+            {
+              path: 'product',
+              title: 'Quản lý sản phẩm',
+              icon: <RiBarChartFill />,
+              element: <AdminProduct />,
+            },
+            {
+              path: 'order',
+              title: 'Orders',
+              icon: <RiChatPollLine />,
+              children: [
+                {
+                  index: true,
+                  element: <AdminOrder />,
+                },
+              ],
+            },
+            {
+              path: 'transaction',
+              title: 'Quản lý thanh toán',
+              icon: <RiBarChartFill />,
+              element: <AdminTransaction />,
+            },
+            {
+              path: 'editor',
+              title: 'Editor',
+              icon: <RiBarChartFill />,
+              children: [
+                {
+                  index: true,
+                  path: '',
+                  element: <Navigate to="/admin" />,
+                },
+                {
+                  path: ':id',
+                  element: <AdminEditor />,
+                },
+              ],
+            },
+            {
+              path: 'user',
+              title: 'Người dùng',
+              icon: <RiBriefcase4Fill />,
+              element: <AdminUser />,
+            },
+            {
+              path: 'mail',
+              title: 'Mail',
+              icon: <RiMailSettingsFill />,
+              element: <AdminMail />,
+            },
+            {
+              path: 'setting',
+              title: 'Cài đặt',
+              icon: <RiAdminFill />,
+              element: <Outlet />,
+              children: [
+                {
+                  path: '',
+                  index: true,
+                  element: <AdminSetting />,
+                },
+                {
+                  path: 'payment',
+                  title: 'Thanh toán',
+                  element: <SettingPayment />,
+                },
+                {
+                  path: 'mail',
+                  title: 'Email',
+                  element: <SettingMail />,
+                },
+              ],
+            },
+            {
+              path: 'about',
+              title: 'Author',
+              icon: <FcInfo />,
+              element: <AdminAbout />,
+            },
+          ]
+        ) : (
+          <Navigate to="/" />
+        ),
+    },
+    {
+      title: 'User',
+      path: 'user',
+      element: <User status={status} />,
+      children: [
         {
           index: true,
           icon: <RiBarChartFill />,
-          element: <AdminDashboard />,
+          element: <Navigate to="/user/san-pham" />,
         },
         {
-          path: 'product',
-          title: 'Quản lý sản phẩm',
+          path: 'san-pham',
+          title: 'Sản phẩm',
           icon: <RiBarChartFill />,
-          element: <AdminProduct />,
+          children: [
+            {
+              index: true,
+              element: <UserProductPage />,
+            },
+            {
+              path: ':slug',
+              element: <UserProductItem />,
+            },
+          ],
+        },
+        {
+          path: 'checkout',
+          title: 'Thanh toán',
+          element: <Checkout />,
+          children: [
+            {
+              path: ':slug',
+              element: <Checkout />,
+            },
+          ],
         },
         {
           path: 'order',
           title: 'Orders',
           icon: <RiChatPollLine />,
-          children: [
-            {
-              index: true,
-              element: <AdminOrder />,
-            },
-          ],
+          element: <UserOrder />,
         },
-        {
-          path: 'transaction',
-          title: 'Quản lý thanh toán',
-          icon: <RiBarChartFill />,
-          element: <AdminTransaction />,
-        },
-        {
-          path: 'editor',
-          title: 'Editor',
-          icon: <RiBarChartFill />,
-          children: [
-            {
-              index: true,
-              path: '',
-              element: <Navigate to="/admin" />,
-            },
-            {
-              path: ':id',
-              element: <AdminEditor />,
-            },
-          ],
-        },
-        {
-          path: 'user',
-          title: 'Người dùng',
-          icon: <RiBriefcase4Fill />,
-          element: <AdminUser />,
-        },
-        {
-          path: 'mail',
-          title: 'Mail',
-          icon: <RiMailSettingsFill />,
-          element: <AdminMail />,
-        },
-        {
-          path: 'setting',
-          title: 'Cài đặt',
-          icon: <RiAdminFill />,
-          element: <Outlet />,
-          children: [
-            {
-              path: '',
-              index: true,
-              element: <AdminSetting />,
-            },
-            {
-              path: 'payment',
-              title: 'Thanh toán',
-              element: <SettingPayment />,
-            },
-            {
-              path: 'mail',
-              title: 'Email',
-              element: <SettingMail />,
-            },
-          ],
-        },
-        {
-          path: 'about',
-          title: 'Author',
-          icon: <FcInfo />,
-          element: <AdminAbout />,
-        },
-      ]
-    ) : (
-      <Navigate to="/" />
-    ),
-})
-const USER_ROUTE = (status, role) => ({
-  title: 'User',
-  path: 'user',
-  element: <User status={status} />,
-  children: status ? (
-    [
-      {
-        index: true,
-        icon: <RiBarChartFill />,
-        element: <Navigate to="/user/san-pham" />,
-      },
-      {
-        path: 'san-pham',
-        title: 'Sản phẩm',
-        icon: <RiBarChartFill />,
-        children: [
-          {
-            index: true,
-            element: <UserProductPage />,
-          },
-          {
-            path: ':slug',
-            element: <UserProductItem />,
-          },
-        ],
-      },
-      {
-        path: 'checkout',
-        title: 'Thanh toán',
-        element: <Checkout />,
-        children: [
-          {
-            path: ':slug',
-            element: <Checkout />,
-          },
-        ],
-      },
-      {
-        path: 'order',
-        title: 'Orders',
-        icon: <RiChatPollLine />,
-        element: <UserOrder />,
-      },
 
-      {
-        path: 'policy',
-        title: 'Chính sách hoàn / huỷ',
-        icon: <RiChatPollLine />,
-        element: <Policy />,
-      },
-      {
-        path: 'result',
-        title: 'Kết quả',
-        element: <CCResult />,
-      },
-      {
-        path: 'profile',
-        title: 'Tài khoản',
-        icon: <RiAdminFill />,
-        element: <UserProfile />,
-      },
-      {
-        path: '*',
-        element: <Error />,
-      },
-    ]
-  ) : (
-    <Navigate to="/" />
-  ),
-})
-const LAYOUT_ROUTER = ({ status, role }) => [
-  {
-    title: 'Đăng nhập',
-    path: '/',
-    icon: <BiHomeAlt />,
-    element: <HomePage />,
-    children: [
-      {
-        index: true,
-        element: <LoginPage />,
-      },
-      {
-        path: '/login-admin',
-        element: <LoginAdmin />,
-      },
-      {
-        path: '/login',
-        element: <LoginForm />,
-      },
-      {
-        path: '/verification',
-        element: <Verify />,
-      },
-    ],
-  },
-  ADMIN_ROUTE(status, role),
-  USER_ROUTE(status, role),
-  {
-    path: '/404',
-    element: <Error />,
-  },
-  // {
-  //   path: '*',
-  //   element: <Error />,
-  // },
-]
+        {
+          path: 'policy',
+          title: 'Chính sách hoàn / huỷ',
+          icon: <RiChatPollLine />,
+          element: <Policy />,
+        },
+        {
+          path: 'result',
+          title: 'Kết quả',
+          element: <CCResult />,
+        },
+        {
+          path: 'profile',
+          title: 'Tài khoản',
+          icon: <RiAdminFill />,
+          element: <UserProfile />,
+        },
+        {
+          path: '*',
+          element: <Error />,
+        },
+      ],
+    },
+    {
+      path: '/404',
+      element: <Error />,
+    },
+  ]
+}
 
 export { AdminRouter, UserRouter, LAYOUT_ROUTER }

@@ -46,16 +46,10 @@ const RouterComponent = (props) => {
 
   // eslint-disable-next-line react/prop-types
   const elementComp = useRoutes(LAYOUT_ROUTER(props.auth)) // status, role
-
   const routeDetect = useDetectLocation(location)
-
   const route = useRouterData()
   const { onRouterChange } = useRouterAPI()
-
   const dispatch = useDispatch()
-  useEffect(() => {
-    window.dayjs = dayjs
-  }, [])
 
   useEffect(() => {
     handleDetectRoute(routeDetect)
@@ -69,10 +63,8 @@ const RouterComponent = (props) => {
       console.log('detected route failed', error)
     }
   }
-
   const changeTitle = (pathname) => {
     let path = pathname.split('/').reverse()
-
     let item
     for (let i = 0; i <= path.length; i++) {
       let currentPath = path[i]
@@ -96,6 +88,7 @@ function App() {
   if (authReducer.authenticating && !authReducer.status) {
     return <LoadingScreen />
   }
+
 
   return (
     <div className="App">
