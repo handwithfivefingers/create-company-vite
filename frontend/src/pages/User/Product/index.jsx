@@ -35,7 +35,7 @@ const UserProductPage = () => {
       dispatch(action.onToggleMethod(STATE_METHOD['CREATE']))
       navigate(`/user/san-pham/${data?.slug}`)
     } else {
-      notification.warning({ message: 'Sản phẩm đang được hoàn thiện' })
+      notification.warning({ message: 'Sản phẩm sắp ra mắt' })
     }
   }
   return (

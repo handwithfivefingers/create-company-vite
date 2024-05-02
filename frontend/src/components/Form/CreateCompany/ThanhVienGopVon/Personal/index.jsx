@@ -71,7 +71,10 @@ const Personal = (props) => {
         name={[...BASE_FORM, 'name']}
         label="Họ và Tên"
         placeholder="NGUYỄN VĂN A"
-        onChange={(e) => setFields({ name: [...BASE_FORM, 'name'], value: e.target.value?.toUpperCase() })}
+        // onBlur={(e) => setFields({ name: [...BASE_FORM, 'name'], value: e.target.value?.toUpperCase() })}
+        onBlur={() => {
+          formInstance.setFieldValue([...BASE_FORM, 'name'], formInstance.getFieldValue([...BASE_FORM, 'name'])?.toUpperCase())
+        }}
         required
       />
 

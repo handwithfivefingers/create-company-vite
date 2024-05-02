@@ -42,14 +42,17 @@ const OriginalPerson = (props) => {
         label="Tên tổ chức"
         name={[...BASE_FORM, 'organization', 'name']}
         placeholder="CÔNG TY TNHH DỊCH VỤ TƯ VẤN WARREN B"
-        onChange={(e) =>
-          formInstance.setFields([
-            {
-              name: [...BASE_FORM, 'organization', 'name'],
-              value: e.target.value?.toUpperCase(),
-            },
-          ])
-        }
+        // onChange={(e) =>
+        //   formInstance.setFields([
+        //     {
+        //       name: [...BASE_FORM, 'organization', 'name'],
+        //       value: e.target.value?.toUpperCase(),
+        //     },
+        //   ])
+        // }
+        onBlur={() => {
+          formInstance.setFieldValue([...BASE_FORM, 'organization', 'name'], formInstance.getFieldValue([...BASE_FORM, 'organization', 'name'])?.toUpperCase())
+        }}
         required
       />
       <CCInput
@@ -82,14 +85,17 @@ const OriginalPerson = (props) => {
           />
         }
         placeholder="NGUYỄN VĂN A"
-        onChange={(e) =>
-          formInstance.setFields([
-            {
-              name: [...BASE_FORM, 'name'],
-              value: e.target.value?.toUpperCase(),
-            },
-          ])
-        }
+        onBlur={() => {
+          formInstance.setFieldValue([...BASE_FORM, 'name'], formInstance.getFieldValue([...BASE_FORM, 'name'])?.toUpperCase())
+        }}
+        // onChange={(e) =>
+        //   formInstance.setFields([
+        //     {
+        //       name: [...BASE_FORM, 'name'],
+        //       value: e.target.value?.toUpperCase(),
+        //     },
+        //   ])
+        // }
         required
         message="Họ và Tên đại diện pháp luật (ĐDPL) là bắt buộc!"
       />
@@ -115,7 +121,7 @@ const OriginalPerson = (props) => {
 
       <CCSelect.SelectPersonType
         name={[...BASE_FORM, 'per_type']}
-        label="Dân tộc 2"
+        label="Dân tộc"
         placeholder="Bấm vào đây"
         required
       />

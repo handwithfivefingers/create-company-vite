@@ -192,7 +192,6 @@ const InputDate = (props) => {
   if (!name) throw new Error(`Invalid name`)
 
   const currentValue = formInstance.getFieldValue(name)
-  debugger
 
   useEffect(() => {
     if (currentValue && typeof currentValue === 'string') {

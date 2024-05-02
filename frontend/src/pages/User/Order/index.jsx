@@ -160,22 +160,27 @@ const UserOrder = () => {
           }}
           rowKey={(record) => record._id}
           pagination={false}
+          scroll={{
+            x: 1500,
+          }}
         >
           <Table.Column
             align="center"
             title="Mã đơn"
             fixed="left"
             dataIndex="per_main"
+            width={220}
             render={(val, record, i) => {
               return record._id
             }}
           />
 
-          <Table.Column align="left" title="Dịch vụ" dataIndex="" render={renderService} width={250} />
+          <Table.Column align="left" title="Dịch vụ" dataIndex="" render={renderService} />
 
           <Table.Column
             align="center"
             title="Ngày tạo"
+            width={100}
             render={(val, record, i) => {
               return (
                 <span style={{ display: 'block', width: '80px' }}>{dayjs(record.createdAt).format('DD/MM/YYYY')}</span>
@@ -186,6 +191,7 @@ const UserOrder = () => {
           <Table.Column
             align="center"
             title="Giá tiền"
+            width={150}
             render={(val, record, i) => {
               return <span style={{ display: 'block', width: '150px' }}>{number_format(record?.price)} VND</span>
             }}
@@ -194,6 +200,7 @@ const UserOrder = () => {
           <Table.Column
             align="center"
             title="Hóa đơn"
+            width={170}
             render={(val, record, i) => {
               const isHaveTransaction = record?.transactionId?.paymentType
               if (!isHaveTransaction) return '-'
@@ -211,7 +218,7 @@ const UserOrder = () => {
           <Table.Column
             align="center"
             title="Cổng thanh toán"
-            style={{ width: 150 }}
+            width={175}
             dataIndex=""
             render={(val, record, i) => {
               const isHaveTransaction = record?.transactionId?.paymentType
@@ -226,6 +233,7 @@ const UserOrder = () => {
           <Table.Column
             align="center"
             title="Thanh toán"
+            width={150}
             dataIndex=""
             render={(val, record, i) => {
               return record?.transactionId?.isPayment ? (
@@ -238,7 +246,7 @@ const UserOrder = () => {
 
           <Table.Column
             align="center"
-            width={100}
+            width={80}
             render={(v, record, i) => (
               <div className={styles.btnGroup}>
                 {record.payment ? (

@@ -21,7 +21,7 @@ export default function CreateCompanyPreview() {
       <Col span={24}>
         {base_val && (
           <Card title="Vốn điều lệ" className="box__shadow" size="small" style={{ margin: '0 0 20px 0' }}>
-            <DisplayInfo labelKey={'num'} value={base_val?.num} />
+            <DisplayInfo labelKey={'num'} value={base_val?.num ? number_format(base_val?.num) + ' đ' : '' } />
             <DisplayInfo labelKey={'char'} value={base_val?.char} />
           </Card>
         )}
@@ -39,7 +39,7 @@ export default function CreateCompanyPreview() {
                         <DisplayInfo labelKey={'name'} value={item?.name} />
                         <DisplayInfo
                           labelKey={'capital'}
-                          value={item?.capital ? number_format(item?.capital) + 'đ' : ''}
+                          value={item?.capital ? number_format(item?.capital) + ' đ' : ''}
                         />
                         <DisplayInfo labelKey={'gender'} value={item?.gender} />
                         <DisplayInfo
@@ -86,7 +86,7 @@ export default function CreateCompanyPreview() {
                         <DisplayInfo labelKey={'company_name'} value={item?.organization?.name} />
                         <DisplayInfo
                           labelKey={'capital'}
-                          value={item?.capital ? number_format(item?.capital) + 'đ' : ''}
+                          value={item?.capital ? number_format(item?.capital) + ' đ' : ''}
                         />
                         <DisplayInfo labelKey={'mst'} value={item?.organization?.mst} />
                         <DisplayInfo
