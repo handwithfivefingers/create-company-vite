@@ -14,7 +14,7 @@ libre.convertAsync = require('util').promisify(libre.convert)
 
 const { sendmailWithAttachments } = new MailService()
 module.exports = class FileTemplate {
-  checkingOrder = async (req, res) => {
+  checkingOrder = async (req, res, next) => {
     if (process.env.NODE_ENV !== 'development') return res.status(200).json({ message: 'ngonnn' })
 
     try {
@@ -25,8 +25,8 @@ module.exports = class FileTemplate {
       return res.status(200).json({ data: [] })
     } catch (err) {
       console.log('checkingOrder err', err)
-
-      return errHandler(err, res)
+      next(err)
+      // return errHandler(err, res)
     }
   }
 

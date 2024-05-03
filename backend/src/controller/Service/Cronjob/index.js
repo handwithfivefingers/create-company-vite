@@ -13,7 +13,6 @@ module.exports = class CronTab {
   constructor() {
     console.log('Cron loaded')
   }
-
   task = cron.schedule(
     '* * * * *',
     async () => {
@@ -25,6 +24,7 @@ module.exports = class CronTab {
         if (_order) return this.handleConvertFile(_order)
       } catch (error) {
         console.log('error scheduled', error)
+        
       }
     },
     {

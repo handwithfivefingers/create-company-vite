@@ -15,7 +15,8 @@ const AppRouter = require('../route')
 const GitRouter = require('../route/v1/git')
 
 const { TrackingApi } = require('../middleware')
-
+const BotService = require('../service/v1/third-connect/bot.service')
+const moment = require('moment-timezone')
 env.config()
 
 const { NODE_ENV } = process.env
@@ -36,6 +37,8 @@ const corsOptions = {
   credentials: true,
   origin: URL_PERMISSIONS,
 }
+
+const TelegramBot = new BotService()
 
 module.exports = class ConfigApp {
   constructor(app) {
@@ -123,6 +126,16 @@ module.exports = class ConfigApp {
 
   onHandlerError = () => {
     this.app.use((err, req, res, next) => {
+      const msg = `
+
+     <b>${moment().format("YYYY/MM/DD HH:mm:ss")}:</b>
+      - IP: <code>${req.remoteAddress?.replace('::ffff:', '')}</code> 
+      - URL:<code>${req.originalUrl} </code>
+      - Description: <code>${JSON.stringify(err)}</code>
+
+      --------------------------------------------------------------------------------
+      `
+      TelegramBot.onSendMessage({ message: msg })
       res.status(500).send({
         error: err.stack,
         message: 'Internal Server Error',

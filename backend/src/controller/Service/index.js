@@ -1,5 +1,5 @@
-const payment = require('./payment')
-const cronjob = require('./cronjob')
+const payment = require('./Payment')
+const cronjob = require('./Cronjob')
 const ReadAndWrite = require('./ReadAndWrite')
 
 module.exports = {

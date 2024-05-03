@@ -33,19 +33,20 @@ module.exports = class OrderAdmin {
       return errHandler(err, res)
     }
   }
-  convertOrderToFilesManual = async (req, res) => {
+  convertOrderToFilesManual = async (req, res, next) => {
     try {
       const data = await new OrderService(req).convertFileManual(req)
       return successHandler(data, res)
     } catch (error) {
-      return errHandler(error, res)
+      // return errHandler(error, res)
+      next(error)
     }
   }
 
-  getFilesPreviewer = async (req,res) => {
+  getFilesPreviewer = async (req, res) => {
     try {
       let { id } = req.params
-      const data = await new OrderService(req).onFilesPreviews({id})
+      const data = await new OrderService(req).onFilesPreviews({ id })
       return successHandler(data, res)
     } catch (err) {
       console.log('getOrderBySlug error')

@@ -175,19 +175,21 @@ const AdminOrder = () => {
     return html
   }
 
-  const dispatch = useDispatch()
-  const action = useFileAction()
-  const onConvertFileManual = async (record) => {
-    try {
-      navigate(`/admin/editor/${record._id}`)
-    } catch (error) {
-      throw error
+  const onFilter = async ({ _id, product }) => {
+    let nextState = [...data?.data]
+    if (_id || product) {
+      if (_id) {
+        nextState = nextState.filter((item) => item.id === _id)
+      }
+      if (product) {
+        nextState = nextState.filter((item) => !!item.data[product])
+      }
+      console.log('nextState', nextState)
+      pagiConfigs.total = nextState?.length
+      setOrderData(nextState)
     }
   }
-
-  const onFilter = (val) => {
-    console.log('val', val)
-  }
+  console.log('orderData', orderData)
   return (
     <>
       <AdminHeader title="Quản lý đơn hàng" />
@@ -201,6 +203,7 @@ const AdminOrder = () => {
               </Form.Item>
               <Form.Item name="product" label="Sản phẩm">
                 <Select
+                  allowClear
                   options={[
                     { label: 'Thành lập doanh nghiệp', value: 'create_company' },
                     { label: 'Thay đổi thông tin', value: 'change_info' },
@@ -288,7 +291,15 @@ const AdminOrder = () => {
         </div>
 
         <div className={styles.pagination}>
-          <CCPagination {...pagiConfigs} />
+          {/* <CCPagination {...pagiConfigs} /> */}
+          <CCPagination
+            current={current}
+            pageSize={10}
+            total={orderData.length}
+            onChange={(current) => {
+              setCurrent(current)
+            }}
+          />
         </div>
 
         <UpdateOrderModal
@@ -296,7 +307,6 @@ const AdminOrder = () => {
           onUpdateOrder={onUpdateOrder}
           onUpdateStatus={onUpdateStatus}
           onPreviewPDF={onPreviewPDF}
-          onConvertFileManual={onConvertFileManual}
           width={300}
         />
         <MailStatusModal ref={statusModalRef} />

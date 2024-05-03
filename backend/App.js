@@ -27,9 +27,11 @@ const { onConvertFiles, onBackupDB, onGenSSL } = new Cronjob()
 
 initEnvLoaded()
 onInit()
+
 app.listen(RUNTIME_PORT, async () => {
   await connectDB()
   // onConvertFiles()
   onBackupDB()
   onGenSSL()
+
 })

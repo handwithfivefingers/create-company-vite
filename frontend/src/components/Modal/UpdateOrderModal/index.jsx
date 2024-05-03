@@ -6,6 +6,7 @@ import { MdSettingsBackupRestore } from 'react-icons/md'
 import styles from './styles.module.scss'
 import { useDispatch } from 'react-redux'
 import { useFileAction } from '../../../store/actions/file.action'
+import { useNavigate } from 'react-router-dom'
 
 const UpdateOrderModal = forwardRef((props, ref) => {
   const [loading, setLoading] = useState(false)
@@ -14,7 +15,7 @@ const UpdateOrderModal = forwardRef((props, ref) => {
   const [data, setData] = useState({})
   const dispatch = useDispatch()
   const action = useFileAction()
-
+  const navigate = useNavigate()
   useImperativeHandle(
     ref,
     () => ({
@@ -22,7 +23,6 @@ const UpdateOrderModal = forwardRef((props, ref) => {
       closeModal,
       setData,
       setLoading,
-      onConvertFileManual,
     }),
     [props],
   )
@@ -33,7 +33,8 @@ const UpdateOrderModal = forwardRef((props, ref) => {
       const resp = await AdminOrderService.onConvertManual(record._id)
       const data = resp.data.data
       dispatch(action.onUpdateFiles(data))
-      return props.onConvertManual(record)
+      //  props.onConvertManual(record)
+      navigate(`/admin/editor/${record._id}`)
     } catch (error) {
       throw error
     } finally {

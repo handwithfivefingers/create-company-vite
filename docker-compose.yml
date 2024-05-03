@@ -41,7 +41,7 @@ services:
     entrypoint: ["/bin/sh", "-c"]
     command:
       - npm start
-    restart: always
+    restart: on-failure
   cc-fe:
     build:
       context: .
