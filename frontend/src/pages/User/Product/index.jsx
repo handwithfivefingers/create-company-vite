@@ -62,7 +62,8 @@ const UserProductPage = () => {
                 ['--animate-duration']: `${(index + 2) / 10}s`,
                 ['--animate-delay']: `0.3s`,
               }}
-              clickable={item.slug === 'thanh-lap-doanh-nghiep' || item.slug === "thay-doi-thong-tin"}
+              clickable={true}
+              // clickable={item.slug === 'thanh-lap-doanh-nghiep' || item.slug === "thay-doi-thong-tin"}
             />
           </Skeleton>
         )

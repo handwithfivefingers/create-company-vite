@@ -179,10 +179,6 @@ const AdminOrder = () => {
   const action = useFileAction()
   const onConvertFileManual = async (record) => {
     try {
-      const resp = await AdminOrderService.onConvertManual(record._id)
-      console.log('resp', resp)
-      const data = resp.data.data
-      dispatch(action.onUpdateFiles(data))
       navigate(`/admin/editor/${record._id}`)
     } catch (error) {
       throw error

@@ -1,23 +1,45 @@
-import { Modal, Button, Space, Dropdown } from 'antd'
+import AdminOrderService from '@/service/AdminService/AdminOrderService'
+import { EyeOutlined, FormOutlined, MailOutlined } from '@ant-design/icons'
+import { Button, Modal } from 'antd'
 import React, { forwardRef, useImperativeHandle, useState } from 'react'
-import styles from './styles.module.scss'
-import { DownOutlined, EyeOutlined, FormOutlined, MailOutlined } from '@ant-design/icons'
 import { MdSettingsBackupRestore } from 'react-icons/md'
+import styles from './styles.module.scss'
+import { useDispatch } from 'react-redux'
+import { useFileAction } from '../../../store/actions/file.action'
+
 const UpdateOrderModal = forwardRef((props, ref) => {
-  const { onUpdateOrder, onUpdateStatus, onPreviewPDF, onConvertFileManual, ...rest } = props
+  const [loading, setLoading] = useState(false)
+  const { onUpdateOrder, onUpdateStatus, onPreviewPDF, ...rest } = props
   const [open, setOpen] = useState(false)
   const [data, setData] = useState({})
+  const dispatch = useDispatch()
+  const action = useFileAction()
+
   useImperativeHandle(
     ref,
-    () => {
-      return {
-        openModal,
-        closeModal,
-        setData,
-      }
-    },
+    () => ({
+      openModal,
+      closeModal,
+      setData,
+      setLoading,
+      onConvertFileManual,
+    }),
     [props],
   )
+
+  const onConvertFileManual = async (record) => {
+    try {
+      setLoading(true)
+      const resp = await AdminOrderService.onConvertManual(record._id)
+      const data = resp.data.data
+      dispatch(action.onUpdateFiles(data))
+      return props.onConvertManual(record)
+    } catch (error) {
+      throw error
+    } finally {
+      setLoading(false)
+    }
+  }
   const openModal = () => setOpen(true)
   const closeModal = () => setOpen(false)
   const items = [
@@ -64,6 +86,7 @@ const UpdateOrderModal = forwardRef((props, ref) => {
             onClick={() => onConvertFileManual(data)}
             icon={<MdSettingsBackupRestore fontSize={16} />}
             style={{ display: 'flex', alignItems: 'center', gap: 8 }}
+            loading={loading}
           >
             Manual Convert & Edit
           </Button>
@@ -78,4 +101,5 @@ const UpdateOrderModal = forwardRef((props, ref) => {
   )
 })
 
+UpdateOrderModal.displayName = 'UpdateOrderModal'
 export default UpdateOrderModal
