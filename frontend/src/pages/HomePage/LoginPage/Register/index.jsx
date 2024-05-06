@@ -72,7 +72,7 @@ const RegisterProvider = () => {
       const email = form.getFieldValue('email')
       const phoneNum = getPhoneNumber(phone)
 
-      const result = await sendOTP({ deleteOldUser: true, phone: phoneNum, email, type: TYPE_VERIFY.SMS })
+      const result = await sendOTP({ deleteOldUser: true, phone: phoneNum, email, type: TYPE_VERIFY['EMAIL'] })
       message.success(result.data.message)
       modalRef.current.onToggle()
       navigate('/verification')

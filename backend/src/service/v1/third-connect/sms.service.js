@@ -1,11 +1,15 @@
 const axios = require('axios')
-const http = require('http')
-const https = require('https')
-const LogService = require('../user/log.service')
+const curlirize = require('axios-curlirize')
+const BotService = require('../third-connect/bot.service')
+const TelegramBot = new BotService()
+const moment = require('moment-timezone')
 const ESMS = {
   API_KEY: 'BB46E3C6BB6D587D4B22A63DE9EEC0',
   SECRET_KEY: 'EDCE522055CFADEEA2A0B165199D59',
 }
+
+curlirize(axios)
+
 module.exports = class SMSService {
   apiPath = {
     sendSMS: `http://rest.esms.vn/MainService.svc/json/SendMultipleMessage_V4_post_json/`,
@@ -24,14 +28,35 @@ module.exports = class SMSService {
         SecretKey: ESMS.SECRET_KEY,
         Sandbox: 0,
         SmsType: 2,
-        Unicode,
+        IsUnicode: Unicode,
         Brandname,
         Content: this.templateSMS({ otp: code }),
         Phone: phone,
       }
       console.log('sendESMS params', params)
-      // const url = 'http://rest.esms.vn/MainService.svc/json/SendMultipleMessage_V4_post_json/'
-      const resp = await axios.post(this.apiPath.sendSMS, { ...params })
+
+      const resp = await axios.post(
+        this.apiPath.sendSMS,
+        { ...params },
+        {
+          headers: {
+            'Content-Type': 'application/json;',
+          },
+        },
+      )
+
+      if (!resp.data || resp.data.CodeResult !== 200) {
+        const msg = `
+        <b>${moment().format('YYYY/MM/DD HH:mm:ss')}:</b>
+         - IP: <code>${req.remoteAddress?.replace('::ffff:', '')}</code> 
+         - URL:<code>${req.originalUrl} </code>
+         - Description: <code>${JSON.stringify(resp.data)}</code>
+   
+         --------------------------------------------------------------------------------
+         `
+
+        TelegramBot.onSendMessage({ message: msg })
+      }
       return resp.data
     } catch (error) {
       throw error

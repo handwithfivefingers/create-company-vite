@@ -13,7 +13,7 @@ const LoginForm = () => {
   const formRef = useRef()
   const { status, role } = useAuthStore()
   const route = useRouterData()
-  const [typeVerify, setTypeVerify] = useState(TYPE_VERIFY['SMS'])
+  const [typeVerify, setTypeVerify] = useState(TYPE_VERIFY['EMAIL'])
   const navigate = useNavigate()
   const location = useLocation()
 
@@ -114,23 +114,47 @@ const LoginForm = () => {
         ]}
       >
         <Form layout="vertical" onFinish={onFinish} ref={formRef} onFinishFailed={handleFinishFail}>
-          <Form.Item
-            name={['phone']}
-            label="Số điện thoại"
-            rules={FIELD_RULE['PHONE']}
-            required
-            key={FIELD_RULE['PHONE']}
-          >
-            <Input addonBefore={<span style={{ fontSize: 16 }}>+84</span>} />
-          </Form.Item>
+          {typeVerify === TYPE_VERIFY['SMS'] ? (
+            <>
+              <Form.Item
+                name={['phone']}
+                label="Số điện thoại"
+                rules={FIELD_RULE['PHONE']}
+                required
+                key={FIELD_RULE['PHONE']}
+              >
+                <Input addonBefore={<span style={{ fontSize: 16 }}>+84</span>} />
+              </Form.Item>
 
-          <Form.Item noStyle>
-            <div className="d-flex flex-column align-items-center " style={{ gap: 12, paddingTop: 12 }}>
-              <Button type="primary" loading={loading} block htmlType="submit">
-                Xác thực
-              </Button>
-            </div>
-          </Form.Item>
+              <Form.Item noStyle>
+                <div className="d-flex flex-column align-items-center " style={{ gap: 12, paddingTop: 12 }}>
+                  <Button type="primary" loading={loading} block htmlType="submit">
+                    Xác thực
+                  </Button>
+                </div>
+              </Form.Item>
+            </>
+          ) : (
+            <>
+              <Form.Item
+                name={['email']}
+                label="Địa chỉ email"
+                rules={FIELD_RULE['EMAIL']}
+                required
+                key={FIELD_RULE['EMAIL']}
+              >
+                <Input />
+              </Form.Item>
+
+              <Form.Item noStyle>
+                <div className="d-flex flex-column align-items-center " style={{ gap: 12, paddingTop: 12 }}>
+                  <Button type="primary" loading={loading} block htmlType="submit">
+                    Xác thực
+                  </Button>
+                </div>
+              </Form.Item>
+            </>
+          )}
         </Form>
       </Card>
     </div>

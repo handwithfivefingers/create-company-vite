@@ -106,7 +106,7 @@ module.exports = class MailService {
       let transport = await this.createTransport()
       return transport.sendMail(params)
     } catch (err) {
-      console.log('sendMail failed')
+      console.log('sendMail failed', err)
       throw err
     }
   }

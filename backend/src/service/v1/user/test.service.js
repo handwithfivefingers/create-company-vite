@@ -1,7 +1,7 @@
 const { Order, Setting } = require('../../../model')
 const libre = require('libreoffice-convert')
-const { errHandler } = require('../../../response')
-const { generateDocs } = require('../../../common/odt.template')
+// const { errHandler } = require('../../../response')
+// const { generateDocs } = require('../../../common/odt.template')
 const { uniqBy } = require('lodash')
 libre.convertAsync = require('util').promisify(libre.convert)
 const { getListFiles } = require('../../../constant/File')
@@ -87,7 +87,7 @@ module.exports = class TestService {
           // Convert
 
           let data = JSON.stringify({
-            url: `https://f1d6-113-161-77-123.ngrok-free.app/public/${baseDir}/doc/${file.name}.docx`,
+            url: `https://ebcd-27-74-247-118.ngrok-free.app/public/${baseDir}/doc/${file.name}.docx`,
             key: shortid(),
             fileType: 'docx',
             outputtype: 'pdf',

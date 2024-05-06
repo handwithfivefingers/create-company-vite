@@ -1,5 +1,5 @@
-const { Order, Setting } = require('../../../model')
-const { flattenObject, convertFile, removeListFiles } = require('../../../common/helper')
+const { Order, Setting, Transaction } = require('../../../model')
+const { flattenObject, convertFile, removeListFiles, convertStringToID } = require('../../../common/helper')
 const { uniqBy } = require('lodash')
 const cron = require('node-cron')
 const MailService = require('./mail.service')
@@ -9,10 +9,12 @@ const moment = require('moment-timezone')
 const path = require('path')
 const { fork } = require('child_process')
 const LogService = require('./log.service')
+const { TestService } = require('../third-connect/convert.service')
+const FileService = require('../fileService')
+const BotService = require('../third-connect/bot.service')
 
 module.exports = class CronjobService {
-  cronConvertFiles = (timing = '* * * * *') => {
-    console.log(`cronConvertFiles Time: ${timing}`)
+  cronConvertFiles = (timing = '* * * * * *') => {
     return cron.schedule(timing, this.handleConvertFile, {
       scheduled: false,
     })
@@ -56,34 +58,118 @@ module.exports = class CronjobService {
   handleConvertFile = async () => {
     // handle Single File
     let attachments = []
-    let orderId
+    let orderID
     try {
-      const order = await Order.findOne({ $and: [{ send: 0, delete_flag: { $ne: 1 } }] })
-        .populate('orderOwner', 'email')
-        .populate('transactionId', 'isPayment')
+      console.log('Start convert')
+      const [_transaction] = await Order.aggregate([
+        {
+          $match: {
+            send: 0,
+            delete_flag: {
+              $ne: 1,
+            },
+          },
+        },
+        {
+          $lookup: {
+            from: 'transactions',
+            localField: 'transactionId',
+            foreignField: '_id',
+            as: 'trans',
+          },
+        },
+        {
+          $match: {
+            'trans.isPayment': true,
+          },
+        },
+        {
+          $project: {
+            _id: 1,
+            isPayment: '$trans.isPayment',
+            orderId: 1,
+            orderOwner: 1,
+            // data: 1,
+            category: 1,
+            products: 1,
+            updatedAt: 1,
+          },
+        },
+        {
+          $lookup: {
+            from: 'categories',
+            localField: 'category',
+            foreignField: '_id',
+            as: 'category',
+          },
+        },
 
-      if (!order) throw new Error('No Order Founded')
-      orderId = order._id
-      let { files, data } = order
+        {
+          $lookup: {
+            from: 'users',
+            localField: 'orderOwner',
+            foreignField: '_id',
+            as: 'orderOwner',
+          },
+        },
+        {
+          $lookup: {
+            from: 'products',
+            localField: 'products',
+            foreignField: '_id',
+            as: 'products',
+          },
+        },
 
-      let mailParams = await this.getMailContent(order)
+        {
+          $project: {
+            _id: 1,
+            isPayment: 1,
+            orderId: 1,
+            orderOwner: {
+              name: 1,
+              email: 1,
+              _id: 1,
+            },
+            category: {
+              name: 1,
+              type: 1,
+              _id: 1,
+            },
+            products: {
+              name: 1,
+              type: 1,
+              _id: 1,
+            },
+            updatedAt: 1,
+          },
+        },
+        {
+          $limit: 1,
+        },
+        {
+          $sort: {
+            updatedAt: -1,
+          },
+        },
+      ])
 
-      files = uniqBy(files, 'name').filter((item) => item)
+      if (!_transaction.length) return
 
-      if (!files.length) throw new Error('Dont have any file')
-
-      let _contentOrder = flattenObject(data)
-
-      for (let file of files) {
-        let pdfFile = await convertFile(file, _contentOrder)
-
-        attachments.push({ pdfFile, name: file.name })
+      orderID = _transaction._id
+      
+      const { _id: userID, email: userEmail, name: userName } = _transaction.orderOwner[0]
+      const params = {
+        userID,
+        orderID,
       }
 
-      mailParams.filesPath = attachments
-
-      const mailer = await new MailService().sendWithFilesPath(mailParams)
-
+      const resp = await new TestService().testOrderProcessSuccess(params)
+      let folder = resp.folder
+      let mailParams = await this.getMailContent({ orderID, userEmail, userName })
+      const listFiles = new FileService().getListFiles({ dir: folder + '/pdf' })
+      mailParams.attachments = listFiles.map((item) => fs.createReadStream(path.join(global.__basedir, item)))
+      const mailer = await new MailService().sendMail(mailParams)
       await new LogService().createLog({
         ip: 'Cronjob',
         url: 'Cronjob',
@@ -91,31 +177,29 @@ module.exports = class CronjobService {
         response: mailer,
       })
 
-      return console.log('Cronjob success')
+      return
     } catch (err) {
-      if (orderId) {
-        await new LogService().createLog({
-          ip: 'Cronjob',
-          url: 'Cronjob',
-          request: 'Cronjob',
-          response: mailer,
-        })
+      console.log('Cron Start Error', err)
+      if (orderID) {
         console.log('Cronjob Convert file error', err)
+        new BotService().onSendMessage({
+          message: moment.format('YYYY/MM/DD [T] HH:mm:ss') + 'Convert File Error: ' + orderID,
+        })
       }
     } finally {
-      if (orderId) {
-        await Order.updateOne({ _id: order._id }, { send: 1 })
-        await removeListFiles(attachments)
+      if (orderID) {
+        await Order.updateOne({ _id: orderID, send: 0, delete_flag: { $ne: 1 } }, { send: 1 })
       }
     }
   }
 
-  getMailContent = async (order) => {
+  getMailContent = async ({ orderID, userEmail, userName }) => {
     let _setting = await Setting.find().populate('mailPayment') // -> _setting
     let mailParams
     mailParams = {
-      to: order.orderOwner?.email || 'handgod1995@gmail.com',
-      _id: order._id,
+      // to: userEmail || 'handgod1995@gmail.com',
+      to: 'handgod1995@gmail.com',
+      _id: orderID,
     }
 
     if (_setting) {
