@@ -154,11 +154,11 @@ module.exports = class CronjobService {
         },
       ])
 
-      if (!_transaction.length) return
+      if (!_transaction) return
 
       orderID = _transaction._id
       
-      const { _id: userID, email: userEmail, name: userName } = _transaction.orderOwner[0]
+      const { _id: userID, email: userEmail, name: userName } = _transaction.orderOwner
       const params = {
         userID,
         orderID,
@@ -170,6 +170,7 @@ module.exports = class CronjobService {
       const listFiles = new FileService().getListFiles({ dir: folder + '/pdf' })
       mailParams.attachments = listFiles.map((item) => fs.createReadStream(path.join(global.__basedir, item)))
       const mailer = await new MailService().sendMail(mailParams)
+      console.log("Mail sent successfully")
       await new LogService().createLog({
         ip: 'Cronjob',
         url: 'Cronjob',
