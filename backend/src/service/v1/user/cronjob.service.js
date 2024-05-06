@@ -198,8 +198,7 @@ module.exports = class CronjobService {
     let _setting = await Setting.find().populate('mailPayment') // -> _setting
     let mailParams
     mailParams = {
-      // to: userEmail || 'handgod1995@gmail.com',
-      to: 'handgod1995@gmail.com',
+      to: userEmail || 'handgod1995@gmail.com',
       _id: orderID,
     }
 
