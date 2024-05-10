@@ -1,5 +1,6 @@
 const CronjobService = require('../../../service/v1/user/cronjob.service')
 const BotService = require('../../../service/v1/third-connect/bot.service')
+const TELEGRAM_CODE = require('../../../constant/telegramCode')
 
 module.exports = class CronjobController {
   constructor() {}
@@ -10,7 +11,10 @@ module.exports = class CronjobController {
       console.log(`=> Cron Schedule: onConvertFiles start`)
     } catch (error) {
       console.log('onConvertFiles error ', error)
-      new BotService().onSendMessage({ message: `<b>JOB: ConvertFile</b><code>${JSON.stringify(err)}</code>` })
+      new BotService().onSendMessageFromThread({
+        message: `<b>JOB: ConvertFile</b><code>${JSON.stringify(err)}</code>`,
+        message_thread_id: TELEGRAM_CODE.TOPIC.ERROR,
+      })
     }
   }
   onBackupDB = async (req, res) => {

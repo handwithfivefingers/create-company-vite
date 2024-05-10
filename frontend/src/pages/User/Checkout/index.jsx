@@ -13,7 +13,7 @@ const BANK_INFO = {
   NAME: 'Ngân hàng TMCP Quân Đội',
   CODE: '005686868',
   DESCRIPTION: 'Công ty TNHH Dịch vụ Tư vấn Warren B',
-  IMG: '/public/QR_code.jpg',
+  IMG: '/QR_code.jpg',
 }
 
 const Checkout = () => {

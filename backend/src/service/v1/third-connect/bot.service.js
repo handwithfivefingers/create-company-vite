@@ -1,6 +1,7 @@
 // USING TELEGRAM
 const { BOT_Token } = require('../../../configs/telegram')
 const { Bot } = require('grammy')
+const TELEGRAM_CODE = require('../../../constant/telegramCode')
 // bot.on('message:text', (ctx) => {
 //   console.log('ctx', JSON.stringify(ctx, 0, 4))
 //   return ctx.reply('Echo:' + ctx.message.text)
@@ -16,9 +17,38 @@ module.exports = class BotService {
     this.TLCTBot.start()
   }
 
-  onSendMessage = async ({ message, groupID = -1002113835906 }) => {
+  onSendMessage = async ({ message, groupID = TELEGRAM_CODE.GROUP }) => {
     try {
       await this.TLCTBot.api.sendMessage(groupID, message, { parse_mode: 'HTML' })
+      return true
+    } catch (error) {
+      console.error('Bot send error: ' + error)
+      return error
+    }
+  }
+  onSendMessageFromThread = async ({
+    message,
+    groupID = TELEGRAM_CODE.GROUP,
+    message_thread_id = TELEGRAM_CODE.TOPIC.ERROR,
+    parse_mode = 'HTML',
+  }) => {
+    try {
+      await this.TLCTBot.api.sendMessage(groupID, message, { message_thread_id, parse_mode })
+      return true
+    } catch (error) {
+      console.error('Bot send error: ' + error)
+      return error
+    }
+  }
+
+  registerListeners = async () => {
+    try {
+      // await this.TLCTBot.api.sendMessage(groupID, message, { parse_mode: 'HTML' })
+      await this.TLCTBot.on('message:text', (ctx) => {
+        console.log('ctx', JSON.stringify(ctx, null, 4))
+        console.log('THREAD ID', ctx.update?.message?.message_thread_id)
+        // this.TLCTBot.api.sendMessage(-1002113835906, ctx.message.text, { message_thread_id: 38 })
+      })
       return true
     } catch (error) {
       console.error('Bot send error: ' + error)

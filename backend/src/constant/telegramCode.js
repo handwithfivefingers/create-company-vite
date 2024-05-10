@@ -1,0 +1,9 @@
+const TELEGRAM_CODE = {
+  TOPIC: {
+    ERROR: 38,
+    CONVERT: 62,
+  },
+  GROUP: -1002113835906, // SAME AS GENERAL TOPIC
+}
+
+module.exports = TELEGRAM_CODE

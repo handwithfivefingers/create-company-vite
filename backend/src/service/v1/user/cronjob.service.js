@@ -12,6 +12,7 @@ const LogService = require('./log.service')
 const { TestService } = require('../third-connect/convert.service')
 const FileService = require('../fileService')
 const BotService = require('../third-connect/bot.service')
+const TELEGRAM_CODE = require('../../../constant/telegramCode')
 
 module.exports = class CronjobService {
   cronConvertFiles = (timing = '* * * * * *') => {
@@ -57,7 +58,6 @@ module.exports = class CronjobService {
 
   handleConvertFile = async () => {
     // handle Single File
-    let attachments = []
     let orderID
     try {
       console.log('Start convert')
@@ -157,7 +157,7 @@ module.exports = class CronjobService {
       if (!_transaction) return
 
       orderID = _transaction._id
-      
+
       const { _id: userID, email: userEmail, name: userName } = _transaction.orderOwner
       const params = {
         userID,
@@ -170,7 +170,18 @@ module.exports = class CronjobService {
       const listFiles = new FileService().getListFiles({ dir: folder + '/pdf' })
       mailParams.attachments = listFiles.map((item) => fs.createReadStream(path.join(global.__basedir, item)))
       const mailer = await new MailService().sendMail(mailParams)
-      console.log("Mail sent successfully")
+      console.log('Mail sent successfully')
+
+      new BotService().onSendMessageFromThread({
+        message: `
+        <code>   -----------------------------------------------------------------------</code>
+        <b>${moment().format()}</b>
+        Order ${orderID} have been payment, converted, and sent to email successfully
+        <code>-----------------------------------------------------------------------</code>
+        `,
+        message_thread_id: TELEGRAM_CODE.TOPIC.CONVERT,
+      })
+
       await new LogService().createLog({
         ip: 'Cronjob',
         url: 'Cronjob',
