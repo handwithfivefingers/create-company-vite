@@ -15,7 +15,7 @@ const BotService = require('../third-connect/bot.service')
 const TELEGRAM_CODE = require('../../../constant/telegramCode')
 
 module.exports = class CronjobService {
-  cronConvertFiles = (timing = '* * * * * *') => {
+  cronConvertFiles = (timing = '*/5 * * * * *') => {
     return cron.schedule(timing, this.handleConvertFile, {
       scheduled: false,
     })
