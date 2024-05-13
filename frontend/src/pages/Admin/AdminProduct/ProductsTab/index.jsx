@@ -1,7 +1,7 @@
 import CCPagination from '@/components/CCPagination'
 import AdminProductService from '@/service/AdminService/AdminProductService'
 import { DeleteOutlined, EditOutlined, FormOutlined } from '@ant-design/icons'
-import { Button, Drawer, Popconfirm, Space, Table } from 'antd'
+import { Button, Drawer, Popconfirm, Space, Table, List, Tag } from 'antd'
 import React, { forwardRef, memo, useState } from 'react'
 import { number_format } from '../../../../helper/Common'
 import { useFetch } from '../../../../helper/Hook'
@@ -107,17 +107,7 @@ const ProductsTab = forwardRef((props, ref) => {
             )}
           />
 
-          <Table.Column
-            title="Danh mục"
-            width={250}
-            render={(val, { categories }, i) =>
-              categories?.map(({ name, index }) => (
-                <span className="inline" style={{ display: 'block', width: '250px' }} key={[name, i, index]}>
-                  {name}
-                </span>
-              ))
-            }
-          />
+          <Table.Column title="Danh mục" width={250} render={(val, record) => <CategoryCell {...record} />} />
 
           <Table.Column
             title="Giá tiền"
@@ -166,3 +156,18 @@ const ProductsTab = forwardRef((props, ref) => {
   )
 })
 export default memo(ProductsTab)
+
+const CategoryCell = ({ categoryData, parentData }) => {
+  return parentData.map(({ name }) => {
+    return (
+      <>
+        <List className="p-4" size="small">
+          <Tag color="#108ee9">{name}</Tag>
+          {categoryData.map(({ name: cateName }) => {
+            return <List.Item>{cateName}</List.Item>
+          })}
+        </List>
+      </>
+    )
+  })
+}

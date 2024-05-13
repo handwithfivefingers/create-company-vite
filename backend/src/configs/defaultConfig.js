@@ -17,6 +17,7 @@ const GitRouter = require('../route/v1/git')
 const { TrackingApi } = require('../middleware')
 const BotService = require('../service/v1/third-connect/bot.service')
 const moment = require('moment-timezone')
+const TELEGRAM_CODE = require('../constant/telegramCode')
 env.config()
 
 const { NODE_ENV } = process.env
@@ -128,11 +129,10 @@ module.exports = class ConfigApp {
     this.app.use((err, req, res, next) => {
       const msg = `
 
-     <b>${moment().format("YYYY/MM/DD HH:mm:ss")}:</b>
+     <b>${moment().format('YYYY/MM/DD HH:mm:ss')}:</b>
       - IP: <code>${req.remoteAddress?.replace('::ffff:', '')}</code> 
       - URL:<code>${req.originalUrl} </code>
       - Description: <code>${JSON.stringify(err)}</code>
-
       --------------------------------------------------------------------------------
       `
       TelegramBot.onSendMessage({ message: msg })

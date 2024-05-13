@@ -15,3 +15,14 @@
   width: 100%;
   flex-direction: column;
 }
+
+.tabsPanel {
+  :global {
+    .ant-tabs-tabpane-active {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      height: 100%;
+    }
+  }
+}

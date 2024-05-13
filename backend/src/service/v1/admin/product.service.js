@@ -2,10 +2,57 @@ const { Product, Category } = require('../../../model')
 const { successHandler, errHandler } = require('../../../response')
 const BaseAdminService = require('../../../common/baseService')
 const slugify = require('slugify')
+const { default: mongoose } = require('mongoose')
+const { convertStringToID } = require('../../../common/helper')
 module.exports = class ProductAdmin extends BaseAdminService {
   getProduct = async (req, res) => {
     try {
-      let _product = await Product.find({}).populate('categories')
+      // let _product = await Product.find({}).populate('categories')
+      // .populate('parentId')
+
+      let _product = await Product.aggregate([
+        {
+          $lookup: {
+            from: 'categories',
+            localField: 'categories',
+            foreignField: '_id',
+            as: 'categoryData',
+          },
+        },
+        {
+          $lookup: {
+            from: 'categories',
+            localField: 'parentId',
+            foreignField: '_id',
+            as: 'parentData',
+          },
+        },
+        {
+          $project: {
+            name: 1,
+            slug: 1,
+            type: 1,
+            _id: 1,
+            price: 1,
+            categoryData: {
+              name: 1,
+              slug: 1,
+              type: 1,
+              parentCategory: 1,
+              _id: 1,
+            },
+            parentData: {
+              name: 1,
+              desc: 1,
+              slug: 1,
+              type: 1,
+              _id: 1,
+            },
+            // categories: 1,
+            // parentId: 1,
+          },
+        },
+      ])
 
       return { _product, count: _product.length }
     } catch (error) {
@@ -44,17 +91,18 @@ module.exports = class ProductAdmin extends BaseAdminService {
   updateProduct = async (req, res) => {
     try {
       let { _id } = req.params
-      let { categories, name, price } = req.body
+      let { categories, parentId, name, price } = req.body
       let _update = {
         name,
         price,
-        categories,
+        categories: categories.map((id) => convertStringToID(id)),
+        parentId: parentId.map((id) => convertStringToID(id)),
       }
       await Product.updateOne({ _id }, _update, { new: true })
 
       return true
     } catch (error) {
-      throw err
+      throw error
     }
   }
 

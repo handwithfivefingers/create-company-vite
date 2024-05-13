@@ -6,7 +6,7 @@ export default function CCPagination(props) {
   return (
     <Pagination
       className={clsx([styles.pagi, props.className])}
-      size="small"
+      // size="meidum"
       total={props?.total}
       current={props?.current}
       defaultCurrent={1}

@@ -19,12 +19,14 @@
     "animate.css": "^4.1.1",
     "antd": "^4.23.1",
     "axios": "^0.24.0",
+    "chart.js": "^4.4.2",
     "clsx": "^1.1.1",
     "dayjs": "^1.11.10",
     "html-react-parser": "^1.4.5",
     "lodash-es": "^4.17.21",
     "rc-virtual-list": "^3.4.8",
     "react": "^18.2.0",
+    "react-chartjs-2": "^5.2.0",
     "react-dom": "^18.2.0",
     "react-fast-marquee": "^1.6.4",
     "react-icons": "^4.4.0",
@@ -37,6 +39,7 @@
     "vn-num2words": "^1.0.4"
   },
   "devDependencies": {
+    "@redux-devtools/extension": "^3.3.0",
     "@tanstack/react-query-devtools": "^4.0.10",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^14.0.0",
@@ -51,7 +54,6 @@
     "fs-extra": "^11.1.1",
     "rollup-plugin-visualizer": "^5.8.3",
     "vite": "^5.0.0",
-    "@redux-devtools/extension": "^3.3.0",
     "vitest": "^0.34.6"
   }
 }

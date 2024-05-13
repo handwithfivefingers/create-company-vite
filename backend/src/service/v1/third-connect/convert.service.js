@@ -342,7 +342,8 @@ class TestService {
       let config = {
         method: 'post',
         maxBodyLength: Infinity,
-        url: `${process.env.OFFICE_URL}:${process.env.OFFICE_PORT}` +  '/ConvertService.ashx',
+        // url: `${process.env.OFFICE_URL}:${process.env.OFFICE_PORT}` +  '/ConvertService.ashx',
+        url: `https://office.truyenmai.com/ConvertService.ashx`,
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
