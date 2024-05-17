@@ -10,15 +10,21 @@ services:
       dockerfile: ./env/Dockerfile.puppeteer
     ports:
       - 3002:3002
+    platform: linux/amd64
     networks:
       - app_network
     volumes:
       - ./feature/puppeteer:/app
       - /app/node_modules
-    entrypoint: ["/bin/sh", "-c"]
-    command:
-      - npm run dev
-    restart: always
+    # entrypoint: ["/bin/sh", "-c"]
+    # command:
+    #   - npm run dev
+    restart: on-failure
+    logging:
+      driver: "json-file"
+      options:
+        max-file: "5" # number of files or file count
+        max-size: "10m" # file size
   cc-service:
     build:
       context: .
@@ -42,6 +48,11 @@ services:
     command:
       - npm start
     restart: on-failure
+    logging:
+      driver: "json-file"
+      options:
+        max-file: "5" # number of files or file count
+        max-size: "10m" # file size
   cc-fe:
     build:
       context: .

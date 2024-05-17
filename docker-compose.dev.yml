@@ -5,51 +5,57 @@ networks:
 
 services:
   puppeteer-service:
-    build: 
+    build:
       context: .
       dockerfile: ./env/Dockerfile.puppeteer
     ports:
       - 3002:3002
+    platform: linux/amd64
     networks:
       - app_network
     volumes:
       - ./feature/puppeteer:/app
       - /app/node_modules
-    restart: always
-  cc-service:
-    build: 
-      context: .
-      dockerfile: ./env/Dockerfile.server
-    ports:
-      - 3001:3001
-    volumes:
-      - ./backend:/app
-      - ./backend/www:/app/www
-      - /app/node_modules
-    env_file:
-      - .env
-    environment:
-      - WATCHFILES_FORCE_POLLING=true
-    networks:
-      - app_network
-    entrypoint: ["/bin/sh", "-c"]
-    command:
-      - npm run dev
-    # restart: always
-  cc-fe:
-    build: 
-      context: .
-      dockerfile: ./env/Dockerfile.web
-    ports:
-      - 3003:3003
-    volumes:
-      - ./frontend:/app
-      - ./backend/www:/app/www
-      - /app/node_modules
-    env_file:
-      - .env
-    networks:
-      - app_network
-    entrypoint: ["/bin/sh", "-c"]
-    command:
-      - npm run dev
+    restart: on-failure
+    logging:
+      driver: "json-file"
+      options:
+        max-file: "5" # number of files or file count
+        max-size: "10m" # file size
+  # cc-service:
+  #   build:
+  #     context: .
+  #     dockerfile: ./env/Dockerfile.server
+  #   ports:
+  #     - 3001:3001
+  #   volumes:
+  #     - ./backend:/app
+  #     - ./backend/www:/app/www
+  #     - /app/node_modules
+  #   env_file:
+  #     - .env
+  #   environment:
+  #     - WATCHFILES_FORCE_POLLING=true
+  #   networks:
+  #     - app_network
+  #   entrypoint: ["/bin/sh", "-c"]
+  #   command:
+  #     - npm run dev
+  # restart: always
+  # cc-fe:
+  #   build:
+  #     context: .
+  #     dockerfile: ./env/Dockerfile.web
+  #   ports:
+  #     - 3003:3003
+  #   volumes:
+  #     - ./frontend:/app
+  #     - ./backend/www:/app/www
+  #     - /app/node_modules
+  #   env_file:
+  #     - .env
+  #   networks:
+  #     - app_network
+  #   entrypoint: ["/bin/sh", "-c"]
+  #   command:
+  #     - npm run dev

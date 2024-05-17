@@ -30,7 +30,7 @@ onInit()
 
 app.listen(RUNTIME_PORT, async () => {
   await connectDB()
-  onConvertFiles()
+  // onConvertFiles()
   onBackupDB()
   onGenSSL()
 })
