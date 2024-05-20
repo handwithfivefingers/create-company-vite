@@ -44,11 +44,10 @@ const RegisterProvider = () => {
       const { status: userExist, message: msg } = await isUserExist({ email, phone: phoneNum })
 
       if (!userExist) {
-        const result = await sendOTP({ phone: phoneNum, email, type: TYPE_VERIFY['SMS'] })
+        const result = await sendOTP({ phone: phoneNum, email, type: TYPE_VERIFY['EMAIL'] })
         console.log('result', result)
         message.success(result.data.message)
         navigate('/verification')
-
         return
       } else {
         modalRef.current.onToggle()

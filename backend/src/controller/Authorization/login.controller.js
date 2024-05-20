@@ -1,5 +1,8 @@
 const { LoginService } = require('../../service')
 const { signToken } = require('../../common/helper')
+const BotService = require('../../service/v1/third-connect/bot.service')
+const TelegramBot = new BotService()
+
 module.exports = class LoginController {
   constructor() {}
   onHandleGetOTPForLogin = async (req, res) => {
@@ -20,6 +23,11 @@ module.exports = class LoginController {
         },
       })
     } catch (error) {
+      TelegramBot.onHandleErrorMsg({
+        remoteAddress: req.remoteAddress,
+        originalUrl: req.originalUrl,
+        data: error,
+      })
       return res.status(400).json({
         ...error,
         message: error.toString(),
@@ -34,6 +42,11 @@ module.exports = class LoginController {
         role: req.role,
       })
     } catch (error) {
+      TelegramBot.onHandleErrorMsg({
+        remoteAddress: req.remoteAddress,
+        originalUrl: req.originalUrl,
+        data: error,
+      })
       return res.status(401).json({
         ...error,
         message: error?.message,
@@ -48,6 +61,11 @@ module.exports = class LoginController {
         data,
       })
     } catch (error) {
+      TelegramBot.onHandleErrorMsg({
+        remoteAddress: req.remoteAddress,
+        originalUrl: req.originalUrl,
+        data: error,
+      })
       console.log('LoginAsAdmin error', error)
       return res.status(400).json({
         error,

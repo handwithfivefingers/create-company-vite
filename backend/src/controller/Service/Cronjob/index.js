@@ -9,6 +9,10 @@ const fs = require('fs')
 const moment = require('moment-timezone')
 const path = require('path')
 const { fork } = require('child_process')
+const BotService = require('../../../service/v1/third-connect/bot.service')
+const TelegramBot = new BotService()
+
+
 module.exports = class CronTab {
   constructor() {
     console.log('Cron loaded')
@@ -23,6 +27,12 @@ module.exports = class CronTab {
         )
         if (_order) return this.handleConvertFile(_order)
       } catch (error) {
+
+        TelegramBot.onHandleErrorMsg({
+          remoteAddress: req.remoteAddress,
+          originalUrl: req.originalUrl,
+          data: error,
+        })
         console.log('error scheduled', error)
         
       }

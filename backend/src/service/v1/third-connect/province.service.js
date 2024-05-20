@@ -1,13 +1,11 @@
 const PROVINCE = require('../../../../uploads/mockdata/province.json')
 const { sortBy } = require('lodash')
-
 module.exports = class ProvinceService {
   getProvince = async (req, res) => {
     try {
-      let data = PROVINCE.map(({ districts, ...item }) => ({ ...item }))
-
+      const newProvince = JSON.parse(JSON.stringify(PROVINCE))
+      let data = newProvince.map(({ districts, ...item }) => ({ ...item }))
       let { code, wards } = req.query
-
       if (code) {
         data = this.getDistrict(PROVINCE, code)
         if (wards) {
@@ -15,15 +13,14 @@ module.exports = class ProvinceService {
           data = this.getWards(wardData, wards)
         }
       }
-
       return res.status(200).json({
         data,
         count: data.length,
-        // log,
       })
     } catch (err) {
       console.log(err)
-      return res.sendStatus(500)
+      // return res.sendStatus(500)
+      throw err
     }
   }
   /**

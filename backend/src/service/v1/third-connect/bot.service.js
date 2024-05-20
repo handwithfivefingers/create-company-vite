@@ -2,6 +2,7 @@
 const { BOT_Token } = require('../../../configs/telegram')
 const { Bot } = require('grammy')
 const TELEGRAM_CODE = require('../../../constant/telegramCode')
+const moment = require('moment-timezone')
 // bot.on('message:text', (ctx) => {
 //   console.log('ctx', JSON.stringify(ctx, 0, 4))
 //   return ctx.reply('Echo:' + ctx.message.text)
@@ -15,6 +16,20 @@ module.exports = class BotService {
 
   onStart = () => {
     this.TLCTBot.start()
+  }
+
+  onHandleErrorMsg = ({ remoteAddress, originalUrl, method = 'GET', data }) => {
+    const msg = `
+    <b>${moment().format('YYYY/MM/DD HH:mm:ss')}:</b>
+     - IP: <code>${remoteAddress?.replace('::ffff:', '')}</code> 
+     - URL:<code>${originalUrl} </code>
+     - METHOD:<code>${method} </code>
+     - Description: <code>${JSON.stringify(data)}</code>
+
+     --------------------------------------------------------------------------------
+     `
+    console.log('msg', msg)
+    this.onSendMessageFromThread({ message: msg, message_thread_id: TELEGRAM_CODE.TOPIC.ERROR })
   }
 
   onSendMessage = async ({ message, groupID = TELEGRAM_CODE.GROUP }) => {

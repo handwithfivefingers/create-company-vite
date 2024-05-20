@@ -3,6 +3,7 @@ const curlirize = require('axios-curlirize')
 const BotService = require('../third-connect/bot.service')
 const TelegramBot = new BotService()
 const moment = require('moment-timezone')
+const TELEGRAM_CODE = require('../../../constant/telegramCode')
 const ESMS = {
   API_KEY: 'BB46E3C6BB6D587D4B22A63DE9EEC0',
   SECRET_KEY: 'EDCE522055CFADEEA2A0B165199D59',
@@ -21,7 +22,7 @@ module.exports = class SMSService {
     return `(TLCT ONLINE) Nhap ma OTP ${otp} de xac thuc tai website app.thanhlapcongtyonline.vn . Chi tiet LH: ${hotline}. Quy khach vui long KHONG chia se ma voi ai.`
   }
 
-  sendESMS = async ({ phone, code, Brandname = 'TLCT ONLINE', Unicode = 0 }) => {
+  sendESMS = async ({ req, phone, code, Brandname = 'TLCT ONLINE', Unicode = 0 }) => {
     try {
       const params = {
         ApiKey: ESMS.API_KEY,
@@ -33,7 +34,7 @@ module.exports = class SMSService {
         Content: this.templateSMS({ otp: code }),
         Phone: phone,
       }
-      console.log('sendESMS params', params)
+      console.log('sendESMS req', req)
 
       const resp = await axios.post(
         this.apiPath.sendSMS,
@@ -55,7 +56,7 @@ module.exports = class SMSService {
          --------------------------------------------------------------------------------
          `
 
-        TelegramBot.onSendMessage({ message: msg })
+        TelegramBot.onSendMessage({ message: msg,groupID: TELEGRAM_CODE.TOPIC.ERROR })
       }
       return resp.data
     } catch (error) {

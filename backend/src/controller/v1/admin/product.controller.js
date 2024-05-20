@@ -1,5 +1,7 @@
 const { successHandler, errHandler } = require('../../../response')
 const ProductService = require('../../../service/v1/admin/product.service')
+const BotService = require('../../../service/v1/third-connect/bot.service')
+const TelegramBot = new BotService()
 module.exports = class ProductAdmin {
   getProduct = async (req, res) => {
     try {
@@ -7,6 +9,12 @@ module.exports = class ProductAdmin {
       return successHandler(data, res)
     } catch (error) {
       console.log(error)
+      TelegramBot.onHandleErrorMsg({
+        remoteAddress: req.remoteAddress,
+        originalUrl: req.originalUrl,
+        method: req.method,
+        data: error,
+      })
       return errHandler(error, res)
     }
   }
@@ -17,6 +25,12 @@ module.exports = class ProductAdmin {
 
       return successHandler(data, res)
     } catch (err) {
+      TelegramBot.onHandleErrorMsg({
+        remoteAddress: req.remoteAddress,
+        originalUrl: req.originalUrl,
+        method: req.method,
+        data: err,
+      })
       console.log('createProduct error', err)
       return errHandler(err, res)
     }
@@ -30,6 +44,12 @@ module.exports = class ProductAdmin {
       })
     } catch (error) {
       console.log(error)
+      TelegramBot.onHandleErrorMsg({
+        remoteAddress: req.remoteAddress,
+        originalUrl: req.originalUrl,
+        method: req.method,
+        data: error,
+      })
       return errHandler(error, res)
     }
   }
@@ -41,7 +61,12 @@ module.exports = class ProductAdmin {
       return res.status(200).json({ message: 'Xóa sản phẩm thành công', status: 200 })
     } catch (err) {
       console.log('deleteProduct error')
-
+      TelegramBot.onHandleErrorMsg({
+        remoteAddress: req.remoteAddress,
+        originalUrl: req.originalUrl,
+        method: req.method,
+        data: err,
+      })
       return errHandler(err, res)
     }
   }

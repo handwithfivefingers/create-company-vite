@@ -60,7 +60,7 @@ module.exports = class LoginService {
           phone,
           code: otpObj.otp,
         }
-        const resp = await new SMSService().sendESMS(params)
+        const resp = await new SMSService().sendESMS({ req, ...params })
         logs.request = params
         logs.response = resp
         message = 'Chúng tôi đã gửi mã OTP qua số điện thoại, vui lòng kiểm tra tin nhắn !'

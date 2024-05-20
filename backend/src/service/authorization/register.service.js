@@ -61,7 +61,7 @@ module.exports = class RegiserService {
           phone,
           code: otpObj.otp,
         }
-        const resp = await new SMSService().sendESMS(params)
+        const resp = await new SMSService().sendESMS({ req, ...params })
         logs.request = params
         logs.response = resp
         message = 'OTP đã được gửi qua tài khoản Số điện thoại của bạn !'
